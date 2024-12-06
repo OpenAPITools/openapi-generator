@@ -20,9 +20,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
   private @Valid List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
+
+  public ArrayOfArrayOfNumberOnly() {
+  }
 
   /**
    **/

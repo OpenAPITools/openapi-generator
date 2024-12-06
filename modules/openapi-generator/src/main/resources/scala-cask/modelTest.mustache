@@ -28,7 +28,8 @@ class {{classname}}Test extends AnyWordSpec with Matchers {
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse {{example}}""" ignore {
-           val Failure(err : ValidationErrors) = {{classname}}Data.fromJsonString("""{{example}}""").validated()
+           val d8a = {{classname}}Data.fromJsonString("""{{example}}""")
+           val Failure(err : ValidationErrors) = {{classname}}Data.validated(d8a, true)
 
            sys.error("TODO")
         }

@@ -39,7 +39,7 @@ case class CategoryData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== id validation ==================
         
         
@@ -48,17 +48,17 @@ case class CategoryData(
 
         // ================== name validation ==================
         // validate against pattern '^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$'
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
            val regex = """^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"""
            if name == null || !regex.r.matches(name) then
-              errors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
+              _allValidationErrors += ValidationError(path :+ Category.Fields.name, s"value '$name' doesn't match pattern $regex")
         }
         
         
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
   /**
@@ -82,6 +82,8 @@ case class CategoryData(
 }
 
 object CategoryData {
+
+  def validated(d8a : CategoryData, failFast : Boolean) : scala.util.Try[Category] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : CategoryData = try {
         val data = read[CategoryData](jason)

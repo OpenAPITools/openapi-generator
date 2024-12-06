@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -39,7 +41,7 @@ import org.openapitools.client.JSON;
   Capitalization.JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS,
   Capitalization.JSON_PROPERTY_A_T_T_N_A_M_E
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Capitalization {
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   @jakarta.annotation.Nullable
@@ -229,24 +231,12 @@ public class Capitalization {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Capitalization capitalization = (Capitalization) o;
-    return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
-        Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
-        Objects.equals(this.smallSnake, capitalization.smallSnake) &&
-        Objects.equals(this.capitalSnake, capitalization.capitalSnake) &&
-        Objects.equals(this.scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
-        Objects.equals(this.ATT_NAME, capitalization.ATT_NAME);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

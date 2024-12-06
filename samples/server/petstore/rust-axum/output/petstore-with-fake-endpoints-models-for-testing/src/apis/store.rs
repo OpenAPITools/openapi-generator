@@ -51,6 +51,8 @@ pub enum PlaceOrderResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Store {
+    type Claims;
+
     /// Delete purchase order by ID.
     ///
     /// DeleteOrder - DELETE /v2/store/order/{order_id}
@@ -70,7 +72,7 @@ pub trait Store {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
     ) -> Result<GetInventoryResponse, ()>;
 
     /// Find purchase order by ID.

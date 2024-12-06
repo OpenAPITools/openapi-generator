@@ -13,12 +13,24 @@ import upickle.default.*
 {{#models}}
 {{#model}}
 
-{{#isEnum}}
-{{>modelEnum}}
-{{/isEnum}}
-{{^isEnum}}
-{{>modelClass}}
-{{/isEnum}}
+{{#vendorExtensions.x-has-one-of}}
+
+type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}
+object {{{classname}}} {
+
+    given RW[{{{classname}}}] = RW.merge({{#oneOf}}summon[RW[{{{.}}}]]{{^-last}}, {{/-last}}{{/oneOf}})
+}
+
+{{/vendorExtensions.x-has-one-of}}
+{{^vendorExtensions.x-has-one-of}}
+    {{#isEnum}}
+        {{>modelEnum}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{>modelClass}}
+    {{/isEnum}}
+{{/vendorExtensions.x-has-one-of}}
+
 
 {{/model}}
 {{/models}}

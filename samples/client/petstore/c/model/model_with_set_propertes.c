@@ -101,6 +101,9 @@ model_with_set_propertes_t *model_with_set_propertes_parseFromJSON(cJSON *model_
 
     // model_with_set_propertes->tag_set
     cJSON *tag_set = cJSON_GetObjectItemCaseSensitive(model_with_set_propertesJSON, "tag_set");
+    if (cJSON_IsNull(tag_set)) {
+        tag_set = NULL;
+    }
     if (tag_set) { 
     cJSON *tag_set_local_nonprimitive = NULL;
     if(!cJSON_IsArray(tag_set)){
@@ -122,6 +125,9 @@ model_with_set_propertes_t *model_with_set_propertes_parseFromJSON(cJSON *model_
 
     // model_with_set_propertes->string_set
     cJSON *string_set = cJSON_GetObjectItemCaseSensitive(model_with_set_propertesJSON, "string_set");
+    if (cJSON_IsNull(string_set)) {
+        string_set = NULL;
+    }
     if (string_set) { 
     cJSON *string_set_local = NULL;
     if(!cJSON_IsArray(string_set)) {

@@ -69,7 +69,7 @@ pub struct DeleteOrderPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetOrderByIdPathParams {
     /// ID of pet that needs to be fetched
-    #[validate(range(min = 1, max = 5))]
+    #[validate(range(min = 1i64, max = 5i64))]
     pub order_id: i64,
 }
 

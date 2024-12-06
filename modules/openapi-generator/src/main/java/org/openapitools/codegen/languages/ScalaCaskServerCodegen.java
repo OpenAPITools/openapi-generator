@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -394,6 +395,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
 
+    /**
+     * This class is used in pathExtractorParams.mustache.
+     *
+     * It exposes some methods which make it more readable
+     * for that mustache snippet, and also isolates the logic needed for the path extractors
+     */
     public static class ParamPart {
         final CodegenParameter param;
         final String name;
@@ -416,7 +423,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     /**
-     * Cask will compile but 'initialize' can throw a route overlap exception:
+     * This data structure is here to manually identify and fix routes which will overlap (e.g. GET /foo/bar and GET /foo/bazz)
+     *
+     * If we added these as individual routes, then Cask itself will compile, but calling 'initialize' throws a route overlap exception:
      * <p>
      * {{{
      * Routes overlap with wildcards: get /user/logout, get /user/:username, get /user/login
@@ -672,9 +681,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         model.getVars().forEach(this::postProcessProperty);
         model.getAllVars().forEach(this::postProcessProperty);
+
+
+        model.vendorExtensions.put("x-has-one-of", model.oneOf != null && !model.oneOf.isEmpty());
     }
 
-    private static void postProcessOperation(CodegenOperation op) {
+    private static void postProcessOperation(final CodegenOperation op) {
         // force http method to lower case
         op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
@@ -710,7 +722,31 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         var responseType = responses.isEmpty() ? "Unit" : String.join(" | ", responses);
+        op.vendorExtensions.put("x-import-response-implicits", importResponseImplicits(op));
         op.vendorExtensions.put("x-response-type", responseType);
+    }
+
+    /**
+     * We need to bring the response type into scope in order to use the upickle implicits
+     * only if the response type has a 'oneOf' type, which means it's a union type with a
+     * companion object containing the ReadWriter
+     *
+     * @param op
+     * @return true if we need to provide an import
+     */
+    private static boolean importResponseImplicits(final CodegenOperation op) {
+        final Set<String> importBlacklist = Set.of("File");
+
+        boolean doImport = false;
+        for (var response : op.responses) {
+            // we should ignore generic types like Seq[...] or Map[..] types
+            var isPolymorphic = response.dataType != null && response.dataType.contains("[");
+            if (response.isModel && !importBlacklist.contains(response.dataType) && !isPolymorphic) {
+                doImport = true;
+                break;
+            }
+        }
+        return doImport;
     }
 
     /**
@@ -747,6 +783,10 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return "byte".equalsIgnoreCase(p.dataFormat); // &&
     }
 
+    private static boolean wrapInOptional(CodegenProperty p) {
+        return !p.required && !p.isArray && !p.isMap;
+    }
+
     /**
      * this parameter is used to create the function:
      * {{{
@@ -761,19 +801,18 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * and then back again
      */
     private static String asDataCode(final CodegenProperty p, final Set<String> typesWhichDoNotNeedMapping) {
-        final var wrapInOptional = !p.required && !p.isArray && !p.isMap;
         String code = "";
 
         String dv = defaultValueNonOption(p, p.defaultValue);
 
         if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
-            if (wrapInOptional) {
+            if (wrapInOptional(p)) {
                 code = String.format(Locale.ROOT, "%s.getOrElse(%s) /*  1 */", p.name, dv);
             } else {
                 code = String.format(Locale.ROOT, "%s /* 2 */", p.name);
             }
         } else {
-            if (wrapInOptional) {
+            if (wrapInOptional(p)) {
                 if (isByteArray(p)) {
                     code = String.format(Locale.ROOT, "%s.getOrElse(%s) /* 3 */", p.name, dv);
                 } else {
@@ -782,11 +821,15 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             } else if (p.isArray) {
                 if (isByteArray(p)) {
                     code = String.format(Locale.ROOT, "%s /* 5 */", p.name);
+                } else if (!isObjectArray(p)) {
+                    code = String.format(Locale.ROOT, "%s /* 5.1 */", p.name);
                 } else {
                     code = String.format(Locale.ROOT, "%s.map(_.asData) /* 6 */", p.name);
                 }
+            } else if (p.isMap) {
+                code = String.format(Locale.ROOT, "%s /* 7 */", p.name);
             } else {
-                code = String.format(Locale.ROOT, "%s.asData /* 7 */", p.name);
+                code = String.format(Locale.ROOT, "%s.asData /* 8 */", p.name);
             }
         }
         return code;
@@ -807,17 +850,16 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * @return
      */
     private static String asModelCode(final CodegenProperty p, final Set<String> typesWhichDoNotNeedMapping) {
-        final var wrapInOptional = !p.required && !p.isArray && !p.isMap;
         String code = "";
 
         if (doesNotNeedMapping(p, typesWhichDoNotNeedMapping)) {
-            if (wrapInOptional) {
+            if (wrapInOptional(p)) {
                 code = String.format(Locale.ROOT, "Option(%s) /* 1 */", p.name);
             } else {
                 code = String.format(Locale.ROOT, "%s /* 2 */", p.name);
             }
         } else {
-            if (wrapInOptional) {
+            if (wrapInOptional(p)) {
                 if (isByteArray(p)) {
                     code = String.format(Locale.ROOT, "Option(%s) /* 3 */", p.name);
                 } else {
@@ -825,6 +867,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
                 }
             } else if (p.isArray) {
                 code = String.format(Locale.ROOT, "%s.map(_.asModel) /* 5 */", p.name);
+            } else if (p.isMap) {
+                code = String.format(Locale.ROOT, "%s /* 5.1 */", p.name);
             } else {
                 code = String.format(Locale.ROOT, "%s.asModel /* 6 */", p.name);
             }
@@ -863,8 +907,17 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return text;
     }
 
+    private static boolean hasItemModel(final CodegenProperty p) {
+        return p.items != null && p.items.isModel;
+    }
+
+    private static boolean isObjectArray(final CodegenProperty p) {
+        return p.isArray && hasItemModel(p);
+    }
+
     private void postProcessProperty(final CodegenProperty p) {
-        p.vendorExtensions.put("x-datatype-model", asScalaDataType(p, p.required, false));
+
+        p.vendorExtensions.put("x-datatype-model", asScalaDataType(p, p.required, false, wrapInOptional(p)));
         p.vendorExtensions.put("x-defaultValue-model", defaultValue(p, p.required, p.defaultValue));
         final String dataTypeData = asScalaDataType(p, p.required, true);
         p.vendorExtensions.put("x-datatype-data", dataTypeData);
@@ -878,7 +931,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             p._enum = p._enum.stream().map(this::ensureNonKeyword).collect(Collectors.toList());
         }
 
-        /**
+        /*
          * This is a fix for the enum property "type" declared like this:
          * {{{
          *         type:
@@ -908,6 +961,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
                 )).collect(Collectors.toSet());
         typesWhichShouldNotBeMapped.add("byte");
 
+        // when deserialising map objects, the logic is tricky.
+        p.vendorExtensions.put("x-deserialize-asModelMap", p.isMap && hasItemModel(p));
+
         // the 'asModel' logic for modelData.mustache
         //
         // if it's optional (not required), then wrap the value in Option()
@@ -916,16 +972,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         p.vendorExtensions.put("x-asData", asDataCode(p, typesWhichShouldNotBeMapped));
         p.vendorExtensions.put("x-asModel", asModelCode(p, typesWhichShouldNotBeMapped));
 
-        // if it's an array or optional, we need to map it as a model -- unless it's a map,
-        // in which case we have to map the values
-        boolean hasItemModel = p.items != null && p.items.isModel;
-        boolean isObjectArray = p.isArray && hasItemModel;
-        boolean isOptionalObj = !p.required && p.isModel;
-        p.vendorExtensions.put("x-map-asModel", (isOptionalObj || isObjectArray) && !p.isMap);
-
-        // when deserialising map objects, the logic is tricky.
-        p.vendorExtensions.put("x-deserialize-asModelMap", p.isMap && hasItemModel);
-
         // for some reason, an openapi spec with pattern field like this:
         // pattern: '^[A-Za-z]+$'
         // will result in the pattern property text of
@@ -933,6 +979,20 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.pattern != null && p.pattern.startsWith("/") && p.pattern.endsWith("/")) {
             p.pattern = p.pattern.substring(1, p.pattern.length() - 1);
         }
+
+        // in our model class definition laid out in modelClass.mustache, we use 'Option' for non-required
+        // properties only when they don't have a sensible 'empty' value (e.g. maps and lists).
+        //
+        // that is to say, we're trying to avoid having:
+        //
+        //   someOptionalField : Option[Seq[Foo]]
+        //
+        // when we could just have e.g.
+        //
+        //   someOptionalField : Seq[Foo]
+        //
+        // with an empty value
+        p.vendorExtensions.put("x-model-needs-option", wrapInOptional(p));
 
     }
 

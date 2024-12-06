@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -41,7 +43,7 @@ import org.openapitools.client.JSON;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @jakarta.annotation.Nullable
@@ -196,22 +198,12 @@ public class ObjectWithDeprecatedFields {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ObjectWithDeprecatedFields objectWithDeprecatedFields = (ObjectWithDeprecatedFields) o;
-    return Objects.equals(this.uuid, objectWithDeprecatedFields.uuid) &&
-        Objects.equals(this.id, objectWithDeprecatedFields.id) &&
-        Objects.equals(this.deprecatedRef, objectWithDeprecatedFields.deprecatedRef) &&
-        Objects.equals(this.bars, objectWithDeprecatedFields.bars);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(uuid, id, deprecatedRef, bars);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

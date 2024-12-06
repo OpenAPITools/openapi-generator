@@ -85,4 +85,15 @@ public class DartClientCodegenTest {
         }
     }
 
+
+    @Test(description = "Enum value with quotes (#17582)")
+    public void testEnumPropertyWithQuotes() {
+        final DartClientCodegen codegen = new DartClientCodegen();
+
+        Assert.assertEquals(codegen.toEnumValue("enum-value", "string"), "'enum-value'");
+        Assert.assertEquals(codegen.toEnumValue("won't fix", "string"), "'won\\'t fix'");
+        Assert.assertEquals(codegen.toEnumValue("\"", "string"), "'\\\"'");
+        Assert.assertEquals(codegen.toEnumValue("1.0", "number"), "1.0");
+        Assert.assertEquals(codegen.toEnumValue("1", "int"), "1");
+    }
 }

@@ -37,6 +37,9 @@ import _root_.sample.cask.api.*
  * More typically, however, you would extend the 'BaseApp' class
  */
 trait AppRoutes {
+  def appComplexRouteService : ComplexRouteService[Try] = ComplexRouteService()
+  def routeForComplexRoute : ComplexRouteRoutes = ComplexRouteRoutes(appComplexRouteService)
+
   def appPetService : PetService[Try] = PetService()
   def routeForPet : PetRoutes = PetRoutes(appPetService)
 
@@ -48,6 +51,7 @@ trait AppRoutes {
 
 
    def appRoutes = Seq(
+      routeForComplexRoute ,
       routeForPet ,
       routeForStore ,
       routeForUser 

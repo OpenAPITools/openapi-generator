@@ -26,73 +26,73 @@ case class {{classname}}Data(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
     {{#vars}}
         // ================== {{name}} validation ==================
         {{#pattern}}
         // validate against pattern '{{{pattern}}}'
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
            val regex = """{{{pattern}}}"""
            if {{name}} == null || !regex.r.matches({{name}}) then
-              errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' doesn't match pattern $regex")
+              _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' doesn't match pattern $regex")
         }
         {{/pattern}}
         {{#minimum}}
         // validate against {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum {{minimum}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             if !({{name}} >{{^exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) then
-            errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum value {{minimum}}")
+            _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum value {{minimum}}")
         }
         {{/minimum}}
         {{#maximum}}
         // validate against {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum {{maximum}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             if !({{name}} <{{^exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) then
-            errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum value {{maximum}}")
+            _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum value {{maximum}}")
         }
         {{/maximum}}
         {{#minLength}}
         // validate min length {{minLength}}
-        if (errors.isEmpty || !failFast)  {
+        if (_allValidationErrors.isEmpty || !failFast)  {
           val len = if {{name}} == null then 0 else {{name}}.length
             if (len < {{minLength}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"length $len is shorter than the min length {{minLength}}")
+               _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"length $len is shorter than the min length {{minLength}}")
             }
         }
         {{/minLength}}
         {{#maxLength}}
         // validate max length {{maxLength}}
-        if (errors.isEmpty || !failFast)  {
+        if (_allValidationErrors.isEmpty || !failFast)  {
           val len = if {{name}} == null then 0 else {{name}}.length
             if (len < {{maxLength}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"length $len is longer than the max length {{maxLength}}")
+               _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"length $len is longer than the max length {{maxLength}}")
             }
         }
         {{/maxLength}}
         {{#isEmail}}
         // validate {{name}} is a valid email address
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             val emailRegex = """^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"""
             // validate {{name}} is email
             if ({{name}} == null || !emailRegex.r.matches({{name}})) {
-              errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"${{name}} is not a valid email address according to the pattern $emailRegex")
+              _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"${{name}} is not a valid email address according to the pattern $emailRegex")
             }
         }
         {{/isEmail}}
         {{#required}}{{^isPrimitiveType}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             if ({{name}} == null) {
-            errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, "{{name}} is a required field and cannot be null")
+            _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, "{{name}} is a required field and cannot be null")
             }
         }
         {{/isPrimitiveType}}{{/required}}
         {{#uniqueItems}}
           // validate {{name}} has unique items
-          if (errors.isEmpty || !failFast) {
+          if (_allValidationErrors.isEmpty || !failFast) {
               if ({{name}} != null) {
                 {{name}}.foldLeft(Set[{{{vendorExtensions.x-containertype-data}}}]()) {
                   case (set, next) if set.contains(next) =>
-                    errors += ValidationError(
+                    _allValidationErrors += ValidationError(
                       path :+ {{classname}}.Fields.{{name}},
                       s"duplicate value: $next"
                     )
@@ -103,10 +103,10 @@ case class {{classname}}Data(
           }
         {{/uniqueItems}}
         {{#multipleOf}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
           // validate {{name}} multiple of {{multipleOf}}
           if ({{name}} % {{multipleOf}} != 0) {
-            errors += ValidationError(
+            _allValidationErrors += ValidationError(
                   path :+ {{classname}}.Fields.{{name}},
                   s"${{name}} is not a multiple of {{multipleOf}}"
                 )
@@ -115,30 +115,30 @@ case class {{classname}}Data(
         {{/multipleOf}}
         {{#minItems}}
         // validate min items {{minItems}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
           val len = if {{name}} == null then 0 else {{name}}.size
             if (len < {{minItems}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"{{name}} has $len, which is less than the min items {{minItems}}")
+               _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"{{name}} has $len, which is less than the min items {{minItems}}")
             }
         }
         {{/minItems}}
         {{#maxItems}}
         // validate min items {{maxItems}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
           val len = if {{name}} == null then 0 else {{name}}.size
             if (len > {{maxItems}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"{{name}} has $len, which is greater than the max items {{maxItems}}")
+               _allValidationErrors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"{{name}} has $len, which is greater than the max items {{maxItems}}")
             }
         }
         {{/maxItems}}
         {{#minProperties}} TODO - minProperties {{/minProperties}}
         {{#maxProperties}} TODO - maxProperties {{/maxProperties}}
         {{#items}}{{#isModel}}
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             if ({{name}} != null) {
                 {{name}}.zipWithIndex.foreach {
-                    case (value, i) if errors.isEmpty || !failFast =>
-                      errors ++= value.validationErrors(
+                    case (value, i) if _allValidationErrors.isEmpty || !failFast =>
+                      _allValidationErrors ++= value.validationErrors(
                         path :+ {{classname}}.Fields.{{name}} :+ Field(i.toString),
                         failFast)
                     case (value, i) =>
@@ -148,13 +148,13 @@ case class {{classname}}Data(
         {{/isModel}}{{/items}}
         {{#isModel}}
         // validating {{name}}
-        if (errors.isEmpty || !failFast) {
-            if {{name}} != null then errors ++= {{name}}.validationErrors(path :+ {{classname}}.Fields.{{name}}, failFast)
+        if (_allValidationErrors.isEmpty || !failFast) {
+            if {{name}} != null then _allValidationErrors ++= {{name}}.validationErrors(path :+ {{classname}}.Fields.{{name}}, failFast)
         }
         {{/isModel}}
 
     {{/vars}}
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
   /**
@@ -179,6 +179,8 @@ case class {{classname}}Data(
 }
 
 object {{classname}}Data {
+
+  def validated(d8a : {{classname}}Data, failFast : Boolean) : scala.util.Try[{{classname}}] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : {{classname}}Data = try {
         val data = read[{{classname}}Data](jason)

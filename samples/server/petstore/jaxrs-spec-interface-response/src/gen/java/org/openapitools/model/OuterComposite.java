@@ -17,11 +17,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("OuterComposite")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class OuterComposite  implements Serializable {
   private BigDecimal myNumber;
   private String myString;
   private Boolean myBoolean;
+
+  public OuterComposite() {
+  }
 
   /**
    **/

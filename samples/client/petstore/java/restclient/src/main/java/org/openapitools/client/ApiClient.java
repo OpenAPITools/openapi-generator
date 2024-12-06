@@ -57,7 +57,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -145,7 +145,7 @@ public class ApiClient extends JavaTimeFormatter {
     */
     public static RestClient.Builder buildRestClientBuilder(ObjectMapper mapper) {
         Consumer<List<HttpMessageConverter<?>>> messageConverters = converters -> {
-            converters.add(new MappingJackson2HttpMessageConverter(mapper));
+            converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
         };
 
         return RestClient.builder().messageConverters(messageConverters);

@@ -13,19 +13,23 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A>(api_impl: I) -> Router
+pub fn new<I, A, C>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::payments::Payments + apis::ApiKeyAuthHeader + apis::CookieAuthentication + 'static,
+    A: apis::payments::Payments<Claims = C>
+        + apis::ApiKeyAuthHeader<Claims = C>
+        + apis::CookieAuthentication<Claims = C>
+        + 'static,
+    C: Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
-        .route("/v71/paymentMethods", get(get_payment_methods::<I, A>))
+        .route("/v71/paymentMethods", get(get_payment_methods::<I, A, C>))
         .route(
             "/v71/paymentMethods/:id",
-            get(get_payment_method_by_id::<I, A>),
+            get(get_payment_method_by_id::<I, A, C>),
         )
-        .route("/v71/payments", post(post_make_payment::<I, A>))
+        .route("/v71/payments", post(post_make_payment::<I, A, C>))
         .with_state(api_impl)
 }
 
@@ -39,7 +43,7 @@ fn get_payment_method_by_id_validation(
 }
 /// GetPaymentMethodById - GET /v71/paymentMethods/{id}
 #[tracing::instrument(skip_all)]
-async fn get_payment_method_by_id<I, A>(
+async fn get_payment_method_by_id<I, A, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -48,7 +52,7 @@ async fn get_payment_method_by_id<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments,
+    A: apis::payments::Payments<Claims = C>,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -138,7 +142,7 @@ fn get_payment_methods_validation() -> std::result::Result<(), ValidationErrors>
 }
 /// GetPaymentMethods - GET /v71/paymentMethods
 #[tracing::instrument(skip_all)]
-async fn get_payment_methods<I, A>(
+async fn get_payment_methods<I, A, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -146,7 +150,7 @@ async fn get_payment_methods<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments,
+    A: apis::payments::Payments<Claims = C>,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_payment_methods_validation())
@@ -226,7 +230,7 @@ fn post_make_payment_validation(
 }
 /// PostMakePayment - POST /v71/payments
 #[tracing::instrument(skip_all)]
-async fn post_make_payment<I, A>(
+async fn post_make_payment<I, A, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -235,18 +239,20 @@ async fn post_make_payment<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments + apis::CookieAuthentication,
+    A: apis::payments::Payments<Claims = C> + apis::CookieAuthentication<Claims = C>,
 {
     // Authentication
-    let token_in_cookie = api_impl
+    let claims_in_cookie = api_impl
         .as_ref()
-        .extract_token_from_cookie(&cookies, "XApiKey");
-    if let (None,) = (&token_in_cookie,) {
+        .extract_claims_from_cookie(&cookies, "X-API-Key")
+        .await;
+    let claims = None.or(claims_in_cookie);
+    let Some(claims) = claims else {
         return Response::builder()
             .status(StatusCode::UNAUTHORIZED)
             .body(Body::empty())
             .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
-    }
+    };
 
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || post_make_payment_validation(body))
@@ -262,7 +268,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .post_make_payment(method, host, cookies, token_in_cookie, body)
+        .post_make_payment(method, host, cookies, claims, body)
         .await;
 
     let mut response = Response::builder();

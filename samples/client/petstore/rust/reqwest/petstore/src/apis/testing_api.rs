@@ -30,7 +30,7 @@ pub enum TestsTypeTestingGetError {
 }
 
 
-pub fn tests_file_response_get(configuration: &configuration::Configuration, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>> {
+pub fn tests_file_response_get(configuration: &configuration::Configuration, ) -> Result<reqwest::blocking::Response, Error<TestsFileResponseGetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -46,11 +46,11 @@ pub fn tests_file_response_get(configuration: &configuration::Configuration, ) -
     let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        Ok(local_var_resp)
     } else {
+        let local_var_content = local_var_resp.text()?;
         let local_var_entity: Option<TestsFileResponseGetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -73,11 +73,12 @@ pub fn tests_type_testing_get(configuration: &configuration::Configuration, ) ->
     let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text()?;
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
+        let local_var_content = local_var_resp.text()?;
         let local_var_entity: Option<TestsTypeTestingGetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))

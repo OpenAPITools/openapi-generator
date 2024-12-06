@@ -21,7 +21,7 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 
-
+        
 case class Pet(
     id: Option[Long] = None ,
     category: Option[Category] = None ,
@@ -71,4 +71,5 @@ enum Fields(val fieldName : String) extends Field(fieldName) {
         }
 
 }
+
 

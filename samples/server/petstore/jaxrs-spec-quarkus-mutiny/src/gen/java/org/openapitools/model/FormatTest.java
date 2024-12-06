@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
   private Integer integer;
   private Integer int32;
@@ -60,6 +60,19 @@ public class FormatTest  implements Serializable {
   }
 
   public FormatTest() {
+  }
+
+  @JsonCreator
+  public FormatTest(
+    @JsonProperty(required = true, value = "number") BigDecimal number,
+    @JsonProperty(required = true, value = "byte") byte[] _byte,
+    @JsonProperty(required = true, value = "date") LocalDate date,
+    @JsonProperty(required = true, value = "password") String password
+  ) {
+    this.number = number;
+    this._byte = _byte;
+    this.date = date;
+    this.password = password;
   }
 
   /**
@@ -134,12 +147,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("number")
+  @JsonProperty(required = true, value = "number")
   @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
   }
 
-  @JsonProperty("number")
+  @JsonProperty(required = true, value = "number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -233,12 +246,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("byte")
+  @JsonProperty(required = true, value = "byte")
   @NotNull public byte[] getByte() {
     return _byte;
   }
 
-  @JsonProperty("byte")
+  @JsonProperty(required = true, value = "byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
@@ -271,12 +284,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("date")
+  @JsonProperty(required = true, value = "date")
   @NotNull public LocalDate getDate() {
     return date;
   }
 
-  @JsonProperty("date")
+  @JsonProperty(required = true, value = "date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -328,12 +341,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("password")
+  @JsonProperty(required = true, value = "password")
   @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;
   }
 
-  @JsonProperty("password")
+  @JsonProperty(required = true, value = "password")
   public void setPassword(String password) {
     this.password = password;
   }

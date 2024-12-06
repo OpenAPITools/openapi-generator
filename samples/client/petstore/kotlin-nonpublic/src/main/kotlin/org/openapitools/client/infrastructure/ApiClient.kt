@@ -41,6 +41,7 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
         protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
         protected const val XmlMediaType: String = "application/xml"
         protected const val OctetMediaType: String = "application/octet-stream"
+        protected const val TextMediaType: String = "text/plain"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
@@ -130,10 +131,10 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == OctetMediaType && content is ByteArray ->
-                content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
+            mediaType == TextMediaType && content is String ->
+                content.toRequestBody(TextMediaType.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
     @OptIn(ExperimentalStdlibApi::class)
@@ -184,7 +185,7 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
                 }
             }
 
-            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
+            // Attention: if you are developing an android app that supports API Level 25 and below, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
             val tempFile = java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             tempFile.deleteOnExit()
             body.byteStream().use { inputStream ->
@@ -204,7 +205,8 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             }
             mediaType == OctetMediaType -> body.bytes() as? T
-            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
+            mediaType == TextMediaType -> body.string() as? T
+            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body, text body and byte body.")
         }
     }
 

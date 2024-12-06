@@ -22,7 +22,7 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 
-
+        
 case class Order(
     id: Option[Long] = None ,
     petId: Option[Long] = None ,
@@ -72,4 +72,5 @@ enum Fields(val fieldName : String) extends Field(fieldName) {
         }
 
 }
+
 

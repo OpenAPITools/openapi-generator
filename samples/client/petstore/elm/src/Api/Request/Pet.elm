@@ -61,6 +61,8 @@ stringFromStatus model =
 
 
 
+{-| Add a new pet to the store
+-}
 addPet : Api.Data.Pet -> Api.Request Api.Data.Pet
 addPet pet_body =
     Api.request
@@ -73,6 +75,8 @@ addPet pet_body =
         Api.Data.petDecoder
 
 
+{-| Deletes a pet
+-}
 deletePet : Int -> Maybe String -> Api.Request ()
 deletePet petId_path apiKey_header =
     Api.request
@@ -85,7 +89,10 @@ deletePet petId_path apiKey_header =
         (Json.Decode.succeed ())
 
 
-{-| Multiple status values can be provided with comma separated strings
+{-| Finds Pets by status
+
+Multiple status values can be provided with comma separated strings
+
 -}
 findPetsByStatus : List Status -> Api.Request (List Api.Data.Pet)
 findPetsByStatus status_query =
@@ -99,7 +106,10 @@ findPetsByStatus status_query =
         (Json.Decode.list Api.Data.petDecoder)
 
 
-{-| Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+{-| Finds Pets by tags
+
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
 -}
 findPetsByTags : List String -> Api.Request (List Api.Data.Pet)
 findPetsByTags tags_query =
@@ -113,7 +123,10 @@ findPetsByTags tags_query =
         (Json.Decode.list Api.Data.petDecoder)
 
 
-{-| Returns a single pet
+{-| Find pet by ID
+
+Returns a single pet
+
 -}
 getPetById : Int -> Api.Request Api.Data.Pet
 getPetById petId_path =
@@ -127,6 +140,8 @@ getPetById petId_path =
         Api.Data.petDecoder
 
 
+{-| Update an existing pet
+-}
 updatePet : Api.Data.Pet -> Api.Request Api.Data.Pet
 updatePet pet_body =
     Api.request
@@ -139,6 +154,8 @@ updatePet pet_body =
         Api.Data.petDecoder
 
 
+{-| Updates a pet in the store with form data
+-}
 updatePetWithForm : Int -> Maybe String -> Maybe String -> Api.Request ()
 updatePetWithForm petId_path name status =
     Api.request
@@ -151,6 +168,8 @@ updatePetWithForm petId_path name status =
         (Json.Decode.succeed ())
 
 
+{-| uploads an image
+-}
 uploadFile : Int -> Maybe String -> Maybe File -> Api.Request Api.Data.ApiResponse
 uploadFile petId_path additionalMetadata file =
     Api.request

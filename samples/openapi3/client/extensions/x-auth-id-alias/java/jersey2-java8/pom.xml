@@ -318,6 +318,7 @@
             <artifactId>jersey-apache-connector</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

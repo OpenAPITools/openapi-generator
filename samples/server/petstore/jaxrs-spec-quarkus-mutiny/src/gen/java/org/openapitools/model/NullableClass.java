@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("NullableClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> implements Serializable {
   private Integer integerProp;
   private BigDecimal numberProp;
@@ -37,6 +37,9 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   private @Valid Map<String, Object> objectNullableProp;
   private @Valid Map<String, Object> objectAndItemsNullableProp;
   private @Valid Map<String, Object> objectItemsNullable = new HashMap<>();
+
+  public NullableClass() {
+  }
 
   /**
    **/

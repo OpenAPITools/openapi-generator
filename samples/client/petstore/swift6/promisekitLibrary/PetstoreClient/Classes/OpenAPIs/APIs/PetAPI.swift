@@ -14,12 +14,12 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
-    open class func addPet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<Void> {
+    open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
+        addPetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -40,13 +40,13 @@ open class PetAPI {
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func addPetWithRequestBuilder(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func addPetWithRequestBuilder(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -56,9 +56,9 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -66,12 +66,12 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
-    open class func deletePet(petId: Int64, apiKey: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<Void> {
+    open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, openAPIClient: openAPIClient).execute { result in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -90,28 +90,28 @@ open class PetAPI {
        - name: petstore_auth
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func deletePetWithRequestBuilder(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
-            "api_key": apiKey?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "api_key": apiKey?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -127,12 +127,12 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<[Pet]>
      */
-    open class func findPetsByStatus(status: [Status_findPetsByStatus], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<[Pet]> {
+    open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByStatusWithRequestBuilder(status: status, openAPIClient: openAPIClient).execute { result in
+        findPetsByStatusWithRequestBuilder(status: status, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -151,17 +151,17 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[Pet]> 
      */
-    open class func findPetsByStatusWithRequestBuilder(status: [Status_findPetsByStatus], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<[Pet]> {
+    open class func findPetsByStatusWithRequestBuilder(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<[Pet]> {
         let localVariablePath = "/pet/findByStatus"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": (wrappedValue: status.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "status": (wrappedValue: status.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -170,22 +170,22 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<[Pet]>
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTags(tags: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<[Pet]> {
+    open class func findPetsByTags(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByTagsWithRequestBuilder(tags: tags, openAPIClient: openAPIClient).execute { result in
+        findPetsByTagsWithRequestBuilder(tags: tags, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -204,18 +204,18 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter tags: (query) Tags to filter by 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[Pet]> 
      */
     @available(*, deprecated, message: "This operation is deprecated.")
-    open class func findPetsByTagsWithRequestBuilder(tags: [String], openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<[Pet]> {
+    open class func findPetsByTagsWithRequestBuilder(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<[Pet]> {
         let localVariablePath = "/pet/findByTags"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tags": (wrappedValue: tags.encodeToJSON(codableHelper: openAPIClient.codableHelper), isExplode: false),
+            "tags": (wrappedValue: tags.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -224,21 +224,21 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[Pet]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Pet>
      */
-    open class func getPetById(petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<Pet> {
+    open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
-        getPetByIdWithRequestBuilder(petId: petId, openAPIClient: openAPIClient).execute { result in
+        getPetByIdWithRequestBuilder(petId: petId, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -257,15 +257,15 @@ open class PetAPI {
        - type: apiKey api_key (HEADER)
        - name: api_key
      - parameter petId: (path) ID of pet to return 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Pet> 
      */
-    open class func getPetByIdWithRequestBuilder(petId: Int64, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Pet> {
+    open class func getPetByIdWithRequestBuilder(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Pet> {
         var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -276,21 +276,21 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Pet>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Pet>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Update an existing pet
      
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
-    open class func updatePet(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<Void> {
+    open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithRequestBuilder(body: body, openAPIClient: openAPIClient).execute { result in
+        updatePetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -308,13 +308,13 @@ open class PetAPI {
        - type: oauth2
        - name: petstore_auth
      - parameter body: (body) Pet object that needs to be added to the store 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func updatePetWithRequestBuilder(body: Pet, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func updatePetWithRequestBuilder(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/pet"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: openAPIClient.codableHelper)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -324,9 +324,9 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -335,12 +335,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<Void> {
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, openAPIClient: openAPIClient).execute { result in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case .success:
                 deferred.resolver.fulfill(())
@@ -360,18 +360,18 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Void> {
+    open class func updatePetWithFormWithRequestBuilder(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/pet/{petId}"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "name": name?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "status": status?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "name": name?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "status": status?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -385,9 +385,9 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = openAPIClient.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -396,12 +396,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<ApiResponse>
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<ApiResponse> {
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, openAPIClient: openAPIClient).execute { result in
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -421,18 +421,18 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ApiResponse> 
      */
-    open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<ApiResponse> {
+    open class func uploadFileWithRequestBuilder(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<ApiResponse> {
         var localVariablePath = "/pet/{petId}/uploadImage"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "additionalMetadata": additionalMetadata?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "file": file?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "additionalMetadata": additionalMetadata?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "file": file?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -446,9 +446,9 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -457,12 +457,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<ApiResponse>
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> Promise<ApiResponse> {
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, openAPIClient: openAPIClient).execute { result in
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case let .success(response):
                 deferred.resolver.fulfill(response.body)
@@ -482,18 +482,18 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ApiResponse> 
      */
-    open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<ApiResponse> {
+    open class func uploadFileWithRequiredFileWithRequestBuilder(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<ApiResponse> {
         var localVariablePath = "/fake/{petId}/uploadImageWithRequiredFile"
         let petIdPreEscape = "\(APIHelper.mapValueToPathItem(petId))"
         let petIdPostEscape = petIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{petId}", with: petIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: Any?] = [
-            "additionalMetadata": additionalMetadata?.encodeToJSON(codableHelper: openAPIClient.codableHelper),
-            "requiredFile": requiredFile.encodeToJSON(codableHelper: openAPIClient.codableHelper),
+            "additionalMetadata": additionalMetadata?.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
+            "requiredFile": requiredFile.encodeToJSON(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -507,8 +507,8 @@ open class PetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ApiResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

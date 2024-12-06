@@ -26,6 +26,7 @@ The following generators are available:
 * [elm](generators/elm.md)  
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
+* [gdscript](generators/gdscript.md)  
 * [go](generators/go.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  

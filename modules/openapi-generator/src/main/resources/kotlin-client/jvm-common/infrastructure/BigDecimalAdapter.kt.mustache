@@ -2,7 +2,6 @@ package {{packageName}}.infrastructure
 
 {{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -16,7 +15,6 @@ import com.squareup.moshi.ToJson
 import java.math.BigDecimal
 
 {{#kotlinx_serialization}}
-@Serializer(forClass = BigDecimal::class)
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object BigDecimalAdapter : KSerializer<BigDecimal> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
     override fun deserialize(decoder: Decoder): BigDecimal = BigDecimal(decoder.decodeString())

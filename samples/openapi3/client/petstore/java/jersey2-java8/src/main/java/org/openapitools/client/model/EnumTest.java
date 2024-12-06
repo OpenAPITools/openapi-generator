@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -49,7 +51,7 @@ import org.openapitools.client.JSON;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -506,22 +508,7 @@ public class EnumTest {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    EnumTest enumTest = (EnumTest) o;
-    return Objects.equals(this.enumString, enumTest.enumString) &&
-        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
-        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
-        Objects.equals(this.enumIntegerOnly, enumTest.enumIntegerOnly) &&
-        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
-        equalsNullable(this.outerEnum, enumTest.outerEnum) &&
-        Objects.equals(this.outerEnumInteger, enumTest.outerEnumInteger) &&
-        Objects.equals(this.outerEnumDefaultValue, enumTest.outerEnumDefaultValue) &&
-        Objects.equals(this.outerEnumIntegerDefaultValue, enumTest.outerEnumIntegerDefaultValue);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -530,7 +517,7 @@ public class EnumTest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(enumString, enumStringRequired, enumInteger, enumIntegerOnly, enumNumber, hashCodeNullable(outerEnum), outerEnumInteger, outerEnumDefaultValue, outerEnumIntegerDefaultValue);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

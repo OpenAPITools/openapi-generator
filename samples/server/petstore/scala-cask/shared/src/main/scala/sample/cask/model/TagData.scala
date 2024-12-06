@@ -39,7 +39,7 @@ case class TagData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== id validation ==================
         
         
@@ -52,7 +52,7 @@ case class TagData(
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
   /**
@@ -76,6 +76,8 @@ case class TagData(
 }
 
 object TagData {
+
+  def validated(d8a : TagData, failFast : Boolean) : scala.util.Try[Tag] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : TagData = try {
         val data = read[TagData](jason)

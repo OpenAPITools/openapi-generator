@@ -140,6 +140,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String sourceFolder = projectFolder + "/java";
     @Getter @Setter
     protected String testFolder = projectTestFolder + "/java";
+
+    protected static enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy};
+    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE' and 'legacy'";
+    @Getter protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.MACRO_CASE;
+
     /**
      * -- SETTER --
      * Set whether discriminator value lookup is case-sensitive or not.
@@ -321,7 +326,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
-        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
         cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
@@ -356,6 +361,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     annotationLibraryCliOption.addEnum(al.toCliOptValue(), al.getDescription()));
             cliOptions.add(annotationLibraryCliOption);
         }
+
+        CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_DESC);
+        cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
     }
 
     @Override
@@ -540,11 +548,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(CodegenConstants.LIBRARY, this::setLibrary);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, this::setSerializeBigDecimalAsString );
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
-//        additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        // additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
-            // By default, the discriminator lookup should be case sensitive. There is nothing in the OpenAPI specification
-            // that indicates the lookup should be case insensitive. However, some implementations perform
-            // a case-insensitive lookup.
+        // By default, the discriminator lookup should be case sensitive. There is nothing in the OpenAPI specification
+        // that indicates the lookup should be case insensitive. However, some implementations perform
+        // a case-insensitive lookup.
         convertPropertyToBooleanAndWriteBack(DISCRIMINATOR_CASE_SENSITIVE, this::setDiscriminatorCaseSensitive);
         convertPropertyToBooleanAndWriteBack(WITH_XML, this::setWithXml);
         convertPropertyToBooleanAndWriteBack(OPENAPI_NULLABLE, this::setOpenApiNullable);
@@ -555,6 +563,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToStringAndWriteBack(IMPLICIT_HEADERS_REGEX, this::setImplicitHeadersRegex);
         convertPropertyToBooleanAndWriteBack(CAMEL_CASE_DOLLAR_SIGN, this::setCamelCaseDollarSign);
         convertPropertyToBooleanAndWriteBack(USE_ONE_OF_INTERFACES, this::setUseOneOfInterfaces);
+        convertPropertyToStringAndWriteBack(CodegenConstants.ENUM_PROPERTY_NAMING, this::setEnumPropertyNaming);
 
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
@@ -2009,7 +2018,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // string
-        String var = underscore(value.replaceAll("\\W+", "_")).toUpperCase(Locale.ROOT);
+        String var;
+        switch (getEnumPropertyNaming()) {
+            case legacy:
+                // legacy ,e.g. WITHNUMBER1
+                var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+                break;
+            default:
+                // default to MACRO_CASE, e.g. WITH_NUMBER1
+                var = underscore(value.replaceAll("\\W+", "_")).toUpperCase(Locale.ROOT);
+                break;
+        }
         if (var.matches("\\d.*")) {
             var = "_" + var;
         }
@@ -2366,5 +2385,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public boolean isTypeErasedGenerics() {
         return true;
+    }
+
+    /**
+     * Sets the naming convention for Java enum properties
+     *
+     * @param enumPropertyNamingType The string representation of the naming convention, as defined by {@link ENUM_PROPERTY_NAMING_TYPE}
+     */
+    public void setEnumPropertyNaming(final String enumPropertyNamingType) {
+        try {
+            this.enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
+            for (ENUM_PROPERTY_NAMING_TYPE t : ENUM_PROPERTY_NAMING_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
     }
 }
