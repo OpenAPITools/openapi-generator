@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **RequiredNullableIntegerProp** | **int?** |  | 
 **RequiredNotnullableintegerProp** | **int** |  | 
 **NotRequiredNullableIntegerProp** | **int?** |  | [optional] 
-**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
+**NotRequiredNotnullableintegerProp** | **int?** |  | [optional] 
 **RequiredNullableStringProp** | **string** |  | 
 **RequiredNotnullableStringProp** | **string** |  | 
 **NotrequiredNullableStringProp** | **string** |  | [optional] 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 **RequiredNullableBooleanProp** | **bool?** |  | 
 **RequiredNotnullableBooleanProp** | **bool** |  | 
 **NotrequiredNullableBooleanProp** | **bool?** |  | [optional] 
-**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
+**NotrequiredNotnullableBooleanProp** | **bool?** |  | [optional] 
 **RequiredNullableDateProp** | **DateTime?** |  | 
 **RequiredNotNullableDateProp** | **DateTime** |  | 
 **NotRequiredNullableDateProp** | **DateTime?** |  | [optional] 
@@ -27,11 +27,11 @@ Name | Type | Description | Notes
 **RequiredNullableEnumInteger** | **int?** |  | 
 **RequiredNotnullableEnumInteger** | **int** |  | 
 **NotrequiredNullableEnumInteger** | **int?** |  | [optional] 
-**NotrequiredNotnullableEnumInteger** | **int** |  | [optional] 
+**NotrequiredNotnullableEnumInteger** | **int?** |  | [optional] 
 **RequiredNullableEnumIntegerOnly** | **int?** |  | 
 **RequiredNotnullableEnumIntegerOnly** | **int** |  | 
 **NotrequiredNullableEnumIntegerOnly** | **int?** |  | [optional] 
-**NotrequiredNotnullableEnumIntegerOnly** | **int** |  | [optional] 
+**NotrequiredNotnullableEnumIntegerOnly** | **int?** |  | [optional] 
 **RequiredNotnullableEnumString** | **string** |  | 
 **RequiredNullableEnumString** | **string** |  | 
 **NotrequiredNullableEnumString** | **string** |  | [optional] 

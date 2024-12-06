@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [DataMember(Name = "mealy", EmitDefaultValue = true)]
-        public bool Mealy
+        public bool? Mealy
         {
             get{ return _Mealy;}
             set
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
                 _flagMealy = true;
             }
         }
-        private bool _Mealy;
+        private bool? _Mealy;
         private bool _flagMealy;
 
         /// <summary>
@@ -161,7 +161,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+                if (this.Mealy != null)
+                {
+                    hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+                }
                 return hashCode;
             }
         }

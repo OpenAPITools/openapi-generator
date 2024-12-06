@@ -189,6 +189,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines NotrequiredNotnullableEnumIntegerOnly
         /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
         public enum NotrequiredNotnullableEnumIntegerOnlyEnum
         {
             /// <summary>
@@ -643,7 +644,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
         [DataMember(Name = "not_required_notnullableinteger_prop", EmitDefaultValue = false)]
-        public int NotRequiredNotnullableintegerProp { get; set; }
+        public int? NotRequiredNotnullableintegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableStringProp
@@ -691,7 +692,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableBooleanProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_boolean_prop", EmitDefaultValue = true)]
-        public bool NotrequiredNotnullableBooleanProp { get; set; }
+        public bool? NotrequiredNotnullableBooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableDateProp
@@ -908,7 +909,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.NotRequiredNotnullableintegerProp == input.NotRequiredNotnullableintegerProp ||
-                    this.NotRequiredNotnullableintegerProp.Equals(input.NotRequiredNotnullableintegerProp)
+                    (this.NotRequiredNotnullableintegerProp != null &&
+                    this.NotRequiredNotnullableintegerProp.Equals(input.NotRequiredNotnullableintegerProp))
                 ) && 
                 (
                     this.RequiredNullableStringProp == input.RequiredNullableStringProp ||
@@ -946,7 +948,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.NotrequiredNotnullableBooleanProp == input.NotrequiredNotnullableBooleanProp ||
-                    this.NotrequiredNotnullableBooleanProp.Equals(input.NotrequiredNotnullableBooleanProp)
+                    (this.NotrequiredNotnullableBooleanProp != null &&
+                    this.NotrequiredNotnullableBooleanProp.Equals(input.NotrequiredNotnullableBooleanProp))
                 ) && 
                 (
                     this.RequiredNullableDateProp == input.RequiredNullableDateProp ||
@@ -1116,7 +1119,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.NotRequiredNullableIntegerProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                if (this.NotRequiredNotnullableintegerProp != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                }
                 if (this.RequiredNullableStringProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableStringProp.GetHashCode();
@@ -1142,7 +1148,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.NotrequiredNullableBooleanProp.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                if (this.NotrequiredNotnullableBooleanProp != null)
+                {
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                }
                 if (this.RequiredNullableDateProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableDateProp.GetHashCode();

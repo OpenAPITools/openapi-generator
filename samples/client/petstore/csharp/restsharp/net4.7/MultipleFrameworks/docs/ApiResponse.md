@@ -5,7 +5,7 @@ Describes the result of uploading an image resource
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **int** |  | [optional] 
+**Code** | **int?** |  | [optional] 
 **Type** | **string** |  | [optional] 
 **Message** | **string** |  | [optional] 
 

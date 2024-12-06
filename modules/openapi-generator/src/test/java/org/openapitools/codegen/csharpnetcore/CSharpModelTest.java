@@ -195,7 +195,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "DateTime");
+        Assert.assertEquals(property3.dataType, "DateTime?");
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime");
@@ -245,7 +245,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "name");
-        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.dataType, "string?");
         Assert.assertEquals(property3.name, "Name");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "string");
@@ -296,7 +296,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "name");
-        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.dataType, "string?");
         Assert.assertEquals(property3.name, "Name");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "string");
@@ -516,7 +516,7 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.dataType, "Children");
+        Assert.assertEquals(property1.dataType, "Children?");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);

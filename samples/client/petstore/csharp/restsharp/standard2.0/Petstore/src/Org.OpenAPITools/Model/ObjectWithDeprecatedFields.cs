@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
-        public decimal Id { get; set; }
+        public decimal? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
@@ -140,7 +140,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.DeprecatedRef != null)
                 {
                     hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();

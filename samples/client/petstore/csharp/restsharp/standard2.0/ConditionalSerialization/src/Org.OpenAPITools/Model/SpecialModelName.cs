@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
-        public long SpecialPropertyName
+        public long? SpecialPropertyName
         {
             get{ return _SpecialPropertyName;}
             set
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagSpecialPropertyName = true;
             }
         }
-        private long _SpecialPropertyName;
+        private long? _SpecialPropertyName;
         private bool _flagSpecialPropertyName;
 
         /// <summary>
@@ -159,7 +159,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
+                if (this.SpecialPropertyName != null)
+                {
+                    hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
+                }
                 if (this.VarSpecialModelName != null)
                 {
                     hashCode = (hashCode * 59) + this.VarSpecialModelName.GetHashCode();

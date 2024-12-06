@@ -674,6 +674,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
+
+        if (!GENERICHOST.equals(getLibrary()) && !property.dataType.endsWith("?") && !property.required && property.defaultValue == null && (this.getValueTypes().contains(property.dataType) || (nullReferenceTypesFlag && !property.isArray && !property.isMap))) {
+            property.dataType = property.dataType + "?";
+        }
     }
 
     @Override

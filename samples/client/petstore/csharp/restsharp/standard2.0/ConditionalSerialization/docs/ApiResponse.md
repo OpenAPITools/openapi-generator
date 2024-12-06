@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **int** |  | [optional] 
+**Code** | **int?** |  | [optional] 
 **Type** | **string** |  | [optional] 
 **Message** | **string** |  | [optional] 
 
