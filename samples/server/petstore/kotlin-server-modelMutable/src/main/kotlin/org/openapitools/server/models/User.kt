@@ -12,7 +12,6 @@
 package org.openapitools.server.models
 
 
-import kotlinx.serialization.Serializable
 /**
  * A User who is purchasing from the pet store
  * @param id 
@@ -24,7 +23,6 @@ import kotlinx.serialization.Serializable
  * @param phone 
  * @param userStatus User Status
  */
-@Serializable
 data class User(
     var id: kotlin.Long? = null,
     var username: kotlin.String? = null,

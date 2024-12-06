@@ -83,20 +83,26 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
-import org.openapitools.client.api.FakeApi;
+import org.openapitools.client.api.PetApi;
 
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
+    
+    // Configure OAuth2 access token for authorization: petstore_auth
+    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    FakeApi apiInstance = new FakeApi(defaultClient);
+    PetApi apiInstance = new PetApi(defaultClient);
+    Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
-      Object result = apiInstance.fakeInlineSchemaAnyofPath1Get();
+      Pet result = apiInstance.addPet(pet);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeInlineSchemaAnyofPath1Get");
+      System.err.println("Exception when calling PetApi#addPet");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -113,18 +119,6 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FakeApi* | [**fakeInlineSchemaAnyofPath1Get**](docs/FakeApi.md#fakeInlineSchemaAnyofPath1Get) | **GET** /fake/inline/schema/anyof/path1 | 
-*FakeApi* | [**fakeInlineSchemaAnyofPath2Get**](docs/FakeApi.md#fakeInlineSchemaAnyofPath2Get) | **GET** /fake/inline/schema/anyof/path2 | 
-*FakeApi* | [**fakeInlineSchemaAnyofPath3Get**](docs/FakeApi.md#fakeInlineSchemaAnyofPath3Get) | **GET** /fake/inline/schema/anyof/path3 | 
-*FakeApi* | [**op1**](docs/FakeApi.md#op1) | **POST** /fake/api/changeowner | op1
-*FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
-*FakeApi* | [**op3**](docs/FakeApi.md#op3) | **POST** /fake/api/query/enum | op3
-*FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
-*FakeApi* | [**refToRefParameterAnyof**](docs/FakeApi.md#refToRefParameterAnyof) | **GET** /ref/ref_to_operation_level_parameter_oneof | 
-*FakeApi* | [**refToRefParameterOneof**](docs/FakeApi.md#refToRefParameterOneof) | **GET** /ref/ref_to_path_level_parameter_oneof | 
-*FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
-*FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
-*FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
@@ -149,30 +143,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [AllOfSimpleModel](docs/AllOfSimpleModel.md)
- - [Animal](docs/Animal.md)
- - [AnyTypeTest](docs/AnyTypeTest.md)
- - [ArrayOfSameRef](docs/ArrayOfSameRef.md)
- - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
- - [CircularReference1](docs/CircularReference1.md)
- - [CircularReference2](docs/CircularReference2.md)
- - [CircularReference3](docs/CircularReference3.md)
- - [CodesEnum](docs/CodesEnum.md)
- - [Dog](docs/Dog.md)
- - [FakeWebhooksSourcesDeletedPostRequest](docs/FakeWebhooksSourcesDeletedPostRequest.md)
- - [FakeWebhooksSourcesDeletedPostRequestEvent](docs/FakeWebhooksSourcesDeletedPostRequestEvent.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
- - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
- - [RefRefToPathLevelParameterOneofRefToOneofParameter](docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md)
- - [RefToRefParameterAnyofRefToAnyofParameter](docs/RefToRefParameterAnyofRefToAnyofParameter.md)
- - [SelfReferenceAdditionalProperties](docs/SelfReferenceAdditionalProperties.md)
- - [SelfReferenceAnyOf](docs/SelfReferenceAnyOf.md)
- - [SelfReferenceOneOf](docs/SelfReferenceOneOf.md)
- - [SimpleModelWithArrayProperty](docs/SimpleModelWithArrayProperty.md)
- - [StringOrInt](docs/StringOrInt.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 

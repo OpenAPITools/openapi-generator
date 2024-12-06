@@ -12,13 +12,11 @@
 package org.openapitools.server.models
 
 
-import kotlinx.serialization.Serializable
 /**
  * A tag for a pet
  * @param id 
  * @param name 
  */
-@Serializable
 data class Tag(
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
