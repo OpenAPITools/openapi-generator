@@ -651,11 +651,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
-            String content = removeBeanValidationAnnotations(fragment.execute());
+            String content = removeAnnotations(fragment.execute());
             for (final String s: List.of("<", ">", ",", " ")) {
                 content = content.replace(s, "");
             }
             writer.write(content);
+        });
+        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
+            writer.write(removeAnnotations(fragment.execute()));
         });
     }
 
@@ -1794,12 +1797,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
         }
-
-        if (useBeanValidation) {
-            property.rawDatatypeWithEnum = removeBeanValidationAnnotations(property.datatypeWithEnum);
-        } else {
-            property.rawDatatypeWithEnum = property.datatypeWithEnum;
-        }
     }
 
     @Override
@@ -1809,11 +1806,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // the response data types should not contain bean validation annotations.
-        property.dataType = removeBeanValidationAnnotations(property.dataType);
-        response.dataType = removeBeanValidationAnnotations(response.dataType);
+        property.dataType = removeAnnotations(property.dataType);
+        response.dataType = removeAnnotations(response.dataType);
     }
 
-    private String removeBeanValidationAnnotations(String dataType) {
+    private String removeAnnotations(String dataType) {
         if (dataType != null && dataType.contains("@")) {
             return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
         }
