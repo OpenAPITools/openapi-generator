@@ -118,7 +118,6 @@ internal open class ApiClient(val baseUrl: String, val client: Call.Factory = de
      * @see requestBody
      */
     protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
-        if (obj == null) return
         val partHeaders = headers.toMutableMap() +
             ("Content-Disposition" to "form-data; name=\"$name\"")
         addPart(
