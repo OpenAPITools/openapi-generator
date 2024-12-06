@@ -10,11 +10,13 @@
 
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
@@ -162,6 +164,64 @@ namespace Org.OpenAPITools.Client
 
         public DataFormat DataFormat => DataFormat.Json;
     }
+
+    /// <summary>
+    /// Represents a factory for creating and caching instances of HttpClient.
+    /// </summary>
+    internal class HttpClientFactory {
+        private ConcurrentDictionary<Uri, HttpClient> Clients { get; } = new ConcurrentDictionary<Uri, HttpClient>();
+
+        /// <summary>
+        /// Creates an HttpClient instance with the specified base URL and options. Caches clients by
+        /// <see cref="RestClientOptions.BaseUrl"/>.
+        /// </summary>
+        /// <param name="options">The RestClientOptions to configure the HttpClient.</param>
+        /// <returns>An instance of HttpClient configured with the provided options.</returns>
+        public HttpClient CreateHttpClient(RestClientOptions options) {
+            return Clients.GetOrAdd(options.BaseUrl, GetClient);
+
+            HttpClient GetClient(Uri _) {
+                var messageHandler = CreateMessageHandler(options);
+
+                var client = new HttpClient(messageHandler) {
+                    Timeout = Timeout.InfiniteTimeSpan,  // RestSharp uses RestClientOptions.Timeout
+                };
+                
+                return client;
+            }
+        }
+        
+        private static HttpMessageHandler CreateMessageHandler(RestClientOptions options) {
+            var handler = new HttpClientHandler();
+            
+            handler.UseCookies = false;
+            handler.Credentials = options.Credentials;
+            handler.UseDefaultCredentials = options.UseDefaultCredentials;
+            handler.AutomaticDecompression = options.AutomaticDecompression;
+            handler.PreAuthenticate = options.PreAuthenticate;
+            
+            if (options.MaxRedirects.HasValue) 
+                handler.MaxAutomaticRedirections = options.MaxRedirects.Value;
+            
+            if (options.RemoteCertificateValidationCallback != null) {
+                handler.ServerCertificateCustomValidationCallback = (request, cert, chain, errors) =>
+                    options.RemoteCertificateValidationCallback(request, cert, chain, errors);
+            }
+            
+            if (options.ClientCertificates != null) {
+                handler.ClientCertificates.AddRange(options.ClientCertificates);
+                handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            }
+            
+            handler.AllowAutoRedirect = options.FollowRedirects;
+            
+            if (handler.SupportsProxy) 
+                handler.Proxy = options.Proxy;
+            
+            return options.ConfigureMessageHandler?.Invoke(handler) ?? handler;
+        }
+    }
+
     /// <summary>
     /// Provides a default implementation of an Api client (both synchronous and asynchronous implementations),
     /// encapsulating general REST accessor use cases.
@@ -169,6 +229,7 @@ namespace Org.OpenAPITools.Client
     public partial class ApiClient : ISynchronousClient, IAsynchronousClient
     {
         private readonly string _baseUrl;
+        private readonly HttpClientFactory _httpClientFactory = new HttpClientFactory();
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -478,7 +539,7 @@ namespace Org.OpenAPITools.Client
                     configuration);
             }
 
-            using (RestClient client = new RestClient(clientOptions,
+            using (RestClient client = new RestClient(_httpClientFactory.CreateHttpClient(clientOptions), clientOptions,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
             {
                 InterceptRequest(request);
