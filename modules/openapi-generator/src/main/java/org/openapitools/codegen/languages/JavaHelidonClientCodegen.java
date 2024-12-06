@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.CodegenConstants.*;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,6 +30,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -54,11 +57,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import lombok.Getter;
-import lombok.Setter;
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 
 public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
