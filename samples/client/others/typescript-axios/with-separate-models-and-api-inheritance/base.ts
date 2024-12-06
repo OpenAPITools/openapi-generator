@@ -21,8 +21,6 @@ import globalAxios from 'axios';
 
 export const BASE_PATH = "http://localhost".replace(/\/+$/, "");
 
-globalAxios.defaults.headers.common['User-Agent'] = "OpenAPI-Generator/typescript-axios";
-
 /**
  *
  * @export
