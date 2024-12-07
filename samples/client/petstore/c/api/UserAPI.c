@@ -26,10 +26,14 @@ UserAPI_createUser(apiClient_t *apiClient, user_t *body)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user");
+
 
 
 
@@ -89,10 +93,14 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/createWithArray")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/createWithArray");
+
 
 
 
@@ -180,10 +188,14 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/createWithList")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/createWithList");
+
 
 
 
@@ -273,10 +285,16 @@ UserAPI_deleteUser(apiClient_t *apiClient, char *username)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/{username}")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/{username}");
+
+    if(!username)
+        goto end;
 
 
     // Path Params
@@ -337,10 +355,16 @@ UserAPI_getUserByName(apiClient_t *apiClient, char *username)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/{username}")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/{username}");
+
+    if(!username)
+        goto end;
 
 
     // Path Params
@@ -379,11 +403,14 @@ UserAPI_getUserByName(apiClient_t *apiClient, char *username)
     //    printf("%s\n","User not found");
     //}
     //nonprimitive not container
-    cJSON *UserAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    user_t *elementToReturn = user_parseFromJSON(UserAPIlocalVarJSON);
-    cJSON_Delete(UserAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
+    user_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *UserAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+        elementToReturn = user_parseFromJSON(UserAPIlocalVarJSON);
+        cJSON_Delete(UserAPIlocalVarJSON);
+        if(elementToReturn == NULL) {
+            // return 0;
+        }
     }
 
     //return type
@@ -418,10 +445,14 @@ UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/login")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/login");
+
 
 
 
@@ -469,8 +500,10 @@ UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password)
     //if (apiClient->response_code == 400) {
     //    printf("%s\n","Invalid username/password supplied");
     //}
-    //primitive return type simple
-    char* elementToReturn =  strdup((char*)apiClient->dataReceived);
+    //primitive return type simple string
+    char* elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = strdup((char*)apiClient->dataReceived);
 
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
@@ -526,10 +559,14 @@ UserAPI_logoutUser(apiClient_t *apiClient)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/logout")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/logout");
+
 
 
 
@@ -577,10 +614,14 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/testIntAndBool")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/testIntAndBool");
+
 
 
 
@@ -654,10 +695,16 @@ UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body)
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
     // create the path
     long sizeOfPath = strlen("/user/{username}")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "/user/{username}");
+
+    if(!username)
+        goto end;
 
 
     // Path Params
