@@ -14,7 +14,7 @@ package org.openapitools.server.models
 import org.openapitools.server.models.Category
 import org.openapitools.server.models.Tag
 
-import java.io.Serializable
+    import java.io.Serializable
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -32,11 +32,8 @@ data class Pet(
     val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
-) : Serializable 
+): Serializable 
 {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
     /**
     * pet status in the store
     * Values: available,pending,sold

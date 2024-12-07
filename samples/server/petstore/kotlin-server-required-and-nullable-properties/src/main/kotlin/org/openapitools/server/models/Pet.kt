@@ -24,5 +24,5 @@ data class Pet(
     val nullableRequired: kotlin.String?,
     val nullableNotRequired: kotlin.String? = null,
     val notNullableNotRequired: kotlin.String? = null
-) 
+)
 

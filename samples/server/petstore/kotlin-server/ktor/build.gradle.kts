@@ -7,7 +7,8 @@ version = "1.0.0"
 
 plugins {
     kotlin("jvm") version "2.0.20"
-    id("io.ktor.plugin") version "2.3.12"
+    application
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 application {
@@ -22,6 +23,7 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("io.ktor:ktor-bom:3.0.2"))
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("com.typesafe:config:1.4.1")
     implementation("io.ktor:ktor-server-auth")
@@ -29,7 +31,7 @@ dependencies {
     implementation("io.ktor:ktor-server-auto-head-response")
     implementation("io.ktor:ktor-server-default-headers")
     implementation("io.ktor:ktor-server-content-negotiation")
-    implementation("io.ktor:ktor-serialization-gson")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-resources")
     implementation("io.ktor:ktor-server-hsts")
     implementation("io.ktor:ktor-server-compression")

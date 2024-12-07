@@ -20,5 +20,5 @@ package org.openapitools.server.models
 data class Tag(
     var id: kotlin.Long? = null,
     var name: kotlin.String? = null
-) 
+)
 

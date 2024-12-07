@@ -33,5 +33,5 @@ data class User(
     var phone: kotlin.String? = null,
     /* User Status */
     var userStatus: kotlin.Int? = null
-) 
+)
 

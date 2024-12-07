@@ -31,7 +31,7 @@ data class Pet(
     var tags: kotlin.collections.MutableList<Tag>? = null,
     /* pet status in the store */
     var status: Pet.Status? = null
-) 
+)
 {
     /**
     * pet status in the store
