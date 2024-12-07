@@ -2863,11 +2863,21 @@ components:
         - ZWEI
         - DREI
       default: ZWEI
+    EnumWithCommonPrefix:
+      type: string
+      example: VAL_2
+      enum:
+        - VAL_1
+        - VAL_2
+        - VAL_3
+      default: VAL_2
     TestModelWithEnumDefault:
       type: object
       required:
         - test_enum
       properties:
+        test_enum_common_prefix:
+          $ref: "#/components/schemas/EnumWithCommonPrefix"
         test_enum:
           $ref: "#/components/schemas/TestEnum"
         test_string:
