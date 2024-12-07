@@ -1139,6 +1139,7 @@ Here is a list of template creators:
    * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * Ktorm: @Luiz-Monad
    * MySQL: [@ybelenko](https://github.com/ybelenko)
+   * PostgreSQL: [@iri](https://github.com/iri)
    * Postman Collection: @gcatanese
    * Protocol Buffer: @wing328
    * WSDL: @adessoDpd
