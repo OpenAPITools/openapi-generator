@@ -116,7 +116,7 @@ public class Model200Response  implements Serializable {
     return new Model200ResponseBuilderImpl();
   }
 
-  private static class Model200ResponseBuilderImpl extends Model200ResponseBuilder<Model200Response, Model200ResponseBuilderImpl> {
+  private static final class Model200ResponseBuilderImpl extends Model200ResponseBuilder<Model200Response, Model200ResponseBuilderImpl> {
 
     @Override
     protected Model200ResponseBuilderImpl self() {
