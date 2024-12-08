@@ -18,8 +18,6 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-
-
 Category::Category()
 {
     m_Id = 0L;
@@ -39,15 +37,15 @@ void Category::validate()
 
 web::json::value Category::toJson() const
 {
-
     web::json::value val = web::json::value::object();
-    
     if(m_IdIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("id"))] = ModelBase::toJson(m_Id);
     }
     if(m_NameIsSet)
-    {
+    {   
+        
         val[utility::conversions::to_string_t(U("name"))] = ModelBase::toJson(m_Name);
     }
 
@@ -57,7 +55,6 @@ web::json::value Category::toJson() const
 bool Category::fromJson(const web::json::value& val)
 {
     bool ok = true;
-    
     if(val.has_field(utility::conversions::to_string_t(U("id"))))
     {
         const web::json::value& fieldValue = val.at(utility::conversions::to_string_t(U("id")));
@@ -66,6 +63,7 @@ bool Category::fromJson(const web::json::value& val)
             int64_t refVal_setId;
             ok &= ModelBase::fromJson(fieldValue, refVal_setId);
             setId(refVal_setId);
+            
         }
     }
     if(val.has_field(utility::conversions::to_string_t(U("name"))))
@@ -76,6 +74,7 @@ bool Category::fromJson(const web::json::value& val)
             utility::string_t refVal_setName;
             ok &= ModelBase::fromJson(fieldValue, refVal_setName);
             setName(refVal_setName);
+            
         }
     }
     return ok;
@@ -122,6 +121,7 @@ bool Category::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const
     return ok;
 }
 
+
 int64_t Category::getId() const
 {
     return m_Id;
@@ -147,6 +147,7 @@ utility::string_t Category::getName() const
     return m_Name;
 }
 
+
 void Category::setName(const utility::string_t& value)
 {
     m_Name = value;
@@ -162,6 +163,7 @@ void Category::unsetName()
 {
     m_NameIsSet = false;
 }
+
 }
 }
 }

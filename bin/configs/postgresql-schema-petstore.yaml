@@ -1,0 +1,5 @@
+generatorName: postgresql-schema
+outputDir: samples/schema/petstore/postgresql
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/postgresql-schema
+

@@ -64,6 +64,9 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
 
     // MappedModel->another_property
     cJSON *another_property = cJSON_GetObjectItemCaseSensitive(MappedModelJSON, "another_property");
+    if (cJSON_IsNull(another_property)) {
+        another_property = NULL;
+    }
     if (another_property) { 
     if(!cJSON_IsNumber(another_property))
     {
@@ -73,6 +76,9 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
 
     // MappedModel->uuid_property
     cJSON *uuid_property = cJSON_GetObjectItemCaseSensitive(MappedModelJSON, "uuid_property");
+    if (cJSON_IsNull(uuid_property)) {
+        uuid_property = NULL;
+    }
     if (uuid_property) { 
     if(!cJSON_IsString(uuid_property) && !cJSON_IsNull(uuid_property))
     {

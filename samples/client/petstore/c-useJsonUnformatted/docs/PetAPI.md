@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**PetAPI_findPetsByStatus**](PetAPI.md#PetAPI_findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**PetAPI_findPetsByTags**](PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**PetAPI_getPetById**](PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**PetAPI_isPetAvailable**](PetAPI.md#PetAPI_isPetAvailable) | **POST** /pet/{petId}/isAvailable | Is this pet still available?
+[**PetAPI_sharePicture**](PetAPI.md#PetAPI_sharePicture) | **POST** /pet/picture | Send a picture of your happy pet
 [**PetAPI_specialtyPet**](PetAPI.md#PetAPI_specialtyPet) | **GET** /pet/specialty | Specialty of the shop
 [**PetAPI_updatePet**](PetAPI.md#PetAPI_updatePet) | **PUT** /pet | Update an existing pet
 [**PetAPI_updatePetWithForm**](PetAPI.md#PetAPI_updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
@@ -162,6 +164,65 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_isPetAvailable**
+```c
+// Is this pet still available?
+//
+bit_t* PetAPI_isPetAvailable(apiClient_t *apiClient, long petId);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**petId** | **long** | ID of pet to check | 
+
+### Return type
+
+[bit_t](bit.md) *
+
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_sharePicture**
+```c
+// Send a picture of your happy pet
+//
+char* PetAPI_sharePicture(apiClient_t *apiClient, char *picture);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**picture** | **char \*** | A picture you want to share | 
+
+### Return type
+
+char*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -1,0 +1,4 @@
+generatorName: c
+outputDir: samples/client/others/c/bearerAuth
+inputSpec: modules/openapi-generator/src/test/resources/3_0/c/bearer_auth.yaml
+templateDir: modules/openapi-generator/src/main/resources/C-libcurl

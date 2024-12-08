@@ -56,6 +56,7 @@ set(SRCS
     model/object.c
     model/mapped_model.c
     model/api_response.c
+    model/bit.c
     model/category.c
     model/model_with_set_propertes.c
     model/order.c
@@ -79,6 +80,7 @@ set(HDRS
     model/any_type.h
     model/mapped_model.h
     model/api_response.h
+    model/bit.h
     model/category.h
     model/model_with_set_propertes.h
     model/order.h

@@ -6,6 +6,7 @@
 #include "../include/keyValuePair.h"
 #include "../include/binary.h"
 #include "../model/api_response.h"
+#include "../model/bit.h"
 #include "../model/pet.h"
 #include "../model/preference.h"
 
@@ -47,6 +48,18 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags);
 //
 pet_t*
 PetAPI_getPetById(apiClient_t *apiClient, long petId);
+
+
+// Is this pet still available?
+//
+openapi_petstore_bit__e
+PetAPI_isPetAvailable(apiClient_t *apiClient, long petId);
+
+
+// Send a picture of your happy pet
+//
+char*
+PetAPI_sharePicture(apiClient_t *apiClient, char *picture);
 
 
 // Specialty of the shop
