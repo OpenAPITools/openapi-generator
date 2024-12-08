@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { Decimal } from '../models/Decimal';
 import { HttpFile } from '../http/http';
 
 export class FormatTest {
@@ -19,7 +20,7 @@ export class FormatTest {
     'number': number;
     '_float'?: number;
     '_double'?: number;
-    'decimal'?: string;
+    'decimal'?: Decimal;
     'string'?: string;
     '_byte': string;
     'binary'?: HttpFile;
@@ -80,7 +81,7 @@ export class FormatTest {
         {
             "name": "decimal",
             "baseName": "decimal",
-            "type": "string",
+            "type": "Decimal",
             "format": "number"
         },
         {
