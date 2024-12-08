@@ -81,7 +81,7 @@ pub enum {{{operationIdCamelCase}}}Error {
 {{/notes}}
 {{#vendorExtensions.x-group-parameters}}
 pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{#isResponseFile}}{{#supportAsync}}reqwest::Response{{/supportAsync}}{{^supportAsync}}reqwest::blocking::Response{{/supportAsync}}{{/isResponseFile}}{{^isResponseFile}}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}{{/isResponseFile}}, Error<{{{operationIdCamelCase}}}Error>> {
-    let local_var_configuration = configuration;
+    let {{{varPrefix}}}configuration = configuration;
 
     // unbox the parameters
     {{#allParams}}
@@ -91,56 +91,56 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 {{/vendorExtensions.x-group-parameters}}
 {{^vendorExtensions.x-group-parameters}}
 pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> Result<{{#isResponseFile}}{{#supportAsync}}reqwest::Response{{/supportAsync}}{{^supportAsync}}reqwest::blocking::Response{{/supportAsync}}{{/isResponseFile}}{{^isResponseFile}}{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}{{/isResponseFile}}, Error<{{{operationIdCamelCase}}}Error>> {
-    let local_var_configuration = configuration;
+    let {{{varPrefix}}}configuration = configuration;
 {{/vendorExtensions.x-group-parameters}}
 
-    let local_var_client = &local_var_configuration.client;
+    let {{{varPrefix}}}client = &{{{varPrefix}}}configuration.client;
 
-    let local_var_uri_str = format!("{}{{{path}}}", local_var_configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::{{{httpMethod}}}, local_var_uri_str.as_str());
+    let {{{varPrefix}}}uri_str = format!("{}{{{path}}}", {{{varPrefix}}}configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
+    let mut {{{varPrefix}}}req_builder = {{{varPrefix}}}client.request(reqwest::Method::{{{httpMethod}}}, {{{varPrefix}}}uri_str.as_str());
 
     {{#queryParams}}
     {{#required}}
     {{#isArray}}
-    local_var_req_builder = match "{{collectionFormat}}" {
-        "multi" => local_var_req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-        _ => local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+    {{{varPrefix}}}req_builder = match "{{collectionFormat}}" {
+        "multi" => {{{varPrefix}}}req_builder.query(&{{{paramName}}}.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+        _ => {{{varPrefix}}}req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     {{/isArray}}
     {{^isArray}}
     {{^isNullable}}
-    local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
     {{/isNullable}}
     {{#isNullable}}
     {{#isDeepObject}}
-    if let Some(ref local_var_str) = {{{paramName}}} {
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
-        local_var_req_builder = local_var_req_builder.query(&params);
+    if let Some(ref {{{varPrefix}}}str) = {{{paramName}}} {
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", {{{varPrefix}}}str);
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.query(&params);
     };
     {{/isDeepObject}}
     {{^isDeepObject}}
-    if let Some(ref local_var_str) = {{{paramName}}} {
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+    if let Some(ref {{{varPrefix}}}str) = {{{paramName}}} {
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.query(&[("{{{baseName}}}", &{{{varPrefix}}}str.to_string())]);
     };
     {{/isDeepObject}}
     {{/isNullable}}
     {{/isArray}}
     {{/required}}
     {{^required}}
-    if let Some(ref local_var_str) = {{{paramName}}} {
+    if let Some(ref {{{varPrefix}}}str) = {{{paramName}}} {
         {{#isArray}}
-        local_var_req_builder = match "{{collectionFormat}}" {
-            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-            _ => local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        {{{varPrefix}}}req_builder = match "{{collectionFormat}}" {
+            "multi" => {{{varPrefix}}}req_builder.query(&{{{varPrefix}}}str.into_iter().map(|p| ("{{{baseName}}}".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => {{{varPrefix}}}req_builder.query(&[("{{{baseName}}}", &{{{varPrefix}}}str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
         };
         {{/isArray}}
         {{^isArray}}
         {{#isDeepObject}}
-        let params = crate::apis::parse_deep_object("{{{baseName}}}", local_var_str);
-        local_var_req_builder = local_var_req_builder.query(&params);
+        let params = crate::apis::parse_deep_object("{{{baseName}}}", {{{varPrefix}}}str);
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.query(&params);
         {{/isDeepObject}}
         {{^isDeepObject}}
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &local_var_str.to_string())]);
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.query(&[("{{{baseName}}}", &{{{varPrefix}}}str.to_string())]);
         {{/isDeepObject}}
         {{/isArray}}
     }
@@ -150,13 +150,13 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#authMethods}}
     {{#isApiKey}}
     {{#isKeyInQuery}}
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+    if let Some(ref {{{varPrefix}}}apikey) = {{{varPrefix}}}configuration.api_key {
+        let {{{varPrefix}}}key = {{{varPrefix}}}apikey.key.clone();
+        let {{{varPrefix}}}value = match {{{varPrefix}}}apikey.prefix {
+            Some(ref {{{varPrefix}}}prefix) => format!("{} {}", {{{varPrefix}}}prefix, {{{varPrefix}}}key),
+            None => {{{varPrefix}}}key,
         };
-        local_var_req_builder = local_var_req_builder.query(&[("{{{keyParamName}}}", local_var_value)]);
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.query(&[("{{{keyParamName}}}", {{{varPrefix}}}value)]);
     }
     {{/isKeyInQuery}}
     {{/isApiKey}}
@@ -164,9 +164,9 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/hasAuthMethods}}
     {{#hasAuthMethods}}
     {{#withAWSV4Signature}}
-    if let Some(ref local_var_aws_v4_key) = local_var_configuration.aws_v4_key {
-        let local_var_new_headers = match local_var_aws_v4_key.sign(
-	    &local_var_uri_str,
+    if let Some(ref {{{varPrefix}}}aws_v4_key) = {{{varPrefix}}}configuration.aws_v4_key {
+        let {{{varPrefix}}}new_headers = match {{{varPrefix}}}aws_v4_key.sign(
+	    &{{{varPrefix}}}uri_str,
 	    "{{{httpMethod}}}",
 	    {{#hasBodyParam}}
 	    {{#bodyParams}}
@@ -180,31 +180,31 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
 	      Ok(new_headers) => new_headers,
 	      Err(err) => return Err(Error::AWSV4SignatureError(err)),
 	    };
-	for (local_var_name, local_var_value) in local_var_new_headers.iter() {
-	    local_var_req_builder = local_var_req_builder.header(local_var_name.as_str(), local_var_value.as_str());
+	for ({{{varPrefix}}}name, {{{varPrefix}}}value) in {{{varPrefix}}}new_headers.iter() {
+	    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header({{{varPrefix}}}name.as_str(), {{{varPrefix}}}value.as_str());
 	}
     }
     {{/withAWSV4Signature}}
     {{/hasAuthMethods}}
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    if let Some(ref {{{varPrefix}}}user_agent) = {{{varPrefix}}}configuration.user_agent {
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header(reqwest::header::USER_AGENT, {{{varPrefix}}}user_agent.clone());
     }
     {{#hasHeaderParams}}
     {{#headerParams}}
     {{#required}}
     {{^isNullable}}
-    local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
-        None => { local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", ""); },
+        Some({{{varPrefix}}}param_value) => { {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header("{{{baseName}}}", {{{varPrefix}}}param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
+        None => { {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header("{{{baseName}}}", ""); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string());
+    if let Some({{{varPrefix}}}param_value) = {{{paramName}}} {
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header("{{{baseName}}}", {{{varPrefix}}}param_value{{#isArray}}.join(","){{/isArray}}.to_string());
     }
     {{/required}}
     {{/headerParams}}
@@ -214,38 +214,38 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#supportTokenSource}}
     // Obtain a token from source provider.
     // Tokens can be Id or access tokens depending on the provider type and configuration.
-    let token = local_var_configuration.token_source.token().await.map_err(Error::TokenSource)?;
+    let token = {{{varPrefix}}}configuration.token_source.token().await.map_err(Error::TokenSource)?;
     // The token format is the responsibility of the provider, thus we just set the authorization header with whatever is given.
-    local_var_req_builder = local_var_req_builder.header(reqwest::header::AUTHORIZATION, token);
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header(reqwest::header::AUTHORIZATION, token);
     {{/supportTokenSource}}
     {{^supportTokenSource}}
     {{#isApiKey}}
     {{#isKeyInHeader}}
-    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
-        let local_var_key = local_var_apikey.key.clone();
-        let local_var_value = match local_var_apikey.prefix {
-            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
-            None => local_var_key,
+    if let Some(ref {{{varPrefix}}}apikey) = {{{varPrefix}}}configuration.api_key {
+        let {{{varPrefix}}}key = {{{varPrefix}}}apikey.key.clone();
+        let {{{varPrefix}}}value = match {{{varPrefix}}}apikey.prefix {
+            Some(ref {{{varPrefix}}}prefix) => format!("{} {}", {{{varPrefix}}}prefix, {{{varPrefix}}}key),
+            None => {{{varPrefix}}}key,
         };
-        local_var_req_builder = local_var_req_builder.header("{{{keyParamName}}}", local_var_value);
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.header("{{{keyParamName}}}", {{{varPrefix}}}value);
     };
     {{/isKeyInHeader}}
     {{/isApiKey}}
     {{#isBasic}}
     {{#isBasicBasic}}
-    if let Some(ref local_var_auth_conf) = local_var_configuration.basic_auth {
-        local_var_req_builder = local_var_req_builder.basic_auth(local_var_auth_conf.0.to_owned(), local_var_auth_conf.1.to_owned());
+    if let Some(ref {{{varPrefix}}}auth_conf) = {{{varPrefix}}}configuration.basic_auth {
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.basic_auth({{{varPrefix}}}auth_conf.0.to_owned(), {{{varPrefix}}}auth_conf.1.to_owned());
     };
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
-        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    if let Some(ref {{{varPrefix}}}token) = {{{varPrefix}}}configuration.bearer_access_token {
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.bearer_auth({{{varPrefix}}}token.to_owned());
     };
     {{/isBasicBearer}}
     {{/isBasic}}
     {{#isOAuth}}
-    if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
-        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    if let Some(ref {{{varPrefix}}}token) = {{{varPrefix}}}configuration.oauth_access_token {
+        {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.bearer_auth({{{varPrefix}}}token.to_owned());
     };
     {{/isOAuth}}
     {{/supportTokenSource}}
@@ -253,24 +253,24 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/hasAuthMethods}}
     {{#isMultipart}}
     {{#hasFormParams}}
-    let mut local_var_form = reqwest{{^supportAsync}}::blocking{{/supportAsync}}::multipart::Form::new();
+    let mut {{{varPrefix}}}form = reqwest{{^supportAsync}}::blocking{{/supportAsync}}::multipart::Form::new();
     {{#formParams}}
     {{#isFile}}
     {{^supportAsync}}
     {{#required}}
     {{^isNullable}}
-    local_var_form = local_var_form.file("{{{baseName}}}", {{{paramName}}})?;
+    {{{varPrefix}}}form = {{{varPrefix}}}form.file("{{{baseName}}}", {{{paramName}}})?;
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_form = local_var_form.file("{{{baseName}}}", local_var_param_value)?; },
+        Some({{{varPrefix}}}param_value) => { {{{varPrefix}}}form = {{{varPrefix}}}form.file("{{{baseName}}}", {{{varPrefix}}}param_value)?; },
         None => { unimplemented!("Required nullable form file param not supported"); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_form = local_var_form.file("{{{baseName}}}", local_var_param_value)?;
+    if let Some({{{varPrefix}}}param_value) = {{{paramName}}} {
+        {{{varPrefix}}}form = {{{varPrefix}}}form.file("{{{baseName}}}", {{{varPrefix}}}param_value)?;
     }
     {{/required}}
     {{/supportAsync}}
@@ -281,116 +281,116 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{^isFile}}
     {{#required}}
     {{^isNullable}}
-    local_var_form = local_var_form.text("{{{baseName}}}", {{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
+    {{{varPrefix}}}form = {{{varPrefix}}}form.text("{{{baseName}}}", {{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_form = local_var_form.text("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string()); },
-        None => { local_var_form = local_var_form.text("{{{baseName}}}", ""); },
+        Some({{{varPrefix}}}param_value) => { {{{varPrefix}}}form = {{{varPrefix}}}form.text("{{{baseName}}}", {{{varPrefix}}}param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string()); },
+        None => { {{{varPrefix}}}form = {{{varPrefix}}}form.text("{{{baseName}}}", ""); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_form = local_var_form.text("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
+    if let Some({{{varPrefix}}}param_value) = {{{paramName}}} {
+        {{{varPrefix}}}form = {{{varPrefix}}}form.text("{{{baseName}}}", {{{varPrefix}}}param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     }
     {{/required}}
     {{/isFile}}
     {{/formParams}}
-    local_var_req_builder = local_var_req_builder.multipart(local_var_form);
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.multipart({{{varPrefix}}}form);
     {{/hasFormParams}}
     {{/isMultipart}}
     {{^isMultipart}}
     {{#hasFormParams}}
-    let mut local_var_form_params = std::collections::HashMap::new();
+    let mut {{{varPrefix}}}form_params = std::collections::HashMap::new();
     {{#formParams}}
     {{#isFile}}
     {{#required}}
     {{^isNullable}}
-    local_var_form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+    {{{varPrefix}}}form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content")); },
+        Some({{{varPrefix}}}param_value) => { {{{varPrefix}}}form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content")); },
         None => { unimplemented!("Required nullable file form param not supported with x-www-form-urlencoded content"); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+    if let Some({{{varPrefix}}}param_value) = {{{paramName}}} {
+        {{{varPrefix}}}form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
     }
     {{/required}}
     {{/isFile}}
     {{^isFile}}
     {{#required}}
     {{^isNullable}}
-    local_var_form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
+    {{{varPrefix}}}form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     {{/isNullable}}
     {{#isNullable}}
     match {{{paramName}}} {
-        Some(local_var_param_value) => { local_var_form_params.insert("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string()); },
-        None => { local_var_form_params.insert("{{{baseName}}}", ""); },
+        Some({{{varPrefix}}}param_value) => { {{{varPrefix}}}form_params.insert("{{{baseName}}}", {{{varPrefix}}}param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string()); },
+        None => { {{{varPrefix}}}form_params.insert("{{{baseName}}}", ""); },
     }
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(local_var_param_value) = {{{paramName}}} {
-        local_var_form_params.insert("{{{baseName}}}", local_var_param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
+    if let Some({{{varPrefix}}}param_value) = {{{paramName}}} {
+        {{{varPrefix}}}form_params.insert("{{{baseName}}}", {{{varPrefix}}}param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
     }
     {{/required}}
     {{/isFile}}
     {{/formParams}}
-    local_var_req_builder = local_var_req_builder.form(&local_var_form_params);
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.form(&{{{varPrefix}}}form_params);
     {{/hasFormParams}}
     {{/isMultipart}}
     {{#hasBodyParam}}
     {{#bodyParams}}
     {{#isFile}}
-    local_var_req_builder = local_var_req_builder.body({{{paramName}}});
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.body({{{paramName}}});
     {{/isFile}}
     {{^isFile}}
-    local_var_req_builder = local_var_req_builder.json(&{{{paramName}}});
+    {{{varPrefix}}}req_builder = {{{varPrefix}}}req_builder.json(&{{{paramName}}});
     {{/isFile}}
     {{/bodyParams}}
     {{/hasBodyParam}}
 
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req){{#supportAsync}}.await{{/supportAsync}}?;
+    let {{{varPrefix}}}req = {{{varPrefix}}}req_builder.build()?;
+    let {{{varPrefix}}}resp = {{{varPrefix}}}client.execute({{{varPrefix}}}req){{#supportAsync}}.await{{/supportAsync}}?;
 
-    let local_var_status = local_var_resp.status();
+    let {{{varPrefix}}}status = {{{varPrefix}}}resp.status();
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+    if !{{{varPrefix}}}status.is_client_error() && !{{{varPrefix}}}status.is_server_error() {
         {{^supportMultipleResponses}}
         {{#isResponseFile}}
-        Ok(local_var_resp)
+        Ok({{{varPrefix}}}resp)
         {{/isResponseFile}}
         {{^isResponseFile}}
         {{^returnType}}
         Ok(())
         {{/returnType}}
         {{#returnType}}
-        let local_var_content = local_var_resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
-        serde_json::from_str(&local_var_content).map_err(Error::from)
+        let {{{varPrefix}}}content = {{{varPrefix}}}resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
+        serde_json::from_str(&{{{varPrefix}}}content).map_err(Error::from)
         {{/returnType}}
         {{/isResponseFile}}
         {{/supportMultipleResponses}}
         {{#supportMultipleResponses}}
         {{#isResponseFile}}
-        Ok(local_var_resp)
+        Ok({{{varPrefix}}}resp)
         {{/isResponseFile}}
         {{^isResponseFile}}
-        let local_var_content = local_var_resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
-        let local_var_entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Ok(local_var_result)
+        let {{{varPrefix}}}content = {{{varPrefix}}}resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
+        let {{{varPrefix}}}entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&{{{varPrefix}}}content).ok();
+        let {{{varPrefix}}}result = ResponseContent { status: {{{varPrefix}}}status, content: {{{varPrefix}}}content, entity: {{{varPrefix}}}entity };
+        Ok({{{varPrefix}}}result)
         {{/isResponseFile}}
         {{/supportMultipleResponses}}
     } else {
-        let local_var_content = local_var_resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
-        let local_var_entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        let {{{varPrefix}}}content = {{{varPrefix}}}resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
+        let {{{varPrefix}}}entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&{{{varPrefix}}}content).ok();
+        let {{{varPrefix}}}error = ResponseContent { status: {{{varPrefix}}}status, content: {{{varPrefix}}}content, entity: {{{varPrefix}}}entity };
+        Err(Error::ResponseError({{{varPrefix}}}error))
     }
 }
 
