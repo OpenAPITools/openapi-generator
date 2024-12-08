@@ -28,3 +28,7 @@ src/openapi_server/models/tag.py
 src/openapi_server/models/user.py
 src/openapi_server/security_api.py
 tests/conftest.py
+tests/test_fake_api.py
+tests/test_pet_api.py
+tests/test_store_api.py
+tests/test_user_api.py

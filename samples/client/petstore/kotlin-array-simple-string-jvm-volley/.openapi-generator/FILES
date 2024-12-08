@@ -18,3 +18,4 @@ src/main/java/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
 src/main/java/org/openapitools/client/request/GsonRequest.kt
 src/main/java/org/openapitools/client/request/IRequestFactory.kt
 src/main/java/org/openapitools/client/request/RequestFactory.kt
+src/test/kotlin/org/openapitools/client/apis/DefaultApiTest.kt

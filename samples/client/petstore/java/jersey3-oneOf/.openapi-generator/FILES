@@ -36,3 +36,6 @@ src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/PostRequest.java
 src/main/java/org/openapitools/client/model/SchemaA.java
+src/test/java/org/openapitools/client/api/DefaultApiTest.java
+src/test/java/org/openapitools/client/model/PostRequestTest.java
+src/test/java/org/openapitools/client/model/SchemaATest.java

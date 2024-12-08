@@ -38,3 +38,6 @@ src/main/java/org/openapitools/client/auth/HttpBearerAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/MyExampleGet200Response.java
 src/main/java/org/openapitools/client/model/OneOf1.java
+src/test/java/org/openapitools/client/api/DefaultApiTest.java
+src/test/java/org/openapitools/client/model/MyExampleGet200ResponseTest.java
+src/test/java/org/openapitools/client/model/OneOf1Test.java

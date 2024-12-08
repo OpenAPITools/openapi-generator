@@ -12,3 +12,4 @@ src/main/kotlin/org/openapitools/model/MultipartMixedRequestMarker.kt
 src/main/kotlin/org/openapitools/model/MultipartMixedStatus.kt
 src/main/resources/application.yaml
 src/main/resources/openapi.yaml
+src/test/kotlin/org/openapitools/api/MultipartMixedApiTest.kt

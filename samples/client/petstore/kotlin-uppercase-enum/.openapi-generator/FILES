@@ -31,3 +31,5 @@ src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URLAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/PetEnum.kt
+src/test/kotlin/org/openapitools/client/apis/EnumApiTest.kt
+src/test/kotlin/org/openapitools/client/models/PetEnumTest.kt

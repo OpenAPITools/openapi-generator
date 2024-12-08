@@ -19,6 +19,18 @@ test_that("TestFormIntegerBooleanString", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
+test_that("TestFormObjectMultipart", {
+  # tests for TestFormObjectMultipart
+  # base path: http://localhost:3000
+  # Test form parameter(s) for multipart schema
+  # Test form parameter(s) for multipart schema
+  # @param marker TestFormObjectMultipartRequestMarker 
+  # @return [character]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
 test_that("TestFormOneof", {
   # tests for TestFormOneof
   # base path: http://localhost:3000

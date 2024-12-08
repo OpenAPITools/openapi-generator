@@ -10,3 +10,7 @@ src/main/java/org/openapitools/client/api/DefaultApi.java
 src/main/java/org/openapitools/client/model/Cat.java
 src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/Status.java
+src/test/java/org/openapitools/client/api/DefaultApiTest.java
+src/test/java/org/openapitools/client/model/CatTest.java
+src/test/java/org/openapitools/client/model/DogTest.java
+src/test/java/org/openapitools/client/model/StatusTest.java

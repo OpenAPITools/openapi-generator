@@ -19,6 +19,8 @@ using Xunit;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
+// uncomment below to import models
+//using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Test.Api
 {
@@ -54,16 +56,18 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test TestHeaderIntegerBooleanString
+        /// Test TestHeaderIntegerBooleanStringEnums
         /// </summary>
         [Fact]
-        public void TestHeaderIntegerBooleanStringTest()
+        public void TestHeaderIntegerBooleanStringEnumsTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
             //int? integerHeader = null;
             //bool? booleanHeader = null;
             //string? stringHeader = null;
-            //var response = instance.TestHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader);
+            //string? enumNonrefStringHeader = null;
+            //StringEnumRef? enumRefStringHeader = null;
+            //var response = instance.TestHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
             //Assert.IsType<string>(response);
         }
     }

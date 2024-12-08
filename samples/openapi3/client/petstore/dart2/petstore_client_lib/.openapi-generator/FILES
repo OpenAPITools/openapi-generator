@@ -31,3 +31,12 @@ lib/model/pet.dart
 lib/model/tag.dart
 lib/model/user.dart
 pubspec.yaml
+test/api_response_test.dart
+test/category_test.dart
+test/order_test.dart
+test/pet_api_test.dart
+test/pet_test.dart
+test/store_api_test.dart
+test/tag_test.dart
+test/user_api_test.dart
+test/user_test.dart

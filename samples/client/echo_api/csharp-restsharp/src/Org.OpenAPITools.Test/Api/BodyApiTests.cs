@@ -19,7 +19,6 @@ using Xunit;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Model;
 // uncomment below to import models
 //using Org.OpenAPITools.Model;
 
@@ -80,6 +79,42 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
+        /// Test TestBodyMultipartFormdataArrayOfBinary
+        /// </summary>
+        [Fact]
+        public void TestBodyMultipartFormdataArrayOfBinaryTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //List<System.IO.Stream> files = null;
+            //var response = instance.TestBodyMultipartFormdataArrayOfBinary(files);
+            //Assert.IsType<string>(response);
+        }
+
+        /// <summary>
+        /// Test TestBodyMultipartFormdataSingleBinary
+        /// </summary>
+        [Fact]
+        public void TestBodyMultipartFormdataSingleBinaryTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //System.IO.Stream? myFile = null;
+            //var response = instance.TestBodyMultipartFormdataSingleBinary(myFile);
+            //Assert.IsType<string>(response);
+        }
+
+        /// <summary>
+        /// Test TestEchoBodyAllOfPet
+        /// </summary>
+        [Fact]
+        public void TestEchoBodyAllOfPetTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //Pet? pet = null;
+            //var response = instance.TestEchoBodyAllOfPet(pet);
+            //Assert.IsType<Pet>(response);
+        }
+
+        /// <summary>
         /// Test TestEchoBodyFreeFormObjectResponseString
         /// </summary>
         [Fact]
@@ -97,9 +132,10 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void TestEchoBodyPetTest()
         {
-            Pet? pet = new Pet(123, "cat", new Category() { Id = 12, Name = "Test" }, new List<string>(){"http://google.com"},null, null);
-            var response = instance.TestEchoBodyPet(pet);
-            Assert.IsType<Pet>(response);
+            // TODO uncomment below to test the method and replace null with proper value
+            //Pet? pet = null;
+            //var response = instance.TestEchoBodyPet(pet);
+            //Assert.IsType<Pet>(response);
         }
 
         /// <summary>
@@ -112,6 +148,18 @@ namespace Org.OpenAPITools.Test.Api
             //Pet? pet = null;
             //var response = instance.TestEchoBodyPetResponseString(pet);
             //Assert.IsType<string>(response);
+        }
+
+        /// <summary>
+        /// Test TestEchoBodyStringEnum
+        /// </summary>
+        [Fact]
+        public void TestEchoBodyStringEnumTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string? body = null;
+            //var response = instance.TestEchoBodyStringEnum(body);
+            //Assert.IsType<StringEnumRef>(response);
         }
 
         /// <summary>

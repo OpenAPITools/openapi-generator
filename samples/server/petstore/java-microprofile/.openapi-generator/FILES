@@ -21,3 +21,12 @@ src/main/java/org/openapitools/server/model/Order.java
 src/main/java/org/openapitools/server/model/Pet.java
 src/main/java/org/openapitools/server/model/Tag.java
 src/main/java/org/openapitools/server/model/User.java
+src/test/java/org/openapitools/server/api/PetApiTest.java
+src/test/java/org/openapitools/server/api/StoreApiTest.java
+src/test/java/org/openapitools/server/api/UserApiTest.java
+src/test/java/org/openapitools/server/model/CategoryTest.java
+src/test/java/org/openapitools/server/model/ModelApiResponseTest.java
+src/test/java/org/openapitools/server/model/OrderTest.java
+src/test/java/org/openapitools/server/model/PetTest.java
+src/test/java/org/openapitools/server/model/TagTest.java
+src/test/java/org/openapitools/server/model/UserTest.java

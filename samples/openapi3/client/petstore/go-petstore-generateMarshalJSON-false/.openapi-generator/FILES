@@ -16,4 +16,5 @@ model_category.go
 model_pet.go
 model_tag.go
 response.go
+test/api_pet_test.go
 utils.go

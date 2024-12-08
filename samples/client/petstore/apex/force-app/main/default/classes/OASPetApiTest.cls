@@ -13,16 +13,32 @@ private class OASPetApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSPet' => OASPet.getExample()
+            'oaSPet' => ''
         };
 
         OASClient client;
         OASPetApi api;
+        OASPet response;
+        OASPet expectedResponse;
         String js = '';
 
         client = new OASClient();
         api = new OASPetApi(client);
-        api.addPet(params);
+
+        js = JSON.serialize(OASPet.getExample());
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody(js);
+        expectedResponse = OASPet.getExample();
+        response = (OASPet) api.addPet(params);
+        System.assertEquals(expectedResponse, response);
+
+
+        js = JSON.serialize(OASPet.getExample());
+        res.setHeader('Content-Type', 'application/xml');
+        res.setBody(js);
+        expectedResponse = OASPet.getExample();
+        response = (OASPet) api.addPet(params);
+        System.assertEquals(expectedResponse, response);
     }
 
     /**
@@ -189,16 +205,32 @@ private class OASPetApiTest {
         Test.setMock(HttpCalloutMock.class, new OASResponseMock(res));
 
         Map<String, Object> params = new Map<String, Object>{
-            'oaSPet' => OASPet.getExample()
+            'oaSPet' => ''
         };
 
         OASClient client;
         OASPetApi api;
+        OASPet response;
+        OASPet expectedResponse;
         String js = '';
 
         client = new OASClient();
         api = new OASPetApi(client);
-        api.updatePet(params);
+
+        js = JSON.serialize(OASPet.getExample());
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody(js);
+        expectedResponse = OASPet.getExample();
+        response = (OASPet) api.updatePet(params);
+        System.assertEquals(expectedResponse, response);
+
+
+        js = JSON.serialize(OASPet.getExample());
+        res.setHeader('Content-Type', 'application/xml');
+        res.setBody(js);
+        expectedResponse = OASPet.getExample();
+        response = (OASPet) api.updatePet(params);
+        System.assertEquals(expectedResponse, response);
     }
 
     /**

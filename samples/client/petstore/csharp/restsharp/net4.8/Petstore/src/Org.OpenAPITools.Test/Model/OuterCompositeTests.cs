@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<OuterComposite>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'MyNumber'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MyNumber'
         }
+
         /// <summary>
         /// Test the property 'MyString'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MyString'
         }
+
         /// <summary>
         /// Test the property 'MyBoolean'
         /// </summary>
@@ -80,7 +80,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MyBoolean'
         }
-
     }
-
 }

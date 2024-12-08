@@ -11,3 +11,4 @@ src/main/kotlin/org/openapitools/api/TestApiController.kt
 src/main/kotlin/org/openapitools/model/Apa.kt
 src/main/resources/application.yaml
 src/main/resources/openapi.yaml
+src/test/kotlin/org/openapitools/api/TestApiTest.kt

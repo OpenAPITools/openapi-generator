@@ -29,7 +29,9 @@ user_t* instantiate_user(int include_optional) {
       "0",
       "0",
       "0",
-      56
+      56,
+      list_createList(),
+      openapi_petstore_user__cats
     );
   } else {
     user = user_create(
@@ -40,7 +42,9 @@ user_t* instantiate_user(int include_optional) {
       "0",
       "0",
       "0",
-      56
+      56,
+      list_createList(),
+      openapi_petstore_user__cats
     );
   }
 

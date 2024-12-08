@@ -23,67 +23,89 @@ import org.openapitools.client.models.ApiCategory
 import org.openapitools.client.models.ApiPet
 import org.openapitools.client.models.ApiTag
 import org.openapitools.client.models.ApiUser
-import com.google.gson.GsonBuilder
-import io.kotlintest.matchers.types.shouldBeSameInstanceAs
-import io.kotlintest.shouldNotBe
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.openapitools.client.infrastructure.ApiClient
-import org.openapitools.client.infrastructure.registerTypeAdapterFactoryForAllModels
-import java.io.IOException
-import java.lang.RuntimeException
 
 class ApiUserOrPetTest : ShouldSpec() {
     init {
+        // uncomment below to create an instance of ApiUserOrPet
+        //val modelInstance = ApiUserOrPet()
 
-        should("test custom type adapter") {
-            val gson = ApiClient().getSerializerBuilder().create()
-
-            // test Category
-            val categoryJson = "{\"id\":123,\"name\":\"category\"}"
-            val category = gson.fromJson(categoryJson, ApiCategory::class.java)
-            //val category = gson.fromJson("{\"name\":\"category\"}", ApiCategory::class.java)
-            category.id shouldBe 123L
-            category.name shouldBe "category"
-
-            // test Pet
-            val petJson = "{\"id\":123,\"name\":\"pet\",\"photoUrls\":[\"https://a.com\"],\"category\":{\"id\":456,\"name\":\"pet category\"},\"tags\":[{\"id\":678,\"name\":\"pet tag\"}],\"status\":\"available\"}"
-            val pet = gson.fromJson(petJson, ApiPet::class.java)
-            pet.id shouldBe 123L
-            pet.name shouldBe "pet"
-            pet.photoUrls shouldBe arrayOf("https://a.com")
-            pet.tags shouldBe arrayOf(ApiTag(678, "pet tag"))
-            pet.category shouldBe ApiCategory(456, "pet category")
-            pet.status shouldBe ApiPet.Status.AVAILABLE
-
-            // test invalid json (missing required fields)
-            val petJsonMissingRequiredFields = "{\"id\":123,\"category\":{\"id\":456,\"name\":\"pet category\"},\"tags\":[{\"id\":678,\"name\":\"pet tag\"}],\"status\":\"available\"}"
-            assertThrows(IllegalArgumentException::class.java) {
-                val failedPet = gson.fromJson(petJsonMissingRequiredFields, ApiPet::class.java)
-                failedPet.id shouldBe 123L
-            }
-
-            // test UserOrPet (oneOf schema)
-            // invalid json
-            assertThrows(com.google.gson.JsonSyntaxException::class.java) {
-                val failed = gson.fromJson(categoryJson, ApiUserOrPet::class.java)
-                if (failed != null) {
-                    throw RuntimeException("this exception shouldn't be thrown")
-                }
-            }
-
-            // valid json, actualInstance should be Pet
-            val userOrPet = gson.fromJson(petJson, ApiUserOrPet::class.java)
-            (userOrPet.actualInstance is ApiPet) shouldBe true
-            (userOrPet.actualInstance is ApiUser) shouldBe false
-
-            val petFromOneOf: ApiPet = userOrPet.actualInstance as ApiPet
-
-            petFromOneOf.id shouldBe 123L
-            petFromOneOf.name shouldBe "pet"
-            petFromOneOf.photoUrls shouldBe arrayOf("https://a.com")
-            petFromOneOf.tags shouldBe arrayOf(ApiTag(678, "pet tag"))
-            petFromOneOf.category shouldBe ApiCategory(456, "pet category")
-            petFromOneOf.status shouldBe ApiPet.Status.AVAILABLE
+        // to test the property `username`
+        should("test username") {
+            // uncomment below to test the property
+            //modelInstance.username shouldBe ("TODO")
         }
+
+        // to test the property `name`
+        should("test name") {
+            // uncomment below to test the property
+            //modelInstance.name shouldBe ("TODO")
+        }
+
+        // to test the property `photoUrls`
+        should("test photoUrls") {
+            // uncomment below to test the property
+            //modelInstance.photoUrls shouldBe ("TODO")
+        }
+
+        // to test the property `id`
+        should("test id") {
+            // uncomment below to test the property
+            //modelInstance.id shouldBe ("TODO")
+        }
+
+        // to test the property `firstName`
+        should("test firstName") {
+            // uncomment below to test the property
+            //modelInstance.firstName shouldBe ("TODO")
+        }
+
+        // to test the property `lastName`
+        should("test lastName") {
+            // uncomment below to test the property
+            //modelInstance.lastName shouldBe ("TODO")
+        }
+
+        // to test the property `email`
+        should("test email") {
+            // uncomment below to test the property
+            //modelInstance.email shouldBe ("TODO")
+        }
+
+        // to test the property `password`
+        should("test password") {
+            // uncomment below to test the property
+            //modelInstance.password shouldBe ("TODO")
+        }
+
+        // to test the property `phone`
+        should("test phone") {
+            // uncomment below to test the property
+            //modelInstance.phone shouldBe ("TODO")
+        }
+
+        // to test the property `userStatus` - User Status
+        should("test userStatus") {
+            // uncomment below to test the property
+            //modelInstance.userStatus shouldBe ("TODO")
+        }
+
+        // to test the property `category`
+        should("test category") {
+            // uncomment below to test the property
+            //modelInstance.category shouldBe ("TODO")
+        }
+
+        // to test the property `tags`
+        should("test tags") {
+            // uncomment below to test the property
+            //modelInstance.tags shouldBe ("TODO")
+        }
+
+        // to test the property `status` - pet status in the store
+        should("test status") {
+            // uncomment below to test the property
+            //modelInstance.status shouldBe ("TODO")
+        }
+
     }
 }

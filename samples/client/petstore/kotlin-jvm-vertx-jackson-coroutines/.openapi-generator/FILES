@@ -28,3 +28,12 @@ src/main/kotlin/org/openapitools/client/models/Order.kt
 src/main/kotlin/org/openapitools/client/models/Pet.kt
 src/main/kotlin/org/openapitools/client/models/Tag.kt
 src/main/kotlin/org/openapitools/client/models/User.kt
+src/test/kotlin/org/openapitools/client/apis/PetApiTest.kt
+src/test/kotlin/org/openapitools/client/apis/StoreApiTest.kt
+src/test/kotlin/org/openapitools/client/apis/UserApiTest.kt
+src/test/kotlin/org/openapitools/client/models/ApiResponseTest.kt
+src/test/kotlin/org/openapitools/client/models/CategoryTest.kt
+src/test/kotlin/org/openapitools/client/models/OrderTest.kt
+src/test/kotlin/org/openapitools/client/models/PetTest.kt
+src/test/kotlin/org/openapitools/client/models/TagTest.kt
+src/test/kotlin/org/openapitools/client/models/UserTest.kt

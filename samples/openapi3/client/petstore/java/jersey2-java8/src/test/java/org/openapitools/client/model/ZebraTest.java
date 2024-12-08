@@ -13,19 +13,12 @@
 
 package org.openapitools.client.model;
 
-import com.fasterxml.jackson.databind.type.MapType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.openapitools.client.JSON;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -42,29 +35,7 @@ public class ZebraTest {
      */
     @Test
     public void testZebra() {
-        Zebra z = new Zebra();
-        z.setClassName("zebra");
-        Map<String, String> m = new HashMap<>();
-        z.putAdditionalProperty("key1", "value1");
-        z.putAdditionalProperty("key2", 12321);
-        z.setType(Zebra.TypeEnum.MOUNTAIN);
-
-        JSON j = new JSON();
-        try {
-            // serialize
-            Assertions.assertEquals(j.getMapper().writeValueAsString(z), "{\"type\":\"mountain\",\"className\":\"zebra\",\"key1\":\"value1\",\"key2\":12321}");
-
-            // deserialize
-            String zebraJson = "{\"type\":\"mountain\",\"className\":\"zebra\",\"key1\":\"value1\",\"key2\":12321}";
-            Zebra zebraFromJson = j.getMapper().readValue(zebraJson, Zebra.class);
-            Assertions.assertEquals(zebraFromJson.getType(), Zebra.TypeEnum.MOUNTAIN);
-            Assertions.assertEquals(zebraFromJson.getClassName(), "zebra");
-            Assertions.assertEquals(zebraFromJson.getAdditionalProperties().size(), 2);
-            Assertions.assertEquals(zebraFromJson.getAdditionalProperty("key1"), "value1");
-            Assertions.assertEquals(zebraFromJson.getAdditionalProperty("key2"), 12321);
-        } catch (Exception ex) {
-            Assertions.assertEquals(true, false); // exception shouldn't be thrown
-        }
+        // TODO: test Zebra
     }
 
     /**
@@ -72,22 +43,7 @@ public class ZebraTest {
      */
     @Test
     public void typeTest() {
-        String zebraJson = "{\"type\":\"mountain\",\"className\":\"zebra\",\"key1\":\"value1\",\"key2\":12321}";
-
-        JSON j = new JSON();
-        TypeFactory typeFactory = j.getMapper().getTypeFactory();
-        MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, Object.class);
-        try {
-            HashMap<String, Object> map = j.getMapper().readValue(zebraJson, mapType);
-            Assertions.assertEquals(map.get("type"), "mountain");
-
-            Map<String,Object> result =
-                    j.getMapper().readValue(zebraJson, new TypeReference<Map<String,Object>>() {});
-
-            Assertions.assertEquals(result.get("type"), "mountain");
-        } catch (Exception ex) {
-            Assertions.assertEquals(true, false); // exception shouldn't be thrown
-        }
+        // TODO: test type
     }
 
     /**

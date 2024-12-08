@@ -40,3 +40,5 @@ src/main/java/org/openapitools/client/auth/OAuthFlow.java
 src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
+src/test/java/org/openapitools/client/api/FakeApiTest.java
+src/test/java/org/openapitools/client/api/PetApiTest.java

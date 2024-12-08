@@ -12,4 +12,7 @@ models/Tag.js
 models/User.js
 operations/actions.js
 package.json
+samples/PetApi.js
+samples/StoreApi.js
+samples/UserApi.js
 utils/utils.js
