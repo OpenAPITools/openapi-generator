@@ -15,3 +15,6 @@
   sha256: 8b1b8f2a2ad00ccb090873a94a5f73e328b98317d2ec715f53bd7a1accb2a023
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java"
   sha256: a1f8a70bf7b0c382a8def5bacf7b1fb189e687fabb40235aa799001e0597f545
+# java feign test files
+- filename: "samples/client/petstore/java/feign/src/test/java/org/openapitools/client/JacksonTest.java"
+  sha256: 537158f7cb5a372c63acf0ade4a221d13a145892e4156f39c71afae3a223bf5f
