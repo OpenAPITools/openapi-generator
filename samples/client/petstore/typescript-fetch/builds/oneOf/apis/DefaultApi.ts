@@ -15,9 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
+  TestArrayResponse,
   TestResponse,
 } from '../models/index';
 import {
+    TestArrayResponseFromJSON,
+    TestArrayResponseToJSON,
     TestResponseFromJSON,
     TestResponseToJSON,
 } from '../models/index';
@@ -48,6 +51,30 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async test(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestResponse> {
         const response = await this.testRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/test-array`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TestArrayResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async testArray(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TestArrayResponse> {
+        const response = await this.testArrayRaw(initOverrides);
         return await response.value();
     }
 
