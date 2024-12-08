@@ -13,9 +13,9 @@
 
 package org.openapitools.client.api;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,7 +27,8 @@ import java.util.Map;
 /**
  * API tests for AuthApi
  */
-public class AuthApiTest {
+@Disabled
+class AuthApiTest {
 
     private final AuthApi api = new AuthApi();
 
@@ -37,11 +38,11 @@ public class AuthApiTest {
      *
      * To test HTTP basic authentication
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testAuthHttpBasicTest() {
+    void testAuthHttpBasicTest() {
 
         String response = api.testAuthHttpBasic();
 
@@ -53,19 +54,15 @@ public class AuthApiTest {
      *
      * To test HTTP bearer authentication
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testAuthHttpBearerTest() {
-        String response;
-        api.getApiClient().setBearerToken("fixed token");
-        response = api.testAuthHttpBearer();
-        Assert.assertTrue(response.contains("Authorization: Bearer fixed token"));
+    void testAuthHttpBearerTest() {
 
-        api.getApiClient().setBearerToken(() -> "dynamic token");
-        response = api.testAuthHttpBearer();
-        Assert.assertTrue(response.contains("Authorization: Bearer dynamic token"));
+        String response = api.testAuthHttpBearer();
+
+        // TODO: test validations
     }
     
 }

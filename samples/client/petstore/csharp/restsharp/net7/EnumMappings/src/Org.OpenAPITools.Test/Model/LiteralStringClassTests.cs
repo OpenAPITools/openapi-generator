@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<LiteralStringClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'EscapedLiteralString'
         /// </summary>
@@ -63,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EscapedLiteralString'
         }
+
         /// <summary>
         /// Test the property 'UnescapedLiteralString'
         /// </summary>
@@ -71,7 +71,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'UnescapedLiteralString'
         }
-
     }
-
 }

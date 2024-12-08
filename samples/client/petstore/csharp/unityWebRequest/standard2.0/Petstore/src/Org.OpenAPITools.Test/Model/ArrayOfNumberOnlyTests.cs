@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ArrayOfNumberOnly>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ArrayNumber'
         /// </summary>

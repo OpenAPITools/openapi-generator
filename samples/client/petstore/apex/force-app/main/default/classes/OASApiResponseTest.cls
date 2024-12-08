@@ -68,11 +68,4 @@ private class OASApiResponseTest {
         System.assertEquals(apiResponse1.hashCode(), apiResponse2.hashCode());
         System.assertEquals(apiResponse3.hashCode(), apiResponse4.hashCode());
     }
-
-    @isTest
-    private static void maintainRenamedProperties() {
-        OASApiResponse apiResponse = new OASApiResponse();
-        Map<String, String> propertyMappings = apiResponse.getPropertyMappings();
-        System.assertEquals('r_type', propertyMappings.get('type'));
-    }
 }

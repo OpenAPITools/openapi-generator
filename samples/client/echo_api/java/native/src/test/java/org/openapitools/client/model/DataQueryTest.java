@@ -13,44 +13,39 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.openapitools.client.model.Query;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Model tests for DataQuery
  */
-public class DataQueryTest {
+class DataQueryTest {
     private final DataQuery model = new DataQuery();
 
     /**
      * Model tests for DataQuery
      */
     @Test
-    public void testDataQuery() {
+    void testDataQuery() {
         // TODO: test DataQuery
-    }
-
-    /**
-     * Test the property 'text'
-     */
-    @Test
-    public void textTest() {
-        // TODO: test text
-    }
-
-    /**
-     * Test the property 'date'
-     */
-    @Test
-    public void dateTest() {
-        // TODO: test date
     }
 
     /**
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -58,8 +53,32 @@ public class DataQueryTest {
      * Test the property 'outcomes'
      */
     @Test
-    public void outcomesTest() {
+    void outcomesTest() {
         // TODO: test outcomes
+    }
+
+    /**
+     * Test the property 'suffix'
+     */
+    @Test
+    void suffixTest() {
+        // TODO: test suffix
+    }
+
+    /**
+     * Test the property 'text'
+     */
+    @Test
+    void textTest() {
+        // TODO: test text
+    }
+
+    /**
+     * Test the property 'date'
+     */
+    @Test
+    void dateTest() {
+        // TODO: test date
     }
 
 }

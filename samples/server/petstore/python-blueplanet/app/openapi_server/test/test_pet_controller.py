@@ -18,23 +18,7 @@ class TestPetController(BaseTestCase):
 
         Add a new pet to the store
         """
-        body = {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}
+        body = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
         response = self.client.open(
             '/v2/pet',
             method='POST',
@@ -61,7 +45,7 @@ class TestPetController(BaseTestCase):
 
         Finds Pets by status
         """
-        query_string = [('status', ['available'])]
+        query_string = [('status', ['status_example'])]
         response = self.client.open(
             '/v2/pet/findByStatus',
             method='GET',
@@ -98,23 +82,7 @@ class TestPetController(BaseTestCase):
 
         Update an existing pet
         """
-        body = {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}
+        body = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
         response = self.client.open(
             '/v2/pet',
             method='PUT',

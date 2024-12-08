@@ -65,21 +65,21 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'VarFloat'
+        /// Test the property 'Float'
         /// </summary>
         [Fact]
-        public void VarFloatTest()
+        public void FloatTest()
         {
-            // TODO unit test for the property 'VarFloat'
+            // TODO unit test for the property 'Float'
         }
 
         /// <summary>
-        /// Test the property 'VarDouble'
+        /// Test the property 'Double'
         /// </summary>
         [Fact]
-        public void VarDoubleTest()
+        public void DoubleTest()
         {
-            // TODO unit test for the property 'VarDouble'
+            // TODO unit test for the property 'Double'
         }
     }
 }

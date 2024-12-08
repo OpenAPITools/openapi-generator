@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FormatTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Integer'
         /// </summary>
@@ -72,12 +71,68 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Int32'
         }
         /// <summary>
+        /// Test the property 'Int32Range'
+        /// </summary>
+        [Test]
+        public void Int32RangeTest()
+        {
+            // TODO unit test for the property 'Int32Range'
+        }
+        /// <summary>
+        /// Test the property 'Int64Positive'
+        /// </summary>
+        [Test]
+        public void Int64PositiveTest()
+        {
+            // TODO unit test for the property 'Int64Positive'
+        }
+        /// <summary>
+        /// Test the property 'Int64Negative'
+        /// </summary>
+        [Test]
+        public void Int64NegativeTest()
+        {
+            // TODO unit test for the property 'Int64Negative'
+        }
+        /// <summary>
+        /// Test the property 'Int64PositiveExclusive'
+        /// </summary>
+        [Test]
+        public void Int64PositiveExclusiveTest()
+        {
+            // TODO unit test for the property 'Int64PositiveExclusive'
+        }
+        /// <summary>
+        /// Test the property 'Int64NegativeExclusive'
+        /// </summary>
+        [Test]
+        public void Int64NegativeExclusiveTest()
+        {
+            // TODO unit test for the property 'Int64NegativeExclusive'
+        }
+        /// <summary>
+        /// Test the property 'UnsignedInteger'
+        /// </summary>
+        [Test]
+        public void UnsignedIntegerTest()
+        {
+            // TODO unit test for the property 'UnsignedInteger'
+        }
+        /// <summary>
         /// Test the property 'Int64'
         /// </summary>
         [Test]
         public void Int64Test()
         {
             // TODO unit test for the property 'Int64'
+        }
+        /// <summary>
+        /// Test the property 'UnsignedLong'
+        /// </summary>
+        [Test]
+        public void UnsignedLongTest()
+        {
+            // TODO unit test for the property 'UnsignedLong'
         }
         /// <summary>
         /// Test the property 'Number'
@@ -182,6 +237,14 @@ namespace Org.OpenAPITools.Test.Model
         public void PatternWithDigitsAndDelimiterTest()
         {
             // TODO unit test for the property 'PatternWithDigitsAndDelimiter'
+        }
+        /// <summary>
+        /// Test the property 'PatternWithBackslash'
+        /// </summary>
+        [Test]
+        public void PatternWithBackslashTest()
+        {
+            // TODO unit test for the property 'PatternWithBackslash'
         }
     }
 }

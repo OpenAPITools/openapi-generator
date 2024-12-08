@@ -1,6 +1,6 @@
 package org.openapitools.controller
 
-import java.time.LocalDateTime
+import java.time.OffsetDateTime
 import org.openapitools.model.User
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.http.client.HttpClient
@@ -33,7 +33,7 @@ class UserControllerSpec extends Specification {
     EmbeddedServer server
 
     @Inject
-    @Client('${context-path}')
+    @Client
     HttpClient client
 
     @Inject
@@ -73,7 +73,7 @@ class UserControllerSpec extends Specification {
         var uri = UriTemplate.of('/user').expand([:])
         MutableHttpRequest request = HttpRequest.POST(uri, body)
             .contentType('application/json')
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@4eaa9007')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
@@ -87,12 +87,14 @@ class UserControllerSpec extends Specification {
      *
      * The method should: Creates list of users with given input array
      *
+     * 
+     *
      * TODO fill in the parameters and test return value.
      */
     @Ignore("Not Implemented")
     def 'createUsersWithArrayInput() method test'() {
         given:
-        List<User> user = []
+        List<@Valid User> user = []
 
         when:
         controller.createUsersWithArrayInput(user).block()
@@ -110,11 +112,11 @@ class UserControllerSpec extends Specification {
     @Ignore("Not Implemented")
     def 'createUsersWithArrayInput() test with client through path /user/createWithArray'() {
         given:
-        List<User> body = []
+        List<@Valid User> body = []
         var uri = UriTemplate.of('/user/createWithArray').expand([:])
         MutableHttpRequest request = HttpRequest.POST(uri, body)
             .contentType('application/json')
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@9e37165')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
@@ -128,12 +130,14 @@ class UserControllerSpec extends Specification {
      *
      * The method should: Creates list of users with given input array
      *
+     * 
+     *
      * TODO fill in the parameters and test return value.
      */
     @Ignore("Not Implemented")
     def 'createUsersWithListInput() method test'() {
         given:
-        List<User> user = []
+        List<@Valid User> user = []
 
         when:
         controller.createUsersWithListInput(user).block()
@@ -151,11 +155,11 @@ class UserControllerSpec extends Specification {
     @Ignore("Not Implemented")
     def 'createUsersWithListInput() test with client through path /user/createWithList'() {
         given:
-        List<User> body = []
+        List<@Valid User> body = []
         var uri = UriTemplate.of('/user/createWithList').expand([:])
         MutableHttpRequest request = HttpRequest.POST(uri, body)
             .contentType('application/json')
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@465df9e1')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
@@ -199,7 +203,7 @@ class UserControllerSpec extends Specification {
             'username': 'example'
         ])
         MutableHttpRequest request = HttpRequest.DELETE(uri)
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@618c10ce')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
@@ -212,6 +216,8 @@ class UserControllerSpec extends Specification {
      * This test is used to validate the implementation of getUserByName() method
      *
      * The method should: Get user by user name
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -241,7 +247,8 @@ class UserControllerSpec extends Specification {
             'username': 'example'
         ])
         MutableHttpRequest request = HttpRequest.GET(uri)
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@7bbc9e50')
+            .accept('[Ljava.lang.String;@7bbc9e50')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request, User.class);
@@ -254,6 +261,8 @@ class UserControllerSpec extends Specification {
      * This test is used to validate the implementation of loginUser() method
      *
      * The method should: Logs user into the system
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -281,7 +290,8 @@ class UserControllerSpec extends Specification {
         given:
         var uri = UriTemplate.of('/user/login').expand([:])
         MutableHttpRequest request = HttpRequest.GET(uri)
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@6946a01b')
+            .accept('[Ljava.lang.String;@6946a01b')
         request.getParameters()
             .add('username', 'example')
             .add('password', 'example')
@@ -297,6 +307,8 @@ class UserControllerSpec extends Specification {
      * This test is used to validate the implementation of logoutUser() method
      *
      * The method should: Logs out current logged in user session
+     *
+     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -322,7 +334,7 @@ class UserControllerSpec extends Specification {
         given:
         var uri = UriTemplate.of('/user/logout').expand([:])
         MutableHttpRequest request = HttpRequest.GET(uri)
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@40fdde23')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
@@ -369,7 +381,7 @@ class UserControllerSpec extends Specification {
         ])
         MutableHttpRequest request = HttpRequest.PUT(uri, body)
             .contentType('application/json')
-            .accept('application/json')
+            .accept('[Ljava.lang.String;@41f6ac92')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
