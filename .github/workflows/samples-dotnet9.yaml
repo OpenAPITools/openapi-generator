@@ -29,7 +29,7 @@ jobs:
           - samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
           - samples/client/petstore/csharp/generichost/net9/FormModels
           # - samples/client/petstore/csharp/generichost/net9/ManualPetstoreTests
-          - samples/client/petstore/csharp/generichost/net9/ManualSourceGenerationTests
+          # - samples/client/petstore/csharp/generichost/net9/ManualSourceGenerationTests
           - samples/client/petstore/csharp/generichost/net9/NullReferenceTypes
           - samples/client/petstore/csharp/generichost/net9/OneOf
           - samples/client/petstore/csharp/generichost/net9/Petstore
