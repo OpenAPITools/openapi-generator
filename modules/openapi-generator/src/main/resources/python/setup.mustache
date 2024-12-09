@@ -13,9 +13,6 @@ from setuptools import setup, find_packages  # noqa: H301
 NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
 PYTHON_REQUIRES = ">= 3.8"
-{{#apiInfo}}
-{{#apis}}
-{{#-last}}
 REQUIRES = [
     "urllib3 >= 1.25.3, < 3.0.0",
     "python-dateutil >= 2.8.2",
@@ -52,6 +49,3 @@ setup(
     """,  # noqa: E501
     package_data={"{{{packageName}}}": ["py.typed"]},
 )
-{{/-last}}
-{{/apis}}
-{{/apiInfo}}
