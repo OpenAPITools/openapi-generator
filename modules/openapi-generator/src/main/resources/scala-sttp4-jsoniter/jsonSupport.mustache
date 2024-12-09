@@ -1,0 +1,16 @@
+{{>licenseInfo}}
+package {{invokerPackage}}
+
+{{#models.0}}
+import {{modelPackage}}.*
+{{/models.0}}
+import com.github.plokhotnyuk.jsoniter_scala.macros.*
+import com.github.plokhotnyuk.jsoniter_scala.core.*
+import com.github.plokhotnyuk.jsoniter_scala.circe.JsoniterScalaCodec.*
+
+object JsonSupport extends AdditionalTypeSerializers {
+{{#jsonCodecNeedingTypes}}
+    given {{key}}: JsonValueCodec[{{value}}] = JsonCodecMaker.make
+{{/jsonCodecNeedingTypes}}
+}
+
