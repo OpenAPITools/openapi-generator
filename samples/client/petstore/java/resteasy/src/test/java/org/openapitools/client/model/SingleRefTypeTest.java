@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for SingleRefType
  */
-public class SingleRefTypeTest {
+class SingleRefTypeTest {
     /**
      * Model tests for SingleRefType
      */
     @Test
-    public void testSingleRefType() {
+    void testSingleRefType() {
         // TODO: test SingleRefType
     }
 

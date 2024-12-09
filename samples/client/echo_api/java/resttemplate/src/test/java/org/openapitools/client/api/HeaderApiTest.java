@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.StringEnumRef;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,8 +28,8 @@ import java.util.Map;
 /**
  * API tests for HeaderApi
  */
-@Ignore
-public class HeaderApiTest {
+@Disabled
+class HeaderApiTest {
 
     private final HeaderApi api = new HeaderApi();
 
@@ -38,11 +39,11 @@ public class HeaderApiTest {
      *
      * Test header parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testHeaderIntegerBooleanStringEnumsTest() {
+    void testHeaderIntegerBooleanStringEnumsTest() {
         Integer integerHeader = null;
         Boolean booleanHeader = null;
         String stringHeader = null;

@@ -21,9 +21,9 @@ import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * API tests for QueryApi
  */
-public class QueryApiTest {
+class QueryApiTest {
 
     private final QueryApi api = new QueryApi();
 
@@ -48,7 +48,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testEnumRefStringTest() throws ApiException {
+    void testEnumRefStringTest() throws ApiException {
         //
         //String enumNonrefStringQuery = null;
         //
@@ -67,7 +67,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryDatetimeDateStringTest() throws ApiException {
+    void testQueryDatetimeDateStringTest() throws ApiException {
         //
         //OffsetDateTime datetimeQuery = null;
         //
@@ -88,7 +88,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryIntegerBooleanStringTest() throws ApiException {
+    void testQueryIntegerBooleanStringTest() throws ApiException {
         //
         //Integer integerQuery = null;
         //
@@ -109,7 +109,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleDeepObjectExplodeTrueObjectTest() throws ApiException {
+    void testQueryStyleDeepObjectExplodeTrueObjectTest() throws ApiException {
         //
         //Pet queryObject = null;
         //
@@ -126,7 +126,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleDeepObjectExplodeTrueObjectAllOfTest() throws ApiException {
+    void testQueryStyleDeepObjectExplodeTrueObjectAllOfTest() throws ApiException {
         //
         //TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = null;
         //
@@ -143,7 +143,41 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueArrayStringTest() throws ApiException {
+    void testQueryStyleFormExplodeFalseArrayIntegerTest() throws ApiException {
+        //
+        //List<Integer> queryObject = null;
+        //
+        //String response = api.testQueryStyleFormExplodeFalseArrayInteger(queryObject);
+
+        // TODO: test validations
+    }
+    /**
+     * Test query parameter(s)
+     *
+     * Test query parameter(s)
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    void testQueryStyleFormExplodeFalseArrayStringTest() throws ApiException {
+        //
+        //List<String> queryObject = null;
+        //
+        //String response = api.testQueryStyleFormExplodeFalseArrayString(queryObject);
+
+        // TODO: test validations
+    }
+    /**
+     * Test query parameter(s)
+     *
+     * Test query parameter(s)
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    void testQueryStyleFormExplodeTrueArrayStringTest() throws ApiException {
         //
         //TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = null;
         //
@@ -160,7 +194,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueObjectTest() throws ApiException {
+    void testQueryStyleFormExplodeTrueObjectTest() throws ApiException {
         //
         //Pet queryObject = null;
         //
@@ -177,7 +211,7 @@ public class QueryApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueObjectAllOfTest() throws ApiException {
+    void testQueryStyleFormExplodeTrueObjectAllOfTest() throws ApiException {
         //
         //DataQuery queryObject = null;
         //

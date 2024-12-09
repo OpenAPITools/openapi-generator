@@ -42,6 +42,8 @@ class TestEnumTest(unittest.TestCase):
                 enum_number = 1.1,
                 enum_number_vendor_ext = 42,
                 enum_string_vendor_ext = 'FOO',
+                enum_string_single_member = 'abc',
+                enum_integer_single_member = 100,
                 outer_enum = 'placed',
                 outer_enum_integer = 2,
                 outer_enum_default_value = 'placed',

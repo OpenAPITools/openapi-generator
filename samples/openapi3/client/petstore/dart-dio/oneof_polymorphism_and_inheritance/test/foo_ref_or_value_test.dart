@@ -7,6 +7,16 @@ void main() {
   // TODO add properties to the builder and call build()
 
   group(FooRefOrValue, () {
+    // String fooPropA
+    test('to test the property `fooPropA`', () async {
+      // TODO
+    });
+
+    // String fooPropB
+    test('to test the property `fooPropB`', () async {
+      // TODO
+    });
+
     // Hyperlink reference
     // String href
     test('to test the property `href`', () async {
@@ -34,6 +44,23 @@ void main() {
     // When sub-classing, this defines the sub-class Extensible name
     // String atType
     test('to test the property `atType`', () async {
+      // TODO
+    });
+
+    // String foorefPropA
+    test('to test the property `foorefPropA`', () async {
+      // TODO
+    });
+
+    // Name of the related entity.
+    // String name
+    test('to test the property `name`', () async {
+      // TODO
+    });
+
+    // The actual type of the target instance when needed for disambiguation.
+    // String atReferredType
+    test('to test the property `atReferredType`', () async {
       // TODO
     });
 

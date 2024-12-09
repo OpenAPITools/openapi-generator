@@ -20,6 +20,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributes;
 import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,14 @@ public class AllOfModelArrayAnyOfTest {
     @Test
     public void linkListColumn1Test() {
         // TODO: test linkListColumn1
+    }
+
+    /**
+     * Test the property 'attributes'
+     */
+    @Test
+    public void attributesTest() {
+        // TODO: test attributes
     }
 
 }

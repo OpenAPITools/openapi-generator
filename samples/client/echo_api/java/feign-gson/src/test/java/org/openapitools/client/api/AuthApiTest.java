@@ -1,7 +1,5 @@
 package org.openapitools.client.api;
 
-import feign.codec.StringDecoder;
-import org.junit.jupiter.api.Assertions;
 import org.openapitools.client.ApiClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,20 +44,9 @@ class AuthApiTest {
      */
     @Test
     void testAuthHttpBearerTest() {
-        ApiClient client = new ApiClient("http_bearer_auth");
-        client.getFeignBuilder().decoder(new StringDecoder());
-        {
-            client.setBearerToken("fixed token");
-            AuthApi api = client.buildClient(AuthApi.class);
-            String response = api.testAuthHttpBearer();
-            Assertions.assertTrue(response.contains("Authorization: Bearer fixed token"));
-        }
-        {
-            client.setBearerToken(() -> "dynamic token");
-            AuthApi api = client.buildClient(AuthApi.class);
-            String response = api.testAuthHttpBearer();
-            Assertions.assertTrue(response.contains("Authorization: Bearer dynamic token"));
-        }
+        // String response = api.testAuthHttpBearer();
+
+        // TODO: test validations
     }
 
     

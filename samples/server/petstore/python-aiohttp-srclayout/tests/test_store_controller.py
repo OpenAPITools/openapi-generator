@@ -6,6 +6,7 @@ from aiohttp import web
 
 from openapi_server.models.order import Order
 
+
 pytestmark = pytest.mark.asyncio
 
 async def test_delete_order(client):
@@ -22,6 +23,8 @@ async def test_delete_order(client):
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
+
+pytestmark = pytest.mark.asyncio
 
 async def test_get_inventory(client):
     """Test case for get_inventory
@@ -40,6 +43,8 @@ async def test_get_inventory(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
+pytestmark = pytest.mark.asyncio
+
 async def test_get_order_by_id(client):
     """Test case for get_order_by_id
 
@@ -50,11 +55,13 @@ async def test_get_order_by_id(client):
     }
     response = await client.request(
         method='GET',
-        path='/v2/store/order/{order_id}'.format(order_id=5),
+        path='/v2/store/order/{order_id}'.format(order_id=56),
         headers=headers,
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
+
+pytestmark = pytest.mark.asyncio
 
 @pytest.mark.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
 async def test_place_order(client):
@@ -62,7 +69,7 @@ async def test_place_order(client):
 
     Place an order for a pet
     """
-    body = {}
+    body = openapi_server.Order()
     headers = { 
         'Accept': 'application/json',
         'Content-Type': 'application/json',

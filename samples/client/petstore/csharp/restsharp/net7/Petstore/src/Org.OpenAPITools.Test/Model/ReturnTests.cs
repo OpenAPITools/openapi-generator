@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,16 +54,40 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Return>(instance);
         }
 
-
         /// <summary>
-        /// Test the property '_Return'
+        /// Test the property 'VarReturn'
         /// </summary>
         [Fact]
-        public void _ReturnTest()
+        public void VarReturnTest()
         {
-            // TODO unit test for the property '_Return'
+            // TODO unit test for the property 'VarReturn'
         }
 
-    }
+        /// <summary>
+        /// Test the property 'Lock'
+        /// </summary>
+        [Fact]
+        public void LockTest()
+        {
+            // TODO unit test for the property 'Lock'
+        }
 
+        /// <summary>
+        /// Test the property 'Abstract'
+        /// </summary>
+        [Fact]
+        public void AbstractTest()
+        {
+            // TODO unit test for the property 'Abstract'
+        }
+
+        /// <summary>
+        /// Test the property 'Unsafe'
+        /// </summary>
+        [Fact]
+        public void UnsafeTest()
+        {
+            // TODO unit test for the property 'Unsafe'
+        }
+    }
 }

@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<EnumArrays>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'JustSymbol'
         /// </summary>

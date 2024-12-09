@@ -27,7 +27,7 @@ class TestCircularAllOfRef(unittest.TestCase):
 
     def make_instance(self, include_optional) -> CircularAllOfRef:
         """Test CircularAllOfRef
-            include_option is a boolean, when False only required
+            include_optional is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
         # uncomment below to create an instance of `CircularAllOfRef`
@@ -35,16 +35,10 @@ class TestCircularAllOfRef(unittest.TestCase):
         model = CircularAllOfRef()
         if include_optional:
             return CircularAllOfRef(
+                name = '',
                 second_circular_all_of_ref = [
-                    petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef(
-                        circular_all_of_ref = [
-                            petstore_api.models.circular_all_of_ref.CircularAllOfRef(
-                                second_circular_all_of_ref = [
-                                    petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef()
-                                    ], )
-                            ], )
-                    ],
-                name = ''
+                    petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef()
+                    ]
             )
         else:
             return CircularAllOfRef(

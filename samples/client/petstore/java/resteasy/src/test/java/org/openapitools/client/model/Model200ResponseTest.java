@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Model200Response
  */
-public class Model200ResponseTest {
+class Model200ResponseTest {
     private final Model200Response model = new Model200Response();
 
     /**
      * Model tests for Model200Response
      */
     @Test
-    public void testModel200Response() {
+    void testModel200Response() {
         // TODO: test Model200Response
     }
 
@@ -40,7 +40,7 @@ public class Model200ResponseTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 
@@ -48,7 +48,7 @@ public class Model200ResponseTest {
      * Test the property 'propertyClass'
      */
     @Test
-    public void propertyClassTest() {
+    void propertyClassTest() {
         // TODO: test propertyClass
     }
 

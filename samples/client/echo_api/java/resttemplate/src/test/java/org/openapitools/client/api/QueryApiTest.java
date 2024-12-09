@@ -20,8 +20,9 @@ import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.client.model.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter;
 import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -33,8 +34,8 @@ import java.util.Map;
 /**
  * API tests for QueryApi
  */
-@Ignore
-public class QueryApiTest {
+@Disabled
+class QueryApiTest {
 
     private final QueryApi api = new QueryApi();
 
@@ -44,11 +45,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testEnumRefStringTest() {
+    void testEnumRefStringTest() {
         String enumNonrefStringQuery = null;
         StringEnumRef enumRefStringQuery = null;
 
@@ -62,11 +63,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryDatetimeDateStringTest() {
+    void testQueryDatetimeDateStringTest() {
         OffsetDateTime datetimeQuery = null;
         LocalDate dateQuery = null;
         String stringQuery = null;
@@ -81,11 +82,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryIntegerBooleanStringTest() {
+    void testQueryIntegerBooleanStringTest() {
         Integer integerQuery = null;
         Boolean booleanQuery = null;
         String stringQuery = null;
@@ -100,11 +101,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleDeepObjectExplodeTrueObjectTest() {
+    void testQueryStyleDeepObjectExplodeTrueObjectTest() {
         Pet queryObject = null;
 
         String response = api.testQueryStyleDeepObjectExplodeTrueObject(queryObject);
@@ -117,11 +118,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleDeepObjectExplodeTrueObjectAllOfTest() {
+    void testQueryStyleDeepObjectExplodeTrueObjectAllOfTest() {
         TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = null;
 
         String response = api.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
@@ -134,11 +135,45 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueArrayStringTest() {
+    void testQueryStyleFormExplodeFalseArrayIntegerTest() {
+        List<Integer> queryObject = null;
+
+        String response = api.testQueryStyleFormExplodeFalseArrayInteger(queryObject);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * Test query parameter(s)
+     *
+     * Test query parameter(s)
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testQueryStyleFormExplodeFalseArrayStringTest() {
+        List<String> queryObject = null;
+
+        String response = api.testQueryStyleFormExplodeFalseArrayString(queryObject);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * Test query parameter(s)
+     *
+     * Test query parameter(s)
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testQueryStyleFormExplodeTrueArrayStringTest() {
         TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = null;
 
         String response = api.testQueryStyleFormExplodeTrueArrayString(queryObject);
@@ -151,11 +186,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueObjectTest() {
+    void testQueryStyleFormExplodeTrueObjectTest() {
         Pet queryObject = null;
 
         String response = api.testQueryStyleFormExplodeTrueObject(queryObject);
@@ -168,11 +203,11 @@ public class QueryApiTest {
      *
      * Test query parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryStyleFormExplodeTrueObjectAllOfTest() {
+    void testQueryStyleFormExplodeTrueObjectAllOfTest() {
         DataQuery queryObject = null;
 
         String response = api.testQueryStyleFormExplodeTrueObjectAllOf(queryObject);

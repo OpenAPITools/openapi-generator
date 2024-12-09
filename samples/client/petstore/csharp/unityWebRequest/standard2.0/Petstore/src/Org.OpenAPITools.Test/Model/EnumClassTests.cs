@@ -54,6 +54,5 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<EnumClass>(instance);
         }
 
-
     }
 }

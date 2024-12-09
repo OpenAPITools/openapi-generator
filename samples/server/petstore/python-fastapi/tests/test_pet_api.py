@@ -3,6 +3,9 @@
 from fastapi.testclient import TestClient
 
 
+from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator  # noqa: F401
+from typing import Any, List, Optional, Tuple, Union  # noqa: F401
+from typing_extensions import Annotated  # noqa: F401
 from openapi_server.models.api_response import ApiResponse  # noqa: F401
 from openapi_server.models.pet import Pet  # noqa: F401
 

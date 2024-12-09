@@ -152,9 +152,9 @@ class StoreApiInterfaceTest extends WebTestCase
      */
     protected function genTestData(string $regexp)
     {
-        $grammar = new \Hoa\File\Read('hoa://Library/Regex/Grammar.pp');
+        $grammar  = new \Hoa\File\Read('hoa://Library/Regex/Grammar.pp');
         $compiler = \Hoa\Compiler\Llk\Llk::load($grammar);
-        $ast = $compiler->parse($regexp);
+        $ast      = $compiler->parse($regexp);
         $generator = new \Hoa\Regex\Visitor\Isotropic(new \Hoa\Math\Sampler\Random());
 
         return $generator->visit($ast);

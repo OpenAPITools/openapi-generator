@@ -3,6 +3,9 @@
 from fastapi.testclient import TestClient
 
 
+from pydantic import Field, StrictStr  # noqa: F401
+from typing import Any, Optional  # noqa: F401
+from typing_extensions import Annotated  # noqa: F401
 
 
 def test_fake_query_param_default(client: TestClient):

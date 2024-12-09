@@ -54,13 +54,12 @@ class TestStoreController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    @unittest.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
     def test_place_order(self):
         """Test case for place_order
 
         Place an order for a pet
         """
-        body = openapi_server.Order()
+        order = {"petId":6,"quantity":1,"id":0,"shipDate":"2000-01-23T04:56:07.000+00:00","complete":False,"status":"placed"}
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -69,7 +68,7 @@ class TestStoreController(BaseTestCase):
             '/v2/store/order',
             method='POST',
             headers=headers,
-            data=json.dumps(body),
+            data=json.dumps(order),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

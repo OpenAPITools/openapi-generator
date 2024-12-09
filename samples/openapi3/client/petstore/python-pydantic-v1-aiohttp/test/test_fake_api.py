@@ -267,6 +267,13 @@ class TestFakeApi(unittest.IsolatedAsyncioTestCase):
         """
         pass
 
+    async def test_upload_file_with_additional_properties(self) -> None:
+        """Test case for upload_file_with_additional_properties
+
+        uploads a file and additional properties using multipart/form-data  # noqa: E501
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

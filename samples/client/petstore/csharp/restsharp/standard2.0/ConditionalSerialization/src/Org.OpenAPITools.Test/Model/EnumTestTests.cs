@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<EnumTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'EnumString'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EnumString'
         }
+
         /// <summary>
         /// Test the property 'EnumStringRequired'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EnumStringRequired'
         }
+
         /// <summary>
         /// Test the property 'EnumInteger'
         /// </summary>
@@ -80,6 +80,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EnumInteger'
         }
+
         /// <summary>
         /// Test the property 'EnumIntegerOnly'
         /// </summary>
@@ -88,6 +89,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EnumIntegerOnly'
         }
+
         /// <summary>
         /// Test the property 'EnumNumber'
         /// </summary>
@@ -96,6 +98,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'EnumNumber'
         }
+
         /// <summary>
         /// Test the property 'OuterEnum'
         /// </summary>
@@ -104,6 +107,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'OuterEnum'
         }
+
         /// <summary>
         /// Test the property 'OuterEnumInteger'
         /// </summary>
@@ -112,6 +116,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'OuterEnumInteger'
         }
+
         /// <summary>
         /// Test the property 'OuterEnumDefaultValue'
         /// </summary>
@@ -120,6 +125,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'OuterEnumDefaultValue'
         }
+
         /// <summary>
         /// Test the property 'OuterEnumIntegerDefaultValue'
         /// </summary>
@@ -128,7 +134,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'OuterEnumIntegerDefaultValue'
         }
-
     }
-
 }

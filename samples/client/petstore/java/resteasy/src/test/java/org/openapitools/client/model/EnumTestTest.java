@@ -33,14 +33,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for EnumTest
  */
-public class EnumTestTest {
+class EnumTestTest {
     private final EnumTest model = new EnumTest();
 
     /**
      * Model tests for EnumTest
      */
     @Test
-    public void testEnumTest() {
+    void testEnumTest() {
         // TODO: test EnumTest
     }
 
@@ -48,7 +48,7 @@ public class EnumTestTest {
      * Test the property 'enumString'
      */
     @Test
-    public void enumStringTest() {
+    void enumStringTest() {
         // TODO: test enumString
     }
 
@@ -56,7 +56,7 @@ public class EnumTestTest {
      * Test the property 'enumStringRequired'
      */
     @Test
-    public void enumStringRequiredTest() {
+    void enumStringRequiredTest() {
         // TODO: test enumStringRequired
     }
 
@@ -64,7 +64,7 @@ public class EnumTestTest {
      * Test the property 'enumInteger'
      */
     @Test
-    public void enumIntegerTest() {
+    void enumIntegerTest() {
         // TODO: test enumInteger
     }
 
@@ -72,7 +72,7 @@ public class EnumTestTest {
      * Test the property 'enumNumber'
      */
     @Test
-    public void enumNumberTest() {
+    void enumNumberTest() {
         // TODO: test enumNumber
     }
 
@@ -80,7 +80,7 @@ public class EnumTestTest {
      * Test the property 'outerEnum'
      */
     @Test
-    public void outerEnumTest() {
+    void outerEnumTest() {
         // TODO: test outerEnum
     }
 
@@ -88,7 +88,7 @@ public class EnumTestTest {
      * Test the property 'outerEnumInteger'
      */
     @Test
-    public void outerEnumIntegerTest() {
+    void outerEnumIntegerTest() {
         // TODO: test outerEnumInteger
     }
 
@@ -96,7 +96,7 @@ public class EnumTestTest {
      * Test the property 'outerEnumDefaultValue'
      */
     @Test
-    public void outerEnumDefaultValueTest() {
+    void outerEnumDefaultValueTest() {
         // TODO: test outerEnumDefaultValue
     }
 
@@ -104,7 +104,7 @@ public class EnumTestTest {
      * Test the property 'outerEnumIntegerDefaultValue'
      */
     @Test
-    public void outerEnumIntegerDefaultValueTest() {
+    void outerEnumIntegerDefaultValueTest() {
         // TODO: test outerEnumIntegerDefaultValue
     }
 

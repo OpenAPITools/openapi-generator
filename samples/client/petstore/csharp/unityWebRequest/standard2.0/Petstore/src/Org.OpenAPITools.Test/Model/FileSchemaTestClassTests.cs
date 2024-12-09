@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FileSchemaTestClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'File'
         /// </summary>
