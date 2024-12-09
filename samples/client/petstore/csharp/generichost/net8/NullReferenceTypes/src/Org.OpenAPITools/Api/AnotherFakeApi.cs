@@ -377,10 +377,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.ModelClient>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>

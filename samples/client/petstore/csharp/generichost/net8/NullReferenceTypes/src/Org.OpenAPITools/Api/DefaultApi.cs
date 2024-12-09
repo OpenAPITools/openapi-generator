@@ -553,10 +553,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.FooGetDefaultResponse>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -966,10 +966,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<List<Guid>>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1176,10 +1176,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<List<List>>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1386,10 +1386,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>

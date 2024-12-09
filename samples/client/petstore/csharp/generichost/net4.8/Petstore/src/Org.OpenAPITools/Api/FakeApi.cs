@@ -1460,10 +1460,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.HealthCheckResult>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1694,10 +1694,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<bool>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1941,10 +1941,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.OuterComposite>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -2175,10 +2175,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<decimal>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -2434,10 +2434,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<string>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -2644,10 +2644,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<List<OuterEnum>>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -2854,10 +2854,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.MixedAnyOf>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -3064,10 +3064,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.MixedOneOf>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -3917,10 +3917,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.ModelClient>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>

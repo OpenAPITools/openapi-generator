@@ -240,7 +240,7 @@ namespace Org.OpenAPITools.Api
 
                         ILogger<APIKEYSApi.GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<APIKEYSApi.GetApiKeysIdApiResponse>();
 
-                        APIKEYSApi.GetApiKeysIdApiResponse apiResponseLocalVar = new GetApiKeysIdApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        APIKEYSApi.GetApiKeysIdApiResponse apiResponseLocalVar = new APIKEYSApi.GetApiKeysIdApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetApiKeysIdDefaultImplementation(apiResponseLocalVar, id);
 
