@@ -21,7 +21,9 @@ class CustomTests : ShouldSpec({
     }
 
     should("send a single file") {
-        val result = bodyApi.testBodyMultipartFormdataSingleBinary(createTestFile())
+        val result = bodyApi.testBodyMultipartFormdataSingleBinary(
+            createTestFile("test.txt", "testing only")
+        )
         val parsedResult = EchoServerResponseParser(result)
 
         parsedResult.body shouldContain """
@@ -34,7 +36,11 @@ class CustomTests : ShouldSpec({
     }
 
     should("send several files") {
-        val result = bodyApi.testBodyMultipartFormdataArrayOfBinary(listOf(createTestFile(), createOtherTestFile()))
+        val result = bodyApi.testBodyMultipartFormdataArrayOfBinary(
+            listOf(
+                createTestFile("test.txt", "testing only"),
+                createTestFile("otherTestFile.txt", "Another test file"),
+            ))
         val parsedResult = EchoServerResponseParser(result)
 
         parsedResult.body shouldContain """
@@ -55,25 +61,13 @@ class CustomTests : ShouldSpec({
     }
 })
 
-private fun createTestFile(): File {
-    val myFile = File("test.txt")
+private fun createTestFile(fileName: String, content: String): File {
+    val myFile = File(fileName)
     if (!myFile.exists()) {
         Assertions.assertTrue(myFile.createNewFile())
     }
     val fw = FileWriter(myFile)
-    fw.write("testing only")
-    fw.close()
-    myFile.deleteOnExit()
-    return myFile
-}
-
-private fun createOtherTestFile(): File {
-    val myFile = File("otherTestFile.txt")
-    if (!myFile.exists()) {
-        Assertions.assertTrue(myFile.createNewFile())
-    }
-    val fw = FileWriter(myFile)
-    fw.write("Another test file")
+    fw.write(content)
     fw.close()
     myFile.deleteOnExit()
     return myFile
