@@ -180,7 +180,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Setter protected String implicitHeadersRegex = null;
     @Setter protected boolean camelCaseDollarSign = false;
     @Setter protected boolean useJakartaEe = false;
-    @Setter protected boolean containerDefaultToNull = false;
+    protected String containerDefaultToNull = "false";
     @Getter @Setter
     protected boolean generateConstructorWithAllArgs = false;
     @Getter @Setter
@@ -194,6 +194,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected boolean useBeanValidation = false;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    private ContainerDefaultEvaluator containerDefaultEvaluator = new ContainerDefaultEvaluator("false");
 
     public AbstractJavaCodegen() {
         super();
@@ -648,7 +649,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             applyJavaxPackage();
         }
 
-        convertPropertyToBooleanAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
+        convertPropertyToStringAndWriteBack(CONTAINER_DEFAULT_TO_NULL, this::setContainerDefaultToNull);
 
         additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
             String content = removeAnnotations(fragment.execute());
@@ -657,6 +658,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
+
+        this.containerDefaultEvaluator = new ContainerDefaultEvaluator(this.containerDefaultToNull);
     }
 
     /**
@@ -1293,8 +1296,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
-                // nullable or containerDefaultToNull set to true
-                if (cp.isNullable || containerDefaultToNull) {
+                if (containerDefaultEvaluator.isNullDefault(cp, schema)) {
                     return null;
                 }
                 return getDefaultCollectionType(schema);
@@ -1309,8 +1311,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            // nullable or containerDefaultToNull set to true
-            if (cp.isNullable || containerDefaultToNull) {
+            if (containerDefaultEvaluator.isNullDefault(cp, schema)) {
                 return null;
             }
 
@@ -2162,6 +2163,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    public void setContainerDefaultToNull(String value) {
+        this.containerDefaultToNull = value;
+    }
+
+    /**
+     * for legacy (before 7.8.0) a boolean can be set
+     */
+    public void setContainerDefaultToNull(boolean value) {
+        this.containerDefaultToNull = Boolean.toString(value);
     }
 
     /*
