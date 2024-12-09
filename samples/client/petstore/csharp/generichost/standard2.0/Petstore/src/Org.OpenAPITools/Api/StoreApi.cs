@@ -724,10 +724,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -946,10 +946,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.Order>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>
@@ -1205,10 +1205,10 @@ namespace Org.OpenAPITools.Api
                     ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.Order>(RawContent, _jsonSerializerOptions)
                     :
                 #if NET6_0_OR_GREATER
-                        null
+                        null;
                 #else
-                        default
-                #endif;
+                        default;
+                #endif
             }
 
             /// <summary>

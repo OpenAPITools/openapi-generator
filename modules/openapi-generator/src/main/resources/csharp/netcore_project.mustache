@@ -24,6 +24,16 @@
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETCoreApp'">
+      <PropertyGroup><IsUnifiedNETVersion>true</IsUnifiedNETVersion></PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETFramework'">
+      <PropertyGroup><IsNetFramework>true</IsNetFramework></PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETStandard'"></When>
+  </Choose>
+
   <ItemGroup>
     {{#useCompareNetObjects}}
     <PackageReference Include="CompareNETObjects" Version="4.83.0" />
@@ -33,7 +43,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     {{/useGenericHost}}
     {{#useRestSharp}}
-    <PackageReference Include="RestSharp" Version="112.0.0" />
+    <PackageReference Include="RestSharp" Version="112.1.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
     {{/useRestSharp}}
     {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net7.0}}7.0.0  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
@@ -46,9 +57,6 @@
     {{/net80OrLater}}
     {{^net60OrLater}}
     <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
-    {{#net47OrLater}}
-    <Reference Include="System.Web" />
-    {{/net47OrLater}}
     {{/net60OrLater}}
     {{/useGenericHost}}
     {{^useGenericHost}}
@@ -56,29 +64,20 @@
     <PackageReference Include="Polly" Version="{{^netStandard}}8.1.0{{/netStandard}}{{#netStandard}}8.1.0{{/netStandard}}" />
     {{/supportsRetry}}
     {{/useGenericHost}}
-    {{#validatable}}
-    {{^net60OrLater}}
+  </ItemGroup>
+{{#validatable}}
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    {{/net60OrLater}}
-    {{/validatable}}
+  </ItemGroup>
+{{/validatable}}
+
+  <ItemGroup Condition="$(IsNetFramework) == 'true'">
+    <None Remove="System.Web" />
+    <Reference Include="System.Web" />
   </ItemGroup>
 
-{{^useGenericHost}}
   <ItemGroup>
-    {{^net60OrLater}}
-    <None Remove="System.Web" />
-    {{/net60OrLater}}
-    {{#net48}}
     <None Remove="System.Net.Http" />
-    {{/net48}}
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
-  <ItemGroup>
-    {{^net60OrLater}}
-    <Reference Include="System.Web" />
-    {{/net60OrLater}}
-    {{#net48}}
-    <Reference Include="System.Net.Http" />
-    {{/net48}}
-  </ItemGroup>
-{{/useGenericHost}}
 {{>netcore_project.additions}}</Project>

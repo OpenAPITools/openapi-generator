@@ -3,7 +3,7 @@ return Is{{vendorExtensions.x-http-status}}
     ? System.Text.Json.JsonSerializer.Deserialize<{{#isModel}}{{^containerType}}{{packageName}}.{{modelPackage}}.{{/containerType}}{{/isModel}}{{{dataType}}}>(RawContent, _jsonSerializerOptions)
     :
 #if NET6_0_OR_GREATER
-        null
+        null;
 #else
-        default
-#endif;
+        default;
+#endif
