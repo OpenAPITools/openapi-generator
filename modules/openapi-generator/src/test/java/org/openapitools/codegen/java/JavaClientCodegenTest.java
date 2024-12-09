@@ -2409,6 +2409,39 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testEnumDiscriminatorDefaultValueIsNotString() {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        Map<String, String> expectedContents = Map.of(
+                "Cat", "this.petType = PetTypeEnum.CATTY",
+                "Dog", "this.petType = PetTypeEnum.DOG",
+                "Gecko", "this.petType = PetTypeEnum.GECKO",
+                "Chameleon", "this.petType = PetTypeEnum.CAMO",
+                "MiniVan", "this.carType = CarType.MINI_VAN",
+                "CargoVan", "this.carType = CarType.CARGO_VAN",
+                "SUV", "this.carType = CarType.SUV",
+                "Truck", "this.carType = CarType.TRUCK",
+                "Sedan", "this.carType = CarType.SEDAN"
+
+        );
+        for (Map.Entry<String, String> e : expectedContents.entrySet()) {
+            String modelName = e.getKey();
+            String expectedContent = e.getValue();
+            File entityFile = files.get(modelName + ".java");
+            assertNotNull(entityFile);
+            assertThat(entityFile).content().doesNotContain("Type = this.getClass().getSimpleName();");
+            assertThat(entityFile).content().contains(expectedContent);
+        }
+    }
+
+    @Test
     public void testRestTemplateHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[]{
                 "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
