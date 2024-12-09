@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo> <!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->
     <TargetFramework>net48</TargetFramework>
@@ -20,13 +19,34 @@
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
+  <Choose>
+    <When Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETCoreApp'">
+      <PropertyGroup><IsUnifiedNETVersion>true</IsUnifiedNETVersion></PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETFramework'">
+      <PropertyGroup><IsNetFramework>true</IsNetFramework></PropertyGroup>
+    </When>
+    <When Condition="$([MSBuild]::GetTargetFrameworkIdentifier('$(TargetFramework)')) == '.NETStandard'"></When>
+  </Choose>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="8.0.11" />
     <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
-    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup Condition="$(IsNetFramework) == 'true'">
+    <None Remove="System.Web" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="System.Net.Http" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
 </Project>
