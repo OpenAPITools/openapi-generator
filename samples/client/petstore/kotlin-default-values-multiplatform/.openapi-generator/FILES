@@ -23,5 +23,3 @@ src/commonMain/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
 src/commonMain/kotlin/org/openapitools/client/models/Apa.kt
-src/test/kotlin/org/openapitools/client/apis/DefaultApiTest.kt
-src/test/kotlin/org/openapitools/client/models/ApaTest.kt

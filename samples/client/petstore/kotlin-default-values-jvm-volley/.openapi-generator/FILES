@@ -22,5 +22,3 @@ src/main/java/org/openapitools/client/models/room/ApaRoomModel.kt
 src/main/java/org/openapitools/client/request/GsonRequest.kt
 src/main/java/org/openapitools/client/request/IRequestFactory.kt
 src/main/java/org/openapitools/client/request/RequestFactory.kt
-src/test/kotlin/org/openapitools/client/apis/DefaultApiTest.kt
-src/test/kotlin/org/openapitools/client/models/ApaTest.kt

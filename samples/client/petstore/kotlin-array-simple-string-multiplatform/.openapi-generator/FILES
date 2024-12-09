@@ -21,4 +21,3 @@ src/commonMain/kotlin/org/openapitools/client/infrastructure/OctetByteArray.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
-src/test/kotlin/org/openapitools/client/apis/DefaultApiTest.kt

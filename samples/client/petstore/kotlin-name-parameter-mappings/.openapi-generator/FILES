@@ -28,6 +28,3 @@ src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/Environment.kt
 src/main/kotlin/org/openapitools/client/models/PropertyNameMapping.kt
-src/test/kotlin/org/openapitools/client/apis/FakeApiTest.kt
-src/test/kotlin/org/openapitools/client/models/EnvironmentTest.kt
-src/test/kotlin/org/openapitools/client/models/PropertyNameMappingTest.kt

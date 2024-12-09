@@ -29,6 +29,3 @@ src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithEnumPropertyHavingDefault.kt
 src/main/kotlin/org/openapitools/client/models/PropertyOfDay.kt
-src/test/kotlin/org/openapitools/client/apis/DefaultApiTest.kt
-src/test/kotlin/org/openapitools/client/models/ModelWithEnumPropertyHavingDefaultTest.kt
-src/test/kotlin/org/openapitools/client/models/PropertyOfDayTest.kt

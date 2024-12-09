@@ -24,7 +24,3 @@ src/main/kotlin/org/openapitools/model/UserOrPet.kt
 src/main/kotlin/org/openapitools/model/UserOrPetOrArrayString.kt
 src/main/resources/application.yaml
 src/main/resources/openapi.yaml
-src/test/kotlin/org/openapitools/api/FakeApiTest.kt
-src/test/kotlin/org/openapitools/api/PetApiTest.kt
-src/test/kotlin/org/openapitools/api/StoreApiTest.kt
-src/test/kotlin/org/openapitools/api/UserApiTest.kt
