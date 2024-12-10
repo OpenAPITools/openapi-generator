@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using System;
