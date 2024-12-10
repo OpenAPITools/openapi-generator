@@ -280,6 +280,7 @@ paths:
           required: true
           schema:
             type: string
+            format: binary
       responses:
         '200':
           description: successful operation
@@ -348,6 +349,52 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  /store/feedback:
+    post:
+      tags:
+        - store
+      summary: Send us a feedback message
+      description: ''
+      operationId: sendFeedback
+      parameters:
+        - in: body
+          name: feedback
+          description: The feedback message to send
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            description: Thank you message
+  '/store/rating/{rating}':
+    post:
+      tags:
+        - store
+      summary: How would you rate our service?
+      description: ''
+      operationId: sendRating
+      parameters:
+        - in: path
+          name: rating
+          description: The rating to submit
+          required: true
+          type: string
+          enum:
+            - Excellent
+            - Great
+            - Good
+            - Regular
+            - Bad
+            - Awful
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            description: Thank you message
   /store/daysWithoutIncident:
     get:
       tags:
