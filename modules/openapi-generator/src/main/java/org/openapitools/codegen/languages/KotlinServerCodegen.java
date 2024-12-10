@@ -295,8 +295,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
         if (isKtor()) {
-            setKotlinSerializationEnabled(true);
-
             if (additionalProperties.containsKey(Constants.KOTLIN_SERIALIZATION)) {
                 setKotlinSerializationEnabled(convertPropertyToBooleanAndWriteBack(Constants.KOTLIN_SERIALIZATION));
             } else {

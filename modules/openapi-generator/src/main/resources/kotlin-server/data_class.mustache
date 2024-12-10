@@ -5,9 +5,9 @@
 {{#serializableModel}}
     import java.io.Serializable
 {{/serializableModel}}
-{{#kotlinSerialization}}
-    import kotlinx.serialization.Serializable
-{{/kotlinSerialization}}
+{{#enableKotlinSerialization}}
+import kotlinx.serialization.Serializable
+{{/enableKotlinSerialization}}
 /**
  * {{{description}}}
 {{#vars}}
@@ -17,9 +17,9 @@
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
-{{#kotlinSerialization}}
+{{#enableKotlinSerialization}}
 @Serializable
-{{/kotlinSerialization}}
+{{/enableKotlinSerialization}}
 {{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
