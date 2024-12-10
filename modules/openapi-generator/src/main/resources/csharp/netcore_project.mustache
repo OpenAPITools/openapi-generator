@@ -49,6 +49,7 @@
     {{#useGenericHost}}
     <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net7.0}}7.0.0  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.1  {{/net6.0}}{{#net7.0}}7.0.1  {{/net7.0}}{{#net8.0}}8.0.0  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
     {{#supportsRetry}}
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net7.0}}7.0.11  {{/net7.0}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.0  {{/net9.0}}{{/lambda.first}}" />
     {{/supportsRetry}}
