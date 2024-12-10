@@ -69,7 +69,9 @@ Category | Method | HTTP request | Description
 *PetAPI* | [**PetAPI_deletePet**](docs/PetAPI.md#PetAPI_deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetAPI* | [**PetAPI_findPetsByStatus**](docs/PetAPI.md#PetAPI_findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetAPI* | [**PetAPI_findPetsByTags**](docs/PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetAPI* | [**PetAPI_getDaysWithoutIncident**](docs/PetAPI.md#PetAPI_getDaysWithoutIncident) | **GET** /store/daysWithoutIncident | Number of days since the last time a pet maimed someone at the store
 *PetAPI* | [**PetAPI_getPetById**](docs/PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetAPI* | [**PetAPI_getPicture**](docs/PetAPI.md#PetAPI_getPicture) | **GET** /pet/picture | Get a random picture of someone else's pet
 *PetAPI* | [**PetAPI_isPetAvailable**](docs/PetAPI.md#PetAPI_isPetAvailable) | **POST** /pet/{petId}/isAvailable | Is this pet still available?
 *PetAPI* | [**PetAPI_sharePicture**](docs/PetAPI.md#PetAPI_sharePicture) | **POST** /pet/picture | Send a picture of your happy pet
 *PetAPI* | [**PetAPI_specialtyPet**](docs/PetAPI.md#PetAPI_specialtyPet) | **GET** /pet/specialty | Specialty of the shop
