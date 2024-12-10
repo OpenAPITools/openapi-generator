@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -26,10 +27,11 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -41,7 +43,7 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-public class FakeApiTest {
+class FakeApiTest {
 
     private final FakeApi api = new FakeApi();
 
@@ -52,7 +54,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeBigDecimalMapTest() throws ApiException {
+    void fakeBigDecimalMapTest() throws ApiException {
         //
         //FakeBigDecimalMap200Response response = api.fakeBigDecimalMap();
 
@@ -65,7 +67,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeHealthGetTest() throws ApiException {
+    void fakeHealthGetTest() throws ApiException {
         //
         //HealthCheckResult response = api.fakeHealthGet();
 
@@ -78,7 +80,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeHttpSignatureTestTest() throws ApiException {
+    void fakeHttpSignatureTestTest() throws ApiException {
         //
         //Pet pet = null;
         //
@@ -97,7 +99,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterBooleanSerializeTest() throws ApiException {
+    void fakeOuterBooleanSerializeTest() throws ApiException {
         //
         //Boolean body = null;
         //
@@ -112,7 +114,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterCompositeSerializeTest() throws ApiException {
+    void fakeOuterCompositeSerializeTest() throws ApiException {
         //
         //OuterComposite outerComposite = null;
         //
@@ -127,7 +129,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterNumberSerializeTest() throws ApiException {
+    void fakeOuterNumberSerializeTest() throws ApiException {
         //
         //BigDecimal body = null;
         //
@@ -142,7 +144,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterStringSerializeTest() throws ApiException {
+    void fakeOuterStringSerializeTest() throws ApiException {
         //
         //String body = null;
         //
@@ -157,11 +159,28 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fakePropertyEnumIntegerSerializeTest() throws ApiException {
+    void fakePropertyEnumIntegerSerializeTest() throws ApiException {
         //
         //OuterObjectWithEnumProperty outerObjectWithEnumProperty = null;
         //
         //OuterObjectWithEnumProperty response = api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+
+        // TODO: test validations
+    }
+    /**
+     * test referenced additionalProperties
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    void testAdditionalPropertiesReferenceTest() throws ApiException {
+        //
+        //Map<String, Object> requestBody = null;
+        //
+        //api.testAdditionalPropertiesReference(requestBody);
 
         // TODO: test validations
     }
@@ -172,7 +191,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testBodyWithBinaryTest() throws ApiException {
+    void testBodyWithBinaryTest() throws ApiException {
         //
         //File body = null;
         //
@@ -187,7 +206,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testBodyWithFileSchemaTest() throws ApiException {
+    void testBodyWithFileSchemaTest() throws ApiException {
         //
         //FileSchemaTestClass fileSchemaTestClass = null;
         //
@@ -200,7 +219,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testBodyWithQueryParamsTest() throws ApiException {
+    void testBodyWithQueryParamsTest() throws ApiException {
         //
         //String query = null;
         //
@@ -219,7 +238,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testClientModelTest() throws ApiException {
+    void testClientModelTest() throws ApiException {
         //
         //Client client = null;
         //
@@ -236,7 +255,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testEndpointParametersTest() throws ApiException {
+    void testEndpointParametersTest() throws ApiException {
         //
         //BigDecimal number = null;
         //
@@ -279,7 +298,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testEnumParametersTest() throws ApiException {
+    void testEnumParametersTest() throws ApiException {
         //
         //List<String> enumHeaderStringArray = null;
         //
@@ -312,7 +331,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testGroupParametersTest() throws ApiException {
+    void testGroupParametersTest() throws ApiException {
         //
         //Integer requiredStringGroup = null;
         //
@@ -339,11 +358,28 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testInlineAdditionalPropertiesTest() throws ApiException {
+    void testInlineAdditionalPropertiesTest() throws ApiException {
         //
         //Map<String, String> requestBody = null;
         //
         //api.testInlineAdditionalProperties(requestBody);
+
+        // TODO: test validations
+    }
+    /**
+     * test inline free-form additionalProperties
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    void testInlineFreeformAdditionalPropertiesTest() throws ApiException {
+        //
+        //TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+        //
+        //api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
 
         // TODO: test validations
     }
@@ -356,7 +392,7 @@ public class FakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testJsonFormDataTest() throws ApiException {
+    void testJsonFormDataTest() throws ApiException {
         //
         //String param = null;
         //
@@ -367,13 +403,30 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
+     * test nullable parent property
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    void testNullableTest() throws ApiException {
+        //
+        //ChildWithNullable childWithNullable = null;
+        //
+        //api.testNullable(childWithNullable);
+
+        // TODO: test validations
+    }
+    /**
      * To test the collection format in query parameters
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void testQueryParameterCollectionFormatTest() throws ApiException {
+    void testQueryParameterCollectionFormatTest() throws ApiException {
         //
         //List<String> pipe = null;
         //
@@ -390,6 +443,23 @@ public class FakeApiTest {
         //Map<String, String> language = null;
         //
         //api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
+
+        // TODO: test validations
+    }
+    /**
+     * test referenced string map
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    void testStringMapReferenceTest() throws ApiException {
+        //
+        //Map<String, String> requestBody = null;
+        //
+        //api.testStringMapReference(requestBody);
 
         // TODO: test validations
     }

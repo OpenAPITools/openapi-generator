@@ -13,44 +13,35 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Model tests for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
  */
-public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest {
+class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest {
     private final TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter model = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter();
 
     /**
      * Model tests for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
      */
     @Test
-    public void testTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
+    void testTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
         // TODO: test TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    }
-
-    /**
-     * Test the property 'id'
-     */
-    @Test
-    public void idTest() {
-        // TODO: test id
-    }
-
-    /**
-     * Test the property 'name'
-     */
-    @Test
-    public void nameTest() {
-        // TODO: test name
     }
 
     /**
      * Test the property 'size'
      */
     @Test
-    public void sizeTest() {
+    void sizeTest() {
         // TODO: test size
     }
 
@@ -58,8 +49,24 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterT
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
+    }
+
+    /**
+     * Test the property 'id'
+     */
+    @Test
+    void idTest() {
+        // TODO: test id
+    }
+
+    /**
+     * Test the property 'name'
+     */
+    @Test
+    void nameTest() {
+        // TODO: test name
     }
 
 }

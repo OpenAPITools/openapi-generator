@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -40,8 +41,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
+        UUID uuidTest = null;
         Client body = null;
-        Client response = api.call123testSpecialTags(body);
+        Client response = api.call123testSpecialTags(uuidTest, body);
         // TODO: test validations
     }
 

@@ -18,7 +18,7 @@ void test_Order_id_is_assigned_from_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -39,7 +39,7 @@ void test_Order_petId_is_assigned_from_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "petId", 1
     };
@@ -54,7 +54,7 @@ void test_Order_petId_is_assigned_from_json()
 
 void test_Order_quantity_is_assigned_from_json()
 {
-    bourne::json input = 
+    bourne::json input =
     {
         "quantity", 1
     };
@@ -90,7 +90,7 @@ void test_Order_status_is_assigned_from_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "status", "hello"
     };
@@ -113,7 +113,7 @@ void test_Order_complete_is_assigned_from_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "complete", true
     };
@@ -134,7 +134,7 @@ void test_Order_id_is_converted_to_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "id", 1
     };
@@ -155,7 +155,7 @@ void test_Order_petId_is_converted_to_json()
 
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "petId", 1
     };
@@ -173,7 +173,7 @@ void test_Order_petId_is_converted_to_json()
 
 void test_Order_quantity_is_converted_to_json()
 {
-    bourne::json input = 
+    bourne::json input =
     {
         "quantity", 1
     };
@@ -204,7 +204,7 @@ void test_Order_shipDate_is_converted_to_json()
 void test_Order_status_is_converted_to_json()
 {
 
-    bourne::json input = 
+    bourne::json input =
     {
         "status", "hello"
     };
@@ -226,7 +226,7 @@ void test_Order_complete_is_converted_to_json()
 {
 
 
-    bourne::json input = 
+    bourne::json input =
     {
         "complete", true
     };

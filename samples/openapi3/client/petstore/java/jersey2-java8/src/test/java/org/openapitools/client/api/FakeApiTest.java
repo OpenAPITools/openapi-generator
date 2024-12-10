@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import org.junit.jupiter.api.Assertions;
@@ -109,6 +110,32 @@ public class FakeApiTest {
     @Test
     public void getArrayOfEnumsTest() throws ApiException {
         //List<OuterEnum> response = api.getArrayOfEnums();
+        // TODO: test validations
+    }
+
+    /**
+     * Array of string
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void postArrayOfStringTest() throws ApiException {
+        //List<String> requestBody = null;
+        //api.postArrayOfString(requestBody);
+        // TODO: test validations
+    }
+
+    /**
+     * test referenced additionalProperties
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testAdditionalPropertiesReferenceTest() throws ApiException {
+        //Map<String, Object> requestBody = null;
+        //api.testAdditionalPropertiesReference(requestBody);
         // TODO: test validations
     }
 
@@ -238,6 +265,20 @@ public class FakeApiTest {
     }
 
     /**
+     * test inline free-form additionalProperties
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testInlineFreeformAdditionalPropertiesTest() throws ApiException {
+        //TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+        //api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
+        // TODO: test validations
+    }
+
+    /**
      * test json serialization of form data
      *
      * 
@@ -265,6 +306,20 @@ public class FakeApiTest {
         //List<String> url = null;
         //List<String> context = null;
         //api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+        // TODO: test validations
+    }
+
+    /**
+     * test referenced string map
+     *
+     * 
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testStringMapReferenceTest() throws ApiException {
+        //Map<String, String> requestBody = null;
+        //api.testStringMapReference(requestBody);
         // TODO: test validations
     }
 

@@ -54,6 +54,14 @@ Describe -tag 'PSPetstore' -name 'PSPSFakeApi' {
         }
     }
 
+    Context 'Test-PSAdditionalPropertiesReference' {
+        It 'Test Test-PSAdditionalPropertiesReference' {
+            #$TestResult = Test-PSAdditionalPropertiesReference -RequestBody "TEST_VALUE"
+            #$TestResult | Should -BeOfType TODO
+            #$TestResult.property | Should -Be 0
+        }
+    }
+
     Context 'Test-PSBodyWithFileSchema' {
         It 'Test Test-PSBodyWithFileSchema' {
             #$TestResult = Test-PSBodyWithFileSchema -FileSchemaTestClass "TEST_VALUE"
@@ -110,6 +118,14 @@ Describe -tag 'PSPetstore' -name 'PSPSFakeApi' {
         }
     }
 
+    Context 'Test-PSInlineFreeformAdditionalProperties' {
+        It 'Test Test-PSInlineFreeformAdditionalProperties' {
+            #$TestResult = Test-PSInlineFreeformAdditionalProperties -TestInlineFreeformAdditionalPropertiesRequest "TEST_VALUE"
+            #$TestResult | Should -BeOfType TODO
+            #$TestResult.property | Should -Be 0
+        }
+    }
+
     Context 'Test-PSJsonFormData' {
         It 'Test Test-PSJsonFormData' {
             #$TestResult = Test-PSJsonFormData -Param "TEST_VALUE" -Param2 "TEST_VALUE"
@@ -121,6 +137,14 @@ Describe -tag 'PSPetstore' -name 'PSPSFakeApi' {
     Context 'Test-PSQueryParameterCollectionFormat' {
         It 'Test Test-PSQueryParameterCollectionFormat' {
             #$TestResult = Test-PSQueryParameterCollectionFormat -Pipe "TEST_VALUE" -Ioutil "TEST_VALUE" -Http "TEST_VALUE" -Url "TEST_VALUE" -Context "TEST_VALUE"
+            #$TestResult | Should -BeOfType TODO
+            #$TestResult.property | Should -Be 0
+        }
+    }
+
+    Context 'Test-PSStringMapReference' {
+        It 'Test Test-PSStringMapReference' {
+            #$TestResult = Test-PSStringMapReference -RequestBody "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Capitalization>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'SmallCamel'
         /// </summary>

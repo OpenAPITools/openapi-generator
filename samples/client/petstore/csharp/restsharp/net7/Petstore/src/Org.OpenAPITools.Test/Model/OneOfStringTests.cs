@@ -53,9 +53,5 @@ namespace Org.OpenAPITools.Test.Model
             // TODO uncomment below to test "IsType" OneOfString
             //Assert.IsType<OneOfString>(instance);
         }
-
-
-
     }
-
 }

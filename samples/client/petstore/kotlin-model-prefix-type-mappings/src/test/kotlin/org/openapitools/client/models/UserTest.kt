@@ -25,16 +25,16 @@ class ApiUserTest : ShouldSpec() {
         // uncomment below to create an instance of ApiUser
         //val modelInstance = ApiUser()
 
-        // to test the property `id`
-        should("test id") {
-            // uncomment below to test the property
-            //modelInstance.id shouldBe ("TODO")
-        }
-
         // to test the property `username`
         should("test username") {
             // uncomment below to test the property
             //modelInstance.username shouldBe ("TODO")
+        }
+
+        // to test the property `id`
+        should("test id") {
+            // uncomment below to test the property
+            //modelInstance.id shouldBe ("TODO")
         }
 
         // to test the property `firstName`

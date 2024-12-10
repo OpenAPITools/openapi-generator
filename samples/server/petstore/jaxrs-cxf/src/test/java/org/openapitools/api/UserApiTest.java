@@ -14,7 +14,6 @@
 package org.openapitools.api;
 
 import java.util.Date;
-import java.util.List;
 import org.openapitools.model.User;
 import org.junit.Test;
 import org.junit.Before;
@@ -87,7 +86,7 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() {
-        List<User> body = null;
+        List<@Valid User> body = null;
         //api.createUsersWithArrayInput(body);
         
         // TODO: test validations
@@ -103,7 +102,7 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() {
-        List<User> body = null;
+        List<@Valid User> body = null;
         //api.createUsersWithListInput(body);
         
         // TODO: test validations

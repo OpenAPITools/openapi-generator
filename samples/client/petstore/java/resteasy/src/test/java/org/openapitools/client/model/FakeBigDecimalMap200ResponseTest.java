@@ -28,14 +28,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for FakeBigDecimalMap200Response
  */
-public class FakeBigDecimalMap200ResponseTest {
+class FakeBigDecimalMap200ResponseTest {
     private final FakeBigDecimalMap200Response model = new FakeBigDecimalMap200Response();
 
     /**
      * Model tests for FakeBigDecimalMap200Response
      */
     @Test
-    public void testFakeBigDecimalMap200Response() {
+    void testFakeBigDecimalMap200Response() {
         // TODO: test FakeBigDecimalMap200Response
     }
 
@@ -43,7 +43,7 @@ public class FakeBigDecimalMap200ResponseTest {
      * Test the property 'someId'
      */
     @Test
-    public void someIdTest() {
+    void someIdTest() {
         // TODO: test someId
     }
 
@@ -51,7 +51,7 @@ public class FakeBigDecimalMap200ResponseTest {
      * Test the property 'someMap'
      */
     @Test
-    public void someMapTest() {
+    void someMapTest() {
         // TODO: test someMap
     }
 

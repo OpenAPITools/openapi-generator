@@ -18,6 +18,11 @@ spec = withApp $ do
             performMethod "DELETE" $ PetByInt64R 789
             statusIs 501
 
+    describe "getPetFindR" $
+        it "returns 501 Not Implemented" $ do
+            get PetFindR
+            statusIs 501
+
     describe "getPetFindByStatusR" $
         it "returns 501 Not Implemented" $ do
             get PetFindByStatusR

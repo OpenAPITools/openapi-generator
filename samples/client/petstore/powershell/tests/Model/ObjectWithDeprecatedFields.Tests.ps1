@@ -9,7 +9,7 @@ Describe -tag 'PSPetstore' -name 'PSObjectWithDeprecatedFields' {
     Context 'PSObjectWithDeprecatedFields' {
         It 'Initialize-PSObjectWithDeprecatedFields' {
             # a simple test to create an object
-            #$NewObject = Initialize-PSObjectWithDeprecatedFields -Uuid "TEST_VALUE" -Id "TEST_VALUE" -DeprecatedRef "TEST_VALUE" -Bars "TEST_VALUE"
+            #$NewObject = Initialize-PSObjectWithDeprecatedFields -Uuid "TEST_VALUE" -Id "TEST_VALUE" -DeprecatedRef "TEST_VALUE" -Bars "TEST_VALUE" -SomethingElse "TEST_VALUE"
             #$NewObject | Should -BeOfType ObjectWithDeprecatedFields
             #$NewObject.property | Should -Be 0
         }

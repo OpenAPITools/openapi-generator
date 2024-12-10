@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for DeprecatedObject
  */
-public class DeprecatedObjectTest {
+class DeprecatedObjectTest {
     private final DeprecatedObject model = new DeprecatedObject();
 
     /**
      * Model tests for DeprecatedObject
      */
     @Test
-    public void testDeprecatedObject() {
+    void testDeprecatedObject() {
         // TODO: test DeprecatedObject
     }
 
@@ -40,7 +40,7 @@ public class DeprecatedObjectTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

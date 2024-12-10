@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ModelFile
  */
-public class ModelFileTest {
+class ModelFileTest {
     private final ModelFile model = new ModelFile();
 
     /**
      * Model tests for ModelFile
      */
     @Test
-    public void testModelFile() {
+    void testModelFile() {
         // TODO: test ModelFile
     }
 
@@ -40,7 +40,7 @@ public class ModelFileTest {
      * Test the property 'sourceURI'
      */
     @Test
-    public void sourceURITest() {
+    void sourceURITest() {
         // TODO: test sourceURI
     }
 

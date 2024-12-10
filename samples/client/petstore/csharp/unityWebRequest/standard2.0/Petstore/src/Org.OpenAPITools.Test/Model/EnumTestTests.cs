@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<EnumTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'EnumString'
         /// </summary>

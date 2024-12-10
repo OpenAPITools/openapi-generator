@@ -82,6 +82,30 @@ func Test_openapi_QueryAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test QueryAPIService TestQueryStyleFormExplodeFalseArrayInteger", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.QueryAPI.TestQueryStyleFormExplodeFalseArrayInteger(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test QueryAPIService TestQueryStyleFormExplodeFalseArrayString", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.QueryAPI.TestQueryStyleFormExplodeFalseArrayString(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test QueryAPIService TestQueryStyleFormExplodeTrueArrayString", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

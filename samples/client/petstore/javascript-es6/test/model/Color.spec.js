@@ -28,7 +28,7 @@
   var instance;
 
   beforeEach(function() {
-    //instance = new OpenApiPetstore.Color('#00FF00');
+    instance = new OpenApiPetstore.Color();
   });
 
   var getProperty = function(object, getter, property) {
