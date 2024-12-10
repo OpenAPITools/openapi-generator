@@ -255,7 +255,7 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(), isExplode: false),
+            "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -525,9 +525,9 @@ open class FakeAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(), isExplode: false),
+            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(), isExplode: true),
+            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(), isExplode: true),
+            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -586,10 +586,10 @@ open class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(), isExplode: false),
+            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(), isExplode: true),
+            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(), isExplode: true),
+            "string_group": (wrappedValue: stringGroup?.encodeToJSON(), isExplode: true),
+            "int64_group": (wrappedValue: int64Group?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
