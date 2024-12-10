@@ -52,7 +52,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     public static final String PEKKO_HTTP_VERSION = "pekkoHttpVersion";
     public static final String PEKKO_HTTP_VERSION_DESC = "The version of pekko-http";
     public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.10";
-    public static final String DEFAULT_PEKKO_HTTP_VERSION = "1.0.0";
+    public static final String DEFAULT_PEKKO_HTTP_VERSION = "1.1.0";
 
     public static final String GENERATE_AS_MANAGED_SOURCES = "asManagedSources";
     public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
