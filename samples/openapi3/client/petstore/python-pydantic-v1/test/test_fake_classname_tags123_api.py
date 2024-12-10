@@ -21,7 +21,7 @@ class TestFakeClassnameTags123Api(unittest.TestCase):
     """FakeClassnameTags123Api unit test stubs"""
 
     def setUp(self) -> None:
-        self.api = FakeClassnameTags123Api()
+        self.api = FakeClassnameTags123Api()  # noqa: E501
 
     def tearDown(self) -> None:
         pass

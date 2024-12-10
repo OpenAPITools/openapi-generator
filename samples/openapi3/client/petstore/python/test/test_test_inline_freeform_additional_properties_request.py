@@ -13,8 +13,9 @@
 
 
 import unittest
+import datetime
 
-from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
+from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest  # noqa: E501
 
 class TestTestInlineFreeformAdditionalPropertiesRequest(unittest.TestCase):
     """TestInlineFreeformAdditionalPropertiesRequest unit test stubs"""
@@ -27,12 +28,12 @@ class TestTestInlineFreeformAdditionalPropertiesRequest(unittest.TestCase):
 
     def make_instance(self, include_optional) -> TestInlineFreeformAdditionalPropertiesRequest:
         """Test TestInlineFreeformAdditionalPropertiesRequest
-            include_optional is a boolean, when False only required
+            include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
         # uncomment below to create an instance of `TestInlineFreeformAdditionalPropertiesRequest`
         """
-        model = TestInlineFreeformAdditionalPropertiesRequest()
+        model = TestInlineFreeformAdditionalPropertiesRequest()  # noqa: E501
         if include_optional:
             return TestInlineFreeformAdditionalPropertiesRequest(
                 some_property = ''

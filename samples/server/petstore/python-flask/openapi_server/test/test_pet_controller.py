@@ -16,9 +16,8 @@ class TestPetController(BaseTestCase):
 
         Add a new pet to the store
         """
-        pet = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+        body = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
         headers = { 
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer special-key',
         }
@@ -26,7 +25,7 @@ class TestPetController(BaseTestCase):
             '/v2/pet',
             method='POST',
             headers=headers,
-            data=json.dumps(pet),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -105,9 +104,8 @@ class TestPetController(BaseTestCase):
 
         Update an existing pet
         """
-        pet = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+        body = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
         headers = { 
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer special-key',
         }
@@ -115,7 +113,7 @@ class TestPetController(BaseTestCase):
             '/v2/pet',
             method='PUT',
             headers=headers,
-            data=json.dumps(pet),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

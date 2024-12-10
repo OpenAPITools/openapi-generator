@@ -32,7 +32,7 @@ class StoreControllerSpec extends Specification {
     EmbeddedServer server
 
     @Inject
-    @Client
+    @Client('${context-path}')
     HttpClient client
 
     @Inject
@@ -73,7 +73,7 @@ class StoreControllerSpec extends Specification {
             'orderId': 'example'
         ])
         MutableHttpRequest request = HttpRequest.DELETE(uri)
-            .accept('[Ljava.lang.String;@3847bca1')
+            .accept('application/json')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request); // To retrieve body you must specify required type (e.g. Map.class) as second argument 
@@ -113,7 +113,7 @@ class StoreControllerSpec extends Specification {
         given:
         var uri = UriTemplate.of('/store/inventory').expand([:])
         MutableHttpRequest request = HttpRequest.GET(uri)
-            .accept('[Ljava.lang.String;@f8eed1')
+            .accept('application/json')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request, Argument.of(Map.class, String.class, Integer.class));
@@ -157,8 +157,7 @@ class StoreControllerSpec extends Specification {
             'orderId': 56L
         ])
         MutableHttpRequest request = HttpRequest.GET(uri)
-            .accept('[Ljava.lang.String;@70b7e8d0')
-            .accept('[Ljava.lang.String;@70b7e8d0')
+            .accept('application/json')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request, Order.class);
@@ -171,8 +170,6 @@ class StoreControllerSpec extends Specification {
      * This test is used to validate the implementation of placeOrder() method
      *
      * The method should: Place an order for a pet
-     *
-     * 
      *
      * TODO fill in the parameters and test return value.
      */
@@ -201,8 +198,7 @@ class StoreControllerSpec extends Specification {
         var uri = UriTemplate.of('/store/order').expand([:])
         MutableHttpRequest request = HttpRequest.POST(uri, body)
             .contentType('application/json')
-            .accept('[Ljava.lang.String;@4b8d9f63')
-            .accept('[Ljava.lang.String;@4b8d9f63')
+            .accept('application/json')
 
         when:
         HttpResponse response = client.toBlocking().exchange(request, Order.class);

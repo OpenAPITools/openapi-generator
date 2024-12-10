@@ -15,12 +15,4 @@ Describe -tag 'PSOpenAPITools' -name 'AuthApi' {
         }
     }
 
-    Context 'Test-AuthHttpBearer' {
-        It 'Test Test-AuthHttpBearer' {
-            #$TestResult = Test-AuthHttpBearer
-            #$TestResult | Should -BeOfType TODO
-            #$TestResult.property | Should -Be 0
-        }
-    }
-
 }

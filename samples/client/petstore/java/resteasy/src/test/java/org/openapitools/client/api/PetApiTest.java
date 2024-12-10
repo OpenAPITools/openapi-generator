@@ -14,25 +14,26 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * API tests for PetApi
  */
-class PetApiTest {
+public class PetApiTest {
 
     private final PetApi api = new PetApi();
 
@@ -45,7 +46,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void addPetTest() throws ApiException {
+    public void addPetTest() throws ApiException {
         //
         //Pet pet = null;
         //
@@ -62,7 +63,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void deletePetTest() throws ApiException {
+    public void deletePetTest() throws ApiException {
         //
         //Long petId = null;
         //
@@ -81,7 +82,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void findPetsByStatusTest() throws ApiException {
+    public void findPetsByStatusTest() throws ApiException {
         //
         //List<String> status = null;
         //
@@ -98,7 +99,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void findPetsByTagsTest() throws ApiException {
+    public void findPetsByTagsTest() throws ApiException {
         //
         //Set<String> tags = null;
         //
@@ -115,7 +116,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void getPetByIdTest() throws ApiException {
+    public void getPetByIdTest() throws ApiException {
         //
         //Long petId = null;
         //
@@ -132,7 +133,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void updatePetTest() throws ApiException {
+    public void updatePetTest() throws ApiException {
         //
         //Pet pet = null;
         //
@@ -149,7 +150,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void updatePetWithFormTest() throws ApiException {
+    public void updatePetWithFormTest() throws ApiException {
         //
         //Long petId = null;
         //
@@ -170,17 +171,19 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void uploadFileTest() throws ApiException {
-        //
-        //Long petId = null;
-        //
-        //String additionalMetadata = null;
-        //
-        //File _file = null;
-        //
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
-
-        // TODO: test validations
+    public void uploadFileTest() throws Exception {
+        Long petId = 1L;
+        String additionalMetadata = "additoinal data";
+        File file = new File("test.txt");
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        FileWriter fw = new FileWriter(file);
+        fw.write("testing only");
+        fw.close();
+        file.deleteOnExit();
+        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        Assertions.assertEquals((long)response.getCode(), 200);
     }
     /**
      * uploads an image (required)
@@ -191,7 +194,7 @@ class PetApiTest {
      *          if the Api call fails
      */
     @Test
-    void uploadFileWithRequiredFileTest() throws ApiException {
+    public void uploadFileWithRequiredFileTest() throws ApiException {
         //
         //Long petId = null;
         //

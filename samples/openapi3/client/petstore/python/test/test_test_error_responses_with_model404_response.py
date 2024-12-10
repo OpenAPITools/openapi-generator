@@ -13,6 +13,7 @@
 
 
 import unittest
+import datetime
 
 from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 
@@ -27,7 +28,7 @@ class TestTestErrorResponsesWithModel404Response(unittest.TestCase):
 
     def make_instance(self, include_optional) -> TestErrorResponsesWithModel404Response:
         """Test TestErrorResponsesWithModel404Response
-            include_optional is a boolean, when False only required
+            include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
         # uncomment below to create an instance of `TestErrorResponsesWithModel404Response`

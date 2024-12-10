@@ -3,9 +3,6 @@
 from fastapi.testclient import TestClient
 
 
-from pydantic import Field, StrictInt, StrictStr  # noqa: F401
-from typing import Any, Dict  # noqa: F401
-from typing_extensions import Annotated  # noqa: F401
 from openapi_server.models.order import Order  # noqa: F401
 
 

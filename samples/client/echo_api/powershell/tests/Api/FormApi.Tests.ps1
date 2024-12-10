@@ -15,14 +15,6 @@ Describe -tag 'PSOpenAPITools' -name 'FormApi' {
         }
     }
 
-    Context 'Test-FormObjectMultipart' {
-        It 'Test Test-FormObjectMultipart' {
-            #$TestResult = Test-FormObjectMultipart -Marker "TEST_VALUE"
-            #$TestResult | Should -BeOfType TODO
-            #$TestResult.property | Should -Be 0
-        }
-    }
-
     Context 'Test-FormOneof' {
         It 'Test Test-FormOneof' {
             #$TestResult = Test-FormOneof -Form1 "TEST_VALUE" -Form2 "TEST_VALUE" -Form3 "TEST_VALUE" -Form4 "TEST_VALUE" -Id "TEST_VALUE" -Name "TEST_VALUE"

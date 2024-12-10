@@ -100,18 +100,6 @@ test_that("TestEchoBodyPetResponseString", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("TestEchoBodyStringEnum", {
-  # tests for TestEchoBodyStringEnum
-  # base path: http://localhost:3000
-  # Test string enum response body
-  # Test string enum response body
-  # @param body character String enum (optional)
-  # @return [StringEnumRef]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("TestEchoBodyTagResponseString", {
   # tests for TestEchoBodyTagResponseString
   # base path: http://localhost:3000
