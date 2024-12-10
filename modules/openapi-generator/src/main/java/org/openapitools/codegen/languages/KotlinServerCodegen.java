@@ -51,8 +51,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Getter @Setter
     private Boolean compressionFeatureEnabled = true;
     @Getter @Setter
-    private Boolean kotlinSerializationEnabled = true;
-    @Getter @Setter
     private Boolean resourcesFeatureEnabled = true;
     @Getter @Setter
     private Boolean metricsFeatureEnabled = true;
@@ -138,7 +136,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.AUTOMATIC_HEAD_REQUESTS, Constants.AUTOMATIC_HEAD_REQUESTS_DESC, getAutoHeadFeatureEnabled());
         addSwitch(Constants.CONDITIONAL_HEADERS, Constants.CONDITIONAL_HEADERS_DESC, getConditionalHeadersFeatureEnabled());
         addSwitch(Constants.HSTS, Constants.HSTS_DESC, getHstsFeatureEnabled());
-        addSwitch(Constants.KOTLIN_SERIALIZATION, Constants.KOTLIN_SERIALIZATION, getKotlinSerializationEnabled());
         addSwitch(Constants.CORS, Constants.CORS_DESC, getCorsFeatureEnabled());
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
         addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
@@ -295,11 +292,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
         if (isKtor()) {
-            if (additionalProperties.containsKey(Constants.KOTLIN_SERIALIZATION)) {
-                setKotlinSerializationEnabled(convertPropertyToBooleanAndWriteBack(Constants.KOTLIN_SERIALIZATION));
-            } else {
-                additionalProperties.put(Constants.KOTLIN_SERIALIZATION, getKotlinSerializationEnabled());
-            }
+            additionalProperties.put(Constants.IS_KTOR, true);
 
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
@@ -367,7 +360,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
         public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
-        public static final String KOTLIN_SERIALIZATION = "enableKotlinSerialization";
+        public static final String IS_KTOR = "isKtor";
     }
 
     @Override

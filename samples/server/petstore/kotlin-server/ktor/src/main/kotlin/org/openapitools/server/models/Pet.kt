@@ -14,7 +14,6 @@ package org.openapitools.server.models
 import org.openapitools.server.models.Category
 import org.openapitools.server.models.Tag
 
-    import java.io.Serializable
 import kotlinx.serialization.Serializable
 /**
  * A pet for sale in the pet store
@@ -34,7 +33,7 @@ data class Pet(
     val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
-): Serializable 
+)
 {
     /**
     * pet status in the store
