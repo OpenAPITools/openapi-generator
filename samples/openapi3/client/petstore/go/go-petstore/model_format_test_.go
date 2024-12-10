@@ -28,7 +28,7 @@ type FormatTest struct {
 	Number float32 `json:"number"`
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
-	String *string `json:"string,omitempty" validate:"regexp=[a-z]/i"`
+	String *string `json:"string,omitempty" validate:"regexp=/[a-z]/i"`
 	Byte string `json:"byte"`
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
@@ -36,10 +36,10 @@ type FormatTest struct {
 	Uuid *string `json:"uuid,omitempty"`
 	Password string `json:"password"`
 	// A string that is a 10 digit number. Can have leading zeros.
-	PatternWithDigits *string `json:"pattern_with_digits,omitempty" validate:"regexp=^\\\\d{10}$"`
+	PatternWithDigits *string `json:"pattern_with_digits,omitempty" validate:"regexp=^\\d{10}$"`
 	// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
-	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty" validate:"regexp=^image_\\\\d{1,3}$/i"`
-	PatternWithBacktick *string "json:\"pattern_with_backtick,omitempty\" validate:\"regexp=^$|^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\""
+	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty" validate:"regexp=/^image_\\d{1\\,3}$/i"`
+	PatternWithBacktick *string `json:"pattern_with_backtick,omitempty" validate:"regexp=^$|^[a-zA-Z0-9.!#$%&'*+/=?^_\x60{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0\\,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0\\,61}[a-zA-Z0-9])?)*$"`
 	AdditionalProperties map[string]interface{}
 }
 
