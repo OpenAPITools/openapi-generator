@@ -63,16 +63,5 @@ namespace Org.OpenAPITools.Test.Api
             //var response = instance.TestAuthHttpBasic();
             //Assert.IsType<string>(response);
         }
-
-        /// <summary>
-        /// Test TestAuthHttpBearer
-        /// </summary>
-        [Fact]
-        public void TestAuthHttpBearerTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.TestAuthHttpBearer();
-            //Assert.IsType<string>(response);
-        }
     }
 }

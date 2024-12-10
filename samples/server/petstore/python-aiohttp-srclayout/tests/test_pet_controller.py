@@ -8,7 +8,6 @@ from aiohttp import FormData
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 
-
 pytestmark = pytest.mark.asyncio
 
 @pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
@@ -17,7 +16,23 @@ async def test_add_pet(client):
 
     Add a new pet to the store
     """
-    body = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+    body = {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}
     headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer special-key',
@@ -30,8 +45,6 @@ async def test_add_pet(client):
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
-
-pytestmark = pytest.mark.asyncio
 
 async def test_delete_pet(client):
     """Test case for delete_pet
@@ -50,14 +63,12 @@ async def test_delete_pet(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-pytestmark = pytest.mark.asyncio
-
 async def test_find_pets_by_status(client):
     """Test case for find_pets_by_status
 
     Finds Pets by status
     """
-    params = [('status', ['status_example'])]
+    params = [('status', 'available')]
     headers = { 
         'Accept': 'application/json',
         'Authorization': 'Bearer special-key',
@@ -71,14 +82,12 @@ async def test_find_pets_by_status(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-pytestmark = pytest.mark.asyncio
-
 async def test_find_pets_by_tags(client):
     """Test case for find_pets_by_tags
 
     Finds Pets by tags
     """
-    params = [('tags', ['tags_example'])]
+    params = [('tags', 'tags_example')]
     headers = { 
         'Accept': 'application/json',
         'Authorization': 'Bearer special-key',
@@ -91,8 +100,6 @@ async def test_find_pets_by_tags(client):
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
-
-pytestmark = pytest.mark.asyncio
 
 async def test_get_pet_by_id(client):
     """Test case for get_pet_by_id
@@ -111,15 +118,29 @@ async def test_get_pet_by_id(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-pytestmark = pytest.mark.asyncio
-
 @pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
 async def test_update_pet(client):
     """Test case for update_pet
 
     Update an existing pet
     """
-    body = {"photoUrls":["photoUrls","photoUrls"],"name":"doggie","id":0,"category":{"name":"name","id":6},"tags":[{"name":"name","id":1},{"name":"name","id":1}],"status":"available"}
+    body = {
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}
     headers = { 
         'Content-Type': 'application/json',
         'Authorization': 'Bearer special-key',
@@ -132,8 +153,6 @@ async def test_update_pet(client):
         )
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
-
-pytestmark = pytest.mark.asyncio
 
 @pytest.mark.skip("application/x-www-form-urlencoded not supported by Connexion")
 async def test_update_pet_with_form(client):
@@ -158,8 +177,6 @@ async def test_update_pet_with_form(client):
     assert response.status == 200, 'Response body is : ' + (await response.read()).decode('utf-8')
 
 
-pytestmark = pytest.mark.asyncio
-
 @pytest.mark.skip("multipart/form-data not supported by Connexion")
 async def test_upload_file(client):
     """Test case for upload_file
@@ -173,7 +190,7 @@ async def test_upload_file(client):
     }
     data = FormData()
     data.add_field('additional_metadata', 'additional_metadata_example')
-    data.add_field('file', '/path/to/file')
+    data.add_field('file', (BytesIO(b'some file data'), 'file.txt'))
     response = await client.request(
         method='POST',
         path='/v2/pet/{pet_id}/uploadImage'.format(pet_id=56),

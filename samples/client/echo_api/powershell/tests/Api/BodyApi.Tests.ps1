@@ -31,14 +31,6 @@ Describe -tag 'PSOpenAPITools' -name 'BodyApi' {
         }
     }
 
-    Context 'Test-BodyMultipartFormdataSingleBinary' {
-        It 'Test Test-BodyMultipartFormdataSingleBinary' {
-            #$TestResult = Test-BodyMultipartFormdataSingleBinary -MyFile "TEST_VALUE"
-            #$TestResult | Should -BeOfType TODO
-            #$TestResult.property | Should -Be 0
-        }
-    }
-
     Context 'Test-EchoBodyFreeFormObjectResponseString' {
         It 'Test Test-EchoBodyFreeFormObjectResponseString' {
             #$TestResult = Test-EchoBodyFreeFormObjectResponseString -Body "TEST_VALUE"
@@ -74,14 +66,6 @@ Describe -tag 'PSOpenAPITools' -name 'BodyApi' {
     Context 'Test-EchoBodyAllOfPet' {
         It 'Test Test-EchoBodyAllOfPet' {
             #$TestResult = Test-EchoBodyAllOfPet -Pet "TEST_VALUE"
-            #$TestResult | Should -BeOfType TODO
-            #$TestResult.property | Should -Be 0
-        }
-    }
-
-    Context 'Test-EchoBodyStringEnum' {
-        It 'Test Test-EchoBodyStringEnum' {
-            #$TestResult = Test-EchoBodyStringEnum -Body "TEST_VALUE"
             #$TestResult | Should -BeOfType TODO
             #$TestResult.property | Should -Be 0
         }

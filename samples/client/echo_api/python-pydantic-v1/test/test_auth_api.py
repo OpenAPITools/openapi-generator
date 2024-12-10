@@ -22,7 +22,7 @@ class TestAuthApi(unittest.TestCase):
     """AuthApi unit test stubs"""
 
     def setUp(self) -> None:
-        self.api = AuthApi()
+        self.api = AuthApi()  # noqa: E501
 
     def tearDown(self) -> None:
         pass
@@ -31,13 +31,6 @@ class TestAuthApi(unittest.TestCase):
         """Test case for test_auth_http_basic
 
         To test HTTP basic authentication  # noqa: E501
-        """
-        pass
-
-    def test_test_auth_http_bearer(self) -> None:
-        """Test case for test_auth_http_bearer
-
-        To test HTTP bearer authentication  # noqa: E501
         """
         pass
 

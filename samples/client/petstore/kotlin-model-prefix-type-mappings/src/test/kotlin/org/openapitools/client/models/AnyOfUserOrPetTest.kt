@@ -15,96 +15,76 @@
 
 package org.openapitools.client.models
 
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
+import org.junit.jupiter.api.Assertions
 
 import org.openapitools.client.models.ApiAnyOfUserOrPet
 import org.openapitools.client.models.ApiCategory
 import org.openapitools.client.models.ApiPet
 import org.openapitools.client.models.ApiTag
 import org.openapitools.client.models.ApiUser
+import java.lang.RuntimeException
 
 class ApiAnyOfUserOrPetTest : ShouldSpec() {
     init {
-        // uncomment below to create an instance of ApiAnyOfUserOrPet
-        //val modelInstance = ApiAnyOfUserOrPet()
+        should("test custom type adapter") {
+            val gson = GsonBuilder()
+                .registerTypeAdapterFactory(ApiUser.CustomTypeAdapterFactory())
+                .registerTypeAdapterFactory(ApiCategory.CustomTypeAdapterFactory())
+                .registerTypeAdapterFactory(ApiPet.CustomTypeAdapterFactory())
+                .registerTypeAdapterFactory(ApiTag.CustomTypeAdapterFactory())
+                .registerTypeAdapterFactory(ApiAnyOfUserOrPet.CustomTypeAdapterFactory())
+                .create()
 
-        // to test the property `username`
-        should("test username") {
-            // uncomment below to test the property
-            //modelInstance.username shouldBe ("TODO")
-        }
+            // test Category
+            val categoryJson = "{\"id\":123,\"name\":\"category\"}"
+            val category = gson.fromJson(categoryJson, ApiCategory::class.java)
+            //val category = gson.fromJson("{\"name\":\"category\"}", ApiCategory::class.java)
+            category.id shouldBe 123L
+            category.name shouldBe "category"
 
-        // to test the property `name`
-        should("test name") {
-            // uncomment below to test the property
-            //modelInstance.name shouldBe ("TODO")
-        }
+            // test Pet
+            val petJson = "{\"id\":123,\"name\":\"pet\",\"photoUrls\":[\"https://a.com\"],\"category\":{\"id\":456,\"name\":\"pet category\"},\"tags\":[{\"id\":678,\"name\":\"pet tag\"}],\"status\":\"available\"}"
+            val pet = gson.fromJson(petJson, ApiPet::class.java)
+            pet.id shouldBe 123L
+            pet.name shouldBe "pet"
+            pet.photoUrls shouldBe arrayOf("https://a.com")
+            pet.tags shouldBe arrayOf(ApiTag(678, "pet tag"))
+            pet.category shouldBe ApiCategory(456, "pet category")
+            pet.status shouldBe ApiPet.Status.AVAILABLE
 
-        // to test the property `photoUrls`
-        should("test photoUrls") {
-            // uncomment below to test the property
-            //modelInstance.photoUrls shouldBe ("TODO")
-        }
+            // test invalid json (missing required fields)
+            val petJsonMissingRequiredFields = "{\"id\":123,\"category\":{\"id\":456,\"name\":\"pet category\"},\"tags\":[{\"id\":678,\"name\":\"pet tag\"}],\"status\":\"available\"}"
+            Assertions.assertThrows(IllegalArgumentException::class.java) {
+                val failedPet = gson.fromJson(petJsonMissingRequiredFields, ApiPet::class.java)
+                failedPet.id shouldBe 123L
+            }
 
-        // to test the property `id`
-        should("test id") {
-            // uncomment below to test the property
-            //modelInstance.id shouldBe ("TODO")
-        }
+            // test AnyOfUserOrPet (anyOf schema)
+            // invalid json
+            Assertions.assertThrows(JsonSyntaxException::class.java) {
+                val failed = gson.fromJson(categoryJson, ApiAnyOfUserOrPet::class.java)
+                if (failed != null) {
+                    throw RuntimeException("this exception shouldn't be thrown")
+                }
+            }
 
-        // to test the property `firstName`
-        should("test firstName") {
-            // uncomment below to test the property
-            //modelInstance.firstName shouldBe ("TODO")
-        }
+            // valid json, actualInstance should be Pet
+            val anyOfUserOrPet = gson.fromJson(petJson, ApiAnyOfUserOrPet::class.java)
+            (anyOfUserOrPet.actualInstance is ApiPet) shouldBe true
+            (anyOfUserOrPet.actualInstance is ApiUser) shouldBe false
 
-        // to test the property `lastName`
-        should("test lastName") {
-            // uncomment below to test the property
-            //modelInstance.lastName shouldBe ("TODO")
-        }
+            val petFromAnyOf: ApiPet = anyOfUserOrPet.actualInstance as ApiPet
 
-        // to test the property `email`
-        should("test email") {
-            // uncomment below to test the property
-            //modelInstance.email shouldBe ("TODO")
-        }
-
-        // to test the property `password`
-        should("test password") {
-            // uncomment below to test the property
-            //modelInstance.password shouldBe ("TODO")
-        }
-
-        // to test the property `phone`
-        should("test phone") {
-            // uncomment below to test the property
-            //modelInstance.phone shouldBe ("TODO")
-        }
-
-        // to test the property `userStatus` - User Status
-        should("test userStatus") {
-            // uncomment below to test the property
-            //modelInstance.userStatus shouldBe ("TODO")
-        }
-
-        // to test the property `category`
-        should("test category") {
-            // uncomment below to test the property
-            //modelInstance.category shouldBe ("TODO")
-        }
-
-        // to test the property `tags`
-        should("test tags") {
-            // uncomment below to test the property
-            //modelInstance.tags shouldBe ("TODO")
-        }
-
-        // to test the property `status` - pet status in the store
-        should("test status") {
-            // uncomment below to test the property
-            //modelInstance.status shouldBe ("TODO")
+            petFromAnyOf.id shouldBe 123L
+            petFromAnyOf.name shouldBe "pet"
+            petFromAnyOf.photoUrls shouldBe arrayOf("https://a.com")
+            petFromAnyOf.tags shouldBe arrayOf(ApiTag(678, "pet tag"))
+            petFromAnyOf.category shouldBe ApiCategory(456, "pet category")
+            petFromAnyOf.status shouldBe ApiPet.Status.AVAILABLE
         }
 
     }

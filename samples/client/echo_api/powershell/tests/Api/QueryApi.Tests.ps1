@@ -47,22 +47,6 @@ Describe -tag 'PSOpenAPITools' -name 'QueryApi' {
         }
     }
 
-    Context 'Test-QueryStyleFormExplodeFalseArrayInteger' {
-        It 'Test Test-QueryStyleFormExplodeFalseArrayInteger' {
-            #$TestResult = Test-QueryStyleFormExplodeFalseArrayInteger -QueryObject "TEST_VALUE"
-            #$TestResult | Should -BeOfType TODO
-            #$TestResult.property | Should -Be 0
-        }
-    }
-
-    Context 'Test-QueryStyleFormExplodeFalseArrayString' {
-        It 'Test Test-QueryStyleFormExplodeFalseArrayString' {
-            #$TestResult = Test-QueryStyleFormExplodeFalseArrayString -QueryObject "TEST_VALUE"
-            #$TestResult | Should -BeOfType TODO
-            #$TestResult.property | Should -Be 0
-        }
-    }
-
     Context 'Test-QueryStyleFormExplodeTrueArrayString' {
         It 'Test Test-QueryStyleFormExplodeTrueArrayString' {
             #$TestResult = Test-QueryStyleFormExplodeTrueArrayString -QueryObject "TEST_VALUE"

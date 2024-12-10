@@ -13,26 +13,21 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
-import java.io.File;
-import org.openapitools.client.model.Pet;
-import org.openapitools.client.model.StringEnumRef;
-import org.openapitools.client.model.Tag;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.api.EchoServerResponseParser;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * API tests for BodyApi
  */
-class BodyApiTest {
+public class BodyApiTest {
 
     private final BodyApi api = new BodyApi();
 
@@ -45,7 +40,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testBinaryGifTest() throws ApiException {
+    public void testBinaryGifTest() throws ApiException {
         //
         //File response = api.testBinaryGif();
 
@@ -60,7 +55,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testBodyApplicationOctetstreamBinaryTest() throws ApiException {
+    public void testBodyApplicationOctetstreamBinaryTest() throws ApiException {
         //
         //File body = null;
         //
@@ -77,7 +72,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testBodyMultipartFormdataArrayOfBinaryTest() throws ApiException {
+    public void testBodyMultipartFormdataArrayOfBinaryTest() throws ApiException {
         //
         //List<File> files = null;
         //
@@ -85,23 +80,38 @@ class BodyApiTest {
 
         // TODO: test validations
     }
-    /**
-     * Test single binary in multipart mime
-     *
-     * Test single binary in multipart mime
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    void testBodyMultipartFormdataSingleBinaryTest() throws ApiException {
-        //
-        //File myFile = null;
-        //
-        //String response = api.testBodyMultipartFormdataSingleBinary(myFile);
 
-        // TODO: test validations
+    /**
+     * Test single binary in multipart mime
+     *
+     * @see
+     * <a href="https://github.com/OpenAPITools/openapi-generator/issues/17367">#17367</a>
+     */
+    @Test
+    public void testBodyMultipartFormdataSingleBinaryTest()
+    throws ApiException, IOException {
+        File myFile = new File("test.txt");
+        if (!myFile.exists()){
+            assertTrue(myFile.createNewFile());
+        }
+        FileWriter fw = new FileWriter(myFile);
+        fw.write("testing only");
+        fw.close();
+        myFile.deleteOnExit();
+
+        String response =
+                api.testBodyMultipartFormdataSingleBinary(myFile);
+
+        EchoServerResponseParser parser =
+                new EchoServerResponseParser(response);
+
+        String contentDisposition = parser.headers.get("Content-Disposition");
+
+        assertThat(contentDisposition).contains(
+                "form-data; name=\"my-file\"; filename=\"test.txt\""
+        );
     }
+
     /**
      * Test body parameter(s)
      *
@@ -111,7 +121,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testEchoBodyAllOfPetTest() throws ApiException {
+    public void testEchoBodyAllOfPetTest() throws ApiException {
         //
         //Pet pet = null;
         //
@@ -128,7 +138,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testEchoBodyFreeFormObjectResponseStringTest() throws ApiException {
+    public void testEchoBodyFreeFormObjectResponseStringTest() throws ApiException {
         //
         //Object body = null;
         //
@@ -145,7 +155,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testEchoBodyPetTest() throws ApiException {
+    public void testEchoBodyPetTest() throws ApiException {
         //
         //Pet pet = null;
         //
@@ -162,7 +172,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testEchoBodyPetResponseStringTest() throws ApiException {
+    public void testEchoBodyPetResponseStringTest() throws ApiException {
         //
         //Pet pet = null;
         //
@@ -171,23 +181,6 @@ class BodyApiTest {
         // TODO: test validations
     }
     /**
-     * Test string enum response body
-     *
-     * Test string enum response body
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    void testEchoBodyStringEnumTest() throws ApiException {
-        //
-        //String body = null;
-        //
-        //StringEnumRef response = api.testEchoBodyStringEnum(body);
-
-        // TODO: test validations
-    }
-    /**
      * Test empty json (request body)
      *
      * Test empty json (request body)
@@ -196,7 +189,7 @@ class BodyApiTest {
      *          if the Api call fails
      */
     @Test
-    void testEchoBodyTagResponseStringTest() throws ApiException {
+    public void testEchoBodyTagResponseStringTest() throws ApiException {
         //
         //Tag tag = null;
         //

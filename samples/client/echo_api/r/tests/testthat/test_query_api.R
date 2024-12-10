@@ -70,30 +70,6 @@ test_that("TestQueryStyleDeepObjectExplodeTrueObjectAllOf", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("TestQueryStyleFormExplodeFalseArrayInteger", {
-  # tests for TestQueryStyleFormExplodeFalseArrayInteger
-  # base path: http://localhost:3000
-  # Test query parameter(s)
-  # Test query parameter(s)
-  # @param query_object array[integer]  (optional)
-  # @return [character]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
-test_that("TestQueryStyleFormExplodeFalseArrayString", {
-  # tests for TestQueryStyleFormExplodeFalseArrayString
-  # base path: http://localhost:3000
-  # Test query parameter(s)
-  # Test query parameter(s)
-  # @param query_object array[character]  (optional)
-  # @return [character]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("TestQueryStyleFormExplodeTrueArrayString", {
   # tests for TestQueryStyleFormExplodeTrueArrayString
   # base path: http://localhost:3000

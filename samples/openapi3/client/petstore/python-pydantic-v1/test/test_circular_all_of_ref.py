@@ -36,10 +36,16 @@ class TestCircularAllOfRef(unittest.TestCase):
         model = CircularAllOfRef()  # noqa: E501
         if include_optional:
             return CircularAllOfRef(
-                name = '',
                 second_circular_all_of_ref = [
-                    petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef()
-                    ]
+                    petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef(
+                        circular_all_of_ref = [
+                            petstore_api.models.circular_all_of_ref.CircularAllOfRef(
+                                second_circular_all_of_ref = [
+                                    petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef()
+                                    ], )
+                            ], )
+                    ],
+                name = ''
             )
         else:
             return CircularAllOfRef(

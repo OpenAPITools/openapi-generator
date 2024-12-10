@@ -19,8 +19,6 @@ using Xunit;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
-// uncomment below to import models
-//using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Test.Api
 {
@@ -56,17 +54,15 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
+        /// Test TestsPathStringPathStringIntegerPathInteger
         /// </summary>
         [Fact]
-        public void TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathTest()
+        public void TestsPathStringPathStringIntegerPathIntegerTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
             //string pathString = null;
             //int pathInteger = null;
-            //string enumNonrefStringPath = null;
-            //StringEnumRef enumRefStringPath = null;
-            //var response = instance.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+            //var response = instance.TestsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
             //Assert.IsType<string>(response);
         }
     }

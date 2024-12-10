@@ -27,7 +27,6 @@ import java.util.Map;
 /**
  * API tests for AuthApi
  */
-@Disabled
 class AuthApiTest {
 
     private final AuthApi api = new AuthApi();
@@ -59,10 +58,14 @@ class AuthApiTest {
      */
     @Test
     void testAuthHttpBearerTest() {
+        String response;
+        api.getApiClient().setBearerToken("fixed token");
+        response = api.testAuthHttpBearer();
+        Assert.assertTrue(response.contains("Authorization: Bearer fixed token"));
 
-        String response = api.testAuthHttpBearer();
-
-        // TODO: test validations
+        api.getApiClient().setBearerToken(() -> "dynamic token");
+        response = api.testAuthHttpBearer();
+        Assert.assertTrue(response.contains("Authorization: Bearer dynamic token"));
     }
     
 }

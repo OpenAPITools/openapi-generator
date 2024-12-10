@@ -62,9 +62,8 @@ namespace Org.OpenAPITools.Test.Api
         public void TestEnumRefStringTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //string? enumNonrefStringQuery = null;
             //StringEnumRef? enumRefStringQuery = null;
-            //var response = instance.TestEnumRefString(enumNonrefStringQuery, enumRefStringQuery);
+            //var response = instance.TestEnumRefString(enumRefStringQuery);
             //Assert.IsType<string>(response);
         }
 
@@ -76,7 +75,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //DateTime? datetimeQuery = null;
-            //DateOnly? dateQuery = null;
+            //DateTime? dateQuery = null;
             //string? stringQuery = null;
             //var response = instance.TestQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery);
             //Assert.IsType<string>(response);
@@ -117,30 +116,6 @@ namespace Org.OpenAPITools.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = null;
             //var response = instance.TestQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
-            //Assert.IsType<string>(response);
-        }
-
-        /// <summary>
-        /// Test TestQueryStyleFormExplodeFalseArrayInteger
-        /// </summary>
-        [Fact]
-        public void TestQueryStyleFormExplodeFalseArrayIntegerTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //List<int>? queryObject = null;
-            //var response = instance.TestQueryStyleFormExplodeFalseArrayInteger(queryObject);
-            //Assert.IsType<string>(response);
-        }
-
-        /// <summary>
-        /// Test TestQueryStyleFormExplodeFalseArrayString
-        /// </summary>
-        [Fact]
-        public void TestQueryStyleFormExplodeFalseArrayStringTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //List<string>? queryObject = null;
-            //var response = instance.TestQueryStyleFormExplodeFalseArrayString(queryObject);
             //Assert.IsType<string>(response);
         }
 

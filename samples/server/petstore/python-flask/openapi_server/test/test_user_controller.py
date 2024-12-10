@@ -9,59 +9,59 @@ from openapi_server.test import BaseTestCase
 class TestUserController(BaseTestCase):
     """UserController integration test stubs"""
 
+    @unittest.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
     def test_create_user(self):
         """Test case for create_user
 
         Create user
         """
-        user = {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+        body = openapi_server.User()
         headers = { 
             'Content-Type': 'application/json',
-            'api_key': 'special-key',
         }
         response = self.client.open(
             '/v2/user',
             method='POST',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
     def test_create_users_with_array_input(self):
         """Test case for create_users_with_array_input
 
         Creates list of users with given input array
         """
-        user = {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+        body = [openapi_server.User()]
         headers = { 
             'Content-Type': 'application/json',
-            'api_key': 'special-key',
         }
         response = self.client.open(
             '/v2/user/createWithArray',
             method='POST',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
     def test_create_users_with_list_input(self):
         """Test case for create_users_with_list_input
 
         Creates list of users with given input array
         """
-        user = {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+        body = [openapi_server.User()]
         headers = { 
             'Content-Type': 'application/json',
-            'api_key': 'special-key',
         }
         response = self.client.open(
             '/v2/user/createWithList',
             method='POST',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -72,7 +72,6 @@ class TestUserController(BaseTestCase):
         Delete user
         """
         headers = { 
-            'api_key': 'special-key',
         }
         response = self.client.open(
             '/v2/user/{username}'.format(username='username_example'),
@@ -120,7 +119,6 @@ class TestUserController(BaseTestCase):
         Logs out current logged in user session
         """
         headers = { 
-            'api_key': 'special-key',
         }
         response = self.client.open(
             '/v2/user/logout',
@@ -129,21 +127,21 @@ class TestUserController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
     def test_update_user(self):
         """Test case for update_user
 
         Updated user
         """
-        user = {"firstName":"firstName","lastName":"lastName","password":"password","userStatus":6,"phone":"phone","id":0,"email":"email","username":"username"}
+        body = openapi_server.User()
         headers = { 
             'Content-Type': 'application/json',
-            'api_key': 'special-key',
         }
         response = self.client.open(
             '/v2/user/{username}'.format(username='username_example'),
             method='PUT',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

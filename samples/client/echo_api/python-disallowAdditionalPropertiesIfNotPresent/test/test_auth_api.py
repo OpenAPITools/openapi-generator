@@ -15,14 +15,14 @@
 
 import unittest
 
-from openapi_client.api.auth_api import AuthApi
+from openapi_client.api.auth_api import AuthApi  # noqa: E501
 
 
 class TestAuthApi(unittest.TestCase):
     """AuthApi unit test stubs"""
 
     def setUp(self) -> None:
-        self.api = AuthApi()
+        self.api = AuthApi()  # noqa: E501
 
     def tearDown(self) -> None:
         pass
@@ -30,14 +30,7 @@ class TestAuthApi(unittest.TestCase):
     def test_test_auth_http_basic(self) -> None:
         """Test case for test_auth_http_basic
 
-        To test HTTP basic authentication
-        """
-        pass
-
-    def test_test_auth_http_bearer(self) -> None:
-        """Test case for test_auth_http_bearer
-
-        To test HTTP bearer authentication
+        To test HTTP basic authentication  # noqa: E501
         """
         pass
 

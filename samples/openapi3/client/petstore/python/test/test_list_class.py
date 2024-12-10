@@ -13,8 +13,9 @@
 
 
 import unittest
+import datetime
 
-from petstore_api.models.list_class import ListClass
+from petstore_api.models.list_class import ListClass  # noqa: E501
 
 class TestListClass(unittest.TestCase):
     """ListClass unit test stubs"""
@@ -27,12 +28,12 @@ class TestListClass(unittest.TestCase):
 
     def make_instance(self, include_optional) -> ListClass:
         """Test ListClass
-            include_optional is a boolean, when False only required
+            include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
         # uncomment below to create an instance of `ListClass`
         """
-        model = ListClass()
+        model = ListClass()  # noqa: E501
         if include_optional:
             return ListClass(
                 var_123_list = ''

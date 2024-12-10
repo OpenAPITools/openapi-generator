@@ -40,7 +40,7 @@ class TestStoreController(BaseTestCase):
         Find purchase order by ID
         """
         response = self.client.open(
-            '/v2/store/order/{order_id}'.format(order_id=56),
+            '/v2/store/order/{order_id}'.format(order_id=1),
             method='GET')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

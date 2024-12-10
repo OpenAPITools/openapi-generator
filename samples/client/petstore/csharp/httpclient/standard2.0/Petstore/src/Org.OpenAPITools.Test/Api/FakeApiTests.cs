@@ -107,9 +107,8 @@ namespace Org.OpenAPITools.Test.Api
         public void FakeOuterStringSerializeTest()
         {
             // TODO uncomment below to test the method and replace null with proper value
-            //Guid requiredStringUuid = null;
             //string body = null;
-            //var response = instance.FakeOuterStringSerialize(requiredStringUuid, body);
+            //var response = instance.FakeOuterStringSerialize(body);
             //Assert.IsType<string>(response);
         }
 
@@ -122,39 +121,6 @@ namespace Org.OpenAPITools.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //var response = instance.GetArrayOfEnums();
             //Assert.IsType<List<OuterEnum>>(response);
-        }
-
-        /// <summary>
-        /// Test GetMixedAnyOf
-        /// </summary>
-        [Fact]
-        public void GetMixedAnyOfTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.GetMixedAnyOf();
-            //Assert.IsType<MixedAnyOf>(response);
-        }
-
-        /// <summary>
-        /// Test GetMixedOneOf
-        /// </summary>
-        [Fact]
-        public void GetMixedOneOfTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.GetMixedOneOf();
-            //Assert.IsType<MixedOneOf>(response);
-        }
-
-        /// <summary>
-        /// Test TestAdditionalPropertiesReference
-        /// </summary>
-        [Fact]
-        public void TestAdditionalPropertiesReferenceTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //Dictionary<string, Object> requestBody = null;
-            //instance.TestAdditionalPropertiesReference(requestBody);
         }
 
         /// <summary>
@@ -200,20 +166,20 @@ namespace Org.OpenAPITools.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //decimal number = null;
-            //double varDouble = null;
+            //double _double = null;
             //string patternWithoutDelimiter = null;
-            //byte[] varByte = null;
+            //byte[] _byte = null;
             //int? integer = null;
             //int? int32 = null;
             //long? int64 = null;
-            //float? varFloat = null;
-            //string varString = null;
+            //float? _float = null;
+            //string _string = null;
             //FileParameter binary = null;
             //DateTime? date = null;
             //DateTime? dateTime = null;
             //string password = null;
             //string callback = null;
-            //instance.TestEndpointParameters(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
+            //instance.TestEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
         }
 
         /// <summary>
@@ -262,17 +228,6 @@ namespace Org.OpenAPITools.Test.Api
         }
 
         /// <summary>
-        /// Test TestInlineFreeformAdditionalProperties
-        /// </summary>
-        [Fact]
-        public void TestInlineFreeformAdditionalPropertiesTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
-            //instance.TestInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
-        }
-
-        /// <summary>
         /// Test TestJsonFormData
         /// </summary>
         [Fact]
@@ -296,22 +251,7 @@ namespace Org.OpenAPITools.Test.Api
             //List<string> http = null;
             //List<string> url = null;
             //List<string> context = null;
-            //string requiredNotNullable = null;
-            //string requiredNullable = null;
-            //string notRequiredNotNullable = null;
-            //string notRequiredNullable = null;
-            //instance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
-        }
-
-        /// <summary>
-        /// Test TestStringMapReference
-        /// </summary>
-        [Fact]
-        public void TestStringMapReferenceTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //Dictionary<string, string> requestBody = null;
-            //instance.TestStringMapReference(requestBody);
+            //instance.TestQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
         }
     }
 }
