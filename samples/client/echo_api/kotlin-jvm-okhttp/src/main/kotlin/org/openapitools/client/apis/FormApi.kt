@@ -112,7 +112,8 @@ class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
             "string_form" to PartConfig(body = stringForm, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/form/integer/boolean/string",
@@ -203,7 +204,8 @@ class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
             "name" to PartConfig(body = name, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/form/oneof",

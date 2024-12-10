@@ -52,7 +52,7 @@ Configure http_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testAuthHttpBearer"></a>
 # **testAuthHttpBearer**
@@ -97,5 +97,5 @@ Configure http_bearer_auth:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 

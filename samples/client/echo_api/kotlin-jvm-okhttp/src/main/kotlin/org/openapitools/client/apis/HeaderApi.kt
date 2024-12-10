@@ -139,7 +139,8 @@ class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory 
         stringHeader?.apply { localVariableHeaders["string_header"] = this.toString() }
         enumNonrefStringHeader?.apply { localVariableHeaders["enum_nonref_string_header"] = this.toString() }
         enumRefStringHeader?.apply { localVariableHeaders["enum_ref_string_header"] = this.toString() }
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/header/integer/boolean/string/enums",

@@ -135,7 +135,8 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/enum_ref_string",
@@ -222,7 +223,8 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/datetime/date/string",
@@ -309,7 +311,8 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/integer/boolean/string",
@@ -384,7 +387,8 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_deepObject/explode_true/object",
@@ -459,7 +463,8 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_form/explode_true/array_string",
@@ -534,7 +539,8 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_form/explode_true/object",

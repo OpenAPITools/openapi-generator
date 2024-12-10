@@ -58,7 +58,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testQueryDatetimeDateString"></a>
 # **testQueryDatetimeDateString**
@@ -108,7 +108,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testQueryIntegerBooleanString"></a>
 # **testQueryIntegerBooleanString**
@@ -158,7 +158,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testQueryStyleDeepObjectExplodeTrueObject"></a>
 # **testQueryStyleDeepObjectExplodeTrueObject**
@@ -204,7 +204,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testQueryStyleFormExplodeTrueArrayString"></a>
 # **testQueryStyleFormExplodeTrueArrayString**
@@ -250,7 +250,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testQueryStyleFormExplodeTrueObject"></a>
 # **testQueryStyleFormExplodeTrueObject**
@@ -296,5 +296,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain
 

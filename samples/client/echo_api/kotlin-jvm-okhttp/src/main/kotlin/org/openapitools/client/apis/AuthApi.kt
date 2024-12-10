@@ -100,7 +100,8 @@ class AuthApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/auth/http/basic",
@@ -167,7 +168,8 @@ class AuthApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/auth/http/bearer",

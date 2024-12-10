@@ -173,7 +173,8 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/octet-stream"
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/binary",
@@ -244,7 +245,8 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
             "files" to PartConfig(body = files, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/array_of_binary",
@@ -315,7 +317,8 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
             "my-file" to PartConfig(body = myFile, headers = mutableMapOf()),)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/single_binary",
@@ -386,7 +389,8 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/FreeFormObject/response_string",
@@ -529,7 +533,8 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Pet/response_string",
@@ -600,7 +605,8 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        
+        localVariableHeaders["Accept"] = "text/plain"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Tag/response_string",

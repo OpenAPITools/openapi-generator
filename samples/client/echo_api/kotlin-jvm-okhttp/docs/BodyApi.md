@@ -101,7 +101,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/octet-stream
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testBodyMultipartFormdataArrayOfBinary"></a>
 # **testBodyMultipartFormdataArrayOfBinary**
@@ -147,7 +147,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testBodyMultipartFormdataSingleBinary"></a>
 # **testBodyMultipartFormdataSingleBinary**
@@ -193,7 +193,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testEchoBodyFreeFormObjectResponseString"></a>
 # **testEchoBodyFreeFormObjectResponseString**
@@ -239,7 +239,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testEchoBodyPet"></a>
 # **testEchoBodyPet**
@@ -331,7 +331,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
 <a id="testEchoBodyTagResponseString"></a>
 # **testEchoBodyTagResponseString**
@@ -377,5 +377,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: text/plain
 
