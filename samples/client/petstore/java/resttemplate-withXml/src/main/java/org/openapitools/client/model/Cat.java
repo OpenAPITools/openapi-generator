@@ -84,6 +84,7 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+
   @Override
   public Cat className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
