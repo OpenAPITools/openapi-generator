@@ -82,6 +82,8 @@ Category | Method | HTTP request | Description
 *StoreAPI* | [**StoreAPI_getInventory**](docs/StoreAPI.md#StoreAPI_getInventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreAPI* | [**StoreAPI_getOrderById**](docs/StoreAPI.md#StoreAPI_getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 *StoreAPI* | [**StoreAPI_placeOrder**](docs/StoreAPI.md#StoreAPI_placeOrder) | **POST** /store/order | Place an order for a pet
+*StoreAPI* | [**StoreAPI_sendFeedback**](docs/StoreAPI.md#StoreAPI_sendFeedback) | **POST** /store/feedback | Send us a feedback message
+*StoreAPI* | [**StoreAPI_sendRating**](docs/StoreAPI.md#StoreAPI_sendRating) | **POST** /store/rating/{rating} | How would you rate our service?
 *UserAPI* | [**UserAPI_createUser**](docs/UserAPI.md#UserAPI_createUser) | **POST** /user | Create user
 *UserAPI* | [**UserAPI_createUsersWithArrayInput**](docs/UserAPI.md#UserAPI_createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
 *UserAPI* | [**UserAPI_createUsersWithListInput**](docs/UserAPI.md#UserAPI_createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
