@@ -74,6 +74,7 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+
   @Override
   public Dog className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);
