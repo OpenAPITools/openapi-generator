@@ -432,6 +432,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public CodegenModel fromModel(String name, Schema model) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
+        setEnumDiscriminatorDefaultValue(codegenModel);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema<?> parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
