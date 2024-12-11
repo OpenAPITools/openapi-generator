@@ -24,7 +24,7 @@
 - filename: "samples/client/echo_api/java/resteasy/src/test/java/org/openapitools/client/api/BodyApiTest.java"
   sha256: 04715cabbe9bd27ff98dd56e3db489ebc9ffbf98d9af104a6707b0a40ab4f8fe
 - filename: "samples/client/echo_api/java/resttemplate/src/test/java/org/openapitools/client/api/AuthApiTest.java"
-  sha256: fa45f446111823f02b9c8e8d010e3c1a28fc0f00a325e674da14d0e12296ea96
+  sha256: 38193bbad7f3eef087bc1474352e484178b14a2b8c0e0ba0cd4e4960516a14f9
 - filename: "samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/api/PetApiTest.java"
   sha256: 24c6a39a9d7327d397dc038c368a19c84f14ed96a69fe28d53719b3eaf0a725c
 - filename: "samples/client/petstore/java/jersey3/src/test/java/org/openapitools/client/api/PetApiTest.java"
@@ -36,9 +36,9 @@
 - filename: "samples/client/petstore/java/okhttp-gson-3.1/src/test/java/org/openapitools/client/api/PetApiTest.java"
   sha256: d8f7fff724f81e666daf115cc25f8347e1fda4e861aa30df0dae3fa50c91404c
 - filename: "samples/client/petstore/java/okhttp-gson-dynamicOperations/src/test/java/org/openapitools/client/api/PetApiTest.java"
-  sha256: 711a242b6257b87363c59b20dcaed45f9b146e2be246339a039a5d0338ad280c
+  sha256: 5fc397856b79562bb49082658dbc44a62f342834b1e510fe75545a7566e363af
 - filename: "samples/client/petstore/java/okhttp-gson-dynamicOperations/src/test/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnlyTest.java"
-  sha256: 3a1add6f05f057c45b2ea489f619c3b455bf75e8e748fabd5487972b330ae2e6
+  sha256: 3c41eb12d126f90392d97e3250b53ea9dce1663fb714a19339445b9da734d634
 - filename: "samples/client/petstore/java/resteasy/src/test/java/org/openapitools/client/api/PetApiTest.java"
   sha256: 68ed9228c99ecf2ff3842074242d3be7565da3b702b7f46008a5e119ef15c167
 - filename: "samples/openapi3/client/petstore/java/jersey2-java8-special-characters/src/test/java/org/openapitools/client/model/MySchemaNameCharactersTest.java"

@@ -50,7 +50,7 @@ public class PetApiTest {
     // In the circle.yml file, /etc/host is configured with an entry to resolve petstore.swagger.io to 127.0.0.1
     private static String basePath = "http://petstore.swagger.io:80/v2";
 
-    @Before
+    @BeforeEach
     public void setup() {
         // setup authentication
         ApiKeyAuth apiKeyAuth = (ApiKeyAuth) api.getApiClient().getAuthentication("api_key");
