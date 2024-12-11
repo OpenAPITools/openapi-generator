@@ -14,9 +14,9 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
     }
 
     {{#vars}}
-    public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
-      this.instance.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+      this.instance.{{name}} = JsonNullable.<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
       this.instance.{{name}} = {{name}};
@@ -24,7 +24,7 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
       return this;
     }
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
-    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
       this.instance.{{name}} = {{name}};
       return this;
     }
@@ -32,12 +32,12 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
     {{/vars}}
 
 {{#parentVars}}
-    public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) { // inherited: {{isInherited}}
+    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) { // inherited: {{isInherited}}
       super.{{name}}({{name}});
       return this;
    }
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
-    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
       this.instance.{{name}} = {{name}};
       return this;
     }
