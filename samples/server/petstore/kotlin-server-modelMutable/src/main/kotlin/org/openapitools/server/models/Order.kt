@@ -12,6 +12,7 @@
 package org.openapitools.server.models
 
 
+import kotlinx.serialization.Serializable
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -21,15 +22,16 @@ package org.openapitools.server.models
  * @param status Order Status
  * @param complete 
  */
+@Serializable
 data class Order(
     var id: kotlin.Long? = null,
     var petId: kotlin.Long? = null,
     var quantity: kotlin.Int? = null,
-    var shipDate: java.time.OffsetDateTime? = null,
+    var shipDate: kotlin.String? = null,
     /* Order Status */
     var status: Order.Status? = null,
     var complete: kotlin.Boolean? = false
-) 
+)
 {
     /**
     * Order Status

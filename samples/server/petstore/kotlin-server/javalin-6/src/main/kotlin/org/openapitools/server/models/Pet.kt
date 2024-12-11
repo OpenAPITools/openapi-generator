@@ -31,7 +31,7 @@ data class Pet(
     val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     val status: Pet.Status? = null
-) 
+)
 {
     /**
     * pet status in the store

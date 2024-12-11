@@ -12,19 +12,17 @@
 package org.openapitools.server.models
 
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 /**
  * A tag for a pet
  * @param id 
  * @param name 
  */
+@Serializable
 data class Tag(
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
-) : Serializable 
+)
 {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
 }
 
