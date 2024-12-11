@@ -578,7 +578,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.CreateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -650,7 +650,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.CreateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -720,7 +720,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithArrayInput";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -792,7 +792,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithArrayInput";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -862,7 +862,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithListInput";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -934,7 +934,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.CreateUsersWithListInput";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1585,7 +1585,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.UpdateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1666,7 +1666,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "UserApi.UpdateUser";
             localVarRequestOptions.OperationIndex = operationIndex;
