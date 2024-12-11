@@ -77,7 +77,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
+    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<{ [key: string]: ComplexObject | undefined; }>>> {
         const requestContextPromise = this.requestFactory.testDecodeArrayOfMapsOfObjectsGet(_options);
 
         // build promise chain
@@ -98,8 +98,8 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Observable<Array<{ [key: string]: ComplexObject; }>> {
-        return this.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<{ [key: string]: ComplexObject; }>>) => apiResponse.data));
+    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Observable<Array<{ [key: string]: ComplexObject | undefined; }>> {
+        return this.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<{ [key: string]: ComplexObject | undefined; }>>) => apiResponse.data));
     }
 
     /**
@@ -185,7 +185,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
+    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }>> {
         const requestContextPromise = this.requestFactory.testDecodeMapOfMapsOfObjectsGet(_options);
 
         // build promise chain
@@ -206,13 +206,13 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Observable<{ [key: string]: { [key: string]: ComplexObject; }; }> {
-        return this.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>) => apiResponse.data));
+    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Observable<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }> {
+        return this.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: ComplexObject | undefined | null; }>> {
         const requestContextPromise = this.requestFactory.testDecodeMapOfObjectsGet(_options);
 
         // build promise chain
@@ -233,13 +233,13 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfObjectsGet(_options?: Configuration): Observable<{ [key: string]: ComplexObject | null; }> {
-        return this.testDecodeMapOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: ComplexObject | null; }>) => apiResponse.data));
+    public testDecodeMapOfObjectsGet(_options?: Configuration): Observable<{ [key: string]: ComplexObject | undefined | null; }> {
+        return this.testDecodeMapOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: ComplexObject | undefined | null; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: string; }>> {
+    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: string | undefined; }>> {
         const requestContextPromise = this.requestFactory.testDecodeMapOfPrimitiveGet(_options);
 
         // build promise chain
@@ -260,8 +260,8 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfPrimitiveGet(_options?: Configuration): Observable<{ [key: string]: string; }> {
-        return this.testDecodeMapOfPrimitiveGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: string; }>) => apiResponse.data));
+    public testDecodeMapOfPrimitiveGet(_options?: Configuration): Observable<{ [key: string]: string | undefined; }> {
+        return this.testDecodeMapOfPrimitiveGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: string | undefined; }>) => apiResponse.data));
     }
 
     /**
@@ -485,7 +485,7 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Observable<HttpInfo<void>> {
+    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject | undefined; }>, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
 
         // build promise chain
@@ -507,7 +507,7 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Observable<void> {
+    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject | undefined; }>, _options?: Configuration): Observable<void> {
         return this.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -630,7 +630,7 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Observable<HttpInfo<void>> {
+    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
 
         // build promise chain
@@ -652,14 +652,14 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Observable<void> {
+    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }, _options?: Configuration): Observable<void> {
         return this.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Observable<HttpInfo<void>> {
+    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | undefined | null; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeMapOfObjectsPost(requestBody, _options);
 
         // build promise chain
@@ -681,14 +681,14 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Observable<void> {
+    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | undefined | null; }, _options?: Configuration): Observable<void> {
         return this.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration): Observable<HttpInfo<void>> {
+    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string | undefined; }, _options?: Configuration): Observable<HttpInfo<void>> {
         const requestContextPromise = this.requestFactory.testEncodeMapOfPrimitivePost(requestBody, _options);
 
         // build promise chain
@@ -710,7 +710,7 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Observable<void> {
+    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string | undefined; }, _options?: Configuration): Observable<void> {
         return this.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 

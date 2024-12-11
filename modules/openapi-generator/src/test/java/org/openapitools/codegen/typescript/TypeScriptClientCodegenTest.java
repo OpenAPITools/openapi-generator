@@ -47,6 +47,21 @@ public class TypeScriptClientCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(true);
         Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
+
+        parentSchema = new MapSchema().additionalProperties(new StringSchema());
+        parentSchema.required(List.of("x", "y"));
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: string; }");
+
+        parentSchema.propertyNames(new StringSchema()._enum(List.of("y", "z")));
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: string; }");
+
+        codegen.additionalProperties().put("enrichedMaps", Boolean.TRUE);
+        codegen.processOpts();
+        parentSchema.propertyNames(new StringSchema());
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: string; x: string; y: string; }");
+
+        parentSchema.propertyNames(new StringSchema()._enum(List.of("y", "z")));
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: string | undefined; x: string; y: string; z?: string; }");
     }
 
     @Test

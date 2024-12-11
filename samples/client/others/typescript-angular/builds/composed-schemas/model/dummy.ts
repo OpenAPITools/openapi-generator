@@ -10,6 +10,6 @@
 
 
 export interface DummyModel { 
-    'property.name'?: string;
+    property_name?: string;
 }
 

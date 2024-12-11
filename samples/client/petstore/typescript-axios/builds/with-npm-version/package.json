@@ -14,7 +14,7 @@
     "openapi-generator",
     "@openapitools/typescript-axios-petstore"
   ],
-  "license": "Unlicense",
+  "license": "",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {

@@ -51,6 +51,7 @@ public class TypeScriptNestjsClientOptionsProvider implements TypeScriptSharedCl
                 .put(TypeScriptNestjsClientCodegen.SERVICE_FILE_SUFFIX, SERVICE_FILE_SUFFIX)
                 .put(TypeScriptNestjsClientCodegen.MODEL_SUFFIX, MODEL_SUFFIX)
                 .put(TypeScriptNestjsClientCodegen.MODEL_FILE_SUFFIX, MODEL_FILE_SUFFIX)
+                .put(TypeScriptNestjsClientCodegen.ENRICHED_MAPS, Boolean.FALSE.toString())
                 .put(TypeScriptNestjsClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, USE_SINGLE_REQUEST_PARAMETER)
                 .build();

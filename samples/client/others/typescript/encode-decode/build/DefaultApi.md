@@ -129,7 +129,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **testDecodeArrayOfMapsOfObjectsGet**
-> Array<{ [key: string]: ComplexObject; }> testDecodeArrayOfMapsOfObjectsGet()
+> Array<{ [key: string]: ComplexObject | undefined; }> testDecodeArrayOfMapsOfObjectsGet()
 
 
 ### Example
@@ -154,7 +154,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Array<{ [key: string]: ComplexObject; }>**
+**Array<{ [key: string]: ComplexObject | undefined; }>**
 
 ### Authorization
 
@@ -309,7 +309,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **testDecodeMapOfMapsOfObjectsGet**
-> { [key: string]: { [key: string]: ComplexObject; }; } testDecodeMapOfMapsOfObjectsGet()
+> { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; } testDecodeMapOfMapsOfObjectsGet()
 
 
 ### Example
@@ -334,7 +334,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: { [key: string]: ComplexObject; }; }**
+**{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }**
 
 ### Authorization
 
@@ -354,7 +354,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **testDecodeMapOfObjectsGet**
-> { [key: string]: ComplexObject | null; } testDecodeMapOfObjectsGet()
+> { [key: string]: ComplexObject | undefined | null; } testDecodeMapOfObjectsGet()
 
 
 ### Example
@@ -379,7 +379,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: ComplexObject | null; }**
+**{ [key: string]: ComplexObject | undefined | null; }**
 
 ### Authorization
 
@@ -399,7 +399,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **testDecodeMapOfPrimitiveGet**
-> { [key: string]: string; } testDecodeMapOfPrimitiveGet()
+> { [key: string]: string | undefined; } testDecodeMapOfPrimitiveGet()
 
 
 ### Example
@@ -424,7 +424,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: string; }**
+**{ [key: string]: string | undefined; }**
 
 ### Authorization
 
@@ -851,7 +851,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **complexObject** | **Array<{ [key: string]: ComplexObject; }>**|  |
+ **complexObject** | **Array<{ [key: string]: ComplexObject | undefined; }>**|  |
 
 
 ### Return type
@@ -1138,7 +1138,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | **{ [key: string]: { [key: string]: ComplexObject; }; }**|  |
+ **requestBody** | **{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }**|  |
 
 
 ### Return type
@@ -1197,7 +1197,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | **{ [key: string]: ComplexObject | null; }**|  |
+ **requestBody** | **{ [key: string]: ComplexObject | undefined | null; }**|  |
 
 
 ### Return type
@@ -1251,7 +1251,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | **{ [key: string]: string; }**|  |
+ **requestBody** | **{ [key: string]: string | undefined; }**|  |
 
 
 ### Return type
