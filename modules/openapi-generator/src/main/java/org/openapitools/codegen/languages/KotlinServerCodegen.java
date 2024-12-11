@@ -382,6 +382,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
+                if (isKtor()) {
+                    ArrayList<CodegenParameter> params = new ArrayList<>();
+                    params.addAll(operation.pathParams);
+                    params.addAll(operation.queryParams);
+                    operation.vendorExtensions.put("ktor-params", params);
+                }
+
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     responses.forEach(resp -> {

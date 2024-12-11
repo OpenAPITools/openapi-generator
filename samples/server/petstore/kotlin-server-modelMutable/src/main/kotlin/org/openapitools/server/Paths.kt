@@ -36,14 +36,14 @@ object Paths {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
      */
-    @Resource("/pet/findByStatus") class findPetsByStatus()
+    @Resource("/pet/findByStatus") class findPetsByStatus(val status: kotlin.collections.MutableList<kotlin.String>)
 
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
      */
-    @Resource("/pet/findByTags") class findPetsByTags()
+    @Resource("/pet/findByTags") class findPetsByTags(val tags: kotlin.collections.MutableList<kotlin.String>)
 
     /**
      * Find pet by ID
@@ -145,7 +145,7 @@ object Paths {
      * @param username The user name for login 
      * @param password The password for login in clear text 
      */
-    @Resource("/user/login") class loginUser()
+    @Resource("/user/login") class loginUser(val username: kotlin.String, val password: kotlin.String)
 
     /**
      * Logs out current logged in user session
