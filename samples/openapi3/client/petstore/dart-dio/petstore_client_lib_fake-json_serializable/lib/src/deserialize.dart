@@ -42,6 +42,7 @@ import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
 import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 import 'package:openapi/src/model/user.dart';
+import 'package:dio/dio.dart';
 
 final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
@@ -49,6 +50,12 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
 
   ReturnType deserialize<ReturnType, BaseType>(dynamic value, String targetType, {bool growable= true}) {
       switch (targetType) {
+        case 'MultipartFile':
+          try {
+            return MultipartFile.fromBytes(List.castFrom<dynamic, int>(value)) as ReturnType;
+          } catch (e) {
+            throw Exception('Cannot deserialize');
+          }
         case 'String':
           return '$value' as ReturnType;
         case 'int':
