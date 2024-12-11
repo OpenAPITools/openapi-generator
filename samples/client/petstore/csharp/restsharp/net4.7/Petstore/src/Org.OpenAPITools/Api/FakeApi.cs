@@ -1385,7 +1385,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterBooleanSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1453,7 +1453,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterBooleanSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1519,7 +1519,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = outerComposite;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(outerComposite);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterCompositeSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1587,7 +1587,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = outerComposite;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(outerComposite);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterCompositeSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1653,7 +1653,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterNumberSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1721,7 +1721,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterNumberSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1790,7 +1790,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_uuid", requiredStringUuid));
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterStringSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1861,7 +1861,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_uuid", requiredStringUuid));
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "FakeApi.FakeOuterStringSerialize";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2309,7 +2309,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = requestBody;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(requestBody);
 
             localVarRequestOptions.Operation = "FakeApi.TestAdditionalPropertiesReference";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2381,7 +2381,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = requestBody;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(requestBody);
 
             localVarRequestOptions.Operation = "FakeApi.TestAdditionalPropertiesReference";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2451,7 +2451,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = fileSchemaTestClass;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(fileSchemaTestClass);
 
             localVarRequestOptions.Operation = "FakeApi.TestBodyWithFileSchema";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2523,7 +2523,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = fileSchemaTestClass;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(fileSchemaTestClass);
 
             localVarRequestOptions.Operation = "FakeApi.TestBodyWithFileSchema";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2602,7 +2602,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query));
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "FakeApi.TestBodyWithQueryParams";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2683,7 +2683,7 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query));
-            localVarRequestOptions.Data = user;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(user);
 
             localVarRequestOptions.Operation = "FakeApi.TestBodyWithQueryParams";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2755,7 +2755,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = modelClient;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(modelClient);
 
             localVarRequestOptions.Operation = "FakeApi.TestClientModel";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -2829,7 +2829,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = modelClient;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(modelClient);
 
             localVarRequestOptions.Operation = "FakeApi.TestClientModel";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -3611,7 +3611,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = requestBody;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(requestBody);
 
             localVarRequestOptions.Operation = "FakeApi.TestInlineAdditionalProperties";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -3683,7 +3683,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = requestBody;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(requestBody);
 
             localVarRequestOptions.Operation = "FakeApi.TestInlineAdditionalProperties";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -3753,7 +3753,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = testInlineFreeformAdditionalPropertiesRequest;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(testInlineFreeformAdditionalPropertiesRequest);
 
             localVarRequestOptions.Operation = "FakeApi.TestInlineFreeformAdditionalProperties";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -3825,7 +3825,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = testInlineFreeformAdditionalPropertiesRequest;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(testInlineFreeformAdditionalPropertiesRequest);
 
             localVarRequestOptions.Operation = "FakeApi.TestInlineFreeformAdditionalProperties";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -4327,7 +4327,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = requestBody;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(requestBody);
 
             localVarRequestOptions.Operation = "FakeApi.TestStringMapReference";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -4399,7 +4399,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = requestBody;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(requestBody);
 
             localVarRequestOptions.Operation = "FakeApi.TestStringMapReference";
             localVarRequestOptions.OperationIndex = operationIndex;

@@ -803,7 +803,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "BodyApi.TestBodyApplicationOctetstreamBinary";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -871,7 +871,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "BodyApi.TestBodyApplicationOctetstreamBinary";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1229,7 +1229,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyAllOfPet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1297,7 +1297,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyAllOfPet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1363,7 +1363,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyFreeFormObjectResponseString";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1431,7 +1431,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyFreeFormObjectResponseString";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1497,7 +1497,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1565,7 +1565,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1631,7 +1631,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPetResponseString";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1699,7 +1699,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyPetResponseString";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1765,7 +1765,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyStringEnum";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1833,7 +1833,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(body);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyStringEnum";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1899,7 +1899,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = tag;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(tag);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyTagResponseString";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1967,7 +1967,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = tag;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(tag);
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyTagResponseString";
             localVarRequestOptions.OperationIndex = operationIndex;
