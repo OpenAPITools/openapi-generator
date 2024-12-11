@@ -387,6 +387,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
+        } else if(typeMapping.containsKey(super.getSchemaType(p))) {
+            return openAPIType;
         }
 
         return "std::shared_ptr<" + openAPIType + ">";
