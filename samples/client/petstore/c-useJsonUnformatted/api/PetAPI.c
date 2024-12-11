@@ -66,6 +66,7 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t *body)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -83,9 +84,10 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t *body)
     cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_body = pet_convertToJSON(body);
         localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     list_addElement(localVarContentType,"application/json"); //consumes
     list_addElement(localVarContentType,"application/xml"); //consumes
@@ -97,6 +99,7 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t *body)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -135,6 +138,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -181,6 +185,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "DELETE");
 
     // uncomment below to debug the error response
@@ -226,6 +231,7 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -254,6 +260,7 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -317,6 +324,7 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -345,6 +353,7 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -406,6 +415,7 @@ PetAPI_getDaysWithoutIncident(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -427,6 +437,7 @@ PetAPI_getDaysWithoutIncident(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -469,6 +480,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -505,6 +517,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -561,6 +574,7 @@ PetAPI_getPicture(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -582,6 +596,7 @@ PetAPI_getPicture(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -622,6 +637,7 @@ PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -657,6 +673,7 @@ PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -697,7 +714,7 @@ end:
 // Send a picture of your happy pet
 //
 char*
-PetAPI_sharePicture(apiClient_t *apiClient, char *picture)
+PetAPI_sharePicture(apiClient_t *apiClient, binary_t* picture)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -705,6 +722,7 @@ PetAPI_sharePicture(apiClient_t *apiClient, char *picture)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -719,7 +737,9 @@ PetAPI_sharePicture(apiClient_t *apiClient, char *picture)
 
 
     // Body Param
-    localVarBodyParameters = strdup(picture);
+    localVarBodyParameters = malloc(picture->len);
+    memcpy(localVarBodyParameters, picture->data, picture->len);
+    localVarBodyLength = picture->len;
     list_addElement(localVarHeaderType,"*/*"); //produces
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -729,6 +749,7 @@ PetAPI_sharePicture(apiClient_t *apiClient, char *picture)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -772,6 +793,7 @@ PetAPI_specialtyPet(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -794,6 +816,7 @@ PetAPI_specialtyPet(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -841,6 +864,7 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t *body)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -858,9 +882,10 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t *body)
     cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_body = pet_convertToJSON(body);
         localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     list_addElement(localVarContentType,"application/json"); //consumes
     list_addElement(localVarContentType,"application/xml"); //consumes
@@ -872,6 +897,7 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t *body)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "PUT");
 
     // uncomment below to debug the error response
@@ -918,6 +944,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *s
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -977,6 +1004,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *s
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -1029,6 +1057,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, 
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -1089,6 +1118,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, 
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response

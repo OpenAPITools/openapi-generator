@@ -25,6 +25,7 @@ DefaultAPI_privateGet(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -46,6 +47,7 @@ DefaultAPI_privateGet(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -95,6 +97,7 @@ DefaultAPI_publicGet(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -116,6 +119,7 @@ DefaultAPI_publicGet(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -165,6 +169,7 @@ DefaultAPI_usersGet(apiClient_t *apiClient)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -186,6 +191,7 @@ DefaultAPI_usersGet(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response

@@ -25,6 +25,7 @@ UserAPI_createUser(apiClient_t *apiClient, user_t *body)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -42,9 +43,10 @@ UserAPI_createUser(apiClient_t *apiClient, user_t *body)
     cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_body = user_convertToJSON(body);
         localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -54,6 +56,7 @@ UserAPI_createUser(apiClient_t *apiClient, user_t *body)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -92,6 +95,7 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -132,6 +136,7 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body)
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_body, localVar_body);
         localVarBodyParameters = cJSON_PrintUnformatted(localVarItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -141,6 +146,7 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -187,6 +193,7 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -227,6 +234,7 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body)
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_body, localVar_body);
         localVarBodyParameters = cJSON_PrintUnformatted(localVarItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -236,6 +244,7 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "POST");
 
     // uncomment below to debug the error response
@@ -284,6 +293,7 @@ UserAPI_deleteUser(apiClient_t *apiClient, char *username)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -316,6 +326,7 @@ UserAPI_deleteUser(apiClient_t *apiClient, char *username)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "DELETE");
 
     // uncomment below to debug the error response
@@ -354,6 +365,7 @@ UserAPI_getUserByName(apiClient_t *apiClient, char *username)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -388,6 +400,7 @@ UserAPI_getUserByName(apiClient_t *apiClient, char *username)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -444,6 +457,7 @@ UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password)
     list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -490,6 +504,7 @@ UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -558,6 +573,7 @@ UserAPI_logoutUser(apiClient_t *apiClient)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -578,6 +594,7 @@ UserAPI_logoutUser(apiClient_t *apiClient)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -613,6 +630,7 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -659,6 +677,7 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "GET");
 
     // uncomment below to debug the error response
@@ -694,6 +713,7 @@ UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body)
     list_t *localVarHeaderType = NULL;
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -723,9 +743,10 @@ UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body)
     cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_body = user_convertToJSON(body);
         localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -735,6 +756,7 @@ UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body)
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "PUT");
 
     // uncomment below to debug the error response
