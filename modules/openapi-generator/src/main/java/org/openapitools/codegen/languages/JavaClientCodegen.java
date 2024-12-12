@@ -93,6 +93,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String VERTX = "vertx";
     public static final String MICROPROFILE = "microprofile";
     public static final String APACHE = "apache-httpclient";
+    public static final String APACHE_ASYNC = "apache-asynchttpclient";
     public static final String MICROPROFILE_REST_CLIENT_VERSION = "microprofileRestClientVersion";
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_VERSION = "2.0";
     public static final String MICROPROFILE_REST_CLIENT_DEFAULT_ROOT_PACKAGE = "javax";
@@ -240,7 +241,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient support this option."));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` and `apache-asynchttpclient libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
 
@@ -259,6 +260,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.17.1. Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client " + MICROPROFILE_REST_CLIENT_DEFAULT_VERSION + " (default, set desired version via `" + MICROPROFILE_REST_CLIENT_VERSION + "=x.x.x`). JSON processing: JSON-B 1.0.2 or Jackson 2.17.1");
         supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.2.1. JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(APACHE_ASYNC, "HTTP client: Apache async httpclient 5.2.1. JSON processing: Jackson 2.17.1");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -395,9 +397,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(WEBCLIENT_BLOCKING_OPERATIONS, op -> webclientBlockingOperations=op);
         convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES, this::setFailOnUnknownProperties);
 
-        // add URL query deepObject support to native, apache-httpclient by default
+        // add URL query deepObject support to native, apache-httpclient, apache-asynchttpclient by default
         if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {
-            if (isLibrary(NATIVE) || isLibrary(APACHE)) {
+            if (isLibrary(NATIVE) || isLibrary(APACHE) || isLibrary(APACHE_ASYNC)) {
                 // default to true for native and apache-httpclient
                 additionalProperties.put(SUPPORT_URL_QUERY, true);
             }
@@ -436,7 +438,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // helper for client library that allow to parse/format java.time.OffsetDateTime or org.threeten.bp.OffsetDateTime
-        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(APACHE) || isLibrary(RESTCLIENT))) {
+        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(APACHE) || isLibrary(APACHE_ASYNC) || isLibrary(RESTCLIENT))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
         }
 
@@ -492,7 +494,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
-        if (APACHE.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary())) {
+        if (APACHE.equals(getLibrary()) || APACHE_ASYNC.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("BaseApi.mustache", invokerFolder, "BaseApi.java"));
         }
 
@@ -644,7 +646,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     additionalProperties.put("jsonbPolymorphism", true);
                 }
             }
-        } else if (APACHE.equals(getLibrary())) {
+        } else if (APACHE.equals(getLibrary()) || (APACHE_ASYNC.equals(getLibrary()))) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
@@ -814,7 +816,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
-        if (NATIVE.equals(getLibrary()) || APACHE.equals(getLibrary())) {
+        if (NATIVE.equals(getLibrary()) || APACHE.equals(getLibrary()) || APACHE_ASYNC.equals(getLibrary())) {
             OperationMap operations = objs.getOperations();
             List<CodegenOperation> operationList = operations.getOperation();
             Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");
