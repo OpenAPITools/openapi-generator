@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 # **fakeOuterBooleanSerialize**
 ```swift
-    open class func fakeOuterBooleanSerialize( body: Bool? = nil) -> Promise<Bool>
+    open func fakeOuterBooleanSerialize( body: Bool? = nil) -> Promise<Bool>
 ```
 
 
@@ -34,7 +34,7 @@ import PetstoreClient
 
 let body = true // Bool | Input boolean as post body (optional)
 
-FakeAPI.fakeOuterBooleanSerialize(body: body).then {
+FakeAPI().fakeOuterBooleanSerialize(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -66,7 +66,7 @@ No authorization required
 
 # **fakeOuterCompositeSerialize**
 ```swift
-    open class func fakeOuterCompositeSerialize( body: OuterComposite? = nil) -> Promise<OuterComposite>
+    open func fakeOuterCompositeSerialize( body: OuterComposite? = nil) -> Promise<OuterComposite>
 ```
 
 
@@ -80,7 +80,7 @@ import PetstoreClient
 
 let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: false) // OuterComposite | Input composite as post body (optional)
 
-FakeAPI.fakeOuterCompositeSerialize(body: body).then {
+FakeAPI().fakeOuterCompositeSerialize(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -112,7 +112,7 @@ No authorization required
 
 # **fakeOuterNumberSerialize**
 ```swift
-    open class func fakeOuterNumberSerialize( body: Double? = nil) -> Promise<Double>
+    open func fakeOuterNumberSerialize( body: Double? = nil) -> Promise<Double>
 ```
 
 
@@ -126,7 +126,7 @@ import PetstoreClient
 
 let body = 987 // Double | Input number as post body (optional)
 
-FakeAPI.fakeOuterNumberSerialize(body: body).then {
+FakeAPI().fakeOuterNumberSerialize(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -158,7 +158,7 @@ No authorization required
 
 # **fakeOuterStringSerialize**
 ```swift
-    open class func fakeOuterStringSerialize( body: String? = nil) -> Promise<String>
+    open func fakeOuterStringSerialize( body: String? = nil) -> Promise<String>
 ```
 
 
@@ -172,7 +172,7 @@ import PetstoreClient
 
 let body = "body_example" // String | Input string as post body (optional)
 
-FakeAPI.fakeOuterStringSerialize(body: body).then {
+FakeAPI().fakeOuterStringSerialize(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -204,7 +204,7 @@ No authorization required
 
 # **testBodyWithFileSchema**
 ```swift
-    open class func testBodyWithFileSchema( body: FileSchemaTestClass) -> Promise<Void>
+    open func testBodyWithFileSchema( body: FileSchemaTestClass) -> Promise<Void>
 ```
 
 
@@ -218,7 +218,7 @@ import PetstoreClient
 
 let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [nil]) // FileSchemaTestClass | 
 
-FakeAPI.testBodyWithFileSchema(body: body).then {
+FakeAPI().testBodyWithFileSchema(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -250,7 +250,7 @@ No authorization required
 
 # **testBodyWithQueryParams**
 ```swift
-    open class func testBodyWithQueryParams( query: String,  body: User) -> Promise<Void>
+    open func testBodyWithQueryParams( query: String,  body: User) -> Promise<Void>
 ```
 
 
@@ -263,7 +263,7 @@ import PetstoreClient
 let query = "query_example" // String | 
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | 
 
-FakeAPI.testBodyWithQueryParams(query: query, body: body).then {
+FakeAPI().testBodyWithQueryParams(query: query, body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -296,7 +296,7 @@ No authorization required
 
 # **testClientModel**
 ```swift
-    open class func testClientModel( body: Client) -> Promise<Client>
+    open func testClientModel( body: Client) -> Promise<Client>
 ```
 
 To test \"client\" model
@@ -311,7 +311,7 @@ import PetstoreClient
 let body = Client(client: "client_example") // Client | client model
 
 // To test \"client\" model
-FakeAPI.testClientModel(body: body).then {
+FakeAPI().testClientModel(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -343,7 +343,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: URL? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void>
+    open func testEndpointParameters( number: Double,  double: Double,  patternWithoutDelimiter: String,  byte: Data,  integer: Int? = nil,  int32: Int? = nil,  int64: Int64? = nil,  float: Float? = nil,  string: String? = nil,  binary: URL? = nil,  date: Date? = nil,  dateTime: Date? = nil,  password: String? = nil,  callback: String? = nil) -> Promise<Void>
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -371,7 +371,7 @@ let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
 // Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).then {
+FakeAPI().testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -416,7 +416,7 @@ Void (empty response body)
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters( enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil,  enumHeaderString: EnumHeaderString_testEnumParameters? = nil,  enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil,  enumQueryString: EnumQueryString_testEnumParameters? = nil,  enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil,  enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil,  enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil,  enumFormString: EnumFormString_testEnumParameters? = nil) -> Promise<Void>
+    open func testEnumParameters( enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil,  enumHeaderString: EnumHeaderString_testEnumParameters? = nil,  enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil,  enumQueryString: EnumQueryString_testEnumParameters? = nil,  enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil,  enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil,  enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil,  enumFormString: EnumFormString_testEnumParameters? = nil) -> Promise<Void>
 ```
 
 To test enum parameters
@@ -438,7 +438,7 @@ let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum te
 let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .efg)
 
 // To test enum parameters
-FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).then {
+FakeAPI().testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -477,7 +477,7 @@ No authorization required
 
 # **testGroupParameters**
 ```swift
-    open class func testGroupParameters( requiredStringGroup: Int,  requiredBooleanGroup: Bool,  requiredInt64Group: Int64,  stringGroup: Int? = nil,  booleanGroup: Bool? = nil,  int64Group: Int64? = nil) -> Promise<Void>
+    open func testGroupParameters( requiredStringGroup: Int,  requiredBooleanGroup: Bool,  requiredInt64Group: Int64,  stringGroup: Int? = nil,  booleanGroup: Bool? = nil,  int64Group: Int64? = nil) -> Promise<Void>
 ```
 
 Fake endpoint to test group parameters (optional)
@@ -497,7 +497,7 @@ let booleanGroup = true // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)
-FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).then {
+FakeAPI().testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -534,7 +534,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties( param: [String: String]) -> Promise<Void>
+    open func testInlineAdditionalProperties( param: [String: String]) -> Promise<Void>
 ```
 
 test inline additionalProperties
@@ -547,7 +547,7 @@ import PetstoreClient
 let param = "TODO" // [String: String] | request body
 
 // test inline additionalProperties
-FakeAPI.testInlineAdditionalProperties(param: param).then {
+FakeAPI().testInlineAdditionalProperties(param: param).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -579,7 +579,7 @@ No authorization required
 
 # **testJsonFormData**
 ```swift
-    open class func testJsonFormData( param: String,  param2: String) -> Promise<Void>
+    open func testJsonFormData( param: String,  param2: String) -> Promise<Void>
 ```
 
 test json serialization of form data
@@ -593,7 +593,7 @@ let param = "param_example" // String | field1
 let param2 = "param2_example" // String | field2
 
 // test json serialization of form data
-FakeAPI.testJsonFormData(param: param, param2: param2).then {
+FakeAPI().testJsonFormData(param: param, param2: param2).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder(orderId: String, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteOrder>
+    open func deleteOrder(orderId: String, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteOrder>
 ```
 
 Delete purchase order by ID
@@ -27,7 +27,7 @@ import PetstoreClient
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
 // Delete purchase order by ID
-StoreAPI.deleteOrder(orderId: orderId).whenComplete { result in
+StoreAPI().deleteOrder(orderId: orderId).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -73,7 +73,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory(headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory>
+    open func getInventory(headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory>
 ```
 
 Returns pet inventories by status
@@ -87,7 +87,7 @@ import PetstoreClient
 
 
 // Returns pet inventories by status
-StoreAPI.getInventory().whenComplete { result in
+StoreAPI().getInventory().whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -128,7 +128,7 @@ public enum GetInventory {
 
 # **getOrderById**
 ```swift
-    open class func getOrderById(orderId: Int64, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetOrderById>
+    open func getOrderById(orderId: Int64, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetOrderById>
 ```
 
 Find purchase order by ID
@@ -143,7 +143,7 @@ import PetstoreClient
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
 // Find purchase order by ID
-StoreAPI.getOrderById(orderId: orderId).whenComplete { result in
+StoreAPI().getOrderById(orderId: orderId).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -191,7 +191,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder(body: Order, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<PlaceOrder>
+    open func placeOrder(body: Order, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<PlaceOrder>
 ```
 
 Place an order for a pet
@@ -204,7 +204,7 @@ import PetstoreClient
 let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
-StoreAPI.placeOrder(body: body).whenComplete { result in
+StoreAPI().placeOrder(body: body).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error

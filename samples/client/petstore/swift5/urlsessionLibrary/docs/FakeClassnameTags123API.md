@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **testClassname**
 ```swift
-    open class func testClassname(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
+    open func testClassname(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
 ```
 
 To test class name in snake case
@@ -24,7 +24,7 @@ import PetstoreClient
 let body = Client(client: "client_example") // Client | client model
 
 // To test class name in snake case
-FakeClassnameTags123API.testClassname(body: body) { (response, error) in
+FakeClassnameTags123API().testClassname(body: body) { (response, error) in
     guard error == nil else {
         print(error)
         return
