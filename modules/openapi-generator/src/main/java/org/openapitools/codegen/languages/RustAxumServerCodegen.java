@@ -594,8 +594,73 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
-    @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
+        HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
+
+        for (ModelMap mo : allModels) {
+            CodegenModel cm = mo.getModel();
+
+            if (cm.discriminator != null) {
+                for (String model : cm.oneOf) {
+                    List<String> discriminators = oneOfMapDiscriminator.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator.getPropertyName());
+                    oneOfMapDiscriminator.put(model, discriminators);
+                }
+            }
+        }
+
+        for (ModelMap mo : allModels) {
+            CodegenModel cm = mo.getModel();
+
+            List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
+
+            if (discriminatorsForModel != null) {
+                for (String discriminator : discriminatorsForModel) {
+                    boolean hasDiscriminatorDefined = false;
+
+                    for (CodegenProperty var : cm.vars) {
+                        if (var.baseName.equals(discriminator)) {
+                            var.isDiscriminator = true;
+                            hasDiscriminatorDefined = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasDiscriminatorDefined) {
+                        CodegenProperty property = new CodegenProperty();
+
+                        // Static attributes
+                        // Only strings are supported by serde for tag field types, so it's the only one we'll deal with
+                        property.openApiType = "string";
+                        property.complexType = "string";
+                        property.dataType = "String";
+                        property.datatypeWithEnum = "String";
+                        property.baseType = "string";
+                        property.required = true;
+                        property.isPrimitiveType = true;
+                        property.isString = true;
+                        property.isDiscriminator = true;
+
+                        // Attributes based on the discriminator value
+                        property.baseName = discriminator;
+                        property.name = discriminator;
+                        property.nameInCamelCase = camelize(discriminator);
+                        property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
+                        property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
+                        property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
+                        property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
+                        property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
+
+                        // Attributes based on the model name
+                        property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
+                        property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+
+                        cm.vars.add(property);
+                    }
+                }
+            }
+        }
+
         final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
 
