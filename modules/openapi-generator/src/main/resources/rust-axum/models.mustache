@@ -573,21 +573,70 @@ impl PartialEq for {{{classname}}} {
         self.0.get() == other.0.get()
     }
 }
+
 {{/anyOf.size}}
 {{#oneOf.size}}
-/// One of:
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
+{{#discriminator}}
+#[serde(tag = "{{{propertyBaseName}}}")]
+{{/discriminator}}
+{{^discriminator}}
+#[serde(untagged)]
+{{/discriminator}}
+pub enum {{{classname}}} {
 {{#oneOf}}
-/// - {{{.}}}
+    {{{.}}}(Box<{{{.}}}>),
 {{/oneOf}}
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct {{{classname}}}(Box<serde_json::value::RawValue>);
+}
 
 impl validator::Validate for {{{classname}}}
 {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            {{#oneOf}}
+            Self::{{{.}}}(x) => x.validate(),
+            {{/oneOf}}
+        }
     }
 }
+
+{{#discriminator}}
+impl serde::Serialize for {{{classname}}} {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: serde::Serializer {
+            match self {
+                {{#oneOf}}
+                Self::{{{.}}}(x) => {{{.}}}::serialize(x, serializer),
+                {{/oneOf}}
+            }
+    }
+}
+
+{{#oneOf}}
+impl {{{.}}} {
+    fn __name_for_{{{propertyBaseName}}}() -> String {
+        String::from("{{{.}}}")
+    }
+
+    fn __serialize_{{{propertyBaseName}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str(&Self::__name_for_{{{propertyBaseName}}}())
+    }
+}
+{{/oneOf}}
+{{/discriminator}}
+
+
+
+{{#oneOf}}
+impl From<{{{.}}}> for {{{classname}}} {
+    fn from(value: {{{.}}}) -> Self {
+        Self::{{{.}}}(Box::new(value))
+    }
+}
+{{/oneOf}}
 
 /// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
 /// as specified in https://swagger.io/docs/specification/serialization/
@@ -600,11 +649,6 @@ impl std::str::FromStr for {{{classname}}} {
     }
 }
 
-impl PartialEq for {{{classname}}} {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
-    }
-}
 {{/oneOf.size}}
 {{^anyOf.size}}
 {{^oneOf.size}}
@@ -613,10 +657,14 @@ impl PartialEq for {{{classname}}} {
 pub struct {{{classname}}} {
 {{#vars}}
 {{#description}}    
-/// {{{.}}}
+    /// {{{.}}}
 {{/description}}
+{{#isDiscriminator}}
+    #[serde(default = "{{{classname}}}::__name_for_{{{name}}}")]
+    #[serde(serialize_with = "{{{classname}}}::__serialize_{{{name}}}")]
+{{/isDiscriminator}}
 {{#isEnum}}
-/// Note: inline enums are not fully supported by openapi-generator
+    /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
     #[serde(rename = "{{{baseName}}}")]
 {{#hasValidation}}
