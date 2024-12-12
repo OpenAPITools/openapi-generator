@@ -73,6 +73,16 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     Constants.METRICS,
                     Constants.OMIT_GRADLE_WRAPPER
             ))
+            .put(Constants.KTOR2, Arrays.asList(
+                    Constants.AUTOMATIC_HEAD_REQUESTS,
+                    Constants.CONDITIONAL_HEADERS,
+                    Constants.HSTS,
+                    Constants.CORS,
+                    Constants.COMPRESSION,
+                    Constants.RESOURCES,
+                    Constants.METRICS,
+                    Constants.OMIT_GRADLE_WRAPPER
+            ))
             .put(Constants.JAXRS_SPEC, Arrays.asList(
                     USE_BEANVALIDATION,
                     Constants.USE_COROUTINES,
@@ -127,6 +137,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         modelPackage = packageName + ".models";
 
         supportedLibraries.put(Constants.KTOR, "ktor framework");
+        supportedLibraries.put(Constants.KTOR2, "ktor (2.x) framework");
         supportedLibraries.put(Constants.JAXRS_SPEC, "JAX-RS spec only");
         supportedLibraries.put(Constants.JAVALIN5, "Javalin 5");
         supportedLibraries.put(Constants.JAVALIN6, "Javalin 6");
@@ -323,6 +334,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     public static class Constants {
         public final static String KTOR = "ktor";
+        public final static String KTOR2 = "ktor2";
         public final static String JAXRS_SPEC = "jaxrs-spec";
 
         public final static String JAVALIN5 = "javalin5";
@@ -419,6 +431,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     }
 
     private boolean isKtor() {
-        return Constants.KTOR.equals(library);
+        return Constants.KTOR.equals(library) || Constants.KTOR2.equals(library);
     }
 }
