@@ -46,7 +46,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 {{/isDate}}
 {{#isDateTime}}
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSSX")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
 {{/isDateTime}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{vendorExtensions.x-field-extra-annotation}}}
