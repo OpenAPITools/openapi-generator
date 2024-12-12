@@ -260,14 +260,14 @@ Name | Type | Description  | Notes
 ```c
 // Send a picture of your happy pet
 //
-char* PetAPI_sharePicture(apiClient_t *apiClient, char *picture);
+char* PetAPI_sharePicture(apiClient_t *apiClient, binary_t* picture);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**picture** | **char \*** | A picture you want to share | 
+**picture** | **binary_t*** | A picture you want to share | 
 
 ### Return type
 

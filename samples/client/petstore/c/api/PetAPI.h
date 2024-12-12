@@ -71,7 +71,7 @@ PetAPI_isPetAvailable(apiClient_t *apiClient, long petId);
 // Send a picture of your happy pet
 //
 char*
-PetAPI_sharePicture(apiClient_t *apiClient, char *picture);
+PetAPI_sharePicture(apiClient_t *apiClient, binary_t* picture);
 
 
 // Specialty of the shop

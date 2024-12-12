@@ -107,6 +107,7 @@ end:
     list_t *localVarHeaderType = {{#hasProduces}}list_createList();{{/hasProduces}}{{^hasProduces}}NULL;{{/hasProduces}}
     list_t *localVarContentType = {{#hasConsumes}}list_createList();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
 
     // clear the error code from the previous api call
     apiClient->response_code = 0;
@@ -121,12 +122,16 @@ end:
     if(!{{paramName}})
         goto end;
     {{/isString}}
+    {{#isBinary}}
+    if(!{{paramName}})
+        goto end;
+    {{/isBinary}}
     {{/pathParams}}
 
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
@@ -180,13 +185,13 @@ end:
 
     {{/isLong}}
     {{#isString}}
-    if({{paramName}} == NULL) {
+    if({{paramName}} == {{#isEnum}}0{{/isEnum}}{{^isEnum}}NULL{{/isEnum}}) {
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
     sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}});
     {{/isString}}
     {{#isUuid}}
     if({{paramName}} == NULL) {
@@ -331,20 +336,30 @@ end:
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
         localVarBodyParameters = {{{cJSONPrint}}}(localVarItemJSON_{{paramName}});
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     {{/isArray}}
     {{^isArray}}
     {{#isString}}
     localVarBodyParameters = strdup({{paramName}});
+    localVarBodyLength = strlen(localVarBodyParameters);
     {{/isString}}
     {{^isString}}
+    {{#isBinary}}
+    localVarBodyParameters = malloc({{paramName}}->len);
+    memcpy(localVarBodyParameters, {{paramName}}->data, {{paramName}}->len);
+    localVarBodyLength = {{paramName}}->len;
+    {{/isBinary}}
+    {{^isBinary}}
     cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
         localVarBodyParameters = {{{cJSONPrint}}}(localVarSingleItemJSON_{{paramName}});
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
+    {{/isBinary}}
     {{/isString}}
     {{/isArray}}
     {{/bodyParam}}
@@ -362,6 +377,7 @@ end:
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "{{{httpMethod}}}");
 
     {{#responses}}
@@ -503,10 +519,12 @@ end:
     {{/isArray}}
     {{^isArray}}
     {{^isString}}
+    {{^isBinary}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isBinary}}
     {{/isString}}
     free(localVarBodyParameters);
     {{/isArray}}
@@ -644,10 +662,12 @@ end:
     free(localVarBodyParameters);
     {{/isArray}}
     {{^isArray}}
+    {{^isBinary}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isBinary}}
     free(localVarBodyParameters);
     {{/isArray}}
     {{/bodyParams}}
