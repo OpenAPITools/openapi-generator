@@ -105,7 +105,7 @@ namespace {{packageName}}.Client
             }
 
             // RFC 2183 & RFC 2616
-            var fileNameRegex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$", RegexOptions.IgnoreCase);
+            var fileNameRegex = new Regex(@"Content-Disposition=.*filename=['"";]?([^'"";\s]+)['"";]?", RegexOptions.IgnoreCase);
             if (type == typeof(byte[])) // return byte array
             {
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
