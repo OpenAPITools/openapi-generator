@@ -35,7 +35,7 @@ fun Route.UserApi() {
     authenticate("api_key") {
     post<Paths.createUser> {
         
-        val principal = call.authentication.principal<ApiPrincipal>()!!
+        val principal = call.authentication.principal<ApiPrincipal>()
         
         
         call.respond(HttpStatusCode.NotImplemented)
@@ -46,7 +46,7 @@ fun Route.UserApi() {
     authenticate("api_key") {
     post<Paths.createUsersWithArrayInput> {
         
-        val principal = call.authentication.principal<ApiPrincipal>()!!
+        val principal = call.authentication.principal<ApiPrincipal>()
         
         
         call.respond(HttpStatusCode.NotImplemented)
@@ -57,7 +57,7 @@ fun Route.UserApi() {
     authenticate("api_key") {
     post<Paths.createUsersWithListInput> {
         
-        val principal = call.authentication.principal<ApiPrincipal>()!!
+        val principal = call.authentication.principal<ApiPrincipal>()
         
         
         call.respond(HttpStatusCode.NotImplemented)
@@ -68,7 +68,7 @@ fun Route.UserApi() {
     authenticate("api_key") {
     delete<Paths.deleteUser> {
         
-        val principal = call.authentication.principal<ApiPrincipal>()!!
+        val principal = call.authentication.principal<ApiPrincipal>()
         
         
         call.respond(HttpStatusCode.NotImplemented)
@@ -90,7 +90,7 @@ fun Route.UserApi() {
         }"""
         
         when (exampleContentType) {
-            "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+            "application/json" -> call.respondText(exampleContentType, ContentType.Application.Json)
             "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
             else -> call.respondText(exampleContentString)
         }
@@ -105,7 +105,7 @@ fun Route.UserApi() {
     authenticate("api_key") {
     get<Paths.logoutUser> {
         
-        val principal = call.authentication.principal<ApiPrincipal>()!!
+        val principal = call.authentication.principal<ApiPrincipal>()
         
         
         call.respond(HttpStatusCode.NotImplemented)
@@ -116,7 +116,7 @@ fun Route.UserApi() {
     authenticate("api_key") {
     put<Paths.updateUser> {
         
-        val principal = call.authentication.principal<ApiPrincipal>()!!
+        val principal = call.authentication.principal<ApiPrincipal>()
         
         
         call.respond(HttpStatusCode.NotImplemented)

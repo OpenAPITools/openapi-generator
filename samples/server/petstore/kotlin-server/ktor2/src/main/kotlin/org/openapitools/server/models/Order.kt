@@ -12,7 +12,7 @@
 package org.openapitools.server.models
 
 
-import java.io.Serializable
+import kotlinx.serialization.Serializable
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -22,6 +22,7 @@ import java.io.Serializable
  * @param status Order Status
  * @param complete 
  */
+@Serializable
 data class Order(
     val id: kotlin.Long? = null,
     val petId: kotlin.Long? = null,
@@ -30,11 +31,8 @@ data class Order(
     /* Order Status */
     val status: Order.Status? = null,
     val complete: kotlin.Boolean? = false
-) : Serializable 
+)
 {
-    companion object {
-        private const val serialVersionUID: Long = 123
-    }
     /**
     * Order Status
     * Values: placed,approved,delivered
