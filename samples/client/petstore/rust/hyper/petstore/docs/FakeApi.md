@@ -4,7 +4,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_nullable_required_param**](FakeApi.md#test_nullable_required_param) | **Get** /fake/user/{user-name} | To test nullable required parameters
+[**test_nullable_required_param**](FakeApi.md#test_nullable_required_param) | **Get** /fake/user/{user_name} | To test nullable required parameters
 
 
 
