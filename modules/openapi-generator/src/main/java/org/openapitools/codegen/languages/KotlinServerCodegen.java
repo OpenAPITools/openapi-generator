@@ -236,6 +236,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             LOGGER.info("`library` option is empty. Default to {}", DEFAULT_LIBRARY);
         }
 
+        if (isKtor()) {
+            typeMapping.put("date-time", "kotlin.String");
+            typeMapping.put("DateTime", "kotlin.String");
+        }
+
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
             setAutoHeadFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.AUTOMATIC_HEAD_REQUESTS));
         } else {
@@ -298,6 +303,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
         if (isKtor()) {
+            additionalProperties.put(Constants.IS_KTOR, true);
+
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
@@ -365,6 +372,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
         public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
+        public static final String IS_KTOR = "isKtor";
     }
 
     @Override
@@ -386,6 +394,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
+                if (isKtor()) {
+                    ArrayList<CodegenParameter> params = new ArrayList<>();
+                    params.addAll(operation.pathParams);
+                    params.addAll(operation.queryParams);
+                    operation.vendorExtensions.put("ktor-params", params);
+                }
+
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     responses.forEach(resp -> {
