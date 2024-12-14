@@ -604,6 +604,20 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
+            if (operation.pathParams != null && operation.pathParams.size() > 0) {
+                for (var pathParam : operation.pathParams) {
+                    if (!pathParam.baseName.contains("-")) {
+                        continue;
+                    }
+
+                    var newName = pathParam.baseName.replace("-", "_");
+                    LOGGER.info(pathParam.baseName + " cannot be used as a path param. Renamed to " + newName);
+
+                    operation.path = operation.path.replace("{" + pathParam.baseName + "}", "{" + newName + "}");
+                    pathParam.baseName = newName;
+                }
+            }
+
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
