@@ -288,7 +288,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (isKtor()) {
+        if (isKtor2Or3()) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
 
