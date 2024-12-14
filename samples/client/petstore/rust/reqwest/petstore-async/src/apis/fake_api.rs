@@ -18,7 +18,7 @@ use super::{Error, configuration};
 #[derive(Clone, Debug)]
 pub struct TestNullableRequiredParamParams {
     /// The name that needs to be fetched. Use user1 for testing.
-    pub username: String,
+    pub user_name: String,
     /// To test nullable required parameters
     pub dummy_required_nullable_param: Option<String>,
     /// To test parameter names in upper case
@@ -49,14 +49,14 @@ pub async fn test_nullable_required_param(configuration: &configuration::Configu
     let local_var_configuration = configuration;
 
     // unbox the parameters
-    let username = params.username;
+    let user_name = params.user_name;
     let dummy_required_nullable_param = params.dummy_required_nullable_param;
     let uppercase = params.uppercase;
 
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/fake/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
+    let local_var_uri_str = format!("{}/fake/user/{user_name}", local_var_configuration.base_path, user_name=crate::apis::urlencode(user_name));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
