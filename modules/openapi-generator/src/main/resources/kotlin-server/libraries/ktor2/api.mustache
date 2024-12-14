@@ -35,13 +35,13 @@ fun Route.{{classname}}() {
     {{^featureResources}}
     route("{{path}}") {
         {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {
-            {{#lambda.indented_12}}{{>libraries/ktor/_api_body}}{{/lambda.indented_12}}
+            {{#lambda.indented_12}}{{>libraries/ktor2/_api_body}}{{/lambda.indented_12}}
         }
     }
     {{/featureResources}}
     {{#featureResources}}
     {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {
-        {{#lambda.indented_8}}{{>libraries/ktor/_api_body}}{{/lambda.indented_8}}
+        {{#lambda.indented_8}}{{>libraries/ktor2/_api_body}}{{/lambda.indented_8}}
     }
     {{/featureResources}}
     {{#hasAuthMethods}}
