@@ -566,7 +566,7 @@ paths:
           description: User not found
       security:
         - api_key: []
-  '/fake/user/{username}':
+  '/fake/user/{user-name}':
     get:
       tags:
         - fake
@@ -574,7 +574,7 @@ paths:
       description: ''
       operationId: test_nullable_required_param
       parameters:
-        - name: username
+        - name: user-name
           in: path
           description: The name that needs to be fetched. Use user1 for testing.
           required: true
