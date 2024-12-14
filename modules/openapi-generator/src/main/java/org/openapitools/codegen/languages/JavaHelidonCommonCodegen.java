@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.prefs.BackingStoreException;
@@ -352,7 +353,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         Scan the paths of all the operations, computing the longest common prefix. Then compute and set the path suffix
         for each operation.
          */
-        String commonPathPrefixForApi = StringUtils.getCommonPrefix(objs.getOperations().getOperation()
+        String commonPathPrefixForApi = commonPathPrefix(objs.getOperations().getOperation()
                                                                   .stream()
                                                                   .map(op -> op.path)
                                                                   .map(path -> path.charAt(0) != '/' ? "/" + path : path )
@@ -448,6 +449,46 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     protected String rootJavaEEPackage() {
         return rootJavaEEPackage;
+    }
+
+    static String commonPathPrefix(String[] paths) {
+
+        if (paths.length == 0) {
+            return "/";
+        }
+
+        // Start out with the first path as the longest common prefix. The eventual longest common
+        // prefix can be no longer than the first path, so as we check other paths we simply
+        // revise the number of matching segments we have.
+        String[] commonSegments = stripAnyLeadingSlash(paths[0]).split("/");
+        int commonSegmentsCount = commonSegments.length;
+
+        // Examine the remaining paths.
+        for (int i = 1; i < paths.length; i++) {
+            String[] segments = stripAnyLeadingSlash(paths[i]).split("/");
+
+            // Check each segment of this next path against the common segments we have so far.
+            int segmentIndex = 0;
+            while (segmentIndex < Math.min(commonSegmentsCount, segments.length)
+                    && commonSegments[segmentIndex].equals(segments[segmentIndex])) {
+                segmentIndex++;
+            }
+            commonSegmentsCount = segmentIndex;
+            if (commonSegmentsCount == 0) {
+                break;
+            }
+        }
+        StringJoiner commonPath = new StringJoiner("/", "/", "");
+        commonPath.setEmptyValue("/");
+
+        for (int i = 0; i < commonSegmentsCount; i++) {
+            commonPath.add(commonSegments[i]);
+        }
+        return commonPath.toString();
+    }
+
+    private static String stripAnyLeadingSlash(String path) {
+        return path.startsWith("/") ? path.substring(1) : path;
     }
 
     /**
@@ -716,9 +757,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
         private static final String DEFAULT_VERSIONS = "<data>\n" +
                                                        "  <archetypes>\n" +
-                                                       "    <version>2.6.5</version>\n" +
-                                                       "    <version>3.2.7</version>\n" +
-                                                       "    <version>4.0.9</version>\n" +
+                                                       "    <version>2.6.10</version>\n" +
+                                                       "    <version>3.2.11</version>\n" +
+                                                       "    <version>4.1.4</version>\n" +
                                                        "  </archetypes>\n" +
                                                        "</data>";
 
