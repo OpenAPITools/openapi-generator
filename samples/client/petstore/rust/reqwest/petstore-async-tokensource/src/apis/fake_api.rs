@@ -56,7 +56,7 @@ pub async fn test_nullable_required_param(configuration: &configuration::Configu
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/fake/user/{user-name}", local_var_configuration.base_path, user-name=crate::apis::urlencode(user_name));
+    let local_var_uri_str = format!("{}/fake/user/{user_name}", local_var_configuration.base_path, user_name=crate::apis::urlencode(user_name));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
