@@ -288,13 +288,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (isKtor()) {
+        if (isKtor2Or3()) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
 
         String gradleBuildFile = "build.gradle";
 
-        if (isJavalin() || isKtor()) {
+        if (isJavalin() || isKtor2Or3()) {
             gradleBuildFile = "build.gradle.kts";
         }
 
@@ -302,7 +302,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
-        if (isKtor()) {
+        if (isKtor2Or3()) {
             additionalProperties.put(Constants.IS_KTOR, true);
 
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
@@ -445,7 +445,20 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
     }
 
-    private boolean isKtor() {
+    private boolean isKtor2Or3() {
         return Constants.KTOR.equals(library) || Constants.KTOR2.equals(library);
+    }
+
+    /**
+     * Returns true if latest version of ktor is used.
+     *
+     * @return true if latest veresion of ktor is used.
+     */
+    private boolean isKtor() {
+        return Constants.KTOR.equals(library);
+    }
+
+    private boolean isKtor2() {
+        return Constants.KTOR2.equals(library);
     }
 }
