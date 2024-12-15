@@ -189,14 +189,35 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
-            if (operation.returnType == null) {
-                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
-            } else {
-                if (operation.returnProperty.isContainer) { // array or map
-                    operation.vendorExtensions.putIfAbsent("x-php-return-type", "array");
-                } else {
-                    operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+            // Once we upgrade to java 21 we can use SequencedSet instead
+            List<String> phpReturnTypeOptions = new ArrayList<>();
+            List<String> docReturnTypeOptions = new ArrayList<>();
+
+            for (CodegenResponse response : operation.responses) {
+                if (response.dataType != null) {
+                    String returnType = response.dataType;
+                    if (response.isArray || response.isMap) {
+                        // PHP does not understand array type hinting so we strip it
+                        // The phpdoc will still contain the array type hinting
+                        returnType = "array";
+                    }
+
+                    if (!phpReturnTypeOptions.contains(returnType)) {
+                        phpReturnTypeOptions.add(returnType);
+                    }
+
+                    if (!docReturnTypeOptions.contains(response.dataType)) {
+                        docReturnTypeOptions.add(response.dataType);
+                    }
                 }
+            }
+
+            if (phpReturnTypeOptions.isEmpty()) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
+                operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", "void");
+            } else {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", String.join("|", phpReturnTypeOptions));
+                operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", String.join("|", docReturnTypeOptions));
             }
 
             for (CodegenParameter param : operation.allParams) {
