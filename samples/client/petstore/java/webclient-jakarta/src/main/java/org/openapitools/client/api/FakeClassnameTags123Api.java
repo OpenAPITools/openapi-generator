@@ -46,6 +46,7 @@ public class FakeClassnameTags123Api {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * To test class name in snake case
      * To test class name in snake case

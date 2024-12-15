@@ -46,6 +46,7 @@ public class AnotherFakeApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * To test special tags
      * To test special tags and operation ID starting with number

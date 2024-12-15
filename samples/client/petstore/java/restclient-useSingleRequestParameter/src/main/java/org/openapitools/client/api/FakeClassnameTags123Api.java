@@ -44,10 +44,6 @@ public class FakeClassnameTags123Api {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* client
-*/
     /**
      * To test class name in snake case
      * To test class name in snake case

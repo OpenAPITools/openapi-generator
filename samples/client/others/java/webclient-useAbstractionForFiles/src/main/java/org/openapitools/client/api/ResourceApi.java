@@ -46,6 +46,7 @@ public class ResourceApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * 
      * Response file abstraction
