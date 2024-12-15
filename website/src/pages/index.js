@@ -120,7 +120,7 @@ const callouts = [
                 </p>
                 <p>Slack is free to <a href="https://slack.com/downloads" className="href">download</a>, and our
                     workspace is free to <a
-                        href="https://join.slack.com/t/openapi-generator/shared_invite/zt-2uoef5v0g-XGwo8~2oJ3EoziDSO1CmdQ"
+                        href="https://join.slack.com/t/openapi-generator/shared_invite/zt-2wmkn4s8g-n19PJ99Y6Vei74WMUIehQA"
                         className="href">sign up</a>.
                 </p>
             </>
