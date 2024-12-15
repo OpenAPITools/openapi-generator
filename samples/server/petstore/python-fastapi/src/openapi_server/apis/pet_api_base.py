@@ -18,6 +18,7 @@ class BasePetApi:
     async def add_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        token_petstore_auth: str
     ) -> Pet:
         """"""
         ...
@@ -25,8 +26,8 @@ class BasePetApi:
 
     async def delete_pet(
         self,
-        petId: Annotated[StrictInt, Field(description="Pet id to delete")],
-        api_key: Optional[StrictStr],
+        petId: Annotated[StrictInt, Field(description="Pet id to delete")],        api_key: Optional[StrictStr],
+        token_petstore_auth: str
     ) -> None:
         """"""
         ...
@@ -35,6 +36,7 @@ class BasePetApi:
     async def find_pets_by_status(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        token_petstore_auth: str
     ) -> List[Pet]:
         """Multiple status values can be provided with comma separated strings"""
         ...
@@ -43,6 +45,7 @@ class BasePetApi:
     async def find_pets_by_tags(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        token_petstore_auth: str
     ) -> List[Pet]:
         """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
         ...
@@ -51,6 +54,7 @@ class BasePetApi:
     async def get_pet_by_id(
         self,
         petId: Annotated[StrictInt, Field(description="ID of pet to return")],
+        token_api_key: str
     ) -> Pet:
         """Returns a single pet"""
         ...
@@ -59,6 +63,7 @@ class BasePetApi:
     async def update_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
+        token_petstore_auth: str
     ) -> Pet:
         """"""
         ...
@@ -66,9 +71,8 @@ class BasePetApi:
 
     async def update_pet_with_form(
         self,
-        petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
-        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")],
-        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")],
+        petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],        name: Annotated[Optional[StrictStr], Field(description="Updated name of the pet")],        status: Annotated[Optional[StrictStr], Field(description="Updated status of the pet")],
+        token_petstore_auth: str
     ) -> None:
         """"""
         ...
@@ -76,9 +80,8 @@ class BasePetApi:
 
     async def upload_file(
         self,
-        petId: Annotated[StrictInt, Field(description="ID of pet to update")],
-        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")],
-        file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")],
+        petId: Annotated[StrictInt, Field(description="ID of pet to update")],        additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")],        file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")],
+        token_petstore_auth: str
     ) -> ApiResponse:
         """"""
         ...
