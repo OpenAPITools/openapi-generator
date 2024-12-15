@@ -10,6 +10,7 @@ import okhttp3.ResponseBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
 import okhttp3.Headers
+import okhttp3.Headers.Builder
 import okhttp3.Headers.Companion.toHeaders
 import okhttp3.MultipartBody
 import okhttp3.Call
@@ -291,7 +292,11 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
         }.apply {
-            headers.forEach { header -> addHeader(header.key, header.value) }
+            val headersBuilder = Headers.Builder()
+            headers.forEach { header ->
+                headersBuilder.add(header.key, header.value)
+            }
+            this.headers(headersBuilder.build())
         }.build()
 
         val response = client.newCall(request).execute()
