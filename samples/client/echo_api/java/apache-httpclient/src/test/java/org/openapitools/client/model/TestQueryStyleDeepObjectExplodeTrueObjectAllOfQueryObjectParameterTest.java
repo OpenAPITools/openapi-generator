@@ -22,18 +22,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
  */
-public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest {
+class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterTest {
     private final TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter model = new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter();
 
     /**
      * Model tests for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
      */
     @Test
-    public void testTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
+    void testTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
         // TODO: test TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
     }
 
@@ -41,7 +40,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterT
      * Test the property 'size'
      */
     @Test
-    public void sizeTest() {
+    void sizeTest() {
         // TODO: test size
     }
 
@@ -49,7 +48,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterT
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
     }
 
@@ -57,7 +56,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterT
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -65,7 +64,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterT
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

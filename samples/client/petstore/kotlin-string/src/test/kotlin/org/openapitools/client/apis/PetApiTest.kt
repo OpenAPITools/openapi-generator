@@ -87,7 +87,7 @@ class PetApiTest : ShouldSpec() {
             // uncomment below to test uploadFile
             //val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
             //val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-            //val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
+            //val file : kotlin.ByteArray = BINARY_DATA_HERE // kotlin.ByteArray | file to upload
             //val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
             //result shouldBe ("TODO")
         }

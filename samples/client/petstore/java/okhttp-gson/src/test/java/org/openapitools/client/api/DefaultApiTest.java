@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.model.FakeAnyOfWIthSameErasureGet200Response;
+import org.openapitools.client.model.FakeOneOfWIthSameErasureGet200Response;
 import org.openapitools.client.model.FooGetDefaultResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,39 @@ import java.util.Map;
 public class DefaultApiTest {
 
     private final DefaultApi api = new DefaultApi();
+
+    /**
+     * Test route, this shouldn&#39;t cause a compiler error
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeAnyOfWIthSameErasureGetTest() throws ApiException {
+        FakeAnyOfWIthSameErasureGet200Response response = api.fakeAnyOfWIthSameErasureGet();
+        // TODO: test validations
+    }
+
+    /**
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeFreeFormQueryParametersGetTest() throws ApiException {
+        String fixed = null;
+        Object freeForm = null;
+        api.fakeFreeFormQueryParametersGet(fixed, freeForm);
+        // TODO: test validations
+    }
+
+    /**
+     * Test route, this shouldn&#39;t cause a compiler error
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fakeOneOfWIthSameErasureGetTest() throws ApiException {
+        FakeOneOfWIthSameErasureGet200Response response = api.fakeOneOfWIthSameErasureGet();
+        // TODO: test validations
+    }
 
     /**
      * @throws ApiException if the Api call fails
