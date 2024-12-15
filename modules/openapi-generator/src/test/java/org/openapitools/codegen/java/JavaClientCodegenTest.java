@@ -72,6 +72,7 @@ public class JavaClientCodegenTest {
     @Getter
     enum Library {
         APACHE_HTTPCLIENT("apache-httpclient", Serializer.JACKSON),
+        APACHE_ASYNCHTTPCLIENT("apache-asynchttpclient", Serializer.JACKSON),
         FEIGN("feign", Serializer.JACKSON, Set.of(Serializer.GSON)),
         GOOGLE_API_CLIENT("google-api-client", Serializer.JACKSON),
         JERSEY_2("jersey2", Serializer.JACKSON),
@@ -3263,4 +3264,24 @@ public class JavaClientCodegenTest {
                 " getCall(Integer queryParameter, final ApiCallback _callback)"
         );
     }
+
+    @Test
+    public void testApacheAsyncHasCompletableFuture() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary("apache-asynchttpclient")
+            .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+            .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path apiFile = output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java");
+
+        assertThat(apiFile).content()
+            .contains("import java.util.concurrent.CompletableFuture;")
+            .contains("CompletableFuture<T> invokeAPI")
+            .contains("CompletableFuture<String> testQueryStyleFormExplodeTrueObjectAllOf(");
+    }
+
 }
