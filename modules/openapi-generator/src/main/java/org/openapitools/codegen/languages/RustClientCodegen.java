@@ -52,12 +52,15 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.media.Discriminator;
@@ -692,4 +695,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             return null;
         }
     }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                // Convert variable names to lifetime names. 
+                // Generally they are the same, but `#` is not valid in lifetime names.
+                // Rust uses `r#` prefix for variables that are also keywords.
+                .put("lifetimeName", new ReplaceAllLambda("^r#", "r_"));
+    }
+
 }
