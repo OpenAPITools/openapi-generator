@@ -282,20 +282,20 @@ public class {{classname}} {
         {{! We could also manipulate the inputstream to remove that bad character, but string manipulation is easier to read and this codepath is not asyncronus so we do not gain anything by reading the stream later. }}
         {{! This fix does make it unsuitable for large amounts of data because `InputStream.readAllbytes` is not meant for it, but a syncronus client is already not the right tool for that.}}
         if (localVarResponse.body() == null) {
-            return new ApiResponse<{{{returnType}}}>(
-                localVarResponse.statusCode(),
-                localVarResponse.headers().map(),
-                null
-            );
+          return new ApiResponse<{{{returnType}}}>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
         }
 
         String responseBody = new String(localVarResponse.body().readAllBytes());
         localVarResponse.body().close();
 
         return new ApiResponse<{{{returnType}}}>(
-             localVarResponse.statusCode(),
-             localVarResponse.headers().map(),
-             responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
         );
         {{/returnType}}
         {{^returnType}}
@@ -310,7 +310,7 @@ public class {{classname}} {
         {{^returnType}}
         // Drain the InputStream
         while (localVarResponse.body().read() != -1) {
-            // Ignore
+          // Ignore
         }
         localVarResponse.body().close();
         {{/returnType}}
