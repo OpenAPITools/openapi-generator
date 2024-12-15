@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Model200Response>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Name'
         /// </summary>

@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<NullableClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'IntegerProp'
         /// </summary>

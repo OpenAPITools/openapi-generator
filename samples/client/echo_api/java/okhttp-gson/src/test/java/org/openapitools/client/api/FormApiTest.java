@@ -14,6 +14,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +44,39 @@ public class FormApiTest {
         Boolean booleanForm = null;
         String stringForm = null;
         String response = api.testFormIntegerBooleanString(integerForm, booleanForm, stringForm);
+        // TODO: test validations
+    }
+
+    /**
+     * Test form parameter(s) for multipart schema
+     *
+     * Test form parameter(s) for multipart schema
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testFormObjectMultipartTest() throws ApiException {
+        TestFormObjectMultipartRequestMarker marker = null;
+        String response = api.testFormObjectMultipart(marker);
+        // TODO: test validations
+    }
+
+    /**
+     * Test form parameter(s) for oneOf schema
+     *
+     * Test form parameter(s) for oneOf schema
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testFormOneofTest() throws ApiException {
+        String form1 = null;
+        Integer form2 = null;
+        String form3 = null;
+        Boolean form4 = null;
+        Long id = null;
+        String name = null;
+        String response = api.testFormOneof(form1, form2, form3, form4, id, name);
         // TODO: test validations
     }
 

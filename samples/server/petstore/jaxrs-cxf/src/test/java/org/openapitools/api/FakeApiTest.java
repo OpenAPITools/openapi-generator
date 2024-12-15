@@ -208,7 +208,7 @@ public class FakeApiTest {
         Long int64 = null;
         Float _float = null;
         String string = null;
-        org.apache.cxf.jaxrs.ext.multipart.Attachment binary = null;
+        File binary = null;
         LocalDate date = null;
         Date dateTime = null;
         String password = null;

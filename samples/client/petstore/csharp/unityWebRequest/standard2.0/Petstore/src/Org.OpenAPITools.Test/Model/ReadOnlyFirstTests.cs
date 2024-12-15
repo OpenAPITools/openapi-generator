@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ReadOnlyFirst>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Bar'
         /// </summary>

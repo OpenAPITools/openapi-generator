@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<HealthCheckResult>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'NullableMessage'
         /// </summary>

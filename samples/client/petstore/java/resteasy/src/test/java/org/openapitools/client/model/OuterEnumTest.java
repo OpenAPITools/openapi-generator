@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for OuterEnum
  */
-public class OuterEnumTest {
+class OuterEnumTest {
     /**
      * Model tests for OuterEnum
      */
     @Test
-    public void testOuterEnum() {
+    void testOuterEnum() {
         // TODO: test OuterEnum
     }
 

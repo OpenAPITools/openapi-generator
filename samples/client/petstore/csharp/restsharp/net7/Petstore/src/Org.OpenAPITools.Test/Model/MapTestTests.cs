@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<MapTest>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'MapMapOfString'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapMapOfString'
         }
+
         /// <summary>
         /// Test the property 'MapOfEnumString'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'MapOfEnumString'
         }
+
         /// <summary>
         /// Test the property 'DirectMap'
         /// </summary>
@@ -80,6 +80,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'DirectMap'
         }
+
         /// <summary>
         /// Test the property 'IndirectMap'
         /// </summary>
@@ -88,7 +89,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'IndirectMap'
         }
-
     }
-
 }
