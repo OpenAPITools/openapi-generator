@@ -688,6 +688,9 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/formParams}}
 
+        {{#isMultipart}}
+        $multipart = true;
+        {{/isMultipart}}
         $headers = $this->headerSelector->selectHeaders(
             [{{#produces}}'{{{mediaType}}}', {{/produces}}],
             $contentType,

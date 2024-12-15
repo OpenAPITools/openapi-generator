@@ -2571,6 +2571,7 @@ class PetApi
             }
         }
 
+        $multipart = true;
         $headers = $this->headerSelector->selectHeaders(
             ['application/json', ],
             $contentType,
@@ -2917,6 +2918,7 @@ class PetApi
             }
         }
 
+        $multipart = true;
         $headers = $this->headerSelector->selectHeaders(
             ['application/json', ],
             $contentType,
