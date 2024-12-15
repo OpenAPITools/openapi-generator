@@ -3263,4 +3263,73 @@ public class JavaClientCodegenTest {
                 " getCall(Integer queryParameter, final ApiCallback _callback)"
         );
     }
+
+    @Test
+    public void callNativeServiceWithEmptyResponseSync() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", "false");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("DefaultApi.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+                //reading the body into a string, then checking if it is blank.
+                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
+
+
+    /**
+     * This checks that the async client is not affected by this fix.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13968
+     */
+    @Test
+    public void callNativeServiceWithEmptyResponseAsync() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("DefaultApi.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+                //reading the body into a string, then checking if it is blank.
+                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
 }
