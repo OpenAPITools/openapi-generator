@@ -8,7 +8,12 @@ Method | HTTP request | Description
 [**PetAPI_deletePet**](PetAPI.md#PetAPI_deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 [**PetAPI_findPetsByStatus**](PetAPI.md#PetAPI_findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**PetAPI_findPetsByTags**](PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**PetAPI_getDaysWithoutIncident**](PetAPI.md#PetAPI_getDaysWithoutIncident) | **GET** /store/daysWithoutIncident | Number of days since the last time a pet maimed someone at the store
 [**PetAPI_getPetById**](PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**PetAPI_getPicture**](PetAPI.md#PetAPI_getPicture) | **GET** /pet/picture | Get a random picture of someone else&#39;s pet
+[**PetAPI_isPetAvailable**](PetAPI.md#PetAPI_isPetAvailable) | **POST** /pet/{petId}/isAvailable | Is this pet still available?
+[**PetAPI_sharePicture**](PetAPI.md#PetAPI_sharePicture) | **POST** /pet/picture | Send a picture of your happy pet
+[**PetAPI_specialtyPet**](PetAPI.md#PetAPI_specialtyPet) | **GET** /pet/specialty | Specialty of the shop
 [**PetAPI_updatePet**](PetAPI.md#PetAPI_updatePet) | **PUT** /pet | Update an existing pet
 [**PetAPI_updatePetWithForm**](PetAPI.md#PetAPI_updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**PetAPI_uploadFile**](PetAPI.md#PetAPI_uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -133,6 +138,35 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **PetAPI_getDaysWithoutIncident**
+```c
+// Number of days since the last time a pet maimed someone at the store
+//
+int* PetAPI_getDaysWithoutIncident(apiClient_t *apiClient);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+
+### Return type
+
+int*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **PetAPI_getPetById**
 ```c
 // Find pet by ID
@@ -151,6 +185,124 @@ Name | Type | Description  | Notes
 ### Return type
 
 [pet_t](pet.md) *
+
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_getPicture**
+```c
+// Get a random picture of someone else's pet
+//
+binary_t** PetAPI_getPicture(apiClient_t *apiClient);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+
+### Return type
+
+binary_t**
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_isPetAvailable**
+```c
+// Is this pet still available?
+//
+bit_t* PetAPI_isPetAvailable(apiClient_t *apiClient, long petId);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**petId** | **long** | ID of pet to check | 
+
+### Return type
+
+[bit_t](bit.md) *
+
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_sharePicture**
+```c
+// Send a picture of your happy pet
+//
+char* PetAPI_sharePicture(apiClient_t *apiClient, binary_t* picture);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**picture** | **binary_t*** | A picture you want to share | 
+
+### Return type
+
+char*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **PetAPI_specialtyPet**
+```c
+// Specialty of the shop
+//
+// Returns the kind of pet the store specializes in
+//
+preference_t* PetAPI_specialtyPet(apiClient_t *apiClient);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+
+### Return type
+
+[preference_t](preference.md) *
 
 
 ### Authorization

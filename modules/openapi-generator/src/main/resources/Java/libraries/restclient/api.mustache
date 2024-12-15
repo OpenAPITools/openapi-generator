@@ -54,22 +54,6 @@ public class {{classname}} {
     {{#operation}}
 {{#useSingleRequestParameter}}
 {{#hasParams}}
-{{#hasSingleParam}}
-// It has a single param!
-/*
-{{#allParams}}
-* {{paramName}}
-{{/allParams}}
-*/
-{{/hasSingleParam}}
-{{^hasSingleParam}}
-// It has NO single param!
-/*
-{{#allParams}}
-* {{paramName}}
-{{/allParams}}
-*/
-{{/hasSingleParam}}
 {{^hasSingleParam}}
 
     public record {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){}

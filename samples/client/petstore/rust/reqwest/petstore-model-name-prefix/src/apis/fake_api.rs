@@ -26,12 +26,12 @@ pub enum TestNullableRequiredParamError {
 
 
 /// 
-pub fn test_nullable_required_param(configuration: &configuration::Configuration, username: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+pub fn test_nullable_required_param(configuration: &configuration::Configuration, user_name: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/fake/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
+    let local_var_uri_str = format!("{}/fake/user/{user_name}", local_var_configuration.base_path, user_name=crate::apis::urlencode(user_name));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -49,11 +49,11 @@ pub fn test_nullable_required_param(configuration: &configuration::Configuration
     let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text()?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         Ok(())
     } else {
+        let local_var_content = local_var_resp.text()?;
         let local_var_entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))

@@ -1,10 +1,9 @@
 cmake_minimum_required (VERSION 2.6...3.10.2)
-project (CGenerator)
+project (CGenerator C)
 
 cmake_policy(SET CMP0063 NEW)
 
 set(CMAKE_C_VISIBILITY_PRESET default)
-set(CMAKE_CXX_VISIBILITY_PRESET default)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
@@ -56,10 +55,12 @@ set(SRCS
     model/object.c
     model/mapped_model.c
     model/api_response.c
+    model/bit.c
     model/category.c
     model/model_with_set_propertes.c
     model/order.c
     model/pet.c
+    model/preference.c
     model/tag.c
     model/user.c
     api/PetAPI.c
@@ -75,12 +76,15 @@ set(HDRS
     include/keyValuePair.h
     external/cJSON.h
     model/object.h
+    model/any_type.h
     model/mapped_model.h
     model/api_response.h
+    model/bit.h
     model/category.h
     model/model_with_set_propertes.h
     model/order.h
     model/pet.h
+    model/preference.h
     model/tag.h
     model/user.h
     api/PetAPI.h

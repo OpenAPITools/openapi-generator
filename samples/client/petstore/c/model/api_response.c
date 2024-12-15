@@ -78,6 +78,9 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
 
     // api_response->code
     cJSON *code = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "code");
+    if (cJSON_IsNull(code)) {
+        code = NULL;
+    }
     if (code) { 
     if(!cJSON_IsNumber(code))
     {
@@ -87,6 +90,9 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
 
     // api_response->type
     cJSON *type = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "type");
+    if (cJSON_IsNull(type)) {
+        type = NULL;
+    }
     if (type) { 
     if(!cJSON_IsString(type) && !cJSON_IsNull(type))
     {
@@ -96,6 +102,9 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
 
     // api_response->message
     cJSON *message = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "message");
+    if (cJSON_IsNull(message)) {
+        message = NULL;
+    }
     if (message) { 
     if(!cJSON_IsString(message) && !cJSON_IsNull(message))
     {

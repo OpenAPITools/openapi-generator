@@ -26,7 +26,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -47,6 +47,7 @@ public class UserApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -116,6 +117,7 @@ public class UserApi {
     public ResponseSpec createUserWithResponseSpec(User user) throws WebClientResponseException {
         return createUserRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -185,6 +187,7 @@ public class UserApi {
     public ResponseSpec createUsersWithArrayInputWithResponseSpec(List<User> user) throws WebClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -254,6 +257,7 @@ public class UserApi {
     public ResponseSpec createUsersWithListInputWithResponseSpec(List<User> user) throws WebClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -327,6 +331,7 @@ public class UserApi {
     public ResponseSpec deleteUserWithResponseSpec(String username) throws WebClientResponseException {
         return deleteUserRequestCreation(username);
     }
+
     /**
      * Get user by user name
      * 
@@ -409,6 +414,7 @@ public class UserApi {
     public ResponseSpec getUserByNameWithResponseSpec(String username) throws WebClientResponseException {
         return getUserByNameRequestCreation(username);
     }
+
     /**
      * Logs user into the system
      * 
@@ -496,6 +502,7 @@ public class UserApi {
     public ResponseSpec loginUserWithResponseSpec(String username, String password) throws WebClientResponseException {
         return loginUserRequestCreation(username, password);
     }
+
     /**
      * Logs out current logged in user session
      * 
@@ -555,6 +562,7 @@ public class UserApi {
     public ResponseSpec logoutUserWithResponseSpec() throws WebClientResponseException {
         return logoutUserRequestCreation();
     }
+
     /**
      * Updated user
      * This can only be done by the logged in user.

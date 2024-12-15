@@ -228,8 +228,21 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = camelize(name.replaceAll("[^a-zA-Z0-9_]", ""), LOWERCASE_FIRST_LETTER);
+        // Replace space with _ (underscore) so camelize works as expected
+        final String varName = camelize(name.replaceAll(" ", "_").replaceAll("[^a-zA-Z0-9_]", ""),
+                LOWERCASE_FIRST_LETTER);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        // params should be lowerCamelCase
+        return toVarName(name);
     }
 
     @Override

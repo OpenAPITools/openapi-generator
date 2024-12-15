@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ import org.openapitools.client.JSON;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @jakarta.annotation.Nullable
@@ -138,21 +140,12 @@ public class OuterComposite {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    OuterComposite outerComposite = (OuterComposite) o;
-    return Objects.equals(this.myNumber, outerComposite.myNumber) &&
-        Objects.equals(this.myString, outerComposite.myString) &&
-        Objects.equals(this.myBoolean, outerComposite.myBoolean);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(myNumber, myString, myBoolean);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override

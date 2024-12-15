@@ -71,8 +71,8 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -150,7 +150,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            openAPIClient.interceptor.intercept(urlRequest: request, urlSession: urlSession, requestBuilder: self) { result in
+            apiConfiguration.interceptor.intercept(urlRequest: request, urlSession: urlSession, requestBuilder: self) { result in
 
                 switch result {
                 case .success(let modifiedRequest):
@@ -183,7 +183,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                             return
                         }
 
-                        guard self.openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
+                        guard self.apiConfiguration.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
                             self.retryRequest(
                                 urlRequest: modifiedRequest,
                                 urlSession: urlSession,
@@ -208,13 +208,13 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                     dataTask.resume()
 
                 case .failure(let error):
-                    self.openAPIClient.apiResponseQueue.async {
+                    self.apiConfiguration.apiResponseQueue.async {
                         completion(.failure(ErrorResponse.error(415, nil, nil, error)))
                     }
                 }
             }
         } catch {
-            self.openAPIClient.apiResponseQueue.async {
+            self.apiConfiguration.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
@@ -229,13 +229,13 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     }
 
     private func retryRequest(urlRequest: URLRequest, urlSession: URLSessionProtocol, statusCode: Int, data: Data?, response: URLResponse?, error: Error, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
-        self.openAPIClient.interceptor.retry(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
+        self.apiConfiguration.interceptor.retry(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
             switch retry {
             case .retry:
                 self.execute(completion: completion)
 
             case .dontRetry:
-                self.openAPIClient.apiResponseQueue.async {
+                self.apiConfiguration.apiResponseQueue.async {
                     completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
                 }
             }
@@ -257,7 +257,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in openAPIClient.customHeaders {
+        for (key, value) in apiConfiguration.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -385,7 +385,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                 return
             }
 
-            let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
+            let decodeResult = apiConfiguration.codableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):

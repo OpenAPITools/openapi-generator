@@ -13,7 +13,6 @@ import java.io.IOException
 {{/gson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -71,7 +70,6 @@ import org.threeten.bp.format.DateTimeFormatter
 }
 {{/gson}}
 {{#kotlinx_serialization}}
-@Serializer(forClass = OffsetDateTime::class)
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OffsetDateTime", PrimitiveKind.STRING)
 

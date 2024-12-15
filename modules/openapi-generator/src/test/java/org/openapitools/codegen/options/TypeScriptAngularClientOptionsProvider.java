@@ -25,7 +25,7 @@ import java.util.Map;
 public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedClientOptionsProvider {
     public static final String STRING_ENUMS_VALUE = "false";
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
-    public static final String NG_VERSION = "12";
+    public static final String NG_VERSION = "19";
     public static final String FILE_NAMING_VALUE = "camelCase";
     public static final String API_MODULE_PREFIX = "";
     public static final String CONFIGURATION_PREFIX = "";
@@ -35,6 +35,10 @@ public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedC
     public static final String SERVICE_FILE_SUFFIX = ".service";
     public static final String MODEL_SUFFIX = "";
     public static final String MODEL_FILE_SUFFIX = "";
+    public static final String TS_VERSION = "";
+    public static final String RXJS_VERSION = "";
+    public static final String NGPACKAGR_VERSION = "";
+    public static final String ZONEJS_VERSION = "";
 
     @Override
     public String getLanguage() {
@@ -61,6 +65,10 @@ public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedC
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
                 .put(TypeScriptAngularClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
+                .put(TypeScriptAngularClientCodegen.TS_VERSION, TS_VERSION)
+                .put(TypeScriptAngularClientCodegen.RXJS_VERSION, RXJS_VERSION)
+                .put(TypeScriptAngularClientCodegen.NGPACKAGR_VERSION, NGPACKAGR_VERSION)
+                .put(TypeScriptAngularClientCodegen.ZONEJS_VERSION, ZONEJS_VERSION)
                 .build();
     }
 }

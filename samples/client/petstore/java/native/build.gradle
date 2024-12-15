@@ -71,6 +71,7 @@ ext {
     beanvalidation_version = "2.0.2"
     junit_version = "5.10.2"
     httpmime_version = "4.5.13"
+    commons_lang3_version = "3.17.0"
 }
 
 dependencies {
@@ -82,6 +83,7 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable:0.2.1"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     implementation "org.apache.httpcomponents:httpmime:$httpmime_version"
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 }
 

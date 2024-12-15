@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 /**
  * API tests for UserApi
  */
@@ -57,7 +60,7 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
-        //List<User> user = null;
+        //List<@Valid User> user = null;
         //api.createUsersWithArrayInput(user);
         // TODO: test validations
     }
@@ -71,7 +74,7 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
-        //List<User> user = null;
+        //List<@Valid User> user = null;
         //api.createUsersWithListInput(user);
         // TODO: test validations
     }

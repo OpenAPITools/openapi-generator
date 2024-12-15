@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Animal")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Animal  implements Serializable {
   private String className;
   private String color = "red";
@@ -37,6 +37,13 @@ public class Animal  implements Serializable {
   public Animal() {
   }
 
+  @JsonCreator
+  public Animal(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    this.className = className;
+  }
+
   /**
    **/
   public Animal className(String className) {
@@ -46,12 +53,12 @@ public class Animal  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("className")
+  @JsonProperty(required = true, value = "className")
   @NotNull public String getClassName() {
     return className;
   }
 
-  @JsonProperty("className")
+  @JsonProperty(required = true, value = "className")
   public void setClassName(String className) {
     this.className = className;
   }

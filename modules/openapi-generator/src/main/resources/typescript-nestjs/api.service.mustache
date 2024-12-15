@@ -35,7 +35,7 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
      * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
      * @memberof {{classname}}{{operationIdCamelCase}}
      */
-    readonly {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    readonly {{#vendorExtensions.x-param-has-sanitized-name}}'{{{baseName}}}'{{/vendorExtensions.x-param-has-sanitized-name}}{{^vendorExtensions.x-param-has-sanitized-name}}{{{paramName}}}{{/vendorExtensions.x-param-has-sanitized-name}}{{^required}}?{{/required}}: {{{dataType}}}
     {{^-last}}
 
     {{/-last}}
@@ -106,7 +106,7 @@ export class {{classname}} {
 {{#useSingleRequestParameter}}
         const {
         {{#allParams}}
-            {{paramName}},
+            {{#vendorExtensions.x-param-has-sanitized-name}}'{{{baseName}}}': {{/vendorExtensions.x-param-has-sanitized-name}}{{paramName}},
         {{/allParams}}
         } = requestParameters;
 

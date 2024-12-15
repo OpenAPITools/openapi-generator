@@ -25,7 +25,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -46,6 +46,7 @@ public class StoreApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -119,6 +120,7 @@ public class StoreApi {
     public ResponseSpec deleteOrderWithResponseSpec(String orderId) throws WebClientResponseException {
         return deleteOrderRequestCreation(orderId);
     }
+
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -183,6 +185,7 @@ public class StoreApi {
     public ResponseSpec getInventoryWithResponseSpec() throws WebClientResponseException {
         return getInventoryRequestCreation();
     }
+
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -265,6 +268,7 @@ public class StoreApi {
     public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws WebClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
+
     /**
      * Place an order for a pet
      * 

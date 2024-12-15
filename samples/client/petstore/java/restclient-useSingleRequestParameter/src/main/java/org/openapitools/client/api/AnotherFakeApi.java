@@ -23,7 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -44,10 +44,6 @@ public class AnotherFakeApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* client
-*/
     /**
      * To test special tags
      * To test special tags and operation ID starting with number

@@ -27,14 +27,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for AdditionalPropertiesClass
  */
-public class AdditionalPropertiesClassTest {
+class AdditionalPropertiesClassTest {
     private final AdditionalPropertiesClass model = new AdditionalPropertiesClass();
 
     /**
      * Model tests for AdditionalPropertiesClass
      */
     @Test
-    public void testAdditionalPropertiesClass() {
+    void testAdditionalPropertiesClass() {
         // TODO: test AdditionalPropertiesClass
     }
 
@@ -42,7 +42,7 @@ public class AdditionalPropertiesClassTest {
      * Test the property 'mapProperty'
      */
     @Test
-    public void mapPropertyTest() {
+    void mapPropertyTest() {
         // TODO: test mapProperty
     }
 
@@ -50,7 +50,7 @@ public class AdditionalPropertiesClassTest {
      * Test the property 'mapOfMapProperty'
      */
     @Test
-    public void mapOfMapPropertyTest() {
+    void mapOfMapPropertyTest() {
         // TODO: test mapOfMapProperty
     }
 

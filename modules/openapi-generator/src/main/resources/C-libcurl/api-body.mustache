@@ -98,7 +98,7 @@ end:
 // {{{.}}}
 //
 {{/notes}}
-{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}{{#returnProperty}}{{#isString}}*{{/isString}}{{/returnProperty}}{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{#returnProperty}}{{^isEnum}}{{{returnType}}}_t*{{/isEnum}}{{#isEnum}}{{projectName}}_{{{returnType}}}_{{returnEnumName}}_e{{/isEnum}}{{/returnProperty}}{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
 {{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}} {{/isNumber}}{{#isLong}}{{{dataType}}} {{/isLong}}{{#isInteger}}{{{dataType}}} *{{/isInteger}}{{#isDouble}}{{{dataType}}} {{/isDouble}}{{#isFloat}}{{{dataType}}} {{/isFloat}}{{#isBoolean}}{{dataType}} *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e {{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}} {{/isDate}}{{#isDateTime}}{{{dataType}}} {{/isDateTime}}{{#isFile}}{{{dataType}}} {{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}} {{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}} {{/isMap}}{{/isContainer}}{{{paramName}}}{{/allParams}})
 {
     list_t    *localVarQueryParameters = {{#hasQueryParams}}list_createList();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
@@ -107,6 +107,10 @@ end:
     list_t *localVarHeaderType = {{#hasProduces}}list_createList();{{/hasProduces}}{{^hasProduces}}NULL;{{/hasProduces}}
     list_t *localVarContentType = {{#hasConsumes}}list_createList();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
     char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
 
     // create the path
     long sizeOfPath = strlen("{{{path}}}")+1;
@@ -114,9 +118,20 @@ end:
     snprintf(localVarPath, sizeOfPath, "{{{path}}}");
 
     {{#pathParams}}
+    {{#isString}}
+    if(!{{paramName}})
+        goto end;
+    {{/isString}}
+    {{#isBinary}}
+    if(!{{paramName}})
+        goto end;
+    {{/isBinary}}
+    {{/pathParams}}
+
+    {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
@@ -170,13 +185,13 @@ end:
 
     {{/isLong}}
     {{#isString}}
-    if({{paramName}} == NULL) {
+    if({{paramName}} == {{#isEnum}}0{{/isEnum}}{{^isEnum}}NULL{{/isEnum}}) {
         goto end;
     }
     char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
     sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
 
-    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}});
     {{/isString}}
     {{#isUuid}}
     if({{paramName}} == NULL) {
@@ -263,7 +278,7 @@ end:
     {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}} = 0;
     keyValuePair_t *keyPairForm_{{paramName}} = 0;
     {{/isFile}}
-    if ({{paramName}} != NULL)
+    if ({{paramName}} != {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}})
     {
         {{#isFile}}
         keyForm_{{paramName}} = strdup("{{{baseName}}}");
@@ -321,16 +336,31 @@ end:
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
         localVarBodyParameters = {{{cJSONPrint}}}(localVarItemJSON_{{paramName}});
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
     {{/isArray}}
     {{^isArray}}
+    {{#isString}}
+    localVarBodyParameters = strdup({{paramName}});
+    localVarBodyLength = strlen(localVarBodyParameters);
+    {{/isString}}
+    {{^isString}}
+    {{#isBinary}}
+    localVarBodyParameters = malloc({{paramName}}->len);
+    memcpy(localVarBodyParameters, {{paramName}}->data, {{paramName}}->len);
+    localVarBodyLength = {{paramName}}->len;
+    {{/isBinary}}
+    {{^isBinary}}
     cJSON *localVarSingleItemJSON_{{paramName}} = NULL;
     if ({{paramName}} != NULL)
     {
-        //string
+        //not string, not binary
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
         localVarBodyParameters = {{{cJSONPrint}}}(localVarSingleItemJSON_{{paramName}});
+        localVarBodyLength = strlen(localVarBodyParameters);
     }
+    {{/isBinary}}
+    {{/isString}}
     {{/isArray}}
     {{/bodyParam}}
     {{#produces}}
@@ -347,6 +377,7 @@ end:
                     localVarHeaderType,
                     localVarContentType,
                     localVarBodyParameters,
+                    localVarBodyLength,
                     "{{{httpMethod}}}");
 
     {{#responses}}
@@ -358,51 +389,80 @@ end:
     {{#returnType}}
     {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
-    //primitive return type simple
-    {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
+    {{#returnProperty}}
+    {{#isBinary}}
+    //primitive return type simple binary
+    {{returnType}} elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = instantiate_binary_t(apiClient->dataReceived, apiClient->dataReceivedLen);
 
+    {{/isBinary}}
+    {{#isString}}
+    //primitive return type simple string
+    {{returnType}}* elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = strdup(({{returnType}}*)apiClient->dataReceived);
+
+    {{/isString}}
+    {{#isInteger}}
+    //primitive return type simple integer
+    {{returnType}} elementToReturn = 0;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = atoi(apiClient->dataReceived);
+
+    {{/isInteger}}
+    {{/returnProperty}}
     {{/returnSimpleType}}
     {{^returnSimpleType}}
     //primitive return type not simple
-    cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    cJSON *{{{paramName}}}VarJSON;
-    list_t *elementToReturn = list_createList();
-    cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), {{{cJSONPrint}}}({{{paramName}}}VarJSON));
-        list_addElement(elementToReturn, keyPair);
+    list_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        cJSON *{{{paramName}}}VarJSON;
+        elementToReturn = list_createList();
+        cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
+            keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), {{{cJSONPrint}}}({{{paramName}}}VarJSON));
+            list_addElement(elementToReturn, keyPair);
+        }
+        cJSON_Delete({{paramName}}localVarJSON);
     }
-    cJSON_Delete({{paramName}}localVarJSON);
 
     {{/returnSimpleType}}
     {{/returnTypeIsPrimitive}}
     {{^returnTypeIsPrimitive}}
     {{#returnContainer}}
-    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    if(!cJSON_IsArray({{classname}}localVarJSON)) {
-        return 0;//nonprimitive container
-    }
-    list_t *elementToReturn = list_createList();
-    cJSON *{{{paramName}}}VarJSON;
-    cJSON_ArrayForEach({{{paramName}}}VarJSON, {{classname}}localVarJSON)
-    {
-        if(!cJSON_IsObject({{{paramName}}}VarJSON))
-        {
-           // return 0;
+    list_t *elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        if(!cJSON_IsArray({{classname}}localVarJSON)) {
+            return 0;//nonprimitive container
         }
-        char *localVarJSONToChar = {{{cJSONPrint}}}({{{paramName}}}VarJSON);
-        list_addElement(elementToReturn , localVarJSONToChar);
-    }
+        elementToReturn = list_createList();
+        cJSON *{{{paramName}}}VarJSON;
+        cJSON_ArrayForEach({{{paramName}}}VarJSON, {{classname}}localVarJSON)
+        {
+            if(!cJSON_IsObject({{{paramName}}}VarJSON))
+            {
+               // return 0;
+            }
+            char *localVarJSONToChar = {{{cJSONPrint}}}({{{paramName}}}VarJSON);
+            list_addElement(elementToReturn , localVarJSONToChar);
+        }
 
-    cJSON_Delete( {{classname}}localVarJSON);
-    cJSON_Delete( {{{paramName}}}VarJSON);
+        cJSON_Delete( {{classname}}localVarJSON);
+        cJSON_Delete( {{{paramName}}}VarJSON);
+    }
     {{/returnContainer}}
     {{^returnContainer}}
     //nonprimitive not container
-    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-    {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
-    cJSON_Delete({{classname}}localVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
+    {{#returnProperty}}{{^isEnum}}{{{returnBaseType}}}_t *{{/isEnum}}{{#isEnum}}{{projectName}}_{{{returnType}}}_{{returnEnumName}}_e {{/isEnum}}{{/returnProperty}}elementToReturn = {{#returnProperty}}{{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}}{{/returnProperty}};
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300) {
+        cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+        elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
+        cJSON_Delete({{classname}}localVarJSON);
+        if(elementToReturn == {{#returnProperty}}{{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}}{{/returnProperty}}) {
+            // return 0;
+        }
     }
 
     {{/returnContainer}}
@@ -458,10 +518,14 @@ end:
     free(localVarBodyParameters);
     {{/isArray}}
     {{^isArray}}
+    {{^isString}}
+    {{^isBinary}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isBinary}}
+    {{/isString}}
     free(localVarBodyParameters);
     {{/isArray}}
     {{/bodyParams}}
@@ -524,8 +588,10 @@ end:
         keyForm_{{{paramName}}} = NULL;
     }
     if (valueForm_{{{paramName}}}) {
+        {{^isEnum}}
         free(valueForm_{{{paramName}}});
-        valueForm_{{{paramName}}} = NULL;
+        {{/isEnum}}
+        valueForm_{{{paramName}}} = {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}};
     }
     free(keyPairForm_{{paramName}});
     {{/isString}}
@@ -541,7 +607,7 @@ end:
     return elementToReturn;
 end:
     free(localVarPath);
-    return NULL;
+    return {{#returnProperty}}{{#isInteger}}0{{/isInteger}}{{^isInteger}}{{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}}{{/isInteger}}{{/returnProperty}};
     {{/returnType}}
     {{^returnType}}
     //No return type
@@ -596,10 +662,12 @@ end:
     free(localVarBodyParameters);
     {{/isArray}}
     {{^isArray}}
+    {{^isBinary}}
     if (localVarSingleItemJSON_{{paramName}}) {
         cJSON_Delete(localVarSingleItemJSON_{{paramName}});
         localVarSingleItemJSON_{{paramName}} = NULL;
     }
+    {{/isBinary}}
     free(localVarBodyParameters);
     {{/isArray}}
     {{/bodyParams}}

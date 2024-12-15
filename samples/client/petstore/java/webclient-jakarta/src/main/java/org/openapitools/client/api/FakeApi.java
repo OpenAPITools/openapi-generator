@@ -39,7 +39,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -60,6 +60,7 @@ public class FakeApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * 
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
@@ -124,6 +125,7 @@ public class FakeApi {
     public ResponseSpec fakeBigDecimalMapWithResponseSpec() throws WebClientResponseException {
         return fakeBigDecimalMapRequestCreation();
     }
+
     /**
      * Health check endpoint
      * 
@@ -188,6 +190,7 @@ public class FakeApi {
     public ResponseSpec fakeHealthGetWithResponseSpec() throws WebClientResponseException {
         return fakeHealthGetRequestCreation();
     }
+
     /**
      * test http signature authentication
      * 
@@ -270,6 +273,7 @@ public class FakeApi {
     public ResponseSpec fakeHttpSignatureTestWithResponseSpec(Pet pet, String query1, String header1) throws WebClientResponseException {
         return fakeHttpSignatureTestRequestCreation(pet, query1, header1);
     }
+
     /**
      * 
      * Test serialization of outer boolean types
@@ -340,6 +344,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterBooleanSerializeWithResponseSpec(Boolean body) throws WebClientResponseException {
         return fakeOuterBooleanSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of object with outer number type
@@ -410,6 +415,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterCompositeSerializeWithResponseSpec(OuterComposite outerComposite) throws WebClientResponseException {
         return fakeOuterCompositeSerializeRequestCreation(outerComposite);
     }
+
     /**
      * 
      * Test serialization of outer number types
@@ -480,6 +486,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterNumberSerializeWithResponseSpec(BigDecimal body) throws WebClientResponseException {
         return fakeOuterNumberSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of outer string types
@@ -550,6 +557,7 @@ public class FakeApi {
     public ResponseSpec fakeOuterStringSerializeWithResponseSpec(String body) throws WebClientResponseException {
         return fakeOuterStringSerializeRequestCreation(body);
     }
+
     /**
      * 
      * Test serialization of enum (int) properties with examples
@@ -624,6 +632,7 @@ public class FakeApi {
     public ResponseSpec fakePropertyEnumIntegerSerializeWithResponseSpec(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws WebClientResponseException {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
+
     /**
      * test referenced additionalProperties
      * 
@@ -693,6 +702,7 @@ public class FakeApi {
     public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(Map<String, Object> requestBody) throws WebClientResponseException {
         return testAdditionalPropertiesReferenceRequestCreation(requestBody);
     }
+
     /**
      * 
      * For this test, the body has to be a binary file.
@@ -762,6 +772,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithBinaryWithResponseSpec(File body) throws WebClientResponseException {
         return testBodyWithBinaryRequestCreation(body);
     }
+
     /**
      * 
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -831,6 +842,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithFileSchemaWithResponseSpec(FileSchemaTestClass fileSchemaTestClass) throws WebClientResponseException {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
+
     /**
      * 
      * 
@@ -910,6 +922,7 @@ public class FakeApi {
     public ResponseSpec testBodyWithQueryParamsWithResponseSpec(String query, User user) throws WebClientResponseException {
         return testBodyWithQueryParamsRequestCreation(query, user);
     }
+
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -984,6 +997,7 @@ public class FakeApi {
     public ResponseSpec testClientModelWithResponseSpec(Client client) throws WebClientResponseException {
         return testClientModelRequestCreation(client);
     }
+
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -1150,6 +1164,7 @@ public class FakeApi {
     public ResponseSpec testEndpointParametersWithResponseSpec(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
+
     /**
      * To test enum parameters
      * To test enum parameters
@@ -1267,6 +1282,7 @@ public class FakeApi {
     public ResponseSpec testEnumParametersWithResponseSpec(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
+
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -1372,6 +1388,7 @@ public class FakeApi {
     public ResponseSpec testGroupParametersWithResponseSpec(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws WebClientResponseException {
         return testGroupParametersRequestCreation(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
+
     /**
      * test inline additionalProperties
      * 
@@ -1441,6 +1458,7 @@ public class FakeApi {
     public ResponseSpec testInlineAdditionalPropertiesWithResponseSpec(Map<String, String> requestBody) throws WebClientResponseException {
         return testInlineAdditionalPropertiesRequestCreation(requestBody);
     }
+
     /**
      * test inline free-form additionalProperties
      * 
@@ -1510,6 +1528,7 @@ public class FakeApi {
     public ResponseSpec testInlineFreeformAdditionalPropertiesWithResponseSpec(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws WebClientResponseException {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
+
     /**
      * test json serialization of form data
      * 
@@ -1592,6 +1611,7 @@ public class FakeApi {
     public ResponseSpec testJsonFormDataWithResponseSpec(String param, String param2) throws WebClientResponseException {
         return testJsonFormDataRequestCreation(param, param2);
     }
+
     /**
      * test nullable parent property
      * 
@@ -1661,6 +1681,7 @@ public class FakeApi {
     public ResponseSpec testNullableWithResponseSpec(ChildWithNullable childWithNullable) throws WebClientResponseException {
         return testNullableRequestCreation(childWithNullable);
     }
+
     /**
      * 
      * To test the collection format in query parameters
@@ -1780,6 +1801,7 @@ public class FakeApi {
     public ResponseSpec testQueryParameterCollectionFormatWithResponseSpec(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws WebClientResponseException {
         return testQueryParameterCollectionFormatRequestCreation(pipe, ioutil, http, url, context, allowEmpty, language);
     }
+
     /**
      * test referenced string map
      * 

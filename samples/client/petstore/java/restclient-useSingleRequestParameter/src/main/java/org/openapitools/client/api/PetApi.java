@@ -26,7 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -47,10 +47,6 @@ public class PetApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* pet
-*/
     /**
      * Add a new pet to the store
      * 
@@ -124,11 +120,6 @@ public class PetApi {
     public ResponseSpec addPetWithResponseSpec(Pet pet) throws RestClientResponseException {
         return addPetRequestCreation(pet);
     }
-// It has NO single param!
-/*
-* petId
-* apiKey
-*/
 
     public record DeletePetRequest(Long petId, String apiKey){}
 
@@ -249,10 +240,6 @@ public class PetApi {
     public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {
         return deletePetRequestCreation(petId, apiKey);
     }
-// It has a single param!
-/*
-* status
-*/
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -331,10 +318,6 @@ public class PetApi {
     public ResponseSpec findPetsByStatusWithResponseSpec(List<String> status) throws RestClientResponseException {
         return findPetsByStatusRequestCreation(status);
     }
-// It has a single param!
-/*
-* tags
-*/
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -415,10 +398,6 @@ public class PetApi {
     public ResponseSpec findPetsByTagsWithResponseSpec(Set<String> tags) throws RestClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
-// It has a single param!
-/*
-* petId
-*/
     /**
      * Find pet by ID
      * Returns a single pet
@@ -501,10 +480,6 @@ public class PetApi {
     public ResponseSpec getPetByIdWithResponseSpec(Long petId) throws RestClientResponseException {
         return getPetByIdRequestCreation(petId);
     }
-// It has a single param!
-/*
-* pet
-*/
     /**
      * Update an existing pet
      * 
@@ -586,12 +561,6 @@ public class PetApi {
     public ResponseSpec updatePetWithResponseSpec(Pet pet) throws RestClientResponseException {
         return updatePetRequestCreation(pet);
     }
-// It has NO single param!
-/*
-* petId
-* name
-* status
-*/
 
     public record UpdatePetWithFormRequest(Long petId, String name, String status){}
 
@@ -720,12 +689,6 @@ public class PetApi {
     public ResponseSpec updatePetWithFormWithResponseSpec(Long petId, String name, String status) throws RestClientResponseException {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
-// It has NO single param!
-/*
-* petId
-* additionalMetadata
-* _file
-*/
 
     public record UploadFileRequest(Long petId, String additionalMetadata, File _file){}
 
@@ -854,12 +817,6 @@ public class PetApi {
     public ResponseSpec uploadFileWithResponseSpec(Long petId, String additionalMetadata, File _file) throws RestClientResponseException {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
-// It has NO single param!
-/*
-* petId
-* requiredFile
-* additionalMetadata
-*/
 
     public record UploadFileWithRequiredFileRequest(Long petId, File requiredFile, String additionalMetadata){}
 

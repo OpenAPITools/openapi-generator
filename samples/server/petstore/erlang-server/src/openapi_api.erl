@@ -111,7 +111,7 @@ prepare_validator(SchemaVer) ->
     prepare_validator(get_openapi_path(), SchemaVer).
 
 -doc """
-Loads the JSON schema and the desired validation draft into a `t:jesse_state:state()`.
+Loads the JSON schema and the desired validation draft into a `t:jesse_state:state/0`.
 """.
 -spec prepare_validator(file:name_all(), binary()) -> jesse_state:state().
 prepare_validator(OpenApiPath, SchemaVer) ->

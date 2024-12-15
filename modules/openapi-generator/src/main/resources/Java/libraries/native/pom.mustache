@@ -271,6 +271,14 @@
             <version>${httpmime-version}</version>
         </dependency>
         {{/hasFormParamsInSpec}}
+        {{#useReflectionEqualsHashCode}}
+        <!-- For equals and hashCode using reflection -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+        {{/useReflectionEqualsHashCode}}
 
         <!-- test dependencies -->
         <dependency>
@@ -304,6 +312,9 @@
         {{#hasFormParamsInSpec}}
         <httpmime-version>4.5.14</httpmime-version>
         {{/hasFormParamsInSpec}}
+        {{#useReflectionEqualsHashCode}}
+        <commons-lang3-version>3.17.0</commons-lang3-version>
+        {{/useReflectionEqualsHashCode}}
         <junit-version>5.10.2</junit-version>
         <spotless.version>2.27.2</spotless.version>
     </properties>

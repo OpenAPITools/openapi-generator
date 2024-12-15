@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class EnumTest  implements Serializable {
   public enum EnumStringEnum {
 
@@ -214,6 +214,16 @@ public class EnumTest  implements Serializable {
   private EnumNumberEnum enumNumber;
   private OuterEnum outerEnum;
 
+  public EnumTest() {
+  }
+
+  @JsonCreator
+  public EnumTest(
+    @JsonProperty(required = true, value = "enum_string_required") EnumStringRequiredEnum enumStringRequired
+  ) {
+    this.enumStringRequired = enumStringRequired;
+  }
+
   /**
    **/
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -242,12 +252,12 @@ public class EnumTest  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("enum_string_required")
+  @JsonProperty(required = true, value = "enum_string_required")
   @NotNull public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
 
-  @JsonProperty("enum_string_required")
+  @JsonProperty(required = true, value = "enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }

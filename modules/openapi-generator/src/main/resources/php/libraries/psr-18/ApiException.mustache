@@ -58,8 +58,8 @@ class ApiException extends RequestException
     public function __construct(
         $message,
         RequestInterface $request,
-        ResponseInterface $response = null,
-        Exception $previous = null
+        ?ResponseInterface $response = null,
+        ?Exception $previous = null
     ) {
         parent::__construct($message, $request, $previous);
         if ($response) {

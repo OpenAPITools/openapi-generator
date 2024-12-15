@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Capitalization")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Capitalization  implements Serializable {
   private String smallCamel;
   private String capitalCamel;
@@ -24,6 +24,9 @@ public class Capitalization  implements Serializable {
   private String capitalSnake;
   private String scAETHFlowPoints;
   private String ATT_NAME;
+
+  public Capitalization() {
+  }
 
   /**
    **/

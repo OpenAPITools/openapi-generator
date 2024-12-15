@@ -27,7 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |explicitApi|Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode.| |false|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
-|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers.| |false|
+|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option.| |false|
 |generateRoomModels|Generate Android Room database models in addition to API models (JVM Volley library only)| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |idea|Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders.| |false|
@@ -47,8 +47,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-|supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
+|supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and below. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
+|useNonAsciiHeaders|Allow to use non-ascii headers with the okhttp library| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |useSettingsGradle|Whether the project uses settings.gradle.| |false|
 |useSpringBoot3|Whether to use the Spring Boot 3 with the jvm-spring-webclient library.| |false|

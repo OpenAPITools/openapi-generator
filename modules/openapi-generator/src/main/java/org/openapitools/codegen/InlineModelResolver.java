@@ -22,6 +22,8 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.annotations.Webhook;
+import io.swagger.v3.oas.annotations.Webhooks;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
@@ -35,6 +37,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
 import java.util.*;
 
 public class InlineModelResolver {
@@ -106,8 +109,20 @@ public class InlineModelResolver {
         }
 
         flattenPaths();
+        flattenWebhooks();
         flattenComponents();
         flattenComponentResponses();
+    }
+
+    /**
+     * Flatten inline models in Webhooks
+     */
+    private void flattenWebhooks() {
+        Map<String, PathItem> webhooks  = openAPI.getWebhooks();
+        if (webhooks == null) {
+            return;
+        }
+        flattenPathItems(webhooks);
     }
 
     /**
@@ -118,8 +133,16 @@ public class InlineModelResolver {
         if (paths == null) {
             return;
         }
+        flattenPathItems(paths);
+    }
 
-        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
+    /**
+     * Flatten inline models in path items
+     *
+     * @param pathItemMap Map of path items
+     */
+    private void flattenPathItems(Map<String, PathItem> pathItemMap) {
+        for (Map.Entry<String, PathItem> pathsEntry : pathItemMap.entrySet()) {
             PathItem path = pathsEntry.getValue();
             List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
 

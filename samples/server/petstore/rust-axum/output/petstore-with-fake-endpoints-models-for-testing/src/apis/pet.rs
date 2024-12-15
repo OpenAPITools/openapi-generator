@@ -87,6 +87,8 @@ pub enum UploadFileResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Pet {
+    type Claims;
+
     /// Add a new pet to the store.
     ///
     /// AddPet - POST /v2/pet
@@ -140,7 +142,7 @@ pub trait Pet {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        token_in_header: Option<String>,
+        claims: Self::Claims,
         path_params: models::GetPetByIdPathParams,
     ) -> Result<GetPetByIdResponse, ()>;
 

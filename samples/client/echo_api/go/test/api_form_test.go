@@ -34,6 +34,18 @@ func Test_openapi_FormAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FormAPIService TestFormObjectMultipart", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.FormAPI.TestFormObjectMultipart(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FormAPIService TestFormOneof", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

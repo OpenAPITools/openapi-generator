@@ -27,6 +27,14 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 
+/**
+ * @deprecated WARNING! This generator is outdated. Please use the official generator for Micronaut:
+ *      <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
+ *      <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
+ *      <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
+ */
+@SuppressWarnings("removal")
+@Deprecated(forRemoval = true)
 public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
     public static final String OPT_BUILD = "build";
@@ -711,5 +719,23 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             }
             throw new RuntimeException(sb.toString());
         }
+    }
+
+    @Override
+    public void postProcess() {
+        System.out.println("################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
+        System.out.println("#                                                                              #");
+        System.out.println("# WARNING! This generator is outdated. Please use the official generator for   #");
+        System.out.println("# Micronaut: https://github.com/micronaut-projects/micronaut-openapi with the  #");
+        System.out.println("# help of the plugin for Gradle                                                #");
+        System.out.println("# (https://github.com/micronaut-projects/micronaut-gradle-plugin) and Maven    #");
+        System.out.println("# (https://github.com/micronaut-projects/micronaut-maven-plugin).              #");
+        System.out.println("#                                                                              #");
+        System.out.println("# Supported generators for micronaut client / server side, java and kotlin     #");
+        System.out.println("# languages.                                                                   #");
+        System.out.println("################################################################################");
     }
 }

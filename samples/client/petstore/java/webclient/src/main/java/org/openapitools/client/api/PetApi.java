@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -49,6 +49,7 @@ public class PetApi {
         this.apiClient = apiClient;
     }
 
+    
     /**
      * Add a new pet to the store
      * 
@@ -122,6 +123,7 @@ public class PetApi {
     public ResponseSpec addPetWithResponseSpec(Pet pet) throws WebClientResponseException {
         return addPetRequestCreation(pet);
     }
+
     /**
      * Deletes a pet
      * 
@@ -202,6 +204,7 @@ public class PetApi {
     public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {
         return deletePetRequestCreation(petId, apiKey);
     }
+
     /**
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
@@ -280,6 +283,7 @@ public class PetApi {
     public ResponseSpec findPetsByStatusWithResponseSpec(List<String> status) throws WebClientResponseException {
         return findPetsByStatusRequestCreation(status);
     }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -360,6 +364,7 @@ public class PetApi {
     public ResponseSpec findPetsByTagsWithResponseSpec(Set<String> tags) throws WebClientResponseException {
         return findPetsByTagsRequestCreation(tags);
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -442,6 +447,7 @@ public class PetApi {
     public ResponseSpec getPetByIdWithResponseSpec(Long petId) throws WebClientResponseException {
         return getPetByIdRequestCreation(petId);
     }
+
     /**
      * Update an existing pet
      * 
@@ -523,6 +529,7 @@ public class PetApi {
     public ResponseSpec updatePetWithResponseSpec(Pet pet) throws WebClientResponseException {
         return updatePetRequestCreation(pet);
     }
+
     /**
      * Updates a pet in the store with form data
      * 
@@ -611,6 +618,7 @@ public class PetApi {
     public ResponseSpec updatePetWithFormWithResponseSpec(Long petId, String name, String status) throws WebClientResponseException {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
+
     /**
      * uploads an image
      * 
@@ -700,6 +708,7 @@ public class PetApi {
     public ResponseSpec uploadFileWithResponseSpec(Long petId, String additionalMetadata, File _file) throws WebClientResponseException {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
+
     /**
      * uploads an image (required)
      * 

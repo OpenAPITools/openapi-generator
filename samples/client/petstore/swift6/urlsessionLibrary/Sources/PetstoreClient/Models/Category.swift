@@ -49,3 +49,6 @@ public final class Category: @unchecked Sendable, Codable, JSONEncodable, Hashab
 }
 
 }
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension PetstoreClientAPI.Category: Identifiable {}
