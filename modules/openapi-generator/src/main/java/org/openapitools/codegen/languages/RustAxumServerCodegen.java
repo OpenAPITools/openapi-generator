@@ -612,7 +612,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         model.datatypeWithEnum = camelize(modelParts[modelParts.length - 1]);
 
                         // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
-                        if (model.name.matches("one_of_\\d")) {
+                        if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
                             model.isPrimitiveType = true;
                         }
                     }
@@ -633,6 +633,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         for (ModelMap mo : allModels) {
             CodegenModel cm = mo.getModel();
+
+            for (CodegenProperty var : cm.vars) {
+                var.isDiscriminator = false;
+            }
 
             List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
 
