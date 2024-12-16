@@ -5099,4 +5099,14 @@ public class SpringCodegenTest {
             .assertMethod("build")
             .doesNotHaveAnnotation("Deprecated");
     }
+
+    @Test
+    public void shouldAddJsonIgnorePropertiesImportWhenUsingOneOfWithinOneOf_issue18929() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/issue_18929.yaml");
+
+        JavaFileAssert.assertThat(files.get("RequestTwoSchemaNestedOneOf.java"))
+                .hasImports("com.fasterxml.jackson.annotation.JsonIgnoreProperties");
+    }
 }

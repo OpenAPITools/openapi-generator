@@ -8,6 +8,7 @@ package org.openapitools.api;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
+import org.openapitools.model.CreateParkPersonRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
@@ -46,12 +47,43 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 @Validated
-@Tag(name = "fake", description = "the fake API")
+@Tag(name = "PerkPerson", description = "the PerkPerson API")
 public interface FakeApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    /**
+     * POST /fake/one-of-within-one-of-park-persons : Create a Park Person
+     *
+     * @param createParkPersonRequest  (required)
+     * @return Park Person created (status code 201)
+     */
+    @Operation(
+        operationId = "createParkPerson",
+        summary = "Create a Park Person",
+        tags = { "PerkPerson" },
+        responses = {
+            @ApiResponse(responseCode = "201", description = "Park Person created", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/fake/one-of-within-one-of-park-persons",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    default ResponseEntity<String> createParkPerson(
+        @Parameter(name = "CreateParkPersonRequest", description = "", required = true) @Valid @RequestBody CreateParkPersonRequest createParkPersonRequest
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     /**
      * POST /fake/create_xml_item : creates an XmlItem
