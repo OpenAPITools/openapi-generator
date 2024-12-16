@@ -462,7 +462,7 @@ class PathApi
         if ($enum_ref_string_path !== null) {
             $resourcePath = str_replace(
                 '{' . 'enum_ref_string_path' . '}',
-                ObjectSerializer::toPathValue($enum_ref_string_path),
+                ObjectSerializer::toPathValue($enum_ref_string_path->value),
                 $resourcePath
             );
         }
