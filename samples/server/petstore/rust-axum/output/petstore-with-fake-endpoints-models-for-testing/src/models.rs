@@ -296,27 +296,12 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<AdditionalPr
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
-    #[serde(default = "Animal::__name_for_class_name")]
-    #[serde(serialize_with = "Animal::__serialize_class_name")]
     #[serde(rename = "className")]
     pub class_name: String,
 
     #[serde(rename = "color")]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub color: Option<String>,
-}
-
-impl Animal {
-    fn __name_for_class_name() -> String {
-        String::from("Animal")
-    }
-
-    fn __serialize_class_name<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        s.serialize_str(&Self::__name_for_class_name())
-    }
 }
 
 impl Animal {
