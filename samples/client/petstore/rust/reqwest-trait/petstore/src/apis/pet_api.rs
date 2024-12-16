@@ -23,7 +23,7 @@ use super::{Error, configuration};
 pub trait PetApi: Send + Sync {
     async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>>;
     async fn delete_pet<'pet_id, 'api_key>(&self, pet_id: i64, api_key: Option<&'api_key str>) -> Result<(), Error<DeletePetError>>;
-    async fn find_pets_by_status<'status>(&self, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>>;
+    async fn find_pets_by_status<'status, 'r_type>(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>>;
     async fn find_pets_by_tags<'tags>(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>>;
     async fn get_pet_by_id<'pet_id>(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>>;
     async fn update_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>>;
@@ -112,7 +112,7 @@ impl PetApi for PetApiClient {
     }
 
     /// Multiple status values can be provided with comma separated strings
-    async fn find_pets_by_status<'status>(&self, status: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
+    async fn find_pets_by_status<'status, 'r_type>(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -124,6 +124,12 @@ impl PetApi for PetApiClient {
             "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
             _ => local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
         };
+        if let Some(ref local_var_str) = r#type {
+            local_var_req_builder = match "csv" {
+                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("type", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+            };
+        }
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
         }
