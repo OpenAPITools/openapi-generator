@@ -20,6 +20,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -28,6 +29,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.commonmark.node.Code;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -594,11 +596,27 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
+    @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
         HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
 
         for (ModelMap mo : allModels) {
             CodegenModel cm = mo.getModel();
+
+            CodegenComposedSchemas cs = cm.getComposedSchemas();
+            if (cs != null) {
+                List<CodegenProperty> csOneOf = cs.getOneOf();
+
+                if (csOneOf != null) {
+                    for (CodegenProperty model : csOneOf) {
+                        String[] modelParts = model.dataType.replace("<", "Of").replace(">", "").split("::");
+                        model.datatypeWithEnum = camelize(modelParts[modelParts.length - 1]);
+                    }
+
+                    cs.setOneOf(csOneOf);
+                    cm.setComposedSchemas(cs);
+                }
+            }
 
             if (cm.discriminator != null) {
                 for (String model : cm.oneOf) {
