@@ -81,6 +81,7 @@ public class Order {
 
   private StatusEnum status;
 
+  @lombok.Builder.Default
   private Boolean complete = false;
 
   public Order id(Long id) {
