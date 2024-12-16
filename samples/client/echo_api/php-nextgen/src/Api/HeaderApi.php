@@ -438,7 +438,7 @@ class HeaderApi
         }
         // header params
         if ($enum_ref_string_header !== null) {
-            $headerParams['enum_ref_string_header'] = ObjectSerializer::toHeaderValue($enum_ref_string_header);
+            $headerParams['enum_ref_string_header'] = ObjectSerializer::toHeaderValue($enum_ref_string_header->value);
         }
 
 

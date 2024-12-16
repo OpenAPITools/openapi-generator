@@ -711,7 +711,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#queryParams}}
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            ${{paramName}},
+            ${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}},
             '{{baseName}}', // param base name
             '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
             '{{style}}', // style
@@ -728,7 +728,7 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/collectionFormat}}
         if (${{paramName}} !== null) {
-            $headerParams['{{baseName}}'] = ObjectSerializer::toHeaderValue(${{paramName}});
+            $headerParams['{{baseName}}'] = ObjectSerializer::toHeaderValue(${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}});
         }
         {{/headerParams}}
 
@@ -742,7 +742,7 @@ use {{invokerPackage}}\ObjectSerializer;
         if (${{paramName}} !== null) {
             $resourcePath = str_replace(
                 '{' . '{{baseName}}' . '}',
-                ObjectSerializer::toPathValue(${{paramName}}),
+                ObjectSerializer::toPathValue(${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}}),
                 $resourcePath
             );
         }
