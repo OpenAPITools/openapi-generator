@@ -20,7 +20,6 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -29,7 +28,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.commonmark.node.Code;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -608,9 +606,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                 if (csOneOf != null) {
                     for (CodegenProperty model : csOneOf) {
+                        // Generate a valid name for the enum variant.
+                        // Mainly needed for primitive types.
                         String[] modelParts = model.dataType.replace("<", "Of").replace(">", "").split("::");
                         model.datatypeWithEnum = camelize(modelParts[modelParts.length - 1]);
 
+                        // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
                         if (model.name.matches("one_of_\\d")) {
                             model.isPrimitiveType = true;
                         }
@@ -647,6 +648,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         }
                     }
 
+                    // If the discriminator field is not a defined attribute in the variant structure, create it.
                     if (!hasDiscriminatorDefined) {
                         CodegenProperty property = new CodegenProperty();
 

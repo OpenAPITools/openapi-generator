@@ -660,7 +660,7 @@ pub struct {{{classname}}} {
     /// {{{.}}}
 {{/description}}
 {{#isEnum}}
-        /// Note: inline enums are not fully supported by openapi-generator
+    /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
 {{#isDiscriminator}}
     #[serde(default = "{{{classname}}}::__name_for_{{{name}}}")]
