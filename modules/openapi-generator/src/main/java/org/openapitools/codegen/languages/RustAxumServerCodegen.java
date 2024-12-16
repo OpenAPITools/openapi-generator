@@ -596,8 +596,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
-    @Override
-    public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
+    private void postProcessOneOfModels(List<ModelMap> allModels) {
         HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
 
         for (ModelMap mo : allModels) {
@@ -682,6 +681,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 }
             }
         }
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
+        postProcessOneOfModels(allModels);
 
         final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
