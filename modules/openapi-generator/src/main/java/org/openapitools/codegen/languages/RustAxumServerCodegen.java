@@ -611,6 +611,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     for (CodegenProperty model : csOneOf) {
                         String[] modelParts = model.dataType.replace("<", "Of").replace(">", "").split("::");
                         model.datatypeWithEnum = camelize(modelParts[modelParts.length - 1]);
+
+                        if (model.name.matches("one_of_\\d")) {
+                            model.isPrimitiveType = true;
+                        }
                     }
 
                     cs.setOneOf(csOneOf);

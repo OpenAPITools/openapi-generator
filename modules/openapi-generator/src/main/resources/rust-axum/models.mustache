@@ -599,7 +599,12 @@ impl validator::Validate for {{{classname}}}
         match self {
             {{#composedSchemas}}
             {{#oneOf}}
+            {{#isPrimitiveType}}
+            Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
             Self::{{{datatypeWithEnum}}}(x) => x.validate(),
+            {{/isPrimitiveType}}
             {{/oneOf}}
             {{/composedSchemas}}
         }

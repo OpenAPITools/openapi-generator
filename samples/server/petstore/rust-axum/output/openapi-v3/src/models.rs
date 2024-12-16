@@ -2775,8 +2775,8 @@ pub enum OneOfGet200Response {
 impl validator::Validate for OneOfGet200Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::I32(x) => x.validate(),
-            Self::VecOfString(x) => x.validate(),
+            Self::I32(_) => std::result::Result::Ok(()),
+            Self::VecOfString(_) => std::result::Result::Ok(()),
         }
     }
 }

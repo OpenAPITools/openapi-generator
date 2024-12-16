@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Cargo.toml
 README.md
 src/apis/default.rs
