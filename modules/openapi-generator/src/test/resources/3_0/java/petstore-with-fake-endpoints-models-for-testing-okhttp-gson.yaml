@@ -681,6 +681,23 @@ paths:
                     - '-efg'
                     - (xyz)
                   default: '-efg'
+                enum_form_integer:
+                  description: Form parameter enum test (integer)
+                  type: integer
+                  enum:
+                    - 1
+                    - -1
+                    - 0
+                  default: 1
+                enum_form_double:
+                  description: Form parameter enum test (double)
+                  type: double
+                  enum:
+                    - 1.1
+                    - -1.1
+                    - 0.1
+                    - 0.0
+                  default: 1.1
     post:
       tags:
         - fake
@@ -1558,6 +1575,18 @@ components:
         complete:
           type: boolean
           default: false
+        paymentMethod:
+          type: number
+          format: int32
+          description: "Various payment methods"
+          default: 1
+          example: 1
+          x-enum-description:
+            - Paypal
+            - Creditcard
+          enum:
+            - 1
+            - 2
       xml:
         name: Order
     Category:
