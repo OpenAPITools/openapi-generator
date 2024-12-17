@@ -46,6 +46,13 @@ class SingleRefType {
     }
     return result.toList(growable: growable);
   }
+
+  
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is SingleRefType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [SingleRefType] to String,
