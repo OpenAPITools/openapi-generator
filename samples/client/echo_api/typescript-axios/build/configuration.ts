@@ -93,8 +93,8 @@ export class Configuration {
             headers: {
                 ...param.baseOptions?.headers,
                 'User-Agent': "OpenAPI-Generator/1.0.0/typescript-axios"
-            }
-            ...param.baseOptions,
+            },
+            ...param.baseOptions
         };
         this.formDataCtor = param.formDataCtor;
     }
