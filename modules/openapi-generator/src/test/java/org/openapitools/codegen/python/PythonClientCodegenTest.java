@@ -28,6 +28,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 import org.openapitools.codegen.TestUtils;
@@ -540,5 +542,28 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(codegen.toEnumValue("\"", "string"), "'\\\"'");
         Assert.assertEquals(codegen.toEnumValue("1.0", "float"), "1.0");
         Assert.assertEquals(codegen.toEnumValue("1", "int"), "1");
+    }
+
+    @Test
+    public void testHandleNoApis() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/no_apis.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        PythonClientCodegen pythonClientCodegen = new PythonClientCodegen();
+        pythonClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(pythonClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream().collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files.get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
+        assertNull(apiFile);
+
+        File setupFile = files.get(Paths.get(output.getAbsolutePath(), "setup.py").toString());
+        assertNotNull(setupFile);
+        assertFileContains(setupFile.toPath(), "setup(");
     }
 }
