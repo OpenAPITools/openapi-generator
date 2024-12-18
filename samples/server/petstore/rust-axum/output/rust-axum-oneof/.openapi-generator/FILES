@@ -1,0 +1,11 @@
+.gitignore
+.openapi-generator-ignore
+Cargo.toml
+README.md
+src/apis/default.rs
+src/apis/mod.rs
+src/header.rs
+src/lib.rs
+src/models.rs
+src/server/mod.rs
+src/types.rs

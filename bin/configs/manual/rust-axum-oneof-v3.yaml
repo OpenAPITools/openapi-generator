@@ -1,0 +1,11 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/rust-axum-oneof
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-axum/rust-axum-oneof.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: rust-axum-oneof
+globalProperties:
+  skipFormModel: "false"
+enablePostProcessFile: true
