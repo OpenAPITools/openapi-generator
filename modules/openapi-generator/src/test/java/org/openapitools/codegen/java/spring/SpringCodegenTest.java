@@ -4859,7 +4859,7 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
-                .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
+                .fileContains("private @Nullable List<@Valid TagDto> tags = new ArrayList<>();")
                 .fileContains("private List<String> photoUrls = new ArrayList<>();");
 
     }
@@ -4893,20 +4893,20 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
-                .fileContains("private List<@Valid TagDto> tags")
-                .fileContains("private List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
-                .fileContains("private Set<@Valid TagDto> tagsUnique")
-                .fileContains("private Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
-                .fileContains("private List<String> stringList")
-                .fileContains("private List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
-                .fileContains("private List<String> stringEmptyDefaultList = new ArrayList<>();")
-                .fileContains("Set<String> stringSet")
-                .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
-                .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
-                .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
-                .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
-                .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
-                .fileDoesNotContain("private Set<String> stringSet = new LinkedHashSet<>()");
+                .fileContains("private @Nullable List<@Valid TagDto> tags")
+                .fileContains("private @Nullable List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
+                .fileContains("private @Nullable Set<@Valid TagDto> tagsUnique")
+                .fileContains("private @Nullable Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
+                .fileContains("private @Nullable List<String> stringList")
+                .fileContains("private @Nullable List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private @Nullable List<String> stringEmptyDefaultList = new ArrayList<>();")
+                .fileContains("@Nullable Set<String> stringSet")
+                .fileContains("private @Nullable Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private @Nullable Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
+                .fileDoesNotContain("List<@Valid TagDto> tags = new ArrayList<>()")
+                .fileDoesNotContain("Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
+                .fileDoesNotContain("List<String> stringList = new ArrayList<>()")
+                .fileDoesNotContain("Set<String> stringSet = new LinkedHashSet<>()");
     }
 
     @Test
@@ -5098,5 +5098,64 @@ public class SpringCodegenTest {
             .toInnerClassAssert()
             .assertMethod("build")
             .doesNotHaveAnnotation("Deprecated");
+    }
+
+    @Test
+    public void shouldAnnotateNonRequiredFieldsAsNullable() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
+        var file = files.get("Item.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertProperty("mandatoryName")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalDescription")
+                .hasAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("nullableStr")
+                .doesNotHaveAnnotation("Nullable");
+    }
+
+    @Test
+    public void shouldNotAnnotateNonRequiredFieldsAsNullableWhileUseOptional() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setUseOptional(true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
+        var file = files.get("Item.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertProperty("mandatoryName")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalDescription")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("nullableStr")
+                .doesNotHaveAnnotation("Nullable");
+    }
+
+    @Test
+    public void shouldNotAnnotateNonRequiredFieldsAsNullableWhileNotUsingOpenApiNullable() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOpenApiNullable(false);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
+        var file = files.get("Item.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertProperty("mandatoryName")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalDescription")
+                .hasAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("nullableStr")
+                .hasAnnotation("Nullable");
     }
 }

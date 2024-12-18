@@ -1,0 +1,15 @@
+openapi: 3.0.0
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - mandatoryName
+      properties:
+        mandatoryName:
+          type: String
+        optionalDescription:
+          type: string
+        nullableStr:
+          type: String
+          nullable: true
