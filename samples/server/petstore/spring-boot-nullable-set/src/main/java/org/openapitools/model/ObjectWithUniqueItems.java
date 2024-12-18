@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -35,19 +36,19 @@ public class ObjectWithUniqueItems {
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
   @Valid
-  private Set<String> notNullSet = new LinkedHashSet<>();
+  private @Nullable Set<String> notNullSet = new LinkedHashSet<>();
 
   @Valid
   private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
   @Valid
-  private List<String> notNullList = new ArrayList<>();
+  private @Nullable List<String> notNullList = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime notNullDateField;
+  private @Nullable OffsetDateTime notNullDateField;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime nullDateField;
+  private @Nullable OffsetDateTime nullDateField;
 
   public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);

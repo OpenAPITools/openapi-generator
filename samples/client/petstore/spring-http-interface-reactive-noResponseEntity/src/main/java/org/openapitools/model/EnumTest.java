@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnum;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -60,7 +61,7 @@ public class EnumTest {
     }
   }
 
-  private EnumStringEnum enumString;
+  private @Nullable EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -136,7 +137,7 @@ public class EnumTest {
     }
   }
 
-  private EnumIntegerEnum enumInteger;
+  private @Nullable EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -173,9 +174,9 @@ public class EnumTest {
     }
   }
 
-  private EnumNumberEnum enumNumber;
+  private @Nullable EnumNumberEnum enumNumber;
 
-  private OuterEnum outerEnum;
+  private @Nullable OuterEnum outerEnum;
 
   public EnumTest() {
     super();

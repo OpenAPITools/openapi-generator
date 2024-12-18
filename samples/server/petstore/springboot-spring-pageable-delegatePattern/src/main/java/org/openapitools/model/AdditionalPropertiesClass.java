@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -27,34 +28,34 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesClass {
 
   @Valid
-  private Map<String, String> mapString = new HashMap<>();
+  private @Nullable Map<String, String> mapString = new HashMap<>();
 
   @Valid
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private @Nullable Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   @Valid
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private @Nullable Map<String, Integer> mapInteger = new HashMap<>();
 
   @Valid
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private @Nullable Map<String, Boolean> mapBoolean = new HashMap<>();
 
   @Valid
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private @Nullable Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private @Nullable Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   @Valid
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private @Nullable Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   @Valid
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private @Nullable Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
-  private Object anytype2;
+  private @Nullable Object anytype2;
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
