@@ -773,7 +773,7 @@ class FakeApi
 
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $enum_class,
+            $enum_class->value,
             'enum-class', // param base name
             'EnumClass', // openApiType
             'form', // style

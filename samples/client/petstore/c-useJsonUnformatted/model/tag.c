@@ -64,6 +64,9 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
     // tag->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -73,6 +76,9 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
     // tag->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
+    if (cJSON_IsNull(name)) {
+        name = NULL;
+    }
     if (name) { 
     if(!cJSON_IsString(name) && !cJSON_IsNull(name))
     {
