@@ -111,7 +111,7 @@ public class Tag  implements Serializable {
     return new TagBuilderImpl();
   }
 
-  private static class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
+  private static final class TagBuilderImpl extends TagBuilder<Tag, TagBuilderImpl> {
 
     @Override
     protected TagBuilderImpl self() {

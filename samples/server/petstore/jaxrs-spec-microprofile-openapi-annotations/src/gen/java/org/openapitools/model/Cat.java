@@ -100,7 +100,7 @@ public class Cat extends Animal implements Serializable {
     return new CatBuilderImpl();
   }
 
-  private static class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
+  private static final class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
 
     @Override
     protected CatBuilderImpl self() {
