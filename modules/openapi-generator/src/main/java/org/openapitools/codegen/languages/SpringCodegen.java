@@ -954,7 +954,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             model.imports.add("Arrays");
         }
 
-        model.imports.add("Nullable");
+        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
+        if (getName().contains("spring")) {
+            model.imports.add("Nullable");
+        }
     }
 
     @Override
