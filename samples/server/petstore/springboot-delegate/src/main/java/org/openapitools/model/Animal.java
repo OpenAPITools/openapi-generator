@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -38,7 +39,7 @@ public class Animal {
 
   private String className;
 
-  private String color = "red";
+  private @Nullable String color = "red";
 
   public Animal() {
     super();
@@ -54,7 +55,7 @@ public class Animal {
   /**
    * Constructor with all args parameters
    */
-  public Animal(String className, String color) {
+  public Animal(String className, @Nullable String color) {
       this.className = className;
       this.color = color;
   }

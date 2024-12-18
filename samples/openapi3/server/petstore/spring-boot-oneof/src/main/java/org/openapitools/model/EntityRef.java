@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -35,17 +36,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class EntityRef {
 
-  private String name;
+  private @Nullable String name;
 
-  private String atReferredType;
+  private @Nullable String atReferredType;
 
-  private String href;
+  private @Nullable String href;
 
-  private String id;
+  private @Nullable String id;
 
-  private String atSchemaLocation;
+  private @Nullable String atSchemaLocation;
 
-  private String atBaseType;
+  private @Nullable String atBaseType;
 
   private String atType;
 

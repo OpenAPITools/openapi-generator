@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
 public class MapTest {
 
   
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private @Nullable Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -61,13 +62,13 @@ public class MapTest {
   }
 
   
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private @Nullable Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
   
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private @Nullable Map<String, Boolean> directMap = new HashMap<>();
 
   
-  private Map<String, Boolean> indirectMap = new HashMap<>();
+  private @Nullable Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -29,34 +30,34 @@ import jakarta.annotation.Generated;
 public class AdditionalPropertiesClassDto {
 
   
-  private Map<String, String> mapString = new HashMap<>();
+  private @Nullable Map<String, String> mapString = new HashMap<>();
 
   
-  private Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private @Nullable Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   
-  private Map<String, Integer> mapInteger = new HashMap<>();
+  private @Nullable Map<String, Integer> mapInteger = new HashMap<>();
 
   
-  private Map<String, Boolean> mapBoolean = new HashMap<>();
+  private @Nullable Map<String, Boolean> mapBoolean = new HashMap<>();
 
   
-  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private @Nullable Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private @Nullable Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   
-  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private @Nullable Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   
-  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private @Nullable Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
 
   public AdditionalPropertiesClassDto mapString(Map<String, String> mapString) {
     this.mapString = mapString;

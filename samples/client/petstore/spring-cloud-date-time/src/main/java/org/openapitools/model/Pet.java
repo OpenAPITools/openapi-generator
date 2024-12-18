@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -28,17 +29,17 @@ public class Pet {
 
   private String atType = "Pet";
 
-  private Integer age = 4;
+  private @Nullable Integer age = 4;
 
-  private Boolean happy = true;
+  private @Nullable Boolean happy = true;
 
-  private BigDecimal price = new BigDecimal("32000000000");
+  private @Nullable BigDecimal price = new BigDecimal("32000000000");
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
+  private @Nullable OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
+  private @Nullable LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
   public Pet() {
     super();
