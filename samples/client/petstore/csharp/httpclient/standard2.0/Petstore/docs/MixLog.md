@@ -35,7 +35,7 @@ Name | Type | Description | Notes
 **PrimerProductId** | **string** |  | [optional] 
 **ProductId** | **string** | ProductId is only required for color mixes | [optional] 
 **ProductName** | **string** | ProductName is only required for color mixes | [optional] 
-**SelectedVersionIndex** | **int** |  | [optional] 
+**SelectedVersionIndex** | **int?** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

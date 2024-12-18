@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string Var123List { get; set; }
+        public string? Var123List { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
