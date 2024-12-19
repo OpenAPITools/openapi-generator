@@ -42,10 +42,8 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
     cJSON *item = cJSON_CreateObject();
 
     // api_response->code
-    if(api_response->code) {
     if(cJSON_AddNumberToObject(item, "code", api_response->code) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
