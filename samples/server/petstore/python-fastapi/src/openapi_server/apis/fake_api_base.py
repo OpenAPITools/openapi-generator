@@ -15,8 +15,7 @@ class BaseFakeApi:
         BaseFakeApi.subclasses = BaseFakeApi.subclasses + (cls,)
     async def fake_query_param_default(
         self,
-        has_default: Annotated[Optional[StrictStr], Field(description="has default value")],
-        no_default: Annotated[Optional[StrictStr], Field(description="no default value")],
+        has_default: Annotated[Optional[StrictStr], Field(description="has default value")],        no_default: Annotated[Optional[StrictStr], Field(description="no default value")]
     ) -> None:
         """"""
         ...
