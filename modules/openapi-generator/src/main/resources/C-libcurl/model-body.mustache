@@ -376,7 +376,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{name}}}{{classname}}_ToString({{{classname}}}->{{{name}}})) == NULL)
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{classname}}_{{name}}_ToString({{{classname}}}->{{{name}}})) == NULL)
     {
     goto fail; //Enum
     }
