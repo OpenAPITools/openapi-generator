@@ -343,6 +343,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -497,6 +498,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
@@ -511,12 +513,12 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
             if (marker != null)
             {
-                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
+                localVarRequestOptions.FormParameters.Add("marker", localVarMultipartFormData ? Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker) : Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
             {
-                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("statusArray", localVarMultipartFormData ? Org.OpenAPITools.Client.ClientUtils.ParameterToString(statusArray) : Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray)); // form parameter
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartMixed";
@@ -657,6 +659,7 @@ namespace Org.OpenAPITools.Api
             };
 
             var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            var localVarMultipartFormData = localVarContentType == "multipart/form-data";
             if (localVarContentType != null)
             {
                 localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
