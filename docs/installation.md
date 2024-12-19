@@ -77,6 +77,22 @@ Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.github
 openapi-generator-cli generate -i petstore.yaml -g ruby
 ```
 
+## PyPI
+
+> **Platform(s)**: Linux, macOS, Windows
+
+**Install** via [PyPI](https://pypi.org/) (`java` executable is needed to run):
+
+```
+pip install openapi-generator-cli
+```
+
+You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
+
+```
+pip install openapi-generator-cli[jdk4py]
+```
+
 ## Docker
 
 > **Platform(s)**: Linux, macOS, Windows
