@@ -2,15 +2,15 @@ import IHttpClient from './IHttpClient';
 
 import { Observable } from 'rxjs/Observable';
 
+import {injectable} from 'inversify';
 import 'whatwg-fetch';
 import HttpResponse from './HttpResponse';
-import {injectable} from 'inversify';
 import { Headers } from './Headers';
 
 @injectable()
 class HttpClient implements IHttpClient {
 
-    get(url:string, headers?: Headers):Observable<HttpResponse> {
+    get(url:string, headers?: Headers): Observable<HttpResponse> {
         return this.performNetworkCall(url, 'GET', undefined, headers);
     }
 
