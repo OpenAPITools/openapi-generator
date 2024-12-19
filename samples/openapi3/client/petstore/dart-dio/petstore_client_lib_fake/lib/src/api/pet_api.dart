@@ -22,20 +22,20 @@ class PetApi {
   const PetApi(this._dio, this._serializers);
 
   /// Add a new pet to the store
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pet] - Pet object that needs to be added to the store
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> addPet({ 
+  Future<Response<void>> addPet({
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -94,21 +94,21 @@ class PetApi {
   }
 
   /// Deletes a pet
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [petId] - Pet id to delete
-  /// * [apiKey] 
+  /// * [apiKey]
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deletePet({ 
+  Future<Response<void>> deletePet({
     required int petId,
     String? apiKey,
     CancelToken? cancelToken,
@@ -155,14 +155,14 @@ class PetApi {
   /// * [status] - Status values that need to be considered for filter
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [BuiltList<Pet>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<BuiltList<Pet>>> findPetsByStatus({ 
+  Future<Response<BuiltList<Pet>>> findPetsByStatus({
     @Deprecated('status is deprecated') required BuiltList<String> status,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -240,7 +240,7 @@ class PetApi {
   /// * [tags] - Tags to filter by
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
@@ -248,7 +248,7 @@ class PetApi {
   /// Returns a [Future] containing a [Response] with a [BuiltSet<Pet>] as data
   /// Throws [DioException] if API call or serialization fails
   @Deprecated('This operation has been deprecated')
-  Future<Response<BuiltSet<Pet>>> findPetsByTags({ 
+  Future<Response<BuiltSet<Pet>>> findPetsByTags({
     required BuiltSet<String> tags,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -326,14 +326,14 @@ class PetApi {
   /// * [petId] - ID of pet to return
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Pet] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Pet>> getPetById({ 
+  Future<Response<Pet>> getPetById({
     required int petId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -402,20 +402,20 @@ class PetApi {
   }
 
   /// Update an existing pet
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [pet] - Pet object that needs to be added to the store
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updatePet({ 
+  Future<Response<void>> updatePet({
     required Pet pet,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -474,7 +474,7 @@ class PetApi {
   }
 
   /// Updates a pet in the store with form data
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [petId] - ID of pet that needs to be updated
@@ -482,14 +482,14 @@ class PetApi {
   /// * [status] - Updated status of the pet
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updatePetWithForm({ 
+  Future<Response<void>> updatePetWithForm({
     required int petId,
     String? name,
     String? status,
@@ -552,7 +552,7 @@ class PetApi {
   }
 
   /// uploads an image
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [petId] - ID of pet to update
@@ -560,14 +560,14 @@ class PetApi {
   /// * [file] - file to upload
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ApiResponse>> uploadFile({ 
+  Future<Response<ApiResponse>> uploadFile({
     required int petId,
     String? additionalMetadata,
     MultipartFile? file,
@@ -658,7 +658,7 @@ class PetApi {
   }
 
   /// uploads an image (required)
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [petId] - ID of pet to update
@@ -666,14 +666,14 @@ class PetApi {
   /// * [additionalMetadata] - Additional data to pass to server
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [ApiResponse] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<ApiResponse>> uploadFileWithRequiredFile({ 
+  Future<Response<ApiResponse>> uploadFileWithRequiredFile({
     required int petId,
     required MultipartFile requiredFile,
     String? additionalMetadata,
