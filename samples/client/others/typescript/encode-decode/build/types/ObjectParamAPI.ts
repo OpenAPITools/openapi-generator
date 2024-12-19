@@ -67,10 +67,10 @@ export interface DefaultApiTestEncodeArrayOfArraysPostRequest {
 export interface DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest {
     /**
      * 
-     * @type Array&lt;{ [key: string]: ComplexObject; }&gt;
+     * @type Array&lt;{ [key: string]: ComplexObject | undefined; }&gt;
      * @memberof DefaultApitestEncodeArrayOfMapsOfObjectsPost
      */
-    complexObject: Array<{ [key: string]: ComplexObject; }>
+    complexObject: Array<{ [key: string]: ComplexObject | undefined; }>
 }
 
 export interface DefaultApiTestEncodeArrayOfNullableObjectsPostRequest {
@@ -112,28 +112,28 @@ export interface DefaultApiTestEncodeCompositeObjectsPostRequest {
 export interface DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest {
     /**
      * 
-     * @type { [key: string]: { [key: string]: ComplexObject; }; }
+     * @type { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }
      * @memberof DefaultApitestEncodeMapOfMapsOfObjectsPost
      */
-    requestBody: { [key: string]: { [key: string]: ComplexObject; }; }
+    requestBody: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }
 }
 
 export interface DefaultApiTestEncodeMapOfObjectsPostRequest {
     /**
      * 
-     * @type { [key: string]: ComplexObject | null; }
+     * @type { [key: string]: ComplexObject | undefined | null; }
      * @memberof DefaultApitestEncodeMapOfObjectsPost
      */
-    requestBody: { [key: string]: ComplexObject | null; }
+    requestBody: { [key: string]: ComplexObject | undefined | null; }
 }
 
 export interface DefaultApiTestEncodeMapOfPrimitivePostRequest {
     /**
      * 
-     * @type { [key: string]: string; }
+     * @type { [key: string]: string | undefined; }
      * @memberof DefaultApitestEncodeMapOfPrimitivePost
      */
-    requestBody: { [key: string]: string; }
+    requestBody: { [key: string]: string | undefined; }
 }
 
 export interface DefaultApiTestEncodeNullableArrayPostRequest {
@@ -237,14 +237,14 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeArrayOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
+    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeArrayOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<HttpInfo<Array<{ [key: string]: ComplexObject | undefined; }>>> {
         return this.api.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfMapsOfObjectsGet(param: DefaultApiTestDecodeArrayOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<Array<{ [key: string]: ComplexObject; }>> {
+    public testDecodeArrayOfMapsOfObjectsGet(param: DefaultApiTestDecodeArrayOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<Array<{ [key: string]: ComplexObject | undefined; }>> {
         return this.api.testDecodeArrayOfMapsOfObjectsGet( options).toPromise();
     }
 
@@ -293,42 +293,42 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeMapOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
+    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeMapOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }>> {
         return this.api.testDecodeMapOfMapsOfObjectsGetWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeMapOfMapsOfObjectsGet(param: DefaultApiTestDecodeMapOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
+    public testDecodeMapOfMapsOfObjectsGet(param: DefaultApiTestDecodeMapOfMapsOfObjectsGetRequest = {}, options?: Configuration): Promise<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }> {
         return this.api.testDecodeMapOfMapsOfObjectsGet( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+    public testDecodeMapOfObjectsGetWithHttpInfo(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: ComplexObject | undefined | null; }>> {
         return this.api.testDecodeMapOfObjectsGetWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeMapOfObjectsGet(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: Configuration): Promise<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: Configuration): Promise<{ [key: string]: ComplexObject | undefined | null; }> {
         return this.api.testDecodeMapOfObjectsGet( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeMapOfPrimitiveGetWithHttpInfo(param: DefaultApiTestDecodeMapOfPrimitiveGetRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: string; }>> {
+    public testDecodeMapOfPrimitiveGetWithHttpInfo(param: DefaultApiTestDecodeMapOfPrimitiveGetRequest = {}, options?: Configuration): Promise<HttpInfo<{ [key: string]: string | undefined; }>> {
         return this.api.testDecodeMapOfPrimitiveGetWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public testDecodeMapOfPrimitiveGet(param: DefaultApiTestDecodeMapOfPrimitiveGetRequest = {}, options?: Configuration): Promise<{ [key: string]: string; }> {
+    public testDecodeMapOfPrimitiveGet(param: DefaultApiTestDecodeMapOfPrimitiveGetRequest = {}, options?: Configuration): Promise<{ [key: string]: string | undefined; }> {
         return this.api.testDecodeMapOfPrimitiveGet( options).toPromise();
     }
 

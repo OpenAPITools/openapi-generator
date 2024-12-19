@@ -50,6 +50,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
                 .put(TypeScriptFetchClientCodegen.SAGAS_AND_RECORDS, SAGAS_AND_RECORDS)
                 .put(TypeScriptFetchClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_VALUE)
                 .put(TypeScriptFetchClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
+                .put(TypeScriptFetchClientCodegen.ENRICHED_MAPS, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.STRING_ENUMS, STRING_ENUMS)
                 .put(TypeScriptFetchClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, Boolean.FALSE.toString())

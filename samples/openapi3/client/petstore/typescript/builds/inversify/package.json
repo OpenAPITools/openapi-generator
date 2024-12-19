@@ -13,7 +13,7 @@
     "openapi-client",
     "openapi-generator"
   ],
-  "license": "Unlicense",
+  "license": "",
   "main": "./dist/index.js",
   "type": "module",
   "module": "./dist/index.js",
