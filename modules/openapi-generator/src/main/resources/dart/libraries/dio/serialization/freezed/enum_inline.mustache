@@ -1,0 +1,14 @@
+{{#description}}/// {{{description}}}{{/description}}
+{{#isDeprecated}}
+    @Deprecated('{{{enumName}}} has been deprecated')
+{{/isDeprecated}}
+@JsonEnum(valueField: 'value')
+enum {{enumName}} {
+    {{#allowableValues}}
+        {{#enumVars}}
+            {{{name}}}(value: {{#isString}}r{{/isString}}{{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        {{/enumVars}}
+        const {{enumName}}({required this.value});
+        final {{baseType}} value;
+    {{/allowableValues}}
+}
