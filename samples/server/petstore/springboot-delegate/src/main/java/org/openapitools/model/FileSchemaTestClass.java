@@ -30,7 +30,7 @@ public class FileSchemaTestClass {
   private @Nullable File file;
 
   @Valid
-  private @Nullable List<@Valid File> files = new ArrayList<>();
+  private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass() {
     super();
@@ -39,7 +39,7 @@ public class FileSchemaTestClass {
   /**
    * Constructor with all args parameters
    */
-  public FileSchemaTestClass(@Nullable File file, @Nullable List<@Valid File> files) {
+  public FileSchemaTestClass(@Nullable File file, List<@Valid File> files) {
       this.file = file;
       this.files = files;
   }

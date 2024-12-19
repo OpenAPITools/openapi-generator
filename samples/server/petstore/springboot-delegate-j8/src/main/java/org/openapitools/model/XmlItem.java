@@ -36,7 +36,7 @@ public class XmlItem {
   private @Nullable Boolean attributeBoolean;
 
   @Valid
-  private @Nullable List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private @Nullable String nameString;
 
@@ -47,10 +47,10 @@ public class XmlItem {
   private @Nullable Boolean nameBoolean;
 
   @Valid
-  private @Nullable List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixString;
 
@@ -61,10 +61,10 @@ public class XmlItem {
   private @Nullable Boolean prefixBoolean;
 
   @Valid
-  private @Nullable List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private @Nullable String namespaceString;
 
@@ -75,10 +75,10 @@ public class XmlItem {
   private @Nullable Boolean namespaceBoolean;
 
   @Valid
-  private @Nullable List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixNsString;
 
@@ -89,10 +89,10 @@ public class XmlItem {
   private @Nullable Boolean prefixNsBoolean;
 
   @Valid
-  private @Nullable List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

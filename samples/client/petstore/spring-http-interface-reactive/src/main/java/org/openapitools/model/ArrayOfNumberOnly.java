@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 public class ArrayOfNumberOnly {
 
   
-  private @Nullable List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

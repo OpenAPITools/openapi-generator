@@ -29,7 +29,7 @@ public class FileSchemaTestClassDto {
   private @Nullable FileDto file;
 
   
-  private @Nullable List<FileDto> files = new ArrayList<>();
+  private List<FileDto> files = new ArrayList<>();
 
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;

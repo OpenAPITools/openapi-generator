@@ -33,7 +33,7 @@ public class XmlItem {
   private @Nullable Boolean attributeBoolean;
 
   
-  private @Nullable List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private @Nullable String nameString;
 
@@ -44,10 +44,10 @@ public class XmlItem {
   private @Nullable Boolean nameBoolean;
 
   
-  private @Nullable List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameArray = new ArrayList<>();
 
   
-  private @Nullable List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixString;
 
@@ -58,10 +58,10 @@ public class XmlItem {
   private @Nullable Boolean prefixBoolean;
 
   
-  private @Nullable List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixArray = new ArrayList<>();
 
   
-  private @Nullable List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private @Nullable String namespaceString;
 
@@ -72,10 +72,10 @@ public class XmlItem {
   private @Nullable Boolean namespaceBoolean;
 
   
-  private @Nullable List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   
-  private @Nullable List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixNsString;
 
@@ -86,10 +86,10 @@ public class XmlItem {
   private @Nullable Boolean prefixNsBoolean;
 
   
-  private @Nullable List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   
-  private @Nullable List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

@@ -31,28 +31,28 @@ import javax.annotation.Generated;
 public class AdditionalPropertiesClass {
 
   @Valid
-  private @Nullable Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   @Valid
-  private @Nullable Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   private @Nullable Object anytype1;
 
@@ -67,7 +67,7 @@ public class AdditionalPropertiesClass {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesClass(@Nullable Map<String, String> mapString, @Nullable Map<String, BigDecimal> mapNumber, @Nullable Map<String, Integer> mapInteger, @Nullable Map<String, Boolean> mapBoolean, @Nullable Map<String, List<Integer>> mapArrayInteger, @Nullable Map<String, List<Object>> mapArrayAnytype, @Nullable Map<String, Map<String, String>> mapMapString, @Nullable Map<String, Map<String, Object>> mapMapAnytype, @Nullable Object anytype1, Object anytype2, @Nullable Object anytype3) {
+  public AdditionalPropertiesClass(Map<String, String> mapString, Map<String, BigDecimal> mapNumber, Map<String, Integer> mapInteger, Map<String, Boolean> mapBoolean, Map<String, List<Integer>> mapArrayInteger, Map<String, List<Object>> mapArrayAnytype, Map<String, Map<String, String>> mapMapString, Map<String, Map<String, Object>> mapMapAnytype, @Nullable Object anytype1, Object anytype2, @Nullable Object anytype3) {
       this.mapString = mapString;
       this.mapNumber = mapNumber;
       this.mapInteger = mapInteger;

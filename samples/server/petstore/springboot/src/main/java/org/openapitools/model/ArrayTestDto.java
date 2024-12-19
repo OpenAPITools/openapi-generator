@@ -30,13 +30,13 @@ import javax.annotation.Generated;
 public class ArrayTestDto {
 
   @Valid
-  private @Nullable List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString = new ArrayList<>();
 
   @Valid
-  private @Nullable List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @Valid
-  private @Nullable List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;

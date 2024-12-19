@@ -27,7 +27,7 @@ public class FileSchemaTestClass {
   private @Nullable File file;
 
   
-  private @Nullable List<File> files = new ArrayList<>();
+  private List<File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
     this.file = file;

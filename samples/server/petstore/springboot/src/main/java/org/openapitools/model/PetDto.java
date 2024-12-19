@@ -44,7 +44,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private @Nullable List<@Valid TagDto> tags = new ArrayList<>();
+  private List<@Valid TagDto> tags = new ArrayList<>();
 
   /**
    * pet status in the store
