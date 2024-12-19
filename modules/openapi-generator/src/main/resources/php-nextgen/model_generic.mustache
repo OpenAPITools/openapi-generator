@@ -190,6 +190,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         return self::$openAPIModelName;
     }
 
+    {{^discriminator}}
     {{#vars}}
     {{#isEnum}}
     {{#allowableValues}}
@@ -199,6 +200,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     {{/allowableValues}}
     {{/isEnum}}
     {{/vars}}
+    {{/discriminator}}
+    {{#discriminator}}{{#mappedModels}}
+    public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{mappingName}}{{/lambda.uppercase}} = '{{mappingName}}';
+    {{/mappedModels}}{{/discriminator}}
 
     {{#vars}}
     {{#isEnum}}
@@ -210,8 +215,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public function {{getter}}AllowableValues()
     {
         return [
+            {{^discriminator}}
             {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
+            {{/discriminator}}
+            {{#discriminator}}{{#mappedModels}}self::{{#lambda.uppercase}}{{discriminator.propertyName}}_{{mappingName}}{{/lambda.uppercase}},{{^-last}}
+            {{/-last}}{{/mappedModels}}{{/discriminator}}
         ];
     }
 
