@@ -30,6 +30,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String VARIABLE_NAMING_CONVENTION_VALUE = "snake_case";
+    public static final String METHOD_NAMING_CONVENTION_VALUE = "PascalCase";
     public static final String INVOKER_PACKAGE_VALUE = "OpenAPITools\\Client\\Php";
     public static final String PACKAGE_NAME_VALUE = "OpenAPIToolsClient-php";
     public static final String SRC_BASE_PATH_VALUE = "libPhp";
@@ -58,6 +59,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(PhpClientCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
+                .put(PhpClientCodegen.METHOD_NAMING_CONVENTION, METHOD_NAMING_CONVENTION_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
                 .put(PhpClientCodegen.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(PhpClientCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
