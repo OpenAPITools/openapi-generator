@@ -1611,6 +1611,12 @@ public class ModelUtils {
      * @return the name of the parent model
      */
     public static List<String> getAllParentsName(Schema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
+        return getAllParentsName(composedSchema, allSchemas, includeAncestors, new HashSet<>());
+    }
+
+    // Use a set of seen names to avoid infinite recursion
+    private static List<String> getAllParentsName(
+            Schema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors, Set<String> seenNames) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
 
@@ -1619,6 +1625,10 @@ public class ModelUtils {
                 // get the actual schema
                 if (StringUtils.isNotEmpty(schema.get$ref())) {
                     String parentName = getSimpleRef(schema.get$ref());
+                    if (seenNames.contains(parentName)) {
+                        continue;
+                    }
+                    seenNames.add(parentName);
                     Schema s = allSchemas.get(parentName);
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
@@ -1627,7 +1637,7 @@ public class ModelUtils {
                         // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
                         if (includeAncestors && isComposedSchema(s)) {
-                            names.addAll(getAllParentsName(s, allSchemas, true));
+                            names.addAll(getAllParentsName(s, allSchemas, true, seenNames));
                         }
                     } else {
                         // not a parent since discriminator.propertyName is not set
