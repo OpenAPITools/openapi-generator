@@ -28,13 +28,13 @@ import javax.annotation.Generated;
 public class ArrayTest {
 
   @Valid
-  private @Nullable List<String> arrayOfString = new ArrayList<>();
+  private List<String> arrayOfString = new ArrayList<>();
 
   @Valid
-  private @Nullable List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   @Valid
-  private @Nullable List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
   public ArrayTest() {
     super();
@@ -43,7 +43,7 @@ public class ArrayTest {
   /**
    * Constructor with all args parameters
    */
-  public ArrayTest(@Nullable List<String> arrayOfString, @Nullable List<List<Long>> arrayArrayOfInteger, @Nullable List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
       this.arrayOfString = arrayOfString;
       this.arrayArrayOfInteger = arrayArrayOfInteger;
       this.arrayArrayOfModel = arrayArrayOfModel;

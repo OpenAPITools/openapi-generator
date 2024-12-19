@@ -35,7 +35,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private @Nullable OffsetDateTime dateTime;
 
   @Valid
-  private @Nullable Map<String, Animal> map = new HashMap<>();
+  private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
     super();
@@ -44,7 +44,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   /**
    * Constructor with all args parameters
    */
-  public MixedPropertiesAndAdditionalPropertiesClass(@Nullable UUID uuid, @Nullable OffsetDateTime dateTime, @Nullable Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass(@Nullable UUID uuid, @Nullable OffsetDateTime dateTime, Map<String, Animal> map) {
       this.uuid = uuid;
       this.dateTime = dateTime;
       this.map = map;

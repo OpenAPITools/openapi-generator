@@ -52,7 +52,7 @@ public class Cat extends Animal {
   /**
    * Constructor with all args parameters
    */
-  public Cat(@Nullable Boolean declawed, String className, @Nullable String color) {
+  public Cat(@Nullable Boolean declawed, String className, String color) {
       super(className, color);
       this.declawed = declawed;
   }

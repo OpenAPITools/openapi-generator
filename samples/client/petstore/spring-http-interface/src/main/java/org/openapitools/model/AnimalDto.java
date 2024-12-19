@@ -37,7 +37,7 @@ public class AnimalDto {
 
   private String className;
 
-  private @Nullable String color = "red";
+  private String color = "red";
 
   public AnimalDto() {
     super();

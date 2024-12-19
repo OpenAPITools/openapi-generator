@@ -39,7 +39,7 @@ public class Animal {
 
   private String className;
 
-  private @Nullable String color = "red";
+  private String color = "red";
 
   public Animal() {
     super();
@@ -55,7 +55,7 @@ public class Animal {
   /**
    * Constructor with all args parameters
    */
-  public Animal(String className, @Nullable String color) {
+  public Animal(String className, String color) {
       this.className = className;
       this.color = color;
   }

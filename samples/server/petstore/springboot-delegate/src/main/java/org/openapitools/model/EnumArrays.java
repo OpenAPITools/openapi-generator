@@ -100,7 +100,7 @@ public class EnumArrays {
   }
 
   @Valid
-  private @Nullable List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays() {
     super();
@@ -109,7 +109,7 @@ public class EnumArrays {
   /**
    * Constructor with all args parameters
    */
-  public EnumArrays(@Nullable JustSymbolEnum justSymbol, @Nullable List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays(@Nullable JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
       this.justSymbol = justSymbol;
       this.arrayEnum = arrayEnum;
   }

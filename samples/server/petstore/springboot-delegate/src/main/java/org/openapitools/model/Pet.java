@@ -42,7 +42,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private @Nullable List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -99,7 +99,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@Nullable Long id, @Nullable Category category, String name, Set<String> photoUrls, @Nullable List<@Valid Tag> tags, @Nullable StatusEnum status) {
+  public Pet(@Nullable Long id, @Nullable Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
       this.id = id;
       this.category = category;
       this.name = name;

@@ -75,7 +75,7 @@ public class Order {
 
   private @Nullable StatusEnum status;
 
-  private @Nullable Boolean complete = false;
+  private Boolean complete = false;
 
   public Order id(Long id) {
     this.id = id;

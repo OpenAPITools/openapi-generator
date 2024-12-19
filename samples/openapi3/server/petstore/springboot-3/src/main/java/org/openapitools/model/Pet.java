@@ -46,7 +46,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid
-  private @Nullable List<@Valid Tag> tags = new ArrayList<>();
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -103,7 +103,7 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@Nullable Long id, @Nullable Category category, String name, List<String> photoUrls, @Nullable List<@Valid Tag> tags, @Nullable StatusEnum status) {
+  public Pet(@Nullable Long id, @Nullable Category category, String name, List<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
       this.id = id;
       this.category = category;
       this.name = name;

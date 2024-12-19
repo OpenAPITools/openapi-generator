@@ -81,7 +81,7 @@ public class Order {
 
   private @Nullable StatusEnum status;
 
-  private @Nullable Boolean complete = false;
+  private Boolean complete = false;
 
   public Order() {
     super();
@@ -90,7 +90,7 @@ public class Order {
   /**
    * Constructor with all args parameters
    */
-  public Order(@Nullable Long id, @Nullable Long petId, @Nullable Integer quantity, @Nullable OffsetDateTime shipDate, @Nullable StatusEnum status, @Nullable Boolean complete) {
+  public Order(@Nullable Long id, @Nullable Long petId, @Nullable Integer quantity, @Nullable OffsetDateTime shipDate, @Nullable StatusEnum status, Boolean complete) {
       this.id = id;
       this.petId = petId;
       this.quantity = quantity;

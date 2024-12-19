@@ -30,28 +30,28 @@ import jakarta.annotation.Generated;
 public class AdditionalPropertiesClassDto {
 
   
-  private @Nullable Map<String, String> mapString = new HashMap<>();
+  private Map<String, String> mapString = new HashMap<>();
 
   
-  private @Nullable Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
   
-  private @Nullable Map<String, Integer> mapInteger = new HashMap<>();
+  private Map<String, Integer> mapInteger = new HashMap<>();
 
   
-  private @Nullable Map<String, Boolean> mapBoolean = new HashMap<>();
+  private Map<String, Boolean> mapBoolean = new HashMap<>();
 
   
-  private @Nullable Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   
-  private @Nullable Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
   
-  private @Nullable Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
   
-  private @Nullable Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
+  private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   private @Nullable Object anytype1;
 

@@ -30,7 +30,7 @@ public class FileSchemaTestClass {
   private @Nullable File file;
 
   @Valid
-  private @Nullable List<@Valid File> files = new ArrayList<>();
+  private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
     this.file = file;

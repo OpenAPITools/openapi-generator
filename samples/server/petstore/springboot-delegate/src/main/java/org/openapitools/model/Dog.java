@@ -44,7 +44,7 @@ public class Dog extends Animal {
   /**
    * Constructor with all args parameters
    */
-  public Dog(@Nullable String breed, String className, @Nullable String color) {
+  public Dog(@Nullable String breed, String className, String color) {
       super(className, color);
       this.breed = breed;
   }

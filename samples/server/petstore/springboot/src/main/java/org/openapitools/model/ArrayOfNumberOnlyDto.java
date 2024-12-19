@@ -30,7 +30,7 @@ import javax.annotation.Generated;
 public class ArrayOfNumberOnlyDto {
 
   @Valid
-  private @Nullable List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnlyDto arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

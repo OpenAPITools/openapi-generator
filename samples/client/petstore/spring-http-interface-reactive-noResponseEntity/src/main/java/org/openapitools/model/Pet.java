@@ -39,7 +39,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   
-  private @Nullable List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store

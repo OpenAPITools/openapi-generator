@@ -73,7 +73,7 @@ public class OrderDto {
 
   private @Nullable StatusEnum status;
 
-  private @Nullable Boolean complete = false;
+  private Boolean complete = false;
 
   public OrderDto id(Long id) {
     this.id = id;

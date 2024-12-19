@@ -28,7 +28,7 @@ import javax.annotation.Generated;
 public class ArrayOfNumberOnly {
 
   @Valid
-  private @Nullable List<BigDecimal> arrayNumber = new ArrayList<>();
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

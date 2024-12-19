@@ -36,7 +36,7 @@ public class XmlItem {
   private @Nullable Boolean attributeBoolean;
 
   @Valid
-  private @Nullable List<Integer> wrappedArray = new ArrayList<>();
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private @Nullable String nameString;
 
@@ -47,10 +47,10 @@ public class XmlItem {
   private @Nullable Boolean nameBoolean;
 
   @Valid
-  private @Nullable List<Integer> nameArray = new ArrayList<>();
+  private List<Integer> nameArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> nameWrappedArray = new ArrayList<>();
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixString;
 
@@ -61,10 +61,10 @@ public class XmlItem {
   private @Nullable Boolean prefixBoolean;
 
   @Valid
-  private @Nullable List<Integer> prefixArray = new ArrayList<>();
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> prefixWrappedArray = new ArrayList<>();
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private @Nullable String namespaceString;
 
@@ -75,10 +75,10 @@ public class XmlItem {
   private @Nullable Boolean namespaceBoolean;
 
   @Valid
-  private @Nullable List<Integer> namespaceArray = new ArrayList<>();
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> namespaceWrappedArray = new ArrayList<>();
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixNsString;
 
@@ -89,10 +89,10 @@ public class XmlItem {
   private @Nullable Boolean prefixNsBoolean;
 
   @Valid
-  private @Nullable List<Integer> prefixNsArray = new ArrayList<>();
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @Valid
-  private @Nullable List<Integer> prefixNsWrappedArray = new ArrayList<>();
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem() {
     super();
@@ -101,7 +101,7 @@ public class XmlItem {
   /**
    * Constructor with all args parameters
    */
-  public XmlItem(@Nullable String attributeString, @Nullable BigDecimal attributeNumber, @Nullable Integer attributeInteger, @Nullable Boolean attributeBoolean, @Nullable List<Integer> wrappedArray, @Nullable String nameString, @Nullable BigDecimal nameNumber, @Nullable Integer nameInteger, @Nullable Boolean nameBoolean, @Nullable List<Integer> nameArray, @Nullable List<Integer> nameWrappedArray, @Nullable String prefixString, @Nullable BigDecimal prefixNumber, @Nullable Integer prefixInteger, @Nullable Boolean prefixBoolean, @Nullable List<Integer> prefixArray, @Nullable List<Integer> prefixWrappedArray, @Nullable String namespaceString, @Nullable BigDecimal namespaceNumber, @Nullable Integer namespaceInteger, @Nullable Boolean namespaceBoolean, @Nullable List<Integer> namespaceArray, @Nullable List<Integer> namespaceWrappedArray, @Nullable String prefixNsString, @Nullable BigDecimal prefixNsNumber, @Nullable Integer prefixNsInteger, @Nullable Boolean prefixNsBoolean, @Nullable List<Integer> prefixNsArray, @Nullable List<Integer> prefixNsWrappedArray) {
+  public XmlItem(@Nullable String attributeString, @Nullable BigDecimal attributeNumber, @Nullable Integer attributeInteger, @Nullable Boolean attributeBoolean, List<Integer> wrappedArray, @Nullable String nameString, @Nullable BigDecimal nameNumber, @Nullable Integer nameInteger, @Nullable Boolean nameBoolean, List<Integer> nameArray, List<Integer> nameWrappedArray, @Nullable String prefixString, @Nullable BigDecimal prefixNumber, @Nullable Integer prefixInteger, @Nullable Boolean prefixBoolean, List<Integer> prefixArray, List<Integer> prefixWrappedArray, @Nullable String namespaceString, @Nullable BigDecimal namespaceNumber, @Nullable Integer namespaceInteger, @Nullable Boolean namespaceBoolean, List<Integer> namespaceArray, List<Integer> namespaceWrappedArray, @Nullable String prefixNsString, @Nullable BigDecimal prefixNsNumber, @Nullable Integer prefixNsInteger, @Nullable Boolean prefixNsBoolean, List<Integer> prefixNsArray, List<Integer> prefixNsWrappedArray) {
       this.attributeString = attributeString;
       this.attributeNumber = attributeNumber;
       this.attributeInteger = attributeInteger;

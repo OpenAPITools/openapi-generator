@@ -29,17 +29,17 @@ public class Pet {
 
   private String atType = "Pet";
 
-  private @Nullable Integer age = 4;
+  private Integer age = 4;
 
-  private @Nullable Boolean happy = true;
+  private Boolean happy = true;
 
-  private @Nullable BigDecimal price = new BigDecimal("32000000000");
+  private BigDecimal price = new BigDecimal("32000000000");
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private @Nullable OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
+  private OffsetDateTime lastFeed = OffsetDateTime.parse("1973-12-19T11:39:57Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-  private @Nullable LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
+  private LocalDate dateOfBirth = LocalDate.parse("2021-01-01");
 
   public Pet() {
     super();
