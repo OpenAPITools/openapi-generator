@@ -106,6 +106,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [1.5 - Homebrew](#15---homebrew)
     - [1.6 - Docker](#16---docker)
     - [1.7 - NPM](#17---npm)
+    - [1.8 - pip](#18---pip)
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -448,6 +449,29 @@ npm install @openapitools/openapi-generator-cli -D
 <!-- /RELEASE_VERSION -->
 
 You can use [locally built JARs](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-locally-built-jar) or [`SNAPSHOT` versions](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-nightly-snapshot-build) as well.
+
+### [1.8 - pip](#table-of-contents)
+
+
+> **Platform(s)**: Linux, macOS, Windows
+**Install** via [PyPI](https://pypi.org/) (`java` executable is needed to run):
+
+```
+pip install openapi-generator-cli
+```
+
+To install a specific version
+```
+pip install openapi-generator-cli==7.10.0
+```
+
+You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
+
+```
+pip install openapi-generator-cli[jdk4py]
+```
+
+Ref: https://github.com/openAPITools/openapi-generator-pip
 
 ## [2 - Getting Started](#table-of-contents)
 
