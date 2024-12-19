@@ -3,18 +3,20 @@
     {{#-first}}
             {{#async}}
 return CompletableFuture.supplyAsync(()-> {
-            {{/async}}getRequest().ifPresent(request -> {
+            {{/async}}{{#returnSuccessCode}}AtomicInteger statusCode = new AtomicInteger(501);
+            {{/returnSuccessCode}}getRequest().ifPresent(request -> {
 {{#async}}    {{/async}}            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
 {{#async}}        {{/async}}{{^async}}    {{/async}}                String exampleString = {{>exampleString}};
-{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", exampleString);
+{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", exampleString);{{#returnSuccessCode}}
+{{#async}}        {{/async}}{{^async}}    {{/async}}                statusCode.set({{{statusCode}}});{{/returnSuccessCode}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}                break;
 {{#async}}        {{/async}}{{^async}}    {{/async}}            }
     {{#-last}}
 {{#async}}        {{/async}}{{^async}}    {{/async}}        }
 {{#async}}    {{/async}}        });
-{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf(statusCode.get()){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
 {{/useResponseEntity}}
 {{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
 {{/useResponseEntity}}
