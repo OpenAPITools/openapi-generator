@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.AnimalDto;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -27,10 +28,10 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClassDto {
 
-  private UUID uuid;
+  private @Nullable UUID uuid;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private @Nullable OffsetDateTime dateTime;
 
   
   private Map<String, AnimalDto> map = new HashMap<>();

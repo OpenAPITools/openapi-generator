@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +22,9 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class HasOnlyReadOnlyDto {
 
-  private String bar;
+  private @Nullable String bar;
 
-  private String foo;
+  private @Nullable String foo;
 
   public HasOnlyReadOnlyDto bar(String bar) {
     this.bar = bar;

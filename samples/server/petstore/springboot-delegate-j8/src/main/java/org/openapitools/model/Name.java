@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,11 +26,11 @@ public class Name {
 
   private Integer name;
 
-  private Integer snakeCase;
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  private @Nullable String property;
 
-  private Integer _123number;
+  private @Nullable Integer _123number;
 
   public Name() {
     super();

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -60,7 +61,7 @@ public class EnumArrays {
     }
   }
 
-  private JustSymbolEnum justSymbol;
+  private @Nullable JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
