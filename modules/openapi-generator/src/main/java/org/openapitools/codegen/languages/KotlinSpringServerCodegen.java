@@ -639,6 +639,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
             if (!this.interfaceOnly) {
@@ -677,6 +685,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+                
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
             // @RequestMapping not supported with spring cloud openfeign.
