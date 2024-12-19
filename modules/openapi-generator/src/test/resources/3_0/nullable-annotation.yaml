@@ -10,6 +10,9 @@ components:
           type: String
         optionalDescription:
           type: string
+        optionalOneWithDefault:
+          type: string
+          default: "someDefaultValue"
         nullableStr:
           type: String
           nullable: true

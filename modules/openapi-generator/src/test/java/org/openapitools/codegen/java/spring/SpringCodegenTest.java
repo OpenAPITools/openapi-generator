@@ -4859,7 +4859,7 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
-                .fileContains("private @Nullable List<@Valid TagDto> tags = new ArrayList<>();")
+                .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
                 .fileContains("private List<String> photoUrls = new ArrayList<>();");
 
     }
@@ -4894,19 +4894,19 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
                 .fileContains("private @Nullable List<@Valid TagDto> tags")
-                .fileContains("private @Nullable List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
+                .fileContains("private List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
                 .fileContains("private @Nullable Set<@Valid TagDto> tagsUnique")
-                .fileContains("private @Nullable Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
+                .fileContains("private Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
                 .fileContains("private @Nullable List<String> stringList")
-                .fileContains("private @Nullable List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
-                .fileContains("private @Nullable List<String> stringEmptyDefaultList = new ArrayList<>();")
+                .fileContains("private List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private List<String> stringEmptyDefaultList = new ArrayList<>();")
                 .fileContains("@Nullable Set<String> stringSet")
-                .fileContains("private @Nullable Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
-                .fileContains("private @Nullable Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
-                .fileDoesNotContain("List<@Valid TagDto> tags = new ArrayList<>()")
-                .fileDoesNotContain("Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
-                .fileDoesNotContain("List<String> stringList = new ArrayList<>()")
-                .fileDoesNotContain("Set<String> stringSet = new LinkedHashSet<>()");
+                .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
+                .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
+                .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
+                .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
+                .fileDoesNotContain("private Set<String> stringSet = new LinkedHashSet<>()");
     }
 
     @Test
@@ -5115,6 +5115,9 @@ public class SpringCodegenTest {
                 .assertProperty("optionalDescription")
                 .hasAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
+                .assertProperty("optionalOneWithDefault")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
                 .assertProperty("nullableStr")
                 .doesNotHaveAnnotation("Nullable");
     }
@@ -5135,12 +5138,15 @@ public class SpringCodegenTest {
                 .assertProperty("optionalDescription")
                 .doesNotHaveAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
+                .assertProperty("optionalOneWithDefault")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
                 .assertProperty("nullableStr")
                 .doesNotHaveAnnotation("Nullable");
     }
 
     @Test
-    public void shouldNotAnnotateNonRequiredFieldsAsNullableWhileNotUsingOpenApiNullable() throws IOException {
+    public void shouldAnnotateNonRequiredFieldsAsNullableWhileNotUsingOpenApiNullable() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOpenApiNullable(false);
@@ -5154,6 +5160,9 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .assertProperty("optionalDescription")
                 .hasAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalOneWithDefault")
+                .doesNotHaveAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
                 .assertProperty("nullableStr")
                 .hasAnnotation("Nullable");
