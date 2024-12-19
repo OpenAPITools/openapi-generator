@@ -42,6 +42,7 @@ docs/EnumClass.md
 docs/EnumString1.md
 docs/EnumString2.md
 docs/EnumTest.md
+docs/EnumWithCommonPrefix.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/Feeding.md
@@ -169,6 +170,7 @@ petstore_api/models/enum_class.py
 petstore_api/models/enum_string1.py
 petstore_api/models/enum_string2.py
 petstore_api/models/enum_test.py
+petstore_api/models/enum_with_common_prefix.py
 petstore_api/models/feeding.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
