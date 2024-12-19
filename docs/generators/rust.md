@@ -34,6 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |topLevelApiClient|Creates a top level `Api` trait and `ApiClient` struct that contain all Apis. This option is for 'reqwest-trait' library only| |false|
 |useBonBuilder|Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
+|varPrefix|Local variable prefix| |local_var_|
 |withAWSV4Signature|whether to include AWS v4 signature support| |false|
 
 ## IMPORT MAPPING
