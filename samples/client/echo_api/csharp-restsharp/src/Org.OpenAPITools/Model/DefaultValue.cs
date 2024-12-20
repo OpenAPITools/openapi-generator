@@ -126,7 +126,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringNullable
         /// </summary>
         [DataMember(Name = "string_nullable", EmitDefaultValue = true)]
-        public string StringNullable { get; set; }
+        public string? StringNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

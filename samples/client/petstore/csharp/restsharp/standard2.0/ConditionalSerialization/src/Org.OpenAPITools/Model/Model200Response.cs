@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public int Name
+        public int? Name
         {
             get{ return _Name;}
             set
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagName = true;
             }
         }
-        private int _Name;
+        private int? _Name;
         private bool _flagName;
 
         /// <summary>
@@ -159,7 +159,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 if (this.Class != null)
                 {
                     hashCode = (hashCode * 59) + this.Class.GetHashCode();
