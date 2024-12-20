@@ -1481,6 +1481,12 @@ public class ModelUtils {
         return null;
     }
 
+    public static Schema<String> getPropertyNames(Schema schema) {
+        // This is a raw type but according to the OpenAPI spec it's assumed it's always at least string. See
+        // https://json-schema.org/understanding-json-schema/reference/object#propertyNames
+        return (Schema<String>) schema.getPropertyNames();
+    }
+
     public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
         if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
             String name = getSimpleRef(header.get$ref());

@@ -47,14 +47,14 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
+    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Array<{ [key: string]: ComplexObject | undefined; }>>> {
         const result = this.api.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Promise<Array<{ [key: string]: ComplexObject; }>> {
+    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Promise<Array<{ [key: string]: ComplexObject | undefined; }>> {
         const result = this.api.testDecodeArrayOfMapsOfObjectsGet(_options);
         return result.toPromise();
     }
@@ -103,42 +103,42 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
+    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }>> {
         const result = this.api.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
+    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Promise<{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }> {
         const result = this.api.testDecodeMapOfMapsOfObjectsGet(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: ComplexObject | undefined | null; }>> {
         const result = this.api.testDecodeMapOfObjectsGetWithHttpInfo(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGet(_options?: Configuration): Promise<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(_options?: Configuration): Promise<{ [key: string]: ComplexObject | undefined | null; }> {
         const result = this.api.testDecodeMapOfObjectsGet(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: string; }>> {
+    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: string | undefined; }>> {
         const result = this.api.testDecodeMapOfPrimitiveGetWithHttpInfo(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGet(_options?: Configuration): Promise<{ [key: string]: string; }> {
+    public testDecodeMapOfPrimitiveGet(_options?: Configuration): Promise<{ [key: string]: string | undefined; }> {
         const result = this.api.testDecodeMapOfPrimitiveGet(_options);
         return result.toPromise();
     }
@@ -260,7 +260,7 @@ export class PromiseDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Promise<HttpInfo<void>> {
+    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject | undefined; }>, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options);
         return result.toPromise();
     }
@@ -268,7 +268,7 @@ export class PromiseDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Promise<void> {
+    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject | undefined; }>, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
         return result.toPromise();
     }
@@ -340,7 +340,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Promise<HttpInfo<void>> {
+    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options);
         return result.toPromise();
     }
@@ -348,7 +348,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Promise<void> {
+    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
         return result.toPromise();
     }
@@ -356,7 +356,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<HttpInfo<void>> {
+    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | undefined | null; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options);
         return result.toPromise();
     }
@@ -364,7 +364,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<void> {
+    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | undefined | null; }, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeMapOfObjectsPost(requestBody, _options);
         return result.toPromise();
     }
@@ -372,7 +372,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<HttpInfo<void>> {
+    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string | undefined; }, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options);
         return result.toPromise();
     }
@@ -380,7 +380,7 @@ export class PromiseDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<void> {
+    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string | undefined; }, _options?: Configuration): Promise<void> {
         const result = this.api.testEncodeMapOfPrimitivePost(requestBody, _options);
         return result.toPromise();
     }

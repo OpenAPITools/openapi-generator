@@ -62,6 +62,7 @@ public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedC
                 .put(TypeScriptAngularClientCodegen.SERVICE_FILE_SUFFIX, SERVICE_FILE_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, MODEL_SUFFIX)
                 .put(TypeScriptAngularClientCodegen.MODEL_FILE_SUFFIX, MODEL_FILE_SUFFIX)
+                .put(TypeScriptAngularClientCodegen.ENRICHED_MAPS, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
                 .put(TypeScriptAngularClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
