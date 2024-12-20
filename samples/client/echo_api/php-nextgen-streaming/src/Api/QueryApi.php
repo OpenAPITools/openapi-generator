@@ -1853,7 +1853,7 @@ class QueryApi
      * @return string
      */
     public function testQueryStyleFormExplodeFalseArrayInteger(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): string
     {
@@ -1874,7 +1874,7 @@ class QueryApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): array
     {
@@ -2001,7 +2001,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerAsync(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): PromiseInterface
     {
@@ -2171,7 +2171,7 @@ class QueryApi
      * @return string
      */
     public function testQueryStyleFormExplodeFalseArrayString(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): string
     {
@@ -2192,7 +2192,7 @@ class QueryApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): array
     {
@@ -2319,7 +2319,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeFalseArrayStringAsync(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): PromiseInterface
     {
