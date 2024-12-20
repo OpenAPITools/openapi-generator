@@ -34,11 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
@@ -189,9 +185,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
-            // Once we upgrade to java 21 we can use SequencedSet instead
-            List<String> phpReturnTypeOptions = new ArrayList<>();
-            List<String> docReturnTypeOptions = new ArrayList<>();
+            Set<String> phpReturnTypeOptions = new LinkedHashSet<>();
+            Set<String> docReturnTypeOptions = new LinkedHashSet<>();
 
             for (CodegenResponse response : operation.responses) {
                 if (response.dataType != null) {
@@ -202,13 +197,8 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                         returnType = "array";
                     }
 
-                    if (!phpReturnTypeOptions.contains(returnType)) {
-                        phpReturnTypeOptions.add(returnType);
-                    }
-
-                    if (!docReturnTypeOptions.contains(response.dataType)) {
-                        docReturnTypeOptions.add(response.dataType);
-                    }
+                    phpReturnTypeOptions.add(returnType);
+                    docReturnTypeOptions.add(response.dataType);
                 }
             }
 
