@@ -20,12 +20,7 @@ package org.openapitools.codegen;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
@@ -960,6 +955,19 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isEnum = isEnum;
     }
 
+    @SuppressWarnings("unchecked")
+    public List<String> getAllowableValuesList() {
+        return Optional.ofNullable(this.getAllowableValues())
+                .map(allowableValues -> allowableValues.get("values"))
+                .flatMap(valuesList -> {
+                    try {
+                        return Optional.ofNullable((List<String>)valuesList);
+                    } catch (ClassCastException e) {
+                        return Optional.empty();
+                    }
+                })
+                .orElse(Collections.emptyList());
+    }
 
     @Override
     public String toString() {
