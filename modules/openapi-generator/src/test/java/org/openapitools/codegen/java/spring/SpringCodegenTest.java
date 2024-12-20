@@ -5104,6 +5104,7 @@ public class SpringCodegenTest {
     public void shouldAnnotateNonRequiredFieldsAsNullable() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
+        codegen.setGenerateConstructorWithAllArgs(true);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
         var file = files.get("Item.java");
@@ -5120,12 +5121,18 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .assertProperty("nullableStr")
                 .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .fileContains(
+                        "public Item(String mandatoryName, @Nullable String optionalDescription," +
+                                " String optionalOneWithDefault, String nullableStr)"
+                );
     }
 
     @Test
     public void shouldNotAnnotateNonRequiredFieldsAsNullableWhileUseOptional() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
+        codegen.setGenerateConstructorWithAllArgs(true);
         codegen.setUseOptional(true);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
@@ -5143,12 +5150,18 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .assertProperty("nullableStr")
                 .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .fileContains(
+                        "public Item(String mandatoryName, String optionalDescription," +
+                                " String optionalOneWithDefault, String nullableStr)"
+                );
     }
 
     @Test
     public void shouldAnnotateNonRequiredFieldsAsNullableWhileNotUsingOpenApiNullable() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
+        codegen.setGenerateConstructorWithAllArgs(true);
         codegen.setOpenApiNullable(false);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
@@ -5166,5 +5179,10 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .assertProperty("nullableStr")
                 .hasAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .fileContains(
+                        "public Item(String mandatoryName, @Nullable String optionalDescription," +
+                                " String optionalOneWithDefault, @Nullable String nullableStr)"
+                );
     }
 }
