@@ -383,6 +383,14 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
+            if (options.HeaderParameters != null)
+            {
+                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.Contains("multipart/form-data")))
+                {
+                    request.AlwaysMultipartFormData = true;
+                }
+            }
+
             return request;
         }
 
