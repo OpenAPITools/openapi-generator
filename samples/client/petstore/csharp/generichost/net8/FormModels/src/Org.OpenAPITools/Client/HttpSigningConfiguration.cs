@@ -276,6 +276,7 @@ namespace Org.OpenAPITools.Client
         /// <returns></returns>
         private string GetECDSASignature(byte[] dataToSign)
         {
+#if NET6_0_OR_GREATER
             if (!File.Exists(KeyFilePath))
                 throw new Exception("key file path does not exist.");
 
@@ -313,6 +314,10 @@ namespace Org.OpenAPITools.Client
             var signedString = System.Convert.ToBase64String(derBytes);
 
             return signedString;
+#endif
+#if !NET6_0_OR_GREATER
+            throw new Exception("ECDSA signing is supported only on NETCOREAPP3_0 and above");
+#endif
         }
 
         private  byte[] ConvertToECDSAANS1Format(byte[] signedBytes)
