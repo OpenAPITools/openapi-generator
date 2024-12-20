@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.1.0
 paths:
   /foo:
     get:
@@ -19,6 +19,10 @@ components:
         simpleProperty:
           type: string
           title: Simple-Property-Title
+        refProperty:
+          type: string
+          title: Ref-Property-Title
+          $ref: '#/components/schemas/RefObject'
         allOfRefProperty:
           type: string
           title: All-Of-Ref-Property-Title
