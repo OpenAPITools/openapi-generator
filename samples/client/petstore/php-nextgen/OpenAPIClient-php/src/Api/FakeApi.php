@@ -678,9 +678,9 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakeEnumEndpointAsyncWithHttpInfo(
-        $enum_class,
-        $enum_class_array,
-        $enum_class_map,
+        \OpenAPI\Client\Model\EnumClass $enum_class,
+        array $enum_class_array,
+        array $enum_class_map,
         string $contentType = self::contentTypes['fakeEnumEndpoint'][0]
     ): PromiseInterface
     {
@@ -735,9 +735,9 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeEnumEndpointRequest(
-        $enum_class,
-        $enum_class_array,
-        $enum_class_map,
+        \OpenAPI\Client\Model\EnumClass $enum_class,
+        array $enum_class_array,
+        array $enum_class_map,
         string $contentType = self::contentTypes['fakeEnumEndpoint'][0]
     ): Request
     {
@@ -1274,9 +1274,9 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakeHttpSignatureTestAsyncWithHttpInfo(
-        $pet,
-        $query_1 = null,
-        $header_1 = null,
+        \OpenAPI\Client\Model\Pet $pet,
+        ?string $query_1 = null,
+        ?string $header_1 = null,
         string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
     ): PromiseInterface
     {
@@ -1318,9 +1318,9 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeHttpSignatureTestRequest(
-        $pet,
-        $query_1 = null,
-        $header_1 = null,
+        \OpenAPI\Client\Model\Pet $pet,
+        ?string $query_1 = null,
+        ?string $header_1 = null,
         string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
     ): Request
     {
@@ -1596,7 +1596,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakeOuterBooleanSerializeAsyncWithHttpInfo(
-        $body = null,
+        ?bool $body = null,
         string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
     ): PromiseInterface
     {
@@ -1649,7 +1649,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeOuterBooleanSerializeRequest(
-        $body = null,
+        ?bool $body = null,
         string $contentType = self::contentTypes['fakeOuterBooleanSerialize'][0]
     ): Request
     {
@@ -1904,7 +1904,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakeOuterCompositeSerializeAsyncWithHttpInfo(
-        $outer_composite = null,
+        ?\OpenAPI\Client\Model\OuterComposite $outer_composite = null,
         string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
     ): PromiseInterface
     {
@@ -1957,7 +1957,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeOuterCompositeSerializeRequest(
-        $outer_composite = null,
+        ?\OpenAPI\Client\Model\OuterComposite $outer_composite = null,
         string $contentType = self::contentTypes['fakeOuterCompositeSerialize'][0]
     ): Request
     {
@@ -2212,7 +2212,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakeOuterNumberSerializeAsyncWithHttpInfo(
-        $body = null,
+        ?float $body = null,
         string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
     ): PromiseInterface
     {
@@ -2265,7 +2265,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeOuterNumberSerializeRequest(
-        $body = null,
+        ?float $body = null,
         string $contentType = self::contentTypes['fakeOuterNumberSerialize'][0]
     ): Request
     {
@@ -2520,7 +2520,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakeOuterStringSerializeAsyncWithHttpInfo(
-        $body = null,
+        ?string $body = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): PromiseInterface
     {
@@ -2573,7 +2573,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeOuterStringSerializeRequest(
-        $body = null,
+        ?string $body = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): Request
     {
@@ -2828,7 +2828,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function fakePropertyEnumIntegerSerializeAsyncWithHttpInfo(
-        $outer_object_with_enum_property,
+        \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property,
         string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
     ): PromiseInterface
     {
@@ -2881,7 +2881,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakePropertyEnumIntegerSerializeRequest(
-        $outer_object_with_enum_property,
+        \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property,
         string $contentType = self::contentTypes['fakePropertyEnumIntegerSerialize'][0]
     ): Request
     {
@@ -3072,7 +3072,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testAdditionalPropertiesReferenceAsyncWithHttpInfo(
-        $request_body,
+        array $request_body,
         string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
     ): PromiseInterface
     {
@@ -3112,7 +3112,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testAdditionalPropertiesReferenceRequest(
-        $request_body,
+        array $request_body,
         string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
     ): Request
     {
@@ -3207,7 +3207,7 @@ class FakeApi
      * @return void
      */
     public function testBodyWithBinary(
-        \SplFileObject $body,
+        ?\SplFileObject $body,
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
     ): void
     {
@@ -3225,7 +3225,7 @@ class FakeApi
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testBodyWithBinaryWithHttpInfo(
-        \SplFileObject $body,
+        ?\SplFileObject $body,
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
     ): array
     {
@@ -3273,7 +3273,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testBodyWithBinaryAsync(
-        \SplFileObject $body,
+        ?\SplFileObject $body,
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
     ): PromiseInterface
     {
@@ -3295,7 +3295,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testBodyWithBinaryAsyncWithHttpInfo(
-        $body,
+        ?\SplFileObject $body,
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
     ): PromiseInterface
     {
@@ -3335,7 +3335,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyWithBinaryRequest(
-        $body,
+        ?\SplFileObject $body,
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
     ): Request
     {
@@ -3518,7 +3518,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testBodyWithFileSchemaAsyncWithHttpInfo(
-        $file_schema_test_class,
+        \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
         string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
     ): PromiseInterface
     {
@@ -3558,7 +3558,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyWithFileSchemaRequest(
-        $file_schema_test_class,
+        \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
         string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
     ): Request
     {
@@ -3748,8 +3748,8 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testBodyWithQueryParamsAsyncWithHttpInfo(
-        $query,
-        $user,
+        string $query,
+        \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
     ): PromiseInterface
     {
@@ -3790,8 +3790,8 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyWithQueryParamsRequest(
-        $query,
-        $user,
+        string $query,
+        \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
     ): Request
     {
@@ -4076,7 +4076,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testClientModelAsyncWithHttpInfo(
-        $client,
+        \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['testClientModel'][0]
     ): PromiseInterface
     {
@@ -4129,7 +4129,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testClientModelRequest(
-        $client,
+        \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['testClientModel'][0]
     ): Request
     {
@@ -4411,20 +4411,20 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testEndpointParametersAsyncWithHttpInfo(
-        $number,
-        $double,
-        $pattern_without_delimiter,
-        $byte,
-        $integer = null,
-        $int32 = null,
-        $int64 = null,
-        $float = null,
-        $string = null,
-        $binary = null,
-        $date = null,
-        $date_time = null,
-        $password = null,
-        $callback = null,
+        float $number,
+        float $double,
+        string $pattern_without_delimiter,
+        string $byte,
+        ?int $integer = null,
+        ?int $int32 = null,
+        ?int $int64 = null,
+        ?float $float = null,
+        ?string $string = null,
+        ?\SplFileObject $binary = null,
+        ?\DateTime $date = null,
+        ?\DateTime $date_time = null,
+        ?string $password = null,
+        ?string $callback = null,
         string $contentType = self::contentTypes['testEndpointParameters'][0]
     ): PromiseInterface
     {
@@ -4477,20 +4477,20 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEndpointParametersRequest(
-        $number,
-        $double,
-        $pattern_without_delimiter,
-        $byte,
-        $integer = null,
-        $int32 = null,
-        $int64 = null,
-        $float = null,
-        $string = null,
-        $binary = null,
-        $date = null,
-        $date_time = null,
-        $password = null,
-        $callback = null,
+        float $number,
+        float $double,
+        string $pattern_without_delimiter,
+        string $byte,
+        ?int $integer = null,
+        ?int $int32 = null,
+        ?int $int64 = null,
+        ?float $float = null,
+        ?string $string = null,
+        ?\SplFileObject $binary = null,
+        ?\DateTime $date = null,
+        ?\DateTime $date_time = null,
+        ?string $password = null,
+        ?string $callback = null,
         string $contentType = self::contentTypes['testEndpointParameters'][0]
     ): Request
     {
@@ -4728,14 +4728,14 @@ class FakeApi
      * @return void
      */
     public function testEnumParameters(
-        ?array $enum_header_string_array = ['$'],
+        array $enum_header_string_array = ['$'],
         ?string $enum_header_string = '-efg',
-        ?array $enum_query_string_array = ['$'],
+        array $enum_query_string_array = ['$'],
         ?string $enum_query_string = '-efg',
         ?int $enum_query_integer = null,
         ?float $enum_query_double = null,
-        ?array $enum_query_model_array = null,
-        ?array $enum_form_string_array = ['$'],
+        array $enum_query_model_array = null,
+        array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): void
@@ -4764,14 +4764,14 @@ class FakeApi
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEnumParametersWithHttpInfo(
-        ?array $enum_header_string_array = ['$'],
+        array $enum_header_string_array = ['$'],
         ?string $enum_header_string = '-efg',
-        ?array $enum_query_string_array = ['$'],
+        array $enum_query_string_array = ['$'],
         ?string $enum_query_string = '-efg',
         ?int $enum_query_integer = null,
         ?float $enum_query_double = null,
-        ?array $enum_query_model_array = null,
-        ?array $enum_form_string_array = ['$'],
+        array $enum_query_model_array = null,
+        array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): array
@@ -4830,14 +4830,14 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testEnumParametersAsync(
-        ?array $enum_header_string_array = ['$'],
+        array $enum_header_string_array = ['$'],
         ?string $enum_header_string = '-efg',
-        ?array $enum_query_string_array = ['$'],
+        array $enum_query_string_array = ['$'],
         ?string $enum_query_string = '-efg',
         ?int $enum_query_integer = null,
         ?float $enum_query_double = null,
-        ?array $enum_query_model_array = null,
-        ?array $enum_form_string_array = ['$'],
+        array $enum_query_model_array = null,
+        array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): PromiseInterface
@@ -4870,15 +4870,15 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testEnumParametersAsyncWithHttpInfo(
-        $enum_header_string_array = ['$'],
-        $enum_header_string = '-efg',
-        $enum_query_string_array = ['$'],
-        $enum_query_string = '-efg',
-        $enum_query_integer = null,
-        $enum_query_double = null,
-        $enum_query_model_array = null,
-        $enum_form_string_array = ['$'],
-        $enum_form_string = '-efg',
+        array $enum_header_string_array = ['$'],
+        ?string $enum_header_string = '-efg',
+        array $enum_query_string_array = ['$'],
+        ?string $enum_query_string = '-efg',
+        ?int $enum_query_integer = null,
+        ?float $enum_query_double = null,
+        array $enum_query_model_array = null,
+        array $enum_form_string_array = ['$'],
+        ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): PromiseInterface
     {
@@ -4926,15 +4926,15 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEnumParametersRequest(
-        $enum_header_string_array = ['$'],
-        $enum_header_string = '-efg',
-        $enum_query_string_array = ['$'],
-        $enum_query_string = '-efg',
-        $enum_query_integer = null,
-        $enum_query_double = null,
-        $enum_query_model_array = null,
-        $enum_form_string_array = ['$'],
-        $enum_form_string = '-efg',
+        array $enum_header_string_array = ['$'],
+        ?string $enum_header_string = '-efg',
+        array $enum_query_string_array = ['$'],
+        ?string $enum_query_string = '-efg',
+        ?int $enum_query_integer = null,
+        ?float $enum_query_double = null,
+        array $enum_query_model_array = null,
+        array $enum_form_string_array = ['$'],
+        ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
     ): Request
     {
@@ -5511,7 +5511,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testInlineAdditionalPropertiesAsyncWithHttpInfo(
-        $request_body,
+        array $request_body,
         string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
     ): PromiseInterface
     {
@@ -5551,7 +5551,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testInlineAdditionalPropertiesRequest(
-        $request_body,
+        array $request_body,
         string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
     ): Request
     {
@@ -5742,7 +5742,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testInlineFreeformAdditionalPropertiesAsyncWithHttpInfo(
-        $test_inline_freeform_additional_properties_request,
+        \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
         string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
     ): PromiseInterface
     {
@@ -5782,7 +5782,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testInlineFreeformAdditionalPropertiesRequest(
-        $test_inline_freeform_additional_properties_request,
+        \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
         string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
     ): Request
     {
@@ -5980,8 +5980,8 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testJsonFormDataAsyncWithHttpInfo(
-        $param,
-        $param2,
+        string $param,
+        string $param2,
         string $contentType = self::contentTypes['testJsonFormData'][0]
     ): PromiseInterface
     {
@@ -6022,8 +6022,8 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testJsonFormDataRequest(
-        $param,
-        $param2,
+        string $param,
+        string $param2,
         string $contentType = self::contentTypes['testJsonFormData'][0]
     ): Request
     {
@@ -6222,7 +6222,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testNullableAsyncWithHttpInfo(
-        $child_with_nullable,
+        \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
         string $contentType = self::contentTypes['testNullable'][0]
     ): PromiseInterface
     {
@@ -6262,7 +6262,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testNullableRequest(
-        $child_with_nullable,
+        \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
         string $contentType = self::contentTypes['testNullable'][0]
     ): Request
     {
@@ -6369,7 +6369,7 @@ class FakeApi
         array $url,
         array $context,
         string $allow_empty,
-        ?array $language = null,
+        array $language = null,
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
     ): void
     {
@@ -6399,7 +6399,7 @@ class FakeApi
         array $url,
         array $context,
         string $allow_empty,
-        ?array $language = null,
+        array $language = null,
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
     ): array
     {
@@ -6459,7 +6459,7 @@ class FakeApi
         array $url,
         array $context,
         string $allow_empty,
-        ?array $language = null,
+        array $language = null,
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
     ): PromiseInterface
     {
@@ -6487,13 +6487,13 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testQueryParameterCollectionFormatAsyncWithHttpInfo(
-        $pipe,
-        $ioutil,
-        $http,
-        $url,
-        $context,
-        $allow_empty,
-        $language = null,
+        array $pipe,
+        array $ioutil,
+        array $http,
+        array $url,
+        array $context,
+        string $allow_empty,
+        array $language = null,
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
     ): PromiseInterface
     {
@@ -6539,13 +6539,13 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryParameterCollectionFormatRequest(
-        $pipe,
-        $ioutil,
-        $http,
-        $url,
-        $context,
-        $allow_empty,
-        $language = null,
+        array $pipe,
+        array $ioutil,
+        array $http,
+        array $url,
+        array $context,
+        string $allow_empty,
+        array $language = null,
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
     ): Request
     {
@@ -6828,7 +6828,7 @@ class FakeApi
      * @return PromiseInterface
      */
     public function testStringMapReferenceAsyncWithHttpInfo(
-        $request_body,
+        array $request_body,
         string $contentType = self::contentTypes['testStringMapReference'][0]
     ): PromiseInterface
     {
@@ -6868,7 +6868,7 @@ class FakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testStringMapReferenceRequest(
-        $request_body,
+        array $request_body,
         string $contentType = self::contentTypes['testStringMapReference'][0]
     ): Request
     {
