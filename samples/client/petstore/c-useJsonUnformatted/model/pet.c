@@ -148,7 +148,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
     // pet->status
     if(pet->status != openapi_petstore_pet_STATUS_NULL) {
-    if(cJSON_AddStringToObject(item, "status", statuspet_ToString(pet->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", pet_status_ToString(pet->status)) == NULL)
     {
     goto fail; //Enum
     }

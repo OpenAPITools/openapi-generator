@@ -94,7 +94,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->status
     if(order->status != openapi_petstore_order_STATUS_NULL) {
-    if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", order_status_ToString(order->status)) == NULL)
     {
     goto fail; //Enum
     }
