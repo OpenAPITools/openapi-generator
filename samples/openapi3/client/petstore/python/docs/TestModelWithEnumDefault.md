@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**test_enum_common_prefix** | [**EnumWithCommonPrefix**](EnumWithCommonPrefix.md) |  | [optional] [default to EnumWithCommonPrefix.VAL_2]
 **test_enum** | [**TestEnum**](TestEnum.md) |  | 
 **test_string** | **str** |  | [optional] 
 **test_enum_with_default** | [**TestEnumWithDefault**](TestEnumWithDefault.md) |  | [optional] [default to TestEnumWithDefault.ZWEI]
