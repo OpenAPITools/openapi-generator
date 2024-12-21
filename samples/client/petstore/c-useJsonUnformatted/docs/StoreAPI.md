@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**StoreAPI_placeOrder**](StoreAPI.md#StoreAPI_placeOrder) | **POST** /store/order | Place an order for a pet
 [**StoreAPI_sendFeedback**](StoreAPI.md#StoreAPI_sendFeedback) | **POST** /store/feedback | Send us a feedback message
 [**StoreAPI_sendRating**](StoreAPI.md#StoreAPI_sendRating) | **POST** /store/rating/{rating} | How would you rate our service?
+[**StoreAPI_sendRecommend**](StoreAPI.md#StoreAPI_sendRecommend) | **POST** /store/recommend | Would you recommend our service to a friend?
 
 
 # **StoreAPI_deleteOrder**
@@ -191,6 +192,36 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **StoreAPI_sendRecommend**
+```c
+// Would you recommend our service to a friend?
+//
+char* StoreAPI_sendRecommend(apiClient_t *apiClient, int *recommend);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**recommend** | **int \*** | Would you recommend us or not? | [optional] 
+
+### Return type
+
+char*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
