@@ -6,7 +6,7 @@ cmake_policy(SET CMP0063 NEW)
 set(CMAKE_C_VISIBILITY_PRESET default)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-set(CMAKE_C_FLAGS "-Werror=implicit-function-declaration -Werror=missing-declarations")
+set(CMAKE_C_FLAGS "-Werror=implicit-function-declaration -Werror=missing-declarations -Werror=int-conversion")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 

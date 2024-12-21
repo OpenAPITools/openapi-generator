@@ -395,6 +395,25 @@ paths:
           schema:
             type: string
             description: Thank you message
+  '/store/recommend':
+    post:
+      tags:
+        - store
+      summary: Would you recommend our service to a friend?
+      description: ''
+      operationId: sendRecommend
+      parameters:
+        - in: formData
+          name: recommend
+          description: Would you recommend us or not?
+          required: no
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            description: Thank you message
   /store/daysWithoutIncident:
     get:
       tags:

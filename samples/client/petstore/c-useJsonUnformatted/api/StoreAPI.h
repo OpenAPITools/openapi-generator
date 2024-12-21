@@ -53,3 +53,9 @@ char*
 StoreAPI_sendRating(apiClient_t *apiClient, openapi_petstore_sendRating_rating_e rating);
 
 
+// Would you recommend our service to a friend?
+//
+char*
+StoreAPI_sendRecommend(apiClient_t *apiClient, int *recommend);
+
+
