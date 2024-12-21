@@ -12,7 +12,7 @@ import org.openapitools.model.Cat;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class BigCat extends Cat  {
   /**
    * Gets or Sets kind
@@ -79,12 +79,12 @@ public class BigCat extends Cat  {
       return false;
     }
     BigCat bigCat = (BigCat) o;
-    return Objects.equals(kind, bigCat.kind);
+    return super.equals(o) && Objects.equals(kind, bigCat.kind);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(kind);
+    return Objects.hash(super.hashCode(), kind);
   }
 
   @Override
