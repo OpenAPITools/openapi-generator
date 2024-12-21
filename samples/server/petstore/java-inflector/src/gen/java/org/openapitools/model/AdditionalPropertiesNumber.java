@@ -13,7 +13,7 @@ import java.util.Map;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   @JsonProperty("name")
   private String name;
@@ -45,12 +45,12 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
       return false;
     }
     AdditionalPropertiesNumber additionalPropertiesNumber = (AdditionalPropertiesNumber) o;
-    return Objects.equals(name, additionalPropertiesNumber.name);
+    return super.equals(o) && Objects.equals(name, additionalPropertiesNumber.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(super.hashCode(), name);
   }
 
   @Override
