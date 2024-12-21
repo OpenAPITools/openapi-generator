@@ -89,7 +89,7 @@ void sslConfig_free(sslConfig_t *sslConfig) {
     free(sslConfig);
 }
 
-void replaceSpaceWithPlus(char *stringToProcess) {
+static void replaceSpaceWithPlus(char *stringToProcess) {
     for(int i = 0; i < strlen(stringToProcess); i++) {
         if(stringToProcess[i] == ' ') {
             stringToProcess[i] = '+';
@@ -97,9 +97,9 @@ void replaceSpaceWithPlus(char *stringToProcess) {
     }
 }
 
-char *assembleTargetUrl(const char  *basePath,
-                        const char  *operationParameter,
-                        list_t    *queryParameters) {
+static char *assembleTargetUrl(const char  *basePath,
+                               const char  *operationParameter,
+                               list_t    *queryParameters) {
     int neededBufferSizeForQueryParameters = 0;
     listEntry_t *listEntry;
 
@@ -150,7 +150,7 @@ char *assembleTargetUrl(const char  *basePath,
     return targetUrl;
 }
 
-char *assembleHeaderField(char *key, char *value) {
+static char *assembleHeaderField(char *key, char *value) {
     char *header = malloc(strlen(key) + strlen(value) + 3);
 
     strcpy(header, key),
@@ -160,13 +160,13 @@ char *assembleHeaderField(char *key, char *value) {
     return header;
 }
 
-void postData(CURL *handle, const char *bodyParameters, size_t bodyParametersLength) {
+static void postData(CURL *handle, const char *bodyParameters, size_t bodyParametersLength) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
     curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
                      (curl_off_t)bodyParametersLength);
 }
 
-int lengthOfKeyPair(keyValuePair_t *keyPair) {
+static int lengthOfKeyPair(keyValuePair_t *keyPair) {
     long length = 0;
     if((keyPair->key != NULL) &&
        (keyPair->value != NULL) )
