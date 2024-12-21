@@ -54,7 +54,7 @@ async def create_user(
     """This can only be done by the logged in user."""
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().create_user(user)
+    return await BaseUserApi.subclasses[0]().create_user(user, token_api_key=token_api_key)
 
 
 @router.post(
@@ -75,7 +75,7 @@ async def create_users_with_array_input(
     """"""
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().create_users_with_array_input(user)
+    return await BaseUserApi.subclasses[0]().create_users_with_array_input(user, token_api_key=token_api_key)
 
 
 @router.post(
@@ -96,7 +96,7 @@ async def create_users_with_list_input(
     """"""
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().create_users_with_list_input(user)
+    return await BaseUserApi.subclasses[0]().create_users_with_list_input(user, token_api_key=token_api_key)
 
 
 @router.delete(
@@ -118,7 +118,7 @@ async def delete_user(
     """This can only be done by the logged in user."""
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().delete_user(username)
+    return await BaseUserApi.subclasses[0]().delete_user(username, token_api_key=token_api_key)
 
 
 @router.get(
@@ -178,7 +178,7 @@ async def logout_user(
     """"""
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().logout_user()
+    return await BaseUserApi.subclasses[0]().logout_user(token_api_key=token_api_key)
 
 
 @router.put(
@@ -201,4 +201,4 @@ async def update_user(
     """This can only be done by the logged in user."""
     if not BaseUserApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BaseUserApi.subclasses[0]().update_user(username, user)
+    return await BaseUserApi.subclasses[0]().update_user(username, user, token_api_key=token_api_key)

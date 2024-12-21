@@ -56,7 +56,7 @@ async def add_pet(
     """"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().add_pet(pet)
+    return await BasePetApi.subclasses[0]().add_pet(pet, token_petstore_auth=token_petstore_auth)
 
 
 @router.delete(
@@ -78,7 +78,7 @@ async def delete_pet(
     """"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().delete_pet(petId, api_key)
+    return await BasePetApi.subclasses[0]().delete_pet(petId, api_key, token_petstore_auth=token_petstore_auth)
 
 
 @router.get(
@@ -100,7 +100,7 @@ async def find_pets_by_status(
     """Multiple status values can be provided with comma separated strings"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().find_pets_by_status(status)
+    return await BasePetApi.subclasses[0]().find_pets_by_status(status, token_petstore_auth=token_petstore_auth)
 
 
 @router.get(
@@ -122,7 +122,7 @@ async def find_pets_by_tags(
     """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().find_pets_by_tags(tags)
+    return await BasePetApi.subclasses[0]().find_pets_by_tags(tags, token_petstore_auth=token_petstore_auth)
 
 
 @router.get(
@@ -145,7 +145,7 @@ async def get_pet_by_id(
     """Returns a single pet"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().get_pet_by_id(petId)
+    return await BasePetApi.subclasses[0]().get_pet_by_id(petId, token_api_key=token_api_key)
 
 
 @router.put(
@@ -169,7 +169,7 @@ async def update_pet(
     """"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().update_pet(pet)
+    return await BasePetApi.subclasses[0]().update_pet(pet, token_petstore_auth=token_petstore_auth)
 
 
 @router.post(
@@ -192,7 +192,7 @@ async def update_pet_with_form(
     """"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().update_pet_with_form(petId, name, status)
+    return await BasePetApi.subclasses[0]().update_pet_with_form(petId, name, status, token_petstore_auth=token_petstore_auth)
 
 
 @router.post(
@@ -215,4 +215,4 @@ async def upload_file(
     """"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
-    return await BasePetApi.subclasses[0]().upload_file(petId, additional_metadata, file)
+    return await BasePetApi.subclasses[0]().upload_file(petId, additional_metadata, file, token_petstore_auth=token_petstore_auth)
