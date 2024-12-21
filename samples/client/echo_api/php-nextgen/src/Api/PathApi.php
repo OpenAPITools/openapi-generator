@@ -329,10 +329,10 @@ class PathApi
      * @return PromiseInterface
      */
     public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsyncWithHttpInfo(
-        $path_string,
-        $path_integer,
-        $enum_nonref_string_path,
-        $enum_ref_string_path,
+        string $path_string,
+        int $path_integer,
+        string $enum_nonref_string_path,
+        \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path,
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): PromiseInterface
     {
@@ -388,10 +388,10 @@ class PathApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest(
-        $path_string,
-        $path_integer,
-        $enum_nonref_string_path,
-        $enum_ref_string_path,
+        string $path_string,
+        int $path_integer,
+        string $enum_nonref_string_path,
+        \OpenAPI\Client\Model\StringEnumRef $enum_ref_string_path,
         string $contentType = self::contentTypes['testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath'][0]
     ): Request
     {

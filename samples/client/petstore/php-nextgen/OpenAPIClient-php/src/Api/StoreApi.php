@@ -238,7 +238,7 @@ class StoreApi
      * @return PromiseInterface
      */
     public function deleteOrderAsyncWithHttpInfo(
-        $order_id,
+        string $order_id,
         string $contentType = self::contentTypes['deleteOrder'][0]
     ): PromiseInterface
     {
@@ -278,7 +278,7 @@ class StoreApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function deleteOrderRequest(
-        $order_id,
+        string $order_id,
         string $contentType = self::contentTypes['deleteOrder'][0]
     ): Request
     {
@@ -851,7 +851,7 @@ class StoreApi
      * @return PromiseInterface
      */
     public function getOrderByIdAsyncWithHttpInfo(
-        $order_id,
+        int $order_id,
         string $contentType = self::contentTypes['getOrderById'][0]
     ): PromiseInterface
     {
@@ -904,7 +904,7 @@ class StoreApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function getOrderByIdRequest(
-        $order_id,
+        int $order_id,
         string $contentType = self::contentTypes['getOrderById'][0]
     ): Request
     {
@@ -1180,7 +1180,7 @@ class StoreApi
      * @return PromiseInterface
      */
     public function placeOrderAsyncWithHttpInfo(
-        $order,
+        \OpenAPI\Client\Model\Order $order,
         string $contentType = self::contentTypes['placeOrder'][0]
     ): PromiseInterface
     {
@@ -1233,7 +1233,7 @@ class StoreApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function placeOrderRequest(
-        $order,
+        \OpenAPI\Client\Model\Order $order,
         string $contentType = self::contentTypes['placeOrder'][0]
     ): Request
     {

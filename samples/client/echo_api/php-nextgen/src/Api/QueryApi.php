@@ -342,8 +342,8 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testEnumRefStringAsyncWithHttpInfo(
-        $enum_nonref_string_query = null,
-        $enum_ref_string_query = null,
+        ?string $enum_nonref_string_query = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): PromiseInterface
     {
@@ -397,8 +397,8 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEnumRefStringRequest(
-        $enum_nonref_string_query = null,
-        $enum_ref_string_query = null,
+        ?string $enum_nonref_string_query = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_query = null,
         string $contentType = self::contentTypes['testEnumRefString'][0]
     ): Request
     {
@@ -687,9 +687,9 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryDatetimeDateStringAsyncWithHttpInfo(
-        $datetime_query = null,
-        $date_query = null,
-        $string_query = null,
+        ?\DateTime $datetime_query = null,
+        ?\DateTime $date_query = null,
+        ?string $string_query = null,
         string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
     ): PromiseInterface
     {
@@ -744,9 +744,9 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryDatetimeDateStringRequest(
-        $datetime_query = null,
-        $date_query = null,
-        $string_query = null,
+        ?\DateTime $datetime_query = null,
+        ?\DateTime $date_query = null,
+        ?string $string_query = null,
         string $contentType = self::contentTypes['testQueryDatetimeDateString'][0]
     ): Request
     {
@@ -1045,9 +1045,9 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryIntegerBooleanStringAsyncWithHttpInfo(
-        $integer_query = null,
-        $boolean_query = null,
-        $string_query = null,
+        ?int $integer_query = null,
+        ?bool $boolean_query = null,
+        ?string $string_query = null,
         string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
     ): PromiseInterface
     {
@@ -1102,9 +1102,9 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryIntegerBooleanStringRequest(
-        $integer_query = null,
-        $boolean_query = null,
-        $string_query = null,
+        ?int $integer_query = null,
+        ?bool $boolean_query = null,
+        ?string $string_query = null,
         string $contentType = self::contentTypes['testQueryIntegerBooleanString'][0]
     ): Request
     {
@@ -1389,7 +1389,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleDeepObjectExplodeTrueObjectAsyncWithHttpInfo(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\Pet $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
     ): PromiseInterface
     {
@@ -1442,7 +1442,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleDeepObjectExplodeTrueObjectRequest(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\Pet $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'][0]
     ): Request
     {
@@ -1707,7 +1707,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleDeepObjectExplodeTrueObjectAllOfAsyncWithHttpInfo(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
     ): PromiseInterface
     {
@@ -1760,7 +1760,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleDeepObjectExplodeTrueObjectAllOfRequest(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'][0]
     ): Request
     {
@@ -1853,7 +1853,7 @@ class QueryApi
      * @return string
      */
     public function testQueryStyleFormExplodeFalseArrayInteger(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): string
     {
@@ -1874,7 +1874,7 @@ class QueryApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): array
     {
@@ -2001,7 +2001,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerAsync(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): PromiseInterface
     {
@@ -2025,7 +2025,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerAsyncWithHttpInfo(
-        $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): PromiseInterface
     {
@@ -2078,7 +2078,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleFormExplodeFalseArrayIntegerRequest(
-        $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayInteger'][0]
     ): Request
     {
@@ -2171,7 +2171,7 @@ class QueryApi
      * @return string
      */
     public function testQueryStyleFormExplodeFalseArrayString(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): string
     {
@@ -2192,7 +2192,7 @@ class QueryApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): array
     {
@@ -2319,7 +2319,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeFalseArrayStringAsync(
-        ?array $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): PromiseInterface
     {
@@ -2343,7 +2343,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeFalseArrayStringAsyncWithHttpInfo(
-        $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): PromiseInterface
     {
@@ -2396,7 +2396,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleFormExplodeFalseArrayStringRequest(
-        $query_object = null,
+        array $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeFalseArrayString'][0]
     ): Request
     {
@@ -2661,7 +2661,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeTrueArrayStringAsyncWithHttpInfo(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
     ): PromiseInterface
     {
@@ -2714,7 +2714,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleFormExplodeTrueArrayStringRequest(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueArrayString'][0]
     ): Request
     {
@@ -2979,7 +2979,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeTrueObjectAsyncWithHttpInfo(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\Pet $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
     ): PromiseInterface
     {
@@ -3032,7 +3032,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleFormExplodeTrueObjectRequest(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\Pet $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObject'][0]
     ): Request
     {
@@ -3297,7 +3297,7 @@ class QueryApi
      * @return PromiseInterface
      */
     public function testQueryStyleFormExplodeTrueObjectAllOfAsyncWithHttpInfo(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\DataQuery $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
     ): PromiseInterface
     {
@@ -3350,7 +3350,7 @@ class QueryApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testQueryStyleFormExplodeTrueObjectAllOfRequest(
-        $query_object = null,
+        ?\OpenAPI\Client\Model\DataQuery $query_object = null,
         string $contentType = self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'][0]
     ): Request
     {

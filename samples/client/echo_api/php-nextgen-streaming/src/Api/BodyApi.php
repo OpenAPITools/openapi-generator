@@ -633,7 +633,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testBodyApplicationOctetstreamBinaryAsyncWithHttpInfo(
-        $body = null,
+        ?\Psr\Http\Message\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): PromiseInterface
     {
@@ -686,7 +686,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyApplicationOctetstreamBinaryRequest(
-        $body = null,
+        ?\Psr\Http\Message\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): Request
     {
@@ -949,7 +949,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testBodyMultipartFormdataArrayOfBinaryAsyncWithHttpInfo(
-        $files,
+        array $files,
         string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
     ): PromiseInterface
     {
@@ -1002,7 +1002,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyMultipartFormdataArrayOfBinaryRequest(
-        $files,
+        array $files,
         string $contentType = self::contentTypes['testBodyMultipartFormdataArrayOfBinary'][0]
     ): Request
     {
@@ -1278,7 +1278,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testBodyMultipartFormdataSingleBinaryAsyncWithHttpInfo(
-        $my_file = null,
+        ?\Psr\Http\Message\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): PromiseInterface
     {
@@ -1331,7 +1331,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyMultipartFormdataSingleBinaryRequest(
-        $my_file = null,
+        ?\Psr\Http\Message\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): Request
     {
@@ -1601,7 +1601,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyAllOfPetAsyncWithHttpInfo(
-        $pet = null,
+        ?\OpenAPI\Client\Model\Pet $pet = null,
         string $contentType = self::contentTypes['testEchoBodyAllOfPet'][0]
     ): PromiseInterface
     {
@@ -1654,7 +1654,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyAllOfPetRequest(
-        $pet = null,
+        ?\OpenAPI\Client\Model\Pet $pet = null,
         string $contentType = self::contentTypes['testEchoBodyAllOfPet'][0]
     ): Request
     {
@@ -1745,7 +1745,7 @@ class BodyApi
      * @return string
      */
     public function testEchoBodyFreeFormObjectResponseString(
-        ?array $body = null,
+        array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): string
     {
@@ -1766,7 +1766,7 @@ class BodyApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEchoBodyFreeFormObjectResponseStringWithHttpInfo(
-        ?array $body = null,
+        array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): array
     {
@@ -1893,7 +1893,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyFreeFormObjectResponseStringAsync(
-        ?array $body = null,
+        array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): PromiseInterface
     {
@@ -1917,7 +1917,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyFreeFormObjectResponseStringAsyncWithHttpInfo(
-        $body = null,
+        array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): PromiseInterface
     {
@@ -1970,7 +1970,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyFreeFormObjectResponseStringRequest(
-        $body = null,
+        array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): Request
     {
@@ -2233,7 +2233,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyPetAsyncWithHttpInfo(
-        $pet = null,
+        ?\OpenAPI\Client\Model\Pet $pet = null,
         string $contentType = self::contentTypes['testEchoBodyPet'][0]
     ): PromiseInterface
     {
@@ -2286,7 +2286,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyPetRequest(
-        $pet = null,
+        ?\OpenAPI\Client\Model\Pet $pet = null,
         string $contentType = self::contentTypes['testEchoBodyPet'][0]
     ): Request
     {
@@ -2549,7 +2549,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyPetResponseStringAsyncWithHttpInfo(
-        $pet = null,
+        ?\OpenAPI\Client\Model\Pet $pet = null,
         string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
     ): PromiseInterface
     {
@@ -2602,7 +2602,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyPetResponseStringRequest(
-        $pet = null,
+        ?\OpenAPI\Client\Model\Pet $pet = null,
         string $contentType = self::contentTypes['testEchoBodyPetResponseString'][0]
     ): Request
     {
@@ -2865,7 +2865,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyStringEnumAsyncWithHttpInfo(
-        $body = null,
+        ?string $body = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): PromiseInterface
     {
@@ -2918,7 +2918,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyStringEnumRequest(
-        $body = null,
+        ?string $body = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): Request
     {
@@ -3181,7 +3181,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyTagResponseStringAsyncWithHttpInfo(
-        $tag = null,
+        ?\OpenAPI\Client\Model\Tag $tag = null,
         string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
     ): PromiseInterface
     {
@@ -3234,7 +3234,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyTagResponseStringRequest(
-        $tag = null,
+        ?\OpenAPI\Client\Model\Tag $tag = null,
         string $contentType = self::contentTypes['testEchoBodyTagResponseString'][0]
     ): Request
     {

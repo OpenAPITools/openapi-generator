@@ -328,9 +328,9 @@ class FormApi
      * @return PromiseInterface
      */
     public function testFormIntegerBooleanStringAsyncWithHttpInfo(
-        $integer_form = null,
-        $boolean_form = null,
-        $string_form = null,
+        ?int $integer_form = null,
+        ?bool $boolean_form = null,
+        ?string $string_form = null,
         string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
     ): PromiseInterface
     {
@@ -385,9 +385,9 @@ class FormApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testFormIntegerBooleanStringRequest(
-        $integer_form = null,
-        $boolean_form = null,
-        $string_form = null,
+        ?int $integer_form = null,
+        ?bool $boolean_form = null,
+        ?string $string_form = null,
         string $contentType = self::contentTypes['testFormIntegerBooleanString'][0]
     ): Request
     {
@@ -657,7 +657,7 @@ class FormApi
      * @return PromiseInterface
      */
     public function testFormObjectMultipartAsyncWithHttpInfo(
-        $marker,
+        \OpenAPI\Client\Model\TestFormObjectMultipartRequestMarker $marker,
         string $contentType = self::contentTypes['testFormObjectMultipart'][0]
     ): PromiseInterface
     {
@@ -710,7 +710,7 @@ class FormApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testFormObjectMultipartRequest(
-        $marker,
+        \OpenAPI\Client\Model\TestFormObjectMultipartRequestMarker $marker,
         string $contentType = self::contentTypes['testFormObjectMultipart'][0]
     ): Request
     {
@@ -1011,12 +1011,12 @@ class FormApi
      * @return PromiseInterface
      */
     public function testFormOneofAsyncWithHttpInfo(
-        $form1 = null,
-        $form2 = null,
-        $form3 = null,
-        $form4 = null,
-        $id = null,
-        $name = null,
+        ?string $form1 = null,
+        ?int $form2 = null,
+        ?string $form3 = null,
+        ?bool $form4 = null,
+        ?int $id = null,
+        ?string $name = null,
         string $contentType = self::contentTypes['testFormOneof'][0]
     ): PromiseInterface
     {
@@ -1074,12 +1074,12 @@ class FormApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testFormOneofRequest(
-        $form1 = null,
-        $form2 = null,
-        $form3 = null,
-        $form4 = null,
-        $id = null,
-        $name = null,
+        ?string $form1 = null,
+        ?int $form2 = null,
+        ?string $form3 = null,
+        ?bool $form4 = null,
+        ?int $id = null,
+        ?string $name = null,
         string $contentType = self::contentTypes['testFormOneof'][0]
     ): Request
     {

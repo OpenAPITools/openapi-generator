@@ -307,7 +307,7 @@ class AnotherFakeApi
      * @return PromiseInterface
      */
     public function call123TestSpecialTagsAsyncWithHttpInfo(
-        $client,
+        \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['call123TestSpecialTags'][0]
     ): PromiseInterface
     {
@@ -360,7 +360,7 @@ class AnotherFakeApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function call123TestSpecialTagsRequest(
-        $client,
+        \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['call123TestSpecialTags'][0]
     ): Request
     {

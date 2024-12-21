@@ -172,7 +172,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        {{^required}}?{{/required}}{{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -247,7 +247,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}WithHttpInfo(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        {{^required}}?{{/required}}{{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -446,7 +446,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}Async(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        {{^required}}?{{/required}}{{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -524,7 +524,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}AsyncWithHttpInfo(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -630,7 +630,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}Request(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}

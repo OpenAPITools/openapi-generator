@@ -214,7 +214,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 if (param.isArray || param.isMap) {
                     param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
                 } else {
-                    param.vendorExtensions.putIfAbsent("x-php-param-type", param.dataType);
+                    String paramType = param.dataType;
+                    if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
+                        paramType = "?" + paramType;
+                    }
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
                 }
             }
         }
