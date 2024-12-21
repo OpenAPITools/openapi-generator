@@ -16,16 +16,26 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import java.io.File;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.GeneratorLanguage;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ModelMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String ALL_OF_SUFFIX = "AllOf";
@@ -79,8 +89,11 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
                 .filter(codegenModel -> !codegenModel.allOf.isEmpty())
                 .collect(Collectors.toList());
 
+        Map<String, CodegenModel> allOfCodegenModelMap = codegenModelList.stream().collect(Collectors.toMap(cm -> cm.getClassname(), cm -> cm));
 
-        List<Map<String, Object>> entities = calculateEntities(nonInlineAllOfCodegenModelList, inlineAllOfCodegenModelList);
+
+        List<Map<String, Object>> entities = calculateEntities(nonInlineAllOfCodegenModelList, inlineAllOfCodegenModelList, allOfCodegenModelMap);
+
         objs.put("entities", entities);
 
         List<Map<String, Object>> relationships = calculateCompositionRelationshipsFrom(entities);
@@ -89,29 +102,35 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
         List<Object> inheritances = calculateInheritanceRelationships(subtypeCodegenModelList);
         objs.put("inheritances", inheritances);
 
+
         return super.postProcessSupportingFileData(objs);
     }
 
-    private List<Map<String, Object>> calculateEntities(List<CodegenModel> nonInlineAllOfCodegenModelList, List<CodegenModel> inlineAllOfCodegenModelList) {
-        Map<String, CodegenModel> inlineAllOfCodegenModelMap = inlineAllOfCodegenModelList.stream().collect(Collectors.toMap(cm -> cm.getClassname(), cm -> cm));
-
-        return nonInlineAllOfCodegenModelList.stream().map(codegenModel -> createEntityFor(codegenModel, inlineAllOfCodegenModelMap)).collect(Collectors.toList());
+    private List<Map<String, Object>> calculateEntities(
+            List<CodegenModel> nonInlineModels,
+            List<CodegenModel> inlineModels,
+            Map<String, CodegenModel> allModels
+    ) {
+        return nonInlineModels.stream()
+            .map(codegenModel -> createEntityFor(codegenModel, allModels))
+            .collect(Collectors.toList());
     }
 
-    private Map<String, Object> createEntityFor(CodegenModel nonInlineAllOfCodegenModel, Map<String, CodegenModel> inlineAllOfCodegenModelMap) {
-        if (nonInlineAllOfCodegenModel.allOf.isEmpty()) {
-            return createEntityFor(nonInlineAllOfCodegenModel, nonInlineAllOfCodegenModel.getAllVars());
-        } else {
-            Optional<String> inheritingInlineAllOfName = nonInlineAllOfCodegenModel.allOf.stream().filter(allOfName -> allOfName.endsWith(ALL_OF_SUFFIX)).findFirst();
-            if (inheritingInlineAllOfName.isPresent()) {
-                if (inlineAllOfCodegenModelMap.containsKey(inheritingInlineAllOfName.get())) {
-                    CodegenModel inheritingInlineAllOfModel = inlineAllOfCodegenModelMap.get(inheritingInlineAllOfName.get());
-                    return createEntityFor(nonInlineAllOfCodegenModel, inheritingInlineAllOfModel.getAllVars());
-                }
-            }
+    private Map<String, Object> createEntityFor(CodegenModel model, Map<String, CodegenModel> allModels) {
+        // get names of all props for all non-inline models
+        HashSet<String> nonInlineVars = model.allOf.stream()
+            .filter(allOfModelName -> !allOfModelName.endsWith(ALL_OF_SUFFIX))
+            .filter(nonInlineModelName -> allModels.containsKey(nonInlineModelName))
+            .flatMap(nonInlineModelName -> allModels.get(nonInlineModelName).getAllVars().stream())
+            .map(nonInlineVar -> nonInlineVar.getName())
+            .collect(Collectors.toCollection(HashSet::new));
 
-            return createEntityFor(nonInlineAllOfCodegenModel, Collections.emptyList());
-        }
+        // get all props for current model, which do not also appear in non-inline models
+        List<CodegenProperty> modelVars = model.getAllVars().stream()
+            .filter(modelVar -> !nonInlineVars.contains(modelVar.getName()))
+            .collect(Collectors.toList());
+
+        return createEntityFor(model, modelVars);
     }
 
     private Map<String, Object> createEntityFor(CodegenModel codegenModel, List<CodegenProperty> properties) {

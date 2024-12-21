@@ -1,8 +1,11 @@
 package org.openapitools.codegen.plantuml;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.PlantumlDocumentationCodegen;
@@ -10,7 +13,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 public class PlantumlDocumentationCodegenTest {
     private PlantumlDocumentationCodegen plantumlDocumentationCodegen = new PlantumlDocumentationCodegen();
@@ -90,7 +99,8 @@ public class PlantumlDocumentationCodegenTest {
 
         plantumlDocumentationCodegen.setOpenAPI(openAPI);
         final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
-        final CodegenModel childAllOfModel = plantumlDocumentationCodegen.fromModel("child_allOf", childAllOfInlineSchema);
+        final CodegenModel childAllOfModel = plantumlDocumentationCodegen.fromModel("child_allOf",
+                childAllOfInlineSchema);
         final CodegenModel childComposedModel = plantumlDocumentationCodegen.fromModel("child", composedSchema);
 
         Map<String, Object> objs = createObjectsMapFor(parentModel, childComposedModel, childAllOfModel);
@@ -108,6 +118,48 @@ public class PlantumlDocumentationCodegenTest {
         Map<String, Object> childEntity = getEntityFromList("Child", entityList);
         assertFieldDoesNotExistsInEntity("id", childEntity);
         getFieldFromEntity("name", childEntity);
+
+        List<Object> inheritanceList = getList(objs, "inheritances");
+        Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
+
+        Map<String, String> firstInheritance = (Map<String, String>) inheritanceList.get(0);
+        Assert.assertEquals(firstInheritance.get("parent"), "Parent");
+        Assert.assertEquals(firstInheritance.get("child"), "Child");
+    }
+
+    @Test
+    public void inheritedEntitiesNoInlineSchemaTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        final Schema parentSchema = new Schema()
+                .description("a parent model")
+                .addProperties("parentProp", new StringSchema())
+                .addRequiredItem("parentProp");
+
+        openAPI.getComponents().addSchemas("parent", parentSchema);
+
+        final ComposedSchema composedSchema = new ComposedSchema();
+        composedSchema.setDescription("a composed child model");
+        composedSchema.addAllOfItem(new Schema().$ref("#/components/schemas/parent"));
+        composedSchema.addProperties("childProp", new StringSchema());
+        openAPI.getComponents().addSchemas("child", composedSchema);
+
+        plantumlDocumentationCodegen.setOpenAPI(openAPI);
+        final CodegenModel parentModel = plantumlDocumentationCodegen.fromModel("parent", parentSchema);
+        final CodegenModel childComposedModel = plantumlDocumentationCodegen.fromModel("child", composedSchema);
+
+        Map<String, Object> objs = createObjectsMapFor(parentModel, childComposedModel);
+
+        plantumlDocumentationCodegen.postProcessSupportingFileData(objs);
+
+        List<Object> entityList = getList(objs, "entities");
+        Assert.assertEquals(entityList.size(), 2, "size of entity list");
+
+        Map<String, Object> parentEntity = getEntityFromList("Parent", entityList);
+        getFieldFromEntity("parentProp", parentEntity);
+
+        Map<String, Object> childEntity = getEntityFromList("Child", entityList);
+        assertFieldDoesNotExistsInEntity("parentProp", childEntity);
+        getFieldFromEntity("childProp", childEntity);
 
         List<Object> inheritanceList = getList(objs, "inheritances");
         Assert.assertEquals(inheritanceList.size(), 1, "size of inheritance list");
