@@ -155,7 +155,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     return new MixedPropertiesAndAdditionalPropertiesClassBuilderImpl();
   }
 
-  private static class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
+  private static final class MixedPropertiesAndAdditionalPropertiesClassBuilderImpl extends MixedPropertiesAndAdditionalPropertiesClassBuilder<MixedPropertiesAndAdditionalPropertiesClass, MixedPropertiesAndAdditionalPropertiesClassBuilderImpl> {
 
     @Override
     protected MixedPropertiesAndAdditionalPropertiesClassBuilderImpl self() {
