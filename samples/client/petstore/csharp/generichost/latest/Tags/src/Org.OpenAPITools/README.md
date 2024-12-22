@@ -6,7 +6,7 @@
 ```ps1
 $properties = @(
     'apiName=Api',
-    'targetFramework=net8.0',
+    'targetFramework=net9.0',
     'validatable=true',
     'nullableReferenceTypes=true',
     'hideGenerationTimestamp=true',
@@ -181,7 +181,7 @@ Authentication schemes defined for the API:
 - returnICollection: false
 - sortParamsByRequiredFlag: 
 - sourceFolder: src
-- targetFramework: net8.0
+- targetFramework: net9.0
 - useCollection: false
 - useDateTimeOffset: false
 - useOneOfDiscriminatorLookup: false

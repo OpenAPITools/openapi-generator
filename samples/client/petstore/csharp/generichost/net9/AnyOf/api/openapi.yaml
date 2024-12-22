@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  title: fruity
+  version: 0.0.1
+servers:
+- url: /
+paths:
+  /:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fruit'
+          description: desc
+components:
+  schemas:
+    fruit:
+      anyOf:
+      - $ref: '#/components/schemas/apple'
+      - $ref: '#/components/schemas/banana'
+      example:
+        color: color
+      properties:
+        color:
+          type: string
+      title: fruit
+      type: object
+    apple:
+      properties:
+        kind:
+          type: string
+      title: apple
+      type: object
+    banana:
+      properties:
+        count:
+          type: number
+      title: banana
+      type: object
+
