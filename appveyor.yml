@@ -43,6 +43,18 @@ build_script:
   #- dotnet build samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
 
 test_script:
+  - dotnet test samples\client\petstore\csharp\generichost\net9\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\FormModels\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # - dotnet test samples\client\petstore\csharp\generichost\net9\ManualSourceGenerationTests\ManualTests.Latest.UseSourceGeneration\ManualTests.Latest.UseSourceGeneration.csproj
+  # - dotnet test samples\client\petstore\csharp\generichost\net9\ManualPetstoreTests\OpenAPIClient-generichost-manual-tests\OpenAPIClient-generichost-manual-tests.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\NullReferenceTypes\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\OneOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\SourceGeneration\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+
   - dotnet test samples\client\petstore\csharp\generichost\net8\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
