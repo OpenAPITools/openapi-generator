@@ -71,8 +71,8 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
      */
     public var taskDidReceiveChallenge: PetstoreClientAPIChallengeHandler?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication)
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, credential: URLCredential?) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, credential: credential)
     }
 
     /**

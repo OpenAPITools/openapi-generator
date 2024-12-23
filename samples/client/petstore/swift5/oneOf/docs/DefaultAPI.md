@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **rootGet**
 ```swift
-    open class func rootGet(completion: @escaping (_ data: Fruit?, _ error: Error?) -> Void)
+    open func rootGet(completion: @escaping (_ data: Fruit?, _ error: Error?) -> Void)
 ```
 
 
@@ -20,7 +20,7 @@ Method | HTTP request | Description
 import PetstoreClient
 
 
-DefaultAPI.rootGet() { (response, error) in
+DefaultAPI().rootGet() { (response, error) in
     guard error == nil else {
         print(error)
         return

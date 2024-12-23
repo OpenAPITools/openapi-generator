@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **testClassname**
 ```swift
-    open class func testClassname(body: Client) -> Observable<Client>
+    open func testClassname(body: Client) -> Observable<Client>
 ```
 
 To test class name in snake case

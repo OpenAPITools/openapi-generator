@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags( body: Client) -> Promise<Client>
+    open func call123testSpecialTags( body: Client) -> Promise<Client>
 ```
 
 To test special tags
@@ -24,7 +24,7 @@ import PetstoreClient
 let body = Client(client: "client_example") // Client | client model
 
 // To test special tags
-AnotherFakeAPI.call123testSpecialTags(body: body).then {
+AnotherFakeAPI().call123testSpecialTags(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected

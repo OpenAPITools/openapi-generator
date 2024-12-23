@@ -28,15 +28,13 @@ internal class RequestBuilder<T> {
     /// Optional block to obtain a reference to the request's progress instance when available.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, credential: URLCredential?) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
-
-        addHeaders(PetstoreClientAPI.customHeaders)
-        addCredential()
+        self.credential = credential
     }
 
     internal func addHeaders(_ aHeaders: [String: String]) {
@@ -57,8 +55,8 @@ internal class RequestBuilder<T> {
         return self
     }
 
-    internal func addCredential() {
-        credential = PetstoreClientAPI.credential
+    internal func addCredential(credential: URLCredential) {
+        self.credential = credential
     }
 }
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```swift
-    open class func createUser( body: User) -> Promise<Void>
+    open func createUser( body: User) -> Promise<Void>
 ```
 
 Create user
@@ -31,7 +31,7 @@ import PetstoreClient
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Created user object
 
 // Create user
-UserAPI.createUser(body: body).then {
+UserAPI().createUser(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -63,7 +63,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```swift
-    open class func createUsersWithArrayInput( body: [User]) -> Promise<Void>
+    open func createUsersWithArrayInput( body: [User]) -> Promise<Void>
 ```
 
 Creates list of users with given input array
@@ -76,7 +76,7 @@ import PetstoreClient
 let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
 // Creates list of users with given input array
-UserAPI.createUsersWithArrayInput(body: body).then {
+UserAPI().createUsersWithArrayInput(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -108,7 +108,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```swift
-    open class func createUsersWithListInput( body: [User]) -> Promise<Void>
+    open func createUsersWithListInput( body: [User]) -> Promise<Void>
 ```
 
 Creates list of users with given input array
@@ -121,7 +121,7 @@ import PetstoreClient
 let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
 // Creates list of users with given input array
-UserAPI.createUsersWithListInput(body: body).then {
+UserAPI().createUsersWithListInput(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -153,7 +153,7 @@ No authorization required
 
 # **deleteUser**
 ```swift
-    open class func deleteUser( username: String) -> Promise<Void>
+    open func deleteUser( username: String) -> Promise<Void>
 ```
 
 Delete user
@@ -168,7 +168,7 @@ import PetstoreClient
 let username = "username_example" // String | The name that needs to be deleted
 
 // Delete user
-UserAPI.deleteUser(username: username).then {
+UserAPI().deleteUser(username: username).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -200,7 +200,7 @@ No authorization required
 
 # **getUserByName**
 ```swift
-    open class func getUserByName( username: String) -> Promise<User>
+    open func getUserByName( username: String) -> Promise<User>
 ```
 
 Get user by user name
@@ -213,7 +213,7 @@ import PetstoreClient
 let username = "username_example" // String | The name that needs to be fetched. Use user1 for testing.
 
 // Get user by user name
-UserAPI.getUserByName(username: username).then {
+UserAPI().getUserByName(username: username).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -245,7 +245,7 @@ No authorization required
 
 # **loginUser**
 ```swift
-    open class func loginUser( username: String,  password: String) -> Promise<String>
+    open func loginUser( username: String,  password: String) -> Promise<String>
 ```
 
 Logs user into the system
@@ -259,7 +259,7 @@ let username = "username_example" // String | The user name for login
 let password = "password_example" // String | The password for login in clear text
 
 // Logs user into the system
-UserAPI.loginUser(username: username, password: password).then {
+UserAPI().loginUser(username: username, password: password).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -292,7 +292,7 @@ No authorization required
 
 # **logoutUser**
 ```swift
-    open class func logoutUser() -> Promise<Void>
+    open func logoutUser() -> Promise<Void>
 ```
 
 Logs out current logged in user session
@@ -304,7 +304,7 @@ import PetstoreClient
 
 
 // Logs out current logged in user session
-UserAPI.logoutUser().then {
+UserAPI().logoutUser().then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
@@ -333,7 +333,7 @@ No authorization required
 
 # **updateUser**
 ```swift
-    open class func updateUser( username: String,  body: User) -> Promise<Void>
+    open func updateUser( username: String,  body: User) -> Promise<Void>
 ```
 
 Updated user
@@ -349,7 +349,7 @@ let username = "username_example" // String | name that need to be deleted
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Updated user object
 
 // Updated user
-UserAPI.updateUser(username: username, body: body).then {
+UserAPI().updateUser(username: username, body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
