@@ -40,6 +40,7 @@ export class Response {
 
 export enum ResponseEnrichmentSourceEnum {
     AffinityData = 'affinity-data',
-    Dealroom = 'dealroom'
+    Dealroom = 'dealroom',
+    Null = 'null'
 }
 

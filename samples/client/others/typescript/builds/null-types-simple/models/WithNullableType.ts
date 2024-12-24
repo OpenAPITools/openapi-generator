@@ -14,7 +14,7 @@ import { SomeObject } from '../models/SomeObject';
 import { HttpFile } from '../http/http';
 
 export class WithNullableType {
-    'arrayDataOrNull': Array<SomeObject> | null;
+    'arrayDataOrNull': Array<SomeObject>;
     'stringDataOrNull': string | null;
     'oneofOrNull': SomeObject | null;
 

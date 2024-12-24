@@ -10,7 +10,7 @@
   "keywords": [
     "swagger-client"
   ],
-  "license": "Unlicense",
+  "license": "",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "build:clean": "rm -rf dist/ 2> /dev/null && tsc -p tsconfig.build.json",
