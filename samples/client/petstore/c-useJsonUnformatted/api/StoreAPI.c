@@ -541,3 +541,85 @@ end:
 
 }
 
+// Would you recommend our service to a friend?
+//
+char*
+StoreAPI_sendRecommend(apiClient_t *apiClient, int *recommend)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = list_createList();
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = list_createList();
+    char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
+    // create the path
+    long sizeOfPath = strlen("/store/recommend")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/store/recommend");
+
+
+
+
+
+    // form parameters
+    char *keyForm_recommend = NULL;
+    char * valueForm_recommend = 0;
+    keyValuePair_t *keyPairForm_recommend = 0;
+    if (recommend != NULL)
+    {
+        keyForm_recommend = strdup("recommend");
+        valueForm_recommend = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueForm_recommend, MAX_NUMBER_LENGTH, "%d", *recommend);
+        keyPairForm_recommend = keyValuePair_create(keyForm_recommend,valueForm_recommend);
+        list_addElement(localVarFormParameters,keyPairForm_recommend);
+    }
+    list_addElement(localVarHeaderType,"*/*"); //produces
+    list_addElement(localVarContentType,"multipart/form-data"); //consumes
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    localVarBodyLength,
+                    "POST");
+
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    //primitive return type simple string
+    char* elementToReturn = NULL;
+    if(apiClient->response_code >= 200 && apiClient->response_code < 300)
+        elementToReturn = strdup((char*)apiClient->dataReceived);
+
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    
+    
+    list_freeList(localVarFormParameters);
+    list_freeList(localVarHeaderType);
+    list_freeList(localVarContentType);
+    free(localVarPath);
+    if (keyForm_recommend) {
+        free(keyForm_recommend);
+        keyForm_recommend = NULL;
+    }
+    free(keyPairForm_recommend);
+    return elementToReturn;
+end:
+    free(localVarPath);
+    return NULL;
+
+}
+

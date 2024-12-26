@@ -84,6 +84,7 @@ Category | Method | HTTP request | Description
 *StoreAPI* | [**StoreAPI_placeOrder**](docs/StoreAPI.md#StoreAPI_placeOrder) | **POST** /store/order | Place an order for a pet
 *StoreAPI* | [**StoreAPI_sendFeedback**](docs/StoreAPI.md#StoreAPI_sendFeedback) | **POST** /store/feedback | Send us a feedback message
 *StoreAPI* | [**StoreAPI_sendRating**](docs/StoreAPI.md#StoreAPI_sendRating) | **POST** /store/rating/{rating} | How would you rate our service?
+*StoreAPI* | [**StoreAPI_sendRecommend**](docs/StoreAPI.md#StoreAPI_sendRecommend) | **POST** /store/recommend | Would you recommend our service to a friend?
 *UserAPI* | [**UserAPI_createUser**](docs/UserAPI.md#UserAPI_createUser) | **POST** /user | Create user
 *UserAPI* | [**UserAPI_createUsersWithArrayInput**](docs/UserAPI.md#UserAPI_createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
 *UserAPI* | [**UserAPI_createUsersWithListInput**](docs/UserAPI.md#UserAPI_createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
