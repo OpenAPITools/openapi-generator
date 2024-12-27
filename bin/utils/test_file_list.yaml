@@ -52,3 +52,5 @@
 # rust axum test files
 - filename: "samples/server/petstore/rust-axum/output/rust-axum-oneof/src/tests.rs"
   sha256: 3d4198174018cc7fd9d4bcffd950609a5bd306cf03b2fa780516f4e22a566e8c
+- filename: "samples/server/petstore/rust-axum/output/openapi-v3/src/tests.rs"
+  sha256: 356ac684b1fce91b153c63caefc1fe7472ea600ac436a19631e16bc00e986c50
