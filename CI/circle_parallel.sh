@@ -17,6 +17,7 @@ if [ "$NODE_INDEX" = "1" ]; then
 
   # install rust
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  source "$HOME/.cargo/env"
 
   echo "Testing perl"
   (cd samples/client/petstore/perl && /bin/bash ./test.bash)
@@ -28,7 +29,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   (cd samples/client/petstore/ruby-autoload && mvn integration-test)
 
   echo "Testing rust"
-  (cd samples/server/petstore/rust-axum/output/rust-axum-oneof && mvn integration-test)
+  (cd samples/server/petstore/rust-axum && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test Go"
