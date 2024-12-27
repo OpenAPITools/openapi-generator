@@ -15,11 +15,20 @@ if [ "$NODE_INDEX" = "1" ]; then
 
   sudo apt-get -y install cpanminus
 
+  # install rust
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+  echo "Testing perl"
   (cd samples/client/petstore/perl && /bin/bash ./test.bash)
+
+  echo "Testing ruby"
   (cd samples/client/petstore/ruby && mvn integration-test)
   (cd samples/client/petstore/ruby-faraday && mvn integration-test)
   (cd samples/client/petstore/ruby-httpx && mvn integration-test)
   (cd samples/client/petstore/ruby-autoload && mvn integration-test)
+
+  echo "Testing rust"
+  (cd samples/server/petstore/rust-axum/output/rust-axum-oneof && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test Go"
@@ -105,6 +114,8 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
+
+elif [ "$NODE_INDEX" = "4" ]; then
 
 else
   echo "Running node $NODE_INDEX ..."

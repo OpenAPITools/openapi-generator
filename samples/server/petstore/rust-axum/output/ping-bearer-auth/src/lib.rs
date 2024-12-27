@@ -26,3 +26,6 @@ pub mod types;
 
 #[cfg(feature = "server")]
 pub(crate) mod header;
+
+#[cfg(test)]
+mod tests;

@@ -236,8 +236,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
         supportingFiles.add(new SupportingFile("apis-mod.mustache", apiPackage().replace('.', File.separatorChar), "mod.rs"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        // The file gets overwritten regardless
+        supportingFiles.add(new SupportingFile("tests.mustache", "src", "tests.rs").doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 
     @Override
