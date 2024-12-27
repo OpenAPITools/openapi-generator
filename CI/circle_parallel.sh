@@ -115,8 +115,6 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
 
-elif [ "$NODE_INDEX" = "4" ]; then
-
 else
   echo "Running node $NODE_INDEX ..."
   java -version
