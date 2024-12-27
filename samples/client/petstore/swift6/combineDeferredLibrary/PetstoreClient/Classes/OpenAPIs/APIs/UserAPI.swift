@@ -354,8 +354,8 @@ open class UserAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": (wrappedValue: username.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "password": (wrappedValue: password.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "username": (wrappedValue: username.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "password": (wrappedValue: password.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
