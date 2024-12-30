@@ -34,7 +34,7 @@ fn dummy_authorization() -> Authorization {
     // However, if you want to use it anyway this can not be unimplemented, so dummy implementation added.
     // unimplemented!()
     Authorization{
-        subject: "Dummmy".to_owned(),
+        subject: "Dummy".to_owned(),
         scopes: Scopes::Some(BTreeSet::new()), // create an empty scope, as this should not be used
         issuer: None
     }

@@ -25,7 +25,7 @@ This project depends on [Xoson](https://github.com/Topheee/xoson) `v2.2.0` (and 
 git clone 'https://github.com/Topheee/xoson.git'
 ```
 
-Open the `Xoson.xojo_project` from the cloned git repository with Xojo and copy the `Xoson` module to your project. Similarily, open the `XojoOpenAPIClientSynchronous.xojo_project` file with Xojo and copy `XojoOpenAPIClientSynchronous` to your project.
+Open the `Xoson.xojo_project` from the cloned git repository with Xojo and copy the `Xoson` module to your project. Similarly, open the `XojoOpenAPIClientSynchronous.xojo_project` file with Xojo and copy `XojoOpenAPIClientSynchronous` to your project.
 
 > Since Xojo currently has no package manager, you need to manually copy both the `Xoson` and the `XojoOpenAPIClientSynchronous` modules to your Xojo project.
 
