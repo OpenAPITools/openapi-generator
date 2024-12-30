@@ -72,7 +72,7 @@ ApiClient <- R6::R6Class(
     #' @param bearer_token Bearer token.
     #' @param timeout Timeout.
     #' @param retry_status_codes Status codes for retry.
-    #' @param max_retry_attempts Maxmium number of retry.
+    #' @param max_retry_attempts Maximum number of retry.
     #' @export
     initialize = function(base_path = NULL, user_agent = NULL,
                           default_headers = NULL,
