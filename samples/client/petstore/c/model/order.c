@@ -61,26 +61,20 @@ cJSON *order_convertToJSON(order_t *order) {
     cJSON *item = cJSON_CreateObject();
 
     // order->id
-    if(order->id) {
     if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
     // order->pet_id
-    if(order->pet_id) {
     if(cJSON_AddNumberToObject(item, "petId", order->pet_id) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
     // order->quantity
-    if(order->quantity) {
     if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
@@ -102,10 +96,8 @@ cJSON *order_convertToJSON(order_t *order) {
 
 
     // order->complete
-    if(order->complete) {
     if(cJSON_AddBoolToObject(item, "complete", order->complete) == NULL) {
     goto fail; //Bool
-    }
     }
 
     return item;

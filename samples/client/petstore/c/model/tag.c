@@ -36,10 +36,8 @@ cJSON *tag_convertToJSON(tag_t *tag) {
     cJSON *item = cJSON_CreateObject();
 
     // tag->id
-    if(tag->id) {
     if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
