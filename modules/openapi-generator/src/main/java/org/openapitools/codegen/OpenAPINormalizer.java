@@ -836,7 +836,7 @@ public class OpenAPINormalizer {
     }
 
     // ===================== a list of rules =====================
-    // all rules (fuctions) start with the word "process"
+    // all rules (functions ) start with the word "process"
 
     /**
      * Child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).
