@@ -936,7 +936,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toParamName(String name) {
-        // obtain the name from paramterNameMapping directly if provided
+        // obtain the name from parameterNameMapping  directly if provided
         if (parameterNameMapping.containsKey(name)) {
             return parameterNameMapping.get(name);
         }

@@ -266,7 +266,7 @@ Upon first code generation, you may also pass the CLI option `--ignore-file-over
 
 Editor support for `.openapi-generator-ignore` files is available in IntelliJ via the [.ignore plugin](https://plugins.jetbrains.com/plugin/7495--ignore).
 
-One may want to pre-populate `.openapi-generator-ignore` with a list of entries during the code generation process and the global/general option `openapiGeneatorIgnoreList` (e.g. --openapi-generator-ignore-list in CLI) can do exactly that. For example,
+One may want to pre-populate `.openapi-generator-ignore` with a list of entries during the code generation process and the global/general option `openapiGeneratorIgnoreList` (e.g. --openapi-generator-ignore-list in CLI) can do exactly that. For example,
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g spring -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/spring --additional-properties useTags=true --openapi-generator-ignore-list "README.md,pom.xml,docs/*.md,src/main/java/org/openapitools/model/*"
 ```
@@ -434,9 +434,9 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 will rename SOLD to UNAVAILABLE instead.
 
-Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly. We also welcome PRs to add these features to generators. Related PRs for reference: #16209, #16234 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings), #17108 (enumNameMappings).
+Not all generators support these features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly. We also welcome PRs to add these features to generators. Related PRs for reference: #16209, #16234 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings), #17108 (enumNameMappings).
 
-NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
+NOTE: some generators use `baseName` (original name obtained directly from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
 
 To map `operationId` (used in method naming) to something else, use `operationIdNameMappings` option, e.g.
 
@@ -480,7 +480,7 @@ paths:
 
 ## Inline Schema Naming
 
-Inline schemas are created as separate schemas automatically and the auto-generated schema name may not look good to everyone. One can customize the name using the `title` field or the `inlineSchemaNameMapping` option. For exmaple, run the following,
+Inline schemas are created as separate schemas automatically and the auto-generated schema name may not look good to everyone. One can customize the name using the `title` field or the `inlineSchemaNameMapping` option. For example, run the following,
 
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings inline_object_2=SomethingMapped,inline_object_4=nothing_new
@@ -503,7 +503,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 - `ARRAY_ITEM_SUFFIX` sets the array item suffix
 - `MAP_ITEM_SUFFIX` set the map item suffix
 - `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
-- `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schmeas by default)
+- `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schemas by default)
 - `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
 
 ## OpenAPI Normalizer
@@ -524,7 +524,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
 ```
 
-- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
+- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properties only in a schema with properties will be removed. [(example)](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
 
 Example:
 ```
