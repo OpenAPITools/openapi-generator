@@ -335,7 +335,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     }
 
     /**
-     * Location of created model files (it can be overriden using --additional-properties in openapi-generator-cli
+     * Location of created model files (it can be overridden using --additional-properties in openapi-generator-cli
      */
     @Override
     public String modelFileFolder() {
