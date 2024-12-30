@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
-        public decimal MyNumber
+        public decimal? MyNumber
         {
             get{ return _MyNumber;}
             set
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
                 _flagMyNumber = true;
             }
         }
-        private decimal _MyNumber;
+        private decimal? _MyNumber;
         private bool _flagMyNumber;
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
-        public bool MyBoolean
+        public bool? MyBoolean
         {
             get{ return _MyBoolean;}
             set
@@ -119,7 +119,7 @@ namespace Org.OpenAPITools.Model
                 _flagMyBoolean = true;
             }
         }
-        private bool _MyBoolean;
+        private bool? _MyBoolean;
         private bool _flagMyBoolean;
 
         /// <summary>
@@ -190,12 +190,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                if (this.MyNumber != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
+                }
                 if (this.MyString != null)
                 {
                     hashCode = (hashCode * 59) + this.MyString.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                if (this.MyBoolean != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
