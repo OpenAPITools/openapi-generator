@@ -17,7 +17,7 @@ import {{import}}
     private val logger: Logger = Logger.SIMPLE,
     private val logLevel: LogLevel = LogLevel.NONE,
     private val requestTimeoutMillis: Long? = null,
-    private val sanitizePaths: Boolean = false
+    private val sanitizePath: String? = null
 ) {
     {{#operation}}
     /**
@@ -84,8 +84,8 @@ import {{import}}
         {{/hasAuthMethods}})
 
         var path = "{{{path}}}"
-        if (sanitizePaths) {
-            path = path.removePrefix("{{{basePathWithoutHost}}}")
+        sanitizePath?.let { sanitizePath ->
+            path = path.removePrefix(sanitizePath)
         }
 
         {{#hasErrorResponseDataTypes}}
@@ -204,8 +204,8 @@ import {{import}}
         {{/hasAuthMethods}})
 
         var path = "{{{path}}}"
-        if (sanitizePaths) {
-            path = path.removePrefix("{{{basePathWithoutHost}}}")
+        sanitizePath?.let { sanitizePath ->
+            path = path.removePrefix(sanitizePath)
         }
 
         {{#hasErrorResponseDataTypes}}
