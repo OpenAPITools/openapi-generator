@@ -3114,6 +3114,19 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
+    /**
+     * Sets the default value for an enum discriminator property in the provided {@link CodegenModel}.
+     * <p>
+     * If the model's discriminator is defined, this method identifies the discriminator properties among the model's
+     * variables and assigns the default value to reflect the corresponding enum value for the model type.
+     * </p>
+     * <p>
+     * Example: If the discriminator is for type `Animal`, and the model is `Cat`, the default value
+     * will be set to `Animal.Cat` for the properties that have the same name as the discriminator.
+     * </p>
+     *
+     * @param model the {@link CodegenModel} whose discriminator property default value is to be set
+     */
     protected static void setEnumDiscriminatorDefaultValue(CodegenModel model) {
         if (model.discriminator == null) {
             return;
@@ -3125,6 +3138,19 @@ public class DefaultCodegen implements CodegenConfig {
                 .forEach(v -> v.defaultValue = getEnumValueForProperty(model.schemaName, model.discriminator, v));
     }
 
+    /**
+     * Retrieves the appropriate default value for an enum discriminator property based on the model name.
+     * <p>
+     * If the discriminator has a mapping defined, it attempts to find a mapping for the model name.
+     * Otherwise, it defaults to one of the allowable enum value associated with the property.
+     * If no suitable value is found, the original default value of the property is returned.
+     * </p>
+     *
+     * @param modelName     the name of the model to determine the default value for
+     * @param discriminator the {@link CodegenDiscriminator} containing the mapping and enum details
+     * @param var           the {@link CodegenProperty} representing the discriminator property
+     * @return the default value for the enum discriminator property, or its original default value if none is found
+     */
     protected static String getEnumValueForProperty(
             String modelName, CodegenDiscriminator discriminator, CodegenProperty var) {
         if (!discriminator.getIsEnum() && !var.isEnum) {
