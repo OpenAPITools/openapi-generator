@@ -5,11 +5,6 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define intToStr(dst, src) \
-    do {\
-    char dst[256];\
-    snprintf(dst, 256, "%ld", (long int)(src));\
-}while(0)
 
 // Functions for enum RATING for StoreAPI_sendRating
 
@@ -245,7 +240,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId)
     snprintf(localVarToReplace_orderId, sizeOfPathParams_orderId, "{%s}", "orderId");
 
     char localVarBuff_orderId[256];
-    intToStr(localVarBuff_orderId, orderId);
+    snprintf(localVarBuff_orderId, sizeof localVarBuff_orderId, "%ld", orderId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_orderId, localVarBuff_orderId);
 
