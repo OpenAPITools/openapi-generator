@@ -1043,14 +1043,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
+        LOGGER.warn("################################################################################");
+        LOGGER.warn("# Thanks for using OpenAPI Generator.                                          #");
+        LOGGER.warn("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        LOGGER.warn("# https://opencollective.com/openapi_generator/donate                          #");
+        LOGGER.warn("#                                                                              #");
+        LOGGER.warn("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
+        LOGGER.warn("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
+        LOGGER.warn("################################################################################");
     }
 
     @Override

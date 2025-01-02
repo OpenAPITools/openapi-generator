@@ -1334,14 +1334,14 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
-        System.out.println("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
-        System.out.println("#                                                                              #");
+        LOGGER.warn("################################################################################");
+        LOGGER.warn("# Thanks for using OpenAPI Generator.                                          #");
+        LOGGER.warn("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        LOGGER.warn("# https://opencollective.com/openapi_generator/donate                          #");
+        LOGGER.warn("#                                                                              #");
+        LOGGER.warn("# swift5 generator is contributed by Bruno Coelho (https://github.com/4brunu). #");
+        LOGGER.warn("# Please support his work directly via https://paypal.com/paypalme/4brunu \uD83D\uDE4F   #");
+        LOGGER.warn("#                                                                              #");
         System.out.println("# There is a new swift6 generator, that is currently in beta.                #");
         System.out.println("# Try it and give us your feedback.                                            #");
         System.out.println("# https://openapi-generator.tech/docs/generators/swift6                        #");

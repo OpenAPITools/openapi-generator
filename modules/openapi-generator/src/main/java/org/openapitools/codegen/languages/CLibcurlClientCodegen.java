@@ -936,17 +936,17 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
-        System.out.println("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
-        System.out.println("# Please support their work directly \uD83D\uDE4F                                        #");
-        System.out.println("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
-        System.out.println("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
-        System.out.println("################################################################################");
+        LOGGER.warn("################################################################################");
+        LOGGER.warn("# Thanks for using OpenAPI Generator.                                          #");
+        LOGGER.warn("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        LOGGER.warn("# https://opencollective.com/openapi_generator/donate                          #");
+        LOGGER.warn("#                                                                              #");
+        LOGGER.warn("# This generator is contributed by Hemant Zope (https://github.com/zhemant)    #");
+        LOGGER.warn("# and Niklas Werner (https://github.com/PowerOfCreation).                      #");
+        LOGGER.warn("# Please support their work directly \uD83D\uDE4F                                        #");
+        LOGGER.warn("# > Hemant Zope - https://www.patreon.com/zhemant                              #");
+        LOGGER.warn("# > Niklas Werner - https://paypal.me/wernerdevelopment                        #");
+        LOGGER.warn("################################################################################");
     }
 
     @Override
