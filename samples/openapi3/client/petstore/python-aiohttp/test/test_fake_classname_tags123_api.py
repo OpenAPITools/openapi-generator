@@ -24,7 +24,7 @@ class TestFakeClassnameTags123Api(unittest.IsolatedAsyncioTestCase):
         self.api = FakeClassnameTags123Api()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_test_classname(self) -> None:
         """Test case for test_classname

@@ -24,7 +24,7 @@ class TestFakeApi(unittest.IsolatedAsyncioTestCase):
         self.api = FakeApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_fake_any_type_request_body(self) -> None:
         """Test case for fake_any_type_request_body
