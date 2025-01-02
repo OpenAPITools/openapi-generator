@@ -208,6 +208,12 @@ class ApiClient:
                                                      collection_formats)
             url += "?" + url_query
 
+        def extract_charset(content_type):
+            match = None
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+            return match.group(1) if match else "utf-8"
+
         try:
             # perform request and return response
             response_data = self.request(
@@ -219,7 +225,12 @@ class ApiClient:
                 _request_timeout=_request_timeout)
         except ApiException as e:
             if e.body:
-                e.body = e.body.decode('utf-8')
+                try:
+                    charset = extract_charset((e.headers or {}).get('content-type'))
+                    e.body = e.body.decode(charset)
+                except UnicodeDecodeError:
+                    # Keep original body if charset is not recognized.
+                    pass
             raise e
 
         self.last_response = response_data
@@ -235,12 +246,9 @@ class ApiClient:
           if response_type == "bytearray":
               response_data.data = response_data.data
           else:
-              match = None
               content_type = response_data.getheader('content-type')
-              if content_type is not None:
-                  match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-              encoding = match.group(1) if match else "utf-8"
-              response_data.data = response_data.data.decode(encoding)
+              charset = extract_charset(content_type)
+              response_data.data = response_data.data.decode(charset)
 
           # deserialize response data
           if response_type == "bytearray":
