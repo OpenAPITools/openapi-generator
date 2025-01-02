@@ -5,11 +5,6 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define intToStr(dst, src) \
-    do {\
-    char dst[256];\
-    snprintf(dst, 256, "%ld", (long int)(src));\
-}while(0)
 
 // Functions for enum STATUS for PetAPI_findPetsByStatus
 
@@ -159,7 +154,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key)
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    intToStr(localVarBuff_petId, petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -501,7 +496,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId)
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    intToStr(localVarBuff_petId, petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -658,7 +653,7 @@ PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    intToStr(localVarBuff_petId, petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -965,7 +960,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *s
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    intToStr(localVarBuff_petId, petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -1078,7 +1073,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, 
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    intToStr(localVarBuff_petId, petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
