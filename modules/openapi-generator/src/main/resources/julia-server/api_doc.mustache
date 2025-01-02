@@ -11,7 +11,7 @@ Method | HTTP request | Description
 {{#operations}}
 {{#operation}}
 # **{{{operationId}}}**
-> {{operationId}}(req::HTTP.Request{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}}) -> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}
+> {{operationId}}(req::HTTP.Request{{#allParams}}{{#required}}, {{paramName}}::{{#dataType}}{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}}) -> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}
 
 {{{summary}}}{{#notes}}
 
