@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Test schema with enum discriminator
+  version: v1
+paths:
+  "/animal":
+    get:
+      operationId: animalGet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Animal"
+components:
+  schemas:
+    Animal:
+      type: object
+      properties:
+        # Inline enum type
+        petType:
+          type: string
+          enum:
+            - Dog
+            - Catty
+            - Gecko
+            - Camo
+      discriminator:
+        propertyName: petType
+        # Mapping with implicit (Dog, Gecko), explicit ref (Catty -> Cat), and explicit schema name (Camo -> Chameleon)
+        mapping:
+          Catty: '#/components/schemas/Cat'
+          Camo: 'Chameleon'
+      required:
+        - petType
+    Cat:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        meow:
+          type: string
+    Dog:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        bark:
+          type: string
+    Lizard:
+      oneOf:
+        - $ref: '#/components/schemas/Gecko'
+        - $ref: '#/components/schemas/Chameleon'
+    Gecko:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        lovesRocks:
+          type: string
+    Chameleon:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+      properties:
+        currentColor:
+          type: string
+    # Car inheritance tree: Car -> Truck -> SUV
+    #                       Car -> Van -> MiniVan
+    #                       Car -> Van -> CargoVan
+    #                       Car -> Sedan
+    Car:
+      type: object
+      required:
+        - carType
+      # Discriminator carType not defined in Car properties, but in child properties
+      discriminator:
+        propertyName: carType
+    CarType:
+      type: string
+      enum:
+        - Truck
+        - SUV
+        - Sedan
+        - MiniVan
+        - CargoVan
+    Truck:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Car'
+      properties:
+        carType:
+          $ref: '#/components/schemas/CarType'
+      required:
+        - carType
+    SUV:
+      type: object
+      # SUV gets its discriminator property from Truck
+      allOf:
+        - $ref: '#/components/schemas/Truck'
+    Sedan:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Car'
+      required:
+        - carType
+      properties:
+        carType:
+          $ref: '#/components/schemas/CarType'
+    Van:
+      oneOf:
+        - $ref: '#/components/schemas/MiniVan'
+        - $ref: '#/components/schemas/CargoVan'
+    MiniVan:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Car'
+      properties:
+        carType:
+          $ref: '#/components/schemas/CarType'
+      required:
+        - carType
+    CargoVan:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Car'
+      properties:
+        carType:
+          $ref: '#/components/schemas/CarType'
+      required:
+        - carType
