@@ -22,7 +22,7 @@ openapi_petstore_pet_STATUS_e pet_status_FromString(char* status){
     return 0;
 }
 
-pet_t *pet_create(
+static pet_t *pet_create_internal(
     long id,
     category_t *category,
     char *name,
@@ -41,12 +41,34 @@ pet_t *pet_create(
     pet_local_var->tags = tags;
     pet_local_var->status = status;
 
+    pet_local_var->_library_owned = 1;
     return pet_local_var;
 }
 
+__attribute__((deprecated)) pet_t *pet_create(
+    long id,
+    category_t *category,
+    char *name,
+    list_t *photo_urls,
+    list_t *tags,
+    openapi_petstore_pet_STATUS_e status
+    ) {
+    return pet_create_internal (
+        id,
+        category,
+        name,
+        photo_urls,
+        tags,
+        status
+        );
+}
 
 void pet_free(pet_t *pet) {
     if(NULL == pet){
+        return ;
+    }
+    if(pet->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "pet_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -275,7 +297,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     }
 
 
-    pet_local_var = pet_create (
+    pet_local_var = pet_create_internal (
         id ? id->valuedouble : 0,
         category ? category_local_nonprim : NULL,
         strdup(name->valuestring),
