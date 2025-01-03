@@ -612,10 +612,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         if (this.useSingleRequestParameter) {
             in_function_identifier = "params." + parameter.paramName;
         } else {
-            in_function_identifier = "p_" + parameter.paramName;
+            if (parameter.paramName.startsWith("r#")) {
+                in_function_identifier = "p_" + parameter.paramName.substring(2);
+            } else {
+                in_function_identifier = "p_" + parameter.paramName;
+            }
         }
-        if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENTION_PARAM_IDENTIFIER)) { // allow to overwrite this value
-            parameter.vendorExtensions.put(this.VENDOR_EXTENTION_PARAM_IDENTIFIER, in_function_identifier);
+        if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
+            parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, in_function_identifier);
         }
     }
 
