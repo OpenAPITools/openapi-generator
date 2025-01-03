@@ -90,7 +90,7 @@ public class Client  implements Serializable {
     return new ClientBuilderImpl();
   }
 
-  private static class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
+  private static final class ClientBuilderImpl extends ClientBuilder<Client, ClientBuilderImpl> {
 
     @Override
     protected ClientBuilderImpl self() {

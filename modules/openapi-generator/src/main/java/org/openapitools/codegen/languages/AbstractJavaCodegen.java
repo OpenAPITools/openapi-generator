@@ -657,6 +657,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
+        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
+            writer.write(removeAnnotations(fragment.execute()));
+        });
     }
 
     /**
@@ -1802,18 +1805,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return;
         }
 
-        // the response data types should not contain a bean validation annotation.
-        if (property.dataType.contains("@")) {
-            property.dataType = removeAnnotations(property.dataType);
-        }
-        // the response data types should not contain a bean validation annotation.
-        if (response.dataType.contains("@")) {
-            response.dataType = removeAnnotations(response.dataType);
-        }
+        // the response data types should not contain bean validation annotations.
+        property.dataType = removeAnnotations(property.dataType);
+        response.dataType = removeAnnotations(response.dataType);
     }
 
-    private String removeAnnotations(String type) {
-        return type.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+    private String removeAnnotations(String dataType) {
+        if (dataType != null && dataType.contains("@")) {
+            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+        }
+        return dataType;
     }
 
     @Override

@@ -217,7 +217,7 @@ public class TypeHolderDefault  implements Serializable {
     return new TypeHolderDefaultBuilderImpl();
   }
 
-  private static class TypeHolderDefaultBuilderImpl extends TypeHolderDefaultBuilder<TypeHolderDefault, TypeHolderDefaultBuilderImpl> {
+  private static final class TypeHolderDefaultBuilderImpl extends TypeHolderDefaultBuilder<TypeHolderDefault, TypeHolderDefaultBuilderImpl> {
 
     @Override
     protected TypeHolderDefaultBuilderImpl self() {
