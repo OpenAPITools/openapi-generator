@@ -18,7 +18,7 @@ var _brackets = null
 var _valid = true
 var _desc_things = 'somethings'
 
-# -------- comapre_result.gd "interface" ---------------------
+# -------- compare_result.gd "interface" ---------------------
 func set_are_equal(val):
 	_block_set('are_equal', val)
 
@@ -52,7 +52,7 @@ func get_short_summary():
 
 func get_brackets():
 	return _brackets
-# -------- comapre_result.gd "interface" ---------------------
+# -------- compare_result.gd "interface" ---------------------
 
 
 func _invalidate():

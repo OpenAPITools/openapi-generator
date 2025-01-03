@@ -55,7 +55,7 @@ paths:
           schema:
             type: string
             pattern: '/ax$|/bx$'
-        - name: patten_starts_ends_with_slash
+        - name: pattern_starts_ends_with_slash
           in: header
           schema:
             type: string

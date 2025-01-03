@@ -6,7 +6,7 @@ info:
 tags:
   - name: pingTag
     description: |
-      This is a multine tag :
+      This is a multiline tag :
       * tag item 1
       * tag item 2
 

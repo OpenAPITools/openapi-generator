@@ -2,7 +2,7 @@
 
 # OneOfStringOrInt
 
-string or int (onefOf)
+string or int (oneOf)
 
 ## Properties
 

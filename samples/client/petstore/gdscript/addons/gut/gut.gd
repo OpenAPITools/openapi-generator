@@ -155,8 +155,8 @@ var junit_xml_timestamp = false :
 	get: return _junit_xml_timestamp
 	set(val): _junit_xml_timestamp = val
 
-## The minimum amout of time GUT will wait before pausing for 1 frame to allow
-## the screen to paint.  GUT checkes after each test to see if enough time has
+## The minimum amount of time GUT will wait before pausing for 1 frame to allow
+## the screen to paint.  GUT checks after each test to see if enough time has
 ## passed.
 var paint_after = .1:
 	get: return paint_after
@@ -173,7 +173,7 @@ var unit_test_name = _unit_test_name :
 # ###########################
 
 var _parameter_handler = null
-# This is populated by test.gd each time a paramterized test is encountered
+# This is populated by test.gd each time a parameterized test is encountered
 # for the first time.
 ## FOR INTERNAL USE ONLY
 var parameter_handler = _parameter_handler :
@@ -184,7 +184,7 @@ var parameter_handler = _parameter_handler :
 
 var _lgr = _utils.get_logger()
 # Local reference for the common logger.
-## FOR INERNAL USE ONLY
+## FOR INTERNAL USE ONLY
 var logger = _lgr :
 	get: return _lgr
 	set(val):
@@ -195,7 +195,7 @@ var _add_children_to = self
 # Sets the object that GUT will add test objects to as it creates them.  The
 # default is self, but can be set to other objects so that GUT is not obscured
 # by the objects added during tests.
-## FOR INERNAL USE ONLY
+## FOR INTERNAL USE ONLY
 var add_children_to = self :
 	get: return _add_children_to
 	set(val): _add_children_to = val
@@ -913,7 +913,7 @@ func _test_the_scripts(indexes=[]):
 				_current_test.has_printed_name = false
 				end_test.emit()
 
-				# After each test, check to see if we shoudl wait a frame to
+				# After each test, check to see if we should wait a frame to
 				# paint based on how much time has elapsed since we last 'painted'
 				if(paint_after > 0.0):
 					var now = Time.get_ticks_msec()
@@ -988,11 +988,11 @@ func _fail(text=''):
 
 
 # ------------------------------------------------------------------------------
-# Extracts the line number from curren stacktrace by matching the test case name
+# Extracts the line number from current stacktrace by matching the test case name
 # ------------------------------------------------------------------------------
 func _extract_line_number(current_test):
 	var line_number = -1
-	# if stack trace available than extraxt the test case line number
+	# if stack trace available than extract the test case line number
 	var stackTrace = get_stack()
 	if(stackTrace!=null):
 		for index in stackTrace.size():
@@ -1034,7 +1034,7 @@ func _get_files(path, prefix, suffix):
 	while(fs_item != ''):
 		full_path = path.path_join(fs_item)
 
-		#file_exists returns fasle for directories
+		#file_exists returns false for directories
 		if(d.file_exists(full_path)):
 			if(fs_item.begins_with(prefix) and fs_item.ends_with(suffix)):
 				files.append(full_path)
@@ -1186,7 +1186,7 @@ func import_tests(path=_export_path):
 		var result = _test_collector.import_tests(path)
 		if(result):
 			_lgr.info(_test_collector.to_s())
-			_lgr.info("Importd from " + path)
+			_lgr.info("Imported from " + path)
 
 
 # ------------------------------------------------------------------------------

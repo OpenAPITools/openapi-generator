@@ -58,7 +58,7 @@ set(SRCS
     model/api_response.c
     model/bit.c
     model/category.c
-    model/model_with_set_propertes.c
+    model/model_with_set_properties.c
     model/order.c
     model/pet.c
     model/preference.c
@@ -82,7 +82,7 @@ set(HDRS
     model/api_response.h
     model/bit.h
     model/category.h
-    model/model_with_set_propertes.h
+    model/model_with_set_properties.h
     model/order.h
     model/pet.h
     model/preference.h

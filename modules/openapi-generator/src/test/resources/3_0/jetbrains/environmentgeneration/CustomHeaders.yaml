@@ -282,7 +282,7 @@ components:
                   type: object
                   properties:
                     time:
-                      description: Game time in seconds the event ocurred
+                      description: Game time in seconds the event occurred
                       type: integer
                     event:
                       description: Event that occurred
@@ -323,7 +323,7 @@ components:
                 description: Gold Per Minute obtained by this player
                 type: integer
               gold_reasons:
-                description: Object containing information on how the player gainined gold over the course of the match
+                description: Object containing information on how the player gained gold over the course of the match
                 type: object
               gold_spent:
                 description: How much gold the player spent
@@ -641,7 +641,7 @@ components:
                 description: Object with information on when the player last purchased an item
                 type: object
               first_purchase_time:
-                description: Object with information on when the player first puchased an item
+                description: Object with information on when the player first purchased an item
                 type: object
               item_win:
                 description: Object with information on whether or not the item won
@@ -1550,7 +1550,7 @@ components:
           description: ranks
           type: object
           properties:
-            commmand:
+            command:
               description: command
               type: string
             rowCount:
@@ -1615,7 +1615,7 @@ components:
           description: mmr
           type: object
           properties:
-            commmand:
+            command:
               description: command
               type: string
             rowCount:
@@ -1680,7 +1680,7 @@ components:
           description: country_mmr
           type: object
           properties:
-            commmand:
+            command:
               description: command
               type: string
             rowCount:
@@ -2174,7 +2174,7 @@ components:
           description: The number of games where this scenario occurred
           type: string
         wins:
-          description: The number of games won where this scenario occured
+          description: The number of games won where this scenario occurred
           type: string
     SchemaResponse:
       title: SchemaResponse

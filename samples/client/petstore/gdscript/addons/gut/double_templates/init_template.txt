@@ -1,4 +1,4 @@
-{func_decleration}:
+{func_declaration}:
 	super({super_params})
 	__gutdbl.spy_on('{method_name}', {param_array})
 

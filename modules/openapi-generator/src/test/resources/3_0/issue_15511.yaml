@@ -32,7 +32,7 @@ paths:
                   - $ref: '#/components/schemas/LoginResponseModel'
                   - $ref: '#/components/schemas/TokenRefreshResponseModel'
         default:
-          description: An error occured
+          description: An error occurred
           content:
             application/json:
               schema:
@@ -55,7 +55,7 @@ components:
         [expires_in, access_token, refresh_token]
     TokenRefreshResponseModel:
       type: object
-      description: Be aware, that we may either receive a new refresh token in the response or not. In case where we do not receive a new refresh token we must use the refresh token from the old token for subsequent token refreshs.
+      description: Be aware, that we may either receive a new refresh token in the response or not. In case where we do not receive a new refresh token we must use the refresh token from the old token for subsequent token refreshes.
       properties:
         expires_in:
           type: integer

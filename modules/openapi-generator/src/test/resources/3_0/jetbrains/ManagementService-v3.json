@@ -660,7 +660,7 @@
                "Android files - company level"
             ],
             "summary" : "Get a list of Android certificates",
-            "description" : "Returns a list of the Android certificates that are available for the company identified in the path.\nTypically, these certificates enable running apps on Android payment terminals. The certifcates in the list have been uploaded to Adyen and can be installed or uninstalled on Android terminals through [terminal actions](https://docs.adyen.com/point-of-sale/automating-terminal-management/terminal-actions-api).\n\nTo make this request, your API credential must have one of the following [roles](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API—Android files read\n* Management API—Android files read and write\n* Management API—Terminal actions read\n* Management API—Terminal actions read and write",
+            "description" : "Returns a list of the Android certificates that are available for the company identified in the path.\nTypically, these certificates enable running apps on Android payment terminals. The certificates in the list have been uploaded to Adyen and can be installed or uninstalled on Android terminals through [terminal actions](https://docs.adyen.com/point-of-sale/automating-terminal-management/terminal-actions-api).\n\nTo make this request, your API credential must have one of the following [roles](https://docs.adyen.com/development-resources/api-credentials#api-permissions):\n* Management API—Android files read\n* Management API—Android files read and write\n* Management API—Terminal actions read\n* Management API—Terminal actions read and write",
             "operationId" : "get-companies-companyId-androidCertificates",
             "x-sortIndex" : 2,
             "x-methodName" : "listAndroidCertificates",
@@ -15247,7 +15247,7 @@
          "AdditionalSettings" : {
             "properties" : {
                "includeEventCodes" : {
-                  "description" : "Object containing list of event codes for which the notifcation will be sent. ",
+                  "description" : "Object containing list of event codes for which the notification will be sent. ",
                   "items" : {
                      "type" : "string"
                   },
@@ -15266,14 +15266,14 @@
          "AdditionalSettingsResponse" : {
             "properties" : {
                "excludeEventCodes" : {
-                  "description" : "Object containing list of event codes for which the notifcation will not be sent. ",
+                  "description" : "Object containing list of event codes for which the notification will not be sent. ",
                   "items" : {
                      "type" : "string"
                   },
                   "type" : "array"
                },
                "includeEventCodes" : {
-                  "description" : "Object containing list of event codes for which the notifcation will be sent. ",
+                  "description" : "Object containing list of event codes for which the notification will be sent. ",
                   "items" : {
                      "type" : "string"
                   },
@@ -16722,7 +16722,7 @@
                   "type" : "string"
                },
                "reason" : {
-                  "description" : "A descripton of what caused the notification.",
+                  "description" : "A description of what caused the notification.",
                   "type" : "string"
                },
                "success" : {
@@ -25952,7 +25952,7 @@
          },
          "patch-merchants-merchantId-stores-storeId-patch-stores-splitConfiguration-200" : {
             "summary" : "Split configuration added to store",
-            "description" : "Example response after adding a split confuguration to the store",
+            "description" : "Example response after adding a split configuration to the store",
             "value" : {
                "id" : "YOUR_STORE_ID",
                "address" : {

@@ -737,7 +737,7 @@ public class RubyClientCodegenTest {
         // Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
         // alternation_with_forward_slash '/ax$|/bx$'
         Assert.assertEquals(op.allParams.get(7).pattern, "/ax$|/bx$");
-        // patten_starts_ends_with_slash '/root/'
+        // pattern_starts_ends_with_slash '/root/'
         Assert.assertEquals(op.allParams.get(8).pattern, "/root/");
     }
 }

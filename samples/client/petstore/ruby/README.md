@@ -153,7 +153,7 @@ Class | Method | HTTP request | Description
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
  - [Petstore::List](docs/List.md)
- - [Petstore::MamalWithEnum](docs/MamalWithEnum.md)
+ - [Petstore::MammalWithEnum](docs/MammalWithEnum.md)
  - [Petstore::Mammal](docs/Mammal.md)
  - [Petstore::MammalAnyof](docs/MammalAnyof.md)
  - [Petstore::MammalWithoutDiscriminator](docs/MammalWithoutDiscriminator.md)
