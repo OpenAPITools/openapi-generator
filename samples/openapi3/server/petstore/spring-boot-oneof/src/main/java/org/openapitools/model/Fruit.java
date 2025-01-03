@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.Apple;
 import org.openapitools.model.Banana;
 import org.openapitools.model.FruitType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -53,11 +54,11 @@ public class AdditionalPropertiesClass {
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
 
   public AdditionalPropertiesClass() {
     super();
@@ -66,7 +67,7 @@ public class AdditionalPropertiesClass {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesClass(Map<String, String> mapString, Map<String, BigDecimal> mapNumber, Map<String, Integer> mapInteger, Map<String, Boolean> mapBoolean, Map<String, List<Integer>> mapArrayInteger, Map<String, List<Object>> mapArrayAnytype, Map<String, Map<String, String>> mapMapString, Map<String, Map<String, Object>> mapMapAnytype, Object anytype1, Object anytype2, Object anytype3) {
+  public AdditionalPropertiesClass(Map<String, String> mapString, Map<String, BigDecimal> mapNumber, Map<String, Integer> mapInteger, Map<String, Boolean> mapBoolean, Map<String, List<Integer>> mapArrayInteger, Map<String, List<Object>> mapArrayAnytype, Map<String, Map<String, String>> mapMapString, Map<String, Map<String, Object>> mapMapAnytype, @Nullable Object anytype1, Object anytype2, @Nullable Object anytype3) {
       this.mapString = mapString;
       this.mapNumber = mapNumber;
       this.mapInteger = mapInteger;
