@@ -405,7 +405,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String[] parts = modelName.split("::");
         ArrayList<String> new_parts = new ArrayList<String>();
         for (String part : parts) {
-            new_parts.add(sanitizeName(part));
+            new_parts.add(sanitizeName(part, "\\W", new ArrayList<>(List.of(":"))));
         }
         return String.join("::", new_parts);
     }

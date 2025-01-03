@@ -6524,6 +6524,9 @@ public class DefaultCodegen implements CodegenConfig {
             // input.name => input_name
             modifiable = this.sanitizeValue(modifiable, "\\.", "_", exceptions);
 
+            // input:name => input_name
+            modifiable = this.sanitizeValue(modifiable, ":", "_", exceptions);
+
             // input-name => input_name
             modifiable = this.sanitizeValue(modifiable, "-", "_", exceptions);
 
