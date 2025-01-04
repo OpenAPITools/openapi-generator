@@ -24,7 +24,7 @@ class TestFakeApi(unittest.TestCase):
         self.api = FakeApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_fake_any_type_request_body(self) -> None:
         """Test case for fake_any_type_request_body

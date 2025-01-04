@@ -24,7 +24,7 @@ class TestAnotherFakeApi(unittest.TestCase):
         self.api = AnotherFakeApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_call_123_test_special_tags(self) -> None:
         """Test case for call_123_test_special_tags

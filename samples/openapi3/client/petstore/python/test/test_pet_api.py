@@ -24,7 +24,7 @@ class TestPetApi(unittest.TestCase):
         self.api = PetApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_add_pet(self) -> None:
         """Test case for add_pet

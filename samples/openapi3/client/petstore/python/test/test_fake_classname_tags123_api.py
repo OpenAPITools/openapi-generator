@@ -24,7 +24,7 @@ class TestFakeClassnameTags123Api(unittest.TestCase):
         self.api = FakeClassnameTags123Api()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_test_classname(self) -> None:
         """Test case for test_classname

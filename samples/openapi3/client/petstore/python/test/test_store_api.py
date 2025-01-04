@@ -24,7 +24,7 @@ class TestStoreApi(unittest.TestCase):
         self.api = StoreApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_delete_order(self) -> None:
         """Test case for delete_order

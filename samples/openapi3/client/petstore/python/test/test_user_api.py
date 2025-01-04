@@ -24,7 +24,7 @@ class TestUserApi(unittest.TestCase):
         self.api = UserApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_create_user(self) -> None:
         """Test case for create_user
