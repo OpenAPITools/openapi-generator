@@ -25,7 +25,7 @@ class TestBodyApi(unittest.TestCase):
         self.api = BodyApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_test_binary_gif(self) -> None:
         """Test case for test_binary_gif

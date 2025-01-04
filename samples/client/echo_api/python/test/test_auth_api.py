@@ -25,7 +25,7 @@ class TestAuthApi(unittest.TestCase):
         self.api = AuthApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_test_auth_http_basic(self) -> None:
         """Test case for test_auth_http_basic

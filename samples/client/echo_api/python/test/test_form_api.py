@@ -25,7 +25,7 @@ class TestFormApi(unittest.TestCase):
         self.api = FormApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_test_form_integer_boolean_string(self) -> None:
         """Test case for test_form_integer_boolean_string

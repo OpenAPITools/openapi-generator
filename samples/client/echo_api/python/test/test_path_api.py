@@ -25,7 +25,7 @@ class TestPathApi(unittest.TestCase):
         self.api = PathApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(self) -> None:
         """Test case for tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path

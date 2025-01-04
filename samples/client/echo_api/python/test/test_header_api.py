@@ -25,7 +25,7 @@ class TestHeaderApi(unittest.TestCase):
         self.api = HeaderApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_test_header_integer_boolean_string_enums(self) -> None:
         """Test case for test_header_integer_boolean_string_enums
