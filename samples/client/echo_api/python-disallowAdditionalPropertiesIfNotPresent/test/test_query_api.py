@@ -25,7 +25,7 @@ class TestQueryApi(unittest.TestCase):
         self.api = QueryApi()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
 
     def test_test_enum_ref_string(self) -> None:
         """Test case for test_enum_ref_string
