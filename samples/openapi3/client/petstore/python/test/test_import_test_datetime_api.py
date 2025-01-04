@@ -24,7 +24,7 @@ class TestImportTestDatetimeApi(unittest.TestCase):
         self.api = ImportTestDatetimeApi()
 
     def tearDown(self) -> None:
-        pass
+        self.api.api_client.close()
 
     def test_import_test_return_datetime(self) -> None:
         """Test case for import_test_return_datetime
