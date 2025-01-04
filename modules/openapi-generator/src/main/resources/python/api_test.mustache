@@ -22,7 +22,7 @@ class {{#operations}}Test{{classname}}(unittest.{{#asyncio}}IsolatedAsyncio{{/as
         self.api = {{classname}}()
 
     def tearDown(self) -> None:
-        self.api.api_client.close()
+        pass
     {{/asyncio}}
 
     {{#operation}}
