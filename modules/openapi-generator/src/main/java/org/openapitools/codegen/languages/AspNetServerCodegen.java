@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -64,8 +65,11 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String CENTRALIZED_PACKAGE_VERSION_MANAGEMENT = "centralizedPackageVersionManagement";
+    public static final String USE_PACKAGE_VERSIONS = "usePackageVersions";
 
-    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -91,6 +95,27 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
+    protected CliOption centralizedPackageVersionManagement = new CliOption(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,"Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
+
+
+    @Getter
+    private enum CentralizedPackageVersionOptions  {
+        Default("default","Property in project wont be used"),
+        Use("use","Centralized package version management will be used"),
+        OptOut("optout","Opt out of centralized package version management. Set this if you have a Directory.Packages.pros file but want this project to ignore it. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
+
+        private final String Value;
+        private final String Description;
+
+        CentralizedPackageVersionOptions(String Value,String Description) {
+            this.Value = Value;
+            this.Description = Description;
+        }
+
+        public String GetDescription(){
+            return this.Description;
+        }
+    }
 
     public AspNetServerCodegen() {
         super();
@@ -249,6 +274,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
 
+        addCentralizedPackageVersionManagementOption();
+
         addOption(NEWTONSOFT_VERSION,
                 "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
                 newtonsoftVersion);
@@ -303,11 +330,21 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
     }
 
+   private void addCentralizedPackageVersionManagementOption(){
+       centralizedPackageVersionManagement.setType("String");
+       for (CentralizedPackageVersionOptions option : CentralizedPackageVersionOptions.values() ) {
+           centralizedPackageVersionManagement.addEnum(option.Value, option.GetDescription());
+       }
+       centralizedPackageVersionManagement.setDefault(CentralizedPackageVersionOptions.Default.Value);
+       centralizedPackageVersionManagement.setOptValue(centralizedPackageVersionManagement.getDefault());
+       cliOptions.add(centralizedPackageVersionManagement);
+   }
+
     @Deprecated
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
+                "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -377,6 +414,8 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         } else {
             newtonsoftVersion = (String) additionalProperties.get(NEWTONSOFT_VERSION);
         }
+
+        setCentralizedPackageVersionManagementSettings();
 
         // Check for the modifiers etc.
         // The order of the checks is important.
@@ -680,6 +719,29 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         additionalProperties.put(IS_LIBRARY, isLibrary);
     }
 
+    /**
+     * This method sets both the USE_CENTRALIZED_PACKAGE_VERSION_MANAGEMENT and CENTRALIZED_PACKAGE_VERSION_MANAGEMENT_OPT_OUT setting
+     */
+    private void setCentralizedPackageVersionManagementSettings() {
+
+        additionalProperties.put(USE_PACKAGE_VERSIONS, true);
+
+        if(additionalProperties.containsKey(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
+            var chosenOption = additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
+
+            if (chosenOption == CentralizedPackageVersionOptions.Default) {
+                additionalProperties.remove(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
+            }
+            if (chosenOption == CentralizedPackageVersionOptions.Use) {
+                additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,"true");
+                additionalProperties.put(USE_PACKAGE_VERSIONS, false);
+            }
+            if (chosenOption == CentralizedPackageVersionOptions.OptOut) {
+                additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT,"false");
+            }
+        }
+    }
+
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
 
@@ -808,10 +870,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setAddititonalPropertyForFramework() {
-        String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
+        String targetFramework = ((String) additionalProperties.get(TARGET_FRAMEWORK));
         if (targetFramework.startsWith("net6.0") ||
-            targetFramework.startsWith("net7.0") || 
-            targetFramework.startsWith("net8.0")) {
+                targetFramework.startsWith("net7.0") ||
+                targetFramework.startsWith("net8.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }
     }
