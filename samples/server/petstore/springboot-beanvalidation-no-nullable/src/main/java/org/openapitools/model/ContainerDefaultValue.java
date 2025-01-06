@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -25,7 +26,7 @@ import javax.annotation.Generated;
 public class ContainerDefaultValue {
 
   @Valid
-  private List<String> nullableArray;
+  private @Nullable List<String> nullableArray;
 
   @Valid
   private List<String> nullableRequiredArray;
@@ -34,7 +35,7 @@ public class ContainerDefaultValue {
   private List<String> requiredArray = new ArrayList<>();
 
   @Valid
-  private List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
+  private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
   public ContainerDefaultValue() {
     super();

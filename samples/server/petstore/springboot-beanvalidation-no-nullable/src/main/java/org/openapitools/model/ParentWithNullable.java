@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -67,9 +68,9 @@ public class ParentWithNullable {
     }
   }
 
-  private TypeEnum type;
+  private @Nullable TypeEnum type;
 
-  private String nullableProperty = null;
+  private @Nullable String nullableProperty = null;
 
   public ParentWithNullable type(TypeEnum type) {
     this.type = type;

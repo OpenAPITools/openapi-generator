@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean {
 
-  private String name;
+  private @Nullable String name;
 
   public AdditionalPropertiesBoolean name(String name) {
     this.name = name;
