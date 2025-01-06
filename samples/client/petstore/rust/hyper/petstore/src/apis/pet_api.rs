@@ -39,7 +39,7 @@ impl<C: Connect> PetApiClient<C>
 pub trait PetApi: Send + Sync {
     fn add_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>> + Send>>;
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>> + Send>>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>> + Send>>;
+    fn find_pets_by_status(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>> + Send>>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>> + Send>>;
     fn get_pet_by_id(&self, pet_id: i64) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>> + Send>>;
     fn update_pet(&self, pet: models::Pet) -> Pin<Box<dyn Future<Output = Result<models::Pet, Error>> + Send>>;
@@ -74,11 +74,15 @@ impl<C: Connect>PetApi for PetApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn find_pets_by_status(&self, status: Vec<String>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>> + Send>> {
+    fn find_pets_by_status(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Pin<Box<dyn Future<Output = Result<Vec<models::Pet>, Error>> + Send>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/pet/findByStatus".to_string())
             .with_auth(__internal_request::Auth::Oauth)
         ;
         req = req.with_query_param("status".to_string(), status.join(",").to_string());
+        if let Some(ref s) = r#type {
+            let query_value = s.iter().map(|s| s.to_string()).collect::<Vec<String>>().join(",");
+            req = req.with_query_param("type".to_string(), query_value);
+        }
 
         req.execute(self.configuration.borrow())
     }

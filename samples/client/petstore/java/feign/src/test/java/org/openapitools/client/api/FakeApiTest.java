@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -163,6 +164,20 @@ class FakeApiTest {
     void fakePropertyEnumIntegerSerializeTest() {
         OuterObjectWithEnumProperty outerObjectWithEnumProperty = null;
         // OuterObjectWithEnumProperty response = api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+
+        // TODO: test validations
+    }
+
+    
+    /**
+     * test referenced additionalProperties
+     *
+     * 
+     */
+    @Test
+    void testAdditionalPropertiesReferenceTest() {
+        Map<String, Object> requestBody = null;
+        // api.testAdditionalPropertiesReference(requestBody);
 
         // TODO: test validations
     }
@@ -370,6 +385,20 @@ class FakeApiTest {
 
     
     /**
+     * test inline free-form additionalProperties
+     *
+     * 
+     */
+    @Test
+    void testInlineFreeformAdditionalPropertiesTest() {
+        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+        // api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
+
+        // TODO: test validations
+    }
+
+    
+    /**
      * test json serialization of form data
      *
      * 
@@ -439,5 +468,19 @@ class FakeApiTest {
 
     // TODO: test validations
     }
+    
+    /**
+     * test referenced string map
+     *
+     * 
+     */
+    @Test
+    void testStringMapReferenceTest() {
+        Map<String, String> requestBody = null;
+        // api.testStringMapReference(requestBody);
+
+        // TODO: test validations
+    }
+
     
 }

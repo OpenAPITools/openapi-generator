@@ -99,7 +99,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerRemoveAnyOfOneOfAndKeepPropertiesOnly() {
-        // to test the rule REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY
+        // to test the rule REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("Person");
@@ -478,6 +478,24 @@ public class OpenAPINormalizerTest {
 
         Map<String, String> options = new HashMap<>();
         options.put("FILTER", "operationId:delete|list");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+
+    @Test
+    public void testFilterWithTrim() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "operationId:\n\t\t\t\tdelete|\n\t\tlist");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 

@@ -133,6 +133,7 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
+        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "ValidVar");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
@@ -142,6 +143,7 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "VALID_var");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE");
@@ -153,7 +155,7 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
-
+        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "VALID_VAR");
     }
 
     @Test
@@ -266,6 +268,22 @@ public class TypeScriptFetchClientCodegenTest {
                 codegen.toApiFilename("FirstSimpleController"));
     }
 
+    @Test(description = "Verify names of files generated in kebab-case and imports with additional model prefix")
+    public void testGeneratedFilenamesInPascalCaseWithAdditionalModelPrefix() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.PASCAL_CASE);
+        properties.put(CodegenConstants.MODEL_NAME_PREFIX, "SomePrefix");
+
+        File output = generate(properties);
+
+        Path pet = Paths.get(output + "/models/SomePrefixPet.ts");
+        TestUtils.assertFileExists(pet);
+        TestUtils.assertFileContains(pet, "} from './SomePrefixPetCategory';");
+        TestUtils.assertFileExists(Paths.get(output + "/models/SomePrefixPetCategory.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/apis/PetControllerApi.ts"));
+    }
+
     @Test(description = "Verify names of files generated in kebab-case and imports")
     public void testGeneratedFilenamesInKebabCase() throws IOException {
 
@@ -281,6 +299,22 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(Paths.get(output + "/apis/pet-controller-api.ts"));
     }
 
+    @Test(description = "Verify names of files generated in kebab-case and imports with additional model prefix")
+    public void testGeneratedFilenamesInKebabCaseWithAdditionalModelPrefix() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.KEBAB_CASE);
+        properties.put(CodegenConstants.MODEL_NAME_PREFIX, "SomePrefix");
+
+        File output = generate(properties);
+
+        Path pet = Paths.get(output + "/models/some-prefix-pet.ts");
+        TestUtils.assertFileExists(pet);
+        TestUtils.assertFileContains(pet, "} from './some-prefix-pet-category';");
+        TestUtils.assertFileExists(Paths.get(output + "/models/some-prefix-pet-category.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/apis/pet-controller-api.ts"));
+    }
+
     @Test(description = "Verify names of files generated in camelCase and imports")
     public void testGeneratedFilenamesInCamelCase() throws IOException {
 
@@ -293,6 +327,22 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(pet);
         TestUtils.assertFileContains(pet, "} from './petCategory';");
         TestUtils.assertFileExists(Paths.get(output + "/models/petCategory.ts"));
+        TestUtils.assertFileExists(Paths.get(output + "/apis/petControllerApi.ts"));
+    }
+
+    @Test(description = "Verify names of files generated in camelCase and imports with additional model prefix")
+    public void testGeneratedFilenamesInCamelCaseWithAdditionalModelPrefix() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("fileNaming", TypeScriptFetchClientCodegen.CAMEL_CASE);
+        properties.put(CodegenConstants.MODEL_NAME_PREFIX, "SomePrefix");
+
+        File output = generate(properties);
+
+        Path pet = Paths.get(output + "/models/somePrefixPet.ts");
+        TestUtils.assertFileExists(pet);
+        TestUtils.assertFileContains(pet, "} from './somePrefixPetCategory';");
+        TestUtils.assertFileExists(Paths.get(output + "/models/somePrefixPetCategory.ts"));
         TestUtils.assertFileExists(Paths.get(output + "/apis/petControllerApi.ts"));
     }
 

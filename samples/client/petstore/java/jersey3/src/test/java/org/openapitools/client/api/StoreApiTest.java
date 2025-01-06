@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 /**
  * API tests for StoreApi
  */

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -60,7 +61,7 @@ public class EnumArrays {
     }
   }
 
-  private JustSymbolEnum justSymbol;
+  private @Nullable JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum

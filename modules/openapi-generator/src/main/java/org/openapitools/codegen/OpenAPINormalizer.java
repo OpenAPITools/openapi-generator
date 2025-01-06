@@ -232,7 +232,10 @@ public class OpenAPINormalizer {
                 LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
             } else {
                 if ("operationId".equals(filterStrs[0])) {
-                    operationIdFilters = new HashSet<>(Arrays.asList(filterStrs[1].split("[|]")));
+                    operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
                 } else {
                     LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
                 }
@@ -833,7 +836,7 @@ public class OpenAPINormalizer {
     }
 
     // ===================== a list of rules =====================
-    // all rules (fuctions) start with the word "process"
+    // all rules (functions ) start with the word "process"
 
     /**
      * Child schemas in `allOf` is considered a parent if it's a `$ref` (instead of inline schema).

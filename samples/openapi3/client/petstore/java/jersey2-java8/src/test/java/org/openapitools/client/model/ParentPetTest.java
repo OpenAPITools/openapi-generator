@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ChildCat;
+import java.util.Arrays;
 import org.openapitools.client.model.GrandparentAnimal;
 
 import org.junit.jupiter.api.Assertions;

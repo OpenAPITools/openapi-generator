@@ -33,7 +33,9 @@ pub struct DeletePetParams {
 #[derive(Clone, Debug)]
 pub struct FindPetsByStatusParams {
     /// Status values that need to be considered for filter
-    pub status: Vec<String>
+    pub status: Vec<String>,
+    /// Make sure that Rust keywords like type work as query params
+    pub r#type: Option<Vec<String>>
 }
 
 /// struct for passing parameters to the method [`find_pets_by_tags`]
@@ -236,13 +238,14 @@ pub async fn add_pet(configuration: &configuration::Configuration, params: AddPe
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<AddPetSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<AddPetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -279,13 +282,14 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<DeletePetSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<DeletePetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -298,6 +302,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
 
     // unbox the parameters
     let status = params.status;
+    let r#type = params.r#type;
 
 
     let local_var_client = &local_var_configuration.client;
@@ -309,6 +314,12 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
         "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
         _ => local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
+    if let Some(ref local_var_str) = r#type {
+        local_var_req_builder = match "csv" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("type", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -322,13 +333,14 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<FindPetsByStatusError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -365,13 +377,14 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<FindPetsByTagsError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -404,13 +417,14 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, params:
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<GetPetByIdSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<GetPetByIdError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -444,13 +458,14 @@ pub async fn update_pet(configuration: &configuration::Configuration, params: Up
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<UpdatePetSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<UpdatePetError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -493,13 +508,14 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<UpdatePetWithFormSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<UpdatePetWithFormError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
@@ -540,13 +556,14 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
     let local_var_resp = local_var_client.execute(local_var_req).await?;
 
     let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<UploadFileSuccess> = serde_json::from_str(&local_var_content).ok();
         let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
     } else {
+        let local_var_content = local_var_resp.text().await?;
         let local_var_entity: Option<UploadFileError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))

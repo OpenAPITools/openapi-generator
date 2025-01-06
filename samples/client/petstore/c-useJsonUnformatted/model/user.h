@@ -32,9 +32,10 @@ typedef struct user_t {
     list_t* extra; //map
     openapi_petstore_preference__e preference; //referenced enum
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } user_t;
 
-user_t *user_create(
+__attribute__((deprecated)) user_t *user_create(
     long id,
     char *username,
     char *first_name,

@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Capitalization
  */
-public class CapitalizationTest {
+class CapitalizationTest {
     private final Capitalization model = new Capitalization();
 
     /**
      * Model tests for Capitalization
      */
     @Test
-    public void testCapitalization() {
+    void testCapitalization() {
         // TODO: test Capitalization
     }
 
@@ -40,7 +40,7 @@ public class CapitalizationTest {
      * Test the property 'smallCamel'
      */
     @Test
-    public void smallCamelTest() {
+    void smallCamelTest() {
         // TODO: test smallCamel
     }
 
@@ -48,7 +48,7 @@ public class CapitalizationTest {
      * Test the property 'capitalCamel'
      */
     @Test
-    public void capitalCamelTest() {
+    void capitalCamelTest() {
         // TODO: test capitalCamel
     }
 
@@ -56,7 +56,7 @@ public class CapitalizationTest {
      * Test the property 'smallSnake'
      */
     @Test
-    public void smallSnakeTest() {
+    void smallSnakeTest() {
         // TODO: test smallSnake
     }
 
@@ -64,7 +64,7 @@ public class CapitalizationTest {
      * Test the property 'capitalSnake'
      */
     @Test
-    public void capitalSnakeTest() {
+    void capitalSnakeTest() {
         // TODO: test capitalSnake
     }
 
@@ -72,7 +72,7 @@ public class CapitalizationTest {
      * Test the property 'scAETHFlowPoints'
      */
     @Test
-    public void scAETHFlowPointsTest() {
+    void scAETHFlowPointsTest() {
         // TODO: test scAETHFlowPoints
     }
 
@@ -80,7 +80,7 @@ public class CapitalizationTest {
      * Test the property 'ATT_NAME'
      */
     @Test
-    public void ATT_NAMETest() {
+    void ATT_NAMETest() {
         // TODO: test ATT_NAME
     }
 

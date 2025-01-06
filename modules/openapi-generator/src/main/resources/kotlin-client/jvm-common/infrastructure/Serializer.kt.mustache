@@ -97,6 +97,17 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+        {{#generateOneOfAnyOfWrappers}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        .registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/generateOneOfAnyOfWrappers}}
 
     @JvmStatic
     val gson: Gson by lazy {

@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<SpecialModelName>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'SpecialPropertyName'
         /// </summary>
@@ -64,12 +63,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'SpecialPropertyName'
         }
         /// <summary>
-        /// Test the property '_SpecialModelName'
+        /// Test the property 'VarSpecialModelName'
         /// </summary>
         [Test]
-        public void _SpecialModelNameTest()
+        public void VarSpecialModelNameTest()
         {
-            // TODO unit test for the property '_SpecialModelName'
+            // TODO unit test for the property 'VarSpecialModelName'
         }
     }
 }

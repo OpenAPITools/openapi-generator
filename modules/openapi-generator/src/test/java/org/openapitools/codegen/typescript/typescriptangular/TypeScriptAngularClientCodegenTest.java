@@ -21,6 +21,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_ANGULAR})
 public class TypeScriptAngularClientCodegenTest {
@@ -343,5 +345,49 @@ public class TypeScriptAngularClientCodegenTest {
                 Paths.get(output + "/model/folder.ts"),
                 "files?: Array<SystemFile>;" // ensure it's an array of SystemFile (not Any)
         );
+    }
+
+    @Test
+    public void testAngularDependenciesFromCliOptions() {
+        // GIVEN
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        codegen.additionalProperties().put("tsVersion", "12");
+        codegen.additionalProperties().put("rxjsVersion", "23");
+        codegen.additionalProperties().put("ngPackagrVersion", "34");
+        codegen.additionalProperties().put("zonejsVersion", "45");
+
+        // WHEN
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+
+        // THEN
+        assertThat(codegen.additionalProperties()).containsEntry("tsVersion", "12");
+        assertThat(codegen.additionalProperties()).containsEntry("rxjsVersion", "23");
+        assertThat(codegen.additionalProperties()).containsEntry("ngPackagrVersion", "34");
+        assertThat(codegen.additionalProperties()).containsEntry("zonejsVersion", "45");
+    }
+
+    @Test
+    public void testAngularDependenciesFromConfigFile() {
+        // GIVEN
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        // We fix ngVersion to do not update this test on every new angular release.
+        codegen.additionalProperties().put("ngVersion", "19.0.0");
+
+        // WHEN
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+
+        // THEN
+        assertThat(codegen.additionalProperties()).containsEntry("tsVersion", ">=5.5.0 <5.7.0");
+        assertThat(codegen.additionalProperties()).containsEntry("rxjsVersion", "7.4.0");
+        assertThat(codegen.additionalProperties()).containsEntry("ngPackagrVersion", "19.0.0");
+        assertThat(codegen.additionalProperties()).containsEntry("zonejsVersion", "0.15.0");
     }
 }

@@ -237,7 +237,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient support this option."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option."));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
@@ -320,7 +320,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             dateLibrary = "legacy";
         }
         super.processOpts();
-        // default jackson unless overriden by setSerializationLibrary
+        // default jackson unless overridden by setSerializationLibrary
         this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) || SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
 
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
@@ -628,6 +628,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 forceSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
             }
 
+            // currently not supported for Microprofile (neither for Jackson nor JSON-B)
+            openApiNullable = false;
+            additionalProperties.put(OPENAPI_NULLABLE, false);
+
             if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)) {
                 supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
@@ -636,6 +640,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             if ("3.0".equals(microprofileRestClientVersion)) {
                 additionalProperties.put("microprofile3", true);
+                if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_JSONB)) {
+                    additionalProperties.put("jsonbPolymorphism", true);
+                }
             }
         } else if (APACHE.equals(getLibrary())) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
