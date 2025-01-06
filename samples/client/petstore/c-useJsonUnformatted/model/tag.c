@@ -5,7 +5,7 @@
 
 
 
-tag_t *tag_create(
+static tag_t *tag_create_internal(
     long id,
     char *name
     ) {
@@ -16,12 +16,26 @@ tag_t *tag_create(
     tag_local_var->id = id;
     tag_local_var->name = name;
 
+    tag_local_var->_library_owned = 1;
     return tag_local_var;
 }
 
+__attribute__((deprecated)) tag_t *tag_create(
+    long id,
+    char *name
+    ) {
+    return tag_create_internal (
+        id,
+        name
+        );
+}
 
 void tag_free(tag_t *tag) {
     if(NULL == tag){
+        return ;
+    }
+    if(tag->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "tag_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -87,7 +101,7 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     }
 
 
-    tag_local_var = tag_create (
+    tag_local_var = tag_create_internal (
         id ? id->valuedouble : 0,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );

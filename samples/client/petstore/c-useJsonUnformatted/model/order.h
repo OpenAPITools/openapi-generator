@@ -34,9 +34,10 @@ typedef struct order_t {
     openapi_petstore_order_STATUS_e status; //enum
     int complete; //boolean
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } order_t;
 
-order_t *order_create(
+__attribute__((deprecated)) order_t *order_create(
     long id,
     long pet_id,
     int quantity,

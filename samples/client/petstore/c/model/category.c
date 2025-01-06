@@ -5,7 +5,7 @@
 
 
 
-category_t *category_create(
+static category_t *category_create_internal(
     long id,
     char *name
     ) {
@@ -16,12 +16,26 @@ category_t *category_create(
     category_local_var->id = id;
     category_local_var->name = name;
 
+    category_local_var->_library_owned = 1;
     return category_local_var;
 }
 
+__attribute__((deprecated)) category_t *category_create(
+    long id,
+    char *name
+    ) {
+    return category_create_internal (
+        id,
+        name
+        );
+}
 
 void category_free(category_t *category) {
     if(NULL == category){
+        return ;
+    }
+    if(category->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "category_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -87,7 +101,7 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
     }
 
 
-    category_local_var = category_create (
+    category_local_var = category_create_internal (
         id ? id->valuedouble : 0,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
