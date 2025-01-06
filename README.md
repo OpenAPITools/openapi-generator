@@ -106,6 +106,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [1.5 - Homebrew](#15---homebrew)
     - [1.6 - Docker](#16---docker)
     - [1.7 - NPM](#17---npm)
+    - [1.8 - pip](#18---pip)
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -141,7 +142,7 @@ OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0, 3.1 (beta support)
 
 For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
 
-For decomissioned generators/libraries/frameworks, please refer to [the "Decommission" label](https://github.com/OpenAPITools/openapi-generator/issues?q=label%3ADecommission+is%3Amerged+) in the pull request page.
+For decommissioned generators/libraries/frameworks, please refer to [the "Decommission" label](https://github.com/OpenAPITools/openapi-generator/issues?q=label%3ADecommission+is%3Amerged+) in the pull request page.
 
 ## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
@@ -448,6 +449,29 @@ npm install @openapitools/openapi-generator-cli -D
 <!-- /RELEASE_VERSION -->
 
 You can use [locally built JARs](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-locally-built-jar) or [`SNAPSHOT` versions](https://github.com/OpenAPITools/openapi-generator-cli?tab=readme-ov-file#use-nightly-snapshot-build) as well.
+
+### [1.8 - pip](#table-of-contents)
+
+
+> **Platform(s)**: Linux, macOS, Windows
+**Install** via [PyPI](https://pypi.org/) (`java` executable is needed to run):
+
+```
+pip install openapi-generator-cli
+```
+
+To install a specific version
+```
+pip install openapi-generator-cli==7.10.0
+```
+
+You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
+
+```
+pip install openapi-generator-cli[jdk4py]
+```
+
+Ref: https://github.com/openAPITools/openapi-generator-pip
 
 ## [2 - Getting Started](#table-of-contents)
 
@@ -944,6 +968,10 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2024-03-04 - [Generating TypeScript Types with OpenAPI for REST API Consumption](https://www.pullrequest.com/blog/generating-typescript-types-with-openapi-for-rest-api-consumption/) by [PullRequest](https://www.pullrequest.com/)
 - 2024-03-07 - [Fully typed Web Apps with OpenAPI (Part 1)](https://medium.com/@gfox1984/fully-typed-web-apps-with-openapi-part-1-595d55766670) by [Guillaume Renard](https://medium.com/@gfox1984)
 - 2024-03-08 - [Laravel OpenAPIによる "辛くない" スキーマ駆動開発](https://fortee.jp/phperkaigi-2024/proposal/9e2e6c38-d078-4efa-99b4-83ebf9033b34) by [KentarouTakeda](https://twitter.com/KentarouTakeda)
+- 2024-04-04 - [Working with OpenAPI using Rust](https://www.shuttle.dev/blog/2024/04/04/using-openapi-rust) by [Joshua Mo](https://twitter.com/joshmo_dev)
+- 2024-04-08 - [Implement API first strategy with OpenAPI generator plugin](https://medium.com/javarevisited/implement-api-first-strategy-with-openapi-generator-plugin-e4bbe7f0d778) by [Rui Zhou](https://medium.com/@wirelesser)
+- 2024-05-06 - [OpenAPI Generator Custom Templates](https://www.javacodegeeks.com/openapi-generator-custom-templates.html) by [Mary Zheng](https://www.javacodegeeks.com/author/mary-zheng)
+
 
 ## [6 - About Us](#table-of-contents)
 
@@ -1182,7 +1210,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Android               | @jaz-ah (2017/09)                                                                                                                                                                                                                                     |
 | Apex                  |                                                                                                                                                                                                                                                       |
 | Bash                  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                                           |
-| C                     | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03)                                                                                                                                                                                        |
+| C                     | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03) @eafer (2024/12)                                                                                                                                                                                        |
 | C++                   | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                                         |
 | C#                    | @mandrean (2017/08) @shibayan (2020/02) @Blackclaws (2021/03) @lucamazzanti (2021/05) @iBicha (2023/07)                                                                                                                                          |
 | Clojure               |                                                                                                                                                                                                                                                       |

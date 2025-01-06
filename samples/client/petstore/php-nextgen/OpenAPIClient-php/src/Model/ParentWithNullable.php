@@ -261,11 +261,11 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('type', $data ?? [], null);
-        $this->setIfExists('nullable_property', $data ?? [], null);
-
         // Initialize discriminator property with the model name.
         $this->container['type'] = static::$openAPIModelName;
+
+        $this->setIfExists('type', $data ?? [], null);
+        $this->setIfExists('nullable_property', $data ?? [], null);
     }
 
     /**

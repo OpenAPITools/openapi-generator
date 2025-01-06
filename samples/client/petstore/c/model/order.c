@@ -22,7 +22,7 @@ openapi_petstore_order_STATUS_e order_status_FromString(char* status){
     return 0;
 }
 
-order_t *order_create(
+static order_t *order_create_internal(
     long id,
     long pet_id,
     int quantity,
@@ -41,12 +41,34 @@ order_t *order_create(
     order_local_var->status = status;
     order_local_var->complete = complete;
 
+    order_local_var->_library_owned = 1;
     return order_local_var;
 }
 
+__attribute__((deprecated)) order_t *order_create(
+    long id,
+    long pet_id,
+    int quantity,
+    char *ship_date,
+    openapi_petstore_order_STATUS_e status,
+    int complete
+    ) {
+    return order_create_internal (
+        id,
+        pet_id,
+        quantity,
+        ship_date,
+        status,
+        complete
+        );
+}
 
 void order_free(order_t *order) {
     if(NULL == order){
+        return ;
+    }
+    if(order->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "order_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -94,7 +116,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->status
     if(order->status != openapi_petstore_order_STATUS_NULL) {
-    if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", order_status_ToString(order->status)) == NULL)
     {
     goto fail; //Enum
     }
@@ -195,7 +217,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     }
 
 
-    order_local_var = order_create (
+    order_local_var = order_create_internal (
         id ? id->valuedouble : 0,
         pet_id ? pet_id->valuedouble : 0,
         quantity ? quantity->valuedouble : 0,

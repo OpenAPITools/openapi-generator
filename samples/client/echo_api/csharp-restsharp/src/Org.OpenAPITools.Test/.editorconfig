@@ -1,2 +1,0 @@
-[*.cs]
-dotnet_diagnostic.xUnit1031.severity = none

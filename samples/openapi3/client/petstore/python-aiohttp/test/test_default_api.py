@@ -24,7 +24,7 @@ class TestDefaultApi(unittest.IsolatedAsyncioTestCase):
         self.api = DefaultApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_foo_get(self) -> None:
         """Test case for foo_get
