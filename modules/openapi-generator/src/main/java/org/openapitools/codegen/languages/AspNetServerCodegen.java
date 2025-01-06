@@ -98,6 +98,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
+    private CliOption centralizedPackageVersionManagement = new CliOption(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
 
     public AspNetServerCodegen() {
         super();
@@ -310,7 +311,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
 
-        CliOption centralizedPackageVersionManagement = new CliOption(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
+        addCentralizedPackageManagementOption();
+    }
+
+    private void addCentralizedPackageManagementOption(){
         Map<String, String> centralizedPackageVersionManagementOptions = new HashMap<>();
         centralizedPackageVersionManagementOptions.put(DEFAULT, "Property in project won't be used");
         centralizedPackageVersionManagementOptions.put(ENABLE, "Centralized package version management will be used");
@@ -481,8 +485,13 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         this.setTypeMapping();
 
 
+        setCentralizedPackageManagementOption();
+    }
+
+    private void setCentralizedPackageManagementOption() {
+        additionalProperties.put(USE_PACKAGE_VERSIONS, true);
+
         if (additionalProperties.containsKey(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
-            additionalProperties.put(USE_PACKAGE_VERSIONS, true);
             switch ((String) additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
                 case DEFAULT:
                     additionalProperties.remove(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
