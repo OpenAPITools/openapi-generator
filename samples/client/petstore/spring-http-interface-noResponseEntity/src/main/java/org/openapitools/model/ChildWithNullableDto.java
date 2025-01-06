@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.model.ParentWithNullableDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
-  private String otherProperty;
+  private @Nullable String otherProperty;
 
   public ChildWithNullableDto otherProperty(String otherProperty) {
     this.otherProperty = otherProperty;
