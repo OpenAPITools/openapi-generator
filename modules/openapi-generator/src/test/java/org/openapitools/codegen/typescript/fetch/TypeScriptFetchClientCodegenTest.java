@@ -133,6 +133,7 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "ValidVar");
         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "ValidVar");
         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30validVar");
+        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "ValidVar");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "original");
@@ -142,6 +143,7 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("valid_var", "string"), "valid_var");
         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "valid_var");
         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30valid_var");
+        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "VALID_var");
 
         codegen = new TypeScriptFetchClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.ENUM_PROPERTY_NAMING, "UPPERCASE");
@@ -153,7 +155,7 @@ public class TypeScriptFetchClientCodegenTest {
         Assert.assertEquals(codegen.toEnumVarName("-valid_+var", "string"), "MINUS_VALID_PLUS_VAR");
         Assert.assertEquals(codegen.toEnumVarName("-valid_var+", "string"), "MINUS_VALID_VAR_PLUS");
         Assert.assertEquals(codegen.toEnumVarName("30valid_+var", "string"), "_30VALID_PLUS_VAR");
-
+        Assert.assertEquals(codegen.toEnumVarName("VALID:var", "string"), "VALID_VAR");
     }
 
     @Test
