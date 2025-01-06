@@ -5122,9 +5122,59 @@ public class SpringCodegenTest {
                 .assertProperty("nullableStr")
                 .doesNotHaveAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
+                .assertProperty("mandatoryContainer")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalContainer")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalContainerWithDefault")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("nullableContainer")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
                 .fileContains(
-                        "public Item(String mandatoryName, @Nullable String optionalDescription," +
-                                " String optionalOneWithDefault, String nullableStr)"
+                        "public Item(" +
+                                "String mandatoryName," +
+                                " @Nullable String optionalDescription," +
+                                " String optionalOneWithDefault," +
+                                " String nullableStr," +
+                                " List<String> mandatoryContainer," +
+                                " List<String> optionalContainer," +
+                                " List<String> optionalContainerWithDefault," +
+                                " List<String> nullableContainer)"
+                );
+    }
+
+    @Test
+    public void shouldAnnotateNonRequiredFieldsAsNullableWhenSetContainerDefaultToNull() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setGenerateConstructorWithAllArgs(true);
+        codegen.setContainerDefaultToNull(true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
+        var file = files.get("Item.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertProperty("mandatoryContainer")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalContainer")
+                .hasAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalContainerWithDefault")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("nullableContainer")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .fileContains(
+                        ", List<String> mandatoryContainer," +
+                                " @Nullable List<String> optionalContainer," +
+                                " List<String> optionalContainerWithDefault," +
+                                " List<String> nullableContainer)"
                 );
     }
 
@@ -5153,16 +5203,17 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .fileContains(
                         "public Item(String mandatoryName, String optionalDescription," +
-                                " String optionalOneWithDefault, String nullableStr)"
+                                " String optionalOneWithDefault, String nullableStr"
                 );
     }
 
     @Test
-    public void shouldAnnotateNonRequiredFieldsAsNullableWhileNotUsingOpenApiNullable() throws IOException {
+    public void shouldAnnotateNonRequiredFieldsAsNullableWhileNotUsingOpenApiNullableAndContainerDefaultToNullSet() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setGenerateConstructorWithAllArgs(true);
         codegen.setOpenApiNullable(false);
+        codegen.setContainerDefaultToNull(true);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/nullable-annotation.yaml");
         var file = files.get("Item.java");
@@ -5180,9 +5231,24 @@ public class SpringCodegenTest {
                 .assertProperty("nullableStr")
                 .hasAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
+                .assertProperty("mandatoryContainer")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalContainer")
+                .hasAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("optionalContainerWithDefault")
+                .doesNotHaveAnnotation("Nullable");
+        JavaFileAssert.assertThat(file)
+                .assertProperty("nullableContainer")
+                .hasAnnotation("Nullable");
+
+        JavaFileAssert.assertThat(file)
                 .fileContains(
-                        "public Item(String mandatoryName, @Nullable String optionalDescription," +
-                                " String optionalOneWithDefault, @Nullable String nullableStr)"
+                        " List<String> mandatoryContainer," +
+                                " @Nullable List<String> optionalContainer," +
+                                " List<String> optionalContainerWithDefault," +
+                                " @Nullable List<String> nullableContainer)"
                 );
     }
 }
