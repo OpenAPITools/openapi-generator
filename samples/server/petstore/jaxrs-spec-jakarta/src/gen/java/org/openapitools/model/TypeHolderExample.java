@@ -242,7 +242,7 @@ public class TypeHolderExample  implements Serializable {
     return new TypeHolderExampleBuilderImpl();
   }
 
-  private static class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
+  private static final class TypeHolderExampleBuilderImpl extends TypeHolderExampleBuilder<TypeHolderExample, TypeHolderExampleBuilderImpl> {
 
     @Override
     protected TypeHolderExampleBuilderImpl self() {

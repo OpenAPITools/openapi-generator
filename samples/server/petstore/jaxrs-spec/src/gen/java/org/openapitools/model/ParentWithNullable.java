@@ -168,7 +168,7 @@ public class ParentWithNullable  implements Serializable {
     return new ParentWithNullableBuilderImpl();
   }
 
-  private static class ParentWithNullableBuilderImpl extends ParentWithNullableBuilder<ParentWithNullable, ParentWithNullableBuilderImpl> {
+  private static final class ParentWithNullableBuilderImpl extends ParentWithNullableBuilder<ParentWithNullable, ParentWithNullableBuilderImpl> {
 
     @Override
     protected ParentWithNullableBuilderImpl self() {

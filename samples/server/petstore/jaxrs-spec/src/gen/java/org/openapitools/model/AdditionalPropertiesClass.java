@@ -147,7 +147,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     return new AdditionalPropertiesClassBuilderImpl();
   }
 
-  private static class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
+  private static final class AdditionalPropertiesClassBuilderImpl extends AdditionalPropertiesClassBuilder<AdditionalPropertiesClass, AdditionalPropertiesClassBuilderImpl> {
 
     @Override
     protected AdditionalPropertiesClassBuilderImpl self() {

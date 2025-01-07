@@ -166,7 +166,7 @@ public class Name  implements Serializable {
     return new NameBuilderImpl();
   }
 
-  private static class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
+  private static final class NameBuilderImpl extends NameBuilder<Name, NameBuilderImpl> {
 
     @Override
     protected NameBuilderImpl self() {

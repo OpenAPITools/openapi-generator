@@ -92,7 +92,7 @@ public class ModelFile  implements Serializable {
     return new ModelFileBuilderImpl();
   }
 
-  private static class ModelFileBuilderImpl extends ModelFileBuilder<ModelFile, ModelFileBuilderImpl> {
+  private static final class ModelFileBuilderImpl extends ModelFileBuilder<ModelFile, ModelFileBuilderImpl> {
 
     @Override
     protected ModelFileBuilderImpl self() {

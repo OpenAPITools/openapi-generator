@@ -110,7 +110,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     return new ArrayOfArrayOfNumberOnlyBuilderImpl();
   }
 
-  private static class ArrayOfArrayOfNumberOnlyBuilderImpl extends ArrayOfArrayOfNumberOnlyBuilder<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilderImpl> {
+  private static final class ArrayOfArrayOfNumberOnlyBuilderImpl extends ArrayOfArrayOfNumberOnlyBuilder<ArrayOfArrayOfNumberOnly, ArrayOfArrayOfNumberOnlyBuilderImpl> {
 
     @Override
     protected ArrayOfArrayOfNumberOnlyBuilderImpl self() {

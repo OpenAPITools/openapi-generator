@@ -135,7 +135,7 @@ public class ModelApiResponse  implements Serializable {
     return new ModelApiResponseBuilderImpl();
   }
 
-  private static class ModelApiResponseBuilderImpl extends ModelApiResponseBuilder<ModelApiResponse, ModelApiResponseBuilderImpl> {
+  private static final class ModelApiResponseBuilderImpl extends ModelApiResponseBuilder<ModelApiResponse, ModelApiResponseBuilderImpl> {
 
     @Override
     protected ModelApiResponseBuilderImpl self() {

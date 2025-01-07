@@ -142,7 +142,7 @@ public class FileSchemaTestClass {
       return this;
     }
     
-    public FileSchemaTestClass.Builder files(List<@Valid File> files) {
+    public FileSchemaTestClass.Builder files(List<File> files) {
       this.instance.files(files);
       return this;
     }

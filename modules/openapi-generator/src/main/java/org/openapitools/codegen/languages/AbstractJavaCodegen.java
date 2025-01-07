@@ -657,6 +657,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             writer.write(content);
         });
+        additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
+            writer.write(removeAnnotations(fragment.execute()));
+        });
     }
 
     /**
@@ -1802,18 +1805,30 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return;
         }
 
-        // the response data types should not contain a bean validation annotation.
-        if (property.dataType.contains("@")) {
-            property.dataType = removeAnnotations(property.dataType);
-        }
-        // the response data types should not contain a bean validation annotation.
-        if (response.dataType.contains("@")) {
-            response.dataType = removeAnnotations(response.dataType);
-        }
+        // the response data types should not contain bean validation annotations.
+        property.dataType = removeAnnotations(property.dataType);
+        response.dataType = removeAnnotations(response.dataType);
     }
 
-    private String removeAnnotations(String type) {
-        return type.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+    /**
+     * Remove annotations from the given data type string.
+     *
+     * For example:
+     * <ul>
+     *     <li>{@code @Min(0) @Max(10)Integer} -> {@code Integer}</li>
+     *     <li>{@code @Pattern(regexp = "^[a-z]$")String>} -> {@code String}</li>
+     *     <li>{@code List<@Pattern(regexp = "^[a-z]$")String>}" -> "{@code List<String>}"</li>
+     *     <li>{@code List<@Valid Pet>}" -> "{@code List<Pet>}"</li>
+     * </ul>
+     *
+     * @param dataType the data type string
+     * @return the data type string without annotations
+     */
+    public String removeAnnotations(String dataType) {
+        if (dataType != null && dataType.contains("@")) {
+            return dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+        }
+        return dataType;
     }
 
     @Override

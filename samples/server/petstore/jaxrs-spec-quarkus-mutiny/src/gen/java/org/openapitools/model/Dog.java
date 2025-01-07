@@ -100,7 +100,7 @@ public class Dog extends Animal implements Serializable {
     return new DogBuilderImpl();
   }
 
-  private static class DogBuilderImpl extends DogBuilder<Dog, DogBuilderImpl> {
+  private static final class DogBuilderImpl extends DogBuilder<Dog, DogBuilderImpl> {
 
     @Override
     protected DogBuilderImpl self() {

@@ -419,7 +419,7 @@ public class FormatTest  implements Serializable {
     return new FormatTestBuilderImpl();
   }
 
-  private static class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
+  private static final class FormatTestBuilderImpl extends FormatTestBuilder<FormatTest, FormatTestBuilderImpl> {
 
     @Override
     protected FormatTestBuilderImpl self() {

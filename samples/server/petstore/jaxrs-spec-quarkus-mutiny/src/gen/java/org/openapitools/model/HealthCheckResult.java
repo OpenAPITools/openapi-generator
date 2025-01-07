@@ -91,7 +91,7 @@ public class HealthCheckResult  implements Serializable {
     return new HealthCheckResultBuilderImpl();
   }
 
-  private static class HealthCheckResultBuilderImpl extends HealthCheckResultBuilder<HealthCheckResult, HealthCheckResultBuilderImpl> {
+  private static final class HealthCheckResultBuilderImpl extends HealthCheckResultBuilder<HealthCheckResult, HealthCheckResultBuilderImpl> {
 
     @Override
     protected HealthCheckResultBuilderImpl self() {
