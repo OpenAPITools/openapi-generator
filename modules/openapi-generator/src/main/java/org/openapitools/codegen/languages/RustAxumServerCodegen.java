@@ -596,14 +596,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     private void postProcessOneOfModels(List<ModelMap> allModels) {
-        HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
+        final HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
 
         for (ModelMap mo : allModels) {
-            CodegenModel cm = mo.getModel();
+            final CodegenModel cm = mo.getModel();
 
-            CodegenComposedSchemas cs = cm.getComposedSchemas();
+            final CodegenComposedSchemas cs = cm.getComposedSchemas();
             if (cs != null) {
-                List<CodegenProperty> csOneOf = cs.getOneOf();
+                final List<CodegenProperty> csOneOf = cs.getOneOf();
 
                 if (csOneOf != null) {
                     for (CodegenProperty model : csOneOf) {
@@ -633,13 +633,13 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         for (ModelMap mo : allModels) {
-            CodegenModel cm = mo.getModel();
+            final CodegenModel cm = mo.getModel();
 
             for (CodegenProperty var : cm.vars) {
                 var.isDiscriminator = false;
             }
 
-            List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
+            final List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
 
             if (discriminatorsForModel != null) {
                 for (String discriminator : discriminatorsForModel) {

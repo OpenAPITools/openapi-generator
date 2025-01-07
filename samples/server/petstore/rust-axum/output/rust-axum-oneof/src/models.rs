@@ -11,8 +11,8 @@ use crate::{models, types::*};
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Goodbye {
     /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(default = "Goodbye::__name_for_op")]
-    #[serde(serialize_with = "Goodbye::__serialize_op")]
+    #[serde(default = "Goodbye::_name_for_op")]
+    #[serde(serialize_with = "Goodbye::_serialize_op")]
     #[serde(rename = "op")]
     pub op: String,
 
@@ -21,15 +21,15 @@ pub struct Goodbye {
 }
 
 impl Goodbye {
-    fn __name_for_op() -> String {
+    fn _name_for_op() -> String {
         String::from("Goodbye")
     }
 
-    fn __serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        s.serialize_str(&Self::__name_for_op())
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 
@@ -318,22 +318,22 @@ pub struct Greeting {
     #[serde(rename = "d")]
     pub d: models::GreetingD,
 
-    #[serde(default = "Greeting::__name_for_op")]
-    #[serde(serialize_with = "Greeting::__serialize_op")]
+    #[serde(default = "Greeting::_name_for_op")]
+    #[serde(serialize_with = "Greeting::_serialize_op")]
     #[serde(rename = "op")]
     pub op: String,
 }
 
 impl Greeting {
-    fn __name_for_op() -> String {
+    fn _name_for_op() -> String {
         String::from("Greeting")
     }
 
-    fn __serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        s.serialize_str(&Self::__name_for_op())
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 
@@ -623,8 +623,8 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<GreetingD> {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Hello {
     /// Note: inline enums are not fully supported by openapi-generator
-    #[serde(default = "Hello::__name_for_op")]
-    #[serde(serialize_with = "Hello::__serialize_op")]
+    #[serde(default = "Hello::_name_for_op")]
+    #[serde(serialize_with = "Hello::_serialize_op")]
     #[serde(rename = "op")]
     pub op: String,
 
@@ -633,15 +633,15 @@ pub struct Hello {
 }
 
 impl Hello {
-    fn __name_for_op() -> String {
+    fn _name_for_op() -> String {
         String::from("Hello")
     }
 
-    fn __serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        s.serialize_str(&Self::__name_for_op())
+        s.serialize_str(&Self::_name_for_op())
     }
 }
 

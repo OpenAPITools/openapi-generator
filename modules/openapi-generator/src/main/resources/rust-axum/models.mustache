@@ -663,8 +663,8 @@ pub struct {{{classname}}} {
     /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
 {{#isDiscriminator}}
-    #[serde(default = "{{{classname}}}::__name_for_{{{name}}}")]
-    #[serde(serialize_with = "{{{classname}}}::__serialize_{{{name}}}")]
+    #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
+    #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
 {{/isDiscriminator}}
     #[serde(rename = "{{{baseName}}}")]
 {{#hasValidation}}
@@ -737,15 +737,15 @@ pub struct {{{classname}}} {
 {{#vars}}
 {{#isDiscriminator}}
 impl {{{classname}}} {
-    fn __name_for_{{{name}}}() -> String {
+    fn _name_for_{{{name}}}() -> String {
         String::from("{{{classname}}}")
     }
 
-    fn __serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
     where
         S: serde::Serializer,
     {
-        s.serialize_str(&Self::__name_for_{{{name}}}())
+        s.serialize_str(&Self::_name_for_{{{name}}}())
     }
 }
 {{/isDiscriminator}}
