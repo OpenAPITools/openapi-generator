@@ -34,7 +34,7 @@ public class ChildWithNullable extends ParentWithNullable {
   private Optional<String> otherProperty = Optional.empty();
 
   public ChildWithNullable otherProperty(String otherProperty) {
-    this.otherProperty = Optional.of(otherProperty);
+    this.otherProperty = Optional.ofNullable(otherProperty);
     return this;
   }
 

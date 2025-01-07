@@ -30,7 +30,7 @@ public class AdditionalPropertiesInteger {
   private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesInteger name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 

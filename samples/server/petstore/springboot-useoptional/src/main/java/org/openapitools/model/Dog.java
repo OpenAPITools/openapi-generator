@@ -42,7 +42,7 @@ public class Dog extends Animal {
   }
 
   public Dog breed(String breed) {
-    this.breed = Optional.of(breed);
+    this.breed = Optional.ofNullable(breed);
     return this;
   }
 

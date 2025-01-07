@@ -50,7 +50,7 @@ public class Cat extends Animal {
   }
 
   public Cat declawed(Boolean declawed) {
-    this.declawed = Optional.of(declawed);
+    this.declawed = Optional.ofNullable(declawed);
     return this;
   }
 
