@@ -328,7 +328,7 @@ public class Pet {
       return this;
     }
     
-    public Pet.Builder tags(List<@Valid Tag> tags) {
+    public Pet.Builder tags(List<Tag> tags) {
       this.instance.tags(tags);
       return this;
     }

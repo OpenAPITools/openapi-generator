@@ -114,7 +114,7 @@ public class AllOfWithSingleRef  implements Serializable {
     return new AllOfWithSingleRefBuilderImpl();
   }
 
-  private static class AllOfWithSingleRefBuilderImpl extends AllOfWithSingleRefBuilder<AllOfWithSingleRef, AllOfWithSingleRefBuilderImpl> {
+  private static final class AllOfWithSingleRefBuilderImpl extends AllOfWithSingleRefBuilder<AllOfWithSingleRef, AllOfWithSingleRefBuilderImpl> {
 
     @Override
     protected AllOfWithSingleRefBuilderImpl self() {

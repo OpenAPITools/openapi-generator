@@ -206,7 +206,7 @@ public class Capitalization  implements Serializable {
     return new CapitalizationBuilderImpl();
   }
 
-  private static class CapitalizationBuilderImpl extends CapitalizationBuilder<Capitalization, CapitalizationBuilderImpl> {
+  private static final class CapitalizationBuilderImpl extends CapitalizationBuilder<Capitalization, CapitalizationBuilderImpl> {
 
     @Override
     protected CapitalizationBuilderImpl self() {

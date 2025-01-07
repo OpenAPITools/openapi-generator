@@ -133,7 +133,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
     return new FakeBigDecimalMap200ResponseBuilderImpl();
   }
 
-  private static class FakeBigDecimalMap200ResponseBuilderImpl extends FakeBigDecimalMap200ResponseBuilder<FakeBigDecimalMap200Response, FakeBigDecimalMap200ResponseBuilderImpl> {
+  private static final class FakeBigDecimalMap200ResponseBuilderImpl extends FakeBigDecimalMap200ResponseBuilder<FakeBigDecimalMap200Response, FakeBigDecimalMap200ResponseBuilderImpl> {
 
     @Override
     protected FakeBigDecimalMap200ResponseBuilderImpl self() {

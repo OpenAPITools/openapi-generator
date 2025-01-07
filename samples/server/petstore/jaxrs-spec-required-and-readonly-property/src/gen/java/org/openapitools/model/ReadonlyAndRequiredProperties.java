@@ -168,7 +168,7 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     return new ReadonlyAndRequiredPropertiesBuilderImpl();
   }
 
-  private static class ReadonlyAndRequiredPropertiesBuilderImpl extends ReadonlyAndRequiredPropertiesBuilder<ReadonlyAndRequiredProperties, ReadonlyAndRequiredPropertiesBuilderImpl> {
+  private static final class ReadonlyAndRequiredPropertiesBuilderImpl extends ReadonlyAndRequiredPropertiesBuilder<ReadonlyAndRequiredProperties, ReadonlyAndRequiredPropertiesBuilderImpl> {
 
     @Override
     protected ReadonlyAndRequiredPropertiesBuilderImpl self() {

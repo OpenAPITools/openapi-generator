@@ -135,7 +135,7 @@ public class OuterComposite  implements Serializable {
     return new OuterCompositeBuilderImpl();
   }
 
-  private static class OuterCompositeBuilderImpl extends OuterCompositeBuilder<OuterComposite, OuterCompositeBuilderImpl> {
+  private static final class OuterCompositeBuilderImpl extends OuterCompositeBuilder<OuterComposite, OuterCompositeBuilderImpl> {
 
     @Override
     protected OuterCompositeBuilderImpl self() {

@@ -91,7 +91,7 @@ public class ModelList  implements Serializable {
     return new ModelListBuilderImpl();
   }
 
-  private static class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
+  private static final class ModelListBuilderImpl extends ModelListBuilder<ModelList, ModelListBuilderImpl> {
 
     @Override
     protected ModelListBuilderImpl self() {
