@@ -911,4 +911,145 @@ public class KotlinSpringServerCodegenTest {
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
+
+    @Test
+    public void reactiveWithoutFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+            .opts(
+                new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                    .config(codegen)
+            )
+            .generate();
+
+        Assertions.assertThat(files).contains(
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt")
+        );
+
+        // Verify List is used instead of Flow for array returns
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "Flow<kotlin.String>");
+    }
+
+    @Test
+    public void reactiveWithFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+            .opts(
+                new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                    .config(codegen)
+            )
+            .generate();
+
+        Assertions.assertThat(files).contains(
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt")
+        );
+
+        // Verify Flow is used for array returns
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "Flow<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "List<kotlin.String>");
+    }
+
+    @Test
+    public void reactiveWithDefaultValueFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        // should use default 'true' instead
+        // codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+            .opts(
+                new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                    .config(codegen)
+            )
+            .generate();
+
+        Assertions.assertThat(files).contains(
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt")
+        );
+
+        // Verify Flow is used for array returns
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "Flow<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "List<kotlin.String>");
+    }
+
+    @Test
+    public void nonReactiveWithoutFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+            .opts(
+                new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                    .config(codegen)
+            )
+            .generate();
+
+        Assertions.assertThat(files).contains(
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt")
+        );
+
+        // Verify List is used instead of Flow for array returns
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "Flow<kotlin.String>");
+    }
+
+    @Test
+    public void nonReactiveWithFlow() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
+
+        List<File> files = new DefaultGenerator()
+            .opts(
+                new ClientOptInput()
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                    .config(codegen)
+            )
+            .generate();
+
+        Assertions.assertThat(files).contains(
+            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt")
+        );
+
+        // Verify List is used instead of Flow for array returns
+        assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "List<kotlin.String>");
+        assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                "Flow<kotlin.String>");
+    }
 }

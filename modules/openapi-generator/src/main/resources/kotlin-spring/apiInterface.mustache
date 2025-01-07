@@ -46,9 +46,9 @@ import {{javaxPackage}}.validation.constraints.Size
 import {{javaxPackage}}.validation.Valid
 {{/useBeanValidation}}
 
-{{#reactive}}
+{{#reactive}}{{#useFlowForArrayReturnType}}
 import kotlinx.coroutines.flow.Flow
-{{/reactive}}
+{{/useFlowForArrayReturnType}}{{/reactive}}
 import kotlin.collections.List
 import kotlin.collections.Map
 
