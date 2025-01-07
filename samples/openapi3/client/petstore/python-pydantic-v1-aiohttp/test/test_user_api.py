@@ -24,7 +24,7 @@ class TestUserApi(unittest.IsolatedAsyncioTestCase):
         self.api = UserApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_create_user(self) -> None:
         """Test case for create_user

@@ -24,7 +24,7 @@ class TestImportTestDatetimeApi(unittest.IsolatedAsyncioTestCase):
         self.api = ImportTestDatetimeApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_import_test_return_datetime(self) -> None:
         """Test case for import_test_return_datetime

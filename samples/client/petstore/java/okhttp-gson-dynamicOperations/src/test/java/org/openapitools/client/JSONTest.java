@@ -9,6 +9,9 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -27,7 +30,7 @@ public class JSONTest {
     private JSON json = null;
     private Order order = null;
 
-    @Before
+    @BeforeEach
     public void setup() {
         apiClient = new ApiClient();
         json = apiClient.getJSON();
@@ -127,7 +130,7 @@ public class JSONTest {
     public void testDefaultDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         final String dateStr = "2015-11-07T14:11:05.267Z";
-        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
+        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime::from));
 
         String str = json.serialize(order);
         Type type = new TypeToken<Order>() { }.getType();
@@ -139,7 +142,7 @@ public class JSONTest {
     public void testCustomDate() throws Exception {
         final DateTimeFormatter datetimeFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME.withZone(ZoneId.of("Etc/GMT+2"));
         final String dateStr = "2015-11-07T14:11:05-02:00";
-        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime.FROM));
+        order.setShipDate(datetimeFormat.parse(dateStr, OffsetDateTime::from));
 
         String str = json.serialize(order);
         Type type = new TypeToken<Order>() { }.getType();

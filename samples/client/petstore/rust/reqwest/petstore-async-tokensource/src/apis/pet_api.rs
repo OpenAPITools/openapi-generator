@@ -33,7 +33,9 @@ pub struct DeletePetParams {
 #[derive(Clone, Debug)]
 pub struct FindPetsByStatusParams {
     /// Status values that need to be considered for filter
-    pub status: Vec<String>
+    pub status: Vec<String>,
+    /// Make sure that Rust keywords like type work as query params
+    pub r#type: Option<Vec<String>>
 }
 
 /// struct for passing parameters to the method [`find_pets_by_tags`]
@@ -300,6 +302,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
 
     // unbox the parameters
     let status = params.status;
+    let r#type = params.r#type;
 
 
     let local_var_client = &local_var_configuration.client;
@@ -311,6 +314,12 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
         "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
         _ => local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
+    if let Some(ref local_var_str) = r#type {
+        local_var_req_builder = match "csv" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("type", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }

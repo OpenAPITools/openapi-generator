@@ -254,6 +254,19 @@ paths:
             - 'write:pets'
             - 'read:pets'
   /pet/picture:
+    get:
+      tags:
+        - pet
+      summary: Get a random picture of someone else's pet
+      description: ''
+      operationId: getPicture
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            format: binary
     post:
       tags:
         - pet
@@ -267,6 +280,7 @@ paths:
           required: true
           schema:
             type: string
+            format: binary
       responses:
         '200':
           description: successful operation
@@ -335,6 +349,84 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+  /store/feedback:
+    post:
+      tags:
+        - store
+      summary: Send us a feedback message
+      description: ''
+      operationId: sendFeedback
+      parameters:
+        - in: body
+          name: feedback
+          description: The feedback message to send
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            description: Thank you message
+  '/store/rating/{rating}':
+    post:
+      tags:
+        - store
+      summary: How would you rate our service?
+      description: ''
+      operationId: sendRating
+      parameters:
+        - in: path
+          name: rating
+          description: The rating to submit
+          required: true
+          type: string
+          enum:
+            - Excellent
+            - Great
+            - Good
+            - Regular
+            - Bad
+            - Awful
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            description: Thank you message
+  '/store/recommend':
+    post:
+      tags:
+        - store
+      summary: Would you recommend our service to a friend?
+      description: ''
+      operationId: sendRecommend
+      parameters:
+        - in: formData
+          name: recommend
+          description: Would you recommend us or not?
+          required: no
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: string
+            description: Thank you message
+  /store/daysWithoutIncident:
+    get:
+      tags:
+        - pet
+      summary: Number of days since the last time a pet maimed someone at the store
+      description: ''
+      operationId: getDaysWithoutIncident
+      parameters: []
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: integer
   /store/inventory:
     get:
       tags:

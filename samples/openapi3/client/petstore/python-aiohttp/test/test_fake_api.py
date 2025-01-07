@@ -24,7 +24,7 @@ class TestFakeApi(unittest.IsolatedAsyncioTestCase):
         self.api = FakeApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_fake_any_type_request_body(self) -> None:
         """Test case for fake_any_type_request_body
@@ -264,6 +264,13 @@ class TestFakeApi(unittest.IsolatedAsyncioTestCase):
         """Test case for test_string_map_reference
 
         test referenced string map
+        """
+        pass
+
+    async def test_upload_file_with_additional_properties(self) -> None:
+        """Test case for upload_file_with_additional_properties
+
+        uploads a file and additional properties using multipart/form-data
         """
         pass
 

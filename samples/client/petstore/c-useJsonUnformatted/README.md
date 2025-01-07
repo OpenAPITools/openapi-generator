@@ -69,7 +69,9 @@ Category | Method | HTTP request | Description
 *PetAPI* | [**PetAPI_deletePet**](docs/PetAPI.md#PetAPI_deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetAPI* | [**PetAPI_findPetsByStatus**](docs/PetAPI.md#PetAPI_findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetAPI* | [**PetAPI_findPetsByTags**](docs/PetAPI.md#PetAPI_findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetAPI* | [**PetAPI_getDaysWithoutIncident**](docs/PetAPI.md#PetAPI_getDaysWithoutIncident) | **GET** /store/daysWithoutIncident | Number of days since the last time a pet maimed someone at the store
 *PetAPI* | [**PetAPI_getPetById**](docs/PetAPI.md#PetAPI_getPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetAPI* | [**PetAPI_getPicture**](docs/PetAPI.md#PetAPI_getPicture) | **GET** /pet/picture | Get a random picture of someone else's pet
 *PetAPI* | [**PetAPI_isPetAvailable**](docs/PetAPI.md#PetAPI_isPetAvailable) | **POST** /pet/{petId}/isAvailable | Is this pet still available?
 *PetAPI* | [**PetAPI_sharePicture**](docs/PetAPI.md#PetAPI_sharePicture) | **POST** /pet/picture | Send a picture of your happy pet
 *PetAPI* | [**PetAPI_specialtyPet**](docs/PetAPI.md#PetAPI_specialtyPet) | **GET** /pet/specialty | Specialty of the shop
@@ -80,6 +82,9 @@ Category | Method | HTTP request | Description
 *StoreAPI* | [**StoreAPI_getInventory**](docs/StoreAPI.md#StoreAPI_getInventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreAPI* | [**StoreAPI_getOrderById**](docs/StoreAPI.md#StoreAPI_getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 *StoreAPI* | [**StoreAPI_placeOrder**](docs/StoreAPI.md#StoreAPI_placeOrder) | **POST** /store/order | Place an order for a pet
+*StoreAPI* | [**StoreAPI_sendFeedback**](docs/StoreAPI.md#StoreAPI_sendFeedback) | **POST** /store/feedback | Send us a feedback message
+*StoreAPI* | [**StoreAPI_sendRating**](docs/StoreAPI.md#StoreAPI_sendRating) | **POST** /store/rating/{rating} | How would you rate our service?
+*StoreAPI* | [**StoreAPI_sendRecommend**](docs/StoreAPI.md#StoreAPI_sendRecommend) | **POST** /store/recommend | Would you recommend our service to a friend?
 *UserAPI* | [**UserAPI_createUser**](docs/UserAPI.md#UserAPI_createUser) | **POST** /user | Create user
 *UserAPI* | [**UserAPI_createUsersWithArrayInput**](docs/UserAPI.md#UserAPI_createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
 *UserAPI* | [**UserAPI_createUsersWithListInput**](docs/UserAPI.md#UserAPI_createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array

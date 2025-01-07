@@ -307,7 +307,7 @@ class FakeClassnameTags123Api
      * @return PromiseInterface
      */
     public function testClassnameAsyncWithHttpInfo(
-        $client,
+        \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['testClassname'][0]
     ): PromiseInterface
     {
@@ -360,7 +360,7 @@ class FakeClassnameTags123Api
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testClassnameRequest(
-        $client,
+        \OpenAPI\Client\Model\Client $client,
         string $contentType = self::contentTypes['testClassname'][0]
     ): Request
     {

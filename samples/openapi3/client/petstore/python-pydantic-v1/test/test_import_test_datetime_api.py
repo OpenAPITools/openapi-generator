@@ -21,10 +21,10 @@ class TestImportTestDatetimeApi(unittest.TestCase):
     """ImportTestDatetimeApi unit test stubs"""
 
     def setUp(self) -> None:
-        self.api = ImportTestDatetimeApi()  # noqa: E501
+        self.api = ImportTestDatetimeApi()
 
     def tearDown(self) -> None:
-        pass
+        self.api.api_client.close()
 
     def test_import_test_return_datetime(self) -> None:
         """Test case for import_test_return_datetime

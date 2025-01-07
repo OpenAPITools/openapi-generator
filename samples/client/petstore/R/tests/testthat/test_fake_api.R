@@ -3,7 +3,19 @@
 
 context("Test FakeApi")
 
-api.instance <- FakeApi$new()
+api_instance <- FakeApi$new()
+
+test_that("AddPetOptional", {
+  # tests for AddPetOptional
+  # base path: http://petstore.swagger.io/v2
+  # Add a new pet to the store (optional body)
+  # 
+  # @param pet Pet Pet object that needs to be added to the store (optional)
+  # @return [Pet]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
 
 test_that("FakeDataFile", {
   # tests for FakeDataFile
@@ -11,10 +23,46 @@ test_that("FakeDataFile", {
   # test data_file to ensure it&#39;s escaped correctly
   # 
   # @param dummy character dummy required parameter
-  # @param DataFile. character header data file (optional)
+  # @param var_data_file character header data file (optional)
+  # @return [User]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
+test_that("FakePathArray", {
+  # tests for FakePathArray
+  # base path: http://petstore.swagger.io/v2
+  # test array parameter in path
+  # 
+  # @param path_array array[character] dummy path parameter
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
+test_that("FakeRegularExpression", {
+  # tests for FakeRegularExpression
+  # base path: http://petstore.swagger.io/v2
+  # test regular expression to ensure no exception
+  # 
+  # @param reg_exp_test character dummy required parameter
+  # @return [Void]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})
+
+test_that("FakeSetQuery", {
+  # tests for FakeSetQuery
+  # base path: http://petstore.swagger.io/v2
+  # test set query parameter
+  # 
+  # @param set_dummy set[character] set query
+  # @param array_dummy array[character] array query
+  # @return [Void]
+
+  # uncomment below to test the operation
+  #expect_equal(result, "EXPECTED_RESULT")
+})

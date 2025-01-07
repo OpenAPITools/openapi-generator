@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -16,6 +16,7 @@ package org.openapitools.client.api;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -61,7 +62,7 @@ public class PetApiTest {
     public void addPetTest() {
         // TODO: test validations
         Pet pet = null;
-        //Pet response = api.addPet(pet);
+        //api.addPet(pet);
         //Assertions.assertNotNull(response);
 
 
@@ -115,8 +116,8 @@ public class PetApiTest {
     @Test
     public void findPetsByTagsTest() {
         // TODO: test validations
-        List<String> tags = null;
-        //List<Pet> response = api.findPetsByTags(tags);
+        Set<String> tags = null;
+        //Set<Pet> response = api.findPetsByTags(tags);
         //Assertions.assertNotNull(response);
 
 
@@ -152,7 +153,7 @@ public class PetApiTest {
     public void updatePetTest() {
         // TODO: test validations
         Pet pet = null;
-        //Pet response = api.updatePet(pet);
+        //api.updatePet(pet);
         //Assertions.assertNotNull(response);
 
 
@@ -193,6 +194,26 @@ public class PetApiTest {
         String additionalMetadata = null;
         org.apache.cxf.jaxrs.ext.multipart.Attachment _file = null;
         //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
+        //Assertions.assertNotNull(response);
+
+
+    }
+    
+    /**
+     * uploads an image (required)
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void uploadFileWithRequiredFileTest() {
+        // TODO: test validations
+        Long petId = null;
+        org.apache.cxf.jaxrs.ext.multipart.Attachment requiredFile = null;
+        String additionalMetadata = null;
+        //ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
         //Assertions.assertNotNull(response);
 
 

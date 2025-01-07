@@ -121,6 +121,7 @@ else
   (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson-dynamicOperations && mvn integration-test)
   (cd samples/client/petstore/java/resteasy && mvn integration-test)
   (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)

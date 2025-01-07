@@ -233,6 +233,8 @@ class Animal implements ModelInterface, ArrayAccess, JsonSerializable
         return self::$openAPIModelName;
     }
 
+    public const CLASS_NAME_CAT = 'CAT';
+    public const CLASS_NAME_DOG = 'DOG';
 
     /**
      * Associative array for storing property values
@@ -248,11 +250,11 @@ class Animal implements ModelInterface, ArrayAccess, JsonSerializable
      */
     public function __construct(array $data = null)
     {
-        $this->setIfExists('class_name', $data ?? [], null);
-        $this->setIfExists('color', $data ?? [], 'red');
-
         // Initialize discriminator property with the model name.
         $this->container['class_name'] = static::$openAPIModelName;
+
+        $this->setIfExists('class_name', $data ?? [], null);
+        $this->setIfExists('color', $data ?? [], 'red');
     }
 
     /**

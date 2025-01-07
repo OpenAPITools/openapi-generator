@@ -336,11 +336,11 @@ class HeaderApi
      * @return PromiseInterface
      */
     public function testHeaderIntegerBooleanStringEnumsAsyncWithHttpInfo(
-        $integer_header = null,
-        $boolean_header = null,
-        $string_header = null,
-        $enum_nonref_string_header = null,
-        $enum_ref_string_header = null,
+        ?int $integer_header = null,
+        ?bool $boolean_header = null,
+        ?string $string_header = null,
+        ?string $enum_nonref_string_header = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_header = null,
         string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): PromiseInterface
     {
@@ -397,11 +397,11 @@ class HeaderApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testHeaderIntegerBooleanStringEnumsRequest(
-        $integer_header = null,
-        $boolean_header = null,
-        $string_header = null,
-        $enum_nonref_string_header = null,
-        $enum_ref_string_header = null,
+        ?int $integer_header = null,
+        ?bool $boolean_header = null,
+        ?string $string_header = null,
+        ?string $enum_nonref_string_header = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $enum_ref_string_header = null,
         string $contentType = self::contentTypes['testHeaderIntegerBooleanStringEnums'][0]
     ): Request
     {
@@ -438,7 +438,7 @@ class HeaderApi
         }
         // header params
         if ($enum_ref_string_header !== null) {
-            $headerParams['enum_ref_string_header'] = ObjectSerializer::toHeaderValue($enum_ref_string_header);
+            $headerParams['enum_ref_string_header'] = ObjectSerializer::toHeaderValue($enum_ref_string_header->value);
         }
 
 

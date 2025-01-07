@@ -34,11 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
@@ -189,21 +185,40 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
-            if (operation.returnType == null) {
-                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
-            } else {
-                if (operation.returnProperty.isContainer) { // array or map
-                    operation.vendorExtensions.putIfAbsent("x-php-return-type", "array");
-                } else {
-                    operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+            Set<String> phpReturnTypeOptions = new LinkedHashSet<>();
+            Set<String> docReturnTypeOptions = new LinkedHashSet<>();
+
+            for (CodegenResponse response : operation.responses) {
+                if (response.dataType != null) {
+                    String returnType = response.dataType;
+                    if (response.isArray || response.isMap) {
+                        // PHP does not understand array type hinting so we strip it
+                        // The phpdoc will still contain the array type hinting
+                        returnType = "array";
+                    }
+
+                    phpReturnTypeOptions.add(returnType);
+                    docReturnTypeOptions.add(response.dataType);
                 }
+            }
+
+            if (phpReturnTypeOptions.isEmpty()) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
+                operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", "void");
+            } else {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", String.join("|", phpReturnTypeOptions));
+                operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", String.join("|", docReturnTypeOptions));
             }
 
             for (CodegenParameter param : operation.allParams) {
                 if (param.isArray || param.isMap) {
                     param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
                 } else {
-                    param.vendorExtensions.putIfAbsent("x-php-param-type", param.dataType);
+                    String paramType = param.dataType;
+                    if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
+                        paramType = "?" + paramType;
+                    }
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
                 }
             }
         }
