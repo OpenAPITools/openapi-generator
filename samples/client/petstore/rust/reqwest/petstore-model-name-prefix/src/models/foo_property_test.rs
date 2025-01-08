@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// FooPropertyTest : A model to test various formats, e.g. UUID
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct FooPropertyTest {
     #[serde(rename = "uuid", skip_serializing_if = "Option::is_none")]
     pub uuid: Option<uuid::Uuid>,

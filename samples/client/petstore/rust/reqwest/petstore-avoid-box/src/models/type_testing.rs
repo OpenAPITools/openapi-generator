@@ -15,7 +15,7 @@ use serde_with::serde_as;
 
 /// TypeTesting : Test handling of different field data types
 #[serde_as]
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct TypeTesting {
     #[serde(rename = "int32")]
     pub int32: i32,

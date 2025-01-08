@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// FooUniqueItemArrayTesting : Test handling of enum array with unique items
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct FooUniqueItemArrayTesting {
     /// Helper object for the unique item array test
     #[serde(rename = "unique_item_array")]

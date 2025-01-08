@@ -11,7 +11,7 @@
 use crate::models;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct Foo {
     #[serde(rename = "fooPropA", skip_serializing_if = "Option::is_none")]
     pub foo_prop_a: Option<String>,

@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// Ref : using reserved word as model name
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct Ref {
     #[serde(rename = "dummy", skip_serializing_if = "Option::is_none")]
     pub dummy: Option<String>,
