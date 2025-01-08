@@ -229,36 +229,26 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
         if(headerType != NULL) {
             list_ForEach(listEntry, headerType) {
-                if(strstr(listEntry->data,
-                          "xml") == NULL)
+                if(strstr(listEntry->data, "xml") == NULL)
                 {
-                    buffHeader = malloc(strlen(
-                                    "Accept: ") +
-                                        strlen(listEntry->
-                                               data) + 1);
+                    buffHeader = malloc(strlen("Accept: ") +
+                                        strlen(listEntry->data) + 1);
                     sprintf(buffHeader, "%s%s", "Accept: ",
                             (char *) listEntry->data);
-                    headers = curl_slist_append(headers,
-                                                buffHeader);
+                    headers = curl_slist_append(headers, buffHeader);
                     free(buffHeader);
                 }
             }
         }
         if(contentType != NULL) {
             list_ForEach(listEntry, contentType) {
-                if(strstr(listEntry->data,
-                          "xml") == NULL)
+                if(strstr(listEntry->data, "xml") == NULL)
                 {
-                    buffContent =
-                        malloc(strlen(
-                                   "Content-Type: ") + strlen(
-                                   listEntry->data) +
-                               1);
-                    sprintf(buffContent, "%s%s",
-                            "Content-Type: ",
+                    buffContent = malloc(strlen("Content-Type: ") +
+                                         strlen(listEntry->data) + 1);
+                    sprintf(buffContent, "%s%s", "Content-Type: ",
                             (char *) listEntry->data);
-                    headers = curl_slist_append(headers,
-                                                buffContent);
+                    headers = curl_slist_append(headers, buffContent);
                     free(buffContent);
                     buffContent = NULL;
                 }

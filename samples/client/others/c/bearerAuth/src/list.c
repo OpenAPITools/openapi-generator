@@ -20,7 +20,7 @@ void listEntry_free(listEntry_t *listEntry, void *additionalData) {
 }
 
 void listEntry_printAsInt(listEntry_t *listEntry, void *additionalData) {
-    printf("%i\n", *((int *) (listEntry->data)));
+    printf("%i\n", *(int *)listEntry->data);
 }
 
 list_t *list_createList() {
