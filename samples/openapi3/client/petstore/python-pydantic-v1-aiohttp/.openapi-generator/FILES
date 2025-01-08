@@ -248,5 +248,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_hunting_dog.py
 tox.ini
