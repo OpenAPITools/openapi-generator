@@ -229,13 +229,12 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
         if(headerType != NULL) {
             list_ForEach(listEntry, headerType) {
-                if(strstr((char *) listEntry->data,
+                if(strstr(listEntry->data,
                           "xml") == NULL)
                 {
                     buffHeader = malloc(strlen(
                                     "Accept: ") +
-                                        strlen((char *)
-                                               listEntry->
+                                        strlen(listEntry->
                                                data) + 1);
                     sprintf(buffHeader, "%s%s", "Accept: ",
                             (char *) listEntry->data);
@@ -247,13 +246,12 @@ void apiClient_invoke(apiClient_t    *apiClient,
         }
         if(contentType != NULL) {
             list_ForEach(listEntry, contentType) {
-                if(strstr((char *) listEntry->data,
+                if(strstr(listEntry->data,
                           "xml") == NULL)
                 {
                     buffContent =
                         malloc(strlen(
                                    "Content-Type: ") + strlen(
-                                   (char *)
                                    listEntry->data) +
                                1);
                     sprintf(buffContent, "%s%s",
@@ -475,8 +473,8 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
     size_t size_this_time = nmemb * size;
-    apiClient_t *apiClient = (apiClient_t *)userp;
-    apiClient->dataReceived = (char *)realloc( apiClient->dataReceived, apiClient->dataReceivedLen + size_this_time + 1);
+    apiClient_t *apiClient = userp;
+    apiClient->dataReceived = realloc( apiClient->dataReceived, apiClient->dataReceivedLen + size_this_time + 1);
     memcpy((char *)apiClient->dataReceived + apiClient->dataReceivedLen, buffer, size_this_time);
     apiClient->dataReceivedLen += size_this_time;
     ((char*)apiClient->dataReceived)[apiClient->dataReceivedLen] = '\0'; // the space size of (apiClient->dataReceived) = dataReceivedLen + 1

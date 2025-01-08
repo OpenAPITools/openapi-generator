@@ -97,7 +97,7 @@ void user_free(user_t *user) {
     }
     if (user->extra) {
         list_ForEach(listEntry, user->extra) {
-            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            keyValuePair_t *localKeyValue = listEntry->data;
             free (localKeyValue->key);
             free (localKeyValue->value);
             keyValuePair_free(localKeyValue);
@@ -185,7 +185,7 @@ cJSON *user_convertToJSON(user_t *user) {
     listEntry_t *extraListEntry;
     if (user->extra) {
     list_ForEach(extraListEntry, user->extra) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*)extraListEntry->data;
+        keyValuePair_t *localKeyValue = extraListEntry->data;
     }
     }
     }
@@ -368,7 +368,7 @@ end:
     if (extraList) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, extraList) {
-            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            keyValuePair_t *localKeyValue = listEntry->data;
             free(localKeyValue->key);
             localKeyValue->key = NULL;
             keyValuePair_free(localKeyValue);

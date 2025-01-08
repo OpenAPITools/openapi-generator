@@ -176,8 +176,8 @@ char* findStrInStrList(list_t *strList, const char *str)
 
     listEntry_t* listEntry = NULL;
     list_ForEach(listEntry, strList) {
-        if (strstr((char*)listEntry->data, str) != NULL) {
-            return (char*)listEntry->data;
+        if (strstr(listEntry->data, str) != NULL) {
+            return listEntry->data;
         }
     }
 
