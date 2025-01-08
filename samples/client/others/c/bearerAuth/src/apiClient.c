@@ -89,10 +89,11 @@ void sslConfig_free(sslConfig_t *sslConfig) {
     free(sslConfig);
 }
 
-static void replaceSpaceWithPlus(char *stringToProcess) {
-    for(int i = 0; i < strlen(stringToProcess); i++) {
-        if(stringToProcess[i] == ' ') {
-            stringToProcess[i] = '+';
+static void replaceSpaceWithPlus(char *str) {
+    if (str) {
+        for (; *str; str++) {
+            if (*str == ' ')
+                *str = '+';
         }
     }
 }
@@ -204,9 +205,9 @@ void apiClient_invoke(apiClient_t    *apiClient,
             list_ForEach(listEntry, headerType) {
                 if(strstr(listEntry->data, "xml") == NULL)
                 {
-                    buffHeader = malloc(strlen("Accept: ") +
-                                        strlen(listEntry->data) + 1);
-                    sprintf(buffHeader, "%s%s", "Accept: ",
+                    buffHeader = malloc(sizeof("Accept: ") +
+                                        strlen(listEntry->data));
+                    sprintf(buffHeader, "Accept: %s",
                             (char *) listEntry->data);
                     headers = curl_slist_append(headers, buffHeader);
                     free(buffHeader);
@@ -217,9 +218,9 @@ void apiClient_invoke(apiClient_t    *apiClient,
             list_ForEach(listEntry, contentType) {
                 if(strstr(listEntry->data, "xml") == NULL)
                 {
-                    buffContent = malloc(strlen("Content-Type: ") +
-                                         strlen(listEntry->data) + 1);
-                    sprintf(buffContent, "%s%s", "Content-Type: ",
+                    buffContent = malloc(sizeof("Content-Type: ") +
+                                         strlen(listEntry->data));
+                    sprintf(buffContent, "Content-Type: %s",
                             (char *) listEntry->data);
                     headers = curl_slist_append(headers, buffContent);
                     free(buffContent);
