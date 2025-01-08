@@ -711,7 +711,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#queryParams}}
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            ${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}},
+            ${{paramName}}{{#isEnumRef}}?->value{{/isEnumRef}},
             '{{baseName}}', // param base name
             '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
             '{{style}}', // style
