@@ -12,4 +12,5 @@ src/header.rs
 src/lib.rs
 src/models.rs
 src/server/mod.rs
+src/tests.rs
 src/types.rs
