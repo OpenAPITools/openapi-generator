@@ -603,7 +603,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -695,7 +695,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "PetApi.AddPet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1466,7 +1466,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1558,7 +1558,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = pet;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(pet);
 
             localVarRequestOptions.Operation = "PetApi.UpdatePet";
             localVarRequestOptions.OperationIndex = operationIndex;

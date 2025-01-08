@@ -807,7 +807,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = order;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(order);
 
             localVarRequestOptions.Operation = "StoreApi.PlaceOrder";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -882,7 +882,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = order;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(order);
 
             localVarRequestOptions.Operation = "StoreApi.PlaceOrder";
             localVarRequestOptions.OperationIndex = operationIndex;

@@ -256,7 +256,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = modelClient;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(modelClient);
 
             localVarRequestOptions.Operation = "FakeClassnameTags123Api.TestClassname";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -335,7 +335,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = modelClient;
+            localVarRequestOptions.Data = Org.OpenAPITools.Client.ClientUtils.Serialize(modelClient);
 
             localVarRequestOptions.Operation = "FakeClassnameTags123Api.TestClassname";
             localVarRequestOptions.OperationIndex = operationIndex;

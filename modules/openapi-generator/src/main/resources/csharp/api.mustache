@@ -404,7 +404,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/required}}
             {{/formParams}}
             {{#bodyParam}}
-            localVarRequestOptions.Data = {{paramName}};
+            localVarRequestOptions.Data = {{packageName}}.Client.ClientUtils.Serialize({{paramName}});
             {{/bodyParam}}
 
             localVarRequestOptions.Operation = "{{classname}}.{{operationId}}";
@@ -694,7 +694,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/required}}
             {{/formParams}}
             {{#bodyParam}}
-            localVarRequestOptions.Data = {{paramName}};
+            localVarRequestOptions.Data = {{packageName}}.Client.ClientUtils.Serialize({{paramName}});
             {{/bodyParam}}
 
             localVarRequestOptions.Operation = "{{classname}}.{{operationId}}";
