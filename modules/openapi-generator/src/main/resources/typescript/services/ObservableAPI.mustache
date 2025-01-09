@@ -1,7 +1,9 @@
 import type { HttpFile } from "../http/http";
 import type { Observable } from {{#useRxJS}}"rxjs"{{/useRxJS}}{{^useRxJS}}"../rxjsStub"{{/useRxJS}};
 import type { Configuration } from "../configuration";
+{{^useInversify}}
 import type { Middleware } from "../middleware";
+{{^useInversify}}
 
 {{#models}}
 {{#model}}
@@ -15,7 +17,7 @@ import { {{{ classname }}} } from "{{{ importPath }}}";
 
 export abstract class AbstractObservable{{classname}} {
     {{#operation}}
-    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration | Middleware[]): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    public abstract {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration{{^useInversify}} | Middleware[]{{/useInversify}}): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
     {{/operation}}
 }
