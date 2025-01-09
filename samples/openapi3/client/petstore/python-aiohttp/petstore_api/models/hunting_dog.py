@@ -17,24 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from importlib import import_module
-from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Union
+from pydantic import ConfigDict, Field, StrictBool
+from typing import Any, ClassVar, Dict, List, Optional
+from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
 from typing import Optional, Set
 from typing_extensions import Self
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from petstore_api.models.hunting_dog import HuntingDog
-
-class Creature(BaseModel):
+class HuntingDog(Creature):
     """
-    Creature
+    HuntingDog
     """ # noqa: E501
-    info: CreatureInfo
-    type: StrictStr
-    __properties: ClassVar[List[str]] = ["info", "type"]
+    is_trained: Optional[StrictBool] = Field(default=None, alias="isTrained")
+    __properties: ClassVar[List[str]] = ["info", "type", "isTrained"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -42,23 +37,6 @@ class Creature(BaseModel):
         protected_namespaces=(),
     )
 
-
-    # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = 'type'
-
-    # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'Hunting__Dog': 'HuntingDog'
-    }
-
-    @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
-        """Returns the discriminator value (object type) of the data"""
-        discriminator_value = obj[cls.__discriminator_property_name]
-        if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
-        else:
-            return None
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
@@ -70,8 +48,8 @@ class Creature(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[HuntingDog]]:
-        """Create an instance of Creature from a JSON string"""
+    def from_json(cls, json_str: str) -> Optional[Self]:
+        """Create an instance of HuntingDog from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -98,15 +76,19 @@ class Creature(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[HuntingDog]]:
-        """Create an instance of Creature from a dict"""
-        # look up the object type based on discriminator mapping
-        object_type = cls.get_discriminator_value(obj)
-        if object_type ==  'HuntingDog':
-            return import_module("petstore_api.models.hunting_dog").HuntingDog.from_dict(obj)
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+        """Create an instance of HuntingDog from a dict"""
+        if obj is None:
+            return None
 
-        raise ValueError("Creature failed to lookup discriminator value from " +
-                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        if not isinstance(obj, dict):
+            return cls.model_validate(obj)
+
+        _obj = cls.model_validate({
+            "info": CreatureInfo.from_dict(obj["info"]) if obj.get("info") is not None else None,
+            "type": obj.get("type"),
+            "isTrained": obj.get("isTrained")
+        })
+        return _obj
 
 

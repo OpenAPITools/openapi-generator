@@ -1950,6 +1950,13 @@ components:
       properties:
         _class:
           type: string
+    Hunting__Dog:
+      allOf:
+        - $ref: '#/components/schemas/Creature'
+        - type: object
+          properties:
+            isTrained:
+              type: boolean
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'

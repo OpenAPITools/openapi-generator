@@ -55,6 +55,7 @@ docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/HuntingDog.md
 docs/ImportTestDatetimeApi.md
 docs/Info.md
 docs/InnerDictWithProperty.md
@@ -180,6 +181,7 @@ petstore_api/models/foo_get_default_response.py
 petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
+petstore_api/models/hunting_dog.py
 petstore_api/models/info.py
 petstore_api/models/inner_dict_with_property.py
 petstore_api/models/input_all_of.py
