@@ -28,7 +28,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public list(param: DefaultApiListRequest = {}, options?: Configuration | Middleware[]): Promise<ListPaged> {
+    public list(param: DefaultApiListRequest = {}, options?: Configuration| Middleware[]): Promise<ListPaged> {
         return this.api.list( options).toPromise();
     }
 

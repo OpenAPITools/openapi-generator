@@ -58,7 +58,7 @@ export class Object{{classname}} {
      {{/summary}}
      * @param param the request object
      */
-    public {{nickname}}WithHttpInfo(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}}): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+    public {{nickname}}WithHttpInfo(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration{{^useInversify}} | Middleware[]{{/useInversify}}): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         return this.api.{{nickname}}WithHttpInfo({{#allParams}}param.{{paramName}}, {{/allParams}} options){{^useRxJS}}.toPromise(){{/useRxJS}};
     }
 
@@ -71,7 +71,7 @@ export class Object{{classname}} {
      {{/summary}}
      * @param param the request object
      */
-    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration{{^useInversify}}| Middleware[]{{/useInversify}): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    public {{nickname}}(param: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, options?: Configuration{{^useInversify}}| Middleware[]{{/useInversify}}): {{#useRxJS}}Observable{{/useRxJS}}{{^useRxJS}}Promise{{/useRxJS}}<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
         return this.api.{{nickname}}({{#allParams}}param.{{paramName}}, {{/allParams}} options){{^useRxJS}}.toPromise(){{/useRxJS}};
     }
 

@@ -1,6 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
-import type { Middleware } from "../middleware";
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { injectable, inject, optional } from "inversify";
@@ -36,7 +35,7 @@ export class ObservablePetApi {
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
-    public addPetWithHttpInfo(pet: Pet, _options?: Configuration | Middleware[]): Observable<HttpInfo<Pet>> {
+    public addPetWithHttpInfo(pet: Pet, _options?: Configuration): Observable<HttpInfo<Pet>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -69,7 +68,7 @@ export class ObservablePetApi {
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, _options?: Configuration | Middleware[]): Observable<Pet> {
+    public addPet(pet: Pet, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Pet> {
         return this.addPetWithHttpInfo(pet, _options).pipe(map((apiResponse: HttpInfo<Pet>) => apiResponse.data));
     }
 
@@ -79,7 +78,7 @@ export class ObservablePetApi {
      * @param petId Pet id to delete
      * @param [apiKey]
      */
-    public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -113,7 +112,7 @@ export class ObservablePetApi {
      * @param petId Pet id to delete
      * @param [apiKey]
      */
-    public deletePet(petId: number, apiKey?: string, _options?: Configuration | Middleware[]): Observable<void> {
+    public deletePet(petId: number, apiKey?: string, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.deletePetWithHttpInfo(petId, apiKey, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -122,7 +121,7 @@ export class ObservablePetApi {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration | Middleware[]): Observable<HttpInfo<Array<Pet>>> {
+    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Observable<HttpInfo<Array<Pet>>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -155,7 +154,7 @@ export class ObservablePetApi {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration | Middleware[]): Observable<Array<Pet>> {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Array<Pet>> {
         return this.findPetsByStatusWithHttpInfo(status, _options).pipe(map((apiResponse: HttpInfo<Array<Pet>>) => apiResponse.data));
     }
 
@@ -164,7 +163,7 @@ export class ObservablePetApi {
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTagsWithHttpInfo(tags: Array<string>, _options?: Configuration | Middleware[]): Observable<HttpInfo<Array<Pet>>> {
+    public findPetsByTagsWithHttpInfo(tags: Array<string>, _options?: Configuration): Observable<HttpInfo<Array<Pet>>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -197,7 +196,7 @@ export class ObservablePetApi {
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTags(tags: Array<string>, _options?: Configuration | Middleware[]): Observable<Array<Pet>> {
+    public findPetsByTags(tags: Array<string>, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Array<Pet>> {
         return this.findPetsByTagsWithHttpInfo(tags, _options).pipe(map((apiResponse: HttpInfo<Array<Pet>>) => apiResponse.data));
     }
 
@@ -206,7 +205,7 @@ export class ObservablePetApi {
      * Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetByIdWithHttpInfo(petId: number, _options?: Configuration | Middleware[]): Observable<HttpInfo<Pet>> {
+    public getPetByIdWithHttpInfo(petId: number, _options?: Configuration): Observable<HttpInfo<Pet>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -239,7 +238,7 @@ export class ObservablePetApi {
      * Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetById(petId: number, _options?: Configuration | Middleware[]): Observable<Pet> {
+    public getPetById(petId: number, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Pet> {
         return this.getPetByIdWithHttpInfo(petId, _options).pipe(map((apiResponse: HttpInfo<Pet>) => apiResponse.data));
     }
 
@@ -248,7 +247,7 @@ export class ObservablePetApi {
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
-    public updatePetWithHttpInfo(pet: Pet, _options?: Configuration | Middleware[]): Observable<HttpInfo<Pet>> {
+    public updatePetWithHttpInfo(pet: Pet, _options?: Configuration): Observable<HttpInfo<Pet>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -281,7 +280,7 @@ export class ObservablePetApi {
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, _options?: Configuration | Middleware[]): Observable<Pet> {
+    public updatePet(pet: Pet, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Pet> {
         return this.updatePetWithHttpInfo(pet, _options).pipe(map((apiResponse: HttpInfo<Pet>) => apiResponse.data));
     }
 
@@ -292,7 +291,7 @@ export class ObservablePetApi {
      * @param [name] Updated name of the pet
      * @param [status] Updated status of the pet
      */
-    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -327,7 +326,7 @@ export class ObservablePetApi {
      * @param [name] Updated name of the pet
      * @param [status] Updated status of the pet
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration | Middleware[]): Observable<void> {
+    public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.updatePetWithFormWithHttpInfo(petId, name, status, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -338,7 +337,7 @@ export class ObservablePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      * @param [file] file to upload
      */
-    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration | Middleware[]): Observable<HttpInfo<ApiResponse>> {
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<HttpInfo<ApiResponse>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -373,7 +372,7 @@ export class ObservablePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      * @param [file] file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration | Middleware[]): Observable<ApiResponse> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<ApiResponse> {
         return this.uploadFileWithHttpInfo(petId, additionalMetadata, file, _options).pipe(map((apiResponse: HttpInfo<ApiResponse>) => apiResponse.data));
     }
 
@@ -403,7 +402,7 @@ export class ObservableStoreApi {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrderWithHttpInfo(orderId: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public deleteOrderWithHttpInfo(orderId: string, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -436,7 +435,7 @@ export class ObservableStoreApi {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder(orderId: string, _options?: Configuration | Middleware[]): Observable<void> {
+    public deleteOrder(orderId: string, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.deleteOrderWithHttpInfo(orderId, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -444,7 +443,7 @@ export class ObservableStoreApi {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public getInventoryWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<{ [key: string]: number; }>> {
+    public getInventoryWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: number; }>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -476,7 +475,7 @@ export class ObservableStoreApi {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public getInventory(_options?: Configuration | Middleware[]): Observable<{ [key: string]: number; }> {
+    public getInventory(_options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<{ [key: string]: number; }> {
         return this.getInventoryWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: number; }>) => apiResponse.data));
     }
 
@@ -485,7 +484,7 @@ export class ObservableStoreApi {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderByIdWithHttpInfo(orderId: number, _options?: Configuration | Middleware[]): Observable<HttpInfo<Order>> {
+    public getOrderByIdWithHttpInfo(orderId: number, _options?: Configuration): Observable<HttpInfo<Order>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -518,7 +517,7 @@ export class ObservableStoreApi {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number, _options?: Configuration | Middleware[]): Observable<Order> {
+    public getOrderById(orderId: number, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Order> {
         return this.getOrderByIdWithHttpInfo(orderId, _options).pipe(map((apiResponse: HttpInfo<Order>) => apiResponse.data));
     }
 
@@ -527,7 +526,7 @@ export class ObservableStoreApi {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public placeOrderWithHttpInfo(order: Order, _options?: Configuration | Middleware[]): Observable<HttpInfo<Order>> {
+    public placeOrderWithHttpInfo(order: Order, _options?: Configuration): Observable<HttpInfo<Order>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -560,7 +559,7 @@ export class ObservableStoreApi {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public placeOrder(order: Order, _options?: Configuration | Middleware[]): Observable<Order> {
+    public placeOrder(order: Order, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Order> {
         return this.placeOrderWithHttpInfo(order, _options).pipe(map((apiResponse: HttpInfo<Order>) => apiResponse.data));
     }
 
@@ -590,7 +589,7 @@ export class ObservableUserApi {
      * Create user
      * @param user Created user object
      */
-    public createUserWithHttpInfo(user: User, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public createUserWithHttpInfo(user: User, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -623,7 +622,7 @@ export class ObservableUserApi {
      * Create user
      * @param user Created user object
      */
-    public createUser(user: User, _options?: Configuration | Middleware[]): Observable<void> {
+    public createUser(user: User, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.createUserWithHttpInfo(user, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -632,7 +631,7 @@ export class ObservableUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -665,7 +664,7 @@ export class ObservableUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, _options?: Configuration | Middleware[]): Observable<void> {
+    public createUsersWithArrayInput(user: Array<User>, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.createUsersWithArrayInputWithHttpInfo(user, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -674,7 +673,7 @@ export class ObservableUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -707,7 +706,7 @@ export class ObservableUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithListInput(user: Array<User>, _options?: Configuration | Middleware[]): Observable<void> {
+    public createUsersWithListInput(user: Array<User>, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.createUsersWithListInputWithHttpInfo(user, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -716,7 +715,7 @@ export class ObservableUserApi {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUserWithHttpInfo(username: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public deleteUserWithHttpInfo(username: string, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -749,7 +748,7 @@ export class ObservableUserApi {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUser(username: string, _options?: Configuration | Middleware[]): Observable<void> {
+    public deleteUser(username: string, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.deleteUserWithHttpInfo(username, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -758,7 +757,7 @@ export class ObservableUserApi {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public getUserByNameWithHttpInfo(username: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<User>> {
+    public getUserByNameWithHttpInfo(username: string, _options?: Configuration): Observable<HttpInfo<User>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -791,7 +790,7 @@ export class ObservableUserApi {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public getUserByName(username: string, _options?: Configuration | Middleware[]): Observable<User> {
+    public getUserByName(username: string, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<User> {
         return this.getUserByNameWithHttpInfo(username, _options).pipe(map((apiResponse: HttpInfo<User>) => apiResponse.data));
     }
 
@@ -801,7 +800,7 @@ export class ObservableUserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUserWithHttpInfo(username: string, password: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<string>> {
+    public loginUserWithHttpInfo(username: string, password: string, _options?: Configuration): Observable<HttpInfo<string>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -835,7 +834,7 @@ export class ObservableUserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser(username: string, password: string, _options?: Configuration | Middleware[]): Observable<string> {
+    public loginUser(username: string, password: string, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<string> {
         return this.loginUserWithHttpInfo(username, password, _options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
     }
 
@@ -843,7 +842,7 @@ export class ObservableUserApi {
      * 
      * Logs out current logged in user session
      */
-    public logoutUserWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public logoutUserWithHttpInfo(_options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -875,7 +874,7 @@ export class ObservableUserApi {
      * 
      * Logs out current logged in user session
      */
-    public logoutUser(_options?: Configuration | Middleware[]): Observable<void> {
+    public logoutUser(_options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.logoutUserWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -885,7 +884,7 @@ export class ObservableUserApi {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public updateUserWithHttpInfo(username: string, user: User, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
+    public updateUserWithHttpInfo(username: string, user: User, _options?: Configuration): Observable<HttpInfo<void>> {
     	let configuration = undefined
 	let calltimeMiddleware: Middleware[] = []
 	if (Array.isArray(_options)){
@@ -919,7 +918,7 @@ export class ObservableUserApi {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public updateUser(username: string, user: User, _options?: Configuration | Middleware[]): Observable<void> {
+    public updateUser(username: string, user: User, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
         return this.updateUserWithHttpInfo(username, user, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 

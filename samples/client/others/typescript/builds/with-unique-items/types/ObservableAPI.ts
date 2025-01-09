@@ -53,7 +53,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public uniqueItems(_options?: Configuration | Middleware[]): Observable<Response> {
+    public uniqueItems(_options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<Response> {
         return this.uniqueItemsWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Response>) => apiResponse.data));
     }
 

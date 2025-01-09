@@ -57,7 +57,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.filePost(param.filePostRequest,  options).toPromise();
     }
 
@@ -71,7 +71,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.petsFilteredPatch(param.petsFilteredPatchRequest,  options).toPromise();
     }
 
@@ -85,7 +85,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public petsPatch(param: DefaultApiPetsPatchRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public petsPatch(param: DefaultApiPetsPatchRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.petsPatch(param.petsPatchRequest,  options).toPromise();
     }
 

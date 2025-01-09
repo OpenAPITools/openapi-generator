@@ -27,7 +27,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public uniqueItems(param: DefaultApiUniqueItemsRequest = {}, options?: Configuration | Middleware[]): Promise<Response> {
+    public uniqueItems(param: DefaultApiUniqueItemsRequest = {}, options?: Configuration| Middleware[]): Promise<Response> {
         return this.api.uniqueItems( options).toPromise();
     }
 
