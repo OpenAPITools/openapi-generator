@@ -1,7 +1,7 @@
+use openapi_v3::models::OneOfGet200Response;
+
 #[test]
 fn test_oneof_schema_untagged() {
-    use crate::models::OneOfGet200Response;
-
     #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
     struct Test {
         value: OneOfGet200Response,
@@ -33,9 +33,4 @@ fn test_oneof_schema_untagged() {
         serde_json::to_string(&test4).expect("Serialization error"),
         test6
     );
-}
-
-#[tokio::test]
-async fn tokio_test() {
-    assert!(true);
 }
