@@ -16,7 +16,7 @@ on:
 jobs:
   build:
     name: Build .Net projects
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
@@ -31,13 +31,9 @@ jobs:
       - uses: actions/setup-dotnet@v4.2.0
         with:
           dotnet-version: 3.1.*
-      - name: Install OpenSSL 1.1
-        run: |
-          wget http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.23_amd64.deb
-          sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.23_amd64.deb
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 dotnet build Org.OpenAPITools.sln
+        run: dotnet build Org.OpenAPITools.sln
       # skip tests as petstore server it not running
       # these tests are run in appveyor instead
       #- name: Test
