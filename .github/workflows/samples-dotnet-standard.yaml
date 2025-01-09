@@ -33,7 +33,7 @@ jobs:
           dotnet-version: 3.1.*
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: dotnet build Org.OpenAPITools.sln
+        run: DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 dotnet build Org.OpenAPITools.sln
       # skip tests as petstore server it not running
       # these tests are run in appveyor instead
       #- name: Test
