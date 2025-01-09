@@ -424,7 +424,7 @@ class QueryApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $enum_ref_string_query->value,
+            $enum_ref_string_query?->value,
             'enum_ref_string_query', // param base name
             'StringEnumRef', // openApiType
             'form', // style
