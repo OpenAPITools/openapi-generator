@@ -1,7 +1,9 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{importFileExtension}}';
 import {Configuration} from '../configuration{{importFileExtension}}';
+{{^useInversify}}
 import {Middleware} from '../middleware';
+{{/useInversify}}
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http{{importFileExtension}}';
 {{#platforms}}
 {{#node}}
@@ -43,7 +45,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration | Middleware[]): Promise<RequestContext> {
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration {{^useInversify}}| Middleware[]{{/useInversify}}): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options && !Array.isArray(_options)){
 		_config = _options
