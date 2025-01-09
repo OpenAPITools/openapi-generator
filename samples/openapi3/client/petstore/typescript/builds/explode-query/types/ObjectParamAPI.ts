@@ -83,7 +83,7 @@ export class ObjectAnotherFakeApi {
      * To test special tags
      * @param param the request object
      */
-    public _123testSpecialTags(param: AnotherFakeApi123testSpecialTagsRequest, options?: Configuration | Middleware[]): Promise<Client> {
+    public _123testSpecialTags(param: AnotherFakeApi123testSpecialTagsRequest, options?: Configuration| Middleware[]): Promise<Client> {
         return this.api._123testSpecialTags(param.client,  options).toPromise();
     }
 
@@ -112,7 +112,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public fooGet(param: DefaultApiFooGetRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public fooGet(param: DefaultApiFooGetRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.fooGet( options).toPromise();
     }
 
@@ -556,7 +556,7 @@ export class ObjectFakeApi {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      * @param param the request object
      */
-    public fakeBigDecimalMap(param: FakeApiFakeBigDecimalMapRequest = {}, options?: Configuration | Middleware[]): Promise<FakeBigDecimalMap200Response> {
+    public fakeBigDecimalMap(param: FakeApiFakeBigDecimalMapRequest = {}, options?: Configuration| Middleware[]): Promise<FakeBigDecimalMap200Response> {
         return this.api.fakeBigDecimalMap( options).toPromise();
     }
 
@@ -572,7 +572,7 @@ export class ObjectFakeApi {
      * Health check endpoint
      * @param param the request object
      */
-    public fakeHealthGet(param: FakeApiFakeHealthGetRequest = {}, options?: Configuration | Middleware[]): Promise<HealthCheckResult> {
+    public fakeHealthGet(param: FakeApiFakeHealthGetRequest = {}, options?: Configuration| Middleware[]): Promise<HealthCheckResult> {
         return this.api.fakeHealthGet( options).toPromise();
     }
 
@@ -588,7 +588,7 @@ export class ObjectFakeApi {
      * test http signature authentication
      * @param param the request object
      */
-    public fakeHttpSignatureTest(param: FakeApiFakeHttpSignatureTestRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public fakeHttpSignatureTest(param: FakeApiFakeHttpSignatureTestRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.fakeHttpSignatureTest(param.pet, param.query1, param.header1,  options).toPromise();
     }
 
@@ -604,7 +604,7 @@ export class ObjectFakeApi {
      * Test serialization of outer boolean types
      * @param param the request object
      */
-    public fakeOuterBooleanSerialize(param: FakeApiFakeOuterBooleanSerializeRequest = {}, options?: Configuration | Middleware[]): Promise<boolean> {
+    public fakeOuterBooleanSerialize(param: FakeApiFakeOuterBooleanSerializeRequest = {}, options?: Configuration| Middleware[]): Promise<boolean> {
         return this.api.fakeOuterBooleanSerialize(param.body,  options).toPromise();
     }
 
@@ -620,7 +620,7 @@ export class ObjectFakeApi {
      * Test serialization of object with outer number type
      * @param param the request object
      */
-    public fakeOuterCompositeSerialize(param: FakeApiFakeOuterCompositeSerializeRequest = {}, options?: Configuration | Middleware[]): Promise<OuterComposite> {
+    public fakeOuterCompositeSerialize(param: FakeApiFakeOuterCompositeSerializeRequest = {}, options?: Configuration| Middleware[]): Promise<OuterComposite> {
         return this.api.fakeOuterCompositeSerialize(param.outerComposite,  options).toPromise();
     }
 
@@ -636,7 +636,7 @@ export class ObjectFakeApi {
      * Test serialization of outer number types
      * @param param the request object
      */
-    public fakeOuterNumberSerialize(param: FakeApiFakeOuterNumberSerializeRequest = {}, options?: Configuration | Middleware[]): Promise<number> {
+    public fakeOuterNumberSerialize(param: FakeApiFakeOuterNumberSerializeRequest = {}, options?: Configuration| Middleware[]): Promise<number> {
         return this.api.fakeOuterNumberSerialize(param.body,  options).toPromise();
     }
 
@@ -652,7 +652,7 @@ export class ObjectFakeApi {
      * Test serialization of outer string types
      * @param param the request object
      */
-    public fakeOuterStringSerialize(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: Configuration | Middleware[]): Promise<string> {
+    public fakeOuterStringSerialize(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: Configuration| Middleware[]): Promise<string> {
         return this.api.fakeOuterStringSerialize(param.body,  options).toPromise();
     }
 
@@ -668,7 +668,7 @@ export class ObjectFakeApi {
      * Test serialization of enum (int) properties with examples
      * @param param the request object
      */
-    public fakePropertyEnumIntegerSerialize(param: FakeApiFakePropertyEnumIntegerSerializeRequest, options?: Configuration | Middleware[]): Promise<OuterObjectWithEnumProperty> {
+    public fakePropertyEnumIntegerSerialize(param: FakeApiFakePropertyEnumIntegerSerializeRequest, options?: Configuration| Middleware[]): Promise<OuterObjectWithEnumProperty> {
         return this.api.fakePropertyEnumIntegerSerialize(param.outerObjectWithEnumProperty,  options).toPromise();
     }
 
@@ -684,7 +684,7 @@ export class ObjectFakeApi {
      * For this test, the body has to be a binary file.
      * @param param the request object
      */
-    public testBodyWithBinary(param: FakeApiTestBodyWithBinaryRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testBodyWithBinary(param: FakeApiTestBodyWithBinaryRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testBodyWithBinary(param.body,  options).toPromise();
     }
 
@@ -700,7 +700,7 @@ export class ObjectFakeApi {
      * For this test, the body for this request must reference a schema named `File`.
      * @param param the request object
      */
-    public testBodyWithFileSchema(param: FakeApiTestBodyWithFileSchemaRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testBodyWithFileSchema(param: FakeApiTestBodyWithFileSchemaRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testBodyWithFileSchema(param.fileSchemaTestClass,  options).toPromise();
     }
 
@@ -714,7 +714,7 @@ export class ObjectFakeApi {
     /**
      * @param param the request object
      */
-    public testBodyWithQueryParams(param: FakeApiTestBodyWithQueryParamsRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testBodyWithQueryParams(param: FakeApiTestBodyWithQueryParamsRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testBodyWithQueryParams(param.query, param.user,  options).toPromise();
     }
 
@@ -732,7 +732,7 @@ export class ObjectFakeApi {
      * To test \"client\" model
      * @param param the request object
      */
-    public testClientModel(param: FakeApiTestClientModelRequest, options?: Configuration | Middleware[]): Promise<Client> {
+    public testClientModel(param: FakeApiTestClientModelRequest, options?: Configuration| Middleware[]): Promise<Client> {
         return this.api.testClientModel(param.client,  options).toPromise();
     }
 
@@ -750,7 +750,7 @@ export class ObjectFakeApi {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param param the request object
      */
-    public testEndpointParameters(param: FakeApiTestEndpointParametersRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEndpointParameters(param: FakeApiTestEndpointParametersRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEndpointParameters(param.number, param._double, param.patternWithoutDelimiter, param._byte, param.integer, param.int32, param.int64, param._float, param.string, param.binary, param.date, param.dateTime, param.password, param.callback,  options).toPromise();
     }
 
@@ -768,7 +768,7 @@ export class ObjectFakeApi {
      * To test enum parameters
      * @param param the request object
      */
-    public testEnumParameters(param: FakeApiTestEnumParametersRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public testEnumParameters(param: FakeApiTestEnumParametersRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEnumParameters(param.enumHeaderStringArray, param.enumHeaderString, param.enumQueryStringArray, param.enumQueryString, param.enumQueryInteger, param.enumQueryDouble, param.enumQueryModelArray, param.enumFormStringArray, param.enumFormString,  options).toPromise();
     }
 
@@ -786,7 +786,7 @@ export class ObjectFakeApi {
      * Fake endpoint to test group parameters (optional)
      * @param param the request object
      */
-    public testGroupParameters(param: FakeApiTestGroupParametersRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testGroupParameters(param: FakeApiTestGroupParametersRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testGroupParameters(param.requiredStringGroup, param.requiredBooleanGroup, param.requiredInt64Group, param.stringGroup, param.booleanGroup, param.int64Group,  options).toPromise();
     }
 
@@ -804,7 +804,7 @@ export class ObjectFakeApi {
      * test inline additionalProperties
      * @param param the request object
      */
-    public testInlineAdditionalProperties(param: FakeApiTestInlineAdditionalPropertiesRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testInlineAdditionalProperties(param: FakeApiTestInlineAdditionalPropertiesRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testInlineAdditionalProperties(param.requestBody,  options).toPromise();
     }
 
@@ -822,7 +822,7 @@ export class ObjectFakeApi {
      * test json serialization of form data
      * @param param the request object
      */
-    public testJsonFormData(param: FakeApiTestJsonFormDataRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testJsonFormData(param: FakeApiTestJsonFormDataRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testJsonFormData(param.param, param.param2,  options).toPromise();
     }
 
@@ -838,7 +838,7 @@ export class ObjectFakeApi {
      * To test the collection format in query parameters
      * @param param the request object
      */
-    public testQueryParameterCollectionFormat(param: FakeApiTestQueryParameterCollectionFormatRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testQueryParameterCollectionFormat(param: FakeApiTestQueryParameterCollectionFormatRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testQueryParameterCollectionFormat(param.pipe, param.ioutil, param.http, param.url, param.context, param.allowEmpty, param.language,  options).toPromise();
     }
 
@@ -877,7 +877,7 @@ export class ObjectFakeClassnameTags123Api {
      * To test class name in snake case
      * @param param the request object
      */
-    public testClassname(param: FakeClassnameTags123ApiTestClassnameRequest, options?: Configuration | Middleware[]): Promise<Client> {
+    public testClassname(param: FakeClassnameTags123ApiTestClassnameRequest, options?: Configuration| Middleware[]): Promise<Client> {
         return this.api.testClassname(param.client,  options).toPromise();
     }
 
@@ -1044,7 +1044,7 @@ export class ObjectPetApi {
      * Add a new pet to the store
      * @param param the request object
      */
-    public addPet(param: PetApiAddPetRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public addPet(param: PetApiAddPetRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.addPet(param.pet,  options).toPromise();
     }
 
@@ -1062,7 +1062,7 @@ export class ObjectPetApi {
      * Deletes a pet
      * @param param the request object
      */
-    public deletePet(param: PetApiDeletePetRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public deletePet(param: PetApiDeletePetRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.deletePet(param.petId, param.apiKey,  options).toPromise();
     }
 
@@ -1080,7 +1080,7 @@ export class ObjectPetApi {
      * Finds Pets by status
      * @param param the request object
      */
-    public findPetsByStatus(param: PetApiFindPetsByStatusRequest, options?: Configuration | Middleware[]): Promise<Array<Pet>> {
+    public findPetsByStatus(param: PetApiFindPetsByStatusRequest, options?: Configuration| Middleware[]): Promise<Array<Pet>> {
         return this.api.findPetsByStatus(param.status,  options).toPromise();
     }
 
@@ -1098,7 +1098,7 @@ export class ObjectPetApi {
      * Finds Pets by tags
      * @param param the request object
      */
-    public findPetsByTags(param: PetApiFindPetsByTagsRequest, options?: Configuration | Middleware[]): Promise<Set<Pet>> {
+    public findPetsByTags(param: PetApiFindPetsByTagsRequest, options?: Configuration| Middleware[]): Promise<Set<Pet>> {
         return this.api.findPetsByTags(param.tags,  options).toPromise();
     }
 
@@ -1116,7 +1116,7 @@ export class ObjectPetApi {
      * Find pet by ID
      * @param param the request object
      */
-    public getPetById(param: PetApiGetPetByIdRequest, options?: Configuration | Middleware[]): Promise<Pet> {
+    public getPetById(param: PetApiGetPetByIdRequest, options?: Configuration| Middleware[]): Promise<Pet> {
         return this.api.getPetById(param.petId,  options).toPromise();
     }
 
@@ -1134,7 +1134,7 @@ export class ObjectPetApi {
      * Update an existing pet
      * @param param the request object
      */
-    public updatePet(param: PetApiUpdatePetRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public updatePet(param: PetApiUpdatePetRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.updatePet(param.pet,  options).toPromise();
     }
 
@@ -1152,7 +1152,7 @@ export class ObjectPetApi {
      * Updates a pet in the store with form data
      * @param param the request object
      */
-    public updatePetWithForm(param: PetApiUpdatePetWithFormRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public updatePetWithForm(param: PetApiUpdatePetWithFormRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.updatePetWithForm(param.petId, param.name, param.status,  options).toPromise();
     }
 
@@ -1170,7 +1170,7 @@ export class ObjectPetApi {
      * uploads an image
      * @param param the request object
      */
-    public uploadFile(param: PetApiUploadFileRequest, options?: Configuration | Middleware[]): Promise<ApiResponse> {
+    public uploadFile(param: PetApiUploadFileRequest, options?: Configuration| Middleware[]): Promise<ApiResponse> {
         return this.api.uploadFile(param.petId, param.additionalMetadata, param.file,  options).toPromise();
     }
 
@@ -1188,7 +1188,7 @@ export class ObjectPetApi {
      * uploads an image (required)
      * @param param the request object
      */
-    public uploadFileWithRequiredFile(param: PetApiUploadFileWithRequiredFileRequest, options?: Configuration | Middleware[]): Promise<ApiResponse> {
+    public uploadFileWithRequiredFile(param: PetApiUploadFileWithRequiredFileRequest, options?: Configuration| Middleware[]): Promise<ApiResponse> {
         return this.api.uploadFileWithRequiredFile(param.petId, param.requiredFile, param.additionalMetadata,  options).toPromise();
     }
 
@@ -1252,7 +1252,7 @@ export class ObjectStoreApi {
      * Delete purchase order by ID
      * @param param the request object
      */
-    public deleteOrder(param: StoreApiDeleteOrderRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public deleteOrder(param: StoreApiDeleteOrderRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.deleteOrder(param.orderId,  options).toPromise();
     }
 
@@ -1270,7 +1270,7 @@ export class ObjectStoreApi {
      * Returns pet inventories by status
      * @param param the request object
      */
-    public getInventory(param: StoreApiGetInventoryRequest = {}, options?: Configuration | Middleware[]): Promise<{ [key: string]: number; }> {
+    public getInventory(param: StoreApiGetInventoryRequest = {}, options?: Configuration| Middleware[]): Promise<{ [key: string]: number; }> {
         return this.api.getInventory( options).toPromise();
     }
 
@@ -1288,7 +1288,7 @@ export class ObjectStoreApi {
      * Find purchase order by ID
      * @param param the request object
      */
-    public getOrderById(param: StoreApiGetOrderByIdRequest, options?: Configuration | Middleware[]): Promise<Order> {
+    public getOrderById(param: StoreApiGetOrderByIdRequest, options?: Configuration| Middleware[]): Promise<Order> {
         return this.api.getOrderById(param.orderId,  options).toPromise();
     }
 
@@ -1306,7 +1306,7 @@ export class ObjectStoreApi {
      * Place an order for a pet
      * @param param the request object
      */
-    public placeOrder(param: StoreApiPlaceOrderRequest, options?: Configuration | Middleware[]): Promise<Order> {
+    public placeOrder(param: StoreApiPlaceOrderRequest, options?: Configuration| Middleware[]): Promise<Order> {
         return this.api.placeOrder(param.order,  options).toPromise();
     }
 
@@ -1419,7 +1419,7 @@ export class ObjectUserApi {
      * Create user
      * @param param the request object
      */
-    public createUser(param: UserApiCreateUserRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public createUser(param: UserApiCreateUserRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.createUser(param.user,  options).toPromise();
     }
 
@@ -1437,7 +1437,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithArrayInput(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public createUsersWithArrayInput(param: UserApiCreateUsersWithArrayInputRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.createUsersWithArrayInput(param.user,  options).toPromise();
     }
 
@@ -1455,7 +1455,7 @@ export class ObjectUserApi {
      * Creates list of users with given input array
      * @param param the request object
      */
-    public createUsersWithListInput(param: UserApiCreateUsersWithListInputRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public createUsersWithListInput(param: UserApiCreateUsersWithListInputRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.createUsersWithListInput(param.user,  options).toPromise();
     }
 
@@ -1473,7 +1473,7 @@ export class ObjectUserApi {
      * Delete user
      * @param param the request object
      */
-    public deleteUser(param: UserApiDeleteUserRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public deleteUser(param: UserApiDeleteUserRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.deleteUser(param.username,  options).toPromise();
     }
 
@@ -1491,7 +1491,7 @@ export class ObjectUserApi {
      * Get user by user name
      * @param param the request object
      */
-    public getUserByName(param: UserApiGetUserByNameRequest, options?: Configuration | Middleware[]): Promise<User> {
+    public getUserByName(param: UserApiGetUserByNameRequest, options?: Configuration| Middleware[]): Promise<User> {
         return this.api.getUserByName(param.username,  options).toPromise();
     }
 
@@ -1509,7 +1509,7 @@ export class ObjectUserApi {
      * Logs user into the system
      * @param param the request object
      */
-    public loginUser(param: UserApiLoginUserRequest, options?: Configuration | Middleware[]): Promise<string> {
+    public loginUser(param: UserApiLoginUserRequest, options?: Configuration| Middleware[]): Promise<string> {
         return this.api.loginUser(param.username, param.password,  options).toPromise();
     }
 
@@ -1527,7 +1527,7 @@ export class ObjectUserApi {
      * Logs out current logged in user session
      * @param param the request object
      */
-    public logoutUser(param: UserApiLogoutUserRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public logoutUser(param: UserApiLogoutUserRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.logoutUser( options).toPromise();
     }
 
@@ -1545,7 +1545,7 @@ export class ObjectUserApi {
      * Updated user
      * @param param the request object
      */
-    public updateUser(param: UserApiUpdateUserRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public updateUser(param: UserApiUpdateUserRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.updateUser(param.username, param.user,  options).toPromise();
     }
 

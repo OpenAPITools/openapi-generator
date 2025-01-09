@@ -1,8 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
 import { Configuration} from '../configuration{{importFileExtension}}'
-{{^useInversify}}
 import type { Middleware } from "../middleware";
-{{/useInversify}}
 import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 {{#useInversify}}

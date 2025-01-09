@@ -217,7 +217,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfArraysGet(param: DefaultApiTestDecodeArrayOfArraysGetRequest = {}, options?: Configuration | Middleware[]): Promise<Array<Array<string>>> {
+    public testDecodeArrayOfArraysGet(param: DefaultApiTestDecodeArrayOfArraysGetRequest = {}, options?: Configuration| Middleware[]): Promise<Array<Array<string>>> {
         return this.api.testDecodeArrayOfArraysGet( options).toPromise();
     }
 
@@ -231,7 +231,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfGet(param: DefaultApiTestDecodeArrayOfGetRequest = {}, options?: Configuration | Middleware[]): Promise<Array<string>> {
+    public testDecodeArrayOfGet(param: DefaultApiTestDecodeArrayOfGetRequest = {}, options?: Configuration| Middleware[]): Promise<Array<string>> {
         return this.api.testDecodeArrayOfGet( options).toPromise();
     }
 
@@ -245,7 +245,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfMapsOfObjectsGet(param: DefaultApiTestDecodeArrayOfMapsOfObjectsGetRequest = {}, options?: Configuration | Middleware[]): Promise<Array<{ [key: string]: ComplexObject; }>> {
+    public testDecodeArrayOfMapsOfObjectsGet(param: DefaultApiTestDecodeArrayOfMapsOfObjectsGetRequest = {}, options?: Configuration| Middleware[]): Promise<Array<{ [key: string]: ComplexObject; }>> {
         return this.api.testDecodeArrayOfMapsOfObjectsGet( options).toPromise();
     }
 
@@ -259,7 +259,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfNullableGet(param: DefaultApiTestDecodeArrayOfNullableGetRequest = {}, options?: Configuration | Middleware[]): Promise<Array<string | null>> {
+    public testDecodeArrayOfNullableGet(param: DefaultApiTestDecodeArrayOfNullableGetRequest = {}, options?: Configuration| Middleware[]): Promise<Array<string | null>> {
         return this.api.testDecodeArrayOfNullableGet( options).toPromise();
     }
 
@@ -273,7 +273,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeArrayOfNullableObjectsGet(param: DefaultApiTestDecodeArrayOfNullableObjectsGetRequest = {}, options?: Configuration | Middleware[]): Promise<Array<ComplexObject>> {
+    public testDecodeArrayOfNullableObjectsGet(param: DefaultApiTestDecodeArrayOfNullableObjectsGetRequest = {}, options?: Configuration| Middleware[]): Promise<Array<ComplexObject>> {
         return this.api.testDecodeArrayOfNullableObjectsGet( options).toPromise();
     }
 
@@ -287,7 +287,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeCompositeObjectsGet(param: DefaultApiTestDecodeCompositeObjectsGetRequest = {}, options?: Configuration | Middleware[]): Promise<CompositeObject> {
+    public testDecodeCompositeObjectsGet(param: DefaultApiTestDecodeCompositeObjectsGetRequest = {}, options?: Configuration| Middleware[]): Promise<CompositeObject> {
         return this.api.testDecodeCompositeObjectsGet( options).toPromise();
     }
 
@@ -301,7 +301,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeMapOfMapsOfObjectsGet(param: DefaultApiTestDecodeMapOfMapsOfObjectsGetRequest = {}, options?: Configuration | Middleware[]): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
+    public testDecodeMapOfMapsOfObjectsGet(param: DefaultApiTestDecodeMapOfMapsOfObjectsGetRequest = {}, options?: Configuration| Middleware[]): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
         return this.api.testDecodeMapOfMapsOfObjectsGet( options).toPromise();
     }
 
@@ -315,7 +315,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeMapOfObjectsGet(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: Configuration | Middleware[]): Promise<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(param: DefaultApiTestDecodeMapOfObjectsGetRequest = {}, options?: Configuration| Middleware[]): Promise<{ [key: string]: ComplexObject | null; }> {
         return this.api.testDecodeMapOfObjectsGet( options).toPromise();
     }
 
@@ -329,7 +329,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeMapOfPrimitiveGet(param: DefaultApiTestDecodeMapOfPrimitiveGetRequest = {}, options?: Configuration | Middleware[]): Promise<{ [key: string]: string; }> {
+    public testDecodeMapOfPrimitiveGet(param: DefaultApiTestDecodeMapOfPrimitiveGetRequest = {}, options?: Configuration| Middleware[]): Promise<{ [key: string]: string; }> {
         return this.api.testDecodeMapOfPrimitiveGet( options).toPromise();
     }
 
@@ -343,7 +343,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeNullableArrayGet(param: DefaultApiTestDecodeNullableArrayGetRequest = {}, options?: Configuration | Middleware[]): Promise<Array<string>> {
+    public testDecodeNullableArrayGet(param: DefaultApiTestDecodeNullableArrayGetRequest = {}, options?: Configuration| Middleware[]): Promise<Array<string>> {
         return this.api.testDecodeNullableArrayGet( options).toPromise();
     }
 
@@ -357,7 +357,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeNullableGet(param: DefaultApiTestDecodeNullableGetRequest = {}, options?: Configuration | Middleware[]): Promise<string> {
+    public testDecodeNullableGet(param: DefaultApiTestDecodeNullableGetRequest = {}, options?: Configuration| Middleware[]): Promise<string> {
         return this.api.testDecodeNullableGet( options).toPromise();
     }
 
@@ -371,7 +371,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodeObjectGet(param: DefaultApiTestDecodeObjectGetRequest = {}, options?: Configuration | Middleware[]): Promise<ComplexObject> {
+    public testDecodeObjectGet(param: DefaultApiTestDecodeObjectGetRequest = {}, options?: Configuration| Middleware[]): Promise<ComplexObject> {
         return this.api.testDecodeObjectGet( options).toPromise();
     }
 
@@ -385,7 +385,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodePrimitiveBooleanGet(param: DefaultApiTestDecodePrimitiveBooleanGetRequest = {}, options?: Configuration | Middleware[]): Promise<boolean> {
+    public testDecodePrimitiveBooleanGet(param: DefaultApiTestDecodePrimitiveBooleanGetRequest = {}, options?: Configuration| Middleware[]): Promise<boolean> {
         return this.api.testDecodePrimitiveBooleanGet( options).toPromise();
     }
 
@@ -399,7 +399,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodePrimitiveIntegerGet(param: DefaultApiTestDecodePrimitiveIntegerGetRequest = {}, options?: Configuration | Middleware[]): Promise<number> {
+    public testDecodePrimitiveIntegerGet(param: DefaultApiTestDecodePrimitiveIntegerGetRequest = {}, options?: Configuration| Middleware[]): Promise<number> {
         return this.api.testDecodePrimitiveIntegerGet( options).toPromise();
     }
 
@@ -413,7 +413,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodePrimitiveNumberGet(param: DefaultApiTestDecodePrimitiveNumberGetRequest = {}, options?: Configuration | Middleware[]): Promise<number> {
+    public testDecodePrimitiveNumberGet(param: DefaultApiTestDecodePrimitiveNumberGetRequest = {}, options?: Configuration| Middleware[]): Promise<number> {
         return this.api.testDecodePrimitiveNumberGet( options).toPromise();
     }
 
@@ -427,7 +427,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testDecodePrimitiveStringGet(param: DefaultApiTestDecodePrimitiveStringGetRequest = {}, options?: Configuration | Middleware[]): Promise<string> {
+    public testDecodePrimitiveStringGet(param: DefaultApiTestDecodePrimitiveStringGetRequest = {}, options?: Configuration| Middleware[]): Promise<string> {
         return this.api.testDecodePrimitiveStringGet( options).toPromise();
     }
 
@@ -441,7 +441,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeArrayOfArraysPost(param: DefaultApiTestEncodeArrayOfArraysPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeArrayOfArraysPost(param: DefaultApiTestEncodeArrayOfArraysPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeArrayOfArraysPost(param.requestBody,  options).toPromise();
     }
 
@@ -455,7 +455,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeArrayOfMapsOfObjectsPost(param: DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeArrayOfMapsOfObjectsPost(param: DefaultApiTestEncodeArrayOfMapsOfObjectsPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeArrayOfMapsOfObjectsPost(param.complexObject,  options).toPromise();
     }
 
@@ -469,7 +469,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeArrayOfNullableObjectsPost(param: DefaultApiTestEncodeArrayOfNullableObjectsPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeArrayOfNullableObjectsPost(param: DefaultApiTestEncodeArrayOfNullableObjectsPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeArrayOfNullableObjectsPost(param.complexObject,  options).toPromise();
     }
 
@@ -483,7 +483,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeArrayOfNullablePost(param: DefaultApiTestEncodeArrayOfNullablePostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeArrayOfNullablePost(param: DefaultApiTestEncodeArrayOfNullablePostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeArrayOfNullablePost(param.requestBody,  options).toPromise();
     }
 
@@ -497,7 +497,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeArrayOfPost(param: DefaultApiTestEncodeArrayOfPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeArrayOfPost(param: DefaultApiTestEncodeArrayOfPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeArrayOfPost(param.requestBody,  options).toPromise();
     }
 
@@ -511,7 +511,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeCompositeObjectsPost(param: DefaultApiTestEncodeCompositeObjectsPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeCompositeObjectsPost(param: DefaultApiTestEncodeCompositeObjectsPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeCompositeObjectsPost(param.compositeObject,  options).toPromise();
     }
 
@@ -525,7 +525,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeMapOfMapsOfObjectsPost(param: DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeMapOfMapsOfObjectsPost(param: DefaultApiTestEncodeMapOfMapsOfObjectsPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeMapOfMapsOfObjectsPost(param.requestBody,  options).toPromise();
     }
 
@@ -539,7 +539,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeMapOfObjectsPost(param: DefaultApiTestEncodeMapOfObjectsPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeMapOfObjectsPost(param: DefaultApiTestEncodeMapOfObjectsPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeMapOfObjectsPost(param.requestBody,  options).toPromise();
     }
 
@@ -553,7 +553,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeMapOfPrimitivePost(param: DefaultApiTestEncodeMapOfPrimitivePostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeMapOfPrimitivePost(param: DefaultApiTestEncodeMapOfPrimitivePostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeMapOfPrimitivePost(param.requestBody,  options).toPromise();
     }
 
@@ -567,7 +567,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeNullableArrayPost(param: DefaultApiTestEncodeNullableArrayPostRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeNullableArrayPost(param: DefaultApiTestEncodeNullableArrayPostRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeNullableArrayPost(param.requestBody,  options).toPromise();
     }
 
@@ -581,7 +581,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeNullablePost(param: DefaultApiTestEncodeNullablePostRequest = {}, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeNullablePost(param: DefaultApiTestEncodeNullablePostRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeNullablePost(param.body,  options).toPromise();
     }
 
@@ -595,7 +595,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodeObjectPost(param: DefaultApiTestEncodeObjectPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodeObjectPost(param: DefaultApiTestEncodeObjectPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodeObjectPost(param.complexObject,  options).toPromise();
     }
 
@@ -609,7 +609,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodePrimitiveBooleanPost(param: DefaultApiTestEncodePrimitiveBooleanPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodePrimitiveBooleanPost(param: DefaultApiTestEncodePrimitiveBooleanPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodePrimitiveBooleanPost(param.body,  options).toPromise();
     }
 
@@ -623,7 +623,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodePrimitiveIntegerPost(param: DefaultApiTestEncodePrimitiveIntegerPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodePrimitiveIntegerPost(param: DefaultApiTestEncodePrimitiveIntegerPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodePrimitiveIntegerPost(param.body,  options).toPromise();
     }
 
@@ -637,7 +637,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodePrimitiveNumberPost(param: DefaultApiTestEncodePrimitiveNumberPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodePrimitiveNumberPost(param: DefaultApiTestEncodePrimitiveNumberPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodePrimitiveNumberPost(param.body,  options).toPromise();
     }
 
@@ -651,7 +651,7 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public testEncodePrimitiveStringPost(param: DefaultApiTestEncodePrimitiveStringPostRequest, options?: Configuration | Middleware[]): Promise<void> {
+    public testEncodePrimitiveStringPost(param: DefaultApiTestEncodePrimitiveStringPostRequest, options?: Configuration| Middleware[]): Promise<void> {
         return this.api.testEncodePrimitiveStringPost(param.body,  options).toPromise();
     }
 
