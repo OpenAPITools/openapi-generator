@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -28,8 +29,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
-    public async fakeBigDecimalMap(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeBigDecimalMap(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/fake/BigDecimalMap';
@@ -40,7 +44,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -51,8 +55,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Health check endpoint
      */
-    public async fakeHealthGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeHealthGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/fake/health';
@@ -63,7 +70,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -77,8 +84,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param query1 query parameter
      * @param header1 header parameter
      */
-    public async fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
@@ -124,7 +134,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -136,8 +146,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of outer boolean types
      * @param body Input boolean as post body
      */
-    public async fakeOuterBooleanSerialize(body?: boolean, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeOuterBooleanSerialize(body?: boolean, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -160,7 +173,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -172,8 +185,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of object with outer number type
      * @param outerComposite Input composite as post body
      */
-    public async fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -196,7 +212,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -208,8 +224,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of outer number types
      * @param body Input number as post body
      */
-    public async fakeOuterNumberSerialize(body?: number, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeOuterNumberSerialize(body?: number, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -232,7 +251,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -244,8 +263,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of outer string types
      * @param body Input string as post body
      */
-    public async fakeOuterStringSerialize(body?: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakeOuterStringSerialize(body?: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -268,7 +290,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -280,8 +302,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of enum (int) properties with examples
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
-    public async fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'outerObjectWithEnumProperty' is not null or undefined
         if (outerObjectWithEnumProperty === null || outerObjectWithEnumProperty === undefined) {
@@ -309,7 +334,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -321,8 +346,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * For this test, the body has to be a binary file.
      * @param body image to upload
      */
-    public async testBodyWithBinary(body: HttpFile, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testBodyWithBinary(body: HttpFile, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -350,7 +378,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -362,8 +390,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * For this test, the body for this request must reference a schema named `File`.
      * @param fileSchemaTestClass 
      */
-    public async testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'fileSchemaTestClass' is not null or undefined
         if (fileSchemaTestClass === null || fileSchemaTestClass === undefined) {
@@ -391,7 +422,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -403,8 +434,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param query 
      * @param user 
      */
-    public async testBodyWithQueryParams(query: string, user: User, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testBodyWithQueryParams(query: string, user: User, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'query' is not null or undefined
         if (query === null || query === undefined) {
@@ -443,7 +477,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -456,8 +490,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * To test \"client\" model
      * @param client client model
      */
-    public async testClientModel(client: Client, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testClientModel(client: Client, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'client' is not null or undefined
         if (client === null || client === undefined) {
@@ -485,7 +522,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -511,8 +548,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param password None
      * @param callback None
      */
-    public async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'number' is not null or undefined
         if (number === null || number === undefined) {
@@ -642,7 +682,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -663,8 +703,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
      */
-    public async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
 
@@ -750,7 +793,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         }
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -768,8 +811,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param booleanGroup Boolean in group parameters
      * @param int64Group Integer in group parameters
      */
-    public async testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requiredStringGroup' is not null or undefined
         if (requiredStringGroup === null || requiredStringGroup === undefined) {
@@ -833,7 +879,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -846,8 +892,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * test inline additionalProperties
      * @param requestBody request body
      */
-    public async testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -875,7 +924,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -889,8 +938,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param param field1
      * @param param2 field2
      */
-    public async testJsonFormData(param: string, param2: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testJsonFormData(param: string, param2: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'param' is not null or undefined
         if (param === null || param === undefined) {
@@ -942,7 +994,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         }
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -960,8 +1012,11 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param allowEmpty 
      * @param language 
      */
-    public async testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'pipe' is not null or undefined
         if (pipe === null || pipe === undefined) {
@@ -1050,7 +1105,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

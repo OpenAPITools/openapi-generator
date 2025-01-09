@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
@@ -17,8 +18,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async uniqueItems(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async uniqueItems(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/unique-items';
@@ -29,7 +33,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

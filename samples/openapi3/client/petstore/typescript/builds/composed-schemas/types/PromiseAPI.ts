@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
+import type { Middleware } from "../middleware";
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
@@ -25,7 +26,7 @@ export class PromiseDefaultApi {
     /**
      * @param [filePostRequest]
      */
-    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<HttpInfo<void>> {
+    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
         const result = this.api.filePostWithHttpInfo(filePostRequest, _options);
         return result.toPromise();
     }
@@ -33,7 +34,7 @@ export class PromiseDefaultApi {
     /**
      * @param [filePostRequest]
      */
-    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<void> {
+    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration | Middleware[]): Promise<void> {
         const result = this.api.filePost(filePostRequest, _options);
         return result.toPromise();
     }
@@ -41,7 +42,7 @@ export class PromiseDefaultApi {
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<HttpInfo<void>> {
+    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
         const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options);
         return result.toPromise();
     }
@@ -49,7 +50,7 @@ export class PromiseDefaultApi {
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<void> {
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration | Middleware[]): Promise<void> {
         const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, _options);
         return result.toPromise();
     }
@@ -57,7 +58,7 @@ export class PromiseDefaultApi {
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<HttpInfo<void>> {
+    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
         const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, _options);
         return result.toPromise();
     }
@@ -65,7 +66,7 @@ export class PromiseDefaultApi {
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<void> {
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration | Middleware[]): Promise<void> {
         const result = this.api.petsPatch(petsPatchRequest, _options);
         return result.toPromise();
     }

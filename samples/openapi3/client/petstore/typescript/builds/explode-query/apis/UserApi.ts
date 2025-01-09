@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -22,8 +23,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Create user
      * @param user Created user object
      */
-    public async createUser(user: User, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async createUser(user: User, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -51,7 +55,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -64,8 +68,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -93,7 +100,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -106,8 +113,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public async createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async createUsersWithListInput(user: Array<User>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -135,7 +145,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -148,8 +158,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public async deleteUser(username: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async deleteUser(username: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -167,7 +180,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -180,8 +193,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public async getUserByName(username: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async getUserByName(username: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -199,7 +215,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -213,8 +229,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public async loginUser(username: string, password: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async loginUser(username: string, password: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -247,7 +266,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -259,8 +278,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * 
      * Logs out current logged in user session
      */
-    public async logoutUser(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async logoutUser(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/user/logout';
@@ -271,7 +293,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -285,8 +307,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public async updateUser(username: string, user: User, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async updateUser(username: string, user: User, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -321,7 +346,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

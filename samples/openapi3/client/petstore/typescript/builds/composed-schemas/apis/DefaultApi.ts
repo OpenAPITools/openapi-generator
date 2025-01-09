@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
@@ -20,8 +21,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param filePostRequest 
      */
-    public async filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async filePost(filePostRequest?: FilePostRequest, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -44,7 +48,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -55,8 +59,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param petsFilteredPatchRequest 
      */
-    public async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -79,7 +86,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -90,8 +97,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param petsPatchRequest 
      */
-    public async petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -114,7 +124,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

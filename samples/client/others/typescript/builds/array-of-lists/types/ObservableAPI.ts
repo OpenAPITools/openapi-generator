@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
+import type { Middleware } from "../middleware";
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { List } from '../models/List';
@@ -23,12 +24,21 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public listWithHttpInfo(_options?: Configuration): Observable<HttpInfo<ListPaged>> {
+    public listWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<ListPaged>> {
+    	let configuration = undefined
+	let calltimeMiddleware: Middleware[] = []
+	if (Array.isArray(_options)){
+	    // call-time middleware provided
+	    calltimeMiddleware = _options
+	}else{
+	    configuration = _options
+	}
         const requestContextPromise = this.requestFactory.list(_options);
 
         // build promise chain
+	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
@@ -44,7 +54,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public list(_options?: Configuration): Observable<ListPaged> {
+    public list(_options?: Configuration | Middleware[]): Observable<ListPaged> {
         return this.listWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<ListPaged>) => apiResponse.data));
     }
 

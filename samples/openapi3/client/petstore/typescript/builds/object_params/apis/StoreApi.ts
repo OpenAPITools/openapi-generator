@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -22,8 +23,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public async deleteOrder(orderId: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async deleteOrder(orderId: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
@@ -41,7 +45,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -53,8 +57,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public async getInventory(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async getInventory(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/store/inventory';
@@ -71,7 +78,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             await authMethod?.applySecurityAuthentication(requestContext);
         }
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -84,8 +91,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public async getOrderById(orderId: number, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async getOrderById(orderId: number, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
@@ -103,7 +113,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -116,8 +126,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public async placeOrder(order: Order, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async placeOrder(order: Order, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'order' is not null or undefined
         if (order === null || order === undefined) {
@@ -145,7 +158,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

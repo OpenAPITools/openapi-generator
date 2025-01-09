@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi{{importFileExtension}}';
 import {Configuration} from '../configuration{{importFileExtension}}';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http{{importFileExtension}}';
 {{#platforms}}
 {{#node}}
@@ -42,8 +43,11 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
         {{#allParams}}
 
         {{#required}}
@@ -183,7 +187,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/authMethods}}
         
         {{^useInversify}}
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

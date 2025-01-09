@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
 import {Configuration} from '../configuration';
+import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import * as FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -20,8 +21,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfArraysGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeArrayOfArraysGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/array-of-arrays';
@@ -32,7 +36,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -42,8 +46,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeArrayOfGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/array-of';
@@ -54,7 +61,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -64,8 +71,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/array-of/maps-of/objects';
@@ -76,7 +86,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -86,8 +96,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfNullableGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeArrayOfNullableGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/array-of/nullable';
@@ -98,7 +111,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -108,8 +121,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfNullableObjectsGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeArrayOfNullableObjectsGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/array-of/nullable-objects';
@@ -120,7 +136,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -130,8 +146,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeCompositeObjectsGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeCompositeObjectsGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/composite-objects';
@@ -142,7 +161,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -152,8 +171,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeMapOfMapsOfObjectsGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/map-of/maps-of/objects';
@@ -164,7 +186,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -174,8 +196,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeMapOfObjectsGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeMapOfObjectsGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/map-of/objects';
@@ -186,7 +211,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -196,8 +221,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeMapOfPrimitiveGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeMapOfPrimitiveGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/map-of/primitive';
@@ -208,7 +236,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -218,8 +246,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeNullableArrayGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeNullableArrayGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/nullable-array';
@@ -230,7 +261,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -240,8 +271,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeNullableGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeNullableGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/nullable';
@@ -252,7 +286,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -262,8 +296,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeObjectGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodeObjectGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/object';
@@ -274,7 +311,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -284,8 +321,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveBooleanGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodePrimitiveBooleanGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/primitive/boolean';
@@ -296,7 +336,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -306,8 +346,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveIntegerGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodePrimitiveIntegerGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/primitive/integer';
@@ -318,7 +361,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -328,8 +371,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveNumberGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodePrimitiveNumberGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/primitive/number';
@@ -340,7 +386,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -350,8 +396,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveStringGet(_options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testDecodePrimitiveStringGet(_options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // Path Params
         const localVarPath = '/test/decode/primitive/string';
@@ -362,7 +411,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -373,8 +422,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -402,7 +454,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -413,8 +465,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param complexObject 
      */
-    public async testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'complexObject' is not null or undefined
         if (complexObject === null || complexObject === undefined) {
@@ -442,7 +497,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -453,8 +508,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param complexObject 
      */
-    public async testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'complexObject' is not null or undefined
         if (complexObject === null || complexObject === undefined) {
@@ -482,7 +540,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -493,8 +551,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -522,7 +583,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -533,8 +594,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -562,7 +626,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -573,8 +637,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param compositeObject 
      */
-    public async testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'compositeObject' is not null or undefined
         if (compositeObject === null || compositeObject === undefined) {
@@ -602,7 +669,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -613,8 +680,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -642,7 +712,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -653,8 +723,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -682,7 +755,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -693,8 +766,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'requestBody' is not null or undefined
         if (requestBody === null || requestBody === undefined) {
@@ -722,7 +798,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -733,8 +809,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -757,7 +836,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -768,8 +847,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodeNullablePost(body?: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeNullablePost(body?: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
 
         // Path Params
@@ -792,7 +874,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -803,8 +885,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param complexObject 
      */
-    public async testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'complexObject' is not null or undefined
         if (complexObject === null || complexObject === undefined) {
@@ -832,7 +917,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -843,8 +928,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -872,7 +960,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -883,8 +971,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveIntegerPost(body: number, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodePrimitiveIntegerPost(body: number, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -912,7 +1003,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -923,8 +1014,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveNumberPost(body: number, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodePrimitiveNumberPost(body: number, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -952,7 +1046,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }
@@ -963,8 +1057,11 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveStringPost(body: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
+    public async testEncodePrimitiveStringPost(body: string, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+	let _config = this.configuration;
+	if (_options && !Array.isArray(_options)){
+		_config = _options
+	}
 
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
@@ -992,7 +1089,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setBody(serializedBody);
 
         
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

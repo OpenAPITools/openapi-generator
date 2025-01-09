@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
+import type { Middleware } from "../middleware";
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { Response } from '../models/Response';
@@ -22,12 +23,21 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public uniqueItemsWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Response>> {
+    public uniqueItemsWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Response>> {
+    	let configuration = undefined
+	let calltimeMiddleware: Middleware[] = []
+	if (Array.isArray(_options)){
+	    // call-time middleware provided
+	    calltimeMiddleware = _options
+	}else{
+	    configuration = _options
+	}
         const requestContextPromise = this.requestFactory.uniqueItems(_options);
 
         // build promise chain
+	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
@@ -43,7 +53,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public uniqueItems(_options?: Configuration): Observable<Response> {
+    public uniqueItems(_options?: Configuration | Middleware[]): Observable<Response> {
         return this.uniqueItemsWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Response>) => apiResponse.data));
     }
 
