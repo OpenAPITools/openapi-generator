@@ -54,7 +54,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public list(_options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<ListPaged> {
+    public list(_options?: Configuration | Middleware[]): Observable<ListPaged> {
         return this.listWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<ListPaged>) => apiResponse.data));
     }
 

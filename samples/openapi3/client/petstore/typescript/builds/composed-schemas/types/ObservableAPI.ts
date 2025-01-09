@@ -61,7 +61,7 @@ export class ObservableDefaultApi {
     /**
      * @param [filePostRequest]
      */
-    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
+    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration | Middleware[]): Observable<void> {
         return this.filePostWithHttpInfo(filePostRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -99,7 +99,7 @@ export class ObservableDefaultApi {
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration | Middleware[]): Observable<void> {
         return this.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
@@ -137,7 +137,7 @@ export class ObservableDefaultApi {
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration{{^useInversify} | Middleware[]{{/useInversify}): Observable<void> {
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration | Middleware[]): Observable<void> {
         return this.petsPatchWithHttpInfo(petsPatchRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
