@@ -200,6 +200,7 @@ Class | Method | HTTP request | Description
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [HuntingDog](docs/HuntingDog.md)
  - [Info](docs/Info.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [InputAllOf](docs/InputAllOf.md)
