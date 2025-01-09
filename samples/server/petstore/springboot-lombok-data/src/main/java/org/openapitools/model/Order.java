@@ -78,6 +78,7 @@ public class Order {
 
   private @Nullable StatusEnum status;
 
+  @lombok.Builder.Default
   private Boolean complete = false;
 
 }
