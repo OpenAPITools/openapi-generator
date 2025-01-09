@@ -88,7 +88,7 @@ cJSON *model_with_set_propertes_convertToJSON(model_with_set_propertes_t *model_
 
     listEntry_t *string_setListEntry;
     list_ForEach(string_setListEntry, model_with_set_propertes->string_set) {
-    if(cJSON_AddStringToObject(string_set, "", (char*)string_setListEntry->data) == NULL)
+    if(cJSON_AddStringToObject(string_set, "", string_setListEntry->data) == NULL)
     {
         goto fail;
     }

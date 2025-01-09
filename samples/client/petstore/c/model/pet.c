@@ -141,7 +141,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
     listEntry_t *photo_urlsListEntry;
     list_ForEach(photo_urlsListEntry, pet->photo_urls) {
-    if(cJSON_AddStringToObject(photo_urls, "", (char*)photo_urlsListEntry->data) == NULL)
+    if(cJSON_AddStringToObject(photo_urls, "", photo_urlsListEntry->data) == NULL)
     {
         goto fail;
     }

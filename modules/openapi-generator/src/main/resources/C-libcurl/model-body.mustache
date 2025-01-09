@@ -402,7 +402,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{#isMap}}
     if ({{{classname}}}->{{{name}}}) {
         list_ForEach(listEntry, {{classname}}->{{name}}) {
-            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            keyValuePair_t *localKeyValue = listEntry->data;
             free (localKeyValue->key);
             free (localKeyValue->value);
             keyValuePair_free(localKeyValue);
@@ -570,7 +570,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{name}}}) {
     {{#items}}
     {{#isString}}
-    if(cJSON_AddStringToObject({{{name}}}, "", (char*){{{name}}}ListEntry->data) == NULL)
+    if(cJSON_AddStringToObject({{{name}}}, "", {{{name}}}ListEntry->data) == NULL)
     {
         goto fail;
     }
@@ -617,16 +617,16 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     listEntry_t *{{{name}}}ListEntry;
     if ({{{classname}}}->{{{name}}}) {
     list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{name}}}) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*){{{name}}}ListEntry->data;
+        keyValuePair_t *localKeyValue = {{{name}}}ListEntry->data;
         {{#items}}
         {{#isString}}
-        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, localKeyValue->value) == NULL)
         {
             goto fail;
         }
         {{/isString}}
         {{#isByteArray}}
-        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, localKeyValue->value) == NULL)
         {
             goto fail;
         }
@@ -848,7 +848,7 @@ fail:
         {
             goto end;
         }
-        double *{{{name}}}_local_value = (double *)calloc(1, sizeof(double));
+        double *{{{name}}}_local_value = calloc(1, sizeof(double));
         if(!{{{name}}}_local_value)
         {
             goto end;
@@ -1088,7 +1088,7 @@ end:
     if ({{{name}}}List) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, {{{name}}}List) {
-            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            keyValuePair_t *localKeyValue = listEntry->data;
             free(localKeyValue->key);
             localKeyValue->key = NULL;
             {{#items}}
