@@ -1,7 +1,7 @@
+use rust_axum_oneof::models::*;
+
 #[test]
 fn test_oneof_schema_with_discriminator() {
-    use crate::models::*;
-
     let test0 = r#"{"op": "ignored", "d": {"welcome_message": "test0"}}"#;
 
     let test1 = r#"{"op": "Hello", "d": {"welcome_message": "test1"}}"#;
@@ -93,9 +93,4 @@ fn test_oneof_schema_with_discriminator() {
         serde_json::to_string(&test12).expect("Serialization error"),
         test15
     );
-}
-
-#[tokio::test]
-async fn tokio_test() {
-    assert!(true);
 }
