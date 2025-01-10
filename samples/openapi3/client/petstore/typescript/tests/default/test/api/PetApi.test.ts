@@ -1,4 +1,5 @@
 import * as petstore from 'ts-petstore-client'
+import {Middleware, RequestContext, ResponseContext} from 'ts-petstore-client'
 
 import { expect } from "chai";
 import * as fs from 'fs';
@@ -13,107 +14,127 @@ tag.id = Math.floor(Math.random() * 100000)
 let pet: petstore.Pet;
 
 describe("PetApi", () => {
-    beforeEach(async () => {
-        pet = new petstore.Pet()
-        pet.id = Math.floor(Math.random() * 100000)
-        pet.name = "PetName"
-        pet.photoUrls = []
-        pet.status = petstore.PetStatusEnum.Available
-        pet.tags = [ tag ]
+	beforeEach(async () => {
+		pet = new petstore.Pet()
+		pet.id = Math.floor(Math.random() * 100000)
+		pet.name = "PetName"
+		pet.photoUrls = []
+		pet.status = petstore.PetStatusEnum.Available
+		pet.tags = [tag]
 
-        await petApi.addPet(pet);
-    });
+		await petApi.addPet(pet);
+	});
 
-    it("addPet", async () => {
-        const createdPet = await petApi.getPetById(pet.id)
-        expect(createdPet).to.deep.equal(pet);
-    })
+	it("addPet", async () => {
+		const createdPet = await petApi.getPetById(pet.id)
+		expect(createdPet).to.deep.equal(pet);
+	})
 
-    it("deletePet", async () => {
-        await petApi.deletePet(pet.id);
-        let deletedPet;
-        try {
-            deletedPet = await petApi.getPetById(pet.id)
-        } catch (err) {
-            expect(err.code).to.equal(404);
-            expect(err.message).to.include("Pet not found");
-            return;
-        }
-        throw new Error("Pet with id " + deletedPet.id + " was not deleted!");
-    })
+	it("addPetViaMiddleware", async () => {
+		const IdOverrideMiddleware: Middleware = {
+			pre: (c: RequestContext)=> {
+			return new Promise<RequestContext>((resolve)=>{
+				const segments = c.getUrl().split('/')
+				segments[segments.length - 1] = pet.id.toString()
+				const newURL = segments.join('/')
+				c.setUrl(newURL)
+				resolve(c)
+			})},
+			post: (c: ResponseContext)=> {
+			return new Promise<ResponseContext>((resolve)=>{
+				resolve(c)
+			})},
+		}
+		const wrongId = pet.id + 1
+		const createdPet = await petApi.getPetById(wrongId, [IdOverrideMiddleware])
+		expect(createdPet).to.deep.equal(pet);
+	})
 
-    it("deleteNonExistentPet", async () => {
-        // Use an id that is too big for the server to handle.
-        const nonExistentId = 100000000000000000000000000;
-        try {
-            await petApi.deletePet(nonExistentId)
-        } catch (err) {
-            // The 404 response for this endpoint is officially documented, but
-            // that documentation is not used for generating the client code.
-            // That means we get an error about the response being undefined
-            // here.
-            expect(err.code).to.equal(404);
-            expect(err.message).to.include("Unknown API Status Code");
-            expect(err.body).to.include("404");
-            expect(err.body).to.include("message");
-            return;
-        }
-        throw new Error("Deleted non-existent pet with id " + nonExistentId + "!");
-    })
+	it("deletePet", async () => {
+		await petApi.deletePet(pet.id);
+		let deletedPet;
+		try {
+			deletedPet = await petApi.getPetById(pet.id)
+		} catch (err) {
+			expect(err.code).to.equal(404);
+			expect(err.message).to.include("Pet not found");
+			return;
+		}
+		throw new Error("Pet with id " + deletedPet.id + " was not deleted!");
+	})
 
-    it("failRunTimeRequiredParameterCheck", async () => {
-        try {
-            await petApi.deletePet(null)
-        } catch (err) {
-            expect(err.api).to.equal("PetApi");
-            expect(err.message).to.include("PetApi");
-            expect(err.method).to.equal("deletePet");
-            expect(err.message).to.include("deletePet");
-            expect(err.field).to.equal("petId");
-            expect(err.message).to.include("petId");
-            return;
-        }
-        throw new Error("Accepted missing parameter!");
-    })
+	it("deleteNonExistentPet", async () => {
+		// Use an id that is too big for the server to handle.
+		const nonExistentId = 100000000000000000000000000;
+		try {
+			await petApi.deletePet(nonExistentId)
+		} catch (err) {
+			// The 404 response for this endpoint is officially documented, but
+			// that documentation is not used for generating the client code.
+			// That means we get an error about the response being undefined
+			// here.
+			expect(err.code).to.equal(404);
+			expect(err.message).to.include("Unknown API Status Code");
+			expect(err.body).to.include("404");
+			expect(err.body).to.include("message");
+			return;
+		}
+		throw new Error("Deleted non-existent pet with id " + nonExistentId + "!");
+	})
 
-    it("findPetsByStatus", async () => {
-        const pets = await petApi.findPetsByStatus(["available"]);
-        expect(pets.length).to.be.at.least(1);
-    })
+	it("failRunTimeRequiredParameterCheck", async () => {
+		try {
+			await petApi.deletePet(null)
+		} catch (err) {
+			expect(err.api).to.equal("PetApi");
+			expect(err.message).to.include("PetApi");
+			expect(err.method).to.equal("deletePet");
+			expect(err.message).to.include("deletePet");
+			expect(err.field).to.equal("petId");
+			expect(err.message).to.include("petId");
+			return;
+		}
+		throw new Error("Accepted missing parameter!");
+	})
 
-    it("findPetsByTag", async () => {
-        const pets = await petApi.findPetsByTags([tag.name])
-        expect(pets.length).to.be.at.least(1);
-    })
+	it("findPetsByStatus", async () => {
+		const pets = await petApi.findPetsByStatus(["available"]);
+		expect(pets.length).to.be.at.least(1);
+	})
 
-    it("getPetById", async () => {
-        const returnedPet = await petApi.getPetById(pet.id);
-        expect(returnedPet).to.deep.equal(pet);
-    })
+	it("findPetsByTag", async () => {
+		const pets = await petApi.findPetsByTags([tag.name])
+		expect(pets.length).to.be.at.least(1);
+	})
 
-    it("updatePet", async () => {
-        pet.name = "updated name";
-        await petApi.updatePet(pet);
-        await petApi.updatePet(pet);
+	it("getPetById", async () => {
+		const returnedPet = await petApi.getPetById(pet.id);
+		expect(returnedPet).to.deep.equal(pet);
+	})
 
-        const returnedPet = await petApi.getPetById(pet.id);
-        expect(returnedPet.id).to.equal(pet.id)
-        expect(returnedPet.name).to.equal(pet.name);
-    })
+	it("updatePet", async () => {
+		pet.name = "updated name";
+		await petApi.updatePet(pet);
+		await petApi.updatePet(pet);
 
-    it("updatePetWithForm", async () => {
-        const updatedName = "updated name";
-        await petApi.updatePetWithForm(pet.id, updatedName);
+		const returnedPet = await petApi.getPetById(pet.id);
+		expect(returnedPet.id).to.equal(pet.id)
+		expect(returnedPet.name).to.equal(pet.name);
+	})
 
-        const returnedPet = await petApi.getPetById(pet.id)
-        expect(returnedPet.id).to.equal(pet.id)
-        expect(returnedPet.name).to.equal(updatedName);
-    })
+	it("updatePetWithForm", async () => {
+		const updatedName = "updated name";
+		await petApi.updatePetWithForm(pet.id, updatedName);
 
-    it("uploadFile", async () => {
-        const image = fs.readFileSync(__dirname + "/pet.png")
-        const response = await petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image});
-        expect(response.code).to.be.gte(200).and.lt(300);
-        expect(response.message).to.contain("pet.png");
-    })
+		const returnedPet = await petApi.getPetById(pet.id)
+		expect(returnedPet.id).to.equal(pet.id)
+		expect(returnedPet.name).to.equal(updatedName);
+	})
+
+	it("uploadFile", async () => {
+		const image = fs.readFileSync(__dirname + "/pet.png")
+		const response = await petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image });
+		expect(response.code).to.be.gte(200).and.lt(300);
+		expect(response.message).to.contain("pet.png");
+	})
 })

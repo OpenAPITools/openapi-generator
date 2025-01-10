@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
-import type { Middleware } from "../middleware";
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
 
 import { ComplexObject } from '../models/ComplexObject';
 import { CompositeObject } from '../models/CompositeObject';
@@ -20,481 +20,865 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfArraysGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<Array<Array<string>>>> {
-        const result = this.api.testDecodeArrayOfArraysGetWithHttpInfo(_options);
+    public testDecodeArrayOfArraysGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Array<Array<string>>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfArraysGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfArraysGet(_options?: Configuration | Middleware[]): Promise<Array<Array<string>>> {
-        const result = this.api.testDecodeArrayOfArraysGet(_options);
+    public testDecodeArrayOfArraysGet(_options?: Configuration | PromiseMiddleware[]): Promise<Array<Array<string>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfArraysGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<Array<string>>> {
-        const result = this.api.testDecodeArrayOfGetWithHttpInfo(_options);
+    public testDecodeArrayOfGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Array<string>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfGet(_options?: Configuration | Middleware[]): Promise<Array<string>> {
-        const result = this.api.testDecodeArrayOfGet(_options);
+    public testDecodeArrayOfGet(_options?: Configuration | PromiseMiddleware[]): Promise<Array<string>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
-        const result = this.api.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options);
+    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration | Middleware[]): Promise<Array<{ [key: string]: ComplexObject; }>> {
-        const result = this.api.testDecodeArrayOfMapsOfObjectsGet(_options);
+    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration | PromiseMiddleware[]): Promise<Array<{ [key: string]: ComplexObject; }>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfMapsOfObjectsGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfNullableGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<Array<string | null>>> {
-        const result = this.api.testDecodeArrayOfNullableGetWithHttpInfo(_options);
+    public testDecodeArrayOfNullableGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Array<string | null>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfNullableGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfNullableGet(_options?: Configuration | Middleware[]): Promise<Array<string | null>> {
-        const result = this.api.testDecodeArrayOfNullableGet(_options);
+    public testDecodeArrayOfNullableGet(_options?: Configuration | PromiseMiddleware[]): Promise<Array<string | null>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfNullableGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<Array<ComplexObject>>> {
-        const result = this.api.testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options);
+    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Array<ComplexObject>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfNullableObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGet(_options?: Configuration | Middleware[]): Promise<Array<ComplexObject>> {
-        const result = this.api.testDecodeArrayOfNullableObjectsGet(_options);
+    public testDecodeArrayOfNullableObjectsGet(_options?: Configuration | PromiseMiddleware[]): Promise<Array<ComplexObject>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeArrayOfNullableObjectsGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeCompositeObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<CompositeObject>> {
-        const result = this.api.testDecodeCompositeObjectsGetWithHttpInfo(_options);
+    public testDecodeCompositeObjectsGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<CompositeObject>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeCompositeObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeCompositeObjectsGet(_options?: Configuration | Middleware[]): Promise<CompositeObject> {
-        const result = this.api.testDecodeCompositeObjectsGet(_options);
+    public testDecodeCompositeObjectsGet(_options?: Configuration | PromiseMiddleware[]): Promise<CompositeObject> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeCompositeObjectsGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
-        const result = this.api.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options);
+    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration | Middleware[]): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
-        const result = this.api.testDecodeMapOfMapsOfObjectsGet(_options);
+    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration | PromiseMiddleware[]): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeMapOfMapsOfObjectsGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
-        const result = this.api.testDecodeMapOfObjectsGetWithHttpInfo(_options);
+    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeMapOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGet(_options?: Configuration | Middleware[]): Promise<{ [key: string]: ComplexObject | null; }> {
-        const result = this.api.testDecodeMapOfObjectsGet(_options);
+    public testDecodeMapOfObjectsGet(_options?: Configuration | PromiseMiddleware[]): Promise<{ [key: string]: ComplexObject | null; }> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeMapOfObjectsGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<{ [key: string]: string; }>> {
-        const result = this.api.testDecodeMapOfPrimitiveGetWithHttpInfo(_options);
+    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<{ [key: string]: string; }>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeMapOfPrimitiveGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGet(_options?: Configuration | Middleware[]): Promise<{ [key: string]: string; }> {
-        const result = this.api.testDecodeMapOfPrimitiveGet(_options);
+    public testDecodeMapOfPrimitiveGet(_options?: Configuration | PromiseMiddleware[]): Promise<{ [key: string]: string; }> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeMapOfPrimitiveGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeNullableArrayGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<Array<string>>> {
-        const result = this.api.testDecodeNullableArrayGetWithHttpInfo(_options);
+    public testDecodeNullableArrayGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Array<string>>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeNullableArrayGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeNullableArrayGet(_options?: Configuration | Middleware[]): Promise<Array<string>> {
-        const result = this.api.testDecodeNullableArrayGet(_options);
+    public testDecodeNullableArrayGet(_options?: Configuration | PromiseMiddleware[]): Promise<Array<string>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeNullableArrayGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeNullableGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<string>> {
-        const result = this.api.testDecodeNullableGetWithHttpInfo(_options);
+    public testDecodeNullableGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<string>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeNullableGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeNullableGet(_options?: Configuration | Middleware[]): Promise<string> {
-        const result = this.api.testDecodeNullableGet(_options);
+    public testDecodeNullableGet(_options?: Configuration | PromiseMiddleware[]): Promise<string> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeNullableGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeObjectGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<ComplexObject>> {
-        const result = this.api.testDecodeObjectGetWithHttpInfo(_options);
+    public testDecodeObjectGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<ComplexObject>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeObjectGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodeObjectGet(_options?: Configuration | Middleware[]): Promise<ComplexObject> {
-        const result = this.api.testDecodeObjectGet(_options);
+    public testDecodeObjectGet(_options?: Configuration | PromiseMiddleware[]): Promise<ComplexObject> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodeObjectGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<boolean>> {
-        const result = this.api.testDecodePrimitiveBooleanGetWithHttpInfo(_options);
+    public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<boolean>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveBooleanGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveBooleanGet(_options?: Configuration | Middleware[]): Promise<boolean> {
-        const result = this.api.testDecodePrimitiveBooleanGet(_options);
+    public testDecodePrimitiveBooleanGet(_options?: Configuration | PromiseMiddleware[]): Promise<boolean> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveBooleanGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<number>> {
-        const result = this.api.testDecodePrimitiveIntegerGetWithHttpInfo(_options);
+    public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<number>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveIntegerGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveIntegerGet(_options?: Configuration | Middleware[]): Promise<number> {
-        const result = this.api.testDecodePrimitiveIntegerGet(_options);
+    public testDecodePrimitiveIntegerGet(_options?: Configuration | PromiseMiddleware[]): Promise<number> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveIntegerGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveNumberGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<number>> {
-        const result = this.api.testDecodePrimitiveNumberGetWithHttpInfo(_options);
+    public testDecodePrimitiveNumberGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<number>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveNumberGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveNumberGet(_options?: Configuration | Middleware[]): Promise<number> {
-        const result = this.api.testDecodePrimitiveNumberGet(_options);
+    public testDecodePrimitiveNumberGet(_options?: Configuration | PromiseMiddleware[]): Promise<number> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveNumberGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveStringGetWithHttpInfo(_options?: Configuration | Middleware[]): Promise<HttpInfo<string>> {
-        const result = this.api.testDecodePrimitiveStringGetWithHttpInfo(_options);
+    public testDecodePrimitiveStringGetWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<string>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveStringGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public testDecodePrimitiveStringGet(_options?: Configuration | Middleware[]): Promise<string> {
-        const result = this.api.testDecodePrimitiveStringGet(_options);
+    public testDecodePrimitiveStringGet(_options?: Configuration | PromiseMiddleware[]): Promise<string> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testDecodePrimitiveStringGet(observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, _options);
+    public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeArrayOfArraysPost(requestBody, _options);
+    public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfArraysPost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options);
+    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
+    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfMapsOfObjectsPost(complexObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, _options);
+    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeArrayOfNullableObjectsPost(complexObject, _options);
+    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfNullableObjectsPost(complexObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, _options);
+    public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeArrayOfNullablePost(requestBody, _options);
+    public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfNullablePost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeArrayOfPostWithHttpInfo(requestBody, _options);
+    public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeArrayOfPost(requestBody, _options);
+    public testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeArrayOfPost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param compositeObject
      */
-    public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, _options);
+    public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param compositeObject
      */
-    public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeCompositeObjectsPost(compositeObject, _options);
+    public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeCompositeObjectsPost(compositeObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options);
+    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
+    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeMapOfMapsOfObjectsPost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options);
+    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeMapOfObjectsPost(requestBody, _options);
+    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeMapOfObjectsPost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options);
+    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeMapOfPrimitivePost(requestBody, _options);
+    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeMapOfPrimitivePost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [requestBody]
      */
-    public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeNullableArrayPostWithHttpInfo(requestBody, _options);
+    public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeNullableArrayPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [requestBody]
      */
-    public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeNullableArrayPost(requestBody, _options);
+    public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeNullableArrayPost(requestBody, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [body]
      */
-    public testEncodeNullablePostWithHttpInfo(body?: string, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeNullablePostWithHttpInfo(body, _options);
+    public testEncodeNullablePostWithHttpInfo(body?: string, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeNullablePostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [body]
      */
-    public testEncodeNullablePost(body?: string, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeNullablePost(body, _options);
+    public testEncodeNullablePost(body?: string, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeNullablePost(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodeObjectPostWithHttpInfo(complexObject, _options);
+    public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeObjectPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodeObjectPost(complexObject, _options);
+    public testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodeObjectPost(complexObject, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodePrimitiveBooleanPostWithHttpInfo(body, _options);
+    public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveBooleanPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodePrimitiveBooleanPost(body, _options);
+    public testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveBooleanPost(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodePrimitiveIntegerPostWithHttpInfo(body, _options);
+    public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveIntegerPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveIntegerPost(body: number, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodePrimitiveIntegerPost(body, _options);
+    public testEncodePrimitiveIntegerPost(body: number, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveIntegerPost(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodePrimitiveNumberPostWithHttpInfo(body, _options);
+    public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveNumberPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveNumberPost(body: number, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodePrimitiveNumberPost(body, _options);
+    public testEncodePrimitiveNumberPost(body: number, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveNumberPost(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
-        const result = this.api.testEncodePrimitiveStringPostWithHttpInfo(body, _options);
+    public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveStringPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveStringPost(body: string, _options?: Configuration | Middleware[]): Promise<void> {
-        const result = this.api.testEncodePrimitiveStringPost(body, _options);
+    public testEncodePrimitiveStringPost(body: string, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
+	let observableOptions: Configuration | undefined | Middleware[]
+	if (Array.isArray(_options)){
+		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
+	}else{
+		observableOptions = _options
+	}
+        const result = this.api.testEncodePrimitiveStringPost(body, observableOptions);
         return result.toPromise();
     }
 
