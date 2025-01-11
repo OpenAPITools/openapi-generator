@@ -924,12 +924,12 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Assertions.assertThat(files).contains(
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
@@ -969,12 +969,12 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Assertions.assertThat(files).contains(
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
@@ -1015,12 +1015,12 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Assertions.assertThat(files).contains(
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
@@ -1060,12 +1060,12 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Assertions.assertThat(files).contains(
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
@@ -1105,12 +1105,12 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue16130-add-useFlowForArrayReturnType-param.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Assertions.assertThat(files).contains(
                 new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
