@@ -452,7 +452,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     /**
      * Returns true if latest version of ktor is used.
      *
-     * @return true if latest veresion of ktor is used.
+     * @return true if latest version of ktor is used.
      */
     private boolean isKtor() {
         return Constants.KTOR.equals(library);

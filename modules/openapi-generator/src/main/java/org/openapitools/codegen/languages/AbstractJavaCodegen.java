@@ -1080,10 +1080,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (items.get$ref() != null) {
-            Map<String, Schema>  shemas = this.openAPI.getComponents().getSchemas();
+            Map<String, Schema> schemas = this.openAPI.getComponents().getSchemas();
             String ref = ModelUtils.getSimpleRef(items.get$ref());
             if (ref != null) {
-                Schema<?> schema = shemas.get(ref);
+                Schema<?> schema = schemas.get(ref);
                 if (schema == null || ModelUtils.isObjectSchema(schema)) {
                     return "@Valid ";
                 }

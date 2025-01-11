@@ -460,7 +460,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * {{{
      *
      * @cask.get("/user", subpath = true)
-     * def userRouteDescriminator(request: cask.Request) = {
+     * def userRouteDiscriminator(request: cask.Request) = {
      * request.remainingPathSegments match {
      * case Seq("logout") => logoutUser(request)
      * case Seq("login") => loginUser(request)
@@ -758,7 +758,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // ermph. Apparently 'isPrimitive' can be false while 'isNumeric' is true.
 
         /*
-         * if dataType == Value then it doesn't need mapping -- this can happen with properties like ths:
+         * if dataType == Value then it doesn't need mapping -- this can happen with properties like this:
          * {{{
          *    example:
          *      items: {}

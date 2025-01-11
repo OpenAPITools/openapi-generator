@@ -302,11 +302,11 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     private String convertPathSegmentToResourceNamePart(String pathSegment) {
-        String convertedSegnemt = pathSegment;
+        String convertedSegment = pathSegment;
         if (pathSegment.matches(OPEN_API_PATH_PARAM_PATTERN)) {
-            convertedSegnemt = pathSegment.substring(1, pathSegment.length() - 1);
+            convertedSegment = pathSegment.substring(1, pathSegment.length() - 1);
         }
-        return capitalizeFirstChar(sanitizeName(convertedSegnemt));
+        return capitalizeFirstChar(sanitizeName(convertedSegment));
     }
 
     private String convertPathParamPattern(String pathSegment) {
