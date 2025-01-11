@@ -43,7 +43,7 @@
 {{/if}}
 		__{{name}}__was__set = true
 		{{name}} = value
-{{! Flag used to only serialize what has been explicitely set. (no nullable types, anyway null might be legit) }}
+{{! Flag used to only serialize what has been explicitly set. (no nullable types, anyway null might be legit) }}
 var __{{name}}__was__set := false
 {{! Store the allowed values if the property is an enum }}
 {{#if isEnum}}
