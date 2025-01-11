@@ -3875,29 +3875,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema original = null;
-        // process the dereference schema if it's a ref to allOf with a single item
-        // and certain field(s) (e.g. description, readyOnly, etc) is set
-        if (p.get$ref() != null) {
-            Schema derefSchema = ModelUtils.getReferencedSchema(openAPI, p);
-            if (ModelUtils.isAllOfWithSingleItem(derefSchema) && (
-                    derefSchema.getReadOnly() != null ||
-                            derefSchema.getWriteOnly() != null ||
-                            derefSchema.getDeprecated() != null ||
-                            derefSchema.getDescription() != null ||
-                            derefSchema.getMaxLength() != null ||
-                            derefSchema.getMinLength() != null ||
-                            derefSchema.getMinimum() != null ||
-                            derefSchema.getMaximum() != null ||
-                            derefSchema.getMaximum() != null ||
-                            derefSchema.getMinItems() != null ||
-                            derefSchema.getTitle() != null
-                    )) {
-                p = ModelUtils.getReferencedSchema(openAPI, p);
-            }
-        }
-
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
-        if (ModelUtils.isAllOfWithSingleItem(p)) {
+        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1) {
             if (p.getAllOf().get(0) instanceof Schema) {
                 original = p;
                 p = (Schema) p.getAllOf().get(0);

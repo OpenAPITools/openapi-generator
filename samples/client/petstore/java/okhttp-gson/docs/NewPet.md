@@ -8,8 +8,6 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**id** | **Long** |  |  [optional] |
-|**categoryRefToInlineAllofString** | **String** | testing allOf with a ref to string |  [optional] |
-|**categoryInlineAllofString** | **String** | testing allOf with a ref to string |  [optional] |
 |**categoryInlineAllof** | [**NewPetCategoryInlineAllof**](NewPetCategoryInlineAllof.md) |  |  [optional] |
 |**categoryAllOfRef** | [**Category**](Category.md) |  |  [optional] |
 |**categoryAllOfRefDescription** | [**Category**](Category.md) | Adding description to property using allOf  |  [optional] |

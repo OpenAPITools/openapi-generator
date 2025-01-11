@@ -2031,18 +2031,6 @@ public class ModelUtils {
         return false;
     }
 
-
-    /**
-     * Returns true if the schema contains allOf with a single item but
-     * no properties/oneOf/anyOf defined
-     *
-     * @param schema the schema
-     * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
-     */
-    public static boolean isAllOfWithSingleItem(Schema schema) {
-        return (isAllOf(schema) && schema.getAllOf().size() == 1);
-    }
-
     /**
      * Returns true if the schema contains allOf and may or may not have
      * properties/oneOf/anyOf defined.
