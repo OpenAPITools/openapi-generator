@@ -207,7 +207,7 @@ public class InlineModelResolver {
 
     /**
      * Return false if model can be represented by primitives e.g. string, object
-     * without properties, array or map of other model (model contanier), etc.
+     * without properties, array or map of other model (model container), etc.
      * <p>
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
@@ -220,7 +220,7 @@ public class InlineModelResolver {
 
     /**
      * Return false if model can be represented by primitives e.g. string, object
-     * without properties, array or map of other model (model contanier), etc.
+     * without properties, array or map of other model (model container), etc.
      * <p>
      * Return true if a model should be generated e.g. object with properties,
      * enum, oneOf, allOf, anyOf, etc.
@@ -1043,7 +1043,7 @@ public class InlineModelResolver {
      * Add the schemas to the components
      *
      * @param name   name of the inline schema
-     * @param schema inilne schema
+     * @param schema inline schema
      * @return the actual model name (based on inlineSchemaNameMapping if provided)
      */
     private String addSchemas(String name, Schema schema) {

@@ -435,7 +435,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // translate @ for properties (like @type) to at_.
-        // Otherwise an additional "type" property will leed to duplcates
+        // Otherwise an additional "type" property will lead to duplicates
         name = name.replaceAll("^@", "at_");
 
         // sanitize name
