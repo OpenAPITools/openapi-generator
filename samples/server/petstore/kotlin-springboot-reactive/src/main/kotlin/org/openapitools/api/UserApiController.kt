@@ -39,14 +39,16 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         operationId = "createUser",
         description = """This can only be done by the logged in user.""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ]
+            ApiResponse(responseCode = "200", description = "successful operation") ],
+        security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user"]
+        value = ["/user"],
+        consumes = ["application/json"]
     )
-    suspend fun createUser(@Parameter(description = "Created user object", required = true) @Valid @RequestBody body: User): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
+    suspend fun createUser(@Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+        return ResponseEntity(service.createUser(user), HttpStatus.valueOf(200))
     }
 
     @Operation(
@@ -54,14 +56,16 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         operationId = "createUsersWithArrayInput",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ]
+            ApiResponse(responseCode = "200", description = "successful operation") ],
+        security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithArray"]
+        value = ["/user/createWithArray"],
+        consumes = ["application/json"]
     )
-    suspend fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody body: Flow<User>): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
+    suspend fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: Flow<User>): ResponseEntity<Unit> {
+        return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.valueOf(200))
     }
 
     @Operation(
@@ -69,14 +73,16 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         operationId = "createUsersWithListInput",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ]
+            ApiResponse(responseCode = "200", description = "successful operation") ],
+        security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithList"]
+        value = ["/user/createWithList"],
+        consumes = ["application/json"]
     )
-    suspend fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody body: Flow<User>): ResponseEntity<Unit> {
-        return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
+    suspend fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: Flow<User>): ResponseEntity<Unit> {
+        return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.valueOf(200))
     }
 
     @Operation(
@@ -85,7 +91,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         description = """This can only be done by the logged in user.""",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid username supplied"),
-            ApiResponse(responseCode = "404", description = "User not found") ]
+            ApiResponse(responseCode = "404", description = "User not found") ],
+        security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
@@ -126,7 +133,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    suspend fun loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    suspend fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 
@@ -135,7 +142,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         operationId = "logoutUser",
         description = """""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation") ]
+            ApiResponse(responseCode = "200", description = "successful operation") ],
+        security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
         method = [RequestMethod.GET],
@@ -151,13 +159,15 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         description = """This can only be done by the logged in user.""",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid user supplied"),
-            ApiResponse(responseCode = "404", description = "User not found") ]
+            ApiResponse(responseCode = "404", description = "User not found") ],
+        security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/user/{username}"]
+        value = ["/user/{username}"],
+        consumes = ["application/json"]
     )
-    suspend fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody body: User): ResponseEntity<Unit> {
-        return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
+    suspend fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+        return ResponseEntity(service.updateUser(username, user), HttpStatus.valueOf(400))
     }
 }

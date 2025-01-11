@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class PetApiServiceImpl : PetApiService {
 
-    override suspend fun addPet(body: Pet): Unit {
+    override suspend fun addPet(pet: Pet): Pet {
         TODO("Implement me")
     }
 
@@ -15,11 +15,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): Flow<Pet> {
+    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet> {
         TODO("Implement me")
     }
 
-    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): Flow<Pet> {
+    override fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet> {
         TODO("Implement me")
     }
 
@@ -27,7 +27,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override suspend fun updatePet(body: Pet): Unit {
+    override suspend fun updatePet(pet: Pet): Pet {
         TODO("Implement me")
     }
 

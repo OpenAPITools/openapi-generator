@@ -23,6 +23,7 @@ data class Category(
     @Schema(example = "null", description = "")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
+    @get:Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")
     @Schema(example = "null", description = "")
     @get:JsonProperty("name") val name: kotlin.String? = null
     ) {

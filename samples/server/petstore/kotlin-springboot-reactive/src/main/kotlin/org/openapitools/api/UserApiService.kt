@@ -9,29 +9,31 @@ interface UserApiService {
      * POST /user : Create user
      * This can only be done by the logged in user.
      *
-     * @param body Created user object (required)
+     * @param user Created user object (required)
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    suspend fun createUser(body: User): Unit
+    suspend fun createUser(user: User): Unit
 
     /**
      * POST /user/createWithArray : Creates list of users with given input array
+     * 
      *
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    suspend fun createUsersWithArrayInput(body: Flow<User>): Unit
+    suspend fun createUsersWithArrayInput(user: Flow<User>): Unit
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
+     * 
      *
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    suspend fun createUsersWithListInput(body: Flow<User>): Unit
+    suspend fun createUsersWithListInput(user: Flow<User>): Unit
 
     /**
      * DELETE /user/{username} : Delete user
@@ -46,6 +48,7 @@ interface UserApiService {
 
     /**
      * GET /user/{username} : Get user by user name
+     * 
      *
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
      * @return successful operation (status code 200)
@@ -57,6 +60,7 @@ interface UserApiService {
 
     /**
      * GET /user/login : Logs user into the system
+     * 
      *
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
@@ -68,6 +72,7 @@ interface UserApiService {
 
     /**
      * GET /user/logout : Logs out current logged in user session
+     * 
      *
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
@@ -79,10 +84,10 @@ interface UserApiService {
      * This can only be done by the logged in user.
      *
      * @param username name that need to be deleted (required)
-     * @param body Updated user object (required)
+     * @param user Updated user object (required)
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    suspend fun updateUser(username: kotlin.String, body: User): Unit
+    suspend fun updateUser(username: kotlin.String, user: User): Unit
 }
