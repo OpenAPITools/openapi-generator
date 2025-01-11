@@ -11,7 +11,7 @@ The following server methods must be implemented:
 {{#operation}}
 - **{{operationId}}**
     - *invocation:* {{httpMethod}} {{{path}}}
-    - *signature:* {{operationId}}(req::HTTP.Request{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}}) -> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}
+    - *signature:* {{operationId}}(req::HTTP.Request{{#allParams}}{{#required}}, {{paramName}}::{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}}) -> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}
 {{/operation}}
 {{/operations}}
 {{/apis}}
