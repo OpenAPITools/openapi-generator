@@ -2697,22 +2697,12 @@ components:
         $ref: '#/components/schemas/Scalar'
       minItems: 1
       type: array
-    AllOfRefToString:
-      allOf:
-      - $ref: '#/components/schemas/OuterString'
-      description: testing allOf with a ref to string
     NewPet:
       properties:
         id:
           format: int64
           type: integer
           x-is-unique: true
-        category_ref_to_inline_allof_string:
-          $ref: '#/components/schemas/AllOfRefToString'
-        category_inline_allof_string:
-          allOf:
-          - $ref: '#/components/schemas/OuterString'
-          description: testing allOf with a ref to string
         category_inline_allof:
           $ref: '#/components/schemas/NewPet_category_inline_allof'
         category_allOf_ref:
