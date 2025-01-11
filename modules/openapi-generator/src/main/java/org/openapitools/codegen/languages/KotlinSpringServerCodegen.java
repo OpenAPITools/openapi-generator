@@ -147,7 +147,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Getter @Setter
     private boolean reactive = false;
     @Getter @Setter
-    private boolean useFlowForArrayReturnType = true;
+    private boolean useFlowForArrayReturnType = false;
     @Setter private boolean interfaceOnly = false;
     @Setter protected boolean useFeignClientUrl = true;
     @Setter protected boolean useFeignClient = false;
