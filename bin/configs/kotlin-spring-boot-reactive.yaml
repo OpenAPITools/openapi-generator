@@ -10,3 +10,5 @@ additionalProperties:
   serviceImplementation: "true"
   reactive: "true"
   beanValidations: "true"
+  # the following option is set to true by default
+  #useFlowForArrayReturnType: "true"
