@@ -34,6 +34,8 @@ jobs:
           - samples/server/petstore/kotlin-springboot-delegate
           - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-reactive
+          - samples/server/petstore/kotlin-springboot-reactive-with-flow
+          - samples/server/petstore/kotlin-springboot-reactive-without-flow
           - samples/server/petstore/kotlin-springboot-source-swagger1
           - samples/server/petstore/kotlin-springboot-source-swagger2
           - samples/server/petstore/kotlin-springboot-springfox
