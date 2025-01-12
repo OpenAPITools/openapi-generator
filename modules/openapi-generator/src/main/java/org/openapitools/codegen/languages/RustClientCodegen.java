@@ -608,18 +608,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         // in order to avoid name conflicts, we map parameters inside the functions
-        String in_function_identifier = "";
+        String inFunctionIdentifier = "";
         if (this.useSingleRequestParameter) {
-            in_function_identifier = "params." + parameter.paramName;
+            inFunctionIdentifier = "params." + parameter.paramName;
         } else {
             if (parameter.paramName.startsWith("r#")) {
-                in_function_identifier = "p_" + parameter.paramName.substring(2);
+                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
             } else {
-                in_function_identifier = "p_" + parameter.paramName;
+                inFunctionIdentifier = "p_" + parameter.paramName;
             }
         }
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
-            parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, in_function_identifier);
+            parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, inFunctionIdentifier);
         }
     }
 
