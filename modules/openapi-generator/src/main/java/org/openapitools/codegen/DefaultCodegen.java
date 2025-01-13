@@ -297,7 +297,7 @@ public class DefaultCodegen implements CodegenConfig {
     // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
     protected boolean strictSpecBehavior = true;
     // flag to indicate whether enum value prefixes are removed
-    protected boolean removeEnumValuePrefix = true;
+    protected boolean removeEnumValuePrefix = false;
 
     // Support legacy logic for evaluating discriminators
     @Setter protected boolean legacyDiscriminatorBehavior = true;

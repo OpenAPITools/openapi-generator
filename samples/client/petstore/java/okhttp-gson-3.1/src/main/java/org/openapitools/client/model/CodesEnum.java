@@ -29,11 +29,11 @@ import com.google.gson.stream.JsonWriter;
 @JsonAdapter(CodesEnum.Adapter.class)
 public enum CodesEnum {
   
-  _1("Code 1"),
+  CODE_1("Code 1"),
   
-  _2("Code 2"),
+  CODE_2("Code 2"),
   
-  _3("Code 3");
+  CODE_3("Code 3");
 
   private String value;
 
