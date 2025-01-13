@@ -21,8 +21,7 @@ Zebra <- R6::R6Class(
     `className` = NULL,
     `_field_list` = c("type", "className"),
     `additional_properties` = list(),
-    #' Initialize a new Zebra class.
-    #'
+
     #' @description
     #' Initialize a new Zebra class.
     #'
@@ -30,7 +29,6 @@ Zebra <- R6::R6Class(
     #' @param type type
     #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`className`, `type` = NULL, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
         if (!(is.character(`className`) && length(`className`) == 1)) {
@@ -53,14 +51,37 @@ Zebra <- R6::R6Class(
         }
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return Zebra in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Zebra as a base R list.
+    #' @examples
+    #' # convert array of Zebra (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Zebra to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       ZebraObject <- list()
       if (!is.null(self$`type`)) {
         ZebraObject[["type"]] <-
@@ -74,16 +95,14 @@ Zebra <- R6::R6Class(
         ZebraObject[[key]] <- self$additional_properties[[key]]
       }
 
-      ZebraObject
+      return(ZebraObject)
     },
-    #' Deserialize JSON string into an instance of Zebra
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Zebra
     #'
     #' @param input_json the JSON input
     #' @return the instance of Zebra
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`type`)) {
@@ -104,48 +123,26 @@ Zebra <- R6::R6Class(
 
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Zebra in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`type`)) {
-          sprintf(
-          '"type":
-            "%s"
-                    ',
-          self$`type`
-          )
-        },
-        if (!is.null(self$`className`)) {
-          sprintf(
-          '"className":
-            "%s"
-                    ',
-          self$`className`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of Zebra
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Zebra
     #'
     #' @param input_json the JSON input
     #' @return the instance of Zebra
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`type`) && !(this_object$`type` %in% c("plains", "mountain", "grevys"))) {
@@ -162,13 +159,11 @@ Zebra <- R6::R6Class(
 
       self
     },
-    #' Validate JSON input with respect to Zebra
-    #'
+
     #' @description
     #' Validate JSON input with respect to Zebra and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
@@ -180,23 +175,19 @@ Zebra <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for Zebra: the required field `className` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Zebra
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       # check if the required `className` is null
       if (is.null(self$`className`)) {
@@ -205,13 +196,11 @@ Zebra <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `className` is null
@@ -221,12 +210,9 @@ Zebra <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

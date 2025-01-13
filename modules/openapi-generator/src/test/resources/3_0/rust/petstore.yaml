@@ -95,6 +95,22 @@ paths:
                 - pending
                 - sold
               default: available
+        - name: type
+          in: query
+          description: Make sure that Rust keywords like type work as query params
+          required: false
+          style: form
+          explode: false
+          deprecated: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - available
+                - pending
+                - sold
+              default: available
       responses:
         '200':
           description: successful operation
@@ -566,7 +582,7 @@ paths:
           description: User not found
       security:
         - api_key: []
-  '/fake/user/{username}':
+  '/fake/user/{user-name}':
     get:
       tags:
         - fake
@@ -574,7 +590,7 @@ paths:
       description: ''
       operationId: test_nullable_required_param
       parameters:
-        - name: username
+        - name: user-name
           in: path
           description: The name that needs to be fetched. Use user1 for testing.
           required: true
@@ -590,6 +606,11 @@ paths:
         - name: UPPERCASE
           in: header 
           description: To test parameter names in upper case
+          schema:
+            type: string
+        - name: content
+          in: query
+          description: To test escaping of parameters in rust code works
           schema:
             type: string
       responses:

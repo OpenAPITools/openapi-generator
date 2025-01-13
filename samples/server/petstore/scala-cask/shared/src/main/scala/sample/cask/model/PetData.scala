@@ -13,8 +13,6 @@
 
 // this model was generated using modelData.mustache
 package sample.cask.model
-import sample.cask.model.Category
-import sample.cask.model.Tag
 import scala.util.control.NonFatal
 import scala.util.*
 
@@ -22,127 +20,69 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** PetData a data transfer object, primarily for simple json serialisation.
+
+        /** PetData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class PetData(
   id: Long = 0 ,
-
-    category: CategoryData = null ,
-
-    name: String,
-
-    photoUrls: Seq[String],
-
-    tags: Seq[TagData] = Nil ,
-
-  /* pet status in the store */
+  category: CategoryData = null ,
+  name: String,
+  photoUrls: Seq[String],
+  tags: Seq[TagData] = Nil ,
+/* pet status in the store */
   status: Pet.StatusEnum = null 
+  
 
-  ) {
+) derives RW {
 
-  def asJson: String = write(this)
+  def asJsonString: String = asJson.toString()
+
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
+  }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
+        // ================== id validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== category validation ==================
         
-
-        // ==================
-        // category
-
-
-
-
-
-
         
-
-
-
-
-
-
-
+        
         
         // validating category
-        if (errors.isEmpty || !failFast) {
-            if category != null then errors ++= category.validationErrors(path :+ Pet.Fields.category, failFast)
+        if (_allValidationErrors.isEmpty || !failFast) {
+            if category != null then _allValidationErrors ++= category.validationErrors(path :+ Pet.Fields.category, failFast)
         }
 
-        // ==================
-        // name
-
-
-
-
-
-
+        // ================== name validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
+        // ================== photoUrls validation ==================
+        
+        
+        
         
 
-        // ==================
-        // photoUrls
-
-
-
-
-
-
+        // ================== tags validation ==================
         
-
-
-
-
-
-
-
         
-
-        // ==================
-        // tags
-
-
-
-
-
-
         
-
-
-
-
-
-
-
         
-        if (errors.isEmpty || !failFast) {
+        if (_allValidationErrors.isEmpty || !failFast) {
             if (tags != null) {
                 tags.zipWithIndex.foreach {
-                    case (value, i) if errors.isEmpty || !failFast =>
-                      errors ++= value.validationErrors(
+                    case (value, i) if _allValidationErrors.isEmpty || !failFast =>
+                      _allValidationErrors ++= value.validationErrors(
                         path :+ Pet.Fields.tags :+ Field(i.toString),
                         failFast)
                     case (value, i) =>
@@ -151,27 +91,18 @@ case class PetData(
         }
         
 
-        // ==================
-        // status
-
-
-
-
-
-
+        // ================== status validation ==================
+        
+        
+        
         
 
-
-
-
-
-
-
-        
-
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Pet] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -182,43 +113,36 @@ case class PetData(
   /** use 'validated' to check validation */
   def asModel : Pet = {
     Pet(
-        id = Option(
-        id
-        )
-        ,
-        category = Option(
-        category
-        )
-        .map(_.asModel),
-        name = 
-        name
-        
-        ,
-        photoUrls = 
-        photoUrls
-        
-        ,
-        tags = 
-        tags
-        
-        .map(_.asModel),
-        status = Option(
-        status
-        )
-        
+        id = Option(id) /* 1 */,
+        category = Option(category).map(_.asModel) /* 4 */,
+        name = name /* 2 */,
+        photoUrls = photoUrls /* 2 */,
+        tags = tags.map(_.asModel) /* 5 */,
+        status = Option(status) /* 1 */
+    
     )
   }
 }
 
 object PetData {
 
-  given readWriter : RW[PetData] = macroRW
+  def validated(d8a : PetData, failFast : Boolean) : scala.util.Try[Pet] = d8a.validated(failFast)
 
-  def fromJsonString(jason : String) : PetData = try {
-        read[PetData](jason)
-     } catch {
+  def fromJson(jason : ujson.Value) : PetData = try {
+        val data = read[PetData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating PetData from json '$jason': $e")
+  }
+
+  def fromJsonString(jason : String) : PetData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[PetData] = try {
         read[List[PetData]](jason)

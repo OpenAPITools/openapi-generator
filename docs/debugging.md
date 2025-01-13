@@ -201,6 +201,23 @@ The steps are shown here for a specific version of the generator, but apply the 
   ```
 * Set breakpoints in code, and then attach your remote debugger from your IDE (see above). The generator will automatically unblock once the remote debugger is attached. You can now step through the code.
 
+    For VSCode you can use the following launch configuration (`launch.json`):
+    ```json
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "type": "java",
+                "name": "Debug (Attach)",
+                "request": "attach",
+                "hostName": "localhost",
+                "port": 5005
+            }
+        ]
+    }
+    ```
+    to attach the the suspended process above.
+
 ## Logs
 
 You can try to enable debugging log with `-Dlog.level=debug` option to the `JAVA_OPTS` environment variable to see more information:

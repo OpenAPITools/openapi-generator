@@ -41,7 +41,7 @@ class TestModelWithEnumDefault(BaseModel):
         if value is None:
             return value
 
-        if value not in ('A', 'B', 'C'):
+        if value not in ('A', 'B', 'C',):
             raise ValueError("must be one of enum values ('A', 'B', 'C')")
         return value
 

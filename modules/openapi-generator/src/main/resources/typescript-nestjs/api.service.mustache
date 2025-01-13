@@ -35,7 +35,7 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
      * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
      * @memberof {{classname}}{{operationIdCamelCase}}
      */
-    readonly {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    readonly {{#vendorExtensions.x-param-has-sanitized-name}}'{{{baseName}}}'{{/vendorExtensions.x-param-has-sanitized-name}}{{^vendorExtensions.x-param-has-sanitized-name}}{{{paramName}}}{{/vendorExtensions.x-param-has-sanitized-name}}{{^required}}?{{/required}}: {{{dataType}}}
     {{^-last}}
 
     {{/-last}}
@@ -62,10 +62,12 @@ export class {{classname}} {
     protected basePath = '{{{basePath}}}';
     public defaultHeaders: Record<string,string> = {};
     public configuration = new Configuration();
+    protected httpClient: HttpService;
 
-    constructor(protected httpClient: HttpService, @Optional() configuration: Configuration) {
+    constructor(httpClient: HttpService, @Optional() configuration: Configuration) {
         this.configuration = configuration || this.configuration;
         this.basePath = configuration?.basePath || this.basePath;
+        this.httpClient = configuration?.httpClient || httpClient;
     }
 
     /**
@@ -104,7 +106,7 @@ export class {{classname}} {
 {{#useSingleRequestParameter}}
         const {
         {{#allParams}}
-            {{paramName}},
+            {{#vendorExtensions.x-param-has-sanitized-name}}'{{{baseName}}}': {{/vendorExtensions.x-param-has-sanitized-name}}{{paramName}},
         {{/allParams}}
         } = requestParameters;
 

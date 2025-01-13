@@ -175,7 +175,7 @@ impl<T> Nullable<T> {
     /// assert_eq!(x.expect("the world is ending"), "value");
     /// ```
     ///
-    /// ```{.should_panic}
+    /// ```should_panic
     /// # use rust_server_test::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
@@ -210,7 +210,7 @@ impl<T> Nullable<T> {
     /// assert_eq!(x.unwrap(), "air");
     /// ```
     ///
-    /// ```{.should_panic}
+    /// ```should_panic
     /// # use rust_server_test::types::Nullable;
     ///
     /// let x: Nullable<&str> = Nullable::Null;
@@ -530,7 +530,7 @@ impl<T> Nullable<T> {
     }
 }
 
-impl<'a, T: Clone> Nullable<&'a T> {
+impl<T: Clone> Nullable<&T> {
     /// Maps an `Nullable<&T>` to an `Nullable<T>` by cloning the contents of the
     /// Nullable.
     ///
@@ -628,6 +628,131 @@ where
                 .map(Nullable::Present)
                 .map_err(serde::de::Error::custom),
             Err(x) => Err(x),
+        }
+    }
+}
+
+impl<T> validator::Validate for Nullable<T>
+where
+    T: validator::Validate,
+{
+    fn validate(&self) -> Result<(), validator::ValidationErrors> {
+        match self {
+            Self::Present(x) => x.validate(),
+            Self::Null => Ok(()),
+        }
+    }
+}
+
+impl<'a, T> validator::ValidateArgs<'a> for Nullable<T>
+where
+    T: validator::ValidateArgs<'a>,
+{
+    type Args = T::Args;
+    fn validate_with_args(&self, args: Self::Args) -> Result<(), validator::ValidationErrors> {
+        match self {
+            Self::Present(x) => x.validate_with_args(args),
+            Self::Null => Ok(()),
+        }
+    }
+}
+
+impl<T> validator::ValidateEmail for Nullable<T>
+where
+    T: validator::ValidateEmail,
+{
+    fn as_email_string(&self) -> Option<std::borrow::Cow<str>> {
+        match self {
+            Self::Present(x) => x.as_email_string(),
+            Self::Null => None,
+        }
+    }
+}
+
+impl<T> validator::ValidateUrl for Nullable<T>
+where
+    T: validator::ValidateUrl,
+{
+    fn as_url_string(&self) -> Option<std::borrow::Cow<str>> {
+        match self {
+            Self::Present(x) => x.as_url_string(),
+            Self::Null => None,
+        }
+    }
+}
+
+impl<T> validator::ValidateContains for Nullable<T>
+where
+    T: validator::ValidateContains,
+{
+    fn validate_contains(&self, needle: &str) -> bool {
+        match self {
+            Self::Present(x) => x.validate_contains(needle),
+            Self::Null => true,
+        }
+    }
+}
+
+impl<T> validator::ValidateRequired for Nullable<T>
+where
+    T: validator::ValidateRequired,
+{
+    fn is_some(&self) -> bool {
+        self.is_present()
+    }
+}
+
+impl<T> validator::ValidateRegex for Nullable<T>
+where
+    T: validator::ValidateRegex,
+{
+    fn validate_regex(&self, regex: impl validator::AsRegex) -> bool {
+        match self {
+            Self::Present(x) => x.validate_regex(regex),
+            Self::Null => true,
+        }
+    }
+}
+
+impl<T, I> validator::ValidateRange<I> for Nullable<T>
+where
+    T: validator::ValidateRange<I>,
+{
+    fn greater_than(&self, max: I) -> Option<bool> {
+        use validator::ValidateRange;
+        match self {
+            Self::Present(x) => x.greater_than(max),
+            Self::Null => None,
+        }
+    }
+    fn less_than(&self, min: I) -> Option<bool> {
+        use validator::ValidateRange;
+        match self {
+            Self::Present(x) => x.less_than(min),
+            Self::Null => None,
+        }
+    }
+}
+
+impl<T, I> validator::ValidateLength<I> for Nullable<T>
+where
+    T: validator::ValidateLength<I>,
+    I: PartialEq + PartialOrd,
+{
+    fn length(&self) -> Option<I> {
+        use validator::ValidateLength;
+        match self {
+            Self::Present(x) => x.length(),
+            Self::Null => None,
+        }
+    }
+}
+
+impl<T> From<Nullable<T>> for Option<T> {
+    fn from(value: Nullable<T>) -> Option<T> {
+        match value {
+            Nullable::Present(x) => Some(x),
+            Nullable::Null => None,
         }
     }
 }

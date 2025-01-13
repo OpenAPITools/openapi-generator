@@ -25,7 +25,7 @@ class ArrayOfNumberOnly {
     
     name: r'ArrayNumber',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 

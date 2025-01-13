@@ -1,7 +1,10 @@
 {{>licenseInfo}}
 
 import superagent from "superagent";
+{{^useURLSearchParams}}
 import querystring from "querystring";
+{{! see https://www.npmjs.com/package/querystring && https://github.com/Gozala/querystring }}
+{{/useURLSearchParams}}
 
 {{#emitJSDoc}}/**
 * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient
@@ -52,15 +55,20 @@ class ApiClient {
 </authMethods>
         }
 
-        <={{ }}=>{{#emitJSDoc}}/**
+        <={{ }}=>
+	{{^skipDefaultUserAgent}}
+	{{#emitJSDoc}}
+	/**
          * The default HTTP headers to be included for all API calls.
          * @type {Array.<String>}
          * @default {}
-         */{{/emitJSDoc}}
+         */
+	{{/emitJSDoc}}
         this.defaultHeaders = {
             'User-Agent': '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{projectVersion}}/Javascript{{/httpUserAgent}}'
         };
 
+	{{/skipDefaultUserAgent}}
         /**
          * The default HTTP timeout for all API calls.
          * @type {Number}
@@ -76,11 +84,13 @@ class ApiClient {
          */
         this.cache = true;
 
-        {{#emitJSDoc}}/**
+        {{#emitJSDoc}}
+	/**
          * If set to true, the client will save the cookies from each server
          * response, and return them in the next request.
          * @default false
-         */{{/emitJSDoc}}
+         */
+	{{/emitJSDoc}}
         this.enableCookies = false;
 
         /*
@@ -455,7 +465,15 @@ class ApiClient {
         }
 
         if (contentType === 'application/x-www-form-urlencoded') {
-            request.send(querystring.stringify(this.normalizeParams(formParams)));
+            {{^useURLSearchParams}}
+            let queryString = querystring.stringify(this.normalizeParams(formParams));
+            {{/useURLSearchParams}}
+            {{#useURLSearchParams}}
+            let normalizedParams = this.normalizeParams(formParams)
+            let urlSearchParams =  new URLSearchParams(normalizedParams);
+            let queryString = urlSearchParams.toString();
+            {{/useURLSearchParams}}
+            request.send(queryString);
         } else if (contentType == 'multipart/form-data') {
             var _formParams = this.normalizeParams(formParams);
             for (var key in _formParams) {

@@ -13,43 +13,46 @@
 
 // this model was generated using model.mustache
 package sample.cask.model
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
+
+        
 case class ApiResponse(
-  code: Option[Int] = None ,
-
+    code: Option[Int] = None ,
     `type`: Option[String] = None ,
-
     message: Option[String] = None 
 
-  ) {
 
-  def asJson: String = asData.asJson
+) {
 
-  def asData : ApiResponseData = {
-    ApiResponseData(
-            code = code.getOrElse(0),
-            `type` = `type`.getOrElse(""),
-            message = message.getOrElse("")
-    )
-  }
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
+
+def asData : ApiResponseData = {
+ApiResponseData(
+    code = code.getOrElse(0) /*  1 */,
+    `type` = `type`.getOrElse("") /*  1 */,
+    message = message.getOrElse("") /*  1 */
+
+)
+}
+}
+
+object ApiResponse {
+given RW[ApiResponse] = summon[RW[ujson.Value]].bimap[ApiResponse](_.asJson, json => read[ApiResponseData](json).asModel)
+
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case code extends Fields("code")
+    case `type` extends Fields("`type`")
+    case message extends Fields("message")
+}
+
 
 }
 
-object ApiResponse{
-
-    given RW[ApiResponse] = ApiResponseData.readWriter.bimap[ApiResponse](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
-            case code extends Fields("code")
-            case `type` extends Fields("`type`")
-            case message extends Fields("message")
-    }
-
-
-}
 

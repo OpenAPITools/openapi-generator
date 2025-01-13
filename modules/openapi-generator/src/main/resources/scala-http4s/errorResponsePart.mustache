@@ -1,0 +1,1 @@
+{{#dataType}}case r if r.status.code == {{code}} => parseJson[F, {{dataType}}]("{{dataType}}", r).flatMap(res => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason, Some(res.asJson)))){{/dataType}}{{^dataType}}case r if r.status.code == {{code}} => Concurrent[F].raiseError(_FailedRequest(r.status.code, r.status.reason)){{/dataType}}

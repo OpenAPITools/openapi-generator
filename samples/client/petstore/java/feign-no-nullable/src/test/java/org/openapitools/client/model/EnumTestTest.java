@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.OuterEnum;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for EnumTest
  */

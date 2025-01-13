@@ -95,13 +95,13 @@ use function sprintf;
     protected $streamFactory;
 
     public function __construct(
-        ClientInterface $httpClient = null,
-        Configuration $config = null,
-        HttpAsyncClient $httpAsyncClient = null,
-        UriFactoryInterface $uriFactory = null,
-        RequestFactoryInterface $requestFactory = null,
-        StreamFactoryInterface $streamFactory = null,
-        HeaderSelector $selector = null,
+        ?ClientInterface $httpClient = null,
+        ?Configuration $config = null,
+        ?HttpAsyncClient $httpAsyncClient = null,
+        ?UriFactoryInterface $uriFactory = null,
+        ?RequestFactoryInterface $requestFactory = null,
+        ?StreamFactoryInterface $streamFactory = null,
+        ?HeaderSelector $selector = null,
         ?array $plugins = null,
         $hostIndex = 0
     ) {
@@ -181,7 +181,7 @@ use function sprintf;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -219,7 +219,7 @@ use function sprintf;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -342,7 +342,7 @@ use function sprintf;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -383,7 +383,7 @@ use function sprintf;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -448,7 +448,7 @@ use function sprintf;
 {{/vendorExtensions.x-group-parameters}}
 {{#servers}}
 {{#-first}}
-     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
 {{/-first}}
      * URL: {{{url}}}
 {{#-last}}
@@ -613,7 +613,7 @@ use function sprintf;
         // for model (json/xml)
         {{#bodyParams}}
         if (isset(${{paramName}})) {
-            if ($headers['Content-Type'] === 'application/json') {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization(${{paramName}}));
             } else {
                 $httpBody = ${{paramName}};
@@ -637,7 +637,7 @@ use function sprintf;
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
 
-            } elseif ($headers['Content-Type'] === 'application/json') {
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
                 $httpBody = json_encode($formParams);
 
             } else {

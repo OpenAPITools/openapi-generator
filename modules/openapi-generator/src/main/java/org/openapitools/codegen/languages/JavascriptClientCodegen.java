@@ -38,7 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -58,29 +57,45 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     public static final String EMIT_JS_DOC = "emitJSDoc";
     public static final String USE_ES6 = "useES6";
     public static final String NPM_REPOSITORY = "npmRepository";
+    public static final String USE_URL_SEARCH_PARAMS = "useURLSearchParams";
+    public static final String SKIP_DEFAULT_USER_AGENT = "skipDefaultUserAgent";
 
     public static final String LIBRARY_JAVASCRIPT = "javascript";
     public static final String LIBRARY_APOLLO = "apollo";
 
-    @Setter protected String projectName;
-    @Setter protected String moduleName;
-    @Setter protected String projectDescription;
-    @Setter protected String projectVersion;
-    @Setter protected String licenseName;
+    @Setter
+    protected String projectName;
+    @Setter
+    protected String moduleName;
+    @Setter
+    protected String projectDescription;
+    @Setter
+    protected String projectVersion;
+    @Setter
+    protected String licenseName;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     protected String invokerPackage;
-    @Setter protected String sourceFolder = "src";
-    @Setter protected boolean usePromises;
-    @Setter protected boolean emitModelMethods;
-    @Setter protected boolean emitJSDoc = true;
+    @Setter
+    protected String sourceFolder = "src";
+    @Setter
+    protected boolean usePromises;
+    @Setter
+    protected boolean emitModelMethods;
+    @Setter
+    protected boolean emitJSDoc = true;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
     protected boolean useES6 = true; // default is ES6
-    @Setter protected String npmRepository = null;
-    @Getter private String modelPropertyNaming = "camelCase";
+    @Setter
+    protected String npmRepository = null;
+    @Getter
+    private String modelPropertyNaming = "camelCase";
+    @Setter
+    protected boolean useURLSearchParams = true;
 
     public JavascriptClientCodegen() {
         super();
@@ -191,6 +206,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
+        cliOptions.add(new CliOption(USE_URL_SEARCH_PARAMS,
+                "use JS build-in UrlSearchParams, instead of deprecated npm lib 'querystring'")
+                .defaultValue(Boolean.TRUE.toString())
+        );
+        cliOptions.add(new CliOption(SKIP_DEFAULT_USER_AGENT,
+                "Skip setting default user-agent in ApiClient.js")
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(LIBRARY_JAVASCRIPT, "JavaScript client library");
         supportedLibraries.put(LIBRARY_APOLLO, "Apollo REST DataSource");
@@ -222,6 +244,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'JS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -265,6 +289,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(((String) additionalProperties.get(NPM_REPOSITORY)));
+        }
+        if (additionalProperties.containsKey(USE_URL_SEARCH_PARAMS)) {
+            setUseURLSearchParams(convertPropertyToBooleanAndWriteBack(USE_URL_SEARCH_PARAMS));
         }
         if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
@@ -333,6 +360,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(EMIT_JS_DOC, emitJSDoc);
         additionalProperties.put(USE_ES6, useES6);
         additionalProperties.put(NPM_REPOSITORY, npmRepository);
+        additionalProperties.put(USE_URL_SEARCH_PARAMS, useURLSearchParams);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -1163,6 +1191,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -1174,20 +1203,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                }
-                LOGGER.info("Successfully executed: {}", command);
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{jsPostProcessFile, file.toString()});
         }
     }
 

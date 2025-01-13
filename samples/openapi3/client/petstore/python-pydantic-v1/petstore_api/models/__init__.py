@@ -62,6 +62,7 @@ from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.hunting_dog import HuntingDog
 from petstore_api.models.info import Info
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.input_all_of import InputAllOf
@@ -116,5 +117,6 @@ from petstore_api.models.test_object_for_multipart_requests_request_marker impor
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
+from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

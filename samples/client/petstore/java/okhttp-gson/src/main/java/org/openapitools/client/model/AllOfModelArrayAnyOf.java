@@ -50,28 +50,32 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AllOfModelArrayAnyOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name = "default-name";
 
   public static final String SERIALIZED_NAME_LINK_LIST_COLUMN1 = "linkListColumn1";
   @SerializedName(SERIALIZED_NAME_LINK_LIST_COLUMN1)
+  @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1;
 
   public static final String SERIALIZED_NAME_ATTRIBUTES = "attributes";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTES)
+  @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfAttributes attributes;
 
   public AllOfModelArrayAnyOf() {
   }
 
-  public AllOfModelArrayAnyOf id(Long id) {
+  public AllOfModelArrayAnyOf id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -85,12 +89,12 @@ public class AllOfModelArrayAnyOf {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public AllOfModelArrayAnyOf name(String name) {
+  public AllOfModelArrayAnyOf name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
@@ -104,12 +108,12 @@ public class AllOfModelArrayAnyOf {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public AllOfModelArrayAnyOf linkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
+  public AllOfModelArrayAnyOf linkListColumn1(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
     this.linkListColumn1 = linkListColumn1;
     return this;
   }
@@ -123,12 +127,12 @@ public class AllOfModelArrayAnyOf {
     return linkListColumn1;
   }
 
-  public void setLinkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
+  public void setLinkListColumn1(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
     this.linkListColumn1 = linkListColumn1;
   }
 
 
-  public AllOfModelArrayAnyOf attributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
+  public AllOfModelArrayAnyOf attributes(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributes attributes) {
     this.attributes = attributes;
     return this;
   }
@@ -142,7 +146,7 @@ public class AllOfModelArrayAnyOf {
     return attributes;
   }
 
-  public void setAttributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
+  public void setAttributes(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributes attributes) {
     this.attributes = attributes;
   }
 

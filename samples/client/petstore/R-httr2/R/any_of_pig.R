@@ -17,13 +17,11 @@ AnyOfPig <- R6::R6Class(
     actual_type = NULL,
     #' @field any_of  a list of object types defined in the anyOf schema.
     any_of = list("BasquePig", "DanishPig"),
-    #' Initialize a new AnyOfPig.
-    #'
+
     #' @description
     #' Initialize a new AnyOfPig.
     #'
     #' @param instance an instance of the object defined in the anyOf schemas: "BasquePig", "DanishPig"
-    #' @export
     initialize = function(instance = NULL) {
       if (is.null(instance)) {
         # do nothing
@@ -38,26 +36,24 @@ AnyOfPig <- R6::R6Class(
                    get(class(instance)[[1]], pos = -1)$classname))
       }
     },
-    #' Deserialize JSON string into an instance of AnyOfPig.
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of AnyOfPig.
     #' An alias to the method `fromJSON`.
     #'
     #' @param input The input JSON.
+    #'
     #' @return An instance of AnyOfPig.
-    #' @export
     fromJSONString = function(input) {
       self$fromJSON(input)
     },
-    #' Deserialize JSON string into an instance of AnyOfPig.
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of AnyOfPig.
     #'
     #' @param input The input JSON.
+    #'
     #' @return An instance of AnyOfPig.
-    #' @export
     fromJSON = function(input) {
       error_messages <- list()
 
@@ -93,42 +89,41 @@ AnyOfPig <- R6::R6Class(
       stop(paste("No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >>",
                  paste(error_messages, collapse = " >> ")))
     },
-    #' Serialize AnyOfPig to JSON string.
-    #'
+
     #' @description
-    #' Serialize AnyOfPig to JSON string.
-    #'
-    #' @return JSON string representation of the AnyOfPig.
-    #' @export
-    toJSONString = function() {
-      if (!is.null(self$actual_instance)) {
-        as.character(jsonlite::minify((self$actual_instance$toJSONString())))
-      } else {
-        NULL
-      }
-    },
-    #' Serialize AnyOfPig to JSON.
-    #'
-    #' @description
-    #' Serialize AnyOfPig to JSON.
-    #'
-    #' @return JSON representation of the AnyOfPig.
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert AnyOfPig to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       if (!is.null(self$actual_instance)) {
-        self$actual_instance$toJSON()
+        return(self$actual_instance$toSimpleType())
       } else {
         NULL
       }
     },
-    #' Validate the input JSON with respect to AnyOfPig.
+
+    #' @description
+    #' Serialize AnyOfPig to JSON string.
     #'
+    #' @param ... Parameters passed to `jsonlite::toJSON`
+    #' @return JSON string representation of the AnyOfPig.
+    toJSONString = function(...) {
+      json <- jsonlite::toJSON(self$toSimpleType(), auto_unbox = TRUE, ...)
+      return(as.character(jsonlite::minify(json)))
+    },
+
     #' @description
     #' Validate the input JSON with respect to AnyOfPig and
     #' throw exception if invalid.
     #'
     #' @param input The input JSON.
-    #' @export
     validateJSON = function(input) {
       # backup current values
       actual_instance_bak <- self$actual_instance
@@ -141,13 +136,11 @@ AnyOfPig <- R6::R6Class(
       self$actual_instance <- actual_instance_bak
       self$actual_type <- actual_type_bak
     },
-    #' Returns the string representation of the instance.
-    #'
+
     #' @description
     #' Returns the string representation of the instance.
     #'
     #' @return The string representation of the instance.
-    #' @export
     toString = function() {
       jsoncontent <- c(
         sprintf('"actual_instance": %s', if (is.null(self$actual_instance)) NULL else self$actual_instance$toJSONString()),
@@ -157,12 +150,9 @@ AnyOfPig <- R6::R6Class(
       jsoncontent <- paste(jsoncontent, collapse = ",")
       as.character(jsonlite::prettify(paste("{", jsoncontent, "}", sep = "")))
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

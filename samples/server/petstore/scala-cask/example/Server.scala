@@ -47,6 +47,7 @@ import sample.cask.model.*
 import java.io.File
 
 // TODO - write your business logic for your services here (the defaults all return 'not implemented'):
+val myComplexRouteService : ComplexRouteService = ComplexRouteService() // <-- replace this with your implementation
 val myPetService : PetService = PetService() // <-- replace this with your implementation
 val myStoreService : StoreService = StoreService() // <-- replace this with your implementation
 val myUserService : UserService = UserService() // <-- replace this with your implementation
@@ -54,7 +55,8 @@ val myUserService : UserService = UserService() // <-- replace this with your im
 /** This is your main entry point for your REST service
  *  It extends BaseApp which defines the business logic for your services
  */
-object Server extends BaseApp(appPetService = myPetService,
+object Server extends BaseApp(appComplexRouteService = myComplexRouteService,
+appPetService = myPetService,
 appStoreService = myStoreService,
 appUserService = myUserService):
   start()

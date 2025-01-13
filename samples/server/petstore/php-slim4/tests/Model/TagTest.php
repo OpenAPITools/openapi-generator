@@ -112,3 +112,4 @@ class TagTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

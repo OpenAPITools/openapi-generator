@@ -88,6 +88,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         apiPackage = "api";
         modelPackage = "model";
 
+        reservedWords.addAll(Arrays.asList("from", "headers"));
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
@@ -327,6 +329,10 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
             // Overwrite path to TypeScript template string, after applying everything we just did.
             op.path = pathBuffer.toString();
+
+            for (CodegenParameter param : op.allParams) {
+                param.vendorExtensions.putIfAbsent("x-param-has-sanitized-name", !param.baseName.equals(param.paramName));
+            }
         }
 
         operations.put("hasSomeFormParams", hasSomeFormParams);

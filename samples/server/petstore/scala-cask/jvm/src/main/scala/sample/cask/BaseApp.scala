@@ -18,6 +18,7 @@
 // this file was generated from app.mustache
 package cask.groupId.server
 
+import scala.util.Try
 import _root_.sample.cask.model.*
 import _root_.sample.cask.api.*
 
@@ -26,11 +27,13 @@ import _root_.sample.cask.api.*
  * passing in the custom business logic services
  */
 class BaseApp(
-    override val appPetService : PetService = PetService(),
+    override val appComplexRouteService : ComplexRouteService[Try] = ComplexRouteService(),
 
-    override val appStoreService : StoreService = StoreService(),
+    override val appPetService : PetService[Try] = PetService(),
 
-    override val appUserService : UserService = UserService(),
+    override val appStoreService : StoreService[Try] = StoreService(),
+
+    override val appUserService : UserService[Try] = UserService(),
     override val port : Int = sys.env.get("PORT").map(_.toInt).getOrElse(8080)) extends cask.MainRoutes with AppRoutes {
 
     /** routes for the UI

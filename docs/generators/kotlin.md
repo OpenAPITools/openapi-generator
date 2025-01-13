@@ -25,13 +25,17 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |collectionType|Option. Collection type to use|<dl><dt>**array**</dt><dd>kotlin.Array</dd><dt>**list**</dt><dd>kotlin.collections.List</dd></dl>|list|
 |dateLibrary|Option. Date library to use|<dl><dt>**threetenbp-localdatetime**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, for legacy app only)</dd><dt>**kotlinx-datetime**</dt><dd>kotlinx-datetime (preferred for multiplatform)</dd><dt>**string**</dt><dd>String</dd><dt>**java8-localdatetime**</dt><dd>Java 8 native JSR310 (jvm only, for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)</dd><dt>**threetenbp**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, preferred for jdk &lt; 1.8)</dd></dl>|java8|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
-|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers.| |false|
+|explicitApi|Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode.| |false|
+|failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
+|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option.| |false|
 |generateRoomModels|Generate Android Room database models in addition to API models (JVM Volley library only)| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |idea|Add IntellJ Idea plugin and mark Kotlin main and test folders as source folders.| |false|
 |library|Library template (sub-template) to use|<dl><dt>**jvm-ktor**</dt><dd>Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).</dd><dt>**jvm-okhttp4**</dt><dd>[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.</dd><dt>**jvm-spring-webclient**</dt><dd>Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.</dd><dt>**jvm-spring-restclient**</dt><dd>Platform: Java Virtual Machine. HTTP: Spring 6 RestClient. JSON processing: Jackson.</dd><dt>**jvm-retrofit2**</dt><dd>Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.</dd><dt>**multiplatform**</dt><dd>Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.</dd><dt>**jvm-volley**</dt><dd>Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9</dd><dt>**jvm-vertx**</dt><dd>Platform: Java Virtual Machine. HTTP client: Vert.x Web Client. JSON processing: Moshi, Gson or Jackson.</dd></dl>|jvm-okhttp4|
+|mapFileBinaryToByteArray|Map File and Binary to ByteArray (default: false)| |false|
 |modelMutable|Create mutable models| |false|
 |moshiCodeGen|Whether to enable codegen with the Moshi library. Refer to the [official Moshi doc](https://github.com/square/moshi#codegen) for more info.| |false|
+|nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |nullableReturnType|Nullable return type| |false|
 |omitGradlePluginVersions|Whether to declare Gradle plugin versions in build files.| |false|
 |omitGradleWrapper|Whether to omit Gradle wrapper for creating a sub project.| |false|
@@ -43,11 +47,20 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-|supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
+|supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and below. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
+|useNonAsciiHeaders|Allow to use non-ascii headers with the okhttp library| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |useSettingsGradle|Whether the project uses settings.gradle.| |false|
 |useSpringBoot3|Whether to use the Spring Boot 3 with the jvm-spring-webclient library.| |false|
+
+## SUPPORTED VENDOR EXTENSIONS
+
+| Extension name | Description | Applicable for | Default value |
+| -------------- | ----------- | -------------- | ------------- |
+|x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
+|x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+
 
 ## IMPORT MAPPING
 

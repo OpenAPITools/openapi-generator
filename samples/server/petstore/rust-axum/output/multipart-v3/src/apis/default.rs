@@ -42,7 +42,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: axum::body::Body,
-    ) -> Result<MultipartRelatedRequestPostResponse, String>;
+    ) -> Result<MultipartRelatedRequestPostResponse, ()>;
 
     /// MultipartRequestPost - POST /multipart_request
     async fn multipart_request_post(
@@ -51,7 +51,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: Multipart,
-    ) -> Result<MultipartRequestPostResponse, String>;
+    ) -> Result<MultipartRequestPostResponse, ()>;
 
     /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
     async fn multiple_identical_mime_types_post(
@@ -60,5 +60,5 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: axum::body::Body,
-    ) -> Result<MultipleIdenticalMimeTypesPostResponse, String>;
+    ) -> Result<MultipleIdenticalMimeTypesPostResponse, ()>;
 }

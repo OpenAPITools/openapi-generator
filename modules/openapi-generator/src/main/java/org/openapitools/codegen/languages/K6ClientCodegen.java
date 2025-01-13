@@ -587,7 +587,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
 
                     for (Map.Entry<String, ApiResponse> responseEntry : operation.getResponses().entrySet()) {
-                        CodegenResponse r = fromResponse(responseEntry.getKey(), responseEntry.getValue());
+                        CodegenResponse r = fromResponse(responseEntry.getKey(), ModelUtils.getReferencedApiResponse(openAPI, responseEntry.getValue()));
                         if (r.baseType != null &&
                                 !defaultIncludes.contains(r.baseType) &&
                                 !languageSpecificPrimitives.contains(r.baseType)) {
@@ -707,10 +707,8 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Optional<DataExtractSubstituteParameter> dataExtract = getDataExtractSubstituteParameter(
                         dataExtractSubstituteParams, operationId);
 
-                // calculate order for this current request
-                Integer requestOrder = calculateRequestOrder(operationGroupingOrder, requests.size());
-
-                requests.put(requestOrder, new HTTPRequest(
+                // create requests
+                requests.putIfAbsent(requests.size(), new HTTPRequest(
                     operationId,
                     method.toString().toLowerCase(Locale.ROOT),
                     path,
@@ -933,7 +931,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
             existingHTTPRequestGroup.addRequests(requests);
             existingHTTPRequestGroup.addVariables(variables);
         } else {
-            requestGroups.put(groupName, new HTTPRequestGroup(groupName, variables, requests));
+            requestGroups.putIfAbsent(groupName, new HTTPRequestGroup(groupName, variables, requests));
         }
     }
 
@@ -1058,6 +1056,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return true if should be hidden, false otherwise
      */
     private boolean shouldHideOperationResponse(ApiResponse resp) {
+        resp = ModelUtils.getReferencedApiResponse(openAPI, resp);
         boolean hideOperationResponse = false;
 
         if (Objects.nonNull(resp.getExtensions()) && !resp.getExtensions().isEmpty()
@@ -1127,36 +1126,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
     }
 
-    /**
-     * Calculate order for this current request
-     *
-     * @param operationGroupingOrder
-     * @param requestsSize
-     * @return request order
-     */
-    private Integer calculateRequestOrder(OptionalInt operationGroupingOrder, int requestsSize) {
-        int requestOrder;
-
-        if (operationGroupingOrder.isPresent()) {
-            requestOrder = operationGroupingOrder.getAsInt() - 1;
-
-        } else {
-            switch (requestsSize) {
-                case 0:
-                case 1:
-                    requestOrder = requestsSize;
-                    break;
-
-                default:
-                    requestOrder = (requestsSize - 1);
-                    break;
-            }
-        }
-
-        return requestOrder;
-    }
-
-    //
 
     /**
      * Any variables not defined yet but used for subsequent data extraction must be

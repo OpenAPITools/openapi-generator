@@ -49,16 +49,17 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesArray
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AdditionalPropertiesArray {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public AdditionalPropertiesArray() {
   }
 
-  public AdditionalPropertiesArray name(String name) {
+  public AdditionalPropertiesArray name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -72,7 +73,7 @@ public class AdditionalPropertiesArray {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

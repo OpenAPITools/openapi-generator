@@ -21,6 +21,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractRustCodegen.class);
 
+    protected static final String VENDOR_EXTENSION_PARAM_IDENTIFIER = "x-rust-param-identifier";
+
     protected List<String> charactersToAllow = Collections.singletonList("_");
     protected Set<String> keywordsThatDoNotSupportRawIdentifiers = new HashSet<>(
             Arrays.asList("super", "self", "Self", "extern", "crate"));
@@ -245,8 +247,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         } else if (!org.apache.commons.lang3.StringUtils.isEmpty(p.get$ref())) {
             String datatype;
             try {
-                datatype = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
-                datatype = "models::" + toModelName(datatype);
+                datatype = "models::" + toModelName(ModelUtils.getSimpleRef(p.get$ref()));
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
                 datatype = "Object";
@@ -438,6 +439,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "r#"+ name;
+        return "r#" + name;
     }
 }

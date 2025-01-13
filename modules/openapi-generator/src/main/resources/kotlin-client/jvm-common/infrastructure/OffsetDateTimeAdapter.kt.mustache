@@ -13,7 +13,6 @@ import java.io.IOException
 {{/gson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -30,21 +29,21 @@ import org.threeten.bp.format.DateTimeFormatter
 {{/threetenbp}}
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class OffsetDateTimeAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class OffsetDateTimeAdapter {
     @ToJson
-    fun toJson(value: OffsetDateTime): String {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(value: OffsetDateTime): String {
         return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(value)
     }
 
     @FromJson
-    fun fromJson(value: String): OffsetDateTime {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(value: String): OffsetDateTime {
         return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME)
     }
 
 }
 {{/moshi}}
 {{#gson}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class OffsetDateTimeAdapter(private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME) : TypeAdapter<OffsetDateTime>() {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class OffsetDateTimeAdapter(private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME) : TypeAdapter<OffsetDateTime>() {
     @Throws(IOException::class)
     override fun write(out: JsonWriter?, value: OffsetDateTime?) {
         if (value == null) {
@@ -71,8 +70,7 @@ import org.threeten.bp.format.DateTimeFormatter
 }
 {{/gson}}
 {{#kotlinx_serialization}}
-@Serializer(forClass = OffsetDateTime::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("OffsetDateTime", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: OffsetDateTime) {

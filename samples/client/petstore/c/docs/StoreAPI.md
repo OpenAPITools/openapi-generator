@@ -8,6 +8,9 @@ Method | HTTP request | Description
 [**StoreAPI_getInventory**](StoreAPI.md#StoreAPI_getInventory) | **GET** /store/inventory | Returns pet inventories by status
 [**StoreAPI_getOrderById**](StoreAPI.md#StoreAPI_getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 [**StoreAPI_placeOrder**](StoreAPI.md#StoreAPI_placeOrder) | **POST** /store/order | Place an order for a pet
+[**StoreAPI_sendFeedback**](StoreAPI.md#StoreAPI_sendFeedback) | **POST** /store/feedback | Send us a feedback message
+[**StoreAPI_sendRating**](StoreAPI.md#StoreAPI_sendRating) | **POST** /store/rating/{rating} | How would you rate our service?
+[**StoreAPI_sendRecommend**](StoreAPI.md#StoreAPI_sendRecommend) | **POST** /store/recommend | Would you recommend our service to a friend?
 
 
 # **StoreAPI_deleteOrder**
@@ -130,6 +133,96 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **StoreAPI_sendFeedback**
+```c
+// Send us a feedback message
+//
+char* StoreAPI_sendFeedback(apiClient_t *apiClient, char *feedback);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**feedback** | **char \*** | The feedback message to send | 
+
+### Return type
+
+char*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **StoreAPI_sendRating**
+```c
+// How would you rate our service?
+//
+char* StoreAPI_sendRating(apiClient_t *apiClient, openapi_petstore_sendRating_rating_e rating);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**rating** | **openapi_petstore_sendRating_rating_e** | The rating to submit | 
+
+### Return type
+
+char*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **StoreAPI_sendRecommend**
+```c
+// Would you recommend our service to a friend?
+//
+char* StoreAPI_sendRecommend(apiClient_t *apiClient, int *recommend);
+```
+
+### Parameters
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**apiClient** | **apiClient_t \*** | context containing the client configuration |
+**recommend** | **int \*** | Would you recommend us or not? | [optional] 
+
+### Return type
+
+char*
+
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

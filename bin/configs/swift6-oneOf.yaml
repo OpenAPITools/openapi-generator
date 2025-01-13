@@ -1,0 +1,12 @@
+generatorName: swift6
+outputDir: samples/client/petstore/swift6/oneOf
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift6
+generateAliasAsModel: true
+additionalProperties:
+  responseAs: ObjcBlock
+  useSPMFileStructure: false
+  podAuthors: ""
+  podSummary: PetstoreClient
+  projectName: PetstoreClient
+  podHomepage: https://github.com/openapitools/openapi-generator

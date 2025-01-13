@@ -7,7 +7,12 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{^useResponseEntity}}
+import org.springframework.http.HttpStatus;
+{{/useResponseEntity}}
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
+{{/useResponseEntity}}
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,10 +56,13 @@ public interface {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
+    {{^useResponseEntity}}
+    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
+    {{/useResponseEntity}}
     @HttpExchange(
         method = "{{{httpMethod}}}",
         value = "{{{path}}}",
-        accept = { {{#vendorExtensions.x-accepts}}"{{.}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
+        accept = { {{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}} }{{#vendorExtensions.x-content-type}},
         contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}
     )
     {{>responseType}} {{operationId}}(

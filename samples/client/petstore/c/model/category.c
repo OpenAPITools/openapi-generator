@@ -5,7 +5,7 @@
 
 
 
-category_t *category_create(
+static category_t *category_create_internal(
     long id,
     char *name
     ) {
@@ -16,12 +16,26 @@ category_t *category_create(
     category_local_var->id = id;
     category_local_var->name = name;
 
+    category_local_var->_library_owned = 1;
     return category_local_var;
 }
 
+__attribute__((deprecated)) category_t *category_create(
+    long id,
+    char *name
+    ) {
+    return category_create_internal (
+        id,
+        name
+        );
+}
 
 void category_free(category_t *category) {
     if(NULL == category){
+        return ;
+    }
+    if(category->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "category_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -64,6 +78,9 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
     // category->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(categoryJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -73,6 +90,9 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
     // category->name
     cJSON *name = cJSON_GetObjectItemCaseSensitive(categoryJSON, "name");
+    if (cJSON_IsNull(name)) {
+        name = NULL;
+    }
     if (name) { 
     if(!cJSON_IsString(name) && !cJSON_IsNull(name))
     {
@@ -81,7 +101,7 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
     }
 
 
-    category_local_var = category_create (
+    category_local_var = category_create_internal (
         id ? id->valuedouble : 0,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );

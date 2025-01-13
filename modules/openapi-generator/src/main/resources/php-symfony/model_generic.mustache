@@ -6,7 +6,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
      * Constructor
      * @param array|null $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         {{#parentSchema}}
         parent::__construct($data);
@@ -52,7 +52,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
     */
     public function getSerialized{{nameInPascalCase}}(): string|null
     {
-        return $this->{{name}}?->value ? (string) $this->{{name}}->value : null;
+        return !is_null($this->{{name}}?->value) ? (string) $this->{{name}}->value : null;
     }
 
     /**

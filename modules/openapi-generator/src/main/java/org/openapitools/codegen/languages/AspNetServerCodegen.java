@@ -804,10 +804,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
         }
 
-        setAddititonalPropertyForFramework();
+        setAdditionalPropertyForFramework();
     }
 
-    private void setAddititonalPropertyForFramework() {
+    private void setAdditionalPropertyForFramework() {
         String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
         if (targetFramework.startsWith("net6.0") ||
             targetFramework.startsWith("net7.0") || 

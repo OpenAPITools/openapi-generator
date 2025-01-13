@@ -15,8 +15,8 @@ package org.openapitools.client;
 
 import java.util.Set;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ValidationException;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 
 public class BeanValidationException extends ValidationException {
     /**

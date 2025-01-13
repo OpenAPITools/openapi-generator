@@ -49,16 +49,17 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfAttributes
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributes {
   public static final String SERIALIZED_NAME_C = "C";
   @SerializedName(SERIALIZED_NAME_C)
+  @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfAttributesC C;
 
   public AllOfModelArrayAnyOfAllOfAttributes() {
   }
 
-  public AllOfModelArrayAnyOfAllOfAttributes C(AllOfModelArrayAnyOfAllOfAttributesC C) {
+  public AllOfModelArrayAnyOfAllOfAttributes C(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributesC C) {
     this.C = C;
     return this;
   }
@@ -72,7 +73,7 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
     return C;
   }
 
-  public void setC(AllOfModelArrayAnyOfAllOfAttributesC C) {
+  public void setC(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributesC C) {
     this.C = C;
   }
 

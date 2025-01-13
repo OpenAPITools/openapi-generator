@@ -955,4 +955,14 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
     }
+
+    @Test
+    public void removeAnnotationsTest() {
+        Assert.assertEquals(codegen.removeAnnotations("@Min(0) @Max(10)Integer"), "Integer");
+        Assert.assertEquals(codegen.removeAnnotations("@Pattern(regexp = \"^[a-z]$\")String"), "String");
+        Assert.assertEquals(codegen.removeAnnotations("List<@Min(0) @Max(10)Integer>"), "List<Integer>");
+        Assert.assertEquals(codegen.removeAnnotations("List<@Pattern(regexp = \"^[a-z]$\")String>"), "List<String>");
+        Assert.assertEquals(codegen.removeAnnotations("List<@Valid Pet>"), "List<Pet>");
+    }
+
 }

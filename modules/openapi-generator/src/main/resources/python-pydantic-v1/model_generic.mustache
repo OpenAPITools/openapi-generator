@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING
 from importlib import import_module
 if TYPE_CHECKING:
 {{#mappedModels}}
-    from {{packageName}}.models.{{model.classVarName}} import {{modelName}}
+    from {{packageName}}.models.{{model.classFilename}} import {{modelName}}
 {{/mappedModels}}
 
 {{/discriminator}}
@@ -74,11 +74,11 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/required}}
         {{#isArray}}
         for i in value:
-            if i not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
+            if i not in ({{#allowableValues}}{{#enumVars}}{{{value}}},{{^-last}} {{/-last}}{{/enumVars}}{{/allowableValues}}):
                 raise ValueError("each list item must be one of ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
         {{^isArray}}
-        if value not in ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}):
+        if value not in ({{#allowableValues}}{{#enumVars}}{{{value}}},{{^-last}} {{/-last}}{{/enumVars}}{{/allowableValues}}):
             raise ValueError("must be one of enum values ({{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
         return value
@@ -238,7 +238,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         object_type = cls.get_discriminator_value(obj)
         {{#mappedModels}}
         if object_type ==  '{{{modelName}}}':
-            return import_module("{{packageName}}.models.{{model.classVarName}}").{{modelName}}.from_dict(obj)
+            return import_module("{{packageName}}.models.{{model.classFilename}}").{{modelName}}.from_dict(obj)
         {{/mappedModels}}
         raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +

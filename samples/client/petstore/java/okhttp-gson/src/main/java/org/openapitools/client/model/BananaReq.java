@@ -49,20 +49,22 @@ import org.openapitools.client.JSON;
 /**
  * BananaReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class BananaReq {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)
+  @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String SERIALIZED_NAME_SWEET = "sweet";
   @SerializedName(SERIALIZED_NAME_SWEET)
+  @javax.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() {
   }
 
-  public BananaReq lengthCm(BigDecimal lengthCm) {
+  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
@@ -76,12 +78,12 @@ public class BananaReq {
     return lengthCm;
   }
 
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(Boolean sweet) {
+  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
@@ -95,7 +97,7 @@ public class BananaReq {
     return sweet;
   }
 
-  public void setSweet(Boolean sweet) {
+  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 

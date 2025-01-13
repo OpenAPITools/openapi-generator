@@ -48,10 +48,15 @@ export function NumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function NumberOnlyToJSON(value?: NumberOnly | null): any {
+export function NumberOnlyToJSON(json: any): NumberOnly {
+    return NumberOnlyToJSONTyped(json, false);
+}
+
+export function NumberOnlyToJSONTyped(value?: NumberOnly | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'JustNumber': value['justNumber'],

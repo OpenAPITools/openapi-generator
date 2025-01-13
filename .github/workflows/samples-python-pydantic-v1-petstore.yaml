@@ -19,6 +19,7 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
+          - "3.12"
         sample:
           - samples/openapi3/client/petstore/python-pydantic-v1-aiohttp
           - samples/openapi3/client/petstore/python-pydantic-v1

@@ -57,6 +57,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
@@ -720,6 +725,49 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testExecutePostProcessor() throws InterruptedException, ExecutionException {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        try {
+            Future<Boolean> call1 = executor.submit(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return codegen.executePostProcessor(new String[] { "binary_does_not_exist" });
+                }
+            });
+
+            Future<Boolean> call2 = executor.submit(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    String os = System.getProperty("os.name");
+                    String postProcessor = os.contains("Windows")
+                        ? "cmd.exe /c echo hello"
+                        : "echo Hello";
+                    return codegen.executePostProcessor(new String[] { postProcessor });
+                }
+            });
+
+            Future<Boolean> call3 = executor.submit(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    String os = System.getProperty("os.name");
+                    String[] postProcessor = os.contains("Windows")
+                        ? new String[] { "cmd.exe", "/c", "echo", "hello" }
+                        : new String[] { "echo", "Hello" };
+                    return codegen.executePostProcessor(postProcessor);
+                }
+            });
+
+            assertFalse(call1.get());
+            assertTrue(call2.get());
+            assertTrue(call3.get());
+        } finally {
+            executor.shutdown();
+        }
+    }
+
+    @Test
     public void testComposedSchemaOneOfWithProperties() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -841,6 +889,7 @@ public class DefaultCodegenTest {
     @Test
     public void updateCodegenPropertyEnumWithPrefixRemoved() {
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setRemoveEnumValuePrefix(true);
         CodegenProperty enumProperty = codegenProperty(Arrays.asList("animal_dog", "animal_cat"));
 
         codegen.updateCodegenPropertyEnum(enumProperty);
@@ -877,6 +926,7 @@ public class DefaultCodegenTest {
     @Test
     public void postProcessModelsEnumWithPrefixRemoved() {
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setRemoveEnumValuePrefix(true);
         ModelsMap objs = codegenModel(Arrays.asList("animal_dog", "animal_cat"));
         CodegenModel cm = objs.getModels().get(0).getModel();
 
@@ -4934,5 +4984,31 @@ public class DefaultCodegenTest {
         assertThat(getNames(springCat.allVars)).isEqualTo(List.of("petType", "name"));
         CodegenModel springCat2 = springCodegen.fromModel("Cat2", cat2Model);
         assertThat(getNames(springCat2.allVars)).isEqualTo(List.of("petType", "name"));
+    }
+
+    @Test
+    public void testMultipleRequestParameter_hasSingleParamFalse() {
+        // Given
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/content-data.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/jsonQueryParams";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
+
+        // When & Then
+        assertThat(codegenOperation.hasSingleParam).isFalse();
+    }
+
+    @Test
+    public void testSingleRequestParameter_hasSingleParamTrue() {
+        // Given
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/fake/inline-additionalProperties";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        // When & Then
+        assertThat(codegenOperation.hasSingleParam).isTrue();
     }
 }

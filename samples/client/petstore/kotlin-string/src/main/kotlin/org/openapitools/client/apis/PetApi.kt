@@ -589,7 +589,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : ModelApiResponse {
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: kotlin.ByteArray? = null) : ModelApiResponse {
         val localVarResponse = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return when (localVarResponse.responseType) {
@@ -619,7 +619,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse<ModelApiResponse?> {
+    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: kotlin.ByteArray?) : ApiResponse<ModelApiResponse?> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
 
         return request<Map<String, PartConfig<*>>, ModelApiResponse>(
@@ -635,7 +635,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = A
      * @param file file to upload (optional)
      * @return RequestConfig
      */
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: kotlin.ByteArray?) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
             "file" to PartConfig(body = file, headers = mutableMapOf()),)

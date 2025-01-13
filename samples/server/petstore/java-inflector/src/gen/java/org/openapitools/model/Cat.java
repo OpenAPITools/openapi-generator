@@ -11,7 +11,7 @@ import org.openapitools.model.Animal;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed;
@@ -43,12 +43,12 @@ public class Cat extends Animal  {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(declawed, cat.declawed);
+    return super.equals(o) && Objects.equals(declawed, cat.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed);
+    return Objects.hash(super.hashCode(), declawed);
   }
 
   @Override

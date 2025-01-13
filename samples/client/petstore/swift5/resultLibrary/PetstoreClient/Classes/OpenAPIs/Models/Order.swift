@@ -10,22 +10,23 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Order: Codable, JSONEncodable, Hashable {
+internal struct Order: Codable, JSONEncodable {
 
-    public enum Status: String, Codable, CaseIterable {
+    internal enum Status: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public var id: Int64?
-    public var petId: Int64?
-    public var quantity: Int?
-    public var shipDate: Date?
+    internal private(set) var id: Int64?
+    internal private(set) var petId: Int64?
+    internal private(set) var quantity: Int?
+    internal private(set) var shipDate: Date?
     /** Order Status */
-    public var status: Status?
-    public var complete: Bool? = false
+    internal private(set) var status: Status?
+    internal private(set) var complete: Bool? = false
 
-    public init(id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = false) {
+    internal init(id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = false) {
         self.id = id
         self.petId = petId
         self.quantity = quantity
@@ -34,7 +35,7 @@ public struct Order: Codable, JSONEncodable, Hashable {
         self.complete = complete
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case petId
         case quantity
@@ -45,7 +46,7 @@ public struct Order: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(petId, forKey: .petId)
@@ -56,3 +57,6 @@ public struct Order: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Order: Identifiable {}

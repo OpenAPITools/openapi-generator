@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 {{#useBeanValidation}}
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 import org.springframework.beans.factory.annotation.Autowired;

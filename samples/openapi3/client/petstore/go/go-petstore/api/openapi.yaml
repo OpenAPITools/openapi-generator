@@ -1296,11 +1296,6 @@ components:
   schemas:
     FilterTypeRegex:
       properties:
-        type:
-          enum:
-          - set
-          - range
-          type: string
         regex:
           type: string
       required:
@@ -1308,11 +1303,6 @@ components:
       type: object
     FilterTypeRange:
       properties:
-        type:
-          enum:
-          - set
-          - range
-          type: string
         data:
           items:
             type: string
@@ -1329,6 +1319,15 @@ components:
           set: '#/components/schemas/FilterTypeRegex'
           range: '#/components/schemas/FilterTypeRange'
         propertyName: type
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        date:
+          format: date-time
+          type: string
     MapWithDateTime:
       additionalProperties:
         items:
@@ -2100,6 +2099,13 @@ components:
           type: string
       required:
       - className
+      type: object
+    fruitJuice:
+      properties:
+        fruit:
+          $ref: '#/components/schemas/gmFruit'
+      required:
+      - fruit
       type: object
     gmFruit:
       anyOf:

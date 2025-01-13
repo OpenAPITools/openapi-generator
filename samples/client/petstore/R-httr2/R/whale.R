@@ -19,8 +19,7 @@ Whale <- R6::R6Class(
     `hasBaleen` = NULL,
     `hasTeeth` = NULL,
     `className` = NULL,
-    #' Initialize a new Whale class.
-    #'
+
     #' @description
     #' Initialize a new Whale class.
     #'
@@ -28,7 +27,6 @@ Whale <- R6::R6Class(
     #' @param hasBaleen hasBaleen
     #' @param hasTeeth hasTeeth
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`className`, `hasBaleen` = NULL, `hasTeeth` = NULL, ...) {
       if (!missing(`className`)) {
         if (!(is.character(`className`) && length(`className`) == 1)) {
@@ -49,14 +47,37 @@ Whale <- R6::R6Class(
         self$`hasTeeth` <- `hasTeeth`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return Whale in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Whale as a base R list.
+    #' @examples
+    #' # convert array of Whale (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Whale to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       WhaleObject <- list()
       if (!is.null(self$`hasBaleen`)) {
         WhaleObject[["hasBaleen"]] <-
@@ -70,16 +91,14 @@ Whale <- R6::R6Class(
         WhaleObject[["className"]] <-
           self$`className`
       }
-      WhaleObject
+      return(WhaleObject)
     },
-    #' Deserialize JSON string into an instance of Whale
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Whale
     #'
     #' @param input_json the JSON input
     #' @return the instance of Whale
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`hasBaleen`)) {
@@ -93,51 +112,23 @@ Whale <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Whale in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`hasBaleen`)) {
-          sprintf(
-          '"hasBaleen":
-            %s
-                    ',
-          tolower(self$`hasBaleen`)
-          )
-        },
-        if (!is.null(self$`hasTeeth`)) {
-          sprintf(
-          '"hasTeeth":
-            %s
-                    ',
-          tolower(self$`hasTeeth`)
-          )
-        },
-        if (!is.null(self$`className`)) {
-          sprintf(
-          '"className":
-            "%s"
-                    ',
-          self$`className`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of Whale
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Whale
     #'
     #' @param input_json the JSON input
     #' @return the instance of Whale
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`hasBaleen` <- this_object$`hasBaleen`
@@ -145,13 +136,11 @@ Whale <- R6::R6Class(
       self$`className` <- this_object$`className`
       self
     },
-    #' Validate JSON input with respect to Whale
-    #'
+
     #' @description
     #' Validate JSON input with respect to Whale and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
@@ -163,23 +152,19 @@ Whale <- R6::R6Class(
         stop(paste("The JSON input `", input, "` is invalid for Whale: the required field `className` is missing."))
       }
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Whale
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       # check if the required `className` is null
       if (is.null(self$`className`)) {
@@ -188,13 +173,11 @@ Whale <- R6::R6Class(
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       # check if the required `className` is null
@@ -204,12 +187,9 @@ Whale <- R6::R6Class(
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

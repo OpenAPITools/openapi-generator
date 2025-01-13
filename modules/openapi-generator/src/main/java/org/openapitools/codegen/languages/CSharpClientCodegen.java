@@ -75,6 +75,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_60_OR_LATER = "net60OrLater";
     protected static final String NET_70_OR_LATER = "net70OrLater";
     protected static final String NET_80_OR_LATER = "net80OrLater";
+    protected static final String NET_90_OR_LATER = "net90OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -87,9 +88,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_2_1,
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
-            FrameworkStrategy.NET_6_0,
-            FrameworkStrategy.NET_7_0,
-            FrameworkStrategy.NET_8_0
+            FrameworkStrategy.NET_8_0,
+            FrameworkStrategy.NET_9_0
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
@@ -111,6 +111,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean supportsDateOnly = Boolean.FALSE;
+    protected boolean useIntForTimeout = Boolean.FALSE;
 
     @Setter protected boolean validatable = Boolean.TRUE;
     @Setter protected boolean equatable = Boolean.FALSE;
@@ -120,6 +121,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     private static final String OPERATION_PARAMETER_SORTING_KEY = "operationParameterSorting";
     private static final String MODEL_PROPERTY_SORTING_KEY = "modelPropertySorting";
+    private static final String USE_INT_FOR_TIMEOUT = "useIntForTimeout";
+
     enum SortingMethod {
         DEFAULT,
         ALPHABETICAL,
@@ -235,6 +238,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addOption(CSharpClientCodegen.MODEL_PROPERTY_SORTING_KEY,
                 "One of legacy, alphabetical, default.",
                 this.modelPropertySorting.toString().toLowerCase(Locale.ROOT));
+
+        addOption(CSharpClientCodegen.USE_INT_FOR_TIMEOUT,
+                "Use int for Timeout (fall back to v7.9.0 templates). This option (for restsharp only) will be deprecated so please migrated to TimeSpan instead.",
+                String.valueOf(this.useIntForTimeout));
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -369,7 +376,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected Set<String> getNullableTypes() {
         return GENERICHOST.equals(getLibrary())
                 ? super.getNullableTypes()
-                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+                : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -841,6 +848,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
         syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
+        syncBooleanProperty(additionalProperties, "useIntForTimeout", this::setUseIntForTimeout, this.useIntForTimeout);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -989,9 +997,22 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
                                    final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
+        if (RESTSHARP.equals(getLibrary())) { // restsharp
+            if (useIntForTimeout) { // option to fall back to int for Timeout using v7.9.0 template
+                supportingFiles.add(new SupportingFile("ApiClient.v790.mustache", clientPackageDir, "ApiClient.cs"));
+                supportingFiles.add(new SupportingFile("IReadableConfiguration.v790.mustache", clientPackageDir, "IReadableConfiguration.cs"));
+                supportingFiles.add(new SupportingFile("Configuration.v790.mustache", clientPackageDir, "Configuration.cs"));
+            } else {
+                supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
+                supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache", clientPackageDir, "IReadableConfiguration.cs"));
+                supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
+            }
+        } else { // other libs, e.g. httpclient
+            supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
+            supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache", clientPackageDir, "IReadableConfiguration.cs"));
+            supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
+        }
         supportingFiles.add(new SupportingFile("IApiAccessor.mustache", clientPackageDir, "IApiAccessor.cs"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", clientPackageDir, "Configuration.cs"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", clientPackageDir, "ApiClient.cs"));
         supportingFiles.add(new SupportingFile("ApiException.mustache", clientPackageDir, "ApiException.cs"));
         supportingFiles.add(new SupportingFile("ApiResponse.mustache", clientPackageDir, "ApiResponse.cs"));
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
@@ -1017,8 +1038,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
         }
 
-        supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
-                clientPackageDir, "IReadableConfiguration.cs"));
         supportingFiles.add(new SupportingFile("GlobalConfiguration.mustache",
                 clientPackageDir, "GlobalConfiguration.cs"));
 
@@ -1185,6 +1204,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsDateOnly(Boolean supportsDateOnly) {
         this.supportsDateOnly = supportsDateOnly;
+    }
+
+    public void setUseIntForTimeout(Boolean useIntForTimeout) {
+        this.useIntForTimeout = useIntForTimeout;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {
@@ -1403,11 +1426,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NETFRAMEWORK_4_8 = new FrameworkStrategy("net48", ".NET Framework 4.8", "net48", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_6_0 = new FrameworkStrategy("net6.0", ".NET 6.0 (End of Support 12 November 2024)", "net6.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0 (End of Support 10 November 2026)", "net8.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
-        };
-        static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0", "net8.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 12 May 2026)", "net9.0", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
@@ -1527,6 +1548,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_60_OR_LATER, true);
                 properties.put(NET_70_OR_LATER, true);
                 properties.put(NET_80_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net9.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+                properties.put(NET_80_OR_LATER, true);
+                properties.put(NET_90_OR_LATER, true);
             } else {
                 throw new RuntimeException("Unhandled case");
             }
@@ -1702,7 +1735,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(schema)) {
+            if (ModelUtils.isFreeFormObject(schema, openAPI)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);

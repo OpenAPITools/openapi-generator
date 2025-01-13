@@ -5,12 +5,14 @@ on:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/restclient-*/** 
+      - samples/client/petstore/java/restclient-*/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/restclient-*/** 
+      - samples/client/petstore/java/restclient-*/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -25,6 +27,8 @@ jobs:
           - samples/client/petstore/java/restclient
           - samples/client/petstore/java/restclient-nullable-arrays
           - samples/client/petstore/java/restclient-swagger2
+          - samples/client/petstore/java/restclient-useSingleRequestParameter
+          - samples/client/petstore/java/webclient-useSingleRequestParameter
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

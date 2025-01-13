@@ -12,239 +12,41 @@ import upickle.default.*
 
 {{#models}}
 {{#model}}
-/** {{classname}}Data a data transfer object, primarily for simple json serialisation.
-  * It has no validation - there may be nulls, values out of range, etc
-  */
-case class {{classname}}Data(
-  {{#vars}}
-  {{#description}}
-/* {{{description}}} */
-  {{/description}}
-  {{name}}: {{#isEnum}}{{classname}}.{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{{vendorExtensions.x-datatype-data}}}{{/isEnum}}{{^required}} = {{{vendorExtensions.x-defaultValue-data}}} {{/required}}{{^-last}},{{/-last}}
 
-  {{/vars}}) {
+{{#vendorExtensions.x-has-one-of}}
+type {{{classname}}}Data = {{#oneOf}}{{{.}}}Data{{^-last}} | {{/-last}}{{/oneOf}}
 
-  def asJson: String = write(this)
+object {{{classname}}}Data {
 
-  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-    {{#vars}}
-        // ==================
-        // {{name}}
-        {{#pattern}}
-        // validate against pattern '{{{pattern}}}'
-        if (errors.isEmpty || !failFast) {
-           val regex = """{{{pattern}}}"""
-           if {{name}} == null || !regex.r.matches({{name}}) then
-              errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' doesn't match pattern $regex")
-        }
-        {{/pattern}}
-
-        {{#minimum}}
-        // validate against {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum {{minimum}}
-        if (errors.isEmpty || !failFast) {
-            if !({{name}} >{{^exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) then
-            errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMinimum}}exclusive {{/exclusiveMinimum}}minimum value {{minimum}}")
-        }
-        {{/minimum}}
-
-        {{#maximum}}
-        // validate against {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum {{maximum}}
-        if (errors.isEmpty || !failFast) {
-            if !({{name}} <{{^exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) then
-            errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"value '${{name}}' is not greater than the {{#exclusiveMaximum}}exclusive {{/exclusiveMaximum}}maximum value {{maximum}}")
-        }
-        {{/maximum}}
-
-        {{#minLength}}
-        // validate min length {{minLength}}
-        if (errors.isEmpty || !failFast)  {
-          val len = if {{name}} == null then 0 else {{name}}.length
-            if (len < {{minLength}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"length $len is shorter than the min length {{minLength}}")
-            }
-        }
-        {{/minLength}}
-
-        {{#maxLength}}
-        // validate max length {{maxLength}}
-        if (errors.isEmpty || !failFast)  {
-          val len = if {{name}} == null then 0 else {{name}}.length
-            if (len < {{maxLength}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"length $len is longer than the max length {{maxLength}}")
-            }
-        }
-        {{/maxLength}}
-
-        {{#isEmail}}
-        // validate {{name}} is a valid email address
-        if (errors.isEmpty || !failFast) {
-            val emailRegex = """^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"""
-            // validate {{name}} is email
-            if ({{name}} == null || !emailRegex.r.matches({{name}})) {
-              errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"${{name}} is not a valid email address according to the pattern $emailRegex")
-            }
-        }
-        {{/isEmail}}
-
-        {{#required}}{{^isPrimitiveType}}
-        if (errors.isEmpty || !failFast) {
-            if ({{name}} == null) {
-            errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, "{{name}} is a required field and cannot be null")
-            }
-        }
-        {{/isPrimitiveType}}{{/required}}
-
-        {{#uniqueItems}}
-          // validate {{name}} has unique items
-          if (errors.isEmpty || !failFast) {
-              if ({{name}} != null) {
-                {{name}}.foldLeft(Set[{{{vendorExtensions.x-containertype-data}}}]()) {
-                  case (set, next) if set.contains(next) =>
-                    errors += ValidationError(
-                      path :+ {{classname}}.Fields.{{name}},
-                      s"duplicate value: $next"
-                    )
-                    set + next
-                  case (set, next) => set + next
-                }
-              }
-          }
-        {{/uniqueItems}}
-
-        {{#multipleOf}}
-        if (errors.isEmpty || !failFast) {
-          // validate {{name}} multiple of {{multipleOf}}
-          if ({{name}} % {{multipleOf}} != 0) {
-            errors += ValidationError(
-                  path :+ {{classname}}.Fields.{{name}},
-                  s"${{name}} is not a multiple of {{multipleOf}}"
-                )
-          }
-        }
-        {{/multipleOf}}
-
-        {{#minItems}}
-        // validate min items {{minItems}}
-        if (errors.isEmpty || !failFast) {
-          val len = if {{name}} == null then 0 else {{name}}.size
-            if (len < {{minItems}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"{{name}} has $len, which is less than the min items {{minItems}}")
-            }
-        }
-        {{/minItems}}
-
-        {{#maxItems}}
-        // validate min items {{maxItems}}
-        if (errors.isEmpty || !failFast) {
-          val len = if {{name}} == null then 0 else {{name}}.size
-            if (len > {{maxItems}}) {
-               errors += ValidationError(path :+ {{classname}}.Fields.{{name}}, s"{{name}} has $len, which is greater than the max items {{maxItems}}")
-            }
-        }
-        {{/maxItems}}
-
-        {{#minProperties}}
-           TODO - minProperties
-        {{/minProperties}}
-
-        {{#maxProperties}}
-           TODO - maxProperties
-        {{/maxProperties}}
-
-        {{#items}}{{#isModel}}
-        if (errors.isEmpty || !failFast) {
-            if ({{name}} != null) {
-                {{name}}.zipWithIndex.foreach {
-                    case (value, i) if errors.isEmpty || !failFast =>
-                      errors ++= value.validationErrors(
-                        path :+ {{classname}}.Fields.{{name}} :+ Field(i.toString),
-                        failFast)
-                    case (value, i) =>
-                }
-            }
-        }
-        {{/isModel}}{{/items}}
-        {{#isModel}}
-        // validating {{name}}
-        if (errors.isEmpty || !failFast) {
-            if {{name}} != null then errors ++= {{name}}.validationErrors(path :+ {{classname}}.Fields.{{name}}, failFast)
-        }
-        {{/isModel}}
-
-    {{/vars}}
-    errors.toSeq
-  }
-
-  def validated(failFast : Boolean = false) : scala.util.Try[{{classname}}] = {
-    validationErrors(Vector(), failFast) match {
-      case Seq() => Success(asModel)
-      case first +: theRest => Failure(ValidationErrors(first, theRest))
+  def validated(d8a : {{{classname}}}Data, failFast: Boolean) : Try[{{{classname}}}] = {
+    d8a match {
+      {{#oneOf}}
+      case value : {{{.}}}Data => value.validated(failFast)
+      {{/oneOf}}
     }
   }
 
-  /** use 'validated' to check validation */
-  def asModel : {{classname}} = {
-    {{classname}}(
-    {{#vars}}
-        {{name}} = {{#vendorExtensions.x-wrap-in-optional}}Option({{/vendorExtensions.x-wrap-in-optional}}
-        {{name}}
-        {{#vendorExtensions.x-wrap-in-optional}}){{/vendorExtensions.x-wrap-in-optional}}
-        {{#vendorExtensions.x-map-asModel}}.map(_.asModel){{/vendorExtensions.x-map-asModel}}{{^-last}},{{/-last}}
-    {{/vars}}
-    )
+  def fromJsonString(jason : String) = fromJson {
+    try {
+      read[ujson.Value](jason)
+    } catch {
+      case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
+    }
+  }
+
+  def fromJson(jason : ujson.Value) : {{{classname}}}Data = {
+      val attempt = {{#oneOf}}{{^-first}}.orElse({{/-first}} Try({{{.}}}Data.fromJson(jason)) {{^-first}}) /* not first */{{/-first}} {{/oneOf}}
+      attempt.get
   }
 }
-
-object {{classname}}Data {
-
-  given readWriter : RW[{{classname}}Data] = macroRW
-
-  def fromJsonString(jason : String) : {{classname}}Data = try {
-        read[{{classname}}Data](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : Seq[{{classname}}Data] = try {
-        read[List[{{classname}}Data]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
-    }
-
-  def manyFromJsonStringValidated(jason : String, failFast : Boolean = false) : Try[Seq[{{classname}}]] = {
-      Try(manyFromJsonString(jason)).flatMap { list =>
-        list.zipWithIndex.foldLeft(Try(Vector[{{classname}}]())) {
-          case (Success(list), (next, i)) => 
-            next.validated(failFast) match {
-              case Success(ok) => Success(list :+ ok)
-              case Failure(err) => Failure(new Exception(s"Validation error on element $i: ${err.getMessage}", err))
-            }
-          case (fail, _)  => fail
-        }
-      }
-    }
-
-  def mapFromJsonString(jason : String) : Map[String, {{classname}}Data] = try {
-        read[Map[String, {{classname}}Data]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
-
-
-  def mapFromJsonStringValidated(jason : String, failFast : Boolean = false) : Try[Map[String, {{classname}}]] = {
-     Try(mapFromJsonString(jason)).flatMap { map =>
-       map.foldLeft(Try(Map[String, {{classname}}]())) {
-         case (Success(map), (key, next)) =>
-           next.validated(failFast) match {
-             case Success(ok) => Success(map.updated(key, ok))
-             case Failure(err) => Failure(new Exception(s"Validation error on element $key: ${err.getMessage}", err))
-           }
-         case (fail, _) => fail
-       }
-     }
-  }
-}
-
+{{/vendorExtensions.x-has-one-of}}
+{{^vendorExtensions.x-has-one-of}}
+    {{#isEnum}}
+        {{>modelDataEnum}}
+    {{/isEnum}}
+    {{^isEnum}}
+        {{>modelDataClass}}
+    {{/isEnum}}
+{{/vendorExtensions.x-has-one-of}}
 {{/model}}
 {{/models}}

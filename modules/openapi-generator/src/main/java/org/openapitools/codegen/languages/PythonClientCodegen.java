@@ -178,11 +178,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // map to Dot instead of Period
         specialCharReplacements.put(".", "Dot");
 
-        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
-        }
-
         Boolean excludeTests = false;
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
@@ -430,7 +425,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.7+";
+        return "3.8+";
     }
 
     @Override

@@ -50,20 +50,22 @@ import org.openapitools.client.JSON;
  * A category for a pet
  */
 @Schema(description = "A category for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class Category {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nullable
   private String name;
 
   public Category() {
   }
 
-  public Category id(Long id) {
+  public Category id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
@@ -78,12 +80,12 @@ public class Category {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Category name(String name) {
+  public Category name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;
   }
@@ -98,7 +100,7 @@ public class Category {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

@@ -33,8 +33,8 @@ import io.swagger.v3.oas.annotations.security.*;
 {{/swagger2AnnotationLibrary}}
 
 {{#useBeanValidation}}
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 
 import java.lang.reflect.Type;
@@ -146,7 +146,7 @@ public class {{classname}} {
     public static class {{operationIdCamelCase}}Oper implements Oper {
 
         public static final Method REQ_METHOD = {{httpMethod}};
-        public static final String REQ_URI = "{{path}}";
+        public static final String REQ_URI = "{{{path}}}";
 
         private RequestSpecBuilder reqSpec;
         private ResponseSpecBuilder respSpec;
@@ -155,15 +155,15 @@ public class {{classname}} {
             this.reqSpec = reqSpec;
             {{#vendorExtensions}}
             {{#x-content-type}}
-            reqSpec.setContentType("{{x-content-type}}");
+            reqSpec.setContentType("{{{x-content-type}}}");
             {{/x-content-type}}
-            reqSpec.setAccept("{{#x-accepts}}{{.}}{{^-last}},{{/-last}}{{/x-accepts}}");
+            reqSpec.setAccept("{{#x-accepts}}{{{.}}}{{^-last}},{{/-last}}{{/x-accepts}}");
             {{/vendorExtensions}}
             this.respSpec = new ResponseSpecBuilder();
         }
 
         /**
-         * {{httpMethod}} {{path}}
+         * {{httpMethod}} {{{path}}}
          * @param handler handler
          * @param <T> type
          * @return type
@@ -175,7 +175,7 @@ public class {{classname}} {
         {{#returnType}}
 
         /**
-         * {{httpMethod}} {{path}}
+         * {{httpMethod}} {{{path}}}
          * @param handler handler
          * @return {{returnType}}
          */

@@ -80,10 +80,15 @@ export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): M
     };
 }
 
-export function MapTestToJSON(value?: MapTest | null): any {
+export function MapTestToJSON(json: any): MapTest {
+    return MapTestToJSONTyped(json, false);
+}
+
+export function MapTestToJSONTyped(value?: MapTest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'map_map_of_string': value['mapMapOfString'],

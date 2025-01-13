@@ -13,7 +13,6 @@ import java.io.IOException
 {{/gson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -21,36 +20,51 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 {{/kotlinx_serialization}}
 {{^threetenbp}}
+{{^kotlinx-datetime}}
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+{{/kotlinx-datetime}}
 {{/threetenbp}}
 {{#threetenbp}}
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 {{/threetenbp}}
+{{#kotlinx-datetime}}
+import kotlinx.datetime.LocalDate
+{{/kotlinx-datetime}}
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalDateAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class LocalDateAdapter {
     @ToJson
-    fun toJson(value: LocalDate): String {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(value: LocalDate): String {
+        {{#kotlinx-datetime}}
+        return value.toString()
+        {{/kotlinx-datetime}}
+        {{^kotlinx-datetime}}
         return DateTimeFormatter.ISO_LOCAL_DATE.format(value)
+        {{/kotlinx-datetime}}
     }
 
     @FromJson
-    fun fromJson(value: String): LocalDate {
-        return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(value: String): LocalDate {
+        return LocalDate.parse(value{{^kotlinx-datetime}}, DateTimeFormatter.ISO_LOCAL_DATE{{/kotlinx-datetime}})
     }
 
 }
 {{/moshi}}
 {{#gson}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class LocalDateAdapter(private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE) : TypeAdapter<LocalDate>() {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class LocalDateAdapter({{^kotlinx-datetime}}private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE{{/kotlinx-datetime}}) : TypeAdapter<LocalDate>() {
     @Throws(IOException::class)
     override fun write(out: JsonWriter?, value: LocalDate?) {
         if (value == null) {
             out?.nullValue()
         } else {
+            {{#kotlinx-datetime}}
+            out?.value(value.toString())
+            {{/kotlinx-datetime}}
+            {{^kotlinx-datetime}}
             out?.value(formatter.format(value))
+            {{/kotlinx-datetime}}
         }
     }
 
@@ -64,15 +78,15 @@ import org.threeten.bp.format.DateTimeFormatter
                 return null
             }
             else -> {
-                return LocalDate.parse(out.nextString(), formatter)
+                return LocalDate.parse(out.nextString(){{^kotlinx-datetime}}, formatter{{/kotlinx-datetime}})
             }
         }
     }
 }
 {{/gson}}
 {{#kotlinx_serialization}}
-@Serializer(forClass = LocalDate::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object LocalDateAdapter : KSerializer<LocalDate> {
+{{^kotlinx-datetime}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object LocalDateAdapter : KSerializer<LocalDate> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: LocalDate) {
@@ -83,4 +97,5 @@ import org.threeten.bp.format.DateTimeFormatter
         return LocalDate.parse(decoder.decodeString(), DateTimeFormatter.ISO_LOCAL_DATE)
     }
 }
+{{/kotlinx-datetime}}
 {{/kotlinx_serialization}}

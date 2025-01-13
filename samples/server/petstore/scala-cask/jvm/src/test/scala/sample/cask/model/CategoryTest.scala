@@ -20,16 +20,17 @@ import scala.util.*
 
 class CategoryTest extends AnyWordSpec with Matchers {
 
+
     "Category.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try(CategoryData.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse """ ignore {
-           val Failure(err : ValidationErrors) = CategoryData.fromJsonString("""""").validated()
+           val d8a = CategoryData.fromJsonString("""""")
+           val Failure(err : ValidationErrors) = CategoryData.validated(d8a, true)
 
            sys.error("TODO")
         }
     }
-
 }

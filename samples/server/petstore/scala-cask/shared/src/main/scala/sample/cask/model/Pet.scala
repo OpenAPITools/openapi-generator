@@ -13,57 +13,54 @@
 
 // this model was generated using model.mustache
 package sample.cask.model
-import sample.cask.model.Category
-import sample.cask.model.Tag
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
+
+        
 case class Pet(
-  id: Option[Long] = None ,
-
+    id: Option[Long] = None ,
     category: Option[Category] = None ,
-
     name: String,
-
     photoUrls: Seq[String],
-
     tags: Seq[Tag] = Nil ,
+        /* pet status in the store */
+    status: Option[Pet.StatusEnum] = None 
 
-  /* pet status in the store */
-  status: Option[Pet.StatusEnum] = None 
 
-  ) {
+) {
 
-  def asJson: String = asData.asJson
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
 
-  def asData : PetData = {
-    PetData(
-            id = id.getOrElse(0),
-            category = category.map(_.asData).getOrElse(null),
-            name = name,
-            photoUrls = photoUrls,
-            tags = tags.map(_.asData),
-            status = status.getOrElse(null)
-    )
-  }
+def asData : PetData = {
+PetData(
+    id = id.getOrElse(0) /*  1 */,
+    category = category.map(_.asData).getOrElse(null) /* 4 */,
+    name = name /* 2 */,
+    photoUrls = photoUrls /* 2 */,
+    tags = tags.map(_.asData) /* 6 */,
+    status = status.getOrElse(null) /*  1 */
 
+)
+}
 }
 
-object Pet{
+object Pet {
+given RW[Pet] = summon[RW[ujson.Value]].bimap[Pet](_.asJson, json => read[PetData](json).asModel)
 
-    given RW[Pet] = PetData.readWriter.bimap[Pet](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
-            case id extends Fields("id")
-            case category extends Fields("category")
-            case name extends Fields("name")
-            case photoUrls extends Fields("photoUrls")
-            case tags extends Fields("tags")
-            case status extends Fields("status")
-    }
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case id extends Fields("id")
+    case category extends Fields("category")
+    case name extends Fields("name")
+    case photoUrls extends Fields("photoUrls")
+    case tags extends Fields("tags")
+    case status extends Fields("status")
+}
 
         // baseName=status
         // nameInCamelCase = status
@@ -74,4 +71,5 @@ object Pet{
         }
 
 }
+
 

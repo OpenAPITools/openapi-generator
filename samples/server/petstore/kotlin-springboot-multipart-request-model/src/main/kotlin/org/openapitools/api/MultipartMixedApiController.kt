@@ -46,7 +46,7 @@ class MultipartMixedApiController() {
         value = ["/multipart-mixed"],
         consumes = ["multipart/form-data"]
     )
-    fun multipartMixed(@Parameter(description = "", required = true, schema = Schema(allowableValues = ["ALLOWED", "IN_PROGRESS", "REJECTED"])) @RequestParam(value = "status", required = true) status: MultipartMixedStatus ,@Parameter(description = "a file") @Valid @RequestPart("file", required = true) file: org.springframework.core.io.Resource,@Parameter(description = "") @RequestPart(value = "marker", required = false) marker: MultipartMixedRequestMarker? ): ResponseEntity<Unit> {
+    fun multipartMixed(@Parameter(description = "", required = true, schema = Schema(allowableValues = ["ALLOWED", "IN_PROGRESS", "REJECTED"])) @RequestParam(value = "status", required = true) status: MultipartMixedStatus ,@Parameter(description = "a file") @Valid @RequestPart("file", required = true) file: org.springframework.web.multipart.MultipartFile,@Parameter(description = "") @RequestPart(value = "marker", required = false) marker: MultipartMixedRequestMarker? ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

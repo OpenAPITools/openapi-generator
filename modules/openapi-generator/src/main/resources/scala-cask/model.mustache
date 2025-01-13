@@ -3,6 +3,7 @@
 package {{modelPackage}}
 {{#imports}}import {{import}}
 {{/imports}}
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
@@ -11,50 +12,25 @@ import upickle.default.*
 
 {{#models}}
 {{#model}}
-case class {{classname}}(
-  {{#vars}}
-  {{#description}}
-/* {{{description}}} */
-  {{/description}}
-  {{name}}: {{#isEnum}}{{^required}}Option[{{/required}}{{classname}}.{{datatypeWithEnum}}{{^required}}]{{/required}}{{/isEnum}}{{^isEnum}}{{{vendorExtensions.x-datatype-model}}}{{/isEnum}}{{^required}} = {{{vendorExtensions.x-defaultValue-model}}} {{/required}}{{^-last}},{{/-last}}
 
-  {{/vars}}) {
+{{#vendorExtensions.x-has-one-of}}
 
-  def asJson: String = asData.asJson
+type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}
+object {{{classname}}} {
 
-  def asData : {{classname}}Data = {
-    {{classname}}Data(
-        {{#vars}}
-            {{name}} = {{name}}{{#vendorExtensions.x-map-asModel}}.map(_.asData){{/vendorExtensions.x-map-asModel}}{{#vendorExtensions.x-wrap-in-optional}}.getOrElse({{{defaultValue}}}){{/vendorExtensions.x-wrap-in-optional}}{{^-last}},{{/-last}}
-        {{/vars}}
-    )
-  }
-
+    given RW[{{{classname}}}] = RW.merge({{#oneOf}}summon[RW[{{{.}}}]]{{^-last}}, {{/-last}}{{/oneOf}})
 }
 
-object {{classname}}{
-
-    given RW[{{classname}}] = {{classname}}Data.readWriter.bimap[{{classname}}](_.asData, _.asModel)
-
-    enum Fields(fieldName : String) extends Field(fieldName) {
-        {{#vars}}
-            case {{name}} extends Fields("{{name}}")
-        {{/vars}}
-    }
-
-{{#vars}}
+{{/vendorExtensions.x-has-one-of}}
+{{^vendorExtensions.x-has-one-of}}
     {{#isEnum}}
-        // baseName={{{baseName}}}
-        // nameInCamelCase = {{{nameInCamelCase}}}
-        enum {{datatypeWithEnum}} derives ReadWriter {
-        {{#_enum}}
-            case {{.}}
-        {{/_enum}}
-        }
+        {{>modelEnum}}
     {{/isEnum}}
-{{/vars}}
+    {{^isEnum}}
+        {{>modelClass}}
+    {{/isEnum}}
+{{/vendorExtensions.x-has-one-of}}
 
-}
 
 {{/model}}
 {{/models}}

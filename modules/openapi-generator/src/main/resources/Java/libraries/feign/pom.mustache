@@ -345,6 +345,14 @@
             <scope>provided</scope>
         </dependency>
         {{/useBeanValidation}}
+        {{#useReflectionEqualsHashCode}}
+        <!-- For equals and hashCode using reflection -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+        {{/useReflectionEqualsHashCode}}
 
         <!-- test dependencies -->
         <dependency>
@@ -403,13 +411,15 @@
         {{/openApiNullable}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         {{/useJakartaEe}}
-        {{#useBeanValidation}}
-        <beanvalidation-version>3.0.2</beanvalidation-version>
-        {{/useBeanValidation}}
+        {{#useReflectionEqualsHashCode}}
+        <commons-lang3-version>3.17.0</commons-lang3-version>
+        {{/useReflectionEqualsHashCode}}
         <junit-version>5.10.0</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <scribejava-version>8.3.3</scribejava-version>

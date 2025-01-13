@@ -585,7 +585,7 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if #available(iOS 15, macOS 11, *) {
+        if #available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *) {
             #if canImport(UniformTypeIdentifiers)
             if let utType = UTType(filenameExtension: pathExtension) {
                 return utType.preferredMIMEType ?? "application/octet-stream"
@@ -611,12 +611,24 @@ private class FormURLEncoding: ParameterEncoding {
         var urlRequest = urlRequest
 
         var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        
+        /// `httpBody` needs to be percent encoded
+        /// -> https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST
+        /// "application/x-www-form-urlencoded: [...] Non-alphanumeric characters in both keys and values are percent-encoded"
+        let percentEncodedQueryItems = queryItems?.compactMap { queryItem in
+            return URLQueryItem(
+                name: queryItem.name.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.name,
+                value: queryItem.value?.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.value)
+        }
+        requestBodyComponents.queryItems = percentEncodedQueryItems
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
 
+        /// We can't use `requestBodyComponents.percentEncodedQuery` since this does NOT percent encode the `+` sign
+        /// that is why we do the percent encoding manually for each key/value pair
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
         return urlRequest

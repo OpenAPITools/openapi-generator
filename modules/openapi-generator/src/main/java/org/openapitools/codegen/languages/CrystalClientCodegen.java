@@ -33,11 +33,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -219,6 +215,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
         if (StringUtils.isEmpty(System.getenv("CRYSTAL_POST_PROCESS_FILE"))) {
             LOGGER.info(
                     "Hint: Environment variable 'CRYSTAL_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export CRYSTAL_POST_PROCESS_FILE=\"/usr/local/bin/crystal tool format\"' (Linux/Mac)");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'CRYSTAL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(SHARD_NAME)) {
@@ -407,7 +405,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String[] parts = modelName.split("::");
         ArrayList<String> new_parts = new ArrayList<String>();
         for (String part : parts) {
-            new_parts.add(sanitizeName(part));
+            new_parts.add(sanitizeName(part, "\\W", new ArrayList<>(List.of(":"))));
         }
         return String.join("::", new_parts);
     }
@@ -890,6 +888,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -899,30 +898,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // only process files with cr extension
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = crystalPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    try (InputStreamReader inputStreamReader = new InputStreamReader(p.getErrorStream(),
-                            StandardCharsets.UTF_8);
-                            BufferedReader br = new BufferedReader(inputStreamReader)) {
-                        StringBuilder sb = new StringBuilder();
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line);
-                        }
-                        LOGGER.error("Error running the command ({}). Exit value: {}, Error output: {}", command,
-                                exitValue, sb);
-                    }
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {crystalPostProcessFile, file.toString()});
         }
     }
 

@@ -28,14 +28,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Animal
  */
-public class AnimalTest {
+class AnimalTest {
     private final Animal model = new Animal();
 
     /**
      * Model tests for Animal
      */
     @Test
-    public void testAnimal() {
+    void testAnimal() {
         // TODO: test Animal
     }
 
@@ -43,7 +43,7 @@ public class AnimalTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 
@@ -51,7 +51,7 @@ public class AnimalTest {
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
     }
 

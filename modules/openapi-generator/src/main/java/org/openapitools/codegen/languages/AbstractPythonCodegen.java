@@ -21,7 +21,6 @@ import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,6 +50,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.GeneratorLanguage;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
@@ -178,6 +178,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'PYTHON_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
     }
 
@@ -351,6 +353,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -361,20 +364,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = pythonPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[] {pythonPostProcessFile, file.toString()});
         }
     }
 
@@ -422,7 +412,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // Enum case:
             example = schema.getEnum().get(0).toString();
             if (ModelUtils.isStringSchema(schema)) {
-                example = "'" + escapeText(example) + "'";
+                example = "'" + escapeTextInSingleQuotes(example) + "'";
             }
             if (null == example)
                 LOGGER.warn("Empty enum. Cannot built an example!");
@@ -521,7 +511,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 if (additional.getEnum() != null && !additional.getEnum().isEmpty()) {
                     theKey = additional.getEnum().get(0).toString();
                     if (ModelUtils.isStringSchema(additional)) {
-                        theKey = "'" + escapeText(theKey) + "'";
+                        theKey = "'" + escapeTextInSingleQuotes(theKey) + "'";
                     }
                 }
                 example = "{\n" + indentationString + theKey + " : " + toExampleValueRecursive(additional, includedSchemas, indentation + 1) + "\n" + indentationString + "}";
@@ -587,7 +577,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         if (ModelUtils.isStringSchema(schema)) {
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         }
 
         return example;
@@ -613,7 +603,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = p.paramName + "_example";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -630,17 +620,17 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if ("DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "'" + escapeText(example) + "'";
+            example = "'" + escapeTextInSingleQuotes(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
@@ -1195,7 +1185,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     }
 
     /**
-     * Update set of imports from codegen model recursivly
+     * Update set of imports from codegen model recursively
      *
      * @param modelName model name
      * @param cm        codegen model
@@ -1273,6 +1263,23 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     moduleImports,
                     null
                 );
+            }
+
+            // update typing import for operation responses type
+            // only python-fastapi needs this at the moment
+            if (this instanceof PythonFastAPIServerCodegen) {
+                for (CodegenResponse response : operation.responses) {
+                    // Not interested in the result, only in the update of the imports
+                    getPydanticType(
+                            response.returnProperty,
+                            modelImports,
+                            exampleImports,
+                            postponedModelImports,
+                            postponedExampleImports,
+                            moduleImports,
+                            null
+                    );
+                }
             }
 
             // add import for code samples
@@ -1355,7 +1362,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
-            // TOOD update the check below follow python convention
+            // TODO update the check below follow python convention
             //Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "
@@ -1412,7 +1419,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if ("int".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
-            return "\'" + escapeText(value) + "\'";
+            return "'" + escapeTextInSingleQuotes(value) + "'";
         }
     }
 
@@ -1820,7 +1827,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
                 return pt;
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
                     moduleImports.add("pydantic", "SecretStr");
                     return new PythonType("SecretStr");
                 } else {

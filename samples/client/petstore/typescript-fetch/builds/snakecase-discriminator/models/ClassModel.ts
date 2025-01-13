@@ -48,10 +48,15 @@ export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ClassModelToJSON(value?: ClassModel | null): any {
+export function ClassModelToJSON(json: any): ClassModel {
+    return ClassModelToJSONTyped(json, false);
+}
+
+export function ClassModelToJSONTyped(value?: ClassModel | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         '_class': value['_class'],

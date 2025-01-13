@@ -109,7 +109,7 @@
         /// <value>{{.}}</value>
         {{/description}}
         {{#example}}
-        /// <example>{{.}}</example>
+        /* <example>{{.}}</example> */
         {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
@@ -136,7 +136,7 @@
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
         {{#example}}
-        /// <example>{{.}}</example>
+        /* <example>{{.}}</example> */
         {{/example}}
         {{#deprecated}}
         [Obsolete]
@@ -152,7 +152,7 @@
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
         {{#example}}
-        /// <example>{{.}}</example>
+        /* <example>{{.}}</example> */
         {{/example}}
         {{#deprecated}}
         [Obsolete]
@@ -193,7 +193,7 @@
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
         {{#example}}
-        /// <example>{{.}}</example>
+        /* <example>{{.}}</example> */
         {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
@@ -218,7 +218,7 @@
         /// </summary>{{#description}}
         /// <value>{{.}}</value>{{/description}}
         {{#example}}
-        /// <example>{{.}}</example>
+        /* <example>{{.}}</example> */
         {{/example}}
         [JsonPropertyName("{{baseName}}")]
         {{#deprecated}}
@@ -345,15 +345,17 @@
                 {{/readOnlyVars}}
                 {{#readOnlyVars}}
                 {{#lambda.copy}}
-
                 if ({{name}} != null)
                     hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+
                 {{/lambda.copy}}
                 {{#isNullable}}
-                {{#lambda.pasteOnce}}{{/lambda.pasteOnce}}
+                {{#lambda.pasteOnce}}
+                {{/lambda.pasteOnce}}
                 {{/isNullable}}
                 {{^required}}
-                {{#lambda.pasteOnce}}{{/lambda.pasteOnce}}
+                {{#lambda.pasteOnce}}
+                {{/lambda.pasteOnce}}
                 {{/required}}
                 {{/readOnlyVars}}
                 {{#isAdditionalPropertiesTrue}}

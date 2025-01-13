@@ -12,7 +12,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum AllOfGetResponse {
     /// OK
-    Status200_OK(models::AllOfObject),
+    Status200_OK(models::FooAllOfObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -89,7 +89,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<AllOfGetResponse, String>;
+    ) -> Result<AllOfGetResponse, ()>;
 
     /// A dummy endpoint to make the spec valid..
     ///
@@ -99,7 +99,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<DummyGetResponse, String>;
+    ) -> Result<DummyGetResponse, ()>;
 
     /// DummyPut - PUT /dummy
     async fn dummy_put(
@@ -107,8 +107,8 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-        body: models::DummyPutRequest,
-    ) -> Result<DummyPutResponse, String>;
+        body: models::FooDummyPutRequest,
+    ) -> Result<DummyPutResponse, ()>;
 
     /// Get a file.
     ///
@@ -118,7 +118,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<FileResponseGetResponse, String>;
+    ) -> Result<FileResponseGetResponse, ()>;
 
     /// GetStructuredYaml - GET /get-structured-yaml
     async fn get_structured_yaml(
@@ -126,7 +126,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<GetStructuredYamlResponse, String>;
+    ) -> Result<GetStructuredYamlResponse, ()>;
 
     /// Test HTML handling.
     ///
@@ -137,7 +137,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: String,
-    ) -> Result<HtmlPostResponse, String>;
+    ) -> Result<HtmlPostResponse, ()>;
 
     /// PostYaml - POST /post-yaml
     async fn post_yaml(
@@ -146,7 +146,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: String,
-    ) -> Result<PostYamlResponse, String>;
+    ) -> Result<PostYamlResponse, ()>;
 
     /// Get an arbitrary JSON blob..
     ///
@@ -156,7 +156,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<RawJsonGetResponse, String>;
+    ) -> Result<RawJsonGetResponse, ()>;
 
     /// Send an arbitrary JSON blob.
     ///
@@ -167,5 +167,5 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: crate::types::Object,
-    ) -> Result<SoloObjectPostResponse, String>;
+    ) -> Result<SoloObjectPostResponse, ()>;
 }

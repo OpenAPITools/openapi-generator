@@ -15,11 +15,21 @@ if [ "$NODE_INDEX" = "1" ]; then
 
   sudo apt-get -y install cpanminus
 
+  # install rust
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  source "$HOME/.cargo/env"
+
+  echo "Testing perl"
   (cd samples/client/petstore/perl && /bin/bash ./test.bash)
+
+  echo "Testing ruby"
   (cd samples/client/petstore/ruby && mvn integration-test)
   (cd samples/client/petstore/ruby-faraday && mvn integration-test)
   (cd samples/client/petstore/ruby-httpx && mvn integration-test)
   (cd samples/client/petstore/ruby-autoload && mvn integration-test)
+
+  echo "Testing rust"
+  (cd samples/server/petstore/rust-axum && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test Go"
@@ -80,6 +90,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v18-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v19-provided-in-root && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
@@ -91,6 +102,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/nullable-enum && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
   (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
@@ -99,6 +111,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
   (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/tests/with-complex-headers && mvn integration-test)
   (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
@@ -114,9 +127,11 @@ else
   (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/client/petstore/java/jersey3 && mvn integration-test)
+  (cd samples/client/petstore/java/jersey3-oneOf && mvn integration-test)
   (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
   (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson-dynamicOperations && mvn integration-test)
   (cd samples/client/petstore/java/resteasy && mvn integration-test)
   (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)

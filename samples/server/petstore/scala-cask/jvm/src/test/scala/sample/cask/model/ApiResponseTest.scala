@@ -20,16 +20,17 @@ import scala.util.*
 
 class ApiResponseTest extends AnyWordSpec with Matchers {
 
+
     "ApiResponse.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try(ApiResponseData.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse """ ignore {
-           val Failure(err : ValidationErrors) = ApiResponseData.fromJsonString("""""").validated()
+           val d8a = ApiResponseData.fromJsonString("""""")
+           val Failure(err : ValidationErrors) = ApiResponseData.validated(d8a, true)
 
            sys.error("TODO")
         }
     }
-
 }

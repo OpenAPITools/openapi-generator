@@ -8,13 +8,11 @@
 StringEnumRef <- R6::R6Class(
   "StringEnumRef",
   public = list(
-    #' Initialize a new StringEnumRef class.
-    #'
+
     #' @description
     #' Initialize a new StringEnumRef class.
     #'
     #' @param ... Optional arguments.
-    #' @export
     initialize = function(...) {
       local.optional.var <- list(...)
       val <- unlist(local.optional.var)
@@ -37,48 +35,50 @@ StringEnumRef <- R6::R6Class(
       }
       private$value <- val
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return StringEnumRef in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
-        jsonlite::toJSON(private$value, auto_unbox = TRUE)
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
     },
-    #' Deserialize JSON string into an instance of StringEnumRef
+
+    #' @description
+    #' Convert StringEnumRef to a base R type
     #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
+      return(private$value)
+    },
+
     #' @description
     #' Deserialize JSON string into an instance of StringEnumRef
     #'
     #' @param input_json the JSON input
+    #'
     #' @return the instance of StringEnumRef
-    #' @export
     fromJSON = function(input_json) {
       private$value <- jsonlite::fromJSON(input_json,
           simplifyVector = FALSE)
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
     #'
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return StringEnumRef in JSON format
-    #' @export
-    toJSONString = function() {
-      as.character(jsonlite::toJSON(private$value,
-          auto_unbox = TRUE))
+    toJSONString = function(...) {
+      json <- jsonlite::toJSON(self$toSimpleType(), auto_unbox = TRUE, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of StringEnumRef
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of StringEnumRef
     #'
     #' @param input_json the JSON input
+    #'
     #' @return the instance of StringEnumRef
-    #' @export
     fromJSONString = function(input_json) {
       private$value <- jsonlite::fromJSON(input_json,
           simplifyVector = FALSE)

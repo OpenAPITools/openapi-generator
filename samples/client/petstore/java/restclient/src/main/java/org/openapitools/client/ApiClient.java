@@ -57,7 +57,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.9.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -85,29 +85,26 @@ public class ApiClient extends JavaTimeFormatter {
 
 
     public ApiClient() {
-        this.dateFormat = createDefaultDateFormat();
-        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
-        this.restClient = buildRestClient(this.objectMapper);
-        this.init();
+        this(null);
     }
 
     public ApiClient(RestClient restClient) {
-        this(Optional.ofNullable(restClient).orElseGet(ApiClient::buildRestClient), createDefaultDateFormat());
+        this(restClient, createDefaultDateFormat());
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
-        this(buildRestClient(mapper.copy()), format);
+        this(null, mapper, format);
     }
 
     public ApiClient(RestClient restClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(mapper.copy())), format);
+        this.objectMapper = mapper.copy();
+        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.objectMapper));
+        this.dateFormat = format;
+        this.init();
     }
 
     private ApiClient(RestClient restClient, DateFormat format) {
-        this.restClient = restClient;
-        this.dateFormat = format;
-        this.objectMapper = createDefaultObjectMapper(format);
-        this.init();
+        this(restClient, createDefaultObjectMapper(format), format);
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -148,7 +145,7 @@ public class ApiClient extends JavaTimeFormatter {
     */
     public static RestClient.Builder buildRestClientBuilder(ObjectMapper mapper) {
         Consumer<List<HttpMessageConverter<?>>> messageConverters = converters -> {
-            converters.add(new MappingJackson2HttpMessageConverter(mapper));
+            converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
         };
 
         return RestClient.builder().messageConverters(messageConverters);

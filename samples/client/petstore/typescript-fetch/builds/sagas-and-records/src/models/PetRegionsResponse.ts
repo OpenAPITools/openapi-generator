@@ -18,6 +18,7 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -63,10 +64,15 @@ export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any {
+export function PetRegionsResponseToJSON(json: any): PetRegionsResponse {
+    return PetRegionsResponseToJSONTyped(json, false);
+}
+
+export function PetRegionsResponseToJSONTyped(value?: PetRegionsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

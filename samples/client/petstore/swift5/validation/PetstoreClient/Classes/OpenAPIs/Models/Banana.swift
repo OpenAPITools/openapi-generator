@@ -12,8 +12,8 @@ import AnyCodable
 
 public struct Banana: Codable, JSONEncodable, Hashable {
 
-    static let countRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: true, maximum: 100, exclusiveMaximum: true, multipleOf: 5)
-    static let idsRule = ArrayRule(minItems: 1, maxItems: 10, uniqueItems: false)
+    public static let countRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: true, maximum: 100, exclusiveMaximum: true, multipleOf: 5)
+    public static let idsRule = ArrayRule(minItems: 1, maxItems: 10, uniqueItems: false)
     public var count: Int?
     public var ids: [Int]?
 

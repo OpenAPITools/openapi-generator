@@ -379,6 +379,15 @@
             <artifactId>jersey-apache-connector</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{#useReflectionEqualsHashCode}}
+        <!-- For equals and hashCode using reflection -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+        {{/useReflectionEqualsHashCode}}
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -400,9 +409,7 @@
         <jackson-databind-version>2.17.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
-        {{#useBeanValidation}}
         <beanvalidation-version>3.0.2</beanvalidation-version>
-        {{/useBeanValidation}}
         <junit-version>5.10.0</junit-version>
         {{#hasHttpSignatureMethods}}
         <http-signature-version>1.8</http-signature-version>
@@ -410,6 +417,9 @@
         {{#hasOAuthMethods}}
         <scribejava-apis-version>8.3.3</scribejava-apis-version>
         {{/hasOAuthMethods}}
+        {{#useReflectionEqualsHashCode}}
+        <commons-lang3-version>3.17.0</commons-lang3-version>
+        {{/useReflectionEqualsHashCode}}
         <spotless.version>2.21.0</spotless.version>
     </properties>
 </project>

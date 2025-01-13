@@ -21,16 +21,17 @@ import scala.util.*
 
 class OrderTest extends AnyWordSpec with Matchers {
 
+
     "Order.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try(OrderData.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse """ ignore {
-           val Failure(err : ValidationErrors) = OrderData.fromJsonString("""""").validated()
+           val d8a = OrderData.fromJsonString("""""")
+           val Failure(err : ValidationErrors) = OrderData.validated(d8a, true)
 
            sys.error("TODO")
         }
     }
-
 }

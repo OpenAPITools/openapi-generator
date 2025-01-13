@@ -34,6 +34,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -49,7 +50,7 @@ import java.util.Map;
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
 
-    private Schema getArrayTestSchema() {
+    private Schema<?> getArrayTestSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema().format("int64"))
@@ -57,7 +58,7 @@ public class KotlinClientCodegenModelTest {
                 .addRequiredItem("id");
     }
 
-    private Schema getSimpleSchema() {
+    private Schema<?> getSimpleSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema().format("int64"))
@@ -67,14 +68,14 @@ public class KotlinClientCodegenModelTest {
                 .addRequiredItem("name");
     }
 
-    private Schema getMapSchema() {
+    private Schema<?> getMapSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("mapping", new MapSchema()
                         .additionalProperties(new StringSchema()));
     }
 
-    private Schema getComplexSchema() {
+    private Schema<?> getComplexSchema() {
         return new ObjectSchema()
                 .description("a sample model")
                 .addProperties("child", new ObjectSchema().$ref("#/components/schemas/Child"));
@@ -82,7 +83,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model")
     public void simpleModelTest() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         codegen.processOpts();
 
@@ -127,7 +128,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: threetenbp")
     public void selectDateLibraryAsThreetenbp() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
         codegen.processOpts();
@@ -148,7 +149,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: threetenbp-localdatetime")
     public void selectDateLibraryAsThreetenbpLocalDateTime() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         String value = KotlinClientCodegen.DateLibrary.THREETENBP_LOCALDATETIME.value;
         Assert.assertEquals(value, "threetenbp-localdatetime");
@@ -171,7 +172,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: date string")
     public void selectDateLibraryAsString() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.STRING.value);
         codegen.processOpts();
@@ -192,7 +193,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: date java8")
     public void selectDateLibraryAsJava8() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8.value);
         codegen.processOpts();
@@ -213,7 +214,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a simple model: date java8-localdatetime")
     public void selectDateLibraryAsJava8LocalDateTime() {
-        final Schema schema = getSimpleSchema();
+        final Schema<?> schema = getSimpleSchema();
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         String value = KotlinClientCodegen.DateLibrary.JAVA8_LOCALDATETIME.value;
         Assert.assertEquals(value, "java8-localdatetime");
@@ -236,7 +237,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with array property to default kotlin.Array")
     public void arrayPropertyTest() {
-        final Schema model = getArrayTestSchema();
+        final Schema<?> model = getArrayTestSchema();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -263,7 +264,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with array property to a kotlin.collections.List")
     public void listPropertyTest() {
-        final Schema model = getArrayTestSchema();
+        final Schema<?> model = getArrayTestSchema();
 
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setCollectionType(KotlinClientCodegen.CollectionType.LIST.value);
@@ -292,7 +293,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
-        final Schema schema = getMapSchema();
+        final Schema<?> schema = getMapSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -316,7 +317,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(description = "convert a model with complex property")
     public void complexPropertyTest() {
-        final Schema schema = getComplexSchema();
+        final Schema<?> schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
@@ -350,7 +351,7 @@ public class KotlinClientCodegenModelTest {
 
     @Test(dataProvider = "modelNames", description = "sanitize model names")
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
-        final Schema schema = getComplexSchema();
+        final Schema<?> schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
         codegen.setOpenAPI(openAPI);
@@ -406,6 +407,92 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileNotExists(Paths.get(path, "gradle", "wrapper", "gradle-wrapper.jar"));
     }
 
+    @Test
+    public void testFailOnUnknownPropertiesAdditionalProperty() {
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+
+        // Default case, nothing provided
+        codegen.processOpts();
+
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        // Default to false
+        configAssert.assertValue(KotlinClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
+
+        // Provide true
+        codegen.additionalProperties().put(KotlinClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        codegen.processOpts();
+
+        // Should be true
+        configAssert.assertValue(KotlinClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.TRUE);
+
+        // Provide false
+        codegen.additionalProperties().put(KotlinClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        codegen.processOpts();
+
+        // Should be false
+        configAssert.assertValue(KotlinClientCodegen.FAIL_ON_UNKNOWN_PROPERTIES, codegen::isFailOnUnknownProperties, Boolean.FALSE);
+    }
+
+    @DataProvider(name = "gsonClientLibraries")
+    public Object[][] pathResponses() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_OKHTTP4},
+                {ClientLibrary.JVM_RETROFIT2},
+                {ClientLibrary.MULTIPLATFORM},
+                {ClientLibrary.JVM_VOLLEY},
+                {ClientLibrary.JVM_VERTX}
+        };
+    }
+
+    @Test(dataProvider = "gsonClientLibraries")
+    public void testLocalVariablesUseSanitizedDataTypeNamesForOneOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(clientLibrary.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
+                .addAdditionalProperty("useSpringBoot3", "true")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexOneOfId.kt"),
+                "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+    }
+
+    @Test(dataProvider = "gsonClientLibraries")
+    public void testLocalVariablesUseSanitizedDataTypeNamesForAnyOfProperty_19942(ClientLibrary clientLibrary) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        String path = output.getAbsolutePath();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary(clientLibrary.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
+                .addAdditionalProperty("useSpringBoot3", "true")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
+                "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;
@@ -421,4 +508,3 @@ public class KotlinClientCodegenModelTest {
         }
     }
 }
-

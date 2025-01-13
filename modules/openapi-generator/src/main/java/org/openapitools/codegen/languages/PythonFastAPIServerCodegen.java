@@ -219,6 +219,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+
         OperationMap operations = objs.getOperations();
         // Set will make sure that no duplicated items are used.
         Set<String> securityImports = new HashSet<>();
@@ -324,4 +326,12 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public String generatorLanguageVersion() { return "3.7"; }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "var_" + name;
+    }
 }

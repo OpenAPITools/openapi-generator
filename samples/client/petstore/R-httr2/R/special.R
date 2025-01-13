@@ -27,8 +27,7 @@ Special <- R6::R6Class(
     `123_number` = NULL,
     `array[test]` = NULL,
     `empty_string` = NULL,
-    #' Initialize a new Special class.
-    #'
+
     #' @description
     #' Initialize a new Special class.
     #'
@@ -40,7 +39,6 @@ Special <- R6::R6Class(
     #' @param array[test] array[test]
     #' @param empty_string empty_string
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, ...) {
       if (!is.null(`set_test`)) {
         stopifnot(is.vector(`set_test`), length(`set_test`) != 0)
@@ -87,14 +85,37 @@ Special <- R6::R6Class(
         self$`empty_string` <- `empty_string`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return Special in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Special as a base R list.
+    #' @examples
+    #' # convert array of Special (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Special to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       SpecialObject <- list()
       if (!is.null(self$`set_test`)) {
         SpecialObject[["set_test"]] <-
@@ -124,16 +145,14 @@ Special <- R6::R6Class(
         SpecialObject[["empty_string"]] <-
           self$`empty_string`
       }
-      SpecialObject
+      return(SpecialObject)
     },
-    #' Deserialize JSON string into an instance of Special
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Special
     #'
     #' @param input_json the JSON input
     #' @return the instance of Special
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`set_test`)) {
@@ -162,83 +181,23 @@ Special <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Special in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`set_test`)) {
-          sprintf(
-          '"set_test":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`set_test`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`item_self`)) {
-          sprintf(
-          '"self":
-            %d
-                    ',
-          self$`item_self`
-          )
-        },
-        if (!is.null(self$`item_private`)) {
-          sprintf(
-          '"private":
-            "%s"
-                    ',
-          self$`item_private`
-          )
-        },
-        if (!is.null(self$`item_super`)) {
-          sprintf(
-          '"super":
-            "%s"
-                    ',
-          self$`item_super`
-          )
-        },
-        if (!is.null(self$`123_number`)) {
-          sprintf(
-          '"123_number":
-            "%s"
-                    ',
-          self$`123_number`
-          )
-        },
-        if (!is.null(self$`array[test]`)) {
-          sprintf(
-          '"array[test]":
-            "%s"
-                    ',
-          self$`array[test]`
-          )
-        },
-        if (!is.null(self$`empty_string`)) {
-          sprintf(
-          '"empty_string":
-            "%s"
-                    ',
-          self$`empty_string`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of Special
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of Special
     #'
     #' @param input_json the JSON input
     #' @return the instance of Special
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`set_test` <- ApiClient$new()$deserializeObj(this_object$`set_test`, "set[character]", loadNamespace("petstore"))
@@ -253,55 +212,44 @@ Special <- R6::R6Class(
       self$`empty_string` <- this_object$`empty_string`
       self
     },
-    #' Validate JSON input with respect to Special
-    #'
+
     #' @description
     #' Validate JSON input with respect to Special and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of Special
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
 
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
 
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

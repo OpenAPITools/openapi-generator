@@ -23,6 +23,7 @@ jobs:
           - 'samples/client/petstore/java/okhttp-gson'
           - samples/client/petstore/scalaz
           - samples/client/petstore/scala-pekko
+          - samples/client/petstore/scala-http4s
           #- samples/client/petstore/scala-sttp # won't pass while the same tests in circleci pass
           # servers
           - samples/server/petstore/scala-lagom-server
@@ -39,6 +40,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 8
+      - name: Setup sbt launcher
+        uses: sbt/setup-sbt@v1
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:

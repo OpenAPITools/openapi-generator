@@ -18,12 +18,14 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 import type { Pet } from './Pet';
 import {
     PetFromJSON,
     PetFromJSONTyped,
     PetToJSON,
+    PetToJSONTyped,
 } from './Pet';
 
 /**
@@ -69,10 +71,15 @@ export function FindPetsByStatusResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse | null): any {
+export function FindPetsByStatusResponseToJSON(json: any): FindPetsByStatusResponse {
+    return FindPetsByStatusResponseToJSONTyped(json, false);
+}
+
+export function FindPetsByStatusResponseToJSONTyped(value?: FindPetsByStatusResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'meta': ResponseMetaToJSON(value['meta']),

@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ApiResponse>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Code'
         /// </summary>

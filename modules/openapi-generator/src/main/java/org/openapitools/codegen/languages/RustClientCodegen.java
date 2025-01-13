@@ -17,37 +17,67 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import joptsimple.internal.Strings;
-import lombok.AccessLevel;
-import lombok.Setter;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
+
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import joptsimple.internal.Strings;
+import lombok.AccessLevel;
+import lombok.Setter;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     @Setter(AccessLevel.PRIVATE) private boolean useSingleRequestParameter = false;
     @Setter(AccessLevel.PRIVATE) private boolean supportAsync = true;
     @Setter(AccessLevel.PRIVATE) private boolean supportMiddleware = false;
+    @Setter(AccessLevel.PRIVATE) private boolean supportTokenSource = false;
     private boolean supportMultipleResponses = false;
     private boolean withAWSV4Signature = false;
     @Setter private boolean preferUnsignedInt = false;
@@ -60,12 +90,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String HYPER_LIBRARY = "hyper";
     public static final String HYPER0X_LIBRARY = "hyper0x";
     public static final String REQWEST_LIBRARY = "reqwest";
+    public static final String REQWEST_TRAIT_LIBRARY = "reqwest-trait";
+    public static final String REQWEST_TRAIT_LIBRARY_ATTR = "reqwestTrait";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String SUPPORT_MIDDLEWARE = "supportMiddleware";
+    public static final String SUPPORT_TOKEN_SOURCE = "supportTokenSource";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
     public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
+    public static final String TOP_LEVEL_API_CLIENT = "topLevelApiClient";
+    public static final String MOCKALL = "mockall";
+    public static final String BON_BUILDER = "useBonBuilder";
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
@@ -190,9 +226,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+        cliOptions.add(new CliOption(SUPPORT_MIDDLEWARE, "If set, add support for reqwest-middleware. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+        cliOptions.add(new CliOption(SUPPORT_TOKEN_SOURCE, "If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
@@ -203,10 +241,17 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(AVOID_BOXED_MODELS, "If set, `Box<T>` will not be used for models", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(MOCKALL, "Adds `#[automock]` from the mockall crate to api traits. This option is for 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(TOP_LEVEL_API_CLIENT, "Creates a top level `Api` trait and `ApiClient` struct that contain all Apis. This option is for 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(BON_BUILDER, "Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
+        supportedLibraries.put(REQWEST_TRAIT_LIBRARY, "HTTP client: Reqwest (trait based).");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
@@ -346,6 +391,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
         writePropertyBack(SUPPORT_MIDDLEWARE, getSupportMiddleware());
 
+        if (additionalProperties.containsKey(SUPPORT_TOKEN_SOURCE)) {
+            this.setSupportTokenSource(convertPropertyToBoolean(SUPPORT_TOKEN_SOURCE));
+        }
+        writePropertyBack(SUPPORT_TOKEN_SOURCE, getSupportTokenSource());
+
         if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
             this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
         }
@@ -380,6 +430,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             additionalProperties.put(HYPER0X_LIBRARY, "true");
         } else if (REQWEST_LIBRARY.equals(getLibrary())) {
             additionalProperties.put(REQWEST_LIBRARY, "true");
+        } else if (REQWEST_TRAIT_LIBRARY.equals(getLibrary())) {
+            additionalProperties.put(REQWEST_TRAIT_LIBRARY_ATTR, "true");
         } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
@@ -413,9 +465,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 content = content.trim().replace("v", "");
                 content = content.replace("V", "");
 
-                // convert 5.2 to 5.2.0 for example
                 String[] contents = content.split("[.]");
-                if (contents.length == 2) {
+                if (contents.length == 1) {
+                    // convert 5 to 5.0.0 for example
+                    content += ".0.0";
+                } else if (contents.length == 2) {
+                    // convert 5.2 to 5.2.0 for example
                     content += ".0";
                 }
 
@@ -436,6 +491,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     private boolean getSupportMiddleware() {
         return supportMiddleware;
+    }
+
+    private boolean getSupportTokenSource() {
+        return supportTokenSource;
     }
 
     public boolean getSupportMultipleReturns() {
@@ -546,14 +605,47 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        // in order to avoid name conflicts, we map parameters inside the functions
+        String inFunctionIdentifier = "";
+        if (this.useSingleRequestParameter) {
+            inFunctionIdentifier = "params." + parameter.paramName;
+        } else {
+            if (parameter.paramName.startsWith("r#")) {
+                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
+            } else {
+                inFunctionIdentifier = "p_" + parameter.paramName;
+            }
+        }
+        if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
+            parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, inFunctionIdentifier);
+        }
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
+            if (operation.pathParams != null && operation.pathParams.size() > 0) {
+                for (var pathParam : operation.pathParams) {
+                    if (!pathParam.baseName.contains("-")) {
+                        continue;
+                    }
+
+                    var newName = pathParam.baseName.replace("-", "_");
+                    LOGGER.info(pathParam.baseName + " cannot be used as a path param. Renamed to " + newName);
+
+                    operation.path = operation.path.replace("{" + pathParam.baseName + "}", "{" + newName + "}");
+                    pathParam.baseName = newName;
+                }
+            }
+
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
-            } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+            } else if (REQWEST_LIBRARY.equals(getLibrary()) || REQWEST_TRAIT_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             }
 
@@ -624,4 +716,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             return null;
         }
     }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                // Convert variable names to lifetime names.
+                // Generally they are the same, but `#` is not valid in lifetime names.
+                // Rust uses `r#` prefix for variables that are also keywords.
+                .put("lifetimeName", new ReplaceAllLambda("^r#", "r_"));
+    }
+
 }

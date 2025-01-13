@@ -73,7 +73,7 @@
                     </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
-                    <forkMode>pertest</forkMode>
+                    <reuseForks>false</reuseForks>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
                 <dependencies>
@@ -337,12 +337,6 @@
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>${junit-platform-runner.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -362,13 +356,10 @@
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
-        {{#useBeanValidation}}
         <beanvalidation-version>3.0.2</beanvalidation-version>
-        {{/useBeanValidation}}
         {{#performBeanValidation}}
         <hibernate-validator-version>5.4.3.Final</hibernate-validator-version>
         {{/performBeanValidation}}
         <junit-version>5.10.2</junit-version>
-        <junit-platform-runner.version>1.10.0</junit-platform-runner.version>
     </properties>
 </project>

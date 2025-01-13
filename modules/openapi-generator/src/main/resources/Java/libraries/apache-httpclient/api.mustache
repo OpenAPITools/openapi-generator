@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 {{#useBeanValidation}}
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
@@ -99,7 +99,7 @@ public class {{classname}} extends BaseApi {
     {{/required}}{{/allParams}}
     // create path and map variables
     String localVarPath = "{{{path}}}"{{#pathParams}}
-      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString({{{paramName}}}.toString())){{/pathParams}};
+      .replaceAll("\\{" + "{{baseName}}" + "\\}", apiClient.escapeString(apiClient.parameterToString({{{paramName}}}))){{/pathParams}};
 
     StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
     String localVarQueryParameterBaseName;

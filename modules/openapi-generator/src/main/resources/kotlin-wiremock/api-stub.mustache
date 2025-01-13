@@ -33,12 +33,12 @@ open class {{classname}}Stubs(private val objectMapper: ObjectMapper) {
      * @return A [{{operationIdCamelCase}}StubBuilder] to configure the response, and the final [MappingBuilder].
      */
     fun {{operationId}}({{#pathParams}}{{paramName}}: StringValuePattern, {{/pathParams}}{{#queryParams}}{{paramName}}: StringValuePattern? = null, {{/queryParams}}configurer: MappingBuilder.() -> MappingBuilder = { this }): {{operationIdCamelCase}}StubBuilder =
-        {{operationIdCamelCase}}StubBuilder(objectMapper, {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(urlPathTemplate("{{path}}"))
+        {{operationIdCamelCase}}StubBuilder(objectMapper, {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}(urlPathTemplate("{{{path}}}"))
             {{#pathParams}}
-            .withPathParam("{{paramName}}", {{paramName}})
+            .withPathParam("{{baseName}}", {{paramName}})
             {{/pathParams}}
             {{#queryParams}}
-            .apply { {{paramName}}?.let { withQueryParam("{{paramName}}", it) } }
+            .apply { {{paramName}}?.let { withQueryParam("{{baseName}}", it) } }
             {{/queryParams}}
             .configurer()
         )

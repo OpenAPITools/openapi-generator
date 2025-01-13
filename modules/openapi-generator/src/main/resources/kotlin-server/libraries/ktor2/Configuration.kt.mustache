@@ -1,0 +1,98 @@
+package {{packageName}}
+
+// Use this file to hold package-level internal functions that return receiver object passed to the `install` method.
+import io.ktor.http.*
+import io.ktor.server.auth.*
+import io.ktor.server.config.*
+import io.ktor.util.*
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+{{#featureCORS}}
+import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.plugins.cors.*
+{{/featureCORS}}
+{{#featureCompression}}
+import io.ktor.server.plugins.compression.*
+{{/featureCompression}}
+{{#featureHSTS}}
+import io.ktor.server.plugins.hsts.*
+{{/featureHSTS}}
+
+{{#featureCORS}}
+/**
+ * Application block for [CORS] configuration.
+ *
+ * This file may be excluded in .openapi-generator-ignore,
+ * and application-specific configuration can be applied in this function.
+ *
+ * See http://ktor.io/features/cors.html
+ */
+internal fun ApplicationCORSConfiguration(): CORSConfig.() -> Unit {
+    return {
+        // method(HttpMethod.Options)
+        // header(HttpHeaders.XForwardedProto)
+        // anyHost()
+        // host("my-host")
+        // host("my-host:80")
+        // host("my-host", subDomains = listOf("www"))
+        // host("my-host", schemes = listOf("http", "https"))
+        // allowCredentials = true
+        // maxAge = Duration.ofDays(1)
+    }
+}
+{{/featureCORS}}
+{{#featureHSTS}}
+
+/**
+ * Application block for [HSTS] configuration.
+ *
+ * This file may be excluded in .openapi-generator-ignore,
+ * and application-specific configuration can be applied in this function.
+ *
+ * See http://ktor.io/features/hsts.html
+ */
+internal fun ApplicationHstsConfiguration(): HSTSConfig.() -> Unit {
+    return {
+        maxAgeInSeconds = TimeUnit.DAYS.toSeconds(365)
+        includeSubDomains = true
+        preload = false
+
+        // You may also apply any custom directives supported by specific user-agent. For example:
+        // customDirectives.put("redirectHttpToHttps", "false")
+    }
+}
+{{/featureHSTS}}
+{{#featureCompression}}
+
+/**
+ * Application block for [Compression] configuration.
+ *
+ * This file may be excluded in .openapi-generator-ignore,
+ * and application-specific configuration can be applied in this function.
+ *
+ * See http://ktor.io/features/compression.html
+ */
+internal fun ApplicationCompressionConfiguration(): CompressionConfig.() -> Unit {
+    return {
+        gzip {
+            priority = 1.0
+        }
+        deflate {
+            priority = 10.0
+            minimumSize(1024) // condition
+        }
+    }
+}
+{{/featureCompression}}
+
+// Defines authentication mechanisms used throughout the application.
+fun applicationAuthProvider(config: ApplicationConfig): OAuthServerSettings =
+    OAuthServerSettings.OAuth2ServerSettings(
+        name = "petstore_auth",
+        authorizeUrl = "http://petstore.swagger.io/api/oauth/dialog",
+        accessTokenUrl = "",
+        requestMethod = HttpMethod.Get,
+        clientId = config.property("auth.oauth.petstore_auth.clientId").getString(),
+        clientSecret = config.property("auth.oauth.petstore_auth.clientSecret").getString(),
+        defaultScopes = listOf("write:pets", "read:pets")
+    )

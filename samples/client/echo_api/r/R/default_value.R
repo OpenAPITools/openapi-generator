@@ -29,8 +29,7 @@ DefaultValue <- R6::R6Class(
     `array_string_nullable` = NULL,
     `array_string_extension_nullable` = NULL,
     `string_nullable` = NULL,
-    #' Initialize a new DefaultValue class.
-    #'
+
     #' @description
     #' Initialize a new DefaultValue class.
     #'
@@ -43,7 +42,6 @@ DefaultValue <- R6::R6Class(
     #' @param array_string_extension_nullable array_string_extension_nullable
     #' @param string_nullable string_nullable
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function(`array_string_enum_ref_default` = ["success","failure"], `array_string_enum_default` = ["success","failure"], `array_string_default` = ["failure","skipped"], `array_integer_default` = [1,3], `array_string` = NULL, `array_string_nullable` = NULL, `array_string_extension_nullable` = NULL, `string_nullable` = NULL, ...) {
       if (!is.null(`array_string_enum_ref_default`)) {
         stopifnot(is.vector(`array_string_enum_ref_default`), length(`array_string_enum_ref_default`) != 0)
@@ -87,18 +85,41 @@ DefaultValue <- R6::R6Class(
         self$`string_nullable` <- `string_nullable`
       }
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return DefaultValue in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return DefaultValue as a base R list.
+    #' @examples
+    #' # convert array of DefaultValue (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert DefaultValue to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       DefaultValueObject <- list()
       if (!is.null(self$`array_string_enum_ref_default`)) {
         DefaultValueObject[["array_string_enum_ref_default"]] <-
-          lapply(self$`array_string_enum_ref_default`, function(x) x$toJSON())
+          lapply(self$`array_string_enum_ref_default`, function(x) x$toSimpleType())
       }
       if (!is.null(self$`array_string_enum_default`)) {
         DefaultValueObject[["array_string_enum_default"]] <-
@@ -128,16 +149,14 @@ DefaultValue <- R6::R6Class(
         DefaultValueObject[["string_nullable"]] <-
           self$`string_nullable`
       }
-      DefaultValueObject
+      return(DefaultValueObject)
     },
-    #' Deserialize JSON string into an instance of DefaultValue
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of DefaultValue
     #'
     #' @param input_json the JSON input
     #' @return the instance of DefaultValue
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       if (!is.null(this_object$`array_string_enum_ref_default`)) {
@@ -166,91 +185,23 @@ DefaultValue <- R6::R6Class(
       }
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return DefaultValue in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`array_string_enum_ref_default`)) {
-          sprintf(
-          '"array_string_enum_ref_default":
-          [%s]
-',
-          paste(sapply(self$`array_string_enum_ref_default`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_enum_default`)) {
-          sprintf(
-          '"array_string_enum_default":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_enum_default`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_default`)) {
-          sprintf(
-          '"array_string_default":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_default`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_integer_default`)) {
-          sprintf(
-          '"array_integer_default":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_integer_default`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string`)) {
-          sprintf(
-          '"array_string":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_nullable`)) {
-          sprintf(
-          '"array_string_nullable":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_nullable`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`array_string_extension_nullable`)) {
-          sprintf(
-          '"array_string_extension_nullable":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`array_string_extension_nullable`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`string_nullable`)) {
-          sprintf(
-          '"string_nullable":
-            "%s"
-                    ',
-          self$`string_nullable`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of DefaultValue
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of DefaultValue
     #'
     #' @param input_json the JSON input
     #' @return the instance of DefaultValue
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`array_string_enum_ref_default` <- ApiClient$new()$deserializeObj(this_object$`array_string_enum_ref_default`, "array[StringEnumRef]", loadNamespace("openapi"))
@@ -263,53 +214,42 @@ DefaultValue <- R6::R6Class(
       self$`string_nullable` <- this_object$`string_nullable`
       self
     },
-    #' Validate JSON input with respect to DefaultValue
-    #'
+
     #' @description
     #' Validate JSON input with respect to DefaultValue and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of DefaultValue
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

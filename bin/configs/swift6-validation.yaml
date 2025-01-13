@@ -1,0 +1,11 @@
+generatorName: swift6
+outputDir: samples/client/petstore/swift6/validation
+inputSpec: modules/openapi-generator/src/test/resources/3_0/validation.yaml
+templateDir: modules/openapi-generator/src/main/resources/swift6
+generateAliasAsModel: true
+additionalProperties:
+  useSPMFileStructure: false
+  podAuthors: ""
+  podSummary: PetstoreClient
+  projectName: PetstoreClient
+  podHomepage: https://github.com/openapitools/openapi-generator

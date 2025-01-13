@@ -66,16 +66,6 @@ func (c *UserAPIController) Routes() Routes {
 			"/v2/user/createWithList",
 			c.CreateUsersWithListInput,
 		},
-		"DeleteUser": Route{
-			strings.ToUpper("Delete"),
-			"/v2/user/{username}",
-			c.DeleteUser,
-		},
-		"GetUserByName": Route{
-			strings.ToUpper("Get"),
-			"/v2/user/{username}",
-			c.GetUserByName,
-		},
 		"LoginUser": Route{
 			strings.ToUpper("Get"),
 			"/v2/user/login",
@@ -86,10 +76,20 @@ func (c *UserAPIController) Routes() Routes {
 			"/v2/user/logout",
 			c.LogoutUser,
 		},
+		"GetUserByName": Route{
+			strings.ToUpper("Get"),
+			"/v2/user/{username}",
+			c.GetUserByName,
+		},
 		"UpdateUser": Route{
 			strings.ToUpper("Put"),
 			"/v2/user/{username}",
 			c.UpdateUser,
+		},
+		"DeleteUser": Route{
+			strings.ToUpper("Delete"),
+			"/v2/user/{username}",
+			c.DeleteUser,
 		},
 	}
 }
@@ -171,59 +171,6 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
-// DeleteUser - Delete user
-func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
-	var confirmationParam bool
-	if query.Has("confirmation") {
-		param, err := parseBoolParameter(
-			query.Get("confirmation"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Param: "confirmation", Err: err}, nil)
-			return
-		}
-
-		confirmationParam = param
-	} else {
-	}
-	result, err := c.service.DeleteUser(r.Context(), usernameParam, confirmationParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// GetUserByName - Get user by user name
-func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
-	result, err := c.service.GetUserByName(r.Context(), usernameParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
 // LoginUser - Logs user into the system
 func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query, err := parseQuery(r.URL.RawQuery)
@@ -285,6 +232,23 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
+// GetUserByName - Get user by user name
+func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
+	usernameParam := chi.URLParam(r, "username")
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
+	result, err := c.service.GetUserByName(r.Context(), usernameParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
@@ -308,6 +272,42 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	result, err := c.service.UpdateUser(r.Context(), usernameParam, userParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	_ = EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// DeleteUser - Delete user
+func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	usernameParam := chi.URLParam(r, "username")
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
+	var confirmationParam bool
+	if query.Has("confirmation") {
+		param, err := parseBoolParameter(
+			query.Get("confirmation"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Param: "confirmation", Err: err}, nil)
+			return
+		}
+
+		confirmationParam = param
+	} else {
+	}
+	result, err := c.service.DeleteUser(r.Context(), usernameParam, confirmationParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

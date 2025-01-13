@@ -17,16 +17,16 @@ import unittest
 from petstore_api.api.import_test_datetime_api import ImportTestDatetimeApi
 
 
-class TestImportTestDatetimeApi(unittest.TestCase):
+class TestImportTestDatetimeApi(unittest.IsolatedAsyncioTestCase):
     """ImportTestDatetimeApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = ImportTestDatetimeApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_import_test_return_datetime(self) -> None:
+    async def test_import_test_return_datetime(self) -> None:
         """Test case for import_test_return_datetime
 
         test date time

@@ -13,17 +13,17 @@ import java.time.OffsetDateTime
 import java.time.LocalDate
 
 
-interface IRequestFactory {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface IRequestFactory {
 
-    companion object {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         /**
          * ISO 8601 date time format.
          * @see https://en.wikipedia.org/wiki/ISO_8601
          */
-        fun formatDateTime(datetime: OffsetDateTime) = DateTimeFormatter.ISO_INSTANT.format(datetime)
-        fun formatDate(date: LocalDate) = DateTimeFormatter.ISO_LOCAL_DATE.format(date)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun formatDateTime(datetime: OffsetDateTime) = DateTimeFormatter.ISO_INSTANT.format(datetime)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun formatDate(date: LocalDate) = DateTimeFormatter.ISO_LOCAL_DATE.format(date)
 
-        fun escapeString(str: String): String {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun escapeString(str: String): String {
             return try {
                 URLEncoder.encode(str, "UTF-8")
             } catch (e: UnsupportedEncodingException) {
@@ -31,7 +31,7 @@ interface IRequestFactory {
             }
         }
 
-        fun parameterToString(param: Any?) =
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun parameterToString(param: Any?) =
             when (param) {
                 null -> ""
                 is OffsetDateTime -> formatDateTime(param)
@@ -50,7 +50,7 @@ interface IRequestFactory {
         }
 
 
-    fun <T> build(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun <T> build(
         method: Int,
         url : String,
         body: Any?,

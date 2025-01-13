@@ -21,140 +21,73 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** OrderData a data transfer object, primarily for simple json serialisation.
+
+        /** OrderData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class OrderData(
   id: Long = 0 ,
-
-    petId: Long = 0 ,
-
-    quantity: Int = 0 ,
-
-    shipDate: OffsetDateTime = null ,
-
-  /* Order Status */
+  petId: Long = 0 ,
+  quantity: Int = 0 ,
+  shipDate: OffsetDateTime = null ,
+/* Order Status */
   status: Order.StatusEnum = null ,
+  complete: Boolean = false 
+  
 
-    complete: Boolean = false 
+) derives RW {
 
-  ) {
+  def asJsonString: String = asJson.toString()
 
-  def asJson: String = write(this)
-
-  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
-        // ==================
-        // id
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // petId
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // quantity
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // shipDate
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // status
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-        // ==================
-        // complete
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-
-    errors.toSeq
+  def asJson : ujson.Value = {
+    val jason = writeJs(this)
+    jason
   }
 
+  def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
+        // ================== id validation ==================
+        
+        
+        
+        
+
+        // ================== petId validation ==================
+        
+        
+        
+        
+
+        // ================== quantity validation ==================
+        
+        
+        
+        
+
+        // ================== shipDate validation ==================
+        
+        
+        
+        
+
+        // ================== status validation ==================
+        
+        
+        
+        
+
+        // ================== complete validation ==================
+        
+        
+        
+        
+
+    _allValidationErrors.toSeq
+  }
+
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Order] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -165,43 +98,36 @@ case class OrderData(
   /** use 'validated' to check validation */
   def asModel : Order = {
     Order(
-        id = Option(
-        id
-        )
-        ,
-        petId = Option(
-        petId
-        )
-        ,
-        quantity = Option(
-        quantity
-        )
-        ,
-        shipDate = Option(
-        shipDate
-        )
-        ,
-        status = Option(
-        status
-        )
-        ,
-        complete = Option(
-        complete
-        )
-        
+        id = Option(id) /* 1 */,
+        petId = Option(petId) /* 1 */,
+        quantity = Option(quantity) /* 1 */,
+        shipDate = Option(shipDate) /* 1 */,
+        status = Option(status) /* 1 */,
+        complete = Option(complete) /* 1 */
+    
     )
   }
 }
 
 object OrderData {
 
-  given readWriter : RW[OrderData] = macroRW
+  def validated(d8a : OrderData, failFast : Boolean) : scala.util.Try[Order] = d8a.validated(failFast)
 
-  def fromJsonString(jason : String) : OrderData = try {
-        read[OrderData](jason)
-     } catch {
+  def fromJson(jason : ujson.Value) : OrderData = try {
+        val data = read[OrderData](jason)
+        data
+    } catch {
+      case NonFatal(e) => sys.error(s"Error creating OrderData from json '$jason': $e")
+  }
+
+  def fromJsonString(jason : String) : OrderData = {
+        val parsed = try {
+           read[ujson.Value](jason)
+        } catch {
           case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
+        }
+        fromJson(parsed)
+  }
 
   def manyFromJsonString(jason : String) : Seq[OrderData] = try {
         read[List[OrderData]](jason)

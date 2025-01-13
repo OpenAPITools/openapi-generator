@@ -17,6 +17,36 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
+webhooks:
+  /fake/webhooks/sources/deleted:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: inline schema in webhooks
+              required:
+                - event_timestamp
+                - event_type
+                - event
+              properties:
+                event_timestamp:
+                  type: string
+                  format: date-time
+                event_type:
+                  type: string
+                event:
+                  type: object
+                  required:
+                    - event_id
+                  properties:
+                    event_id:
+                      type: string
+      responses:
+        '200':
+          description: successful operation
+        '405':
+          description: Invalid input
 paths:
   /pet:
     post:
@@ -1066,3 +1096,24 @@ components:
         - $ref: '#/components/schemas/SimpleModelWithArrayProperty'
     myObject:
       type: object
+    SelfReference:
+      type: array
+      items:
+        $ref: "#/components/schemas/SelfReference"
+    SelfReferenceOneOf:
+      oneOf:
+        - type: string
+        - type: boolean
+        - $ref: "#/components/schemas/SelfReferenceOneOf"
+    SelfReferenceAnyOf:
+      anyOf:
+        - type: string
+        - type: boolean
+        - $ref: "#/components/schemas/SelfReferenceAnyOf"
+    SelfReferenceAdditionalProperties:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/SelfReferenceAdditionalProperties"
+      properties:
+        dummy:
+          type: string 
