@@ -17,14 +17,14 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>5.2.1</gradleVersion>
+        <gradleVersion>7.2</gradleVersion>
     </properties>
 
     <pluginRepositories>
         <pluginRepository>
             <id>Gradle Releases</id>
             <name>Gradle Releases repository</name>
-            <url>https://repo.gradle.org/gradle/libs-releases-local/</url>
+            <url>https://repo.gradle.org/gradle/libs-releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

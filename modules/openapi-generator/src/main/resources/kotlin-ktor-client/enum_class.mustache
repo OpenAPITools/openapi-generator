@@ -4,6 +4,6 @@
 */
 {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}} {
 {{#allowableValues}}{{#enumVars}}
-    {{&name}}{{^-last}},{{/-last}}
+    @SerialName({{{value}}}) {{&name}}{{^-last}},{{/-last}}
 {{/enumVars}}{{/allowableValues}}
 }
