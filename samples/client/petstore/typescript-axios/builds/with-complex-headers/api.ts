@@ -74,8 +74,8 @@ export interface Category {
  */
 
 export const MediaType = {
-    Json: 'application/json',
-    Xml: 'application/xml'
+    ApplicationJson: 'application/json',
+    ApplicationXml: 'application/xml'
 } as const;
 
 export type MediaType = typeof MediaType[keyof typeof MediaType];

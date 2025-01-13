@@ -5,11 +5,11 @@
 ## Enum
 
 
-* `_1` (value: `"Code 1"`)
+* `CODE_1` (value: `"Code 1"`)
 
-* `_2` (value: `"Code 2"`)
+* `CODE_2` (value: `"Code 2"`)
 
-* `_3` (value: `"Code 3"`)
+* `CODE_3` (value: `"Code 3"`)
 
 
 
