@@ -26,7 +26,7 @@ package {{packageName}}.infrastructure.authentication
     }
 
     fun upperCaseBearer(scheme: String): String {
-        return if ("bearer" == scheme.toLowerCase()) {
+        return if ("bearer" == scheme.lowercase()) {
             "Bearer"
         } else {
             scheme
