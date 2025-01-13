@@ -60,6 +60,8 @@ export 'mixed_type_one_of_number.dart';
 export 'mixed_type_one_of_object.dart';
 export 'mixed_type_one_of_object_any_of.dart';
 export 'mixed_type_one_of_object_any_of1.dart';
+export 'mixed_type_one_of_object_one_of.dart';
+export 'mixed_type_one_of_object_one_of1.dart';
 export 'model_with_one_of_any_of_properties.dart';
 export 'name.dart';
 export 'new_pet.dart';

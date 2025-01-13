@@ -125,6 +125,10 @@ const generatedClassReflectionsList = <ModelReflection<Object>>[
 
     MixedTypeOneOfObjectAnyOf1Reflection.instance,
 
+    MixedTypeOneOfObjectOneOfReflection.instance,
+
+    MixedTypeOneOfObjectOneOf1Reflection.instance,
+
     ModelWithOneOfAnyOfPropertiesReflection.instance,
 
     NameReflection.instance,
@@ -361,6 +365,10 @@ const generatedClassReflectionsMap = <String, ModelReflection<Object>>{
       r'MixedTypeOneOfObject_anyOf': MixedTypeOneOfObjectAnyOfReflection.instance,
     
       r'MixedTypeOneOfObject_anyOf_1': MixedTypeOneOfObjectAnyOf1Reflection.instance,
+    
+      r'MixedTypeOneOfObject_oneOf': MixedTypeOneOfObjectOneOfReflection.instance,
+    
+      r'MixedTypeOneOfObject_oneOf_1': MixedTypeOneOfObjectOneOf1Reflection.instance,
     
       r'ModelWithOneOfAnyOfProperties': ModelWithOneOfAnyOfPropertiesReflection.instance,
     

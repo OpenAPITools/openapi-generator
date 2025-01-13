@@ -153,6 +153,10 @@ lib/src/models/mixed_type_one_of_object_any_of.dart
 lib/src/models/mixed_type_one_of_object_any_of.reflection.dart
 lib/src/models/mixed_type_one_of_object_any_of1.dart
 lib/src/models/mixed_type_one_of_object_any_of1.reflection.dart
+lib/src/models/mixed_type_one_of_object_one_of.dart
+lib/src/models/mixed_type_one_of_object_one_of.reflection.dart
+lib/src/models/mixed_type_one_of_object_one_of1.dart
+lib/src/models/mixed_type_one_of_object_one_of1.reflection.dart
 lib/src/models/model_with_one_of_any_of_properties.dart
 lib/src/models/model_with_one_of_any_of_properties.reflection.dart
 lib/src/models/name.dart
@@ -349,6 +353,8 @@ test/models/mixed_properties_and_additional_properties_class_test.dart
 test/models/mixed_type_one_of_number_test.dart
 test/models/mixed_type_one_of_object_any_of1_test.dart
 test/models/mixed_type_one_of_object_any_of_test.dart
+test/models/mixed_type_one_of_object_one_of1_test.dart
+test/models/mixed_type_one_of_object_one_of_test.dart
 test/models/mixed_type_one_of_object_test.dart
 test/models/model_with_one_of_any_of_properties_test.dart
 test/models/name_test.dart

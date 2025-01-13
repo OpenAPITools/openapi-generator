@@ -325,13 +325,14 @@ class UserReflection extends ModelReflection<User> {
 )
 ),
     ),
-    anyTypePropNullablePart: PropertyReflection<User, UndefinedWrapper<Object
+    anyTypePropNullablePart: PropertyReflection<User, UndefinedWrapper<
+            $FreeFormObject
 ?>>(
       dartName: r'anyTypePropNullable',
       nullable: true,
       required: false,
       oasName: r'anyTypePropNullable',
-      oasType: r'Object',
+      oasType: r'object',
       pattern: null,
       parentReflectionGetter:  instanceGetter,
       isDiscriminator: false,
@@ -342,7 +343,13 @@ class UserReflection extends ModelReflection<User> {
       reflection: UndefinedWrapperReflection(XmlReflectionWrapper(
     xml: XmlReflection(
 ),
-    NullableReflection(ObjectReflection()
+    NullableReflection(
+            
+        
+        
+            
+                PrimitiveReflection.for$FreeFormObject
+        
 ),
 )
 ),
@@ -536,13 +543,16 @@ class UserReflection extends ModelReflection<User> {
     parent.anyTypeProp = value;
   }
 
-  final PropertyReflection<User, UndefinedWrapper<Object
+  final PropertyReflection<User, UndefinedWrapper<
+            $FreeFormObject
 ?>> anyTypePropNullablePart;
-  static UndefinedWrapper<Object
+  static UndefinedWrapper<
+            $FreeFormObject
 ?> _anyTypePropNullableGetter(User parent) {
     return parent.anyTypePropNullable;
   }
-  static void _anyTypePropNullableSetter(User parent, UndefinedWrapper<Object
+  static void _anyTypePropNullableSetter(User parent, UndefinedWrapper<
+            $FreeFormObject
 ?> value) {
     parent.anyTypePropNullable = value;
   }

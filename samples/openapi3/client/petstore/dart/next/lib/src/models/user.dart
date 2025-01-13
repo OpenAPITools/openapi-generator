@@ -55,7 +55,8 @@ UndefinedWrapper<
 ?> get objectWithNoDeclaredPropsNullable;
 UndefinedWrapper<Object
 ?> get anyTypeProp;
-UndefinedWrapper<Object
+UndefinedWrapper<
+            $FreeFormObject
 ?> get anyTypePropNullable;
   
 }
@@ -123,7 +124,8 @@ UserMixin {
   UndefinedWrapper<Object
 ?> anyTypeProp;
   @override
-  UndefinedWrapper<Object
+  UndefinedWrapper<
+            $FreeFormObject
 ?> anyTypePropNullable;
 
   AdditionalProperties<Object

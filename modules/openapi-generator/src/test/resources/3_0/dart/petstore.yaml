@@ -9,6 +9,8 @@ info:
   license:
     name: Apache-2.0
     url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+security: []
 tags:
   - name: pet
     description: Everything about your Pets
@@ -841,6 +843,7 @@ paths:
         description: Input number as post body
   /fake/outer/string:
     post:
+      summary: "/fake/outer/string"
       tags:
         - fake
       description: Test serialization of outer string types
@@ -1908,6 +1911,7 @@ components:
             including the null value, string, number, boolean, array or object.
             The 'nullable' attribute does not change the allowed values.
           nullable: true
+          type: object
       xml:
         name: User
     Tag:
@@ -2653,6 +2657,7 @@ components:
       description: The value may be a shape or the 'null' value.
         The 'nullable' attribute was introduced in OAS schema >= 3.0
         and has been deprecated in OAS schema >= 3.1.
+      type: object
       oneOf:
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'
@@ -3073,7 +3078,7 @@ components:
         anyof_prop:
           $ref: '#/components/schemas/ArrayAnyOf'
     MixedTypeOneOfNumber:
-      type: number
+      additionalProperties: false
       oneOf:
         - type: number
           format: float

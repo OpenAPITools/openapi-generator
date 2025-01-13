@@ -77,9 +77,9 @@ EnumStringDiscriminatorMixin {
 
 extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) implements String {
   /// enum string type
-      const EnumStringDiscriminatorEnumStrTypeEnum.a() : this._(r'type_a');
+      const EnumStringDiscriminatorEnumStrTypeEnum.typeA() : this._(r'type_a');
   /// enum string type
-      const EnumStringDiscriminatorEnumStrTypeEnum.b() : this._(r'type_b');
+      const EnumStringDiscriminatorEnumStrTypeEnum.typeB() : this._(r'type_b');
 
   /// Creates a [EnumStringDiscriminatorEnumStrTypeEnum] enum from a value and safely checking if it exists.
   factory EnumStringDiscriminatorEnumStrTypeEnum.$safe(String value) {
@@ -94,9 +94,9 @@ extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) impl
     PrimitiveReflection.forString,
     members: [
       
-        EnumMemberReflection(dartName: r'a', oasValue: r'type_a', value: EnumStringDiscriminatorEnumStrTypeEnum.a()),
+        EnumMemberReflection(dartName: r'typeA', oasValue: r'type_a', value: EnumStringDiscriminatorEnumStrTypeEnum.typeA()),
       
-        EnumMemberReflection(dartName: r'b', oasValue: r'type_b', value: EnumStringDiscriminatorEnumStrTypeEnum.b()),
+        EnumMemberReflection(dartName: r'typeB', oasValue: r'type_b', value: EnumStringDiscriminatorEnumStrTypeEnum.typeB()),
       
     ],
   );
@@ -118,8 +118,8 @@ extension type const EnumStringDiscriminatorEnumStrTypeEnum._(String value) impl
 
   /// All possible values of the enum.
   static const List<EnumStringDiscriminatorEnumStrTypeEnum> values = [
-    EnumStringDiscriminatorEnumStrTypeEnum.a(),
-    EnumStringDiscriminatorEnumStrTypeEnum.b(),
+    EnumStringDiscriminatorEnumStrTypeEnum.typeA(),
+    EnumStringDiscriminatorEnumStrTypeEnum.typeB(),
     
   ];
 }

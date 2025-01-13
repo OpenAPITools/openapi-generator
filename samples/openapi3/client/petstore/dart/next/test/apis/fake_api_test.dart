@@ -477,6 +477,8 @@ void main() {
 
 });
     });
+    // /fake/outer/string
+    //
     // Test serialization of outer string types
     //
     group(r'fakeOuterStringSerialize', () {

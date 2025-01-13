@@ -43,6 +43,14 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
     ),
     
     
+    oneOf0Part: MixedTypeOneOfObjectOneOf0Part(
+      parentReflectionGetter: instanceGetter,
+    ),
+    
+    oneOf1Part: MixedTypeOneOfObjectOneOf1Part(
+      parentReflectionGetter: instanceGetter,
+    ),
+    
     anyOf0Part: MixedTypeOneOfObjectAnyOf0Part(
       parentReflectionGetter: instanceGetter,
     ),
@@ -73,6 +81,10 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
     this.discriminatorMappings = const {},
     this.discriminatorImplicitMappings = const {},
         
+    required this.oneOf0Part,
+    
+    required this.oneOf1Part,
+    
     required this.anyOf0Part,
     
     required this.anyOf1Part,
@@ -128,6 +140,10 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
 
   
   
+  final MixedTypeOneOfObjectOneOf0Part oneOf0Part;
+  
+  final MixedTypeOneOfObjectOneOf1Part oneOf1Part;
+  
   final MixedTypeOneOfObjectAnyOf0Part anyOf0Part;
   
   final MixedTypeOneOfObjectAnyOf1Part anyOf1Part;
@@ -140,7 +156,7 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
 
   @override
   List<OneOfReflection<MixedTypeOneOfObject, Object>> get oneOfs => [
-    
+    oneOf0Part,oneOf1Part,
   ];
   @override
   List<AnyOfReflection<MixedTypeOneOfObject, Object>> get anyOfs => [
@@ -164,6 +180,146 @@ class MixedTypeOneOfObjectReflection extends ModelReflection<MixedTypeOneOfObjec
   int get hashCode => oasName.hashCode;
 }
 
+
+class MixedTypeOneOfObjectOneOf0Part extends OneOfReflection<MixedTypeOneOfObject, 
+            MixedTypeOneOfObjectOneOf
+> {
+
+  const MixedTypeOneOfObjectOneOf0Part({
+  required MixedTypeOneOfObjectReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf
+>, MixedTypeOneOfObject> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, MixedTypeOneOfObject, UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf
+> _getter(MixedTypeOneOfObject src) {
+  return src.oneOf0;
+}
+static void _setter(MixedTypeOneOfObject src, UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf
+> value) {
+  src.oneOf0 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            MixedTypeOneOfObjectOneOf
+> get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+            
+        
+        
+            
+                MixedTypeOneOfObjectOneOf.$reflection
+        
+
+  ),
+);
+
+  UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      // An example SHOULD be generated
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == reflection.subReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return reflection.example();
+  }
+}
+
+class MixedTypeOneOfObjectOneOf1Part extends OneOfReflection<MixedTypeOneOfObject, 
+            MixedTypeOneOfObjectOneOf1
+> {
+
+  const MixedTypeOneOfObjectOneOf1Part({
+  required MixedTypeOneOfObjectReflection Function() super.parentReflectionGetter,
+});
+@override
+FunctionWrapper1<UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf1
+>, MixedTypeOneOfObject> get getter => FunctionWrapper1(_getter);
+@override
+FunctionWrapper2<void, MixedTypeOneOfObject, UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf1
+>> get setter => FunctionWrapper2(_setter);
+
+static UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf1
+> _getter(MixedTypeOneOfObject src) {
+  return src.oneOf1;
+}
+static void _setter(MixedTypeOneOfObject src, UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf1
+> value) {
+  src.oneOf1 = value;
+}
+
+@override
+UndefinedWrapperReflection<
+            MixedTypeOneOfObjectOneOf1
+> get reflection => UndefinedWrapperReflection(
+  XmlReflectionWrapper(
+    xml: XmlReflection(
+),
+    
+            
+        
+        
+            
+                MixedTypeOneOfObjectOneOf1.$reflection
+        
+
+  ),
+);
+
+  UndefinedWrapper<
+            MixedTypeOneOfObjectOneOf1
+> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      return UndefinedWrapper.undefined();
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == reflection.subReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return reflection.example();
+  }
+}
 class MixedTypeOneOfObjectAnyOf0Part extends AnyOfReflection<MixedTypeOneOfObject, 
             MixedTypeOneOfObjectAnyOf
 > {
