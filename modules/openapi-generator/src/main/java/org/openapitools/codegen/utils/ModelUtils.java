@@ -548,7 +548,7 @@ public class ModelUtils {
      * allOf:
      *   - $ref: '#/components/schemas/Class1'
      *   - $ref: '#/components/schemas/Class2'
-     *   additionalProperties: true
+     * additionalProperties: true
      *
      * @param schema the OAS schema
      * @return true if the specified schema is a Map schema.
