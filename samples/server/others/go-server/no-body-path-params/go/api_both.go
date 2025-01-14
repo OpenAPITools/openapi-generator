@@ -67,7 +67,7 @@ func (c *BothAPIController) Both(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &RequiredError{"pathParam"}, nil)
 		return
 	}
-	bodyRequestParam := BodyRequest{}
+	var bodyRequestParam BodyRequest
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&bodyRequestParam); err != nil {
