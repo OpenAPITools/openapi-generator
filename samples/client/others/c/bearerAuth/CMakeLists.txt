@@ -6,25 +6,21 @@ cmake_policy(SET CMP0063 NEW)
 set(CMAKE_C_VISIBILITY_PRESET default)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-set(CMAKE_C_FLAGS "-Werror=implicit-function-declaration -Werror=missing-declarations -Werror=int-conversion")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=implicit-function-declaration")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=missing-declarations")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=int-conversion")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
 find_package(OpenSSL)
 
 if (OPENSSL_FOUND)
-    message (STATUS "OPENSSL found")
-
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DOPENSSL")
     if(CMAKE_VERSION VERSION_LESS 3.4)
         include_directories(${OPENSSL_INCLUDE_DIR})
         include_directories(${OPENSSL_INCLUDE_DIRS})
         link_directories(${OPENSSL_LIBRARIES})
     endif()
-
-    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
-else()
-    message (STATUS "OpenSSL Not found.")
 endif()
 
 set(pkgName "sample_api")
@@ -42,8 +38,6 @@ else()
     if(CURL_FOUND)
         include_directories(${CURL_INCLUDE_DIR})
         set(PLATFORM_LIBRARIES ${PLATFORM_LIBRARIES} ${CURL_LIBRARIES} )
-    else(CURL_FOUND)
-        message(FATAL_ERROR "Could not find the CURL library and development files.")
     endif()
 endif()
 
