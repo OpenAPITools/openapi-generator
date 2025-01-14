@@ -432,12 +432,12 @@ public class ModelUtils {
      * <p>
      * <p>
      * type: object
-     * additionalProperties: false
-     * properties:
-     * name:
-     * type: string
-     * address:
-     * type: string
+     *   additionalProperties: false
+     *   properties:
+     *     name:
+     *     type: string
+     *   address:
+     *     type: string
      *
      * @param schema the OAS schema
      * @return true if the specified schema is an Object schema.
@@ -540,15 +540,15 @@ public class ModelUtils {
      * <p>
      * type: object
      * additionalProperties:
-     * type: object
-     * properties:
-     * code:
-     * type: integer
+     *   type: object
+     *     properties:
+     *       code:
+     *         type: integer
      * <p>
      * allOf:
-     * - $ref: '#/components/schemas/Class1'
-     * - $ref: '#/components/schemas/Class2'
-     * additionalProperties: true
+     *   - $ref: '#/components/schemas/Class1'
+     *   - $ref: '#/components/schemas/Class2'
+     *   additionalProperties: true
      *
      * @param schema the OAS schema
      * @return true if the specified schema is a Map schema.
