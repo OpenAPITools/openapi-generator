@@ -426,18 +426,18 @@ public class ModelUtils {
      * A ObjectSchema differs from a MapSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
-     * The payload may include dynamic properties.
+     *   The payload may include dynamic properties.
      * <p>
      * For example, an OpenAPI schema is considered an ObjectSchema in the following scenarios:
      * <p>
      * <p>
      * type: object
-     *   additionalProperties: false
-     *   properties:
-     *     name:
-     *     type: string
-     *   address:
-     *     type: string
+     * additionalProperties: false
+     * properties:
+     *   name:
+     *   type: string
+     * address:
+     *   type: string
      *
      * @param schema the OAS schema
      * @return true if the specified schema is an Object schema.
@@ -527,7 +527,7 @@ public class ModelUtils {
      * A MapSchema differs from an ObjectSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
-     * The payload may include dynamic properties.
+     *   The payload may include dynamic properties.
      * <p>
      * Note that isMapSchema returns true for a composed schema (allOf, anyOf, oneOf) that also defines
      * additionalproperties.
@@ -840,21 +840,21 @@ public class ModelUtils {
      * Examples:
      * <p>
      * components:
-     * schemas:
-     * arbitraryObject:
-     * type: object
-     * description: This is a free-form object.
-     * The value must be a map of strings to values. The value cannot be 'null'.
-     * It cannot be array, string, integer, number.
-     * arbitraryNullableObject:
-     * type: object
-     * description: This is a free-form object.
-     * The value must be a map of strings to values. The value can be 'null',
-     * It cannot be array, string, integer, number.
-     * nullable: true
-     * arbitraryTypeValue:
-     * description: This is NOT a free-form object.
-     * The value can be any type except the 'null' value.
+     *   schemas:
+     *     arbitraryObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value cannot be 'null'.
+     *         It cannot be array, string, integer, number.
+     *       arbitraryNullableObject:
+     *         type: object
+     *         description: This is a free-form object.
+     *           The value must be a map of strings to values. The value can be 'null',
+     *           It cannot be array, string, integer, number.
+     *         nullable: true
+     *       arbitraryTypeValue:
+     *         description: This is NOT a free-form object.
+     *           The value can be any type except the 'null' value.
      *
      * @param schema  potentially containing a '$ref'
      * @param openAPI document containing the Schema.
