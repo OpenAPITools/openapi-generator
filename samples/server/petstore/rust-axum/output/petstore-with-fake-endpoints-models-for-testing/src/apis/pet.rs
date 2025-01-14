@@ -94,10 +94,17 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// AddPet - POST /v2/pet
     async fn add_pet(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Pet,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::Pet,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<AddPetResponse, E>;
 
     /// Deletes a pet.
@@ -105,11 +112,19 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// DeletePet - DELETE /v2/pet/{petId}
     async fn delete_pet(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         header_params: &models::DeletePetHeaderParams,
         path_params: &models::DeletePetPathParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        header_params: models::DeletePetHeaderParams,
+        path_params: models::DeletePetPathParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<DeletePetResponse, E>;
 
     /// Finds Pets by status.
@@ -117,10 +132,17 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// FindPetsByStatus - GET /v2/pet/findByStatus
     async fn find_pets_by_status(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::FindPetsByStatusQueryParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        query_params: models::FindPetsByStatusQueryParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<FindPetsByStatusResponse, E>;
 
     /// Finds Pets by tags.
@@ -128,10 +150,17 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// FindPetsByTags - GET /v2/pet/findByTags
     async fn find_pets_by_tags(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::FindPetsByTagsQueryParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        query_params: models::FindPetsByTagsQueryParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<FindPetsByTagsResponse, E>;
 
     /// Find pet by ID.
@@ -139,11 +168,19 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// GetPetById - GET /v2/pet/{petId}
     async fn get_pet_by_id(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         path_params: &models::GetPetByIdPathParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        claims: Self::Claims,
+        path_params: models::GetPetByIdPathParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<GetPetByIdResponse, E>;
 
     /// Update an existing pet.
@@ -151,10 +188,17 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// UpdatePet - PUT /v2/pet
     async fn update_pet(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Pet,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::Pet,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<UpdatePetResponse, E>;
 
     /// Updates a pet in the store with form data.
@@ -162,11 +206,19 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// UpdatePetWithForm - POST /v2/pet/{petId}
     async fn update_pet_with_form(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::UpdatePetWithFormPathParams,
         body: &Option<models::UpdatePetWithFormRequest>,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::UpdatePetWithFormPathParams,
+        body: Option<models::UpdatePetWithFormRequest>,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<UpdatePetWithFormResponse, E>;
 
     /// uploads an image.
@@ -174,10 +226,18 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     /// UploadFile - POST /v2/pet/{petId}/uploadImage
     async fn upload_file(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::UploadFilePathParams,
         body: &Multipart,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::UploadFilePathParams,
+        body: Multipart,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<UploadFileResponse, E>;
 }

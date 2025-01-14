@@ -48,10 +48,17 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// GetPaymentMethodById - GET /v71/paymentMethods/{id}
     async fn get_payment_method_by_id(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetPaymentMethodByIdPathParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::GetPaymentMethodByIdPathParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
@@ -59,9 +66,15 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// GetPaymentMethods - GET /v71/paymentMethods
     async fn get_payment_methods(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.
@@ -69,10 +82,18 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// PostMakePayment - POST /v71/payments
     async fn post_make_payment(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         body: &Option<models::Payment>,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        claims: Self::Claims,
+        body: Option<models::Payment>,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<PostMakePaymentResponse, E>;
 }

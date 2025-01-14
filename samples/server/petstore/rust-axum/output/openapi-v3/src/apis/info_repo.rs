@@ -24,9 +24,16 @@ pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// GetRepoInfo - GET /repos/{repoId}
     async fn get_repo_info(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetRepoInfoPathParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::GetRepoInfoPathParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<GetRepoInfoResponse, E>;
 }

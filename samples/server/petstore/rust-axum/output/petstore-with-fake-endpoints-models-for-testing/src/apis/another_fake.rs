@@ -26,9 +26,16 @@ pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// TestSpecialTags - PATCH /v2/another-fake/dummy
     async fn test_special_tags(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Client,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::Client,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<TestSpecialTagsResponse, E>;
 }

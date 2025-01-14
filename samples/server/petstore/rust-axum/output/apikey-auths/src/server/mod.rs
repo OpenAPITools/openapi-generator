@@ -27,6 +27,7 @@ where
 {
     // build our application with a route
     Router::new()
+<<<<<<< HEAD
         .route(
             "/v71/paymentMethods",
             get(get_payment_methods::<I, A, E, C>),
@@ -35,6 +36,16 @@ where
             "/v71/paymentMethods/{id}",
             get(get_payment_method_by_id::<I, A, E, C>),
         )
+=======
+        .route(
+            "/v71/paymentMethods",
+            get(get_payment_methods::<I, A, E, C>),
+        )
+        .route(
+            "/v71/paymentMethods/:id",
+            get(get_payment_method_by_id::<I, A, E, C>),
+        )
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         .route("/v71/payments", post(post_make_payment::<I, A, E, C>))
         .with_state(api_impl)
 }
@@ -133,11 +144,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -212,11 +227,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -345,11 +364,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 

@@ -22,9 +22,16 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// Foo - POST /
     async fn foo(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Message,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::Message,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<FooResponse, E>;
 }

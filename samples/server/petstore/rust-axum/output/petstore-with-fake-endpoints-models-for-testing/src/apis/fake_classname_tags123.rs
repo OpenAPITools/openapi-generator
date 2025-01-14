@@ -26,9 +26,16 @@ pub trait FakeClassnameTags123<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     /// TestClassname - PATCH /v2/fake_classname_test
     async fn test_classname(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Client,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::Client,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<TestClassnameResponse, E>;
 }

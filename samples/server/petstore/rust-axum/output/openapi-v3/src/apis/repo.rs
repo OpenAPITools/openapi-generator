@@ -22,9 +22,16 @@ pub trait Repo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     /// CreateRepo - POST /repos
     async fn create_repo(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::ObjectParam,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::ObjectParam,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<CreateRepoResponse, E>;
 }

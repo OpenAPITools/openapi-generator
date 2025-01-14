@@ -58,10 +58,17 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// DeleteOrder - DELETE /v2/store/order/{order_id}
     async fn delete_order(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::DeleteOrderPathParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::DeleteOrderPathParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<DeleteOrderResponse, E>;
 
     /// Returns pet inventories by status.
@@ -69,10 +76,17 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// GetInventory - GET /v2/store/inventory
     async fn get_inventory(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        claims: Self::Claims,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<GetInventoryResponse, E>;
 
     /// Find purchase order by ID.
@@ -80,10 +94,17 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// GetOrderById - GET /v2/store/order/{order_id}
     async fn get_order_by_id(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetOrderByIdPathParams,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        path_params: models::GetOrderByIdPathParams,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<GetOrderByIdResponse, E>;
 
     /// Place an order for a pet.
@@ -91,9 +112,16 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// PlaceOrder - POST /v2/store/order
     async fn place_order(
         &self,
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Order,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+        body: models::Order,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
     ) -> Result<PlaceOrderResponse, E>;
 }

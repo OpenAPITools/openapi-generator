@@ -35,7 +35,11 @@ where
         .route("/complex-query-param",
             get(complex_query_param_get::<I, A, E>)
         )
+<<<<<<< HEAD
         .route("/enum_in_path/{path_param}",
+=======
+        .route("/enum_in_path/:path_param",
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
             get(enum_in_path_path_param_get::<I, A, E>)
         )
         .route("/form-test",
@@ -56,7 +60,11 @@ where
         .route("/multiget",
             get(multiget_get::<I, A, E>)
         )
+<<<<<<< HEAD
         .route("/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
+=======
+        .route("/multiple-path-params-with-very-long-path-to-test-formatting/:path_param_a/:path_param_b",
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
             get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A, E>)
         )
         .route("/multiple_auth_scheme",
@@ -83,7 +91,11 @@ where
         .route("/repos",
             post(create_repo::<I, A, E>)
         )
+<<<<<<< HEAD
         .route("/repos/{repo_id}",
+=======
+        .route("/repos/:repo_id",
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
             get(get_repo_info::<I, A, E>).get(get_repo_info::<I, A, E>)
         )
         .route("/required_octet_stream",
@@ -226,11 +238,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -288,11 +304,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -350,11 +370,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -412,11 +436,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -482,11 +510,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -544,11 +576,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -606,11 +642,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -701,11 +741,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -777,11 +821,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -970,11 +1018,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1028,8 +1080,12 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
+<<<<<<< HEAD
 
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+=======
+                                                return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
                                             },
                                         };
 
@@ -1106,8 +1162,12 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
+<<<<<<< HEAD
 
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+=======
+                                                return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
                                             },
                                         };
 
@@ -1176,11 +1236,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1233,11 +1297,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1314,11 +1382,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1372,8 +1444,12 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
+<<<<<<< HEAD
 
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+=======
+                                                return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
                                             },
                                         };
 
@@ -1431,11 +1507,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1497,11 +1577,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1662,11 +1746,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1777,11 +1865,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1882,11 +1974,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -1955,8 +2051,12 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
+<<<<<<< HEAD
 
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+=======
+                                                return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
                                             },
                                         };
 
@@ -2025,11 +2125,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2093,11 +2197,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2173,11 +2281,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2241,11 +2353,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2309,11 +2425,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2377,11 +2497,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2458,11 +2582,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
@@ -2528,11 +2656,15 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
+=======
+            return api_impl.as_ref().handle_error(why).await;
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
         }
     };
 
