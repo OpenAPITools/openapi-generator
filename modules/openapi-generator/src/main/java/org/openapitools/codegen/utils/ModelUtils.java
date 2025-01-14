@@ -846,15 +846,15 @@ public class ModelUtils {
      *       description: This is a free-form object.
      *         The value must be a map of strings to values. The value cannot be 'null'.
      *         It cannot be array, string, integer, number.
-     *       arbitraryNullableObject:
-     *         type: object
-     *         description: This is a free-form object.
-     *           The value must be a map of strings to values. The value can be 'null',
-     *           It cannot be array, string, integer, number.
-     *         nullable: true
-     *       arbitraryTypeValue:
-     *         description: This is NOT a free-form object.
-     *           The value can be any type except the 'null' value.
+     *     arbitraryNullableObject:
+     *       type: object
+     *       description: This is a free-form object.
+     *         The value must be a map of strings to values. The value can be 'null',
+     *         It cannot be array, string, integer, number.
+     *       nullable: true
+     *     arbitraryTypeValue:
+     *       description: This is NOT a free-form object.
+     *         The value can be any type except the 'null' value.
      *
      * @param schema  potentially containing a '$ref'
      * @param openAPI document containing the Schema.
