@@ -19,7 +19,7 @@ import { HttpFile } from '../http/http';
  * Type
  * @export
  */
-export type PetsPatchRequest = Cat | Dog;
+export type PetsPatchRequest = Cat | Dog | any;
 
 /**
 * @type PetsPatchRequestClass
@@ -30,4 +30,5 @@ export class PetsPatchRequestClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 }
+
 
