@@ -17,9 +17,9 @@ use crate::{models, types::*};
 /// {{classnamePascalCase}}
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait {{classnamePascalCase}} {
+pub trait {{classnamePascalCase}}<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
 {{#havingAuthMethod}}
-  type Claims;
+    type Claims;
 
 {{/havingAuthMethod}}
 {{#operation}}
@@ -73,7 +73,7 @@ pub trait {{classnamePascalCase}} {
     {{#x-consumes-multipart-related}}
         body: axum::body::Body,
     {{/x-consumes-multipart-related}}
-    ) -> Result<{{{operationId}}}Response, ()>;
+    ) -> Result<{{{operationId}}}Response, E>;
   {{/vendorExtensions}}
   {{^-last}}
 

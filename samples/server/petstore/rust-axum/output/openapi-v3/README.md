@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl openapi-v3::Api for ServerImpl {
+impl openapi_v3::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl openapi_v3::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = openapi-v3::server::new(Arc::new(ServerImpl));
+    let app = openapi_v3::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

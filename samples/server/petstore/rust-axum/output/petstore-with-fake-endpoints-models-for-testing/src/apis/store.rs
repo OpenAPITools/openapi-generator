@@ -50,7 +50,7 @@ pub enum PlaceOrderResponse {
 /// Store
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Store {
+pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     type Claims;
 
     /// Delete purchase order by ID.
@@ -62,7 +62,7 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         path_params: models::DeleteOrderPathParams,
-    ) -> Result<DeleteOrderResponse, ()>;
+    ) -> Result<DeleteOrderResponse, E>;
 
     /// Returns pet inventories by status.
     ///
@@ -73,7 +73,7 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         claims: Self::Claims,
-    ) -> Result<GetInventoryResponse, ()>;
+    ) -> Result<GetInventoryResponse, E>;
 
     /// Find purchase order by ID.
     ///
@@ -84,7 +84,7 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetOrderByIdPathParams,
-    ) -> Result<GetOrderByIdResponse, ()>;
+    ) -> Result<GetOrderByIdResponse, E>;
 
     /// Place an order for a pet.
     ///
@@ -95,5 +95,5 @@ pub trait Store {
         host: Host,
         cookies: CookieJar,
         body: models::Order,
-    ) -> Result<PlaceOrderResponse, ()>;
+    ) -> Result<PlaceOrderResponse, E>;
 }

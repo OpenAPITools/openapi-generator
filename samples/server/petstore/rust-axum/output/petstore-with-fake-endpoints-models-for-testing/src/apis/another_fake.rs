@@ -18,7 +18,9 @@ pub enum TestSpecialTagsResponse {
 /// AnotherFake
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait AnotherFake {
+pub trait AnotherFake<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     /// To test special tags.
     ///
     /// TestSpecialTags - PATCH /v2/another-fake/dummy
@@ -28,5 +30,5 @@ pub trait AnotherFake {
         host: Host,
         cookies: CookieJar,
         body: models::Client,
-    ) -> Result<TestSpecialTagsResponse, ()>;
+    ) -> Result<TestSpecialTagsResponse, E>;
 }

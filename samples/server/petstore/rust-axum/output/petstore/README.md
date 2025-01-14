@@ -43,9 +43,11 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl petstore::Api for ServerImpl {
+impl petstore::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl petstore::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing

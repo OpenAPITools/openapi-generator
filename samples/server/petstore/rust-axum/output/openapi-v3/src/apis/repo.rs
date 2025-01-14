@@ -18,7 +18,7 @@ pub enum CreateRepoResponse {
 /// Repo
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Repo {
+pub trait Repo<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// CreateRepo - POST /repos
     async fn create_repo(
         &self,
@@ -26,5 +26,5 @@ pub trait Repo {
         host: Host,
         cookies: CookieJar,
         body: models::ObjectParam,
-    ) -> Result<CreateRepoResponse, ()>;
+    ) -> Result<CreateRepoResponse, E>;
 }

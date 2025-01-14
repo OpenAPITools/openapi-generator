@@ -82,14 +82,14 @@ pub enum SoloObjectPostResponse {
 /// Default
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Default {
+pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// AllOfGet - GET /allOf
     async fn all_of_get(
         &self,
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<AllOfGetResponse, ()>;
+    ) -> Result<AllOfGetResponse, E>;
 
     /// A dummy endpoint to make the spec valid..
     ///
@@ -99,7 +99,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<DummyGetResponse, ()>;
+    ) -> Result<DummyGetResponse, E>;
 
     /// DummyPut - PUT /dummy
     async fn dummy_put(
@@ -108,7 +108,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: models::FooDummyPutRequest,
-    ) -> Result<DummyPutResponse, ()>;
+    ) -> Result<DummyPutResponse, E>;
 
     /// Get a file.
     ///
@@ -118,7 +118,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<FileResponseGetResponse, ()>;
+    ) -> Result<FileResponseGetResponse, E>;
 
     /// GetStructuredYaml - GET /get-structured-yaml
     async fn get_structured_yaml(
@@ -126,7 +126,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<GetStructuredYamlResponse, ()>;
+    ) -> Result<GetStructuredYamlResponse, E>;
 
     /// Test HTML handling.
     ///
@@ -137,7 +137,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: String,
-    ) -> Result<HtmlPostResponse, ()>;
+    ) -> Result<HtmlPostResponse, E>;
 
     /// PostYaml - POST /post-yaml
     async fn post_yaml(
@@ -146,7 +146,7 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: String,
-    ) -> Result<PostYamlResponse, ()>;
+    ) -> Result<PostYamlResponse, E>;
 
     /// Get an arbitrary JSON blob..
     ///
@@ -156,7 +156,7 @@ pub trait Default {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<RawJsonGetResponse, ()>;
+    ) -> Result<RawJsonGetResponse, E>;
 
     /// Send an arbitrary JSON blob.
     ///
@@ -167,5 +167,5 @@ pub trait Default {
         host: Host,
         cookies: CookieJar,
         body: crate::types::Object,
-    ) -> Result<SoloObjectPostResponse, ()>;
+    ) -> Result<SoloObjectPostResponse, E>;
 }

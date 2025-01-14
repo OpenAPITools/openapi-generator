@@ -13,21 +13,25 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A>(api_impl: I) -> Router
+pub fn new<I, A, E>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default + 'static,
+    A: apis::default::Default<E> + Send + Sync + 'static,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
         .route(
             "/multipart_related_request",
-            post(multipart_related_request_post::<I, A>),
+            post(multipart_related_request_post::<I, A, E>),
         )
-        .route("/multipart_request", post(multipart_request_post::<I, A>))
+        .route(
+            "/multipart_request",
+            post(multipart_request_post::<I, A, E>),
+        )
         .route(
             "/multiple-identical-mime-types",
-            post(multiple_identical_mime_types_post::<I, A>),
+            post(multiple_identical_mime_types_post::<I, A, E>),
         )
         .with_state(api_impl)
 }
@@ -38,7 +42,7 @@ fn multipart_related_request_post_validation() -> std::result::Result<(), Valida
 }
 /// MultipartRelatedRequestPost - POST /multipart_related_request
 #[tracing::instrument(skip_all)]
-async fn multipart_related_request_post<I, A>(
+async fn multipart_related_request_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -47,7 +51,8 @@ async fn multipart_related_request_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -76,10 +81,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -95,7 +100,7 @@ fn multipart_request_post_validation() -> std::result::Result<(), ValidationErro
 }
 /// MultipartRequestPost - POST /multipart_request
 #[tracing::instrument(skip_all)]
-async fn multipart_request_post<I, A>(
+async fn multipart_request_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -104,7 +109,8 @@ async fn multipart_request_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || multipart_request_post_validation())
@@ -132,10 +138,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -151,7 +157,7 @@ fn multiple_identical_mime_types_post_validation() -> std::result::Result<(), Va
 }
 /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
 #[tracing::instrument(skip_all)]
-async fn multiple_identical_mime_types_post<I, A>(
+async fn multiple_identical_mime_types_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -160,7 +166,8 @@ async fn multiple_identical_mime_types_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation =
@@ -189,10 +196,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 

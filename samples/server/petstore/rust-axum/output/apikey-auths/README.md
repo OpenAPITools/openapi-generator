@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl apikey-auths::Api for ServerImpl {
+impl apikey_auths::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl apikey_auths::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = apikey-auths::server::new(Arc::new(ServerImpl));
+    let app = apikey_auths::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

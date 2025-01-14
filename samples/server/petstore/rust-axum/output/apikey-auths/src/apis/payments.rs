@@ -38,7 +38,9 @@ pub enum PostMakePaymentResponse {
 /// Payments
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Payments {
+pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     type Claims;
 
     /// Get payment method by id.
@@ -50,7 +52,7 @@ pub trait Payments {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetPaymentMethodByIdPathParams,
-    ) -> Result<GetPaymentMethodByIdResponse, ()>;
+    ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
     ///
@@ -60,7 +62,7 @@ pub trait Payments {
         method: Method,
         host: Host,
         cookies: CookieJar,
-    ) -> Result<GetPaymentMethodsResponse, ()>;
+    ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.
     ///
@@ -72,5 +74,5 @@ pub trait Payments {
         cookies: CookieJar,
         claims: Self::Claims,
         body: Option<models::Payment>,
-    ) -> Result<PostMakePaymentResponse, ()>;
+    ) -> Result<PostMakePaymentResponse, E>;
 }

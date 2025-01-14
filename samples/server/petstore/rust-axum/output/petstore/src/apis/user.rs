@@ -89,7 +89,7 @@ pub enum UpdateUserResponse {
 /// User
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait User {
+pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     type Claims;
 
     /// Create user.
@@ -102,7 +102,7 @@ pub trait User {
         cookies: CookieJar,
         claims: Self::Claims,
         body: models::User,
-    ) -> Result<CreateUserResponse, ()>;
+    ) -> Result<CreateUserResponse, E>;
 
     /// Creates list of users with given input array.
     ///
@@ -114,7 +114,7 @@ pub trait User {
         cookies: CookieJar,
         claims: Self::Claims,
         body: Vec<models::User>,
-    ) -> Result<CreateUsersWithArrayInputResponse, ()>;
+    ) -> Result<CreateUsersWithArrayInputResponse, E>;
 
     /// Creates list of users with given input array.
     ///
@@ -126,7 +126,7 @@ pub trait User {
         cookies: CookieJar,
         claims: Self::Claims,
         body: Vec<models::User>,
-    ) -> Result<CreateUsersWithListInputResponse, ()>;
+    ) -> Result<CreateUsersWithListInputResponse, E>;
 
     /// Delete user.
     ///
@@ -138,7 +138,7 @@ pub trait User {
         cookies: CookieJar,
         claims: Self::Claims,
         path_params: models::DeleteUserPathParams,
-    ) -> Result<DeleteUserResponse, ()>;
+    ) -> Result<DeleteUserResponse, E>;
 
     /// Get user by user name.
     ///
@@ -149,7 +149,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetUserByNamePathParams,
-    ) -> Result<GetUserByNameResponse, ()>;
+    ) -> Result<GetUserByNameResponse, E>;
 
     /// Logs user into the system.
     ///
@@ -160,7 +160,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
         query_params: models::LoginUserQueryParams,
-    ) -> Result<LoginUserResponse, ()>;
+    ) -> Result<LoginUserResponse, E>;
 
     /// Logs out current logged in user session.
     ///
@@ -171,7 +171,7 @@ pub trait User {
         host: Host,
         cookies: CookieJar,
         claims: Self::Claims,
-    ) -> Result<LogoutUserResponse, ()>;
+    ) -> Result<LogoutUserResponse, E>;
 
     /// Updated user.
     ///
@@ -184,5 +184,5 @@ pub trait User {
         claims: Self::Claims,
         path_params: models::UpdateUserPathParams,
         body: models::User,
-    ) -> Result<UpdateUserResponse, ()>;
+    ) -> Result<UpdateUserResponse, E>;
 }

@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl rust-server-test::Api for ServerImpl {
+impl rust_server_test::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl rust_server_test::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = rust-server-test::server::new(Arc::new(ServerImpl));
+    let app = rust_server_test::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

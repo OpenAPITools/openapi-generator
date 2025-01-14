@@ -13,96 +13,102 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A>(api_impl: I) -> Router
+pub fn new<I, A, E>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default + apis::info_repo::InfoRepo + apis::repo::Repo + 'static,
+    A: apis::default::Default<E>
+        + apis::info_repo::InfoRepo<E>
+        + apis::repo::Repo<E>
+        + Send
+        + Sync
+        + 'static,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
         .route("/any-of",
-            get(any_of_get::<I, A>)
+            get(any_of_get::<I, A, E>)
         )
         .route("/callback-with-header",
-            post(callback_with_header_post::<I, A>)
+            post(callback_with_header_post::<I, A, E>)
         )
         .route("/complex-query-param",
-            get(complex_query_param_get::<I, A>)
+            get(complex_query_param_get::<I, A, E>)
         )
         .route("/enum_in_path/:path_param",
-            get(enum_in_path_path_param_get::<I, A>)
+            get(enum_in_path_path_param_get::<I, A, E>)
         )
         .route("/form-test",
-            post(form_test::<I, A>)
+            post(form_test::<I, A, E>)
         )
         .route("/get-with-bool",
-            get(get_with_boolean_parameter::<I, A>)
+            get(get_with_boolean_parameter::<I, A, E>)
         )
         .route("/json-complex-query-param",
-            get(json_complex_query_param_get::<I, A>)
+            get(json_complex_query_param_get::<I, A, E>)
         )
         .route("/mandatory-request-header",
-            get(mandatory_request_header_get::<I, A>)
+            get(mandatory_request_header_get::<I, A, E>)
         )
         .route("/merge-patch-json",
-            get(merge_patch_json_get::<I, A>)
+            get(merge_patch_json_get::<I, A, E>)
         )
         .route("/multiget",
-            get(multiget_get::<I, A>)
+            get(multiget_get::<I, A, E>)
         )
         .route("/multiple-path-params-with-very-long-path-to-test-formatting/:path_param_a/:path_param_b",
-            get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A>)
+            get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A, E>)
         )
         .route("/multiple_auth_scheme",
-            get(multiple_auth_scheme_get::<I, A>)
+            get(multiple_auth_scheme_get::<I, A, E>)
         )
         .route("/one-of",
-            get(one_of_get::<I, A>)
+            get(one_of_get::<I, A, E>)
         )
         .route("/operation-two-first-letter-headers",
-            post(two_first_letter_headers::<I, A>)
+            post(two_first_letter_headers::<I, A, E>)
         )
         .route("/override-server",
-            get(override_server_get::<I, A>)
+            get(override_server_get::<I, A, E>)
         )
         .route("/paramget",
-            get(paramget_get::<I, A>)
+            get(paramget_get::<I, A, E>)
         )
         .route("/readonly_auth_scheme",
-            get(readonly_auth_scheme_get::<I, A>)
+            get(readonly_auth_scheme_get::<I, A, E>)
         )
         .route("/register-callback",
-            post(register_callback_post::<I, A>)
+            post(register_callback_post::<I, A, E>)
         )
         .route("/repos",
-            post(create_repo::<I, A>)
+            post(create_repo::<I, A, E>)
         )
         .route("/repos/:repo_id",
-            get(get_repo_info::<I, A>).get(get_repo_info::<I, A>)
+            get(get_repo_info::<I, A, E>).get(get_repo_info::<I, A, E>)
         )
         .route("/required_octet_stream",
-            put(required_octet_stream_put::<I, A>)
+            put(required_octet_stream_put::<I, A, E>)
         )
         .route("/responses_with_headers",
-            get(responses_with_headers_get::<I, A>)
+            get(responses_with_headers_get::<I, A, E>)
         )
         .route("/rfc7807",
-            get(rfc7807_get::<I, A>)
+            get(rfc7807_get::<I, A, E>)
         )
         .route("/untyped_property",
-            get(untyped_property_get::<I, A>)
+            get(untyped_property_get::<I, A, E>)
         )
         .route("/uuid",
-            get(uuid_get::<I, A>)
+            get(uuid_get::<I, A, E>)
         )
         .route("/xml",
-            post(xml_post::<I, A>).put(xml_put::<I, A>)
+            post(xml_post::<I, A, E>).put(xml_put::<I, A, E>)
         )
         .route("/xml_extra",
-            post(xml_extra_post::<I, A>)
+            post(xml_extra_post::<I, A, E>)
         )
         .route("/xml_other",
-            post(xml_other_post::<I, A>).put(xml_other_put::<I, A>)
+            post(xml_other_post::<I, A, E>).put(xml_other_put::<I, A, E>)
         )
         .with_state(api_impl)
 }
@@ -117,7 +123,7 @@ fn any_of_get_validation(
 }
 /// AnyOfGet - GET /any-of
 #[tracing::instrument(skip_all)]
-async fn any_of_get<I, A>(
+async fn any_of_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -126,7 +132,8 @@ async fn any_of_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = any_of_get_validation(query_params);
 
@@ -216,10 +223,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -239,7 +246,7 @@ fn callback_with_header_post_validation(
 }
 /// CallbackWithHeaderPost - POST /callback-with-header
 #[tracing::instrument(skip_all)]
-async fn callback_with_header_post<I, A>(
+async fn callback_with_header_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -248,7 +255,8 @@ async fn callback_with_header_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = callback_with_header_post_validation(query_params);
 
@@ -273,10 +281,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -296,7 +304,7 @@ fn complex_query_param_get_validation(
 }
 /// ComplexQueryParamGet - GET /complex-query-param
 #[tracing::instrument(skip_all)]
-async fn complex_query_param_get<I, A>(
+async fn complex_query_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -305,7 +313,8 @@ async fn complex_query_param_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = complex_query_param_get_validation(query_params);
 
@@ -330,10 +339,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -353,7 +362,7 @@ fn enum_in_path_path_param_get_validation(
 }
 /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
 #[tracing::instrument(skip_all)]
-async fn enum_in_path_path_param_get<I, A>(
+async fn enum_in_path_path_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -362,7 +371,8 @@ async fn enum_in_path_path_param_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = enum_in_path_path_param_get_validation(path_params);
 
@@ -387,10 +397,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -418,7 +428,7 @@ fn form_test_validation(
 }
 /// FormTest - POST /form-test
 #[tracing::instrument(skip_all)]
-async fn form_test<I, A>(
+async fn form_test<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -427,7 +437,8 @@ async fn form_test<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = form_test_validation(body);
 
@@ -452,10 +463,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -475,7 +486,7 @@ fn get_with_boolean_parameter_validation(
 }
 /// GetWithBooleanParameter - GET /get-with-bool
 #[tracing::instrument(skip_all)]
-async fn get_with_boolean_parameter<I, A>(
+async fn get_with_boolean_parameter<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -484,7 +495,8 @@ async fn get_with_boolean_parameter<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = get_with_boolean_parameter_validation(query_params);
 
@@ -509,10 +521,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -532,7 +544,7 @@ fn json_complex_query_param_get_validation(
 }
 /// JsonComplexQueryParamGet - GET /json-complex-query-param
 #[tracing::instrument(skip_all)]
-async fn json_complex_query_param_get<I, A>(
+async fn json_complex_query_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -541,7 +553,8 @@ async fn json_complex_query_param_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = json_complex_query_param_get_validation(query_params);
 
@@ -566,10 +579,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -589,7 +602,7 @@ fn mandatory_request_header_get_validation(
 }
 /// MandatoryRequestHeaderGet - GET /mandatory-request-header
 #[tracing::instrument(skip_all)]
-async fn mandatory_request_header_get<I, A>(
+async fn mandatory_request_header_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -598,7 +611,8 @@ async fn mandatory_request_header_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     // Header parameters
     let header_params = {
@@ -656,10 +670,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -675,7 +689,7 @@ fn merge_patch_json_get_validation() -> std::result::Result<(), ValidationErrors
 }
 /// MergePatchJsonGet - GET /merge-patch-json
 #[tracing::instrument(skip_all)]
-async fn merge_patch_json_get<I, A>(
+async fn merge_patch_json_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -683,7 +697,8 @@ async fn merge_patch_json_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = merge_patch_json_get_validation();
 
@@ -727,10 +742,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -746,7 +761,7 @@ fn multiget_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// MultigetGet - GET /multiget
 #[tracing::instrument(skip_all)]
-async fn multiget_get<I, A>(
+async fn multiget_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -754,7 +769,8 @@ async fn multiget_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = multiget_get_validation();
 
@@ -912,10 +928,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -931,7 +947,7 @@ fn multiple_auth_scheme_get_validation() -> std::result::Result<(), ValidationEr
 }
 /// MultipleAuthSchemeGet - GET /multiple_auth_scheme
 #[tracing::instrument(skip_all)]
-async fn multiple_auth_scheme_get<I, A>(
+async fn multiple_auth_scheme_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -939,7 +955,8 @@ async fn multiple_auth_scheme_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = multiple_auth_scheme_get_validation();
 
@@ -965,10 +982,10 @@ where
                                                   response.body(Body::empty())
                                                 },
                                             },
-                                            Err(_) => {
+                                            Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.status(500).body(Body::empty())
+                                                return api_impl.as_ref().handle_error(why).await;
                                             },
                                         };
 
@@ -994,6 +1011,7 @@ fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path
 async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get<
     I,
     A,
+    E,
 >(
     method: Method,
     host: Host,
@@ -1005,7 +1023,8 @@ async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation =
     multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get_validation(
@@ -1040,10 +1059,10 @@ where
                                                   response.body(Body::empty())
                                                 },
                                             },
-                                            Err(_) => {
+                                            Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.status(500).body(Body::empty())
+                                                return api_impl.as_ref().handle_error(why).await;
                                             },
                                         };
 
@@ -1059,7 +1078,7 @@ fn one_of_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// OneOfGet - GET /one-of
 #[tracing::instrument(skip_all)]
-async fn one_of_get<I, A>(
+async fn one_of_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1067,7 +1086,8 @@ async fn one_of_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = one_of_get_validation();
 
@@ -1108,10 +1128,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1127,7 +1147,7 @@ fn override_server_get_validation() -> std::result::Result<(), ValidationErrors>
 }
 /// OverrideServerGet - GET /override-server
 #[tracing::instrument(skip_all)]
-async fn override_server_get<I, A>(
+async fn override_server_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1135,7 +1155,8 @@ async fn override_server_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = override_server_get_validation();
 
@@ -1160,10 +1181,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1183,7 +1204,7 @@ fn paramget_get_validation(
 }
 /// ParamgetGet - GET /paramget
 #[tracing::instrument(skip_all)]
-async fn paramget_get<I, A>(
+async fn paramget_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1192,7 +1213,8 @@ async fn paramget_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = paramget_get_validation(query_params);
 
@@ -1236,10 +1258,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1255,7 +1277,7 @@ fn readonly_auth_scheme_get_validation() -> std::result::Result<(), ValidationEr
 }
 /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
 #[tracing::instrument(skip_all)]
-async fn readonly_auth_scheme_get<I, A>(
+async fn readonly_auth_scheme_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1263,7 +1285,8 @@ async fn readonly_auth_scheme_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = readonly_auth_scheme_get_validation();
 
@@ -1289,10 +1312,10 @@ where
                                                   response.body(Body::empty())
                                                 },
                                             },
-                                            Err(_) => {
+                                            Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.status(500).body(Body::empty())
+                                                return api_impl.as_ref().handle_error(why).await;
                                             },
                                         };
 
@@ -1312,7 +1335,7 @@ fn register_callback_post_validation(
 }
 /// RegisterCallbackPost - POST /register-callback
 #[tracing::instrument(skip_all)]
-async fn register_callback_post<I, A>(
+async fn register_callback_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1321,7 +1344,8 @@ async fn register_callback_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = register_callback_post_validation(query_params);
 
@@ -1346,10 +1370,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1373,7 +1397,7 @@ fn required_octet_stream_put_validation(
 }
 /// RequiredOctetStreamPut - PUT /required_octet_stream
 #[tracing::instrument(skip_all)]
-async fn required_octet_stream_put<I, A>(
+async fn required_octet_stream_put<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1382,7 +1406,8 @@ async fn required_octet_stream_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = required_octet_stream_put_validation(body);
 
@@ -1407,10 +1432,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1426,7 +1451,7 @@ fn responses_with_headers_get_validation() -> std::result::Result<(), Validation
 }
 /// ResponsesWithHeadersGet - GET /responses_with_headers
 #[tracing::instrument(skip_all)]
-async fn responses_with_headers_get<I, A>(
+async fn responses_with_headers_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1434,7 +1459,8 @@ async fn responses_with_headers_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = responses_with_headers_get_validation();
 
@@ -1567,10 +1593,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1586,7 +1612,7 @@ fn rfc7807_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// Rfc7807Get - GET /rfc7807
 #[tracing::instrument(skip_all)]
-async fn rfc7807_get<I, A>(
+async fn rfc7807_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1594,7 +1620,8 @@ async fn rfc7807_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = rfc7807_get_validation();
 
@@ -1674,10 +1701,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1697,7 +1724,7 @@ fn two_first_letter_headers_validation(
 }
 /// TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
 #[tracing::instrument(skip_all)]
-async fn two_first_letter_headers<I, A>(
+async fn two_first_letter_headers<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1706,7 +1733,8 @@ async fn two_first_letter_headers<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     // Header parameters
     let header_params = {
@@ -1774,10 +1802,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1807,7 +1835,7 @@ fn untyped_property_get_validation(
 }
 /// UntypedPropertyGet - GET /untyped_property
 #[tracing::instrument(skip_all)]
-async fn untyped_property_get<I, A>(
+async fn untyped_property_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1816,7 +1844,8 @@ async fn untyped_property_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = untyped_property_get_validation(body);
 
@@ -1842,10 +1871,10 @@ where
                                                   response.body(Body::empty())
                                                 },
                                             },
-                                            Err(_) => {
+                                            Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-                                                response.status(500).body(Body::empty())
+                                                return api_impl.as_ref().handle_error(why).await;
                                             },
                                         };
 
@@ -1861,7 +1890,7 @@ fn uuid_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// UuidGet - GET /uuid
 #[tracing::instrument(skip_all)]
-async fn uuid_get<I, A>(
+async fn uuid_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1869,7 +1898,8 @@ async fn uuid_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = uuid_get_validation();
 
@@ -1910,10 +1940,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1935,7 +1965,7 @@ fn xml_extra_post_validation(body: Bytes) -> std::result::Result<(Bytes,), Valid
 }
 /// XmlExtraPost - POST /xml_extra
 #[tracing::instrument(skip_all)]
-async fn xml_extra_post<I, A>(
+async fn xml_extra_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -1944,7 +1974,8 @@ async fn xml_extra_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = xml_extra_post_validation(body);
 
@@ -1973,10 +2004,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -1998,7 +2029,7 @@ fn xml_other_post_validation(body: Bytes) -> std::result::Result<(Bytes,), Valid
 }
 /// XmlOtherPost - POST /xml_other
 #[tracing::instrument(skip_all)]
-async fn xml_other_post<I, A>(
+async fn xml_other_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -2007,7 +2038,8 @@ async fn xml_other_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = xml_other_post_validation(body);
 
@@ -2048,10 +2080,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -2073,7 +2105,7 @@ fn xml_other_put_validation(body: Bytes) -> std::result::Result<(Bytes,), Valida
 }
 /// XmlOtherPut - PUT /xml_other
 #[tracing::instrument(skip_all)]
-async fn xml_other_put<I, A>(
+async fn xml_other_put<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -2082,7 +2114,8 @@ async fn xml_other_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = xml_other_put_validation(body);
 
@@ -2111,10 +2144,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -2136,7 +2169,7 @@ fn xml_post_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationE
 }
 /// XmlPost - POST /xml
 #[tracing::instrument(skip_all)]
-async fn xml_post<I, A>(
+async fn xml_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -2145,7 +2178,8 @@ async fn xml_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = xml_post_validation(body);
 
@@ -2174,10 +2208,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -2199,7 +2233,7 @@ fn xml_put_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationEr
 }
 /// XmlPut - PUT /xml
 #[tracing::instrument(skip_all)]
-async fn xml_put<I, A>(
+async fn xml_put<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -2208,7 +2242,8 @@ async fn xml_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = xml_put_validation(body);
 
@@ -2234,10 +2269,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -2257,7 +2292,7 @@ fn get_repo_info_validation(
 }
 /// GetRepoInfo - GET /repos/{repoId}
 #[tracing::instrument(skip_all)]
-async fn get_repo_info<I, A>(
+async fn get_repo_info<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -2266,7 +2301,8 @@ async fn get_repo_info<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::info_repo::InfoRepo,
+    A: apis::info_repo::InfoRepo<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = get_repo_info_validation(path_params);
 
@@ -2310,10 +2346,10 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 
@@ -2341,7 +2377,7 @@ fn create_repo_validation(
 }
 /// CreateRepo - POST /repos
 #[tracing::instrument(skip_all)]
-async fn create_repo<I, A>(
+async fn create_repo<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -2350,7 +2386,8 @@ async fn create_repo<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::repo::Repo,
+    A: apis::repo::Repo<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     let validation = create_repo_validation(body);
 
@@ -2375,10 +2412,10 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+            return api_impl.as_ref().handle_error(why).await;
         }
     };
 

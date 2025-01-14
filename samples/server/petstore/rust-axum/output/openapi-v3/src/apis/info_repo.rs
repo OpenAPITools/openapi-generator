@@ -18,7 +18,9 @@ pub enum GetRepoInfoResponse {
 /// InfoRepo
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait InfoRepo {
+pub trait InfoRepo<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     /// GetRepoInfo - GET /repos/{repoId}
     async fn get_repo_info(
         &self,
@@ -26,5 +28,5 @@ pub trait InfoRepo {
         host: Host,
         cookies: CookieJar,
         path_params: models::GetRepoInfoPathParams,
-    ) -> Result<GetRepoInfoResponse, ()>;
+    ) -> Result<GetRepoInfoResponse, E>;
 }
