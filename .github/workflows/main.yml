@@ -1,0 +1,27 @@
+name: Sync Translations with Weblate
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync_translations:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      # Set up environment variable for Weblate API token
+      - name: Set up Weblate API token
+        env:
+          WEBLATE_API_TOKEN: ${{ secrets.WEBLATE_API_TOKEN }}
+        run: |
+          echo "Weblate API Token is set!"
+
+      # Run the translation sync script
+      - name: Sync Translations
+        run: |
+          ./scripts/sync-translations.sh
