@@ -17,23 +17,24 @@ import public "models/tag.proto";
 
 message Pet {
 
-  int64 id = 3355;
+  int64 id = 1;
 
-  Category category = 50511102;
+  Category category = 2;
 
-  string name = 3373707;
+  string name = 3;
 
-  repeated string photo_urls = 507546927;
+  repeated string photo_urls = 4 [json_name="photoUrls"];
 
-  repeated Tag tags = 3552281;
+  repeated Tag tags = 5;
 
   // pet status in the store
   enum Status {
-    STATUS_AVAILABLE = 0;
-    STATUS_PENDING = 1;
-    STATUS_SOLD = 2;
+    STATUS_UNSPECIFIED = 0;
+    STATUS_AVAILABLE = 1;
+    STATUS_PENDING = 2;
+    STATUS_SOLD = 3;
   }
 
-  Status status = 355610639;
+  Status status = 6;
 
 }

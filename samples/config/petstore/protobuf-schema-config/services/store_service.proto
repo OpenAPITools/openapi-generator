@@ -28,7 +28,7 @@ service StoreService {
 
 message DeleteOrderRequest {
   // ID of the order that needs to be deleted
-  string order_id = 1;
+  string order_id = 1 [json_name="orderId"];
 
 }
 
@@ -38,13 +38,13 @@ message GetInventoryResponse {
 
 message GetOrderByIdRequest {
   // ID of pet that needs to be fetched
-  int64 order_id = 1;
+  int64 order_id = 1 [json_name="orderId"];
 
 }
 
 message PlaceOrderRequest {
   // order placed for purchasing the pet
-  Order order = 1;
+  Order order = 1 [json_name="Order"];
 
 }
 

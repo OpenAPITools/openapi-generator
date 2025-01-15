@@ -37,13 +37,13 @@ service PetService {
 
 message AddPetRequest {
   // Pet object that needs to be added to the store
-  Pet pet = 1;
+  Pet pet = 1 [json_name="Pet"];
 
 }
 
 message DeletePetRequest {
   // Pet id to delete
-  int64 pet_id = 1;
+  int64 pet_id = 1 [json_name="petId"];
   string api_key = 2;
 
 }
@@ -70,19 +70,19 @@ message FindPetsByTagsResponse {
 
 message GetPetByIdRequest {
   // ID of pet to return
-  int64 pet_id = 1;
+  int64 pet_id = 1 [json_name="petId"];
 
 }
 
 message UpdatePetRequest {
   // Pet object that needs to be added to the store
-  Pet pet = 1;
+  Pet pet = 1 [json_name="Pet"];
 
 }
 
 message UpdatePetWithFormRequest {
   // ID of pet that needs to be updated
-  int64 pet_id = 1;
+  int64 pet_id = 1 [json_name="petId"];
   // Updated name of the pet
   string name = 2;
   // Updated status of the pet
@@ -92,9 +92,9 @@ message UpdatePetWithFormRequest {
 
 message UploadFileRequest {
   // ID of pet to update
-  int64 pet_id = 1;
+  int64 pet_id = 1 [json_name="petId"];
   // Additional data to pass to server
-  string additional_metadata = 2;
+  string additional_metadata = 2 [json_name="additionalMetadata"];
   // file to upload
   string file = 3;
 
