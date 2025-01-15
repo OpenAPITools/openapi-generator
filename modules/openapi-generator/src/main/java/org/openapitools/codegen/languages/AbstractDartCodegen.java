@@ -2,7 +2,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -593,7 +592,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
         // Handle composed properties and it's NOT allOf with a single ref only
         if (ModelUtils.isComposedSchema(p) && !(ModelUtils.isAllOf(p) && p.getAllOf().size() == 1)) {
-            ComposedSchema composed = (ComposedSchema) p;
+            Schema<Object> composed = (Schema<Object>) p;
 
             // Count the occurrences of allOf/anyOf/oneOf with exactly one child element
             long count = Stream.of(composed.getAllOf(), composed.getAnyOf(), composed.getOneOf())
