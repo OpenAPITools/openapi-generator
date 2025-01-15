@@ -893,8 +893,31 @@ paths:
       summary: Get the pets by time
       tags:
       - pet
+  /fake/collection/test:
+    post:
+      operationId: fakePostTest
+      requestBody:
+        $ref: '#/components/requestBodies/TestBody'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: bool
+          description: Successful Operation
+      summary: POST a test batch
+      tags:
+      - fake
 components:
   requestBodies:
+    TestBody:
+      content:
+        text/plain:
+          schema:
+            format: byte
+            type: string
+      description: Test body
+      required: true
     UserArray:
       content:
         application/json:
@@ -914,6 +937,13 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+  responses:
+    SuccessfulOp:
+      content:
+        application/json:
+          schema:
+            type: bool
+      description: Successful Operation
   schemas:
     OrderInfo:
       description: An order info for a pets from the pet store

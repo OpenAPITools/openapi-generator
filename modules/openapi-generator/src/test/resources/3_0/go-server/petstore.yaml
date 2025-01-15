@@ -849,11 +849,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /fake/collection/test:
+    post:
+      summary: POST a test batch
+      operationId: fakePostTest
+      tags:
+        - fake
+      requestBody:
+        $ref: '#/components/requestBodies/TestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessfulOp'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
+  responses:
+    SuccessfulOp:
+      description: Successful Operation
+      content:
+        application/json:
+          schema:
+            type: bool
   requestBodies:
+    TestBody:
+      description: Test body
+      required: true
+      content:
+        text/plain:
+          schema:
+            type: string
+            format: byte
     UserArray:
       content:
         application/json:
