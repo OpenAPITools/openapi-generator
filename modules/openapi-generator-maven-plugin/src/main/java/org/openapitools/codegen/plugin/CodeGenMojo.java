@@ -729,11 +729,9 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setApiNameSuffix(apiNameSuffix);
             }
 
-            String templateDir = null;
 
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
-                templateDir = templateDirectory.getAbsolutePath();
             }
 
             if (StringUtils.isNotEmpty(templateResourcePath)) {
@@ -741,7 +739,6 @@ public class CodeGenMojo extends AbstractMojo {
                     LOGGER.warn("Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
                 }
                 configurator.setTemplateDir(templateResourcePath);
-                templateDir = templateResourcePath;
             }
 
             if (null != engine) {
@@ -948,12 +945,6 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if(userDefinedTemplateFiles != null && userDefinedTemplateFiles.size() > 0) {
-
-                if(templateDir == null) {
-                    LOGGER.error("User defined templates have been defined, but no template directory has been set.");
-                    throw new MojoExecutionException("User defined templates have been defined, but no template directory has been set. Please configure the template directory.");
-                }
-
                 applyUserDefinedTemplateFilesKvpList(userDefinedTemplateFiles, configurator);
             }
 
