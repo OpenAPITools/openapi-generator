@@ -152,6 +152,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String templateResourcePath;
 
     /**
+     * Specifies userDefinedTemplates relative to templateDir, see Customizing for more info
+     */
+    @Parameter(name = "userDefinedTemplateFiles")
+    private List<String> userDefinedTemplateFiles;
+
+    /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
      */
     @Parameter(name = "engine", defaultValue = "mustache", property="openapi.generator.maven.plugin.engine")
@@ -723,8 +729,11 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setApiNameSuffix(apiNameSuffix);
             }
 
+            String templateDir = null;
+
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
+                templateDir = templateDirectory.getAbsolutePath();
             }
 
             if (StringUtils.isNotEmpty(templateResourcePath)) {
@@ -732,6 +741,7 @@ public class CodeGenMojo extends AbstractMojo {
                     LOGGER.warn("Both templateDirectory and templateResourcePath were configured. templateResourcePath overwrites templateDirectory.");
                 }
                 configurator.setTemplateDir(templateResourcePath);
+                templateDir = templateResourcePath;
             }
 
             if (null != engine) {
@@ -935,6 +945,16 @@ public class CodeGenMojo extends AbstractMojo {
                 if (value != null) {
                     configurator.addGlobalProperty(key, value);
                 }
+            }
+
+            if(userDefinedTemplateFiles != null && userDefinedTemplateFiles.size() > 0) {
+
+                if(templateDir == null) {
+                    LOGGER.error("User defined templates have been defined, but no template directory has been set.");
+                    throw new MojoExecutionException("User defined templates have been defined, but no template directory has been set. Please configure the template directory.");
+                }
+
+                applyUserDefinedTemplateFilesKvpList(userDefinedTemplateFiles, configurator);
             }
 
             final ClientOptInput input = configurator.toClientOptInput();
