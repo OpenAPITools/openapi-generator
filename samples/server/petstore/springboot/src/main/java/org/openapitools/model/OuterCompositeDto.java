@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -25,11 +26,11 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class OuterCompositeDto {
 
-  private BigDecimal myNumber;
+  private @Nullable BigDecimal myNumber;
 
-  private String myString;
+  private @Nullable String myString;
 
-  private Boolean myBoolean;
+  private @Nullable Boolean myBoolean;
 
   public OuterCompositeDto myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;

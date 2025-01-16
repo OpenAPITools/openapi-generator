@@ -5,7 +5,7 @@
 
 
 
-user_t *user_create(
+static user_t *user_create_internal(
     long id,
     char *username,
     char *first_name,
@@ -32,12 +32,42 @@ user_t *user_create(
     user_local_var->extra = extra;
     user_local_var->preference = preference;
 
+    user_local_var->_library_owned = 1;
     return user_local_var;
 }
 
+__attribute__((deprecated)) user_t *user_create(
+    long id,
+    char *username,
+    char *first_name,
+    char *last_name,
+    char *email,
+    char *password,
+    char *phone,
+    int user_status,
+    list_t* extra,
+    openapi_petstore_preference__e preference
+    ) {
+    return user_create_internal (
+        id,
+        username,
+        first_name,
+        last_name,
+        email,
+        password,
+        phone,
+        user_status,
+        extra,
+        preference
+        );
+}
 
 void user_free(user_t *user) {
     if(NULL == user){
+        return ;
+    }
+    if(user->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "user_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -320,7 +350,7 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     }
 
 
-    user_local_var = user_create (
+    user_local_var = user_create_internal (
         id ? id->valuedouble : 0,
         username && !cJSON_IsNull(username) ? strdup(username->valuestring) : NULL,
         first_name && !cJSON_IsNull(first_name) ? strdup(first_name->valuestring) : NULL,

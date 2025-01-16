@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -29,11 +30,11 @@ public class Bar extends Entity implements BarRefOrValue {
 
   private String id;
 
-  private String barPropA;
+  private @Nullable String barPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Nullable FooRefOrValue foo;
 
   public Bar() {
     super();

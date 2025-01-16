@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.CategoryDto;
 import org.openapitools.model.TagDto;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -30,9 +31,9 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetDto {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private CategoryDto category;
+  private @Nullable CategoryDto category;
 
   private String name;
 
@@ -80,7 +81,7 @@ public class PetDto {
   }
 
   @Deprecated
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   public PetDto() {
     super();
