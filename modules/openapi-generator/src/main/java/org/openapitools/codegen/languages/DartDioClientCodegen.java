@@ -71,6 +71,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String FINAL_PROPERTIES = "finalProperties";
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
 
+    public static final String SUPPORT_DART2 = "supportDart2";
+    public static final String SUPPORT_DART2_DEFAULT_VALUE = "false";
+
     private static final String CLIENT_NAME = "clientName";
 
     @Getter @Setter
@@ -138,6 +141,11 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         final CliOption finalProperties = CliOption.newBoolean(FINAL_PROPERTIES, "Whether properties are marked as final when using Json Serializable for serialization");
         finalProperties.setDefault("true");
         cliOptions.add(finalProperties);
+
+        // Support Dart 2 Option
+        final CliOption supportDart2 = CliOption.newBoolean(SUPPORT_DART2, "Use dependencies compatible with Dart 2.");
+        supportDart2.setDefault("false");
+        cliOptions.add(supportDart2);
     }
 
     @Override
@@ -181,6 +189,14 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         }
         else {
             additionalProperties.put(FINAL_PROPERTIES, Boolean.parseBoolean(additionalProperties.get(FINAL_PROPERTIES).toString()));
+        }
+
+        if (!additionalProperties.containsKey(SUPPORT_DART2)) {
+            additionalProperties.put(SUPPORT_DART2, Boolean.parseBoolean(SUPPORT_DART2_DEFAULT_VALUE));
+            LOGGER.debug("supportDart2 not set, using default {}", SUPPORT_DART2_DEFAULT_VALUE);
+        }
+        else {
+            additionalProperties.put(SUPPORT_DART2, Boolean.parseBoolean(additionalProperties.get(SUPPORT_DART2).toString()));
         }
 
         if (!additionalProperties.containsKey(CLIENT_NAME)) {

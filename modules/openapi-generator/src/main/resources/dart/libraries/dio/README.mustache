@@ -20,7 +20,12 @@ For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 
 ## Requirements
 
+{{#supportDart2}}
 * Dart 2.15.0+ or Flutter 2.8.0+
+{{/supportDart2}}
+{{^supportDart2}}
+* Dart 3.0.0+ or Flutter 2.8.0+
+{{/supportDart2}}
 * Dio 5.0.0+ (https://pub.dev/packages/dio)
 {{#useJsonSerializable}}
 * JSON Serializable 6.1.5+ (https://pub.dev/packages/json_serializable)
