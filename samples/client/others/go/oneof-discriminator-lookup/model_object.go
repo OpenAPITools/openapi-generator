@@ -13,7 +13,6 @@ package openapi
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/validator.v2"
 )
 
 // Object - struct for Object
@@ -40,52 +39,62 @@ func NestedObject2AsObject(v *NestedObject2) Object {
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Object) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into NestedObject1
-	err = newStrictDecoder(data).Decode(&dst.NestedObject1)
-	if err == nil {
-		jsonNestedObject1, _ := json.Marshal(dst.NestedObject1)
-		if string(jsonNestedObject1) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = newStrictDecoder(data).Decode(&jsonDict)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal JSON into map for the discriminator lookup")
+	}
+
+	// check if the discriminator value is 'ONE'
+	if jsonDict["type"] == "ONE" {
+		// try to unmarshal JSON data into NestedObject1
+		err = json.Unmarshal(data, &dst.NestedObject1)
+		if err == nil {
+			return nil // data stored in dst.NestedObject1, return on the first match
+		} else {
 			dst.NestedObject1 = nil
-		} else {
-			if err = validator.Validate(dst.NestedObject1); err != nil {
-				dst.NestedObject1 = nil
-			} else {
-				match++
-			}
+			return fmt.Errorf("failed to unmarshal Object as NestedObject1: %s", err.Error())
 		}
-	} else {
-		dst.NestedObject1 = nil
 	}
 
-	// try to unmarshal data into NestedObject2
-	err = newStrictDecoder(data).Decode(&dst.NestedObject2)
-	if err == nil {
-		jsonNestedObject2, _ := json.Marshal(dst.NestedObject2)
-		if string(jsonNestedObject2) == "{}" { // empty struct
+	// check if the discriminator value is 'TWO'
+	if jsonDict["type"] == "TWO" {
+		// try to unmarshal JSON data into NestedObject2
+		err = json.Unmarshal(data, &dst.NestedObject2)
+		if err == nil {
+			return nil // data stored in dst.NestedObject2, return on the first match
+		} else {
 			dst.NestedObject2 = nil
-		} else {
-			if err = validator.Validate(dst.NestedObject2); err != nil {
-				dst.NestedObject2 = nil
-			} else {
-				match++
-			}
+			return fmt.Errorf("failed to unmarshal Object as NestedObject2: %s", err.Error())
 		}
-	} else {
-		dst.NestedObject2 = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.NestedObject1 = nil
-		dst.NestedObject2 = nil
-
-		return fmt.Errorf("data matches more than one schema in oneOf(Object)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("data failed to match schemas in oneOf(Object)")
+	// check if the discriminator value is 'NestedObject1'
+	if jsonDict["type"] == "NestedObject1" {
+		// try to unmarshal JSON data into NestedObject1
+		err = json.Unmarshal(data, &dst.NestedObject1)
+		if err == nil {
+			return nil // data stored in dst.NestedObject1, return on the first match
+		} else {
+			dst.NestedObject1 = nil
+			return fmt.Errorf("failed to unmarshal Object as NestedObject1: %s", err.Error())
+		}
 	}
+
+	// check if the discriminator value is 'NestedObject2'
+	if jsonDict["type"] == "NestedObject2" {
+		// try to unmarshal JSON data into NestedObject2
+		err = json.Unmarshal(data, &dst.NestedObject2)
+		if err == nil {
+			return nil // data stored in dst.NestedObject2, return on the first match
+		} else {
+			dst.NestedObject2 = nil
+			return fmt.Errorf("failed to unmarshal Object as NestedObject2: %s", err.Error())
+		}
+	}
+
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
