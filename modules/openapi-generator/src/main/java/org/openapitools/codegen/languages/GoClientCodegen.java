@@ -494,6 +494,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (model.oneOf != null && !model.oneOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
+
+                if (generateUnmarshalJSON && !useOneOfDiscriminatorLookup) {
+                    imports.add(createMapping("import", "gopkg.in/validator.v2"));
+                }
             }
 
             // anyOf
