@@ -51,6 +51,7 @@ docs/List.md
 docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
+docs/MixLog.md
 docs/MixedAnyOf.md
 docs/MixedAnyOfContent.md
 docs/MixedOneOf.md
@@ -117,14 +118,11 @@ src/Org.OpenAPITools/Api/UserApi.cs
 src/Org.OpenAPITools/Client/ApiClient.cs
 src/Org.OpenAPITools/Client/ApiException.cs
 src/Org.OpenAPITools/Client/ApiResponse.cs
-src/Org.OpenAPITools/Client/Auth/OAuthAuthenticator.cs
-src/Org.OpenAPITools/Client/Auth/OAuthFlow.cs
-src/Org.OpenAPITools/Client/Auth/TokenResponse.cs
 src/Org.OpenAPITools/Client/ClientUtils.cs
 src/Org.OpenAPITools/Client/Configuration.cs
 src/Org.OpenAPITools/Client/ExceptionFactory.cs
+src/Org.OpenAPITools/Client/FileParameter.cs
 src/Org.OpenAPITools/Client/GlobalConfiguration.cs
-src/Org.OpenAPITools/Client/HttpMethod.cs
 src/Org.OpenAPITools/Client/HttpSigningConfiguration.cs
 src/Org.OpenAPITools/Client/IApiAccessor.cs
 src/Org.OpenAPITools/Client/IAsynchronousClient.cs
@@ -134,6 +132,7 @@ src/Org.OpenAPITools/Client/Multimap.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
+src/Org.OpenAPITools/Client/WebRequestPathBuilder.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs
 src/Org.OpenAPITools/Model/Activity.cs
 src/Org.OpenAPITools/Model/ActivityOutputElementRepresentation.cs
@@ -179,6 +178,7 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
+src/Org.OpenAPITools/Model/MixLog.cs
 src/Org.OpenAPITools/Model/MixedAnyOf.cs
 src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
 src/Org.OpenAPITools/Model/MixedOneOf.cs
