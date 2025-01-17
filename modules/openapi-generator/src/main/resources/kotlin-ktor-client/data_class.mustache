@@ -19,15 +19,15 @@ import kotlinx.serialization.encoding.encodeStructure{{/vendorExtensions.x-addit
  * @param {{name}} {{{description}}}
 {{/allVars}}
  */
-@Serializable{{#vendorExtensions.x-additionalProperties}}(with = SearchAvailableFirmwareBodySerializer::class){{/vendorExtensions.x-additionalProperties}}
+@Serializable{{#vendorExtensions.x-additionalProperties}}(with = {{{classname}}}Serializer::class){{/vendorExtensions.x-additionalProperties}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
+//asdfasdf end
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
-{{/-last}}{{/optionalVars}}
-{{#vendorExtensions.x-additionalProperties}},
-val additionalProperties: Map<String, String>? = null,{{/vendorExtensions.x-additionalProperties}}
+{{/-last}}{{/optionalVars}}{{#vendorExtensions.x-additionalProperties}},
+    val additionalProperties: Map<String, String>? = null,{{/vendorExtensions.x-additionalProperties}}
 ){{#hasEnums}} {
     {{#allVars}}{{#isEnum}}
     /**
@@ -41,25 +41,29 @@ val additionalProperties: Map<String, String>? = null,{{/vendorExtensions.x-addi
     {{/isEnum}}{{/allVars}}
 }{{/hasEnums}}
 
+
+
 {{#vendorExtensions.x-additionalProperties}}
 @OptIn(ExperimentalSerializationApi::class)
-@Serializer(forClass = SearchAvailableFirmwareBody::class)
-internal object SearchAvailableFirmwareBodySerializer : KSerializer<SearchAvailableFirmwareBody> {
-    private fun createDescriptor(body: SearchAvailableFirmwareBody): SerialDescriptor =
-        buildClassSerialDescriptor("SearchAvailableFirmwareBody") {
-            element<List<FirmwareComponentAttributes>>("firmwareComponents")
-            element<List<String>>("deviceGroups")
+@Serializer(forClass = {{{classname}}}::class)
+internal object {{{classname}}}Serializer : KSerializer<{{{classname}}}> {
+    private fun createDescriptor(body: {{{classname}}}): SerialDescriptor =
+        buildClassSerialDescriptor("{{{classname}}}") {
+            {{#allVars}}
+                element<{{{dataType}}}>("{{{name}}}")
+            {{/allVars}}
             body.additionalProperties?.onEach { property ->
                 element<String>(property.key)
             }
         }
 
-    override fun serialize(encoder: Encoder, value: SearchAvailableFirmwareBody) {
+    override fun serialize(encoder: Encoder, value: {{{classname}}}) {
         val descriptor = createDescriptor(value)
         var index = 0
         encoder.encodeStructure(descriptor) {
-            encodeSerializableElement(descriptor, index++, ListSerializer(FirmwareComponentAttributes.serializer()), value.firmwareComponents)
-            value.deviceGroups?.let {encodeSerializableElement(descriptor, index++, ListSerializer(String.serializer()), value.deviceGroups)}
+            {{#allVars}}
+                encodeSerializableElement(descriptor, index++, {{{dataType}}}.serializer(), value.{{{name}}})
+            {{/allVars}}
             value.additionalProperties?.onEach() { property ->
                 encodeStringElement(descriptor, index++,  property.value)
             }
