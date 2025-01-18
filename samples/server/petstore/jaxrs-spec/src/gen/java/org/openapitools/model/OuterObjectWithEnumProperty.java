@@ -98,7 +98,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     return new OuterObjectWithEnumPropertyBuilderImpl();
   }
 
-  private static class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
+  private static final class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
 
     @Override
     protected OuterObjectWithEnumPropertyBuilderImpl self() {

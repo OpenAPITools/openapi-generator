@@ -313,7 +313,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                 "Use of PostgreSQL data types for complex model properties.");
         jsonDataTypeOpt.addEnum("json", "Generate `JSON` fields. Value is stored in `JSON` data type field as human-readable text. Value compliance with JSON standard is checked.")
                 .addEnum("jsonb",
-                        "Generate `JSONB` fields. Value is stored in `JSONB` data type field in binary format. `JSONB` data type is generally nore efficient than `JSON` but it is not human-readable. Value compliance with JSON standard is checked.")
+                        "Generate `JSONB` fields. Value is stored in `JSONB` data type field in binary format. `JSONB` data type is generally more efficient than `JSON` but it is not human-readable. Value compliance with JSON standard is checked.")
                 .addEnum("off", "Generate `TEXT` fields. Just store the value as plain text. Value compliance with JSON standard is not checked.")
                 .setDefault("json");
         cliOptions.add(jsonDataTypeOpt);

@@ -78,16 +78,14 @@ StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/order/{orderId}")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/order/{orderId}");
+    char *localVarPath = strdup("/store/order/{orderId}");
 
     if(!orderId)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_orderId = strlen(orderId)+3 + strlen("{ orderId }");
+    long sizeOfPathParams_orderId = strlen(orderId)+3 + sizeof("{ orderId }") - 1;
     if(orderId == NULL) {
         goto end;
     }
@@ -152,9 +150,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/inventory")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/inventory");
+    char *localVarPath = strdup("/store/inventory");
 
 
 
@@ -225,14 +221,12 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/order/{orderId}")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/order/{orderId}");
+    char *localVarPath = strdup("/store/order/{orderId}");
 
 
 
     // Path Params
-    long sizeOfPathParams_orderId = sizeof(orderId)+3 + strlen("{ orderId }");
+    long sizeOfPathParams_orderId = sizeof(orderId)+3 + sizeof("{ orderId }") - 1;
     if(orderId == 0){
         goto end;
     }
@@ -319,9 +313,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/order")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/order");
+    char *localVarPath = strdup("/store/order");
 
 
 
@@ -409,9 +401,7 @@ StoreAPI_sendFeedback(apiClient_t *apiClient, char *feedback)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/feedback")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/feedback");
+    char *localVarPath = strdup("/store/feedback");
 
 
 
@@ -477,16 +467,14 @@ StoreAPI_sendRating(apiClient_t *apiClient, openapi_petstore_sendRating_rating_e
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/rating/{rating}")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/rating/{rating}");
+    char *localVarPath = strdup("/store/rating/{rating}");
 
     if(!rating)
         goto end;
 
 
     // Path Params
-    long sizeOfPathParams_rating = strlen(sendRating_RATING_ToString(rating))+3 + strlen("{ rating }");
+    long sizeOfPathParams_rating = strlen(sendRating_RATING_ToString(rating))+3 + sizeof("{ rating }") - 1;
     if(rating == 0) {
         goto end;
     }
@@ -553,9 +541,7 @@ StoreAPI_sendRecommend(apiClient_t *apiClient, int *recommend)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/store/recommend")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/store/recommend");
+    char *localVarPath = strdup("/store/recommend");
 
 
 

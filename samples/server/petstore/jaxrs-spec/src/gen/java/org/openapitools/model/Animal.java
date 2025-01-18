@@ -128,7 +128,7 @@ public class Animal  implements Serializable {
     return new AnimalBuilderImpl();
   }
 
-  private static class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
+  private static final class AnimalBuilderImpl extends AnimalBuilder<Animal, AnimalBuilderImpl> {
 
     @Override
     protected AnimalBuilderImpl self() {

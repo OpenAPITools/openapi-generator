@@ -91,7 +91,7 @@ public class SpecialModelName  implements Serializable {
     return new SpecialModelNameBuilderImpl();
   }
 
-  private static class SpecialModelNameBuilderImpl extends SpecialModelNameBuilder<SpecialModelName, SpecialModelNameBuilderImpl> {
+  private static final class SpecialModelNameBuilderImpl extends SpecialModelNameBuilder<SpecialModelName, SpecialModelNameBuilderImpl> {
 
     @Override
     protected SpecialModelNameBuilderImpl self() {

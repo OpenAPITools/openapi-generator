@@ -608,6 +608,11 @@ paths:
           description: To test parameter names in upper case
           schema:
             type: string
+        - name: content
+          in: query
+          description: To test escaping of parameters in rust code works
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation

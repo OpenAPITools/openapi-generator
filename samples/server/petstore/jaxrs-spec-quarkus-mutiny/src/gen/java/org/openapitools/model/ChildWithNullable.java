@@ -92,7 +92,7 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     return new ChildWithNullableBuilderImpl();
   }
 
-  private static class ChildWithNullableBuilderImpl extends ChildWithNullableBuilder<ChildWithNullable, ChildWithNullableBuilderImpl> {
+  private static final class ChildWithNullableBuilderImpl extends ChildWithNullableBuilder<ChildWithNullable, ChildWithNullableBuilderImpl> {
 
     @Override
     protected ChildWithNullableBuilderImpl self() {

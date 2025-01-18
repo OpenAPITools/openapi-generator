@@ -40,26 +40,34 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean autoHeadFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean conditionalHeadersFeatureEnabled = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean hstsFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean corsFeatureEnabled = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean compressionFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean resourcesFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
-    @Setter private boolean omitGradleWrapper = false;
+    @Setter
+    private boolean omitGradleWrapper = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -452,7 +460,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     /**
      * Returns true if latest version of ktor is used.
      *
-     * @return true if latest veresion of ktor is used.
+     * @return true if latest version of ktor is used.
      */
     private boolean isKtor() {
         return Constants.KTOR.equals(library);

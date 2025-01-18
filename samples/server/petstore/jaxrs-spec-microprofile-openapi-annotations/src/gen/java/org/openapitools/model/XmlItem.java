@@ -880,7 +880,7 @@ public class XmlItem  implements Serializable {
     return new XmlItemBuilderImpl();
   }
 
-  private static class XmlItemBuilderImpl extends XmlItemBuilder<XmlItem, XmlItemBuilderImpl> {
+  private static final class XmlItemBuilderImpl extends XmlItemBuilder<XmlItem, XmlItemBuilderImpl> {
 
     @Override
     protected XmlItemBuilderImpl self() {

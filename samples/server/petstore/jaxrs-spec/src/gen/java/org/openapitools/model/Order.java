@@ -254,7 +254,7 @@ public class Order  implements Serializable {
     return new OrderBuilderImpl();
   }
 
-  private static class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
+  private static final class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
 
     @Override
     protected OrderBuilderImpl self() {

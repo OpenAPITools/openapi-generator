@@ -272,7 +272,7 @@ public class MapTest  implements Serializable {
     return new MapTestBuilderImpl();
   }
 
-  private static class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
+  private static final class MapTestBuilderImpl extends MapTestBuilder<MapTest, MapTestBuilderImpl> {
 
     @Override
     protected MapTestBuilderImpl self() {

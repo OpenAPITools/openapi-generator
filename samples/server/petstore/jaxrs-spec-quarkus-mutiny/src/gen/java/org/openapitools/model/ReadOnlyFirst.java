@@ -111,7 +111,7 @@ public class ReadOnlyFirst  implements Serializable {
     return new ReadOnlyFirstBuilderImpl();
   }
 
-  private static class ReadOnlyFirstBuilderImpl extends ReadOnlyFirstBuilder<ReadOnlyFirst, ReadOnlyFirstBuilderImpl> {
+  private static final class ReadOnlyFirstBuilderImpl extends ReadOnlyFirstBuilder<ReadOnlyFirst, ReadOnlyFirstBuilderImpl> {
 
     @Override
     protected ReadOnlyFirstBuilderImpl self() {

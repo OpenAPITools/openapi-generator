@@ -256,7 +256,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
     return new FakeTestsDefaultsDefaultResponseBuilderImpl();
   }
 
-  private static class FakeTestsDefaultsDefaultResponseBuilderImpl extends FakeTestsDefaultsDefaultResponseBuilder<FakeTestsDefaultsDefaultResponse, FakeTestsDefaultsDefaultResponseBuilderImpl> {
+  private static final class FakeTestsDefaultsDefaultResponseBuilderImpl extends FakeTestsDefaultsDefaultResponseBuilder<FakeTestsDefaultsDefaultResponse, FakeTestsDefaultsDefaultResponseBuilderImpl> {
 
     @Override
     protected FakeTestsDefaultsDefaultResponseBuilderImpl self() {

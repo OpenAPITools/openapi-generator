@@ -7,7 +7,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PreserveCompilationContext>true</PreserveCompilationContext>
         <Version>1.0.0</Version>
-            <OutputType>Library</OutputType>
+        <OutputType>Library</OutputType>
         <AssemblyName>Org.OpenAPITools</AssemblyName>
         <PackageId>Org.OpenAPITools</PackageId>
         <UserSecretsId>cb87e868-8646-48ef-9bb6-344b537d0d37</UserSecretsId>
@@ -15,9 +15,9 @@
         <DockerfileContext>..\..</DockerfileContext>
     </PropertyGroup>
     <ItemGroup>
-                <FrameworkReference Include="Microsoft.AspNetCore.App" />
-            <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-                <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
         <PackageReference Include="JsonSubTypes" Version="1.8.0" />
     </ItemGroup>
     <ItemGroup>

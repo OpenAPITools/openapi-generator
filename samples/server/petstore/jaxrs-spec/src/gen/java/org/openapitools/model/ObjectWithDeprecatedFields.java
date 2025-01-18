@@ -180,7 +180,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     return new ObjectWithDeprecatedFieldsBuilderImpl();
   }
 
-  private static class ObjectWithDeprecatedFieldsBuilderImpl extends ObjectWithDeprecatedFieldsBuilder<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilderImpl> {
+  private static final class ObjectWithDeprecatedFieldsBuilderImpl extends ObjectWithDeprecatedFieldsBuilder<ObjectWithDeprecatedFields, ObjectWithDeprecatedFieldsBuilderImpl> {
 
     @Override
     protected ObjectWithDeprecatedFieldsBuilderImpl self() {

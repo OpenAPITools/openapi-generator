@@ -5,6 +5,8 @@ title: "FAQ: General"
 
 ## Do you have a chat room?
 
+Yes, we use Slack.
+
 [![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/zt-2wmkn4s8g-n19PJ99Y6Vei74WMUIehQA)
 
 ## What is the governance structure of the OpenAPI Generator project?

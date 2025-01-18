@@ -297,7 +297,7 @@ public class DefaultCodegen implements CodegenConfig {
     // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
     protected boolean strictSpecBehavior = true;
     // flag to indicate whether enum value prefixes are removed
-    protected boolean removeEnumValuePrefix = true;
+    protected boolean removeEnumValuePrefix = false;
 
     // Support legacy logic for evaluating discriminators
     @Setter protected boolean legacyDiscriminatorBehavior = true;
@@ -3875,29 +3875,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema original = null;
-        // process the dereference schema if it's a ref to allOf with a single item
-        // and certain field(s) (e.g. description, readyOnly, etc) is set
-        if (p.get$ref() != null) {
-            Schema derefSchema = ModelUtils.getReferencedSchema(openAPI, p);
-            if (ModelUtils.isAllOfWithSingleItem(derefSchema) && (
-                    derefSchema.getReadOnly() != null ||
-                            derefSchema.getWriteOnly() != null ||
-                            derefSchema.getDeprecated() != null ||
-                            derefSchema.getDescription() != null ||
-                            derefSchema.getMaxLength() != null ||
-                            derefSchema.getMinLength() != null ||
-                            derefSchema.getMinimum() != null ||
-                            derefSchema.getMaximum() != null ||
-                            derefSchema.getMaximum() != null ||
-                            derefSchema.getMinItems() != null ||
-                            derefSchema.getTitle() != null
-                    )) {
-                p = ModelUtils.getReferencedSchema(openAPI, p);
-            }
-        }
-
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
-        if (ModelUtils.isAllOfWithSingleItem(p)) {
+        if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1) {
             if (p.getAllOf().get(0) instanceof Schema) {
                 original = p;
                 p = (Schema) p.getAllOf().get(0);
@@ -6523,6 +6502,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             // input.name => input_name
             modifiable = this.sanitizeValue(modifiable, "\\.", "_", exceptions);
+
+            // input:name => input_name
+            modifiable = this.sanitizeValue(modifiable, ":", "_", exceptions);
 
             // input-name => input_name
             modifiable = this.sanitizeValue(modifiable, "-", "_", exceptions);

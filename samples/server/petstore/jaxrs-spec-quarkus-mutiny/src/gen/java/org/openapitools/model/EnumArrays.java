@@ -224,7 +224,7 @@ public class EnumArrays  implements Serializable {
     return new EnumArraysBuilderImpl();
   }
 
-  private static class EnumArraysBuilderImpl extends EnumArraysBuilder<EnumArrays, EnumArraysBuilderImpl> {
+  private static final class EnumArraysBuilderImpl extends EnumArraysBuilder<EnumArrays, EnumArraysBuilderImpl> {
 
     @Override
     protected EnumArraysBuilderImpl self() {

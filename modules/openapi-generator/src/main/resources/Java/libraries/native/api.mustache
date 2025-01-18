@@ -280,7 +280,7 @@ public class {{classname}} {
         {{! The `available` method would work with a `PushbackInputStream`, because we could read 1 byte to check if it exists then push it back so Jackson can read it again. The issue with that is that it will also insert an ascii character for "head of input" and that will break Jackson as it does not handle special whitespace characters. }}
         {{! A fix for that problem is to read it into a string and remove those characters, but if we need to read it before giving it to jackson to fix the string then just reading it into a string as is to do an emptiness check is the cleaner solution. }}
         {{! We could also manipulate the inputstream to remove that bad character, but string manipulation is easier to read and this codepath is not asyncronus so we do not gain anything by reading the stream later. }}
-        {{! This fix does make it unsuitable for large amounts of data because `InputStream.readAllbytes` is not meant for it, but a syncronus client is already not the right tool for that.}}
+        {{! This fix does make it unsuitable for large amounts of data because `InputStream.readAllbytes` is not meant for it, but a synchronous client is already not the right tool for that.}}
         if (localVarResponse.body() == null) {
           return new ApiResponse<{{{returnType}}}>(
               localVarResponse.statusCode(),

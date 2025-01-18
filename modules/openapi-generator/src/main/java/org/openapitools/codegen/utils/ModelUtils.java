@@ -1935,7 +1935,7 @@ public class ModelUtils {
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
         setValidations.removeAll(effectiveValidations);
         setValidations.stream().forEach(validation -> {
-            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + getType(schema) +"'. Ignoring!");
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + getType(schema) + "'. Ignoring!");
         });
     }
 
@@ -2029,18 +2029,6 @@ public class ModelUtils {
         }
 
         return false;
-    }
-
-
-    /**
-     * Returns true if the schema contains allOf with a single item but
-     * no properties/oneOf/anyOf defined
-     *
-     * @param schema the schema
-     * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
-     */
-    public static boolean isAllOfWithSingleItem(Schema schema) {
-        return (isAllOf(schema) && schema.getAllOf().size() == 1);
     }
 
     /**
@@ -2272,11 +2260,14 @@ public class ModelUtils {
             }
 
             // for `type: null`
-            if (schema.getTypes() == null && schema.get$ref() == null) {
+            if (schema.getTypes() == null && schema.get$ref() == null
+                    && schema.getDescription() == null) { // ensure it's not schema with just a description)
                 return true;
             }
         } else { // 3.0.x or 2.x spec
-            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+            if ((schema.getType() == null || schema.getType().equals("null"))
+                    && schema.get$ref() == null
+                    && schema.getDescription() == null) { // ensure it's not schema with just a description)
                 return true;
             }
         }
@@ -2302,7 +2293,7 @@ public class ModelUtils {
         // dereference the schema
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
-        if (schema.getTypes() == null && hasValidation(schema))  {
+        if (schema.getTypes() == null && hasValidation(schema)) {
             // just validation without type
             return true;
         } else if (schema.getIf() != null && schema.getThen() != null) {
