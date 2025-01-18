@@ -409,9 +409,7 @@ public class CodegenConstants {
         "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
 
     public static final String UNSUPPORTED_V310_SPEC_MSG =
-                    "Generation using 3.1.0 specs is in development and is not officially supported yet. " +
-                    "If you would like to expedite development, please consider working on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
-                    "and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g";
+                    "OpenAPI 3.1 support is still in beta. To report an issue related to 3.1 spec, please kindly open an issue in the Github repo: https://github.com/openAPITools/openapi-generator.";
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
