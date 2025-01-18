@@ -192,7 +192,7 @@ public class ApiClient {
     asyncResponseInterceptor = null;
   }
 
-  protected ObjectMapper createDefaultObjectMapper() {
+  public static ObjectMapper createDefaultObjectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -206,11 +206,11 @@ public class ApiClient {
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
+  private String getDefaultBaseUri() {
     return "http://petstore.swagger.io:80/v2";
   }
 
-  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+  public static HttpClient.Builder createDefaultHttpClientBuilder() {
     return HttpClient.newBuilder();
   }
 
