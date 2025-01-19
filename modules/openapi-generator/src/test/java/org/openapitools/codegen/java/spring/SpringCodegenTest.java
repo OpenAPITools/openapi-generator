@@ -1727,7 +1727,7 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         codegen.setUseOneOfInterfaces(true);
-        codegen.setUseSealedInterfaces(true);
+        codegen.setUseSealed(true);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -1742,7 +1742,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
         codegen.setUseOneOfInterfaces(true);
-        codegen.setUseSealedInterfaces(true);
+        codegen.setUseSealed(true);
         codegen.setLegacyDiscriminatorBehavior(false);
 
         generator.opts(input).generate();
