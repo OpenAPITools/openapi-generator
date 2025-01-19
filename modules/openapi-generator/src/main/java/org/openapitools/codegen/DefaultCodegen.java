@@ -621,16 +621,29 @@ public class DefaultCodegen implements CodegenConfig {
 
         // Let parent know about all its children
         for (Map.Entry<String, CodegenModel> allModelsEntry : allModels.entrySet()) {
-            String name = allModelsEntry.getKey();
             CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
+            if (parent != null) {
+                if (parent.getDirectChildren() == null) {
+                    parent.setDirectChildren(new ArrayList<>());
+                }
+                if (parent.getDirectChildren().stream().map(CodegenModel::getName)
+                        .noneMatch(name -> name.equals(cm.getName()))) {
+                    parent.getDirectChildren().add(cm);
+                    parent.hasDirectChildren = true;
+                }
+            }
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
             // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
             while (parent != null) {
                 if (parent.getChildren() == null) {
                     parent.setChildren(new ArrayList<>());
                 }
-                parent.getChildren().add(cm);
+                if (parent.getChildren().stream().map(CodegenModel::getName)
+                        .noneMatch(name -> name.equals(cm.getName()))) {
+                    parent.getChildren().add(cm);
+                }
+
                 parent.hasChildren = true;
                 Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.schemaName);
                 if (parentSchema == null) {

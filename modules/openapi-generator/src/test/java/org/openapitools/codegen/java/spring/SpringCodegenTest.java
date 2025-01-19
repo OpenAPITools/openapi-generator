@@ -1750,6 +1750,8 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public final class Foo extends Entity implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public final class FooRef extends EntityRef implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public sealed interface FooRefOrValue permits Foo, FooRef ");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Entity.java"), "public sealed class Entity extends RepresentationModel<Entity>  permits Bar, BarCreate, Foo, Pasta, Pizza");
+
         // previous bugs
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"))
                 .fileDoesNotContain("atTypesuper.hashCode", "private String atBaseType");

@@ -31,7 +31,7 @@
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
-public {{#useSealedInterfaces}}final {{/useSealedInterfaces}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}} extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+public {{#useSealedInterfaces}}{{#hasDirectChildren}}sealed {{/hasDirectChildren}}{{^hasDirectChildren}}final {{/hasDirectChildren}}{{/useSealedInterfaces}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}} extends RepresentationModel<{{classname}}> {{/hateoas}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{#useSealedInterfaces}}{{#directChildren}}{{#-first}}permits {{/-first}}{{classname}}{{^-last}}, {{/-last}}{{/directChildren}} {{/useSealedInterfaces}}{
 {{#serializableModel}}
 
   private static final long serialVersionUID = 1L;
