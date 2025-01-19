@@ -6,7 +6,7 @@
 {{>typeInfoAnnotation}}
 {{/discriminator}}
 {{>generatedAnnotation}}
-public interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{#useSealedInterfaces}}permits {{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}} {{/useSealedInterfaces}}{
+public {{#useSealedInterfaces}}sealed {{/useSealedInterfaces}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{#useSealedInterfaces}}permits {{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}} {{/useSealedInterfaces}}{
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
