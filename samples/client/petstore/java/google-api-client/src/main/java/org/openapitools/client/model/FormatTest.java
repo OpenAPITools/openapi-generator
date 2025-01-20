@@ -48,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @javax.annotation.Nullable

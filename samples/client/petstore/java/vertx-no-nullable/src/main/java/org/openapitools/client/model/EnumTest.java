@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString

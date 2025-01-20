@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   AppleReq.JSON_PROPERTY_MEALY
 })
 @JsonTypeName("appleReq")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   @javax.annotation.Nonnull

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * AdditionalPropertiesNumber
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   @JsonProperty("name")
   private String name;

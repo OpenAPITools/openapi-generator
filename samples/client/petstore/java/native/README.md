@@ -4,7 +4,7 @@ OpenAPI Petstore
 
 - API version: 1.0.0
 
-- Generator version: 7.11.0-SNAPSHOT
+- Generator version: 7.12.0-SNAPSHOT
 
 This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
 

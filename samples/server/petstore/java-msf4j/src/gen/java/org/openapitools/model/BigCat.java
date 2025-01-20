@@ -11,7 +11,7 @@ import org.openapitools.model.Cat;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class BigCat extends Cat  {
   /**
    * Gets or Sets kind

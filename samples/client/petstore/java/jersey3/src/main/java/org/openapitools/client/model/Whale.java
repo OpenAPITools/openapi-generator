@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("whale")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   @jakarta.annotation.Nullable
