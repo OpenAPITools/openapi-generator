@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 
 import {{packageName}}.infrastructure.ByteArrayBase64Serializer
-{{#vendorExtensions.x-additionalProperties}}import kotlinx.serialization.ExperimentalSerializationApi
+{{#vendorExtensions.x-additionalProperties}}import kotlinx.serialization.*
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
@@ -12,6 +12,8 @@ import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.element
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.encodeStructure{{/vendorExtensions.x-additionalProperties}}
+import kotlin.reflect.KClass
+import kotlin.reflect.typeOf
 
 /**
  * {{{description}}}
@@ -21,7 +23,6 @@ import kotlinx.serialization.encoding.encodeStructure{{/vendorExtensions.x-addit
  */
 @Serializable{{#vendorExtensions.x-additionalProperties}}(with = {{{classname}}}Serializer::class){{/vendorExtensions.x-additionalProperties}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
-//asdfasdf end
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
@@ -44,7 +45,7 @@ import kotlinx.serialization.encoding.encodeStructure{{/vendorExtensions.x-addit
 
 
 {{#vendorExtensions.x-additionalProperties}}
-@OptIn(ExperimentalSerializationApi::class)
+@OptIn(ExperimentalSerializationApi::class, InternalSerializationApi::class)
 @Serializer(forClass = {{{classname}}}::class)
 internal object {{{classname}}}Serializer : KSerializer<{{{classname}}}> {
     private fun createDescriptor(body: {{{classname}}}): SerialDescriptor =
@@ -62,12 +63,25 @@ internal object {{{classname}}}Serializer : KSerializer<{{{classname}}}> {
         var index = 0
         encoder.encodeStructure(descriptor) {
             {{#allVars}}
-                encodeSerializableElement(descriptor, index++, {{{dataType}}}.serializer(), value.{{{name}}})
+                encodeSerializableElement(descriptor, index++, getListSerializer<{{{dataType}}}>(), value.{{{name}}}!!)
             {{/allVars}}
             value.additionalProperties?.onEach() { property ->
                 encodeStringElement(descriptor, index++,  property.value)
             }
         }
+    }
+
+    private inline fun <reified T> getListSerializer(): KSerializer<out List<Any>> {
+        return ListSerializer(
+            getListElementType<T>().serializer()
+        )
+    }
+
+
+    private inline fun <reified T> getListElementType(): KClass<*> {
+        val listType = typeOf<List<T>>()
+        val typeArgument = listType.arguments.first().type!!
+        return typeArgument.classifier as KClass<*>
     }
 }
 {{/vendorExtensions.x-additionalProperties}}
