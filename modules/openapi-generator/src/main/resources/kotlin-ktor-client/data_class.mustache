@@ -63,25 +63,19 @@ internal object {{{classname}}}Serializer : KSerializer<{{{classname}}}> {
         var index = 0
         encoder.encodeStructure(descriptor) {
             {{#allVars}}
-                encodeSerializableElement(descriptor, index++, getListSerializer<{{{dataType}}}>(), value.{{{name}}}!!)
+            encodeSerializableElement(descriptor, index++, ListSerializer(getSerializer()), value.{{{name}}} ?: throw(Exception("")))
             {{/allVars}}
             value.additionalProperties?.onEach() { property ->
-                encodeStringElement(descriptor, index++,  property.value)
+                encodeStringElement(descriptor, index++, property.value)
             }
         }
     }
 
-    private inline fun <reified T> getListSerializer(): KSerializer<out List<Any>> {
-        return ListSerializer(
-            getListElementType<T>().serializer()
-        )
-    }
-
-
-    private inline fun <reified T> getListElementType(): KClass<*> {
-        val listType = typeOf<List<T>>()
-        val typeArgument = listType.arguments.first().type!!
-        return typeArgument.classifier as KClass<*>
+    private inline fun <reified T : Any> getSerializer(): KSerializer<T> {
+        val listType = typeOf<T>()
+        val classifier = listType.classifier as KClass<*>
+        val serializer: KSerializer<*> = classifier.serializerOrNull() as KSerializer<*>
+        return serializer as KSerializer<T>
     }
 }
 {{/vendorExtensions.x-additionalProperties}}
