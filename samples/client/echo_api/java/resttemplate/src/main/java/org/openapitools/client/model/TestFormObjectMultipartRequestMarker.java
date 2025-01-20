@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestFormObjectMultipartRequestMarker.JSON_PROPERTY_NAME
 })
 @JsonTypeName("test_form_object_multipart_request_marker")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class TestFormObjectMultipartRequestMarker {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
