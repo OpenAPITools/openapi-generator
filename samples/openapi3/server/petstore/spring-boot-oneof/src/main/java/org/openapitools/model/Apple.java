@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * Apple
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Apple implements Fruit {
 
   private Integer seeds;

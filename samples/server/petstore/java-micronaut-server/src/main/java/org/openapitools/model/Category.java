@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Category.JSON_PROPERTY_NAME
 })
 @JsonTypeName("Category")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 @Introspected
 public class Category {
     public static final String JSON_PROPERTY_ID = "id";

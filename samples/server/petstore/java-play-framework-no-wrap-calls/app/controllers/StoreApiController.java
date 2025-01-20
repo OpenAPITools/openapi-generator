@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import com.typesafe.config.Config;
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class StoreApiController extends Controller {
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;

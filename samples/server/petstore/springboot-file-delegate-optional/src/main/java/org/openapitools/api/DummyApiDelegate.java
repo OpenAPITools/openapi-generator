@@ -17,7 +17,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link DummyApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public interface DummyApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   @jakarta.annotation.Nullable

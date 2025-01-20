@@ -29,7 +29,7 @@ import javax.annotation.Generated;
   BigCat.JSON_PROPERTY_KIND
 })
 @JsonTypeName("BigCat")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 @Introspected
 public class BigCat extends Cat {
     /**
