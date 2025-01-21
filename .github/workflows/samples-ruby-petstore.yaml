@@ -41,6 +41,7 @@ jobs:
         run: |
           sudo echo "127.0.0.1    petstore.swagger.io" | sudo tee -a /etc/hosts
           cat /etc/hosts
+          sleep 30
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: 3.0
