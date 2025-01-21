@@ -1713,6 +1713,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // additional import for different cases
         addAdditionalImports(codegenModel, codegenModel.getComposedSchemas());
+        setEnumDiscriminatorDefaultValue(codegenModel);
         return codegenModel;
     }
 

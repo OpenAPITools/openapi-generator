@@ -81,6 +81,11 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/parcelableModel}}
     {{/parent}}
     {{#discriminator}}
+    {{#discriminator.isEnum}}
+{{#readWriteVars}}{{#isDiscriminator}}{{#defaultValue}}
+    this.{{name}} = {{defaultValue}};
+{{/defaultValue}}{{/isDiscriminator}}{{/readWriteVars}}
+    {{/discriminator.isEnum}}
     {{^discriminator.isEnum}}
     this.{{{discriminatorName}}} = this.getClass().getSimpleName();
     {{/discriminator.isEnum}}
