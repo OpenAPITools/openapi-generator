@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Add hosts to /etc/hosts
         run: |
-          sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+          sudo echo "127.0.0.1    petstore.swagger.io" | sudo tee -a /etc/hosts
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: 3.0
