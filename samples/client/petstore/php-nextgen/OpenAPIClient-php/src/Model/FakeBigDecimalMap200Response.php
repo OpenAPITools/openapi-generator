@@ -246,7 +246,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, JsonS
      *
      * @param array $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->setIfExists('some_id', $data ?? [], null);
         $this->setIfExists('some_map', $data ?? [], null);
