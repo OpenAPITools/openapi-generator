@@ -11,7 +11,7 @@ title: Documentation for the php-laravel Generator
 | generator type | SERVER | |
 | generator language | PHP | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a PHP laravel server library. | |
+| helpTxt | Generates a php-laravel server. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -57,6 +57,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>\DateTime</li>
+<li>\Illuminate\Http\UploadedFile</li>
+<li>\Illuminate\Support\Stringable</li>
 <li>\SplFileObject</li>
 <li>array</li>
 <li>bool</li>
@@ -200,7 +202,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Documentation Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Readme|✓|ToolingExtension
+|Readme|✗|ToolingExtension
 |Model|✓|ToolingExtension
 |Api|✓|ToolingExtension
 
@@ -220,7 +222,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |MultiServer|✗|OAS3
 |ParameterizedServer|✗|OAS3
 |ParameterStyling|✗|OAS3
-|Callbacks|✗|OAS3
+|Callbacks|✓|OAS3
 |LinkObjects|✗|OAS3
 
 ### Parameter Feature
@@ -239,7 +241,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
@@ -249,14 +251,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Security Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|BasicAuth|✗|OAS2,OAS3
-|ApiKey|✗|OAS2,OAS3
+|BasicAuth|✓|OAS2,OAS3
+|ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
-|BearerToken|✗|OAS3
-|OAuth2_Implicit|✗|OAS2,OAS3
-|OAuth2_Password|✗|OAS2,OAS3
-|OAuth2_ClientCredentials|✗|OAS2,OAS3
-|OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|BearerToken|✓|OAS3
+|OAuth2_Implicit|✓|OAS2,OAS3
+|OAuth2_Password|✓|OAS2,OAS3
+|OAuth2_ClientCredentials|✓|OAS2,OAS3
+|OAuth2_AuthorizationCode|✓|OAS2,OAS3
 |SignatureAuth|✗|OAS3
 |AWSV4Signature|✗|ToolingExtension
 
