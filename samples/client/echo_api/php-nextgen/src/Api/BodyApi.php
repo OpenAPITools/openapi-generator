@@ -1745,7 +1745,7 @@ class BodyApi
      * @return string
      */
     public function testEchoBodyFreeFormObjectResponseString(
-        array $body = null,
+        ?array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): string
     {
@@ -1766,7 +1766,7 @@ class BodyApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEchoBodyFreeFormObjectResponseStringWithHttpInfo(
-        array $body = null,
+        ?array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): array
     {
@@ -1893,7 +1893,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyFreeFormObjectResponseStringAsync(
-        array $body = null,
+        ?array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): PromiseInterface
     {
@@ -1917,7 +1917,7 @@ class BodyApi
      * @return PromiseInterface
      */
     public function testEchoBodyFreeFormObjectResponseStringAsyncWithHttpInfo(
-        array $body = null,
+        ?array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): PromiseInterface
     {
@@ -1970,7 +1970,7 @@ class BodyApi
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyFreeFormObjectResponseStringRequest(
-        array $body = null,
+        ?array $body = null,
         string $contentType = self::contentTypes['testEchoBodyFreeFormObjectResponseString'][0]
     ): Request
     {
