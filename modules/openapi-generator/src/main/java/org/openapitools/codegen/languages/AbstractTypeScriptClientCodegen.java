@@ -532,6 +532,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return parameterNameMapping.get(name);
         }
 
+        // do nothing if naming scheme is original (assuming parameter name mapping isn't set)
+        if (getParamNaming() == PARAM_NAMING_TYPE.original) {
+            return name;
+        }
+
         name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
@@ -549,6 +554,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // obtain the name from nameMapping directly if provided
         if (nameMapping.containsKey(name)) {
             return nameMapping.get(name);
+        }
+
+        // do nothing if naming scheme is original (assuming property name mapping isn't set)
+        if (getModelPropertyNaming() == MODEL_PROPERTY_NAMING_TYPE.original) {
+            return name;
         }
 
         name = sanitizeName(name, "[^\\w$]");
