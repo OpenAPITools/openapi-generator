@@ -1,0 +1,44 @@
+{{>php_file_header}}
+
+namespace {{apiPackage}};
+
+{{#operations}}
+interface {{classname}} {
+
+{{#operation}}
+
+    /**
+     * Operation {{{operationId}}}
+    {{#summary}}
+     *
+     * {{{.}}}
+    {{/summary}}
+    {{#description}}
+     *
+     * {{.}}
+    {{/description}}
+     * @return {{#responses}}{{dataType}}{{^-last}} | {{/-last}}{{/responses}}
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
+     */
+    public function {{operationId}}(
+        {{#allParams}}
+            {{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{dataType}} ${{paramName}},
+        {{/allParams}}
+    ):
+    {{#responses}}
+    {{#isArray}}
+        array{{^-last}} | {{/-last}}
+    {{/isArray}}
+    {{^isArray}}
+    {{#dataType}}
+        {{dataType}}{{^-last}} | {{/-last}}
+    {{/dataType}}
+    {{/isArray}}
+    {{/responses}}
+    ;
+
+{{/operation}}
+}
+{{/operations}}

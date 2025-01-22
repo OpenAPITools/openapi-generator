@@ -1,0 +1,105 @@
+{{>php_file_header}}
+
+namespace {{controllerPackage}};
+
+use Crell\Serde\SerdeCommon;
+use Illuminate\Routing\Controller;
+use Illuminate\Http\JsonResponse;
+
+use {{apiPackage}}\{{classname}};
+
+{{#operations}}
+class {{controllerName}} extends Controller
+{
+    /**
+     * Constructor
+     */
+    public function __construct(
+        private readonly {{classname}} $api,
+        private readonly SerdeCommon $serde = new SerdeCommon(),
+    )
+    {
+    }
+
+    {{#operation}}
+    /**
+     * Operation {{{operationId}}}
+     *
+     * {{{summary}}}.
+     *
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+     */
+    public function {{operationId}}(\{{requestsPackage}}\{{requestsName}} $request): JsonResponse
+    {
+        {{#allParams}}
+        {{#isFile}}
+        ${{paramName}} = $request->file('{{paramName}}');
+        {{/isFile}}
+        {{#isBoolean}}
+        ${{paramName}} = $request->bool('{{paramName}}');
+        {{/isBoolean}}
+        {{#isInteger}}
+        ${{paramName}} = $request->integer('{{paramName}}');
+        {{/isInteger}}
+        {{^isInteger}}
+        {{#isNumber}}
+        ${{paramName}} = $request->float('{{paramName}}');
+        {{/isNumber}}
+        {{/isInteger}}
+        {{#isString}}
+        ${{paramName}} = $request->string('{{paramName}}');
+        {{/isString}}
+        {{#isDateTime}}
+        ${{paramName}} = $request->date('{{paramName}}');
+        {{/isDateTime}}
+        {{#isArray}}
+        ${{paramName}} = $request->get('{{paramName}}');
+        {{/isArray}}
+        {{#isModel}}
+        ${{paramName}} = $this->serde->deserialize($request->get('{{paramName}}'), from: 'array', to: {{dataType}}::class);
+
+        if (${{paramName}} === null) {
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+        {{/isModel}}
+
+        {{/allParams}}
+        try {
+            $apiResult = $this->api->{{operationId}}({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        } catch (\Exception $exception) {
+            // This shouldn't happen
+            return response()->json(['error' => $exception->getMessage()], 500);
+        }
+
+        {{#responses}}
+        {{#isArray}}
+        if (is_array($apiResult)) {
+            return response()->json($apiResult, {{code}});
+        }
+
+        {{/isArray}}
+        {{^isArray}}
+        if ($apiResult instanceof {{dataType}}) {
+            $responseBody = $this->serde->serialize($apiResult, format: 'array');
+
+            if ($responseBody === null) {
+                return response()->json(['error' => 'Failed to parse api output'], 500);
+            }
+
+            if ($responseBody === []) {
+                abort({{code}});
+            }
+
+            return response()->json($responseBody, {{code}});
+        }
+        {{/isArray}}
+        {{/responses}}
+
+        // This shouldn't happen
+        return response()->abort(500);
+    }
+    {{/operation}}
+}
+{{/operations}}

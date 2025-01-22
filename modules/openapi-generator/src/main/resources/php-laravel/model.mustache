@@ -1,0 +1,23 @@
+{{>php_file_header}}
+
+{{#models}}
+{{#model}}
+/**
+ * {{classname}}
+ */
+namespace {{modelPackage}};
+
+/**
+ * {{classname}}
+{{#description}}
+ * @description {{{.}}}
+{{/description}}
+ */
+{{#isEnum}}
+{{>model_enum}}
+{{/isEnum}}
+{{^isEnum}}
+{{>model_generic}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

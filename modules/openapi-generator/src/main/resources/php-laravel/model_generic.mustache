@@ -1,0 +1,21 @@
+class {{classname}}
+{
+    {{#vars}}
+    /**
+    * {{description}}
+    {{#isContainer}}
+    * @var {{{vendorExtensions.x-comment-type}}}
+    * Default values for containers are currently not supported, you are welcome to open a PR!
+    {{/isContainer}}
+    */
+    {{#deprecated}}
+        /** @deprecated */
+    {{/deprecated}}
+    {{#isContainer}}
+    public {{#isNullable}}?{{/isNullable}}array ${{name}} = [];
+    {{/isContainer}}
+    {{^isContainer}}
+    public {{#isNullable}}?{{/isNullable}}{{{dataType}}} ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}};
+    {{/isContainer}}
+    {{/vars}}
+}

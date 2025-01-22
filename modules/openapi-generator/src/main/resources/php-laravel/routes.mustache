@@ -1,0 +1,19 @@
+{{>php_file_header}}
+
+use Illuminate\Support\Facades\Route;
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+/**
+ * {{httpMethod}} {{operationId}}
+ * Summary: {{summary}}
+ * Notes: {{notes}}
+{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}
+ */
+Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', [{{controllerPackage}}\{{controllerName}}::class, '{{operationId}}']);
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

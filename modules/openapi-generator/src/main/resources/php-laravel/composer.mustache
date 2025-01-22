@@ -1,0 +1,36 @@
+{
+    {{#composerPackageName}}
+    "name": "{{{.}}}",
+    {{/composerPackageName}}
+    {{^composerPackageName}}
+    "name": "openapi/php-laravel",
+    {{/composerPackageName}}
+    {{#artifactVersion}}
+    "version": "{{.}}",
+    {{/artifactVersion}}
+    "description": "{{description}}",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "{{{artifactUrl}}}",
+    "license": "{{{licenseName}}}",
+    "authors": [
+        {
+            "name": "{{{developerOrganization}}}",
+            "homepage": "{{{developerOrganizationUrl}}}"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "laravel/framework": "^11.0",
+        "crell/serde": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "{{escapedInvokerPackage}}\\" : "{{relativeSrcBasePath}}"
+        }
+    }
+}

@@ -1,0 +1,92 @@
+{{>php_file_header}}
+
+namespace {{requestsPackage}};
+
+use Illuminate\Http\Request;
+
+{{#operations}}
+{{#operation}}
+class {{requestsName}} extends Request
+{
+    /**
+    * Determine if the user is authorized to make this request.
+    *
+    * You can add your own logic here. For now, we'll allow all requests.
+    */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+    * Get the validation rules that apply to the request.
+    *
+    * Map OpenAPI constraints to Laravel validation rules.
+    */
+    public function rules(): array
+    {
+        return [
+        {{#allParams}}
+            '{{paramName}}' => [
+            {{#isFile}}
+                'file',
+            {{/isFile}}
+            {{#required}}
+                'required',
+            {{/required}}
+            {{#minLength}}
+                'min:{{minLength}}',
+            {{/minLength}}
+            {{#maxLength}}
+                'max:{{maxLength}}',
+            {{/maxLength}}
+            {{#pattern}}
+                'regex:{{{pattern}}}',
+            {{/pattern}}
+            {{#minimum}}
+            {{#exclusiveMinimum}}
+                'gt:{{minimum}}',
+            {{/exclusiveMinimum}}
+            {{^exclusiveMinimum}}
+                'gte:{{minimum}}',
+            {{/exclusiveMinimum}}
+            {{/minimum}}
+            {{#maximum}}
+            {{#exclusiveMaximum}}
+                'lt:{{maximum}}',
+            {{/exclusiveMaximum}}
+            {{^exclusiveMaximum}}
+                'lte:{{maximum}}',
+            {{/exclusiveMaximum}}
+            {{/maximum}}
+            {{#minItems}}
+                'min:{{minItems}}',
+            {{/minItems}}
+            {{#maxItems}}
+                'max:{{maxItems}}',
+            {{/maxItems}}
+            {{#isString}}
+                'string',
+            {{/isString}}
+            {{#isInteger}}
+                'integer',
+            {{/isInteger}}
+            {{#isNumber}}
+                'numeric',
+            {{/isNumber}}
+            {{#isBoolean}}
+                'boolean',
+            {{/isBoolean}}
+            {{#isArray}}
+                'array',
+            {{/isArray}}
+            {{#isDateTime}}
+                'date',
+            {{/isDateTime}}
+            ],
+        {{/allParams}}
+        ];
+    }
+}
+{{/operation}}
+{{/operations}}
