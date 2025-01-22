@@ -63,12 +63,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="binary">binary.</param>
         /// <param name="date">date (required).</param>
         /// <param name="dateTime">dateTime.</param>
+        /// <param name="duration">duration (required).</param>
         /// <param name="uuid">uuid.</param>
         /// <param name="password">password (required).</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), int int32Range = default(int), int int64Positive = default(int), int int64Negative = default(int), int int64PositiveExclusive = default(int), int int64NegativeExclusive = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), int int32Range = default(int), int int64Positive = default(int), int int64Negative = default(int), int int64PositiveExclusive = default(int), int int64NegativeExclusive = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), FileParameter binary = default(FileParameter), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), TimeSpan duration = default(TimeSpan), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -78,6 +79,12 @@ namespace Org.OpenAPITools.Model
             }
             this.Byte = varByte;
             this.Date = date;
+            // to ensure "duration" is required (not null)
+            if (duration == null)
+            {
+                throw new ArgumentNullException("duration is a required property for FormatTest and cannot be null");
+            }
+            this.Duration = duration;
             // to ensure "password" is required (not null)
             if (password == null)
             {
@@ -229,6 +236,15 @@ namespace Org.OpenAPITools.Model
         public DateTime DateTime { get; set; }
 
         /// <summary>
+        /// Gets or Sets Duration
+        /// </summary>
+        /*
+        <example>1.03:14:56.1667</example>
+        */
+        [DataMember(Name = "duration", IsRequired = true, EmitDefaultValue = true)]
+        public TimeSpan Duration { get; set; }
+
+        /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /*
@@ -297,6 +313,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
+            sb.Append("  Duration: ").Append(Duration).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
@@ -378,6 +395,10 @@ namespace Org.OpenAPITools.Model
                 if (this.DateTime != null)
                 {
                     hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                }
+                if (this.Duration != null)
+                {
+                    hashCode = (hashCode * 59) + this.Duration.GetHashCode();
                 }
                 if (this.Uuid != null)
                 {

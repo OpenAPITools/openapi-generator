@@ -52,6 +52,8 @@ public class FormatTest  {
 
   private OffsetDateTime dateTime;
 
+  private String duration;
+
   private UUID uuid;
 
   private String password;
@@ -317,6 +319,26 @@ public class FormatTest  {
   }
 
  /**
+   * Get duration
+   * @return duration
+  **/
+  public String getDuration() {
+    return duration;
+  }
+
+  /**
+    * Set duration
+  **/
+  public void setDuration(String duration) {
+    this.duration = duration;
+  }
+
+  public FormatTest duration(String duration) {
+    this.duration = duration;
+    return this;
+  }
+
+ /**
    * Get uuid
    * @return uuid
   **/
@@ -417,6 +439,7 @@ public class FormatTest  {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");

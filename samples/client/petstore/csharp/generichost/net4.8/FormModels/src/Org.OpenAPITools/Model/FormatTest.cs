@@ -34,6 +34,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="byte">byte</param>
         /// <param name="date">date</param>
+        /// <param name="duration">duration</param>
         /// <param name="number">number</param>
         /// <param name="password">password</param>
         /// <param name="binary">binary</param>
@@ -57,10 +58,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(byte[] @byte, DateTime date, decimal number, string password, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] @byte, DateTime date, TimeSpan duration, decimal number, string password, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             Byte = @byte;
             Date = date;
+            Duration = duration;
             Number = number;
             Password = password;
             BinaryOption = binary;
@@ -100,6 +102,13 @@ namespace Org.OpenAPITools.Model
         /* <example>Sun Feb 02 00:00:00 UTC 2020</example> */
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Duration
+        /// </summary>
+        /* <example>1.03:14:56.1667</example> */
+        [JsonPropertyName("duration")]
+        public TimeSpan Duration { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -394,6 +403,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class FormatTest {\n");
             sb.Append("  Byte: ").Append(Byte).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  Duration: ").Append(Duration).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
@@ -626,6 +636,7 @@ namespace Org.OpenAPITools.Model
 
             Option<byte[]> varByte = default;
             Option<DateTime?> date = default;
+            Option<TimeSpan?> duration = default;
             Option<decimal?> number = default;
             Option<string> password = default;
             Option<System.IO.Stream> binary = default;
@@ -671,6 +682,9 @@ namespace Org.OpenAPITools.Model
                         case "date":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 date = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "duration":
+                            duration = new Option<TimeSpan?>(utf8JsonReader.GetString());
                             break;
                         case "number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -767,6 +781,9 @@ namespace Org.OpenAPITools.Model
             if (!date.IsSet)
                 throw new ArgumentException("Property is required for class FormatTest.", nameof(date));
 
+            if (!duration.IsSet)
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(duration));
+
             if (!number.IsSet)
                 throw new ArgumentException("Property is required for class FormatTest.", nameof(number));
 
@@ -778,6 +795,9 @@ namespace Org.OpenAPITools.Model
 
             if (date.IsSet && date.Value == null)
                 throw new ArgumentNullException(nameof(date), "Property is not nullable for class FormatTest.");
+
+            if (duration.IsSet && duration.Value == null)
+                throw new ArgumentNullException(nameof(duration), "Property is not nullable for class FormatTest.");
 
             if (number.IsSet && number.Value == null)
                 throw new ArgumentNullException(nameof(number), "Property is not nullable for class FormatTest.");
@@ -845,7 +865,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value, date.Value.Value, duration.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -896,6 +916,8 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);
             writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+
+            writer.WriteString("duration", formatTest.Duration);
 
             writer.WriteNumber("number", formatTest.Number);
 

@@ -16,6 +16,7 @@
 | **binary** | **File** |  | [optional] |
 | **date** | **Date** |  |  |
 | **date_time** | **Time** |  | [optional] |
+| **duration** | **String** |  |  |
 | **uuid** | **String** |  | [optional] |
 | **password** | **String** |  |  |
 | **pattern_with_digits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] |
@@ -39,6 +40,7 @@ instance = Petstore::FormatTest.new(
   binary: null,
   date: null,
   date_time: null,
+  duration: null,
   uuid: 72f98069-206d-4f12-9f12-3d1e525a8e84,
   password: null,
   pattern_with_digits: null,

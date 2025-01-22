@@ -1525,6 +1525,7 @@ components:
         - number
         - byte
         - date
+        - duration
         - password
       properties:
         integer:
@@ -1571,6 +1572,9 @@ components:
         dateTime:
           type: string
           format: date-time
+        duration:
+          type: string
+          format: duration
         uuid:
           type: string
           format: uuid

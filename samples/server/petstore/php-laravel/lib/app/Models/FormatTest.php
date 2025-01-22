@@ -45,6 +45,9 @@ class FormatTest {
     /** @var \DateTime $dateTime */
     public $dateTime;
 
+    /** @var string $duration */
+    public $duration = "";
+
     /** @var string $uuid */
     public $uuid = "";
 

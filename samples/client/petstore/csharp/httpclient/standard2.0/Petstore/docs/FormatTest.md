@@ -23,6 +23,7 @@ Name | Type | Description | Notes
 **Binary** | [**FileParameter**](FileParameter.md) |  | [optional] 
 **Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 
+**Duration** | **TimeSpan** |  | 
 **Uuid** | **Guid** |  | [optional] 
 **Password** | **string** |  | 
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

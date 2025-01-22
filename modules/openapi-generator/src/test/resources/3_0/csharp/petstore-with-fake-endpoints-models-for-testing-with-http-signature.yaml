@@ -1672,6 +1672,7 @@ components:
         - number
         - byte
         - date
+        - duration
         - password
       properties:
         integer:
@@ -1750,6 +1751,10 @@ components:
           type: string
           format: date-time
           example: '2007-12-03T10:15:30+01:00'
+        duration:
+          type: string
+          format: duration
+          example: '1.03:14:56.1667'
         uuid:
           type: string
           format: uuid

@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **Binary** | **System.IO.Stream** |  | [optional] 
 **Date** | **DateOnly** |  | 
 **DateTime** | **DateTime** |  | [optional] 
+**Duration** | **TimeSpan** |  | 
 **Uuid** | **Guid** |  | [optional] 
 **Password** | **string** |  | 
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

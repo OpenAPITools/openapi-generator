@@ -239,6 +239,7 @@ CREATE TABLE IF NOT EXISTS `format_test` (
   `binary` MEDIUMBLOB DEFAULT NULL,
   `date` DATE NOT NULL,
   `dateTime` DATETIME DEFAULT NULL,
+  `duration` TEXT NOT NULL,
   `uuid` TEXT DEFAULT NULL,
   `password` VARCHAR(64) NOT NULL,
   `pattern_with_digits` TEXT DEFAULT NULL COMMENT 'A string that is a 10 digit number. Can have leading zeros.',

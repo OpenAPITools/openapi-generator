@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Byte** | **byte[]** |  | 
 **Date** | **DateTime** |  | 
+**Duration** | **TimeSpan** |  | 
 **Number** | **decimal** |  | 
 **Password** | **string** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 

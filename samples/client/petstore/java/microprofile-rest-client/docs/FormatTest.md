@@ -19,6 +19,7 @@
 |**binary** | **File** |  |  [optional] |
 |**date** | **Date** |  |  |
 |**dateTime** | **Date** |  |  [optional] |
+|**duration** | **String** |  |  |
 |**uuid** | **UUID** |  |  [optional] |
 |**password** | **String** |  |  |
 |**patternWithDigits** | **String** | A string that is a 10 digit number. Can have leading zeros. |  [optional] |

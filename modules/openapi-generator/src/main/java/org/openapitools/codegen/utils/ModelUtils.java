@@ -692,6 +692,12 @@ public class ModelUtils {
                         && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat()));
     }
 
+    public static boolean isDurationSchema(Schema schema) {
+        // format: duration (todo: swagger parser does not support duration)
+        return (SchemaTypeUtil.STRING_TYPE.equals(getType(schema))
+                        && "duration".equals(schema.getFormat()));
+    }
+
     public static boolean isPasswordSchema(Schema schema) {
         return (schema instanceof PasswordSchema) ||
                 // double

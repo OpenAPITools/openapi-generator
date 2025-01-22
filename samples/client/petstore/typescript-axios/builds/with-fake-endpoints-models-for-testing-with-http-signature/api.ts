@@ -570,6 +570,12 @@ export interface FormatTest {
      * @type {string}
      * @memberof FormatTest
      */
+    'duration': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FormatTest
+     */
     'uuid'?: string;
     /**
      * 
