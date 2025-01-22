@@ -56,6 +56,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
     public static final String WITH_GO_MOD = "withGoMod";
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
+    public static final String IMPORT_VALIDATOR = "importValidator";
     @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -494,6 +495,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (model.oneOf != null && !model.oneOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
+
+                if (generateUnmarshalJSON && !useOneOfDiscriminatorLookup) {
+                    imports.add(createMapping("import", "gopkg.in/validator.v2"));
+                    additionalProperties.put(IMPORT_VALIDATOR, true);
+                }
             }
 
             // anyOf
