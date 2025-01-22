@@ -13,8 +13,8 @@ package petstore
 import (
 	"encoding/json"
 	"time"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // OneOfPrimitiveTypes - struct for OneOfPrimitiveTypes
