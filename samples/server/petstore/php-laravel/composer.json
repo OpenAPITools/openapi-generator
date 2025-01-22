@@ -1,0 +1,28 @@
+{
+    "name": "openapitools/petstore",
+    "description": "",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "https://openapi-generator.tech",
+    "license": "unlicense",
+    "authors": [
+        {
+            "name": "OpenAPI",
+            "homepage": "https://openapi-generator.tech"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "laravel/framework": "^11.0",
+        "crell/serde": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenAPI\\Server\\" : ""
+        }
+    }
+}
