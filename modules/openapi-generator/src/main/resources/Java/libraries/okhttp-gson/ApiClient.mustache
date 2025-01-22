@@ -17,6 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor.Level;
 import okio.Buffer;
 import okio.BufferedSink;
+import okio.BufferedSource;
 import okio.Okio;
 {{#joda}}
 import org.joda.time.DateTime;
@@ -37,6 +38,7 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
@@ -1166,10 +1168,21 @@ public class ApiClient {
             return (T) downloadFileFromResponse(response);
         }
 
-        String respBody;
+        String respBody = null;
         try {
             if (response.body() != null)
-                respBody = response.body().string();
+                  if ("chunked".equals(response.header("Transfer-Encoding"))) {
+                     BufferedSource source = response.body().source();
+                     Buffer buffer = new Buffer();
+                     StringBuilder result = new StringBuilder();
+                     while (!source.exhausted()) {
+                         Long readBytes = source.read(buffer, Long.MAX_VALUE);
+                         result.append(buffer.readString(Charset.defaultCharset()));
+                     }
+                     respBody = result.toString();
+                  } else {
+                     respBody = response.body().string();
+                  }
             else
                 respBody = null;
         } catch (IOException e) {
