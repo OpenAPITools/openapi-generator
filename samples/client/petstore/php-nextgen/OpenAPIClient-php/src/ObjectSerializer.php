@@ -65,7 +65,7 @@ class ObjectSerializer
      *
      * @return scalar|object|array|null serialized form of $data
      */
-    public static function sanitizeForSerialization(mixed $data, string $type = null, string $format = null): mixed
+    public static function sanitizeForSerialization(mixed $data, ?string $type = null, ?string $format = null): mixed
     {
         if (is_scalar($data) || null === $data) {
             return $data;
@@ -397,7 +397,7 @@ class ObjectSerializer
      *
      * @return mixed a single or an array of $class instances
      */
-    public static function deserialize(mixed $data, string $class, array $httpHeaders = null): mixed
+    public static function deserialize(mixed $data, string $class, ?array $httpHeaders = null): mixed
     {
         if (null === $data) {
             return null;
