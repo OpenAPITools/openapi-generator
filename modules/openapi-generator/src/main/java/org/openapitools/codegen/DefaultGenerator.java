@@ -1098,6 +1098,10 @@ public class DefaultGenerator implements Generator {
                     }
                 }
 
+                if(new File(outputFilename).exists() && !support.isCanOverwrite()) {
+                    this.templateProcessor.skip(outputFilename, String.format(Locale.ROOT, "Skipped existing overwiting file %s as overwriting is disabled by the template.", support.getDestinationFilename()));
+                    continue;
+                }
 
                 boolean shouldGenerate = true;
                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
