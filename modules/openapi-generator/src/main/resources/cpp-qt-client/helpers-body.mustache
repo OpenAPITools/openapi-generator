@@ -300,7 +300,7 @@ bool fromJsonValue(QString &value, const QJsonValue &jval) {
         } else if (jval.isBool()) {
             value = jval.toBool() ? "true" : "false";
         } else if (jval.isDouble()) {
-            value = QString::number(jval.toDouble());
+            value.setNum(jval.toDouble(), 'f', 0);
         } else {
             ok = false;
         }
