@@ -438,6 +438,18 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        // we do not generate any separate enum structure in Julia
+        return value;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        // we do not generate any separate enum structure in Julia
+        return value;
+    }
+
+    @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("#=", "#_=").replace("=#", "=_#");
     }
