@@ -62,5 +62,14 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Schema'
         }
+
+        /// <summary>
+        /// Test the property 'CopyActivitytt'
+        /// </summary>
+        [Fact]
+        public void CopyActivityttTest()
+        {
+            // TODO unit test for the property 'CopyActivitytt'
+        }
     }
 }
