@@ -2694,6 +2694,31 @@ components:
     uuid:
       format: uuid
       type: string
+    CopyActivity:
+      allOf:
+      - $ref: '#/components/schemas/EntityBase'
+      properties:
+        $schema:
+          enum:
+          - ScopeActivity
+          type: string
+        copyActivitytt:
+          type: string
+      required:
+      - $schema
+      - copyActivitytt
+      type: object
+    EntityBase:
+      discriminator:
+        mapping:
+          ScopeActivity: '#/components/schemas/CopyActivity'
+        propertyName: $schema
+      properties:
+        $schema:
+          type: string
+      required:
+      - $schema
+      type: object
     _foo_get_default_response:
       example:
         string:
