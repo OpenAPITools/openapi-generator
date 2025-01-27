@@ -66,7 +66,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class XmlItem {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   @javax.annotation.Nullable

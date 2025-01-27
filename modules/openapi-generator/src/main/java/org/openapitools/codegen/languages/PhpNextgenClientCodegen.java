@@ -211,15 +211,16 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
 
             for (CodegenParameter param : operation.allParams) {
+                String paramType;
                 if (param.isArray || param.isMap) {
-                    param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
+                    paramType = "array";
                 } else {
-                    String paramType = param.dataType;
-                    if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
-                        paramType = "?" + paramType;
-                    }
-                    param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
+                    paramType = param.dataType;
                 }
+                if ((!param.required || param.isNullable) && !paramType.equals("mixed")) { // optional or nullable but not mixed
+                    paramType = "?" + paramType;
+                }
+                param.vendorExtensions.putIfAbsent("x-php-param-type", paramType);
             }
         }
 

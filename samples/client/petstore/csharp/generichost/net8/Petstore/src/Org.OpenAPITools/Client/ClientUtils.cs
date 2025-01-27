@@ -168,6 +168,8 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ChildCat.PetTypeEnum childCatPetTypeEnum)
                 return ChildCat.PetTypeEnumToJsonValue(childCatPetTypeEnum);
+            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
+                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
             if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
                 return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)

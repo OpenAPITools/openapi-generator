@@ -43,6 +43,21 @@ function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#requir
 {{#minItems}}
     OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :minItems, {{paramName}}, {{minItems}})
 {{/minItems}}
+{{#uniqueItems}}
+    OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :uniqueItems, {{paramName}}, {{uniqueItems}})
+{{/uniqueItems}}
+{{#maxProperties}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :maxProperties, {{paramName}}, {{maxProperties}})
+{{/maxProperties}}
+{{#minProperties}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :minProperties, {{paramName}}, {{minProperties}})
+{{/minProperties}}
+{{#pattern}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :pattern, {{paramName}}, r"{{{pattern}}}")
+{{/pattern}}
+{{#multipleOf}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :multipleOf, {{paramName}}, {{multipleOf}})
+{{/multipleOf}}
 
 {{/hasValidation}}
 {{/allParams}}

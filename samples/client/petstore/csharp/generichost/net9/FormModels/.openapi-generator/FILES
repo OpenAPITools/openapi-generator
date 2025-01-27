@@ -30,11 +30,13 @@ docs/models/ChildCat.md
 docs/models/ChildCatAllOfPetType.md
 docs/models/ClassModel.md
 docs/models/ComplexQuadrilateral.md
+docs/models/CopyActivity.md
 docs/models/DanishPig.md
 docs/models/DateOnlyClass.md
 docs/models/DeprecatedObject.md
 docs/models/Dog.md
 docs/models/Drawing.md
+docs/models/EntityBase.md
 docs/models/EnumArrays.md
 docs/models/EnumArraysArrayEnumInner.md
 docs/models/EnumArraysJustSymbol.md
@@ -189,11 +191,13 @@ src/Org.OpenAPITools/Model/ChildCat.cs
 src/Org.OpenAPITools/Model/ChildCatAllOfPetType.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
+src/Org.OpenAPITools/Model/CopyActivity.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Drawing.cs
+src/Org.OpenAPITools/Model/EntityBase.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumArraysArrayEnumInner.cs
 src/Org.OpenAPITools/Model/EnumArraysJustSymbol.cs

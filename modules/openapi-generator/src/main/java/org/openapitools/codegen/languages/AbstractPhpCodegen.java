@@ -501,6 +501,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toModelName(String name) {
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+        
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
