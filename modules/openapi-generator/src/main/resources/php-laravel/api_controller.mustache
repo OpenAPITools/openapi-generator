@@ -5,6 +5,9 @@ namespace {{controllerPackage}};
 use Crell\Serde\SerdeCommon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 use {{apiPackage}}\{{classname}};
 
@@ -31,8 +34,10 @@ class {{controllerName}} extends Controller
      * @deprecated
      {{/isDeprecated}}
      */
-    public function {{operationId}}(\{{requestsPackage}}\{{requestsName}} $request): JsonResponse
+    public function {{operationId}}(Request $request): JsonResponse
     {
+        {{>api_validation}}
+
         {{#allParams}}
         {{#isFile}}
         ${{paramName}} = $request->file('{{paramName}}');
@@ -43,20 +48,36 @@ class {{controllerName}} extends Controller
         {{#isInteger}}
         ${{paramName}} = $request->integer('{{paramName}}');
         {{/isInteger}}
-        {{^isInteger}}
+        {{#isLong}}
+        ${{paramName}} = $request->integer('{{paramName}}');
+        {{/isLong}}
         {{#isNumber}}
         ${{paramName}} = $request->float('{{paramName}}');
         {{/isNumber}}
-        {{/isInteger}}
+        {{#isFloat}}
+        ${{paramName}} = $request->float('{{paramName}}');
+        {{/isFloat}}
+        {{#isDouble}}
+        ${{paramName}} = $request->float('{{paramName}}');
+        {{/isDouble}}
         {{#isString}}
-        ${{paramName}} = $request->string('{{paramName}}');
+        ${{paramName}} = $request->string('{{paramName}}')->value();
         {{/isString}}
+        {{#isByteArray}}
+        ${{paramName}} = $request->string('{{paramName}}')->value();
+        {{/isByteArray}}
         {{#isDateTime}}
         ${{paramName}} = $request->date('{{paramName}}');
         {{/isDateTime}}
+        {{#isDate}}
+        ${{paramName}} = $request->date('{{paramName}}');
+        {{/isDate}}
         {{#isArray}}
         ${{paramName}} = $request->get('{{paramName}}');
         {{/isArray}}
+        {{#isMap}}
+        ${{paramName}} = $request->get('{{paramName}}');
+        {{/isMap}}
         {{#isModel}}
         ${{paramName}} = $this->serde->deserialize($request->get('{{paramName}}'), from: 'array', to: {{dataType}}::class);
 
@@ -76,11 +97,38 @@ class {{controllerName}} extends Controller
         {{#responses}}
         {{#isArray}}
         if (is_array($apiResult)) {
-            return response()->json($apiResult, {{code}});
+            $responseBody = $this->serde->serialize($apiResult, format: 'array');
+
+            if ($responseBody === null) {
+                return response()->json(['error' => 'Failed to parse api output'], 500);
+            }
+
+            if ($responseBody === []) {
+                abort({{code}});
+            }
+
+            return response()->json($responseBody, {{code}});
         }
 
         {{/isArray}}
+        {{#isMap}}
+        if (is_array($apiResult)) {
+            $responseBody = $this->serde->serialize($apiResult, format: 'array');
+
+            if ($responseBody === null) {
+                return response()->json(['error' => 'Failed to parse api output'], 500);
+            }
+
+            if ($responseBody === []) {
+                abort({{code}});
+            }
+
+            return response()->json($responseBody, {{code}});
+        }
+
+        {{/isMap}}
         {{^isArray}}
+        {{^isMap}}
         if ($apiResult instanceof {{dataType}}) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -94,6 +142,8 @@ class {{controllerName}} extends Controller
 
             return response()->json($responseBody, {{code}});
         }
+
+        {{/isMap}}
         {{/isArray}}
         {{/responses}}
 

@@ -17,6 +17,9 @@ interface {{classname}} {
      *
      * {{.}}
     {{/description}}
+    {{#allParams}}
+     * @param {{^required}}null | {{/required}}{{dataType}} ${{paramName}}
+    {{/allParams}}
      * @return {{#responses}}{{dataType}}{{^-last}} | {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
@@ -24,17 +27,27 @@ interface {{classname}} {
      */
     public function {{operationId}}(
         {{#allParams}}
-            {{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{dataType}} ${{paramName}},
+            {{#isContainer}}
+            {{^required}}?{{/required}}array ${{paramName}},
+            {{/isContainer}}
+            {{^isContainer}}
+            {{^required}}?{{/required}}{{dataType}} ${{paramName}},
+            {{/isContainer}}
         {{/allParams}}
     ):
     {{#responses}}
     {{#isArray}}
         array{{^-last}} | {{/-last}}
     {{/isArray}}
+    {{#isMap}}
+        array{{^-last}} | {{/-last}}
+    {{/isMap}}
     {{^isArray}}
+    {{^isMap}}
     {{#dataType}}
         {{dataType}}{{^-last}} | {{/-last}}
     {{/dataType}}
+    {{/isMap}}
     {{/isArray}}
     {{/responses}}
     ;

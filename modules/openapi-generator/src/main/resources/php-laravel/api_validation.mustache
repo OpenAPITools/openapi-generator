@@ -1,31 +1,4 @@
-{{>php_file_header}}
-
-namespace {{requestsPackage}};
-
-use Illuminate\Http\Request;
-
-{{#operations}}
-{{#operation}}
-class {{requestsName}} extends Request
-{
-    /**
-    * Determine if the user is authorized to make this request.
-    *
-    * You can add your own logic here. For now, we'll allow all requests.
-    */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-    * Get the validation rules that apply to the request.
-    *
-    * Map OpenAPI constraints to Laravel validation rules.
-    */
-    public function rules(): array
-    {
-        return [
+$validator = Validator::make($request->all(), [
         {{#allParams}}
             '{{paramName}}' => [
             {{#isFile}}
@@ -71,9 +44,12 @@ class {{requestsName}} extends Request
             {{#isInteger}}
                 'integer',
             {{/isInteger}}
-            {{#isNumber}}
+            {{#isLong}}
+                'integer',
+            {{/isLong}}
+            {{#isNumeric}}
                 'numeric',
-            {{/isNumber}}
+            {{/isNumeric}}
             {{#isBoolean}}
                 'boolean',
             {{/isBoolean}}
@@ -85,8 +61,9 @@ class {{requestsName}} extends Request
             {{/isDateTime}}
             ],
         {{/allParams}}
-        ];
-    }
-}
-{{/operation}}
-{{/operations}}
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }

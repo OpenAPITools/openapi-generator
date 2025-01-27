@@ -1,21 +1,23 @@
 class {{classname}}
 {
-    {{#vars}}
     /**
+    {{#vars}}
     * {{description}}
-    {{#isContainer}}
-    * @var {{{vendorExtensions.x-comment-type}}}
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    {{/isContainer}}
-    */
     {{#deprecated}}
-        /** @deprecated */
+    * @deprecated
     {{/deprecated}}
+    * @param {{#isNullable}}null | {{/isNullable}}{{{dataType}}} ${{name}}
+    {{/vars}}
+    */
+
+    public function __construct(
+    {{#vars}}
     {{#isContainer}}
-    public {{#isNullable}}?{{/isNullable}}array ${{name}} = [];
+        public {{#isNullable}}?{{/isNullable}}array ${{name}}{{#isNullable}} = []{{/isNullable}},
     {{/isContainer}}
     {{^isContainer}}
-    public {{#isNullable}}?{{/isNullable}}{{{dataType}}} ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}};
+        public {{#isNullable}}?{{/isNullable}}{{{dataType}}} ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}},
     {{/isContainer}}
     {{/vars}}
+    ) {}
 }
