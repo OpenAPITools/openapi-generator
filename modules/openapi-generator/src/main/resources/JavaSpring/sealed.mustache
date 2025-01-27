@@ -1,1 +1,1 @@
-{{#useSealed}}{{#oneOf}}{{#-first}}permits {{/-first}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}}{{#directChildren}}{{#-first}}{{#oneOf.isEmpty}}permits {{/oneOf.isEmpty}}{{/-first}}{{classname}}{{^-last}}, {{/-last}}{{/directChildren}} {{/useSealed}}
+{{#useSealed}}{{#oneOf}}{{#-first}}permits {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}{{#directChildren}}{{#-first}}{{#oneOf.isEmpty}}permits {{/oneOf.isEmpty}}{{/-first}}{{{classname}}}{{^-last}}, {{/-last}}{{/directChildren}} {{/useSealed}}

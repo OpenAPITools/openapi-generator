@@ -980,7 +980,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public int hashCode() {
         return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
-                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
+                getInterfaceModels(), getChildren(), getDirectChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
@@ -988,7 +988,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
-                hasChildren, isMap, isOptional, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, hasDirectChildren, isMap, isOptional, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
