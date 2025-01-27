@@ -31,7 +31,11 @@ class File
 {
     /**
     * Test capitalization
+    * @param string $sourceURI
     */
-    public \Illuminate\Support\Stringable $sourceURI;
+
+    public function __construct(
+        public string $sourceURI,
+    ) {}
 }
 

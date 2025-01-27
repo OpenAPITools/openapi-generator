@@ -30,7 +30,11 @@ class DeprecatedObject
 {
     /**
     * 
+    * @param string $name
     */
-    public \Illuminate\Support\Stringable $name;
+
+    public function __construct(
+        public string $name,
+    ) {}
 }
 

@@ -23,6 +23,9 @@ namespace OpenAPI\Server\Http\Controllers;
 use Crell\Serde\SerdeCommon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 use OpenAPI\Server\Api\FakeApiInterface;
 
@@ -44,8 +47,16 @@ class FakeController extends Controller
      * .
      *
      */
-    public function fakeBigDecimalMap(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeBigDecimalMap(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         try {
             $apiResult = $this->api->fakeBigDecimalMap();
         } catch (\Exception $exception) {
@@ -67,6 +78,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -76,8 +88,16 @@ class FakeController extends Controller
      * Health check endpoint.
      *
      */
-    public function fakeHealthGet(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeHealthGet(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         try {
             $apiResult = $this->api->fakeHealthGet();
         } catch (\Exception $exception) {
@@ -99,6 +119,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -108,17 +129,34 @@ class FakeController extends Controller
      * test http signature authentication.
      *
      */
-    public function fakeHttpSignatureTest(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeHttpSignatureTest(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'pet' => [
+                'required',
+            ],
+            'query1' => [
+                'string',
+            ],
+            'header1' => [
+                'string',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $pet = $this->serde->deserialize($request->get('pet'), from: 'array', to: \OpenAPI\Server\Model\Pet::class);
 
         if ($pet === null) {
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $query1 = $request->string('query1');
+        $query1 = $request->string('query1')->value();
 
-        $header1 = $request->string('header1');
+        $header1 = $request->string('header1')->value();
 
         try {
             $apiResult = $this->api->fakeHttpSignatureTest($pet, $query1, $header1);
@@ -141,6 +179,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -150,8 +189,19 @@ class FakeController extends Controller
      * .
      *
      */
-    public function fakeOuterBooleanSerialize(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeOuterBooleanSerialize(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'body' => [
+                'boolean',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $body = $request->bool('body');
 
         try {
@@ -175,6 +225,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -184,8 +235,18 @@ class FakeController extends Controller
      * .
      *
      */
-    public function fakeOuterCompositeSerialize(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeOuterCompositeSerialize(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'outerComposite' => [
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $outerComposite = $this->serde->deserialize($request->get('outerComposite'), from: 'array', to: \OpenAPI\Server\Model\OuterComposite::class);
 
         if ($outerComposite === null) {
@@ -213,6 +274,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -222,8 +284,19 @@ class FakeController extends Controller
      * .
      *
      */
-    public function fakeOuterNumberSerialize(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeOuterNumberSerialize(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'body' => [
+                'numeric',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $body = $request->float('body');
 
         try {
@@ -247,6 +320,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -256,9 +330,20 @@ class FakeController extends Controller
      * .
      *
      */
-    public function fakeOuterStringSerialize(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakeOuterStringSerialize(Request $request): JsonResponse
     {
-        $body = $request->string('body');
+        $validator = Validator::make($request->all(), [
+            'body' => [
+                'string',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $body = $request->string('body')->value();
 
         try {
             $apiResult = $this->api->fakeOuterStringSerialize($body);
@@ -267,7 +352,7 @@ class FakeController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
-        if ($apiResult instanceof \Illuminate\Support\Stringable) {
+        if ($apiResult instanceof string) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
             if ($responseBody === null) {
@@ -281,6 +366,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -290,8 +376,19 @@ class FakeController extends Controller
      * .
      *
      */
-    public function fakePropertyEnumIntegerSerialize(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function fakePropertyEnumIntegerSerialize(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'outerObjectWithEnumProperty' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $outerObjectWithEnumProperty = $this->serde->deserialize($request->get('outerObjectWithEnumProperty'), from: 'array', to: \OpenAPI\Server\Model\OuterObjectWithEnumProperty::class);
 
         if ($outerObjectWithEnumProperty === null) {
@@ -319,6 +416,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -328,8 +426,20 @@ class FakeController extends Controller
      * test referenced additionalProperties.
      *
      */
-    public function testAdditionalPropertiesReference(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testAdditionalPropertiesReference(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'requestBody' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $requestBody = $request->get('requestBody');
 
         try {
             $apiResult = $this->api->testAdditionalPropertiesReference($requestBody);
@@ -352,6 +462,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -361,8 +472,20 @@ class FakeController extends Controller
      * .
      *
      */
-    public function testBodyWithBinary(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testBodyWithBinary(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'body' => [
+                'file',
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $body = $request->file('body');
 
         try {
@@ -386,6 +509,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -395,8 +519,19 @@ class FakeController extends Controller
      * .
      *
      */
-    public function testBodyWithFileSchema(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testBodyWithFileSchema(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'fileSchemaTestClass' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $fileSchemaTestClass = $this->serde->deserialize($request->get('fileSchemaTestClass'), from: 'array', to: \OpenAPI\Server\Model\FileSchemaTestClass::class);
 
         if ($fileSchemaTestClass === null) {
@@ -424,6 +559,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -433,9 +569,24 @@ class FakeController extends Controller
      * .
      *
      */
-    public function testBodyWithQueryParams(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testBodyWithQueryParams(Request $request): JsonResponse
     {
-        $query = $request->string('query');
+        $validator = Validator::make($request->all(), [
+            'query' => [
+                'required',
+                'string',
+            ],
+            'user' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $query = $request->string('query')->value();
 
         $user = $this->serde->deserialize($request->get('user'), from: 'array', to: \OpenAPI\Server\Model\User::class);
 
@@ -464,6 +615,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -473,8 +625,19 @@ class FakeController extends Controller
      * To test \"client\" model.
      *
      */
-    public function testClientModel(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testClientModel(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'client' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $client = $this->serde->deserialize($request->get('client'), from: 'array', to: \OpenAPI\Server\Model\Client::class);
 
         if ($client === null) {
@@ -502,6 +665,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -511,30 +675,97 @@ class FakeController extends Controller
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
      *
      */
-    public function testEndpointParameters(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testEndpointParameters(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'number' => [
+                'required',
+                'gte:32.1',
+                'lte:543.2',
+            ],
+            'double' => [
+                'required',
+                'gte:67.8',
+                'lte:123.4',
+            ],
+            'patternWithoutDelimiter' => [
+                'required',
+                'regex:/^[A-Z].*/',
+                'string',
+            ],
+            'byte' => [
+                'required',
+            ],
+            'integer' => [
+                'gte:10',
+                'lte:100',
+                'integer',
+            ],
+            'int32' => [
+                'gte:20',
+                'lte:200',
+                'integer',
+            ],
+            'int64' => [
+                'integer',
+            ],
+            'float' => [
+                'lte:987.6',
+            ],
+            'string' => [
+                'regex:/[a-z]/i',
+                'string',
+            ],
+            'binary' => [
+                'file',
+            ],
+            'date' => [
+            ],
+            'dateTime' => [
+                'date',
+            ],
+            'password' => [
+                'min:10',
+                'max:64',
+                'string',
+            ],
+            'callback' => [
+                'string',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $number = $request->float('number');
 
+        $double = $request->float('double');
 
-        $patternWithoutDelimiter = $request->string('patternWithoutDelimiter');
+        $patternWithoutDelimiter = $request->string('patternWithoutDelimiter')->value();
 
+        $byte = $request->string('byte')->value();
 
         $integer = $request->integer('integer');
 
         $int32 = $request->integer('int32');
 
+        $int64 = $request->integer('int64');
 
+        $float = $request->float('float');
 
-        $string = $request->string('string');
+        $string = $request->string('string')->value();
 
         $binary = $request->file('binary');
 
+        $date = $request->date('date');
 
         $dateTime = $request->date('dateTime');
 
-        $password = $request->string('password');
+        $password = $request->string('password')->value();
 
-        $callback = $request->string('callback');
+        $callback = $request->string('callback')->value();
 
         try {
             $apiResult = $this->api->testEndpointParameters($number, $double, $patternWithoutDelimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $dateTime, $password, $callback);
@@ -556,6 +787,7 @@ class FakeController extends Controller
 
             return response()->json($responseBody, 400);
         }
+
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -570,6 +802,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 404);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -579,24 +812,59 @@ class FakeController extends Controller
      * To test enum parameters.
      *
      */
-    public function testEnumParameters(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testEnumParameters(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'enumHeaderStringArray' => [
+                'array',
+            ],
+            'enumHeaderString' => [
+                'string',
+            ],
+            'enumQueryStringArray' => [
+                'array',
+            ],
+            'enumQueryString' => [
+                'string',
+            ],
+            'enumQueryInteger' => [
+                'integer',
+            ],
+            'enumQueryDouble' => [
+            ],
+            'enumQueryModelArray' => [
+                'array',
+            ],
+            'enumFormStringArray' => [
+                'array',
+            ],
+            'enumFormString' => [
+                'string',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $enumHeaderStringArray = $request->get('enumHeaderStringArray');
 
-        $enumHeaderString = $request->string('enumHeaderString');
+        $enumHeaderString = $request->string('enumHeaderString')->value();
 
         $enumQueryStringArray = $request->get('enumQueryStringArray');
 
-        $enumQueryString = $request->string('enumQueryString');
+        $enumQueryString = $request->string('enumQueryString')->value();
 
         $enumQueryInteger = $request->integer('enumQueryInteger');
 
+        $enumQueryDouble = $request->float('enumQueryDouble');
 
         $enumQueryModelArray = $request->get('enumQueryModelArray');
 
         $enumFormStringArray = $request->get('enumFormStringArray');
 
-        $enumFormString = $request->string('enumFormString');
+        $enumFormString = $request->string('enumFormString')->value();
 
         try {
             $apiResult = $this->api->testEnumParameters($enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble, $enumQueryModelArray, $enumFormStringArray, $enumFormString);
@@ -618,6 +886,7 @@ class FakeController extends Controller
 
             return response()->json($responseBody, 400);
         }
+
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -632,6 +901,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 404);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -641,17 +911,48 @@ class FakeController extends Controller
      * Fake endpoint to test group parameters (optional).
      *
      */
-    public function testGroupParameters(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testGroupParameters(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'requiredStringGroup' => [
+                'required',
+                'integer',
+            ],
+            'requiredBooleanGroup' => [
+                'required',
+                'boolean',
+            ],
+            'requiredInt64Group' => [
+                'required',
+                'integer',
+            ],
+            'stringGroup' => [
+                'integer',
+            ],
+            'booleanGroup' => [
+                'boolean',
+            ],
+            'int64Group' => [
+                'integer',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $requiredStringGroup = $request->integer('requiredStringGroup');
 
         $requiredBooleanGroup = $request->bool('requiredBooleanGroup');
 
+        $requiredInt64Group = $request->integer('requiredInt64Group');
 
         $stringGroup = $request->integer('stringGroup');
 
         $booleanGroup = $request->bool('booleanGroup');
 
+        $int64Group = $request->integer('int64Group');
 
         try {
             $apiResult = $this->api->testGroupParameters($requiredStringGroup, $requiredBooleanGroup, $requiredInt64Group, $stringGroup, $booleanGroup, $int64Group);
@@ -674,6 +975,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 400);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -683,8 +985,20 @@ class FakeController extends Controller
      * test inline additionalProperties.
      *
      */
-    public function testInlineAdditionalProperties(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testInlineAdditionalProperties(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'requestBody' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $requestBody = $request->get('requestBody');
 
         try {
             $apiResult = $this->api->testInlineAdditionalProperties($requestBody);
@@ -707,6 +1021,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -716,8 +1031,19 @@ class FakeController extends Controller
      * test inline free-form additionalProperties.
      *
      */
-    public function testInlineFreeformAdditionalProperties(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testInlineFreeformAdditionalProperties(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'testInlineFreeformAdditionalPropertiesRequest' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $testInlineFreeformAdditionalPropertiesRequest = $this->serde->deserialize($request->get('testInlineFreeformAdditionalPropertiesRequest'), from: 'array', to: \OpenAPI\Server\Model\TestInlineFreeformAdditionalPropertiesRequest::class);
 
         if ($testInlineFreeformAdditionalPropertiesRequest === null) {
@@ -745,6 +1071,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -754,11 +1081,27 @@ class FakeController extends Controller
      * test json serialization of form data.
      *
      */
-    public function testJsonFormData(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testJsonFormData(Request $request): JsonResponse
     {
-        $param = $request->string('param');
+        $validator = Validator::make($request->all(), [
+            'param' => [
+                'required',
+                'string',
+            ],
+            'param2' => [
+                'required',
+                'string',
+            ],
+        ]);
 
-        $param2 = $request->string('param2');
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $param = $request->string('param')->value();
+
+        $param2 = $request->string('param2')->value();
 
         try {
             $apiResult = $this->api->testJsonFormData($param, $param2);
@@ -781,6 +1124,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -790,8 +1134,19 @@ class FakeController extends Controller
      * test nullable parent property.
      *
      */
-    public function testNullable(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testNullable(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'childWithNullable' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $childWithNullable = $this->serde->deserialize($request->get('childWithNullable'), from: 'array', to: \OpenAPI\Server\Model\ChildWithNullable::class);
 
         if ($childWithNullable === null) {
@@ -819,6 +1174,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -828,8 +1184,42 @@ class FakeController extends Controller
      * .
      *
      */
-    public function testQueryParameterCollectionFormat(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testQueryParameterCollectionFormat(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'pipe' => [
+                'required',
+                'array',
+            ],
+            'ioutil' => [
+                'required',
+                'array',
+            ],
+            'http' => [
+                'required',
+                'array',
+            ],
+            'url' => [
+                'required',
+                'array',
+            ],
+            'context' => [
+                'required',
+                'array',
+            ],
+            'allowEmpty' => [
+                'required',
+                'string',
+            ],
+            'language' => [
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $pipe = $request->get('pipe');
 
         $ioutil = $request->get('ioutil');
@@ -840,8 +1230,9 @@ class FakeController extends Controller
 
         $context = $request->get('context');
 
-        $allowEmpty = $request->string('allowEmpty');
+        $allowEmpty = $request->string('allowEmpty')->value();
 
+        $language = $request->get('language');
 
         try {
             $apiResult = $this->api->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context, $allowEmpty, $language);
@@ -864,6 +1255,7 @@ class FakeController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -873,8 +1265,20 @@ class FakeController extends Controller
      * test referenced string map.
      *
      */
-    public function testStringMapReference(\OpenAPI\Server\Http\Requests\FakeRequest $request): JsonResponse
+    public function testStringMapReference(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'requestBody' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $requestBody = $request->get('requestBody');
 
         try {
             $apiResult = $this->api->testStringMapReference($requestBody);
@@ -896,6 +1300,7 @@ class FakeController extends Controller
 
             return response()->json($responseBody, 200);
         }
+
 
         // This shouldn't happen
         return response()->abort(500);

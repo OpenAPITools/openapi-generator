@@ -27,12 +27,13 @@ interface UserApiInterface {
      * Operation createUser
      *
      * Create user
-     * @return \OpenAPI\Server\Model\NoContentdefault
+     * @param \OpenAPI\Server\Model\User $user
+     * @return \OpenAPI\Server\Model\NoContentDefault
      */
     public function createUser(
             \OpenAPI\Server\Model\User $user,
     ):
-        \OpenAPI\Server\Model\NoContentdefault
+        \OpenAPI\Server\Model\NoContentDefault
     ;
 
 
@@ -40,12 +41,13 @@ interface UserApiInterface {
      * Operation createUsersWithArrayInput
      *
      * Creates list of users with given input array
-     * @return \OpenAPI\Server\Model\NoContentdefault
+     * @param \OpenAPI\Server\Model\User[] $user
+     * @return \OpenAPI\Server\Model\NoContentDefault
      */
     public function createUsersWithArrayInput(
-            \OpenAPI\Server\Model\User[] $user,
+            array $user,
     ):
-        \OpenAPI\Server\Model\NoContentdefault
+        \OpenAPI\Server\Model\NoContentDefault
     ;
 
 
@@ -53,12 +55,13 @@ interface UserApiInterface {
      * Operation createUsersWithListInput
      *
      * Creates list of users with given input array
-     * @return \OpenAPI\Server\Model\NoContentdefault
+     * @param \OpenAPI\Server\Model\User[] $user
+     * @return \OpenAPI\Server\Model\NoContentDefault
      */
     public function createUsersWithListInput(
-            \OpenAPI\Server\Model\User[] $user,
+            array $user,
     ):
-        \OpenAPI\Server\Model\NoContentdefault
+        \OpenAPI\Server\Model\NoContentDefault
     ;
 
 
@@ -66,10 +69,11 @@ interface UserApiInterface {
      * Operation deleteUser
      *
      * Delete user
+     * @param string $username
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function deleteUser(
-            \Illuminate\Support\Stringable $username,
+            string $username,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404
@@ -80,10 +84,11 @@ interface UserApiInterface {
      * Operation getUserByName
      *
      * Get user by user name
+     * @param string $username
      * @return \OpenAPI\Server\Model\User | \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function getUserByName(
-            \Illuminate\Support\Stringable $username,
+            string $username,
     ):
         \OpenAPI\Server\Model\User | 
         \OpenAPI\Server\Model\NoContent400 | 
@@ -95,13 +100,15 @@ interface UserApiInterface {
      * Operation loginUser
      *
      * Logs user into the system
-     * @return \Illuminate\Support\Stringable | \OpenAPI\Server\Model\NoContent400
+     * @param string $username
+     * @param string $password
+     * @return string | \OpenAPI\Server\Model\NoContent400
      */
     public function loginUser(
-            \Illuminate\Support\Stringable $username,
-            \Illuminate\Support\Stringable $password,
+            string $username,
+            string $password,
     ):
-        \Illuminate\Support\Stringable | 
+        string | 
         \OpenAPI\Server\Model\NoContent400
     ;
 
@@ -110,11 +117,11 @@ interface UserApiInterface {
      * Operation logoutUser
      *
      * Logs out current logged in user session
-     * @return \OpenAPI\Server\Model\NoContentdefault
+     * @return \OpenAPI\Server\Model\NoContentDefault
      */
     public function logoutUser(
     ):
-        \OpenAPI\Server\Model\NoContentdefault
+        \OpenAPI\Server\Model\NoContentDefault
     ;
 
 
@@ -122,10 +129,12 @@ interface UserApiInterface {
      * Operation updateUser
      *
      * Updated user
+     * @param string $username
+     * @param \OpenAPI\Server\Model\User $user
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function updateUser(
-            \Illuminate\Support\Stringable $username,
+            string $username,
             \OpenAPI\Server\Model\User $user,
     ):
         \OpenAPI\Server\Model\NoContent400 | 

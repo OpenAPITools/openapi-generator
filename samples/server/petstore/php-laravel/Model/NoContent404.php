@@ -31,7 +31,11 @@ class NoContent404
 {
     /**
     * dummy property for no-content responses
+    * @param null | string $dummy
     */
-    public \Illuminate\Support\Stringable $dummy;
+
+    public function __construct(
+        public ?string $dummy = null,
+    ) {}
 }
 

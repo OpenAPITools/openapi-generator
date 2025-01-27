@@ -30,15 +30,14 @@ class AdditionalPropertiesClass
 {
     /**
     * 
-    * @var array<string,\Illuminate\Support\Stringable>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $mapProperty = [];
-    /**
+    * @param array<string,string> $mapProperty
     * 
-    * @var array<string,array<string,\Illuminate\Support\Stringable>>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param array<string,array<string,string>> $mapOfMapProperty
     */
-    public array $mapOfMapProperty = [];
+
+    public function __construct(
+        public array $mapProperty,
+        public array $mapOfMapProperty,
+    ) {}
 }
 

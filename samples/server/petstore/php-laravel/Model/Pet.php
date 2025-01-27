@@ -30,31 +30,26 @@ class Pet
 {
     /**
     * 
-    */
-    public int $id;
-    /**
+    * @param int $id
     * 
-    */
-    public \OpenAPI\Server\Model\Category $category;
-    /**
+    * @param \OpenAPI\Server\Model\Category $category
     * 
-    */
-    public \Illuminate\Support\Stringable $name;
-    /**
+    * @param string $name
     * 
-    * @var \Illuminate\Support\Stringable[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $photoUrls = [];
-    /**
+    * @param string[] $photoUrls
     * 
-    * @var \OpenAPI\Server\Model\Tag[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $tags = [];
-    /**
+    * @param \OpenAPI\Server\Model\Tag[] $tags
     * pet status in the store
+    * @param string $status
     */
-    public \Illuminate\Support\Stringable $status;
+
+    public function __construct(
+        public int $id,
+        public \OpenAPI\Server\Model\Category $category,
+        public string $name,
+        public array $photoUrls,
+        public array $tags,
+        public string $status,
+    ) {}
 }
 

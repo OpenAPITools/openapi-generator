@@ -30,7 +30,11 @@ class FooGetDefaultResponse
 {
     /**
     * 
+    * @param \OpenAPI\Server\Model\Foo $string
     */
-    public \OpenAPI\Server\Model\Foo $string;
+
+    public function __construct(
+        public \OpenAPI\Server\Model\Foo $string,
+    ) {}
 }
 

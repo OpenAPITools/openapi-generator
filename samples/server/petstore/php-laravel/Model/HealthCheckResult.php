@@ -31,7 +31,11 @@ class HealthCheckResult
 {
     /**
     * 
+    * @param null | string $nullableMessage
     */
-    public ?\Illuminate\Support\Stringable $nullableMessage = null;
+
+    public function __construct(
+        public ?string $nullableMessage = null,
+    ) {}
 }
 

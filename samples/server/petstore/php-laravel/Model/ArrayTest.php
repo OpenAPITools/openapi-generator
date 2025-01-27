@@ -30,21 +30,17 @@ class ArrayTest
 {
     /**
     * 
-    * @var \Illuminate\Support\Stringable[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $arrayOfString = [];
-    /**
+    * @param string[] $arrayOfString
     * 
-    * @var int[][]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $arrayArrayOfInteger = [];
-    /**
+    * @param int[][] $arrayArrayOfInteger
     * 
-    * @var \OpenAPI\Server\Model\ReadOnlyFirst[][]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param \OpenAPI\Server\Model\ReadOnlyFirst[][] $arrayArrayOfModel
     */
-    public array $arrayArrayOfModel = [];
+
+    public function __construct(
+        public array $arrayOfString,
+        public array $arrayArrayOfInteger,
+        public array $arrayArrayOfModel,
+    ) {}
 }
 

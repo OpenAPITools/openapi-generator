@@ -30,13 +30,14 @@ class FakeBigDecimalMap200Response
 {
     /**
     * 
-    */
-    public float $someId;
-    /**
+    * @param float $someId
     * 
-    * @var array<string,float>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param array<string,float> $someMap
     */
-    public array $someMap = [];
+
+    public function __construct(
+        public float $someId,
+        public array $someMap,
+    ) {}
 }
 

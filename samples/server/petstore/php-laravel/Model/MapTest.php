@@ -30,27 +30,20 @@ class MapTest
 {
     /**
     * 
-    * @var array<string,array<string,\Illuminate\Support\Stringable>>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $mapMapOfString = [];
-    /**
+    * @param array<string,array<string,string>> $mapMapOfString
     * 
-    * @var array<string,\Illuminate\Support\Stringable>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $mapOfEnumString = [];
-    /**
+    * @param array<string,string> $mapOfEnumString
     * 
-    * @var array<string,bool>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $directMap = [];
-    /**
+    * @param array<string,bool> $directMap
     * 
-    * @var array<string,bool>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param array<string,bool> $indirectMap
     */
-    public array $indirectMap = [];
+
+    public function __construct(
+        public array $mapMapOfString,
+        public array $mapOfEnumString,
+        public array $directMap,
+        public array $indirectMap,
+    ) {}
 }
 

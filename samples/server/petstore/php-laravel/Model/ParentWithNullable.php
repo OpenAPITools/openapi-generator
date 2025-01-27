@@ -30,11 +30,14 @@ class ParentWithNullable
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $type;
-    /**
+    * @param string $type
     * 
+    * @param null | string $nullableProperty
     */
-    public ?\Illuminate\Support\Stringable $nullableProperty = null;
+
+    public function __construct(
+        public string $type,
+        public ?string $nullableProperty = null,
+    ) {}
 }
 

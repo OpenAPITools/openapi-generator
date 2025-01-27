@@ -23,6 +23,9 @@ namespace OpenAPI\Server\Http\Controllers;
 use Crell\Serde\SerdeCommon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 use OpenAPI\Server\Api\AnotherFakeApiInterface;
 
@@ -44,8 +47,19 @@ class AnotherFakeController extends Controller
      * To test special tags.
      *
      */
-    public function call123TestSpecialTags(\OpenAPI\Server\Http\Requests\AnotherFakeRequest $request): JsonResponse
+    public function call123TestSpecialTags(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'client' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $client = $this->serde->deserialize($request->get('client'), from: 'array', to: \OpenAPI\Server\Model\Client::class);
 
         if ($client === null) {
@@ -72,6 +86,7 @@ class AnotherFakeController extends Controller
 
             return response()->json($responseBody, 200);
         }
+
 
         // This shouldn't happen
         return response()->abort(500);

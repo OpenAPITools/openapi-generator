@@ -19,19 +19,23 @@
 
 
 /**
- * NoContentdefault
+ * NoContentDefault
  */
 namespace OpenAPI\Server\Model;
 
 /**
- * NoContentdefault
+ * NoContentDefault
  * @description No content for default
  */
-class NoContentdefault
+class NoContentDefault
 {
     /**
     * dummy property for no-content responses
+    * @param null | string $dummy
     */
-    public \Illuminate\Support\Stringable $dummy;
+
+    public function __construct(
+        public ?string $dummy = null,
+    ) {}
 }
 

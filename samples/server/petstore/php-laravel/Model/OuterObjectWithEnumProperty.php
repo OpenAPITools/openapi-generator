@@ -30,7 +30,11 @@ class OuterObjectWithEnumProperty
 {
     /**
     * 
+    * @param \OpenAPI\Server\Model\OuterEnumInteger $value
     */
-    public \OpenAPI\Server\Model\OuterEnumInteger $value;
+
+    public function __construct(
+        public \OpenAPI\Server\Model\OuterEnumInteger $value,
+    ) {}
 }
 

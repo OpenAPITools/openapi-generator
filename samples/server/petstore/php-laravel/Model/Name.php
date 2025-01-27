@@ -31,19 +31,20 @@ class Name
 {
     /**
     * 
-    */
-    public int $name;
-    /**
+    * @param int $name
     * 
-    */
-    public int $snakeCase;
-    /**
+    * @param int $snakeCase
     * 
-    */
-    public \Illuminate\Support\Stringable $property;
-    /**
+    * @param string $property
     * 
+    * @param int $_123number
     */
-    public int $_123number;
+
+    public function __construct(
+        public int $name,
+        public int $snakeCase,
+        public string $property,
+        public int $_123number,
+    ) {}
 }
 

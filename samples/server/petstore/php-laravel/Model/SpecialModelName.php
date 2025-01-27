@@ -30,7 +30,11 @@ class SpecialModelName
 {
     /**
     * 
+    * @param int $specialPropertyName
     */
-    public int $specialPropertyName;
+
+    public function __construct(
+        public int $specialPropertyName,
+    ) {}
 }
 

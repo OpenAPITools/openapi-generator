@@ -30,63 +30,44 @@ class NullableClass
 {
     /**
     * 
-    */
-    public ?int $integerProp = null;
-    /**
+    * @param null | int $integerProp
     * 
-    */
-    public ?float $numberProp = null;
-    /**
+    * @param null | float $numberProp
     * 
-    */
-    public ?bool $booleanProp = null;
-    /**
+    * @param null | bool $booleanProp
     * 
-    */
-    public ?\Illuminate\Support\Stringable $stringProp = null;
-    /**
+    * @param null | string $stringProp
     * 
-    */
-    public ?\DateTime $dateProp = null;
-    /**
+    * @param null | \DateTime $dateProp
     * 
-    */
-    public ?\DateTime $datetimeProp = null;
-    /**
+    * @param null | \DateTime $datetimeProp
     * 
-    * @var object[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public ?array $arrayNullableProp = [];
-    /**
+    * @param null | object[] $arrayNullableProp
     * 
-    * @var object[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public ?array $arrayAndItemsNullableProp = [];
-    /**
+    * @param null | object[] $arrayAndItemsNullableProp
     * 
-    * @var object[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public array $arrayItemsNullable = [];
-    /**
+    * @param object[] $arrayItemsNullable
     * 
-    * @var array<string,object>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public ?array $objectNullableProp = [];
-    /**
+    * @param null | array<string,object> $objectNullableProp
     * 
-    * @var array<string,object>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
-    */
-    public ?array $objectAndItemsNullableProp = [];
-    /**
+    * @param null | array<string,object> $objectAndItemsNullableProp
     * 
-    * @var array<string,object>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param array<string,object> $objectItemsNullable
     */
-    public array $objectItemsNullable = [];
+
+    public function __construct(
+        public ?int $integerProp = null,
+        public ?float $numberProp = null,
+        public ?bool $booleanProp = null,
+        public ?string $stringProp = null,
+        public ?\DateTime $dateProp = null,
+        public ?\DateTime $datetimeProp = null,
+        public ?array $arrayNullableProp = [],
+        public ?array $arrayAndItemsNullableProp = [],
+        public array $arrayItemsNullable,
+        public ?array $objectNullableProp = [],
+        public ?array $objectAndItemsNullableProp = [],
+        public array $objectItemsNullable,
+    ) {}
 }
 

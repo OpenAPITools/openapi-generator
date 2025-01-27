@@ -27,6 +27,7 @@ interface AnotherFakeApiInterface {
      * Operation call123TestSpecialTags
      *
      * To test special tags
+     * @param \OpenAPI\Server\Model\Client $client
      * @return \OpenAPI\Server\Model\Client
      */
     public function call123TestSpecialTags(

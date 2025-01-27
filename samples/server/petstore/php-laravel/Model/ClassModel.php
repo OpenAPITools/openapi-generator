@@ -31,7 +31,11 @@ class ClassModel
 {
     /**
     * 
+    * @param string $class
     */
-    public \Illuminate\Support\Stringable $class;
+
+    public function __construct(
+        public string $class,
+    ) {}
 }
 

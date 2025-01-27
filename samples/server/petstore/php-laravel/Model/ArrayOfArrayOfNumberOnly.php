@@ -30,9 +30,11 @@ class ArrayOfArrayOfNumberOnly
 {
     /**
     * 
-    * @var float[][]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param float[][] $arrayArrayNumber
     */
-    public array $arrayArrayNumber = [];
+
+    public function __construct(
+        public array $arrayArrayNumber,
+    ) {}
 }
 

@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Api/AnotherFakeApiInterface.php
 Api/DefaultApiInterface.php
 Api/FakeApiInterface.php
@@ -14,13 +13,6 @@ Http/Controllers/FakeController.php
 Http/Controllers/PetController.php
 Http/Controllers/StoreController.php
 Http/Controllers/UserController.php
-Http/Requests/AnotherFakeRequest.php
-Http/Requests/DefaultRequest.php
-Http/Requests/FakeClassnameTags123Request.php
-Http/Requests/FakeRequest.php
-Http/Requests/PetRequest.php
-Http/Requests/StoreRequest.php
-Http/Requests/UserRequest.php
 Model/AdditionalPropertiesClass.php
 Model/AllOfWithSingleRef.php
 Model/Animal.php
@@ -57,7 +49,7 @@ Model/NoContent200.php
 Model/NoContent400.php
 Model/NoContent404.php
 Model/NoContent405.php
-Model/NoContentdefault.php
+Model/NoContentDefault.php
 Model/NullableClass.php
 Model/NumberOnly.php
 Model/ObjectWithDeprecatedFields.php

@@ -31,11 +31,14 @@ class Model200Response
 {
     /**
     * 
-    */
-    public int $name;
-    /**
+    * @param int $name
     * 
+    * @param string $class
     */
-    public \Illuminate\Support\Stringable $class;
+
+    public function __construct(
+        public int $name,
+        public string $class,
+    ) {}
 }
 

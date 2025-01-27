@@ -30,35 +30,32 @@ class EnumTest
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $enumString;
-    /**
+    * @param string $enumString
     * 
-    */
-    public \Illuminate\Support\Stringable $enumStringRequired;
-    /**
+    * @param string $enumStringRequired
     * 
-    */
-    public int $enumInteger;
-    /**
+    * @param int $enumInteger
     * 
-    */
-    public float $enumNumber;
-    /**
+    * @param float $enumNumber
     * 
-    */
-    public ?\OpenAPI\Server\Model\OuterEnum $outerEnum = null;
-    /**
+    * @param null | \OpenAPI\Server\Model\OuterEnum $outerEnum
     * 
-    */
-    public \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger;
-    /**
+    * @param \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger
     * 
-    */
-    public \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue;
-    /**
+    * @param \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue
     * 
+    * @param \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue
     */
-    public \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue;
+
+    public function __construct(
+        public string $enumString,
+        public string $enumStringRequired,
+        public int $enumInteger,
+        public float $enumNumber,
+        public ?\OpenAPI\Server\Model\OuterEnum $outerEnum = null,
+        public \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger,
+        public \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue,
+        public \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue,
+    ) {}
 }
 

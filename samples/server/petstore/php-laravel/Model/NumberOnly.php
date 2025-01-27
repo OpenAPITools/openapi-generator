@@ -30,7 +30,11 @@ class NumberOnly
 {
     /**
     * 
+    * @param float $justNumber
     */
-    public float $justNumber;
+
+    public function __construct(
+        public float $justNumber,
+    ) {}
 }
 

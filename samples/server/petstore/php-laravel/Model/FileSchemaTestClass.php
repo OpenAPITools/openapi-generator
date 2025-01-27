@@ -30,13 +30,14 @@ class FileSchemaTestClass
 {
     /**
     * 
-    */
-    public \OpenAPI\Server\Model\File $file;
-    /**
+    * @param \OpenAPI\Server\Model\File $file
     * 
-    * @var \OpenAPI\Server\Model\File[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param \OpenAPI\Server\Model\File[] $files
     */
-    public array $files = [];
+
+    public function __construct(
+        public \OpenAPI\Server\Model\File $file,
+        public array $files,
+    ) {}
 }
 

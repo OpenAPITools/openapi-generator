@@ -31,7 +31,11 @@ class ModelReturn
 {
     /**
     * 
+    * @param int $return
     */
-    public int $return;
+
+    public function __construct(
+        public int $return,
+    ) {}
 }
 

@@ -30,27 +30,26 @@ class Order
 {
     /**
     * 
-    */
-    public int $id;
-    /**
+    * @param int $id
     * 
-    */
-    public int $petId;
-    /**
+    * @param int $petId
     * 
-    */
-    public int $quantity;
-    /**
+    * @param int $quantity
     * 
-    */
-    public \DateTime $shipDate;
-    /**
+    * @param \DateTime $shipDate
     * Order Status
-    */
-    public \Illuminate\Support\Stringable $status;
-    /**
+    * @param string $status
     * 
+    * @param bool $complete
     */
-    public bool $complete = false;
+
+    public function __construct(
+        public int $id,
+        public int $petId,
+        public int $quantity,
+        public \DateTime $shipDate,
+        public string $status,
+        public bool $complete = false,
+    ) {}
 }
 

@@ -30,27 +30,26 @@ class Capitalization
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $smallCamel;
-    /**
+    * @param string $smallCamel
     * 
-    */
-    public \Illuminate\Support\Stringable $capitalCamel;
-    /**
+    * @param string $capitalCamel
     * 
-    */
-    public \Illuminate\Support\Stringable $smallSnake;
-    /**
+    * @param string $smallSnake
     * 
-    */
-    public \Illuminate\Support\Stringable $capitalSnake;
-    /**
+    * @param string $capitalSnake
     * 
-    */
-    public \Illuminate\Support\Stringable $sCAETHFlowPoints;
-    /**
+    * @param string $sCAETHFlowPoints
     * Name of the pet
+    * @param string $aTTNAME
     */
-    public \Illuminate\Support\Stringable $aTTNAME;
+
+    public function __construct(
+        public string $smallCamel,
+        public string $capitalCamel,
+        public string $smallSnake,
+        public string $capitalSnake,
+        public string $sCAETHFlowPoints,
+        public string $aTTNAME,
+    ) {}
 }
 

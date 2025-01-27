@@ -27,6 +27,7 @@ interface PetApiInterface {
      * Operation addPet
      *
      * Add a new pet to the store
+     * @param \OpenAPI\Server\Model\Pet $pet
      * @return \OpenAPI\Server\Model\NoContent200 | \OpenAPI\Server\Model\NoContent405
      */
     public function addPet(
@@ -41,11 +42,13 @@ interface PetApiInterface {
      * Operation deletePet
      *
      * Deletes a pet
+     * @param int $petId
+     * @param null | string $apiKey
      * @return \OpenAPI\Server\Model\NoContent200 | \OpenAPI\Server\Model\NoContent400
      */
     public function deletePet(
             int $petId,
-            ?\Illuminate\Support\Stringable $apiKey,
+            ?string $apiKey,
     ):
         \OpenAPI\Server\Model\NoContent200 | 
         \OpenAPI\Server\Model\NoContent400
@@ -56,10 +59,11 @@ interface PetApiInterface {
      * Operation findPetsByStatus
      *
      * Finds Pets by status
+     * @param string[] $status
      * @return \OpenAPI\Server\Model\Pet[] | \OpenAPI\Server\Model\NoContent400
      */
     public function findPetsByStatus(
-            \Illuminate\Support\Stringable[] $status,
+            array $status,
     ):
         array | 
         \OpenAPI\Server\Model\NoContent400
@@ -70,11 +74,12 @@ interface PetApiInterface {
      * Operation findPetsByTags
      *
      * Finds Pets by tags
+     * @param string[] $tags
      * @return \OpenAPI\Server\Model\Pet[] | \OpenAPI\Server\Model\NoContent400
      * @deprecated
      */
     public function findPetsByTags(
-            \Illuminate\Support\Stringable[] $tags,
+            array $tags,
     ):
         array | 
         \OpenAPI\Server\Model\NoContent400
@@ -85,6 +90,7 @@ interface PetApiInterface {
      * Operation getPetById
      *
      * Find pet by ID
+     * @param int $petId
      * @return \OpenAPI\Server\Model\Pet | \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function getPetById(
@@ -100,6 +106,7 @@ interface PetApiInterface {
      * Operation updatePet
      *
      * Update an existing pet
+     * @param \OpenAPI\Server\Model\Pet $pet
      * @return \OpenAPI\Server\Model\NoContent200 | \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404 | \OpenAPI\Server\Model\NoContent405
      */
     public function updatePet(
@@ -116,12 +123,15 @@ interface PetApiInterface {
      * Operation updatePetWithForm
      *
      * Updates a pet in the store with form data
+     * @param int $petId
+     * @param null | string $name
+     * @param null | string $status
      * @return \OpenAPI\Server\Model\NoContent200 | \OpenAPI\Server\Model\NoContent405
      */
     public function updatePetWithForm(
             int $petId,
-            ?\Illuminate\Support\Stringable $name,
-            ?\Illuminate\Support\Stringable $status,
+            ?string $name,
+            ?string $status,
     ):
         \OpenAPI\Server\Model\NoContent200 | 
         \OpenAPI\Server\Model\NoContent405
@@ -132,11 +142,14 @@ interface PetApiInterface {
      * Operation uploadFile
      *
      * uploads an image
+     * @param int $petId
+     * @param null | string $additionalMetadata
+     * @param null | \Illuminate\Http\UploadedFile $file
      * @return \OpenAPI\Server\Model\ApiResponse
      */
     public function uploadFile(
             int $petId,
-            ?\Illuminate\Support\Stringable $additionalMetadata,
+            ?string $additionalMetadata,
             ?\Illuminate\Http\UploadedFile $file,
     ):
         \OpenAPI\Server\Model\ApiResponse
@@ -147,12 +160,15 @@ interface PetApiInterface {
      * Operation uploadFileWithRequiredFile
      *
      * uploads an image (required)
+     * @param int $petId
+     * @param \Illuminate\Http\UploadedFile $requiredFile
+     * @param null | string $additionalMetadata
      * @return \OpenAPI\Server\Model\ApiResponse
      */
     public function uploadFileWithRequiredFile(
             int $petId,
             \Illuminate\Http\UploadedFile $requiredFile,
-            ?\Illuminate\Support\Stringable $additionalMetadata,
+            ?string $additionalMetadata,
     ):
         \OpenAPI\Server\Model\ApiResponse
     ;

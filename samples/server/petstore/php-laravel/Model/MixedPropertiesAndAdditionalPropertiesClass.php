@@ -30,17 +30,17 @@ class MixedPropertiesAndAdditionalPropertiesClass
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $uuid;
-    /**
+    * @param string $uuid
     * 
-    */
-    public \DateTime $dateTime;
-    /**
+    * @param \DateTime $dateTime
     * 
-    * @var array<string,\OpenAPI\Server\Model\Animal>
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param array<string,\OpenAPI\Server\Model\Animal> $map
     */
-    public array $map = [];
+
+    public function __construct(
+        public string $uuid,
+        public \DateTime $dateTime,
+        public array $map,
+    ) {}
 }
 

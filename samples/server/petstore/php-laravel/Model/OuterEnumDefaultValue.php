@@ -26,7 +26,7 @@ namespace OpenAPI\Server\Model;
 /**
  * OuterEnumDefaultValue
  */
-enum OuterEnumDefaultValue: \Illuminate\Support\Stringable
+enum OuterEnumDefaultValue: string
 {
         case PLACED = 'placed';
         case APPROVED = 'approved';

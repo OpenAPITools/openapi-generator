@@ -30,24 +30,23 @@ class ObjectWithDeprecatedFields
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $uuid;
-    /**
+    * @param string $uuid
     * 
-    */
-        /** @deprecated */
-    public float $id;
-    /**
+    * @deprecated
+    * @param float $id
     * 
-    */
-        /** @deprecated */
-    public \OpenAPI\Server\Model\DeprecatedObject $deprecatedRef;
-    /**
+    * @deprecated
+    * @param \OpenAPI\Server\Model\DeprecatedObject $deprecatedRef
     * 
-    * @var \Illuminate\Support\Stringable[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @deprecated
+    * @param string[] $bars
     */
-        /** @deprecated */
-    public array $bars = [];
+
+    public function __construct(
+        public string $uuid,
+        public float $id,
+        public \OpenAPI\Server\Model\DeprecatedObject $deprecatedRef,
+        public array $bars,
+    ) {}
 }
 

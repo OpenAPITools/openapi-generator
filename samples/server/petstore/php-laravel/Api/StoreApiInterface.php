@@ -27,10 +27,11 @@ interface StoreApiInterface {
      * Operation deleteOrder
      *
      * Delete purchase order by ID
+     * @param string $orderId
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function deleteOrder(
-            \Illuminate\Support\Stringable $orderId,
+            string $orderId,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404
@@ -45,7 +46,7 @@ interface StoreApiInterface {
      */
     public function getInventory(
     ):
-        array&lt;string,int&gt;
+        array
     ;
 
 
@@ -53,6 +54,7 @@ interface StoreApiInterface {
      * Operation getOrderById
      *
      * Find purchase order by ID
+     * @param int $orderId
      * @return \OpenAPI\Server\Model\Order | \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function getOrderById(
@@ -68,6 +70,7 @@ interface StoreApiInterface {
      * Operation placeOrder
      *
      * Place an order for a pet
+     * @param \OpenAPI\Server\Model\Order $order
      * @return \OpenAPI\Server\Model\Order | \OpenAPI\Server\Model\NoContent400
      */
     public function placeOrder(

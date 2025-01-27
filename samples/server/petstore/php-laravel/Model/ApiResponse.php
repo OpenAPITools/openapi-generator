@@ -30,15 +30,17 @@ class ApiResponse
 {
     /**
     * 
-    */
-    public int $code;
-    /**
+    * @param int $code
     * 
-    */
-    public \Illuminate\Support\Stringable $type;
-    /**
+    * @param string $type
     * 
+    * @param string $message
     */
-    public \Illuminate\Support\Stringable $message;
+
+    public function __construct(
+        public int $code,
+        public string $type,
+        public string $message,
+    ) {}
 }
 

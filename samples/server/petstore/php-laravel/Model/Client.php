@@ -30,7 +30,11 @@ class Client
 {
     /**
     * 
+    * @param string $client
     */
-    public \Illuminate\Support\Stringable $client;
+
+    public function __construct(
+        public string $client,
+    ) {}
 }
 

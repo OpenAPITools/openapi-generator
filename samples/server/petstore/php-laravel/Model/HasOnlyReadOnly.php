@@ -30,11 +30,14 @@ class HasOnlyReadOnly
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $bar;
-    /**
+    * @param string $bar
     * 
+    * @param string $foo
     */
-    public \Illuminate\Support\Stringable $foo;
+
+    public function __construct(
+        public string $bar,
+        public string $foo,
+    ) {}
 }
 

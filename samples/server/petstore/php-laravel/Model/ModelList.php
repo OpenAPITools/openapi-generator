@@ -30,7 +30,11 @@ class ModelList
 {
     /**
     * 
+    * @param string $_123list
     */
-    public \Illuminate\Support\Stringable $_123list;
+
+    public function __construct(
+        public string $_123list,
+    ) {}
 }
 

@@ -30,11 +30,14 @@ class AllOfWithSingleRef
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $username;
-    /**
+    * @param string $username
     * 
+    * @param \OpenAPI\Server\Model\SingleRefType $singleRefType
     */
-    public \OpenAPI\Server\Model\SingleRefType $singleRefType;
+
+    public function __construct(
+        public string $username,
+        public \OpenAPI\Server\Model\SingleRefType $singleRefType,
+    ) {}
 }
 

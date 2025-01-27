@@ -27,6 +27,7 @@ interface FakeClassnameTags123ApiInterface {
      * Operation testClassname
      *
      * To test class name in snake case
+     * @param \OpenAPI\Server\Model\Client $client
      * @return \OpenAPI\Server\Model\Client
      */
     public function testClassname(

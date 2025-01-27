@@ -26,7 +26,7 @@ namespace OpenAPI\Server\Model;
 /**
  * SingleRefType
  */
-enum SingleRefType: \Illuminate\Support\Stringable
+enum SingleRefType: string
 {
         case ADMIN = 'admin';
         case USER = 'user';

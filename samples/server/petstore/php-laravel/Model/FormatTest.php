@@ -30,67 +30,56 @@ class FormatTest
 {
     /**
     * 
-    */
-    public int $integer;
-    /**
+    * @param int $integer
     * 
-    */
-    public int $int32;
-    /**
+    * @param int $int32
     * 
-    */
-    public int $int64;
-    /**
+    * @param int $int64
     * 
-    */
-    public float $number;
-    /**
+    * @param float $number
     * 
-    */
-    public float $float;
-    /**
+    * @param float $float
     * 
-    */
-    public float $double;
-    /**
+    * @param float $double
     * 
-    */
-    public float $decimal;
-    /**
+    * @param float $decimal
     * 
-    */
-    public \Illuminate\Support\Stringable $string;
-    /**
+    * @param string $string
     * 
-    */
-    public \Illuminate\Support\Stringable $byte;
-    /**
+    * @param string $byte
     * 
-    */
-    public \Illuminate\Http\UploadedFile $binary;
-    /**
+    * @param \Illuminate\Http\UploadedFile $binary
     * 
-    */
-    public \DateTime $date;
-    /**
+    * @param \DateTime $date
     * 
-    */
-    public \DateTime $dateTime;
-    /**
+    * @param \DateTime $dateTime
     * 
-    */
-    public \Illuminate\Support\Stringable $uuid;
-    /**
+    * @param string $uuid
     * 
-    */
-    public \Illuminate\Support\Stringable $password;
-    /**
+    * @param string $password
     * A string that is a 10 digit number. Can have leading zeros.
-    */
-    public \Illuminate\Support\Stringable $patternWithDigits;
-    /**
+    * @param string $patternWithDigits
     * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+    * @param string $patternWithDigitsAndDelimiter
     */
-    public \Illuminate\Support\Stringable $patternWithDigitsAndDelimiter;
+
+    public function __construct(
+        public int $integer,
+        public int $int32,
+        public int $int64,
+        public float $number,
+        public float $float,
+        public float $double,
+        public float $decimal,
+        public string $string,
+        public string $byte,
+        public \Illuminate\Http\UploadedFile $binary,
+        public \DateTime $date,
+        public \DateTime $dateTime,
+        public string $uuid,
+        public string $password,
+        public string $patternWithDigits,
+        public string $patternWithDigitsAndDelimiter,
+    ) {}
 }
 

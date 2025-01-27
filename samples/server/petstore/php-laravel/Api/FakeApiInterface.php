@@ -49,12 +49,15 @@ interface FakeApiInterface {
      * Operation fakeHttpSignatureTest
      *
      * test http signature authentication
+     * @param \OpenAPI\Server\Model\Pet $pet
+     * @param null | string $query1
+     * @param null | string $header1
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function fakeHttpSignatureTest(
             \OpenAPI\Server\Model\Pet $pet,
-            ?\Illuminate\Support\Stringable $query1,
-            ?\Illuminate\Support\Stringable $header1,
+            ?string $query1,
+            ?string $header1,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;
@@ -62,6 +65,7 @@ interface FakeApiInterface {
 
     /**
      * Operation fakeOuterBooleanSerialize
+     * @param null | bool $body
      * @return bool
      */
     public function fakeOuterBooleanSerialize(
@@ -73,6 +77,7 @@ interface FakeApiInterface {
 
     /**
      * Operation fakeOuterCompositeSerialize
+     * @param null | \OpenAPI\Server\Model\OuterComposite $outerComposite
      * @return \OpenAPI\Server\Model\OuterComposite
      */
     public function fakeOuterCompositeSerialize(
@@ -84,6 +89,7 @@ interface FakeApiInterface {
 
     /**
      * Operation fakeOuterNumberSerialize
+     * @param null | float $body
      * @return float
      */
     public function fakeOuterNumberSerialize(
@@ -95,17 +101,19 @@ interface FakeApiInterface {
 
     /**
      * Operation fakeOuterStringSerialize
-     * @return \Illuminate\Support\Stringable
+     * @param null | string $body
+     * @return string
      */
     public function fakeOuterStringSerialize(
-            ?\Illuminate\Support\Stringable $body,
+            ?string $body,
     ):
-        \Illuminate\Support\Stringable
+        string
     ;
 
 
     /**
      * Operation fakePropertyEnumIntegerSerialize
+     * @param \OpenAPI\Server\Model\OuterObjectWithEnumProperty $outerObjectWithEnumProperty
      * @return \OpenAPI\Server\Model\OuterObjectWithEnumProperty
      */
     public function fakePropertyEnumIntegerSerialize(
@@ -119,10 +127,11 @@ interface FakeApiInterface {
      * Operation testAdditionalPropertiesReference
      *
      * test referenced additionalProperties
+     * @param array&lt;string,mixed&gt; $requestBody
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testAdditionalPropertiesReference(
-            array&lt;string,mixed&gt; $requestBody,
+            array $requestBody,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;
@@ -130,6 +139,7 @@ interface FakeApiInterface {
 
     /**
      * Operation testBodyWithBinary
+     * @param \Illuminate\Http\UploadedFile $body
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testBodyWithBinary(
@@ -141,6 +151,7 @@ interface FakeApiInterface {
 
     /**
      * Operation testBodyWithFileSchema
+     * @param \OpenAPI\Server\Model\FileSchemaTestClass $fileSchemaTestClass
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testBodyWithFileSchema(
@@ -152,10 +163,12 @@ interface FakeApiInterface {
 
     /**
      * Operation testBodyWithQueryParams
+     * @param string $query
+     * @param \OpenAPI\Server\Model\User $user
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testBodyWithQueryParams(
-            \Illuminate\Support\Stringable $query,
+            string $query,
             \OpenAPI\Server\Model\User $user,
     ):
         \OpenAPI\Server\Model\NoContent200
@@ -166,6 +179,7 @@ interface FakeApiInterface {
      * Operation testClientModel
      *
      * To test \"client\" model
+     * @param \OpenAPI\Server\Model\Client $client
      * @return \OpenAPI\Server\Model\Client
      */
     public function testClientModel(
@@ -179,23 +193,37 @@ interface FakeApiInterface {
      * Operation testEndpointParameters
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * @param float $number
+     * @param float $double
+     * @param string $patternWithoutDelimiter
+     * @param string $byte
+     * @param null | int $integer
+     * @param null | int $int32
+     * @param null | int $int64
+     * @param null | float $float
+     * @param null | string $string
+     * @param null | \Illuminate\Http\UploadedFile $binary
+     * @param null | \DateTime $date
+     * @param null | \DateTime $dateTime
+     * @param null | string $password
+     * @param null | string $callback
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function testEndpointParameters(
             float $number,
             float $double,
-            \Illuminate\Support\Stringable $patternWithoutDelimiter,
-            \Illuminate\Support\Stringable $byte,
+            string $patternWithoutDelimiter,
+            string $byte,
             ?int $integer,
             ?int $int32,
             ?int $int64,
             ?float $float,
-            ?\Illuminate\Support\Stringable $string,
+            ?string $string,
             ?\Illuminate\Http\UploadedFile $binary,
             ?\DateTime $date,
             ?\DateTime $dateTime,
-            ?\Illuminate\Support\Stringable $password,
-            ?\Illuminate\Support\Stringable $callback,
+            ?string $password,
+            ?string $callback,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404
@@ -206,18 +234,27 @@ interface FakeApiInterface {
      * Operation testEnumParameters
      *
      * To test enum parameters
+     * @param null | string[] $enumHeaderStringArray
+     * @param null | string $enumHeaderString
+     * @param null | string[] $enumQueryStringArray
+     * @param null | string $enumQueryString
+     * @param null | int $enumQueryInteger
+     * @param null | float $enumQueryDouble
+     * @param null | \OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray
+     * @param null | string[] $enumFormStringArray
+     * @param null | string $enumFormString
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function testEnumParameters(
-            ?\Illuminate\Support\Stringable[] $enumHeaderStringArray,
-            \Illuminate\Support\Stringable $enumHeaderString,
-            ?\Illuminate\Support\Stringable[] $enumQueryStringArray,
-            \Illuminate\Support\Stringable $enumQueryString,
+            ?array $enumHeaderStringArray,
+            ?string $enumHeaderString,
+            ?array $enumQueryStringArray,
+            ?string $enumQueryString,
             ?int $enumQueryInteger,
             ?float $enumQueryDouble,
-            ?\OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray,
-            \Illuminate\Support\Stringable[] $enumFormStringArray,
-            \Illuminate\Support\Stringable $enumFormString,
+            ?array $enumQueryModelArray,
+            ?array $enumFormStringArray,
+            ?string $enumFormString,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404
@@ -228,6 +265,12 @@ interface FakeApiInterface {
      * Operation testGroupParameters
      *
      * Fake endpoint to test group parameters (optional)
+     * @param int $requiredStringGroup
+     * @param bool $requiredBooleanGroup
+     * @param int $requiredInt64Group
+     * @param null | int $stringGroup
+     * @param null | bool $booleanGroup
+     * @param null | int $int64Group
      * @return \OpenAPI\Server\Model\NoContent400
      */
     public function testGroupParameters(
@@ -246,10 +289,11 @@ interface FakeApiInterface {
      * Operation testInlineAdditionalProperties
      *
      * test inline additionalProperties
+     * @param array&lt;string,string&gt; $requestBody
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testInlineAdditionalProperties(
-            array&lt;string,\Illuminate\Support\Stringable&gt; $requestBody,
+            array $requestBody,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;
@@ -259,6 +303,7 @@ interface FakeApiInterface {
      * Operation testInlineFreeformAdditionalProperties
      *
      * test inline free-form additionalProperties
+     * @param \OpenAPI\Server\Model\TestInlineFreeformAdditionalPropertiesRequest $testInlineFreeformAdditionalPropertiesRequest
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testInlineFreeformAdditionalProperties(
@@ -272,11 +317,13 @@ interface FakeApiInterface {
      * Operation testJsonFormData
      *
      * test json serialization of form data
+     * @param string $param
+     * @param string $param2
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testJsonFormData(
-            \Illuminate\Support\Stringable $param,
-            \Illuminate\Support\Stringable $param2,
+            string $param,
+            string $param2,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;
@@ -286,6 +333,7 @@ interface FakeApiInterface {
      * Operation testNullable
      *
      * test nullable parent property
+     * @param \OpenAPI\Server\Model\ChildWithNullable $childWithNullable
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testNullable(
@@ -297,16 +345,23 @@ interface FakeApiInterface {
 
     /**
      * Operation testQueryParameterCollectionFormat
+     * @param string[] $pipe
+     * @param string[] $ioutil
+     * @param string[] $http
+     * @param string[] $url
+     * @param string[] $context
+     * @param string $allowEmpty
+     * @param null | array&lt;string,string&gt; $language
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testQueryParameterCollectionFormat(
-            \Illuminate\Support\Stringable[] $pipe,
-            \Illuminate\Support\Stringable[] $ioutil,
-            \Illuminate\Support\Stringable[] $http,
-            \Illuminate\Support\Stringable[] $url,
-            \Illuminate\Support\Stringable[] $context,
-            \Illuminate\Support\Stringable $allowEmpty,
-            ?array&lt;string,\Illuminate\Support\Stringable&gt; $language,
+            array $pipe,
+            array $ioutil,
+            array $http,
+            array $url,
+            array $context,
+            string $allowEmpty,
+            ?array $language,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;
@@ -316,10 +371,11 @@ interface FakeApiInterface {
      * Operation testStringMapReference
      *
      * test referenced string map
+     * @param array&lt;string,string&gt; $requestBody
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testStringMapReference(
-            array&lt;string,\Illuminate\Support\Stringable&gt; $requestBody,
+            array $requestBody,
     ):
         \OpenAPI\Server\Model\NoContent200
     ;

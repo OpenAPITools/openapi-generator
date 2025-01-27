@@ -30,11 +30,14 @@ class Category
 {
     /**
     * 
-    */
-    public int $id;
-    /**
+    * @param int $id
     * 
+    * @param string $name
     */
-    public \Illuminate\Support\Stringable $name = 'default-name';
+
+    public function __construct(
+        public int $id,
+        public string $name = 'default-name',
+    ) {}
 }
 

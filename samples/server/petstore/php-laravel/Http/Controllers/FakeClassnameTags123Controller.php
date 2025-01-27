@@ -23,6 +23,9 @@ namespace OpenAPI\Server\Http\Controllers;
 use Crell\Serde\SerdeCommon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 use OpenAPI\Server\Api\FakeClassnameTags123ApiInterface;
 
@@ -44,8 +47,19 @@ class FakeClassnameTags123Controller extends Controller
      * To test class name in snake case.
      *
      */
-    public function testClassname(\OpenAPI\Server\Http\Requests\FakeClassnameTags123Request $request): JsonResponse
+    public function testClassname(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'client' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $client = $this->serde->deserialize($request->get('client'), from: 'array', to: \OpenAPI\Server\Model\Client::class);
 
         if ($client === null) {
@@ -72,6 +86,7 @@ class FakeClassnameTags123Controller extends Controller
 
             return response()->json($responseBody, 200);
         }
+
 
         // This shouldn't happen
         return response()->abort(500);

@@ -30,11 +30,14 @@ class Animal
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $className;
-    /**
+    * @param string $className
     * 
+    * @param string $color
     */
-    public \Illuminate\Support\Stringable $color = 'red';
+
+    public function __construct(
+        public string $className,
+        public string $color = 'red',
+    ) {}
 }
 

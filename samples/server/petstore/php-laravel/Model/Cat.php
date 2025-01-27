@@ -30,15 +30,17 @@ class Cat
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $className;
-    /**
+    * @param string $className
     * 
-    */
-    public \Illuminate\Support\Stringable $color = 'red';
-    /**
+    * @param string $color
     * 
+    * @param bool $declawed
     */
-    public bool $declawed;
+
+    public function __construct(
+        public string $className,
+        public string $color = 'red',
+        public bool $declawed,
+    ) {}
 }
 

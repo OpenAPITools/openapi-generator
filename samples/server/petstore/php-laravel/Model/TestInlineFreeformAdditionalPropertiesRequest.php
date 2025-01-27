@@ -30,7 +30,11 @@ class TestInlineFreeformAdditionalPropertiesRequest
 {
     /**
     * 
+    * @param string $someProperty
     */
-    public \Illuminate\Support\Stringable $someProperty;
+
+    public function __construct(
+        public string $someProperty,
+    ) {}
 }
 

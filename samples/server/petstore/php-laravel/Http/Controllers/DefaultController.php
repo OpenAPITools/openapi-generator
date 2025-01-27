@@ -23,6 +23,9 @@ namespace OpenAPI\Server\Http\Controllers;
 use Crell\Serde\SerdeCommon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 use OpenAPI\Server\Api\DefaultApiInterface;
 
@@ -44,8 +47,16 @@ class DefaultController extends Controller
      * .
      *
      */
-    public function fooGet(\OpenAPI\Server\Http\Requests\DefaultRequest $request): JsonResponse
+    public function fooGet(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         try {
             $apiResult = $this->api->fooGet();
         } catch (\Exception $exception) {
@@ -66,6 +77,7 @@ class DefaultController extends Controller
 
             return response()->json($responseBody, 0);
         }
+
 
         // This shouldn't happen
         return response()->abort(500);

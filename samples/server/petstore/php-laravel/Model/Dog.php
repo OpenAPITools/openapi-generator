@@ -30,15 +30,17 @@ class Dog
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $className;
-    /**
+    * @param string $className
     * 
-    */
-    public \Illuminate\Support\Stringable $color = 'red';
-    /**
+    * @param string $color
     * 
+    * @param string $breed
     */
-    public \Illuminate\Support\Stringable $breed;
+
+    public function __construct(
+        public string $className,
+        public string $color = 'red',
+        public string $breed,
+    ) {}
 }
 

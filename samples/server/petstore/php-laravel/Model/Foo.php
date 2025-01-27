@@ -30,7 +30,11 @@ class Foo
 {
     /**
     * 
+    * @param string $bar
     */
-    public \Illuminate\Support\Stringable $bar = 'bar';
+
+    public function __construct(
+        public string $bar = 'bar',
+    ) {}
 }
 

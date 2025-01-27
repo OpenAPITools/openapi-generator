@@ -26,7 +26,7 @@ namespace OpenAPI\Server\Model;
 /**
  * EnumClass
  */
-enum EnumClass: \Illuminate\Support\Stringable
+enum EnumClass: string
 {
         case ABC = '_abc';
         case EFG = '-efg';

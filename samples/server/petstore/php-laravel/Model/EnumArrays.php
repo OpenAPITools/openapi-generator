@@ -30,13 +30,14 @@ class EnumArrays
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $justSymbol;
-    /**
+    * @param string $justSymbol
     * 
-    * @var \Illuminate\Support\Stringable[]
-    * Default values for containers are currently not supported, you are welcome to open a PR!
+    * @param string[] $arrayEnum
     */
-    public array $arrayEnum = [];
+
+    public function __construct(
+        public string $justSymbol,
+        public array $arrayEnum,
+    ) {}
 }
 

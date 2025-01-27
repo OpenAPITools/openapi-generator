@@ -23,6 +23,9 @@ namespace OpenAPI\Server\Http\Controllers;
 use Crell\Serde\SerdeCommon;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 use OpenAPI\Server\Api\StoreApiInterface;
 
@@ -44,9 +47,21 @@ class StoreController extends Controller
      * Delete purchase order by ID.
      *
      */
-    public function deleteOrder(\OpenAPI\Server\Http\Requests\StoreRequest $request): JsonResponse
+    public function deleteOrder(Request $request): JsonResponse
     {
-        $orderId = $request->string('orderId');
+        $validator = Validator::make($request->all(), [
+            'orderId' => [
+                'required',
+                'string',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $orderId = $request->string('orderId')->value();
 
         try {
             $apiResult = $this->api->deleteOrder($orderId);
@@ -68,6 +83,7 @@ class StoreController extends Controller
 
             return response()->json($responseBody, 400);
         }
+
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -82,6 +98,7 @@ class StoreController extends Controller
             return response()->json($responseBody, 404);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -91,8 +108,16 @@ class StoreController extends Controller
      * Returns pet inventories by status.
      *
      */
-    public function getInventory(\OpenAPI\Server\Http\Requests\StoreRequest $request): JsonResponse
+    public function getInventory(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         try {
             $apiResult = $this->api->getInventory();
         } catch (\Exception $exception) {
@@ -100,7 +125,7 @@ class StoreController extends Controller
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
-        if ($apiResult instanceof array&lt;string,int&gt;) {
+        if (is_array($apiResult)) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
             if ($responseBody === null) {
@@ -114,6 +139,7 @@ class StoreController extends Controller
             return response()->json($responseBody, 200);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -123,8 +149,23 @@ class StoreController extends Controller
      * Find purchase order by ID.
      *
      */
-    public function getOrderById(\OpenAPI\Server\Http\Requests\StoreRequest $request): JsonResponse
+    public function getOrderById(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'orderId' => [
+                'required',
+                'gte:1',
+                'lte:5',
+                'integer',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
+        $orderId = $request->integer('orderId');
 
         try {
             $apiResult = $this->api->getOrderById($orderId);
@@ -146,6 +187,7 @@ class StoreController extends Controller
 
             return response()->json($responseBody, 200);
         }
+
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -159,6 +201,7 @@ class StoreController extends Controller
 
             return response()->json($responseBody, 400);
         }
+
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -173,6 +216,7 @@ class StoreController extends Controller
             return response()->json($responseBody, 404);
         }
 
+
         // This shouldn't happen
         return response()->abort(500);
     }
@@ -182,8 +226,19 @@ class StoreController extends Controller
      * Place an order for a pet.
      *
      */
-    public function placeOrder(\OpenAPI\Server\Http\Requests\StoreRequest $request): JsonResponse
+    public function placeOrder(Request $request): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'order' => [
+                'required',
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
+            return response()->json(['error' => 'Invalid input'], 400);
+        }
+
         $order = $this->serde->deserialize($request->get('order'), from: 'array', to: \OpenAPI\Server\Model\Order::class);
 
         if ($order === null) {
@@ -210,6 +265,7 @@ class StoreController extends Controller
 
             return response()->json($responseBody, 200);
         }
+
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
             $responseBody = $this->serde->serialize($apiResult, format: 'array');
 
@@ -223,6 +279,7 @@ class StoreController extends Controller
 
             return response()->json($responseBody, 400);
         }
+
 
         // This shouldn't happen
         return response()->abort(500);

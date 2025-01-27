@@ -30,35 +30,32 @@ class User
 {
     /**
     * 
-    */
-    public int $id;
-    /**
+    * @param int $id
     * 
-    */
-    public \Illuminate\Support\Stringable $username;
-    /**
+    * @param string $username
     * 
-    */
-    public \Illuminate\Support\Stringable $firstName;
-    /**
+    * @param string $firstName
     * 
-    */
-    public \Illuminate\Support\Stringable $lastName;
-    /**
+    * @param string $lastName
     * 
-    */
-    public \Illuminate\Support\Stringable $email;
-    /**
+    * @param string $email
     * 
-    */
-    public \Illuminate\Support\Stringable $password;
-    /**
+    * @param string $password
     * 
-    */
-    public \Illuminate\Support\Stringable $phone;
-    /**
+    * @param string $phone
     * User Status
+    * @param int $userStatus
     */
-    public int $userStatus;
+
+    public function __construct(
+        public int $id,
+        public string $username,
+        public string $firstName,
+        public string $lastName,
+        public string $email,
+        public string $password,
+        public string $phone,
+        public int $userStatus,
+    ) {}
 }
 

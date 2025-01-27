@@ -30,11 +30,14 @@ class ReadOnlyFirst
 {
     /**
     * 
-    */
-    public \Illuminate\Support\Stringable $bar;
-    /**
+    * @param string $bar
     * 
+    * @param string $baz
     */
-    public \Illuminate\Support\Stringable $baz;
+
+    public function __construct(
+        public string $bar,
+        public string $baz,
+    ) {}
 }
 

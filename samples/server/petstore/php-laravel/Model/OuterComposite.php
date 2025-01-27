@@ -30,15 +30,17 @@ class OuterComposite
 {
     /**
     * 
-    */
-    public float $myNumber;
-    /**
+    * @param float $myNumber
     * 
-    */
-    public \Illuminate\Support\Stringable $myString;
-    /**
+    * @param string $myString
     * 
+    * @param bool $myBoolean
     */
-    public bool $myBoolean;
+
+    public function __construct(
+        public float $myNumber,
+        public string $myString,
+        public bool $myBoolean,
+    ) {}
 }
 
