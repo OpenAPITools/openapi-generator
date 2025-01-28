@@ -62,9 +62,9 @@ public class MapTest {
    */
   @JsonAdapter(InnerEnum.Adapter.class)
   public enum InnerEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower");
+    LOWER(String.valueOf("lower"));
 
     private String value;
 

@@ -691,7 +691,7 @@ paths:
                   default: 1
                 enum_form_double:
                   description: Form parameter enum test (double)
-                  type: double
+                  type: number
                   enum:
                     - 1.1
                     - -1.1
