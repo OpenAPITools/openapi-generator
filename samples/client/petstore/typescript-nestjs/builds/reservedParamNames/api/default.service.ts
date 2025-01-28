@@ -13,7 +13,7 @@
 
 import { Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 import { Configuration } from '../configuration';
 import { COLLECTION_FORMATS } from '../variables';
@@ -74,9 +74,10 @@ export class DefaultService {
      * Test reserved param names
      * 
      * @param {DefaultServiceTestReservedParamNamesRequest} requestParameters Request parameters.
+     * @param {*} [testReservedParamNamesRequestConfig.options] Override http request option.
      */
-    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, ): Observable<AxiosResponse<any>>;
-    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, ): Observable<any> {
+    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, testReservedParamNamesRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, testReservedParamNamesRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         const {
             notReserved,
             'from': _from,
@@ -138,7 +139,8 @@ export class DefaultService {
                     {
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
-                        headers: headers
+                        headers: {...headers, ...testReservedParamNamesRequestConfig?.options?.headers},
+                        ...testReservedParamNamesRequestConfig?.options,
                     }
                 );
             })
