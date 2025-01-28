@@ -74,10 +74,10 @@ export class DefaultService {
      * Test reserved param names
      * 
      * @param {DefaultServiceTestReservedParamNamesRequest} requestParameters Request parameters.
-     * @param {*} [testReservedParamNamesRequestConfig.options] Override http request option.
+     * @param {*} [testReservedParamNamesOpts.config] Override http request option.
      */
-    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, testReservedParamNamesRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
-    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, testReservedParamNamesRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
+    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, testReservedParamNamesOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public testReservedParamNames(requestParameters: DefaultServiceTestReservedParamNamesRequest, testReservedParamNamesOpts?: { config?: AxiosRequestConfig }): Observable<any> {
         const {
             notReserved,
             'from': _from,
@@ -137,10 +137,10 @@ export class DefaultService {
                 return this.httpClient.post<any>(`${this.basePath}/test`,
                     null,
                     {
-                        ...testReservedParamNamesRequestConfig?.options,
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...testReservedParamNamesRequestConfig?.options?.headers},
+                        ...testReservedParamNamesOpts?.config,
+                        headers: {...headers, ...testReservedParamNamesOpts?.config?.headers},
                     }
                 );
             })
