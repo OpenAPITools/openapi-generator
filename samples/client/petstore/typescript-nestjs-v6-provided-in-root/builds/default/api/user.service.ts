@@ -48,10 +48,10 @@ export class UserService {
      * @param user Created user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [createUserRequestConfig.options] Override http request option.
      */
-    public createUser(user: User, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public createUser(user: User, options?: AxiosRequestConfig): Observable<any> {
+    public createUser(user: User, createUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public createUser(user: User, createUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUser.');
         }
@@ -91,8 +91,8 @@ export class UserService {
                     user,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...createUserRequestConfig?.options?.headers},
+                        ...createUserRequestConfig?.options,
                     }
                 );
             })
@@ -104,10 +104,10 @@ export class UserService {
      * @param user List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [createUsersWithArrayInputRequestConfig.options] Override http request option.
      */
-    public createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public createUsersWithArrayInput(user: Array<User>, options?: AxiosRequestConfig): Observable<any> {
+    public createUsersWithArrayInput(user: Array<User>, createUsersWithArrayInputRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public createUsersWithArrayInput(user: Array<User>, createUsersWithArrayInputRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
         }
@@ -147,8 +147,8 @@ export class UserService {
                     user,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...createUsersWithArrayInputRequestConfig?.options?.headers},
+                        ...createUsersWithArrayInputRequestConfig?.options,
                     }
                 );
             })
@@ -160,10 +160,10 @@ export class UserService {
      * @param user List of user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [createUsersWithListInputRequestConfig.options] Override http request option.
      */
-    public createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public createUsersWithListInput(user: Array<User>, options?: AxiosRequestConfig): Observable<any> {
+    public createUsersWithListInput(user: Array<User>, createUsersWithListInputRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public createUsersWithListInput(user: Array<User>, createUsersWithListInputRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (user === null || user === undefined) {
             throw new Error('Required parameter user was null or undefined when calling createUsersWithListInput.');
         }
@@ -203,8 +203,8 @@ export class UserService {
                     user,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...createUsersWithListInputRequestConfig?.options?.headers},
+                        ...createUsersWithListInputRequestConfig?.options,
                     }
                 );
             })
@@ -216,10 +216,10 @@ export class UserService {
      * @param username The name that needs to be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [deleteUserRequestConfig.options] Override http request option.
      */
-    public deleteUser(username: string, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public deleteUser(username: string, options?: AxiosRequestConfig): Observable<any> {
+    public deleteUser(username: string, deleteUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public deleteUser(username: string, deleteUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
@@ -253,8 +253,8 @@ export class UserService {
                 return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...deleteUserRequestConfig?.options?.headers},
+                        ...deleteUserRequestConfig?.options,
                     }
                 );
             })
@@ -266,10 +266,10 @@ export class UserService {
      * @param username The name that needs to be fetched. Use user1 for testing.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [getUserByNameRequestConfig.options] Override http request option.
      */
-    public getUserByName(username: string, options?: AxiosRequestConfig): Observable<AxiosResponse<User>>;
-    public getUserByName(username: string, options?: AxiosRequestConfig): Observable<any> {
+    public getUserByName(username: string, getUserByNameRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<User>>;
+    public getUserByName(username: string, getUserByNameRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
@@ -300,8 +300,8 @@ export class UserService {
                 return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...getUserByNameRequestConfig?.options?.headers},
+                        ...getUserByNameRequestConfig?.options,
                     }
                 );
             })
@@ -314,10 +314,10 @@ export class UserService {
      * @param password The password for login in clear text
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [loginUserRequestConfig.options] Override http request option.
      */
-    public loginUser(username: string, password: string, options?: AxiosRequestConfig): Observable<AxiosResponse<string>>;
-    public loginUser(username: string, password: string, options?: AxiosRequestConfig): Observable<any> {
+    public loginUser(username: string, password: string, loginUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<string>>;
+    public loginUser(username: string, password: string, loginUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
@@ -361,8 +361,8 @@ export class UserService {
                     {
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...loginUserRequestConfig?.options?.headers},
+                        ...loginUserRequestConfig?.options,
                     }
                 );
             })
@@ -373,10 +373,10 @@ export class UserService {
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [logoutUserRequestConfig.options] Override http request option.
      */
-    public logoutUser(options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public logoutUser(options?: AxiosRequestConfig): Observable<any> {
+    public logoutUser(logoutUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public logoutUser(logoutUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -406,8 +406,8 @@ export class UserService {
                 return this.httpClient.get<any>(`${this.basePath}/user/logout`,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...logoutUserRequestConfig?.options?.headers},
+                        ...logoutUserRequestConfig?.options,
                     }
                 );
             })
@@ -420,10 +420,10 @@ export class UserService {
      * @param user Updated user object
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
-     * @param {*} [options] Override http request option.
+     * @param {*} [updateUserRequestConfig.options] Override http request option.
      */
-    public updateUser(username: string, user: User, options?: AxiosRequestConfig): Observable<AxiosResponse<any>>;
-    public updateUser(username: string, user: User, options?: AxiosRequestConfig): Observable<any> {
+    public updateUser(username: string, user: User, updateUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public updateUser(username: string, user: User, updateUserRequestConfig?: { options?: AxiosRequestConfig }): Observable<any> {
         if (username === null || username === undefined) {
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
@@ -467,8 +467,8 @@ export class UserService {
                     user,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: {...headers, ...options?.headers},
-                        ...options,
+                        headers: {...headers, ...updateUserRequestConfig?.options?.headers},
+                        ...updateUserRequestConfig?.options,
                     }
                 );
             })
