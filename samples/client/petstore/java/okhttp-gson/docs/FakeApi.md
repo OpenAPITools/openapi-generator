@@ -982,7 +982,7 @@ null (empty response body)
 
 <a id="testEnumParameters"></a>
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger)
 
 To test enum parameters
 
@@ -1012,9 +1012,8 @@ public class Example {
     List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
     String enumFormString = "_abc"; // String | Form parameter enum test (string)
     Integer enumFormInteger = 1; // Integer | Form parameter enum test (integer)
-    BigDecimal enumFormDouble = new BigDecimal("1.1"); // BigDecimal | Form parameter enum test (double)
     try {
-      apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
+      apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#testEnumParameters");
       System.err.println("Status code: " + e.getCode());
@@ -1039,7 +1038,6 @@ public class Example {
 | **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
 | **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
 | **enumFormInteger** | **Integer**| Form parameter enum test (integer) | [optional] [default to 1] [enum: 1, -1, 0] |
-| **enumFormDouble** | **BigDecimal**| Form parameter enum test (double) | [optional] [default to 1.1] [enum: 1.1, -1.1, 0.1, 0.0] |
 
 ### Return type
 

@@ -2984,15 +2984,6 @@ components:
           - -1
           - 0
           type: integer
-        enum_form_double:
-          default: 1.1
-          description: Form parameter enum test (double)
-          enum:
-          - 1.1
-          - -1.1
-          - 0.1
-          - 0.0
-          type: number
       type: object
     testEndpointParameters_request:
       properties:
