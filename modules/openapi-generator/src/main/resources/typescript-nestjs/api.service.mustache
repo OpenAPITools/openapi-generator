@@ -285,6 +285,7 @@ export class {{classname}} {
                 return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
                     {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
                     {
+                        ...{{nickname}}RequestConfig?.options,
         {{#hasQueryParams}}
                         params: queryParameters,
         {{/hasQueryParams}}
@@ -293,7 +294,6 @@ export class {{classname}} {
         {{/isResponseFile}}
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...{{nickname}}RequestConfig?.options?.headers},
-                        ...{{nickname}}RequestConfig?.options,
                     }
                 );
             })

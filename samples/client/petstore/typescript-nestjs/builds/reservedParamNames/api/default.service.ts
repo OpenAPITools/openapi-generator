@@ -137,10 +137,10 @@ export class DefaultService {
                 return this.httpClient.post<any>(`${this.basePath}/test`,
                     null,
                     {
+                        ...testReservedParamNamesRequestConfig?.options,
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...testReservedParamNamesRequestConfig?.options?.headers},
-                        ...testReservedParamNamesRequestConfig?.options,
                     }
                 );
             })

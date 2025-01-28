@@ -80,9 +80,9 @@ export class StoreService {
 
                 return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
                     {
+                        ...deleteOrderRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...deleteOrderRequestConfig?.options?.headers},
-                        ...deleteOrderRequestConfig?.options,
                     }
                 );
             })
@@ -126,9 +126,9 @@ export class StoreService {
 
                 return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
                     {
+                        ...getInventoryRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...getInventoryRequestConfig?.options?.headers},
-                        ...getInventoryRequestConfig?.options,
                     }
                 );
             })
@@ -173,9 +173,9 @@ export class StoreService {
 
                 return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
                     {
+                        ...getOrderByIdRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...getOrderByIdRequestConfig?.options?.headers},
-                        ...getOrderByIdRequestConfig?.options,
                     }
                 );
             })
@@ -226,9 +226,9 @@ export class StoreService {
                 return this.httpClient.post<Order>(`${this.basePath}/store/order`,
                     order,
                     {
+                        ...placeOrderRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...placeOrderRequestConfig?.options?.headers},
-                        ...placeOrderRequestConfig?.options,
                     }
                 );
             })

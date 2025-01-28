@@ -96,9 +96,9 @@ export class PetService {
                 return this.httpClient.post<Pet>(`${this.basePath}/pet`,
                     pet,
                     {
+                        ...addPetRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...addPetRequestConfig?.options?.headers},
-                        ...addPetRequestConfig?.options,
                     }
                 );
             })
@@ -152,9 +152,9 @@ export class PetService {
 
                 return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
                     {
+                        ...deletePetRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...deletePetRequestConfig?.options?.headers},
-                        ...deletePetRequestConfig?.options,
                     }
                 );
             })
@@ -211,10 +211,10 @@ export class PetService {
 
                 return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByStatus`,
                     {
+                        ...findPetsByStatusRequestConfig?.options,
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...findPetsByStatusRequestConfig?.options?.headers},
-                        ...findPetsByStatusRequestConfig?.options,
                     }
                 );
             })
@@ -271,10 +271,10 @@ export class PetService {
 
                 return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByTags`,
                     {
+                        ...findPetsByTagsRequestConfig?.options,
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...findPetsByTagsRequestConfig?.options?.headers},
-                        ...findPetsByTagsRequestConfig?.options,
                     }
                 );
             })
@@ -324,9 +324,9 @@ export class PetService {
 
                 return this.httpClient.get<Pet>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
                     {
+                        ...getPetByIdRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...getPetByIdRequestConfig?.options?.headers},
-                        ...getPetByIdRequestConfig?.options,
                     }
                 );
             })
@@ -385,9 +385,9 @@ export class PetService {
                 return this.httpClient.put<Pet>(`${this.basePath}/pet`,
                     pet,
                     {
+                        ...updatePetRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...updatePetRequestConfig?.options?.headers},
-                        ...updatePetRequestConfig?.options,
                     }
                 );
             })
@@ -461,9 +461,9 @@ export class PetService {
                 return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
                     convertFormParamsToString ? formParams!.toString() : formParams!,
                     {
+                        ...updatePetWithFormRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...updatePetWithFormRequestConfig?.options?.headers},
-                        ...updatePetWithFormRequestConfig?.options,
                     }
                 );
             })
@@ -542,9 +542,9 @@ export class PetService {
                 return this.httpClient.post<ApiResponse>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
                     convertFormParamsToString ? formParams!.toString() : formParams!,
                     {
+                        ...uploadFileRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...uploadFileRequestConfig?.options?.headers},
-                        ...uploadFileRequestConfig?.options,
                     }
                 );
             })

@@ -91,9 +91,9 @@ export class UserService {
                 return this.httpClient.post<any>(`${this.basePath}/user`,
                     user,
                     {
+                        ...createUserRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...createUserRequestConfig?.options?.headers},
-                        ...createUserRequestConfig?.options,
                     }
                 );
             })
@@ -147,9 +147,9 @@ export class UserService {
                 return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
                     user,
                     {
+                        ...createUsersWithArrayInputRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...createUsersWithArrayInputRequestConfig?.options?.headers},
-                        ...createUsersWithArrayInputRequestConfig?.options,
                     }
                 );
             })
@@ -203,9 +203,9 @@ export class UserService {
                 return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
                     user,
                     {
+                        ...createUsersWithListInputRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...createUsersWithListInputRequestConfig?.options?.headers},
-                        ...createUsersWithListInputRequestConfig?.options,
                     }
                 );
             })
@@ -253,9 +253,9 @@ export class UserService {
 
                 return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
                     {
+                        ...deleteUserRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...deleteUserRequestConfig?.options?.headers},
-                        ...deleteUserRequestConfig?.options,
                     }
                 );
             })
@@ -300,9 +300,9 @@ export class UserService {
 
                 return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
                     {
+                        ...getUserByNameRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...getUserByNameRequestConfig?.options?.headers},
-                        ...getUserByNameRequestConfig?.options,
                     }
                 );
             })
@@ -360,10 +360,10 @@ export class UserService {
 
                 return this.httpClient.get<string>(`${this.basePath}/user/login`,
                     {
+                        ...loginUserRequestConfig?.options,
                         params: queryParameters,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...loginUserRequestConfig?.options?.headers},
-                        ...loginUserRequestConfig?.options,
                     }
                 );
             })
@@ -406,9 +406,9 @@ export class UserService {
 
                 return this.httpClient.get<any>(`${this.basePath}/user/logout`,
                     {
+                        ...logoutUserRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...logoutUserRequestConfig?.options?.headers},
-                        ...logoutUserRequestConfig?.options,
                     }
                 );
             })
@@ -467,9 +467,9 @@ export class UserService {
                 return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
                     user,
                     {
+                        ...updateUserRequestConfig?.options,
                         withCredentials: this.configuration.withCredentials,
                         headers: {...headers, ...updateUserRequestConfig?.options?.headers},
-                        ...updateUserRequestConfig?.options,
                     }
                 );
             })
