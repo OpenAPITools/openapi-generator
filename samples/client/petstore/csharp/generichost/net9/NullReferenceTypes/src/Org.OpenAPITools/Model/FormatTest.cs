@@ -667,71 +667,55 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "byte":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varByte = new Option<byte[]?>(JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            varByte = new Option<byte[]?>(JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "date":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                date = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
+                            date = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                number = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            number = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetDecimal());
                             break;
                         case "password":
                             password = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "binary":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                binary = new Option<System.IO.Stream?>(JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            binary = new Option<System.IO.Stream?>(JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "dateTime":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateTime = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            dateTime = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "decimal":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varDecimal = new Option<decimal?>(JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            varDecimal = new Option<decimal?>(JsonSerializer.Deserialize<decimal>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "double":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varDouble = new Option<double?>(utf8JsonReader.GetDouble());
+                            varDouble = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetDouble());
                             break;
                         case "float":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varFloat = new Option<float?>((float)utf8JsonReader.GetDouble());
+                            varFloat = new Option<float?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : (float)utf8JsonReader.GetDouble());
                             break;
                         case "int32":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int32 = new Option<int?>(utf8JsonReader.GetInt32());
+                            int32 = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "int32Range":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int32Range = new Option<int?>(utf8JsonReader.GetInt32());
+                            int32Range = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "int64":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64 = new Option<long?>(utf8JsonReader.GetInt64());
+                            int64 = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt64());
                             break;
                         case "int64Negative":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64Negative = new Option<long?>(utf8JsonReader.GetInt32());
+                            int64Negative = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "int64NegativeExclusive":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64NegativeExclusive = new Option<long?>(utf8JsonReader.GetInt32());
+                            int64NegativeExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "int64Positive":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64Positive = new Option<long?>(utf8JsonReader.GetInt32());
+                            int64Positive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "int64PositiveExclusive":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                int64PositiveExclusive = new Option<long?>(utf8JsonReader.GetInt32());
+                            int64PositiveExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                integer = new Option<int?>(utf8JsonReader.GetInt32());
+                            integer = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "pattern_with_backslash":
                             patternWithBackslash = new Option<string?>(utf8JsonReader.GetString()!);
@@ -746,16 +730,13 @@ namespace Org.OpenAPITools.Model
                             varString = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "unsigned_integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                unsignedInteger = new Option<uint?>(utf8JsonReader.GetUInt32());
+                            unsignedInteger = new Option<uint?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetUInt32());
                             break;
                         case "unsigned_long":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                unsignedLong = new Option<ulong?>(utf8JsonReader.GetUInt64());
+                            unsignedLong = new Option<ulong?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetUInt64());
                             break;
                         case "uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            uuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;

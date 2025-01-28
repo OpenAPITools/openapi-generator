@@ -746,16 +746,13 @@ namespace Org.OpenAPITools.Model
                                 enumStringRequired = new Option<EnumTest.EnumStringRequiredEnum?>(EnumTest.EnumStringRequiredEnumFromStringOrDefault(enumStringRequiredRawValue));
                             break;
                         case "enum_integer":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                enumInteger = new Option<EnumTest.EnumIntegerEnum?>((EnumTest.EnumIntegerEnum)utf8JsonReader.GetInt32());
+                            enumInteger = new Option<EnumTest.EnumIntegerEnum?>((EnumTest.EnumIntegerEnum)utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "enum_integer_only":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>((EnumTest.EnumIntegerOnlyEnum)utf8JsonReader.GetInt32());
+                            enumIntegerOnly = new Option<EnumTest.EnumIntegerOnlyEnum?>((EnumTest.EnumIntegerOnlyEnum)utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "enum_number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                enumNumber = new Option<EnumTest.EnumNumberEnum?>((EnumTest.EnumNumberEnum)utf8JsonReader.GetInt32());
+                            enumNumber = new Option<EnumTest.EnumNumberEnum?>((EnumTest.EnumNumberEnum)utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "enum_string":
                             string? enumStringRawValue = utf8JsonReader.GetString();

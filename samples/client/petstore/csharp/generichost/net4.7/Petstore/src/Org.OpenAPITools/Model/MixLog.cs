@@ -619,32 +619,25 @@ namespace Org.OpenAPITools.Model
                             description = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "formulaVersionDate":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                formulaVersionDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            formulaVersionDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "id":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            id = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetGuid());
                             break;
                         case "mixDate":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mixDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            mixDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "totalOverPoors":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalOverPoors = new Option<int?>(utf8JsonReader.GetInt32());
+                            totalOverPoors = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "totalRecalculations":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalRecalculations = new Option<int?>(utf8JsonReader.GetInt32());
+                            totalRecalculations = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "totalSkips":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalSkips = new Option<int?>(utf8JsonReader.GetInt32());
+                            totalSkips = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "totalUnderPours":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalUnderPours = new Option<int?>(utf8JsonReader.GetInt32());
+                            totalUnderPours = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "batchNumber":
                             batchNumber = new Option<string>(utf8JsonReader.GetString());
@@ -692,8 +685,7 @@ namespace Org.OpenAPITools.Model
                             deltaECalculationSprayout = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "ownColorVariantNumber":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                ownColorVariantNumber = new Option<int?>(utf8JsonReader.GetInt32());
+                            ownColorVariantNumber = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "primerProductId":
                             primerProductId = new Option<string>(utf8JsonReader.GetString());
@@ -708,19 +700,16 @@ namespace Org.OpenAPITools.Model
                             productName = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "selectedVersionIndex":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                selectedVersionIndex = new Option<int?>(utf8JsonReader.GetInt32());
+                            selectedVersionIndex = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
                             break;
                         case "shopId":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shopId = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            shopId = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetGuid());
                             break;
                         case "someCode":
                             someCode = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "totalPrice":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                totalPrice = new Option<float?>((float)utf8JsonReader.GetDouble());
+                            totalPrice = new Option<float?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : (float)utf8JsonReader.GetDouble());
                             break;
                         default:
                             break;
