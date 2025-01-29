@@ -14,7 +14,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
@@ -93,54 +92,6 @@ public class Order  {
 
   @JsonbProperty("complete")
   private Boolean complete = false;
-
-  @JsonbTypeSerializer(PaymentMethodEnum.Serializer.class)
-  @JsonbTypeDeserializer(PaymentMethodEnum.Deserializer.class)
-  public enum PaymentMethodEnum {
-
-    NUMBER_1(new BigDecimal("1")), NUMBER_2(new BigDecimal("2"));
-
-
-    BigDecimal value;
-
-    PaymentMethodEnum (BigDecimal v) {
-        value = v;
-    }
-
-    public BigDecimal value() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    public static final class Deserializer implements JsonbDeserializer<PaymentMethodEnum> {
-        @Override
-        public PaymentMethodEnum deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
-            for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
-                if (String.valueOf(b.value).equals(parser.getString())) {
-                    return b;
-                }
-            }
-            throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");
-        }
-    }
-
-    public static final class Serializer implements JsonbSerializer<PaymentMethodEnum> {
-        @Override
-        public void serialize(PaymentMethodEnum obj, JsonGenerator generator, SerializationContext ctx) {
-            generator.write(obj.value);
-        }
-    }
-  }
-
- /**
-  * Various payment methods
-  */
-  @JsonbProperty("paymentMethod")
-  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
 
   /**
    * Get id
@@ -262,26 +213,6 @@ public class Order  {
     return this;
   }
 
-  /**
-   * Various payment methods
-   * @return paymentMethod
-   **/
-  public PaymentMethodEnum getPaymentMethod() {
-    return paymentMethod;
-  }
-
-  /**
-   * Set paymentMethod
-   */
-  public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
-    this.paymentMethod = paymentMethod;
-  }
-
-  public Order paymentMethod(PaymentMethodEnum paymentMethod) {
-    this.paymentMethod = paymentMethod;
-    return this;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -296,13 +227,12 @@ public class Order  {
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
         Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete) &&
-        Objects.equals(this.paymentMethod, order.paymentMethod);
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete, paymentMethod);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
 
   /**
@@ -319,7 +249,6 @@ public class Order  {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
-    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
     sb.append("}");
     return sb.toString();
   }

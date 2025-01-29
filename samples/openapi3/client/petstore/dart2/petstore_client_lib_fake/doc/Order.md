@@ -14,7 +14,6 @@ Name | Type | Description | Notes
 **shipDate** | [**DateTime**](DateTime.md) |  | [optional] 
 **status** | **String** | Order Status | [optional] 
 **complete** | **bool** |  | [optional] [default to false]
-**paymentMethod** | **num** | Various payment methods | [optional] [default to 1]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

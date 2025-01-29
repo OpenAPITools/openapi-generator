@@ -27,7 +27,4 @@ class Order {
     /** @var bool $complete */
     public $complete = false;
 
-    /** @var float $paymentMethod Various payment methods*/
-    public $paymentMethod = PAYMENT_METHOD::NUMBER_1;
-
 }

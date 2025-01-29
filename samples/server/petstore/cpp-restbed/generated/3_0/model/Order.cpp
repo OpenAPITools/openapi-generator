@@ -69,7 +69,6 @@ ptree Order::toPropertyTree() const
 	pt.put("shipDate", m_ShipDate);
 	pt.put("status", m_Status);
 	pt.put("complete", m_Complete);
-	pt.put("paymentMethod", m_PaymentMethod);
 	return pt;
 }
 
@@ -82,7 +81,6 @@ void Order::fromPropertyTree(ptree const &pt)
 	m_ShipDate = pt.get("shipDate", "");
 	setStatus(pt.get("status", ""));
 	m_Complete = pt.get("complete", false);
-	setPaymentMethod(pt.get("paymentMethod", 1));
 }
 
 int64_t Order::getId() const
@@ -156,25 +154,6 @@ bool Order::isComplete() const
 void Order::setComplete(bool value)
 {
     m_Complete = value;
-}
-
-
-double Order::getPaymentMethod() const
-{
-    return m_PaymentMethod;
-}
-
-void Order::setPaymentMethod(double value)
-{
-    static const std::array<double, 2> allowedValues = {
-        1, 2
-    };
-
-    if (std::find(allowedValues.begin(), allowedValues.end(), value) != allowedValues.end()) {
-		m_PaymentMethod = value;
-	} else {
-		throw std::runtime_error("Value " + boost::lexical_cast<std::string>(value) + " not allowed");
-	}
 }
 
 
