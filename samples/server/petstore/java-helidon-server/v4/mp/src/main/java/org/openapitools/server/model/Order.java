@@ -91,7 +91,7 @@ public enum StatusEnum {
 
 public enum PaymentMethodEnum {
 
-    NUMBER_1(BigDecimal.valueOf(new BigDecimal("1"))), NUMBER_2(BigDecimal.valueOf(new BigDecimal("2")));
+    NUMBER_1(new BigDecimal("1")), NUMBER_2(new BigDecimal("2"));
 
 
     private BigDecimal value;
