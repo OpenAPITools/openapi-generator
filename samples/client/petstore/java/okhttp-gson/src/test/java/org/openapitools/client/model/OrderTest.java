@@ -19,6 +19,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import org.junit.jupiter.api.Disabled;
@@ -84,6 +85,14 @@ public class OrderTest {
     @Test
     public void completeTest() {
         // TODO: test complete
+    }
+
+    /**
+     * Test the property 'paymentMethod'
+     */
+    @Test
+    public void paymentMethodTest() {
+        // TODO: test paymentMethod
     }
 
 }
