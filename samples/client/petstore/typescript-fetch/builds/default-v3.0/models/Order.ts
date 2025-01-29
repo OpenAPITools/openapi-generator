@@ -55,12 +55,6 @@ export interface Order {
      * @memberof Order
      */
     complete?: boolean;
-    /**
-     * Various payment methods
-     * @type {number}
-     * @memberof Order
-     */
-    paymentMethod?: OrderPaymentMethodEnum;
 }
 
 
@@ -73,15 +67,6 @@ export const OrderStatusEnum = {
     Delivered: 'delivered'
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
-
-/**
- * @export
- */
-export const OrderPaymentMethodEnum = {
-    NUMBER_1: 1,
-    NUMBER_2: 2
-} as const;
-export type OrderPaymentMethodEnum = typeof OrderPaymentMethodEnum[keyof typeof OrderPaymentMethodEnum];
 
 
 /**
@@ -107,7 +92,6 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
         'shipDate': json['shipDate'] == null ? undefined : (new Date(json['shipDate'])),
         'status': json['status'] == null ? undefined : json['status'],
         'complete': json['complete'] == null ? undefined : json['complete'],
-        'paymentMethod': json['paymentMethod'] == null ? undefined : json['paymentMethod'],
     };
 }
 
@@ -128,7 +112,6 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'shipDate': value['shipDate'] == null ? undefined : ((value['shipDate']).toISOString()),
         'status': value['status'],
         'complete': value['complete'],
-        'paymentMethod': value['paymentMethod'],
     };
 }
 

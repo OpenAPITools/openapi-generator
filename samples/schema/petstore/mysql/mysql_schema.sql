@@ -352,8 +352,7 @@ CREATE TABLE IF NOT EXISTS `Order` (
   `quantity` INT DEFAULT NULL,
   `shipDate` DATETIME DEFAULT NULL,
   `status` ENUM('placed', 'approved', 'delivered') DEFAULT NULL COMMENT 'Order Status',
-  `complete` TINYINT(1) DEFAULT false,
-  `paymentMethod` ENUM('1', '2') DEFAULT '1' COMMENT 'Various payment methods'
+  `complete` TINYINT(1) DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
