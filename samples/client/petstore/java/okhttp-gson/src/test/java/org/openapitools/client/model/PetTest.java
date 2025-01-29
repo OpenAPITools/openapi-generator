@@ -19,29 +19,26 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
-import org.openapitools.client.model.Order;
-import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.Tag;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
- * Model tests for AllOfModelArrayAnyOfAllOfAttributesC
+ * Model tests for Pet
  */
-public class AllOfModelArrayAnyOfAllOfAttributesCTest {
-    private final AllOfModelArrayAnyOfAllOfAttributesC model = new AllOfModelArrayAnyOfAllOfAttributesC();
+public class PetTest {
+    private final Pet model = new Pet();
 
     /**
-     * Model tests for AllOfModelArrayAnyOfAllOfAttributesC
+     * Model tests for Pet
      */
     @Test
-    public void testAllOfModelArrayAnyOfAllOfAttributesC() {
-        // TODO: test AllOfModelArrayAnyOfAllOfAttributesC
+    public void testPet() {
+        // TODO: test Pet
     }
 
     /**
@@ -90,38 +87,6 @@ public class AllOfModelArrayAnyOfAllOfAttributesCTest {
     @Test
     public void statusTest() {
         // TODO: test status
-    }
-
-    /**
-     * Test the property 'petId'
-     */
-    @Test
-    public void petIdTest() {
-        // TODO: test petId
-    }
-
-    /**
-     * Test the property 'quantity'
-     */
-    @Test
-    public void quantityTest() {
-        // TODO: test quantity
-    }
-
-    /**
-     * Test the property 'shipDate'
-     */
-    @Test
-    public void shipDateTest() {
-        // TODO: test shipDate
-    }
-
-    /**
-     * Test the property 'complete'
-     */
-    @Test
-    public void completeTest() {
-        // TODO: test complete
     }
 
 }
