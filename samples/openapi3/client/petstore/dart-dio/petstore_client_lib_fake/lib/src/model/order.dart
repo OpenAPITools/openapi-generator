@@ -18,6 +18,7 @@ part 'order.g.dart';
 /// * [shipDate] 
 /// * [status] - Order Status
 /// * [complete] 
+/// * [paymentMethod] - Various payment methods
 @BuiltValue()
 abstract class Order implements Built<Order, OrderBuilder> {
   @BuiltValueField(wireName: r'id')
@@ -40,13 +41,19 @@ abstract class Order implements Built<Order, OrderBuilder> {
   @BuiltValueField(wireName: r'complete')
   bool? get complete;
 
+  /// Various payment methods
+  @BuiltValueField(wireName: r'paymentMethod')
+  OrderPaymentMethodEnum? get paymentMethod;
+  // enum paymentMethodEnum {  1,  2,  };
+
   Order._();
 
   factory Order([void updates(OrderBuilder b)]) = _$Order;
 
   @BuiltValueHook(initializeBuilder: true)
   static void _defaults(OrderBuilder b) => b
-      ..complete = false;
+      ..complete = false
+      ..paymentMethod = const OrderPaymentMethodEnum._(1);
 
   @BuiltValueSerializer(custom: true)
   static Serializer<Order> get serializer => _$OrderSerializer();
@@ -104,6 +111,13 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
       yield serializers.serialize(
         object.complete,
         specifiedType: const FullType(bool),
+      );
+    }
+    if (object.paymentMethod != null) {
+      yield r'paymentMethod';
+      yield serializers.serialize(
+        object.paymentMethod,
+        specifiedType: const FullType(OrderPaymentMethodEnum),
       );
     }
   }
@@ -171,6 +185,13 @@ class _$OrderSerializer implements PrimitiveSerializer<Order> {
           ) as bool;
           result.complete = valueDes;
           break;
+        case r'paymentMethod':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(OrderPaymentMethodEnum),
+          ) as OrderPaymentMethodEnum;
+          result.paymentMethod = valueDes;
+          break;
         default:
           unhandled.add(key);
           unhandled.add(value);
@@ -221,5 +242,25 @@ class OrderStatusEnum extends EnumClass {
 
   static BuiltSet<OrderStatusEnum> get values => _$orderStatusEnumValues;
   static OrderStatusEnum valueOf(String name) => _$orderStatusEnumValueOf(name);
+}
+
+class OrderPaymentMethodEnum extends EnumClass {
+
+  /// Various payment methods
+  @BuiltValueEnumConst(wireName: r'1')
+  static const OrderPaymentMethodEnum n1 = _$orderPaymentMethodEnum_n1;
+  /// Various payment methods
+  @BuiltValueEnumConst(wireName: r'2')
+  static const OrderPaymentMethodEnum n2 = _$orderPaymentMethodEnum_n2;
+  /// Various payment methods
+  @BuiltValueEnumConst(wireName: r'11184809', fallback: true)
+  static const OrderPaymentMethodEnum unknownDefaultOpenApi = _$orderPaymentMethodEnum_unknownDefaultOpenApi;
+
+  static Serializer<OrderPaymentMethodEnum> get serializer => _$orderPaymentMethodEnumSerializer;
+
+  const OrderPaymentMethodEnum._(String name): super(name);
+
+  static BuiltSet<OrderPaymentMethodEnum> get values => _$orderPaymentMethodEnumValues;
+  static OrderPaymentMethodEnum valueOf(String name) => _$orderPaymentMethodEnumValueOf(name);
 }
 

@@ -982,7 +982,7 @@ public class Example {
 
 ## testEnumParameters
 
-> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString)
+> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble)
 
 To test enum parameters
 
@@ -1013,8 +1013,10 @@ public class Example {
         List<EnumClass> enumQueryModelArray = Arrays.asList(-efg); // List<EnumClass> | 
         List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
         String enumFormString = "_abc"; // String | Form parameter enum test (string)
+        Integer enumFormInteger = 1; // Integer | Form parameter enum test (integer)
+        BigDecimal enumFormDouble = new BigDecimal("1.1"); // BigDecimal | Form parameter enum test (double)
         try {
-            void result = apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+            void result = apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEnumParameters");
@@ -1041,6 +1043,8 @@ public class Example {
 | **enumQueryModelArray** | [**List&lt;EnumClass&gt;**](EnumClass.md)|  | [optional] |
 | **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
 | **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
+| **enumFormInteger** | **Integer**| Form parameter enum test (integer) | [optional] [default to 1] [enum: 1, -1, 0] |
+| **enumFormDouble** | **BigDecimal**| Form parameter enum test (double) | [optional] [default to 1.1] [enum: 1.1, -1.1, 0.1, 0.0] |
 
 ### Return type
 
