@@ -19,28 +19,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.OuterEnum;
-import org.openapitools.client.model.OuterEnumDefaultValue;
-import org.openapitools.client.model.OuterEnumInteger;
-import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for EnumTest
  */
-class EnumTestTest {
+public class EnumTestTest {
     private final EnumTest model = new EnumTest();
 
     /**
      * Model tests for EnumTest
      */
     @Test
-    void testEnumTest() {
+    public void testEnumTest() {
         // TODO: test EnumTest
     }
 
@@ -48,7 +42,7 @@ class EnumTestTest {
      * Test the property 'enumString'
      */
     @Test
-    void enumStringTest() {
+    public void enumStringTest() {
         // TODO: test enumString
     }
 
@@ -56,7 +50,7 @@ class EnumTestTest {
      * Test the property 'enumStringRequired'
      */
     @Test
-    void enumStringRequiredTest() {
+    public void enumStringRequiredTest() {
         // TODO: test enumStringRequired
     }
 
@@ -64,7 +58,7 @@ class EnumTestTest {
      * Test the property 'enumInteger'
      */
     @Test
-    void enumIntegerTest() {
+    public void enumIntegerTest() {
         // TODO: test enumInteger
     }
 
@@ -72,7 +66,7 @@ class EnumTestTest {
      * Test the property 'enumNumber'
      */
     @Test
-    void enumNumberTest() {
+    public void enumNumberTest() {
         // TODO: test enumNumber
     }
 
@@ -80,32 +74,8 @@ class EnumTestTest {
      * Test the property 'outerEnum'
      */
     @Test
-    void outerEnumTest() {
+    public void outerEnumTest() {
         // TODO: test outerEnum
-    }
-
-    /**
-     * Test the property 'outerEnumInteger'
-     */
-    @Test
-    void outerEnumIntegerTest() {
-        // TODO: test outerEnumInteger
-    }
-
-    /**
-     * Test the property 'outerEnumDefaultValue'
-     */
-    @Test
-    void outerEnumDefaultValueTest() {
-        // TODO: test outerEnumDefaultValue
-    }
-
-    /**
-     * Test the property 'outerEnumIntegerDefaultValue'
-     */
-    @Test
-    void outerEnumIntegerDefaultValueTest() {
-        // TODO: test outerEnumIntegerDefaultValue
     }
 
 }

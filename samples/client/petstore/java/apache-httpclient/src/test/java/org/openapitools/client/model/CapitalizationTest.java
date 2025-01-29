@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Capitalization
  */
-class CapitalizationTest {
+public class CapitalizationTest {
     private final Capitalization model = new Capitalization();
 
     /**
      * Model tests for Capitalization
      */
     @Test
-    void testCapitalization() {
+    public void testCapitalization() {
         // TODO: test Capitalization
     }
 
@@ -40,7 +41,7 @@ class CapitalizationTest {
      * Test the property 'smallCamel'
      */
     @Test
-    void smallCamelTest() {
+    public void smallCamelTest() {
         // TODO: test smallCamel
     }
 
@@ -48,7 +49,7 @@ class CapitalizationTest {
      * Test the property 'capitalCamel'
      */
     @Test
-    void capitalCamelTest() {
+    public void capitalCamelTest() {
         // TODO: test capitalCamel
     }
 
@@ -56,7 +57,7 @@ class CapitalizationTest {
      * Test the property 'smallSnake'
      */
     @Test
-    void smallSnakeTest() {
+    public void smallSnakeTest() {
         // TODO: test smallSnake
     }
 
@@ -64,7 +65,7 @@ class CapitalizationTest {
      * Test the property 'capitalSnake'
      */
     @Test
-    void capitalSnakeTest() {
+    public void capitalSnakeTest() {
         // TODO: test capitalSnake
     }
 
@@ -72,7 +73,7 @@ class CapitalizationTest {
      * Test the property 'scAETHFlowPoints'
      */
     @Test
-    void scAETHFlowPointsTest() {
+    public void scAETHFlowPointsTest() {
         // TODO: test scAETHFlowPoints
     }
 
@@ -80,7 +81,7 @@ class CapitalizationTest {
      * Test the property 'ATT_NAME'
      */
     @Test
-    void ATT_NAMETest() {
+    public void ATT_NAMETest() {
         // TODO: test ATT_NAME
     }
 

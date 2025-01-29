@@ -23,17 +23,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for AllOfWithSingleRef
  */
-class AllOfWithSingleRefTest {
+public class AllOfWithSingleRefTest {
     private final AllOfWithSingleRef model = new AllOfWithSingleRef();
 
     /**
      * Model tests for AllOfWithSingleRef
      */
     @Test
-    void testAllOfWithSingleRef() {
+    public void testAllOfWithSingleRef() {
         // TODO: test AllOfWithSingleRef
     }
 
@@ -41,7 +42,7 @@ class AllOfWithSingleRefTest {
      * Test the property 'username'
      */
     @Test
-    void usernameTest() {
+    public void usernameTest() {
         // TODO: test username
     }
 
@@ -49,7 +50,7 @@ class AllOfWithSingleRefTest {
      * Test the property 'singleRefType'
      */
     @Test
-    void singleRefTypeTest() {
+    public void singleRefTypeTest() {
         // TODO: test singleRefType
     }
 

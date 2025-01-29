@@ -19,23 +19,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for EnumArrays
  */
-class EnumArraysTest {
+public class EnumArraysTest {
     private final EnumArrays model = new EnumArrays();
 
     /**
      * Model tests for EnumArrays
      */
     @Test
-    void testEnumArrays() {
+    public void testEnumArrays() {
         // TODO: test EnumArrays
     }
 
@@ -43,7 +43,7 @@ class EnumArraysTest {
      * Test the property 'justSymbol'
      */
     @Test
-    void justSymbolTest() {
+    public void justSymbolTest() {
         // TODO: test justSymbol
     }
 
@@ -51,7 +51,7 @@ class EnumArraysTest {
      * Test the property 'arrayEnum'
      */
     @Test
-    void arrayEnumTest() {
+    public void arrayEnumTest() {
         // TODO: test arrayEnum
     }
 

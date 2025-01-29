@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Client
  */
-class ClientTest {
+public class ClientTest {
     private final Client model = new Client();
 
     /**
      * Model tests for Client
      */
     @Test
-    void testClient() {
+    public void testClient() {
         // TODO: test Client
     }
 
@@ -40,7 +41,7 @@ class ClientTest {
      * Test the property 'client'
      */
     @Test
-    void clientTest() {
+    public void clientTest() {
         // TODO: test client
     }
 

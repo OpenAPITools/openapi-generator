@@ -26,17 +26,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Dog
  */
-class DogTest {
+public class DogTest {
     private final Dog model = new Dog();
 
     /**
      * Model tests for Dog
      */
     @Test
-    void testDog() {
+    public void testDog() {
         // TODO: test Dog
     }
 
@@ -44,7 +45,7 @@ class DogTest {
      * Test the property 'className'
      */
     @Test
-    void classNameTest() {
+    public void classNameTest() {
         // TODO: test className
     }
 
@@ -52,7 +53,7 @@ class DogTest {
      * Test the property 'color'
      */
     @Test
-    void colorTest() {
+    public void colorTest() {
         // TODO: test color
     }
 
@@ -60,7 +61,7 @@ class DogTest {
      * Test the property 'breed'
      */
     @Test
-    void breedTest() {
+    public void breedTest() {
         // TODO: test breed
     }
 

@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for ReadOnlyFirst
  */
-class ReadOnlyFirstTest {
+public class ReadOnlyFirstTest {
     private final ReadOnlyFirst model = new ReadOnlyFirst();
 
     /**
      * Model tests for ReadOnlyFirst
      */
     @Test
-    void testReadOnlyFirst() {
+    public void testReadOnlyFirst() {
         // TODO: test ReadOnlyFirst
     }
 
@@ -40,7 +41,7 @@ class ReadOnlyFirstTest {
      * Test the property 'bar'
      */
     @Test
-    void barTest() {
+    public void barTest() {
         // TODO: test bar
     }
 
@@ -48,7 +49,7 @@ class ReadOnlyFirstTest {
      * Test the property 'baz'
      */
     @Test
-    void bazTest() {
+    public void bazTest() {
         // TODO: test baz
     }
 

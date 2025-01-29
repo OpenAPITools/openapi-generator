@@ -23,17 +23,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for OuterComposite
  */
-class OuterCompositeTest {
+public class OuterCompositeTest {
     private final OuterComposite model = new OuterComposite();
 
     /**
      * Model tests for OuterComposite
      */
     @Test
-    void testOuterComposite() {
+    public void testOuterComposite() {
         // TODO: test OuterComposite
     }
 
@@ -41,7 +42,7 @@ class OuterCompositeTest {
      * Test the property 'myNumber'
      */
     @Test
-    void myNumberTest() {
+    public void myNumberTest() {
         // TODO: test myNumber
     }
 
@@ -49,7 +50,7 @@ class OuterCompositeTest {
      * Test the property 'myString'
      */
     @Test
-    void myStringTest() {
+    public void myStringTest() {
         // TODO: test myString
     }
 
@@ -57,7 +58,7 @@ class OuterCompositeTest {
      * Test the property 'myBoolean'
      */
     @Test
-    void myBooleanTest() {
+    public void myBooleanTest() {
         // TODO: test myBoolean
     }
 

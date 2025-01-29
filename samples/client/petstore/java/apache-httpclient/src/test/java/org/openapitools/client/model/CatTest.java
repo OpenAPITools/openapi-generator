@@ -22,21 +22,23 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Cat
  */
-class CatTest {
+public class CatTest {
     private final Cat model = new Cat();
 
     /**
      * Model tests for Cat
      */
     @Test
-    void testCat() {
+    public void testCat() {
         // TODO: test Cat
     }
 
@@ -44,7 +46,7 @@ class CatTest {
      * Test the property 'className'
      */
     @Test
-    void classNameTest() {
+    public void classNameTest() {
         // TODO: test className
     }
 
@@ -52,7 +54,7 @@ class CatTest {
      * Test the property 'color'
      */
     @Test
-    void colorTest() {
+    public void colorTest() {
         // TODO: test color
     }
 
@@ -60,7 +62,7 @@ class CatTest {
      * Test the property 'declawed'
      */
     @Test
-    void declawedTest() {
+    public void declawedTest() {
         // TODO: test declawed
     }
 

@@ -39,7 +39,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -1399,8 +1399,10 @@ public class FakeApi {
         private final List<EnumClass> enumQueryModelArray;
         private final List<String> enumFormStringArray;
         private final String enumFormString;
+        private final Integer enumFormInteger;
+        private final BigDecimal enumFormDouble;
 
-        public TestEnumParametersRequest(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) {
+        public TestEnumParametersRequest(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) {
           this.enumHeaderStringArray = enumHeaderStringArray;
           this.enumHeaderString = enumHeaderString;
           this.enumQueryStringArray = enumQueryStringArray;
@@ -1410,6 +1412,8 @@ public class FakeApi {
           this.enumQueryModelArray = enumQueryModelArray;
           this.enumFormStringArray = enumFormStringArray;
           this.enumFormString = enumFormString;
+          this.enumFormInteger = enumFormInteger;
+          this.enumFormDouble = enumFormDouble;
       }
 
         public List<String> enumHeaderStringArray() {
@@ -1439,6 +1443,12 @@ public class FakeApi {
         public String enumFormString() {
             return this.enumFormString;
         }
+        public Integer enumFormInteger() {
+            return this.enumFormInteger;
+        }
+        public BigDecimal enumFormDouble() {
+            return this.enumFormDouble;
+        }
     }
 
       /**
@@ -1450,7 +1460,7 @@ public class FakeApi {
          * @throws WebClientResponseException if an error occurs while attempting to invoke the API
       */
       public Mono<Void> testEnumParameters(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+          return this.testEnumParameters(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString(), requestParameters.enumFormInteger(), requestParameters.enumFormDouble());
       }
 
       /**
@@ -1462,7 +1472,7 @@ public class FakeApi {
          * @throws WebClientResponseException if an error occurs while attempting to invoke the API
       */
       public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-          return this.testEnumParametersWithHttpInfo(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+          return this.testEnumParametersWithHttpInfo(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString(), requestParameters.enumFormInteger(), requestParameters.enumFormDouble());
       }
 
       /**
@@ -1475,7 +1485,7 @@ public class FakeApi {
       * @throws WebClientResponseException if an error occurs while attempting to invoke the API
       */
       public ResponseSpec testEnumParametersWithResponseSpec(TestEnumParametersRequest requestParameters) throws WebClientResponseException {
-         return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString());
+         return this.testEnumParametersWithResponseSpec(requestParameters.enumHeaderStringArray(), requestParameters.enumHeaderString(), requestParameters.enumQueryStringArray(), requestParameters.enumQueryString(), requestParameters.enumQueryInteger(), requestParameters.enumQueryDouble(), requestParameters.enumQueryModelArray(), requestParameters.enumFormStringArray(), requestParameters.enumFormString(), requestParameters.enumFormInteger(), requestParameters.enumFormDouble());
       }
 
           
@@ -1493,9 +1503,11 @@ public class FakeApi {
      * @param enumQueryModelArray The enumQueryModelArray parameter
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
+     * @param enumFormInteger Form parameter enum test (integer)
+     * @param enumFormDouble Form parameter enum test (double)
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEnumParametersRequestCreation(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    private ResponseSpec testEnumParametersRequestCreation(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -1520,6 +1532,10 @@ public class FakeApi {
             formParams.addAll("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
             formParams.add("enum_form_string", enumFormString);
+        if (enumFormInteger != null)
+            formParams.add("enum_form_integer", enumFormInteger);
+        if (enumFormDouble != null)
+            formParams.add("enum_form_double", enumFormDouble);
 
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -1548,11 +1564,13 @@ public class FakeApi {
      * @param enumQueryModelArray The enumQueryModelArray parameter
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
+     * @param enumFormInteger Form parameter enum test (integer)
+     * @param enumFormDouble Form parameter enum test (double)
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    public Mono<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).bodyToMono(localVarReturnType);
+        return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble).bodyToMono(localVarReturnType);
     }
 
     /**
@@ -1569,11 +1587,13 @@ public class FakeApi {
      * @param enumQueryModelArray The enumQueryModelArray parameter
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
+     * @param enumFormInteger Form parameter enum test (integer)
+     * @param enumFormDouble Form parameter enum test (double)
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
-        return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString).toEntity(localVarReturnType);
+        return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble).toEntity(localVarReturnType);
     }
 
     /**
@@ -1590,11 +1610,13 @@ public class FakeApi {
      * @param enumQueryModelArray The enumQueryModelArray parameter
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
+     * @param enumFormInteger Form parameter enum test (integer)
+     * @param enumFormDouble Form parameter enum test (double)
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEnumParametersWithResponseSpec(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
-        return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+    public ResponseSpec testEnumParametersWithResponseSpec(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString, Integer enumFormInteger, BigDecimal enumFormDouble) throws WebClientResponseException {
+        return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
     }
 
     public class TestGroupParametersRequest {

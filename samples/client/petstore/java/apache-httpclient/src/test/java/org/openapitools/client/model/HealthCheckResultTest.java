@@ -26,17 +26,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for HealthCheckResult
  */
-class HealthCheckResultTest {
+public class HealthCheckResultTest {
     private final HealthCheckResult model = new HealthCheckResult();
 
     /**
      * Model tests for HealthCheckResult
      */
     @Test
-    void testHealthCheckResult() {
+    public void testHealthCheckResult() {
         // TODO: test HealthCheckResult
     }
 
@@ -44,7 +45,7 @@ class HealthCheckResultTest {
      * Test the property 'nullableMessage'
      */
     @Test
-    void nullableMessageTest() {
+    public void nullableMessageTest() {
         // TODO: test nullableMessage
     }
 

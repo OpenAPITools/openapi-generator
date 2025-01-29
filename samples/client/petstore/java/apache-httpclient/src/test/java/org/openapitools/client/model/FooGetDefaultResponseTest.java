@@ -23,17 +23,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for FooGetDefaultResponse
  */
-class FooGetDefaultResponseTest {
+public class FooGetDefaultResponseTest {
     private final FooGetDefaultResponse model = new FooGetDefaultResponse();
 
     /**
      * Model tests for FooGetDefaultResponse
      */
     @Test
-    void testFooGetDefaultResponse() {
+    public void testFooGetDefaultResponse() {
         // TODO: test FooGetDefaultResponse
     }
 
@@ -41,7 +42,7 @@ class FooGetDefaultResponseTest {
      * Test the property 'string'
      */
     @Test
-    void stringTest() {
+    public void stringTest() {
         // TODO: test string
     }
 

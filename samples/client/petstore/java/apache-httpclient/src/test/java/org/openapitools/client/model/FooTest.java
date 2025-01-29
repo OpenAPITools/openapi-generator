@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Foo
  */
-class FooTest {
+public class FooTest {
     private final Foo model = new Foo();
 
     /**
      * Model tests for Foo
      */
     @Test
-    void testFoo() {
+    public void testFoo() {
         // TODO: test Foo
     }
 
@@ -40,7 +41,7 @@ class FooTest {
      * Test the property 'bar'
      */
     @Test
-    void barTest() {
+    public void barTest() {
         // TODO: test bar
     }
 

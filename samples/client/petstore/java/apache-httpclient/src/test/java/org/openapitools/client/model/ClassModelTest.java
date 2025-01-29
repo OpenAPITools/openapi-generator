@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for ClassModel
  */
-class ClassModelTest {
+public class ClassModelTest {
     private final ClassModel model = new ClassModel();
 
     /**
      * Model tests for ClassModel
      */
     @Test
-    void testClassModel() {
+    public void testClassModel() {
         // TODO: test ClassModel
     }
 
@@ -40,7 +41,7 @@ class ClassModelTest {
      * Test the property 'propertyClass'
      */
     @Test
-    void propertyClassTest() {
+    public void propertyClassTest() {
         // TODO: test propertyClass
     }
 

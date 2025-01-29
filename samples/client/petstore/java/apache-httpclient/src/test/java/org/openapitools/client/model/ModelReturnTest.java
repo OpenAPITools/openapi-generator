@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for ModelReturn
  */
-class ModelReturnTest {
+public class ModelReturnTest {
     private final ModelReturn model = new ModelReturn();
 
     /**
      * Model tests for ModelReturn
      */
     @Test
-    void testModelReturn() {
+    public void testModelReturn() {
         // TODO: test ModelReturn
     }
 
@@ -40,7 +41,7 @@ class ModelReturnTest {
      * Test the property '_return'
      */
     @Test
-    void _returnTest() {
+    public void _returnTest() {
         // TODO: test _return
     }
 

@@ -17,15 +17,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for SingleRefType
  */
-class SingleRefTypeTest {
+public class SingleRefTypeTest {
     /**
      * Model tests for SingleRefType
      */
     @Test
-    void testSingleRefType() {
+    public void testSingleRefType() {
         // TODO: test SingleRefType
     }
 
