@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind

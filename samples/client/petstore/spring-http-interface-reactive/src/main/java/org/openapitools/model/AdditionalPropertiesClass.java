@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -23,7 +24,7 @@ import jakarta.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   
@@ -50,11 +51,11 @@ public class AdditionalPropertiesClass {
   
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

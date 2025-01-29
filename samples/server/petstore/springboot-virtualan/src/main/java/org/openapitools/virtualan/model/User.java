@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -18,24 +19,24 @@ import javax.annotation.Generated;
  * User
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class User {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private String username;
+  private @Nullable String username;
 
-  private String firstName;
+  private @Nullable String firstName;
 
-  private String lastName;
+  private @Nullable String lastName;
 
-  private String email;
+  private @Nullable String email;
 
-  private String password;
+  private @Nullable String password;
 
-  private String phone;
+  private @Nullable String phone;
 
-  private Integer userStatus;
+  private @Nullable Integer userStatus;
 
   public User id(Long id) {
     this.id = id;

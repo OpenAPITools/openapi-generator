@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * An object to test discriminator of enum string
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class EnumStringDiscriminator {
   /**
    * enum string type
@@ -108,6 +108,7 @@ public class EnumStringDiscriminator {
   protected EnumStrTypeEnum enumStrType;
 
   public EnumStringDiscriminator() {
+
   }
 
   public EnumStringDiscriminator enumStrType(@javax.annotation.Nonnull EnumStrTypeEnum enumStrType) {

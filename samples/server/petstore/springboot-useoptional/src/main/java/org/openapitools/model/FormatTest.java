@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -27,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FormatTest {
 
   private Optional<@Min(10) @Max(100) Integer> integer = Optional.empty();

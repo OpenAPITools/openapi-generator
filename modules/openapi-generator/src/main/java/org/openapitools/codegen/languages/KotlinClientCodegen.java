@@ -74,6 +74,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
+    public static final String USE_NON_ASCII_HEADERS = "useNonAsciiHeaders";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
     public static final String GENERATE_ROOM_MODELS = "generateRoomModels";
     public static final String ROOM_MODEL_PACKAGE = "roomModelPackage";
@@ -101,7 +102,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
-    
+
     @Setter protected String dateLibrary = DateLibrary.JAVA8.value;
     @Setter protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
     @Setter protected String collectionType = CollectionType.LIST.value;
@@ -283,6 +284,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
+
+        cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
     }
 
     @Override
@@ -790,7 +793,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
     }
 
-    private void proccessJvmSpring(final String infrastructureFolder) {
+    private void processJvmSpring(final String infrastructureFolder) {
         if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
             throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
         }
@@ -803,7 +806,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJvmSpringWebClientLibrary(final String infrastructureFolder) {
-        proccessJvmSpring(infrastructureFolder);
+        processJvmSpring(infrastructureFolder);
         additionalProperties.put(JVM_SPRING_WEBCLIENT, true);
     }
 
@@ -812,7 +815,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             throw new RuntimeException("This library must use Spring Boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
         }
 
-        proccessJvmSpring(infrastructureFolder);
+        processJvmSpring(infrastructureFolder);
         additionalProperties.put(JVM_SPRING_RESTCLIENT, true);
     }
 

@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public interface StoreApi  {
 
     @DELETE

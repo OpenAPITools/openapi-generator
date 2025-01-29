@@ -363,7 +363,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         return Ok(Response::builder()
                                                         .status(StatusCode::INTERNAL_SERVER_ERROR)
                                                         .body(Body::from("Failed to process message part due an internal error".to_string()))
-                                                        .expect("Unable to create Internal Server Error response due to an internal errror"))
+                                                        .expect("Unable to create Internal Server Error response due to an internal error"))
                                     },
                                     SaveResult::Error(e) => {
                                         return Ok(Response::builder()

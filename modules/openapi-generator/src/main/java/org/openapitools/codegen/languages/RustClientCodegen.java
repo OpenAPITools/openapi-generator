@@ -39,8 +39,10 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -52,12 +54,15 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 
 import io.swagger.v3.oas.models.media.Discriminator;
@@ -600,10 +605,43 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        // in order to avoid name conflicts, we map parameters inside the functions
+        String inFunctionIdentifier = "";
+        if (this.useSingleRequestParameter) {
+            inFunctionIdentifier = "params." + parameter.paramName;
+        } else {
+            if (parameter.paramName.startsWith("r#")) {
+                inFunctionIdentifier = "p_" + parameter.paramName.substring(2);
+            } else {
+                inFunctionIdentifier = "p_" + parameter.paramName;
+            }
+        }
+        if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
+            parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, inFunctionIdentifier);
+        }
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
+            if (operation.pathParams != null && operation.pathParams.size() > 0) {
+                for (var pathParam : operation.pathParams) {
+                    if (!pathParam.baseName.contains("-")) {
+                        continue;
+                    }
+
+                    var newName = pathParam.baseName.replace("-", "_");
+                    LOGGER.info(pathParam.baseName + " cannot be used as a path param. Renamed to " + newName);
+
+                    operation.path = operation.path.replace("{" + pathParam.baseName + "}", "{" + newName + "}");
+                    pathParam.baseName = newName;
+                }
+            }
+
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
@@ -678,4 +716,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             return null;
         }
     }
+
+    @Override
+    protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                // Convert variable names to lifetime names.
+                // Generally they are the same, but `#` is not valid in lifetime names.
+                // Rust uses `r#` prefix for variables that are also keywords.
+                .put("lifetimeName", new ReplaceAllLambda("^r#", "r_"));
+    }
+
 }

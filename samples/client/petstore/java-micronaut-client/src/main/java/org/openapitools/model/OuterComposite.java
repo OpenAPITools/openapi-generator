@@ -31,7 +31,7 @@ import javax.annotation.Generated;
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
 @JsonTypeName("OuterComposite")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 @Introspected
 public class OuterComposite {
     public static final String JSON_PROPERTY_MY_NUMBER = "my_number";

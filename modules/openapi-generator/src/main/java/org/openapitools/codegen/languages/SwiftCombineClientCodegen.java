@@ -746,8 +746,8 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
             CodegenModel baseModel = modelMaps.get(cp.items.dataType);
             boolean isBaseTypeEnum = cp.items.isEnum || cp.isEnum || (baseModel != null && baseModel.isEnum);
             cp.vendorExtensions.put("x-swift-is-base-type-enum", isBaseTypeEnum);
-            boolean isBaseTypeUdid = cp.items.isUuid || cp.isUuid;
-            cp.vendorExtensions.put("x-swift-is-base-type-udid", isBaseTypeUdid);
+            boolean isBaseTypeUuid = cp.items.isUuid || cp.isUuid;
+            cp.vendorExtensions.put("x-swift-is-base-type-uuid", isBaseTypeUuid);
 
             boolean useEncoder = !isBaseTypeEnum && !cp.items.isString || (baseModel != null && !baseModel.isString);
             cp.vendorExtensions.put("x-swift-use-encoder", useEncoder);

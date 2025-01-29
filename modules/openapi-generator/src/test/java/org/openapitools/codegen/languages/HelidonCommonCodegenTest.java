@@ -54,4 +54,56 @@ public class HelidonCommonCodegenTest {
                                                      List.of("4.0.10", "3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
                 .isEqualTo("4.0.11-SNAPSHOT");
     }
+
+    @Test
+    void checkCommonPathWithPathParams() {
+        String[] paths = List.of("/users/{userId}/profile",
+                                 "/users/{userId}/problems",
+                                 "/users/{userEmail}",
+                                 "/users/{username}")
+                .toArray(new String[0]);
+
+        String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
+        assertThat(commonPrefix).isEqualTo("/users");
+    }
+
+    @Test
+    void checkCommonPathWithMultipleCommonLevels() {
+        String[] paths = List.of("/users/a/x",
+                                 "/users/a/y",
+                                 "/users/a/z")
+                .toArray(new String[0]);
+
+        String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
+        assertThat(commonPrefix).isEqualTo("/users/a");
+    }
+
+    @Test
+    void checkNoCommonSegments() {
+        String[] paths = List.of("/a/x",
+                                 "/b/y",
+                                 "/c")
+                .toArray(new String[0]);
+
+        String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
+        assertThat(commonPrefix).isEqualTo("/");
+    }
+
+    @Test
+    void checkSinglePathCommonSegments() {
+        String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(new String[0]);
+        assertThat(commonPrefix).isEqualTo("/");
+    }
+
+    @Test
+    void checkMixedWithPathParam() {
+        String[] paths = List.of("/store/order/{order_id}",
+                                 "/store/inventory",
+                                 "/store/order/{order_id}",
+                                 "/store/order")
+                .toArray(new String[0]);
+
+        String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
+        assertThat(commonPrefix).isEqualTo("/store");
+    }
 }

@@ -1611,6 +1611,12 @@ public class ModelUtils {
      * @return the name of the parent model
      */
     public static List<String> getAllParentsName(Schema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors) {
+        return getAllParentsName(composedSchema, allSchemas, includeAncestors, new HashSet<>());
+    }
+
+    // Use a set of seen names to avoid infinite recursion
+    private static List<String> getAllParentsName(
+            Schema composedSchema, Map<String, Schema> allSchemas, boolean includeAncestors, Set<String> seenNames) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         List<String> names = new ArrayList<String>();
 
@@ -1619,6 +1625,10 @@ public class ModelUtils {
                 // get the actual schema
                 if (StringUtils.isNotEmpty(schema.get$ref())) {
                     String parentName = getSimpleRef(schema.get$ref());
+                    if (seenNames.contains(parentName)) {
+                        continue;
+                    }
+                    seenNames.add(parentName);
                     Schema s = allSchemas.get(parentName);
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
@@ -1627,7 +1637,7 @@ public class ModelUtils {
                         // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
                         if (includeAncestors && isComposedSchema(s)) {
-                            names.addAll(getAllParentsName(s, allSchemas, true));
+                            names.addAll(getAllParentsName(s, allSchemas, true, seenNames));
                         }
                     } else {
                         // not a parent since discriminator.propertyName is not set
@@ -1935,7 +1945,7 @@ public class ModelUtils {
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
         setValidations.removeAll(effectiveValidations);
         setValidations.stream().forEach(validation -> {
-            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + getType(schema) +"'. Ignoring!");
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + getType(schema) + "'. Ignoring!");
         });
     }
 
@@ -2029,18 +2039,6 @@ public class ModelUtils {
         }
 
         return false;
-    }
-
-
-    /**
-     * Returns true if the schema contains allOf with a single item but
-     * no properties/oneOf/anyOf defined
-     *
-     * @param schema the schema
-     * @return true if the schema contains allOf but no properties/oneOf/anyOf defined.
-     */
-    public static boolean isAllOfWithSingleItem(Schema schema) {
-        return (isAllOf(schema) && schema.getAllOf().size() == 1);
     }
 
     /**
@@ -2272,11 +2270,14 @@ public class ModelUtils {
             }
 
             // for `type: null`
-            if (schema.getTypes() == null && schema.get$ref() == null) {
+            if (schema.getTypes() == null && schema.get$ref() == null
+                    && schema.getDescription() == null) { // ensure it's not schema with just a description)
                 return true;
             }
         } else { // 3.0.x or 2.x spec
-            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+            if ((schema.getType() == null || schema.getType().equals("null"))
+                    && schema.get$ref() == null
+                    && schema.getDescription() == null) { // ensure it's not schema with just a description)
                 return true;
             }
         }
@@ -2302,7 +2303,7 @@ public class ModelUtils {
         // dereference the schema
         schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
-        if (schema.getTypes() == null && hasValidation(schema))  {
+        if (schema.getTypes() == null && hasValidation(schema)) {
             // just validation without type
             return true;
         } else if (schema.getIf() != null && schema.getThen() != null) {

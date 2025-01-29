@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.Cat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -64,7 +65,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private KindEnum kind;
+  private @Nullable KindEnum kind;
 
   public BigCat() {
     super();

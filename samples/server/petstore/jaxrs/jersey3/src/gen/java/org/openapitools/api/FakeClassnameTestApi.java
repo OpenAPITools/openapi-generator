@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the fake_classname_test API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FakeClassnameTestApi  {
 
    private final FakeClassnameTestApiService delegate;

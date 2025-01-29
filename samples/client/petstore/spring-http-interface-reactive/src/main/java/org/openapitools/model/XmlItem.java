@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -20,27 +21,27 @@ import jakarta.annotation.Generated;
  * XmlItem
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class XmlItem {
 
-  private String attributeString;
+  private @Nullable String attributeString;
 
-  private BigDecimal attributeNumber;
+  private @Nullable BigDecimal attributeNumber;
 
-  private Integer attributeInteger;
+  private @Nullable Integer attributeInteger;
 
-  private Boolean attributeBoolean;
+  private @Nullable Boolean attributeBoolean;
 
   
   private List<Integer> wrappedArray = new ArrayList<>();
 
-  private String nameString;
+  private @Nullable String nameString;
 
-  private BigDecimal nameNumber;
+  private @Nullable BigDecimal nameNumber;
 
-  private Integer nameInteger;
+  private @Nullable Integer nameInteger;
 
-  private Boolean nameBoolean;
+  private @Nullable Boolean nameBoolean;
 
   
   private List<Integer> nameArray = new ArrayList<>();
@@ -48,13 +49,13 @@ public class XmlItem {
   
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
-  private String prefixString;
+  private @Nullable String prefixString;
 
-  private BigDecimal prefixNumber;
+  private @Nullable BigDecimal prefixNumber;
 
-  private Integer prefixInteger;
+  private @Nullable Integer prefixInteger;
 
-  private Boolean prefixBoolean;
+  private @Nullable Boolean prefixBoolean;
 
   
   private List<Integer> prefixArray = new ArrayList<>();
@@ -62,13 +63,13 @@ public class XmlItem {
   
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
-  private String namespaceString;
+  private @Nullable String namespaceString;
 
-  private BigDecimal namespaceNumber;
+  private @Nullable BigDecimal namespaceNumber;
 
-  private Integer namespaceInteger;
+  private @Nullable Integer namespaceInteger;
 
-  private Boolean namespaceBoolean;
+  private @Nullable Boolean namespaceBoolean;
 
   
   private List<Integer> namespaceArray = new ArrayList<>();
@@ -76,13 +77,13 @@ public class XmlItem {
   
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
-  private String prefixNsString;
+  private @Nullable String prefixNsString;
 
-  private BigDecimal prefixNsNumber;
+  private @Nullable BigDecimal prefixNsNumber;
 
-  private Integer prefixNsInteger;
+  private @Nullable Integer prefixNsInteger;
 
-  private Boolean prefixNsBoolean;
+  private @Nullable Boolean prefixNsBoolean;
 
   
   private List<Integer> prefixNsArray = new ArrayList<>();

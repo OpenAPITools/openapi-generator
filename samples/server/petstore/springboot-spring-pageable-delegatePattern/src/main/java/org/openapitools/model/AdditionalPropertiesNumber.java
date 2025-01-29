@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,10 +25,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesNumber
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AdditionalPropertiesNumber {
 
-  private String name;
+  private @Nullable String name;
 
   public AdditionalPropertiesNumber name(String name) {
     this.name = name;

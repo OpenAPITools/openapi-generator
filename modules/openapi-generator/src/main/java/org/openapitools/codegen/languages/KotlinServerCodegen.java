@@ -40,26 +40,34 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean autoHeadFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean conditionalHeadersFeatureEnabled = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean hstsFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean corsFeatureEnabled = false;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean compressionFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean resourcesFeatureEnabled = true;
-    @Getter @Setter
+    @Getter
+    @Setter
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
-    @Setter private boolean omitGradleWrapper = false;
+    @Setter
+    private boolean omitGradleWrapper = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -236,6 +244,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             LOGGER.info("`library` option is empty. Default to {}", DEFAULT_LIBRARY);
         }
 
+        if (isKtor()) {
+            typeMapping.put("date-time", "kotlin.String");
+            typeMapping.put("DateTime", "kotlin.String");
+        }
+
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
             setAutoHeadFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.AUTOMATIC_HEAD_REQUESTS));
         } else {
@@ -283,13 +296,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (isKtor()) {
+        if (isKtor2Or3()) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
 
         String gradleBuildFile = "build.gradle";
 
-        if (isJavalin() || isKtor()) {
+        if (isJavalin() || isKtor2Or3()) {
             gradleBuildFile = "build.gradle.kts";
         }
 
@@ -297,7 +310,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
-        if (isKtor()) {
+        if (isKtor2Or3()) {
+            additionalProperties.put(Constants.IS_KTOR, true);
+
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
@@ -365,6 +380,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
         public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
+        public static final String IS_KTOR = "isKtor";
     }
 
     @Override
@@ -386,6 +402,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
+                if (isKtor()) {
+                    ArrayList<CodegenParameter> params = new ArrayList<>();
+                    params.addAll(operation.pathParams);
+                    params.addAll(operation.queryParams);
+                    operation.vendorExtensions.put("ktor-params", params);
+                }
+
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     responses.forEach(resp -> {
@@ -430,7 +453,20 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
     }
 
-    private boolean isKtor() {
+    private boolean isKtor2Or3() {
         return Constants.KTOR.equals(library) || Constants.KTOR2.equals(library);
+    }
+
+    /**
+     * Returns true if latest version of ktor is used.
+     *
+     * @return true if latest version of ktor is used.
+     */
+    private boolean isKtor() {
+        return Constants.KTOR.equals(library);
+    }
+
+    private boolean isKtor2() {
+        return Constants.KTOR2.equals(library);
     }
 }

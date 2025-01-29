@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import io.swagger.annotations.*;
 
-@ApiModel(description="A User who is purchasing from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@ApiModel(description="A User who is purchasing from the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class User   {
   
   private Long id;

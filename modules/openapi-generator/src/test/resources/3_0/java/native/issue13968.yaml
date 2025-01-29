@@ -1,0 +1,33 @@
+openapi: 3.0.3
+info:
+  title: Example Hello API
+  description: ''
+  version: v1
+servers:
+  - url: http://localhost
+    description: Global Endpoint
+paths:
+  /v1/emptyResponse:
+    get:
+      operationId: empty
+      description: returns an empty response
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+        204:
+          description: Empty response
+components:
+  schemas:
+    LocationData:
+      type: object
+      properties:
+        xPos:
+          type: integer
+          format: int32
+        yPos:
+          type: integer
+          format: int32

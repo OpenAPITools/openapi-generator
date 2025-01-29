@@ -20,7 +20,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AnotherFakeApiImpl implements AnotherFakeApi {
 
     private ApiClient apiClient;

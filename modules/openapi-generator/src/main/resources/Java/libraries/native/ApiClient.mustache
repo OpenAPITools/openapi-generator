@@ -183,7 +183,7 @@ public class ApiClient {
     asyncResponseInterceptor = null;
   }
 
-  protected ObjectMapper createDefaultObjectMapper() {
+  public static ObjectMapper createDefaultObjectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -199,15 +199,15 @@ public class ApiClient {
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
+  private String getDefaultBaseUri() {
     return "{{{basePath}}}";
   }
 
-  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+  public static HttpClient.Builder createDefaultHttpClientBuilder() {
     return HttpClient.newBuilder();
   }
 
-  public void updateBaseUri(String baseUri) {
+  public final void updateBaseUri(String baseUri) {
     URI uri = URI.create(baseUri);
     scheme = uri.getScheme();
     host = uri.getHost();

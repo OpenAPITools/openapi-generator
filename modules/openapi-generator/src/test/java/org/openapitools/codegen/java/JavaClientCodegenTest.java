@@ -2409,6 +2409,39 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testEnumDiscriminatorDefaultValueIsNotString() {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/enum_discriminator_inheritance.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        Map<String, String> expectedContents = Map.of(
+                "Cat", "this.petType = PetTypeEnum.CATTY",
+                "Dog", "this.petType = PetTypeEnum.DOG",
+                "Gecko", "this.petType = PetTypeEnum.GECKO",
+                "Chameleon", "this.petType = PetTypeEnum.CAMO",
+                "MiniVan", "this.carType = CarType.MINI_VAN",
+                "CargoVan", "this.carType = CarType.CARGO_VAN",
+                "SUV", "this.carType = CarType.SUV",
+                "Truck", "this.carType = CarType.TRUCK",
+                "Sedan", "this.carType = CarType.SEDAN"
+
+        );
+        for (Map.Entry<String, String> e : expectedContents.entrySet()) {
+            String modelName = e.getKey();
+            String expectedContent = e.getValue();
+            File entityFile = files.get(modelName + ".java");
+            assertNotNull(entityFile);
+            assertThat(entityFile).content().doesNotContain("Type = this.getClass().getSimpleName();");
+            assertThat(entityFile).content().contains(expectedContent);
+        }
+    }
+
+    @Test
     public void testRestTemplateHandleURIEnum() {
         String[] expectedInnerEnumLines = new String[]{
                 "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
@@ -3210,6 +3243,35 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test public void testWebClientWithUseSingleRequestParameter_issue_19407() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, true
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public class DeletePetRequest {",
+                "DeletePetRequest(Long petId, String apiKey)",
+                "Long petId()",
+                "String apiKey()",
+                "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {"
+        );
+    }
+
     @Test
     public void testGenerateParameterId() {
         final Path output = newTempFolder();
@@ -3232,6 +3294,75 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileNotContains(
                 output.resolve("src/main/java/xyz/abcdef/api/ATagApi.java"),
                 " getCall(Integer queryParameter, final ApiCallback _callback)"
+        );
+    }
+
+    @Test
+    public void callNativeServiceWithEmptyResponseSync() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", "false");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("DefaultApi.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+                //reading the body into a string, then checking if it is blank.
+                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
+
+
+    /**
+     * This checks that the async client is not affected by this fix.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/13968
+     */
+    @Test
+    public void callNativeServiceWithEmptyResponseAsync() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put("asyncNative", "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("DefaultApi.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+                //reading the body into a string, then checking if it is blank.
+                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
     }
 }

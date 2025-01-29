@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
 @JsonTypeName("_foo_get_default_response")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
   @jakarta.annotation.Nullable

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("ArrayOfNumberOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ArrayOfNumberOnly  implements Serializable {
   private @Valid List<BigDecimal> arrayNumber = new ArrayList<>();
 
@@ -108,7 +108,7 @@ public class ArrayOfNumberOnly  implements Serializable {
     return new ArrayOfNumberOnlyBuilderImpl();
   }
 
-  private static class ArrayOfNumberOnlyBuilderImpl extends ArrayOfNumberOnlyBuilder<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilderImpl> {
+  private static final class ArrayOfNumberOnlyBuilderImpl extends ArrayOfNumberOnlyBuilder<ArrayOfNumberOnly, ArrayOfNumberOnlyBuilderImpl> {
 
     @Override
     protected ArrayOfNumberOnlyBuilderImpl self() {

@@ -105,6 +105,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
@@ -145,6 +146,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean serviceImplementation = false;
     @Getter @Setter
     private boolean reactive = false;
+    @Getter @Setter
+    private boolean useFlowForArrayReturnType = true;
     @Setter private boolean interfaceOnly = false;
     @Setter protected boolean useFeignClientUrl = true;
     @Setter protected boolean useFeignClient = false;
@@ -235,6 +238,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
+        addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -527,10 +531,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 this.setReactive(convertPropertyToBoolean(REACTIVE));
                 // spring webflux doesn't support @ControllerAdvice
                 this.setExceptionHandler(false);
+
+                if (additionalProperties.containsKey(USE_FLOW_FOR_ARRAY_RETURN_TYPE)) {
+                    this.setUseFlowForArrayReturnType(convertPropertyToBoolean(USE_FLOW_FOR_ARRAY_RETURN_TYPE));
+                }
             }
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
+        writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
 
         if (additionalProperties.containsKey(BEAN_QUALIFIERS) && library.equals(SPRING_BOOT)) {
             this.setBeanQualifiers(convertPropertyToBoolean(BEAN_QUALIFIERS));
@@ -639,6 +648,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
             if (!this.interfaceOnly) {
@@ -677,6 +694,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
             // @RequestMapping not supported with spring cloud openfeign.

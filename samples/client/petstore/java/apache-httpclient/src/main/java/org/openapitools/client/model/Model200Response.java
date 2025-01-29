@@ -34,7 +34,7 @@ import java.util.StringJoiner;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable

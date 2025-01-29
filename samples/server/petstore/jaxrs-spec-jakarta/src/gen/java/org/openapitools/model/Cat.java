@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Cat")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Cat extends Animal implements Serializable {
   private Boolean declawed;
 
@@ -102,7 +102,7 @@ public class Cat extends Animal implements Serializable {
     return new CatBuilderImpl();
   }
 
-  private static class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
+  private static final class CatBuilderImpl extends CatBuilder<Cat, CatBuilderImpl> {
 
     @Override
     protected CatBuilderImpl self() {

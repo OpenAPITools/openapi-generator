@@ -83,7 +83,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -455,7 +455,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param userAgent User agent
    * @return API client
    */
-  public ApiClient setUserAgent(String userAgent) {
+  public final ApiClient setUserAgent(String userAgent) {
     addDefaultHeader("User-Agent", userAgent);
     return this;
   }
@@ -633,7 +633,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param value The value of the parameter.
    * @return A list of {@code Pair} objects.
    */
-  public List<Pair> parameterToPairs(String collectionFormat, String name, Collection value) {
+  public List<Pair> parameterToPairs(String collectionFormat, String name, Collection<?> value) {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions

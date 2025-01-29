@@ -15,9 +15,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.FooGetDefaultResponse;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for DefaultApi
  */
-public class DefaultApiTest {
+class DefaultApiTest {
 
     private final DefaultApi api = new DefaultApi();
 
@@ -38,7 +38,7 @@ public class DefaultApiTest {
      *          if the Api call fails
      */
     @Test
-    public void fooGetTest() throws ApiException {
+    void fooGetTest() throws ApiException {
         //
         //FooGetDefaultResponse response = api.fooGet();
 

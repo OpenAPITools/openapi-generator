@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -16,16 +17,16 @@ import jakarta.annotation.Generated;
  * Model for testing model name same as property name
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
 
-  private Integer snakeCase;
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  private @Nullable String property;
 
-  private Integer _123number;
+  private @Nullable Integer _123number;
 
   public Name() {
     super();

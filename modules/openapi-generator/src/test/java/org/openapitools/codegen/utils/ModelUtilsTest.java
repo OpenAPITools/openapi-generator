@@ -497,9 +497,22 @@ public class ModelUtilsTest {
 
         schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // first element (getAnyOf().get(0)) is a string. no need to test
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(1)));
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfMultiRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
+
+        schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
     }
 
     @Test

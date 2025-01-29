@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,20 +20,20 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Capitalization {
 
-  private String smallCamel;
+  private @Nullable String smallCamel;
 
-  private String capitalCamel;
+  private @Nullable String capitalCamel;
 
-  private String smallSnake;
+  private @Nullable String smallSnake;
 
-  private String capitalSnake;
+  private @Nullable String capitalSnake;
 
-  private String scAETHFlowPoints;
+  private @Nullable String scAETHFlowPoints;
 
-  private String ATT_NAME;
+  private @Nullable String ATT_NAME;
 
   public Capitalization() {
     super();
@@ -41,7 +42,7 @@ public class Capitalization {
   /**
    * Constructor with all args parameters
    */
-  public Capitalization(String smallCamel, String capitalCamel, String smallSnake, String capitalSnake, String scAETHFlowPoints, String ATT_NAME) {
+  public Capitalization(@Nullable String smallCamel, @Nullable String capitalCamel, @Nullable String smallSnake, @Nullable String capitalSnake, @Nullable String scAETHFlowPoints, @Nullable String ATT_NAME) {
       this.smallCamel = smallCamel;
       this.capitalCamel = capitalCamel;
       this.smallSnake = smallSnake;

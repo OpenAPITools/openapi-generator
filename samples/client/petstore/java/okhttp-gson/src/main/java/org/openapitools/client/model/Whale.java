@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * Whale
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Whale {
   public static final String SERIALIZED_NAME_HAS_BALEEN = "hasBaleen";
   @SerializedName(SERIALIZED_NAME_HAS_BALEEN)

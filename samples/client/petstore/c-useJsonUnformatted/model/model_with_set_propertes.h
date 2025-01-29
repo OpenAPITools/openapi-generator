@@ -23,9 +23,10 @@ typedef struct model_with_set_propertes_t {
     list_t *tag_set; //nonprimitive container
     list_t *string_set; //primitive container
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } model_with_set_propertes_t;
 
-model_with_set_propertes_t *model_with_set_propertes_create(
+__attribute__((deprecated)) model_with_set_propertes_t *model_with_set_propertes_create(
     list_t *tag_set,
     list_t *string_set
 );

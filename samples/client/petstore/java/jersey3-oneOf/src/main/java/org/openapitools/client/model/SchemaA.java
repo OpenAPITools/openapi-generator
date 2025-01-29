@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
   SchemaA.JSON_PROPERTY_PROP_A
 })
 @JsonTypeName("schemaA")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class SchemaA {
   public static final String JSON_PROPERTY_PROP_A = "propA";
   @jakarta.annotation.Nullable

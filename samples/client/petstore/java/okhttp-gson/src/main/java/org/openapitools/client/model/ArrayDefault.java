@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)

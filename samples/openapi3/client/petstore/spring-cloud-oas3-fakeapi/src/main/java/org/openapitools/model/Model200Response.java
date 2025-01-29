@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,12 +22,12 @@ import javax.annotation.Generated;
 
 @Schema(name = "200_response", description = "Model for testing model name starting with number")
 @JsonTypeName("200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Model200Response {
 
-  private Integer name;
+  private @Nullable Integer name;
 
-  private String propertyClass;
+  private @Nullable String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;

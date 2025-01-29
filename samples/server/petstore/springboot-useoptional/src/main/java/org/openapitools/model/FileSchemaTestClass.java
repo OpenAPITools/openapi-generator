@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private Optional<File> file = Optional.empty();
@@ -141,7 +142,7 @@ public class FileSchemaTestClass {
       return this;
     }
     
-    public FileSchemaTestClass.Builder files(List<@Valid File> files) {
+    public FileSchemaTestClass.Builder files(List<File> files) {
       this.instance.files(files);
       return this;
     }

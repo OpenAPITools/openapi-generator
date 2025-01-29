@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
  * EnumArrays
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class EnumArrays {
 
   /**
@@ -61,7 +62,7 @@ public class EnumArrays {
     }
   }
 
-  private JustSymbolEnum justSymbol;
+  private @Nullable JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -108,7 +109,7 @@ public class EnumArrays {
   /**
    * Constructor with all args parameters
    */
-  public EnumArrays(JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
+  public EnumArrays(@Nullable JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
       this.justSymbol = justSymbol;
       this.arrayEnum = arrayEnum;
   }

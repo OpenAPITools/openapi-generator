@@ -173,7 +173,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reseved words
+     * those terms here.  This logic is only called if a variable matches the reserved words
      *
      * @return the escaped term
      */
@@ -435,6 +435,18 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         }
 
         return "nothing";
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        // we do not generate any separate enum structure in Julia
+        return value;
+    }
+
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        // we do not generate any separate enum structure in Julia
+        return value;
     }
 
     @Override

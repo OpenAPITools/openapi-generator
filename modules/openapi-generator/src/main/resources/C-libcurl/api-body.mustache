@@ -5,11 +5,6 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define intToStr(dst, src) \
-    do {\
-    char dst[256];\
-    snprintf(dst, 256, "%ld", (long int)(src));\
-}while(0)
 
 {{#operations}}
 {{#operation}}
@@ -113,9 +108,7 @@ end:
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("{{{path}}}")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "{{{path}}}");
+    char *localVarPath = strdup("{{{path}}}");
 
     {{#pathParams}}
     {{#isString}}
@@ -131,7 +124,7 @@ end:
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + strlen("{ {{baseName}} }");
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + sizeof("{ {{baseName}} }") - 1;
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
@@ -140,7 +133,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    intToStr(localVarBuff_{{paramName}}, {{paramName}});
+    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", (long){{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
@@ -153,7 +146,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    intToStr(localVarBuff_{{paramName}}, *{{paramName}});
+    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", (long)*{{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
@@ -166,7 +159,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    intToStr(localVarBuff_{{paramName}}, {{paramName}});
+    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", (long){{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
@@ -179,7 +172,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    intToStr(localVarBuff_{{paramName}}, {{paramName}});
+    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", {{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
@@ -259,7 +252,7 @@ end:
         valueQuery_{{{paramName}}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
         {{/isBoolean}}
         {{/isInteger}}
-        keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *)strdup({{{operationId}}}_{{enumName}}_ToString(
+        keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}strdup({{{operationId}}}_{{enumName}}_ToString(
         {{/isEnum}}{{^isString}}{{^isInteger}}{{^isBoolean}}&{{/isBoolean}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
         {{/isArray}}
@@ -275,7 +268,7 @@ end:
     {{/isFile}}
     {{^isFile}}
     char *keyForm_{{paramName}} = NULL;
-    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}} = 0;
+    {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueForm_{{paramName}} = 0;
     keyValuePair_t *keyPairForm_{{paramName}} = 0;
     {{/isFile}}
     if ({{paramName}} != {{^isEnum}}NULL{{/isEnum}}{{#isEnum}}0{{/isEnum}})
@@ -301,7 +294,7 @@ end:
         valueForm_{{paramName}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
         {{/isBoolean}}
         {{/isInteger}}
-        keyPairForm_{{paramName}} = keyValuePair_create(keyForm_{{paramName}},{{#isString}}{{#isEnum}}(void *){{/isEnum}}{{/isString}}{{^isString}}&{{/isString}}valueForm_{{paramName}});
+        keyPairForm_{{paramName}} = keyValuePair_create(keyForm_{{paramName}},{{#isString}}{{#isEnum}}(void *){{/isEnum}}{{/isString}}{{^isString}}{{^isBoolean}}&{{/isBoolean}}{{/isString}}valueForm_{{paramName}});
         list_addElement(localVarFormParameters,keyPairForm_{{paramName}});
         {{/isFile}}
     }

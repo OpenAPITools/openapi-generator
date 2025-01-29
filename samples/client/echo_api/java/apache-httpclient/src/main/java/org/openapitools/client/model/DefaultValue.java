@@ -47,7 +47,7 @@ import java.util.StringJoiner;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @javax.annotation.Nullable

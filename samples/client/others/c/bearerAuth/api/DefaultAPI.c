@@ -5,11 +5,6 @@
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
-#define intToStr(dst, src) \
-    do {\
-    char dst[256];\
-    snprintf(dst, 256, "%ld", (long int)(src));\
-}while(0)
 
 
 // Returns private information.
@@ -31,9 +26,7 @@ DefaultAPI_privateGet(apiClient_t *apiClient)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/private")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/private");
+    char *localVarPath = strdup("/private");
 
 
 
@@ -103,9 +96,7 @@ DefaultAPI_publicGet(apiClient_t *apiClient)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/public")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/public");
+    char *localVarPath = strdup("/public");
 
 
 
@@ -175,9 +166,7 @@ DefaultAPI_usersGet(apiClient_t *apiClient)
     apiClient->response_code = 0;
 
     // create the path
-    long sizeOfPath = strlen("/users")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/users");
+    char *localVarPath = strdup("/users");
 
 
 

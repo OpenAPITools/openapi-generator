@@ -36,7 +36,7 @@ import io.github.threetenjaxb.core.*;
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_PROPERTY,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_OF_MAP_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")

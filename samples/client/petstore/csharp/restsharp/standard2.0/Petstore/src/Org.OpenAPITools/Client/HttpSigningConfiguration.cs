@@ -356,7 +356,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate invalid signature occasionally.
         /// </summary>
         /// <param name="signedBytes"></param>
         /// <returns></returns>

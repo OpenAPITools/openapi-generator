@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
@@ -25,12 +26,12 @@ import jakarta.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Pet {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Category category;
+  private @Nullable Category category;
 
   private String name;
 
@@ -78,7 +79,7 @@ public class Pet {
   }
 
   @Deprecated
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   public Pet() {
     super();

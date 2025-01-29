@@ -10,7 +10,7 @@ import rx.Single;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AnotherFakeApi {
 
     private final org.openapitools.client.api.AnotherFakeApi delegate;

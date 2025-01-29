@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Pet {
 
   private Optional<Long> id = Optional.empty();
@@ -327,7 +328,7 @@ public class Pet {
       return this;
     }
     
-    public Pet.Builder tags(List<@Valid Tag> tags) {
+    public Pet.Builder tags(List<Tag> tags) {
       this.instance.tags(tags);
       return this;
     }

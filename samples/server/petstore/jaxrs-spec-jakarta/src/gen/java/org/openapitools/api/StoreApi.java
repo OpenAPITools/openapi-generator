@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 */
 @Path("/store")
 @Api(description = "the store API")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class StoreApi {
 
     @DELETE

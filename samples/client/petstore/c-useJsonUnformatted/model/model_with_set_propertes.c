@@ -5,7 +5,7 @@
 
 
 
-model_with_set_propertes_t *model_with_set_propertes_create(
+static model_with_set_propertes_t *model_with_set_propertes_create_internal(
     list_t *tag_set,
     list_t *string_set
     ) {
@@ -16,12 +16,26 @@ model_with_set_propertes_t *model_with_set_propertes_create(
     model_with_set_propertes_local_var->tag_set = tag_set;
     model_with_set_propertes_local_var->string_set = string_set;
 
+    model_with_set_propertes_local_var->_library_owned = 1;
     return model_with_set_propertes_local_var;
 }
 
+__attribute__((deprecated)) model_with_set_propertes_t *model_with_set_propertes_create(
+    list_t *tag_set,
+    list_t *string_set
+    ) {
+    return model_with_set_propertes_create_internal (
+        tag_set,
+        string_set
+        );
+}
 
 void model_with_set_propertes_free(model_with_set_propertes_t *model_with_set_propertes) {
     if(NULL == model_with_set_propertes){
+        return ;
+    }
+    if(model_with_set_propertes->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "model_with_set_propertes_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -74,7 +88,7 @@ cJSON *model_with_set_propertes_convertToJSON(model_with_set_propertes_t *model_
 
     listEntry_t *string_setListEntry;
     list_ForEach(string_setListEntry, model_with_set_propertes->string_set) {
-    if(cJSON_AddStringToObject(string_set, "", (char*)string_setListEntry->data) == NULL)
+    if(cJSON_AddStringToObject(string_set, "", string_setListEntry->data) == NULL)
     {
         goto fail;
     }
@@ -146,7 +160,7 @@ model_with_set_propertes_t *model_with_set_propertes_parseFromJSON(cJSON *model_
     }
 
 
-    model_with_set_propertes_local_var = model_with_set_propertes_create (
+    model_with_set_propertes_local_var = model_with_set_propertes_create_internal (
         tag_set ? tag_setList : NULL,
         string_set ? string_setList : NULL
         );

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -28,7 +29,7 @@ import javax.annotation.Generated;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
   @Valid
@@ -44,10 +45,10 @@ public class ObjectWithUniqueItems {
   private List<String> notNullList = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime notNullDateField;
+  private @Nullable OffsetDateTime notNullDateField;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime nullDateField;
+  private @Nullable OffsetDateTime nullDateField;
 
   public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);

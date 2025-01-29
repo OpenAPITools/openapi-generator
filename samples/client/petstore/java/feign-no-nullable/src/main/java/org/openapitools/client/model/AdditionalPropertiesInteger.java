@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesInteger.JSON_PROPERTY_NAME
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
