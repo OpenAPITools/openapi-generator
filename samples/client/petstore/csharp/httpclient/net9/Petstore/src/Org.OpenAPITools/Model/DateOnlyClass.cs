@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         <example>Fri Jul 21 00:00:00 UTC 2017</example>
         */
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
-        public DateOnly DateOnlyProperty { get; set; }
+        public DateOnly? DateOnlyProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
