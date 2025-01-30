@@ -31,6 +31,7 @@ export class ObservableDefaultApi {
      * @param [filePostRequest]
      */
     public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -47,8 +48,6 @@ export class ObservableDefaultApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -86,6 +85,7 @@ export class ObservableDefaultApi {
      * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -102,8 +102,6 @@ export class ObservableDefaultApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -141,6 +139,7 @@ export class ObservableDefaultApi {
      * @param [petsPatchRequest]
      */
     public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -157,8 +156,6 @@ export class ObservableDefaultApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,

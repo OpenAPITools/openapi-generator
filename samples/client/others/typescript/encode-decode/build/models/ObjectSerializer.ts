@@ -1,8 +1,8 @@
-export * from '../models/ComplexObject';
-export * from '../models/CompositeObject';
+export * from '../models/SomeObject';
+export * from '../models/WithNullableType';
 
-import { ComplexObject } from '../models/ComplexObject';
-import { CompositeObject } from '../models/CompositeObject';
+import { SomeObject } from '../models/SomeObject';
+import { WithNullableType } from '../models/WithNullableType';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -20,8 +20,8 @@ let enumsMap: Set<string> = new Set<string>([
 ]);
 
 let typeMap: {[index: string]: any} = {
-    "ComplexObject": ComplexObject,
-    "CompositeObject": CompositeObject,
+    "SomeObject": SomeObject,
+    "WithNullableType": WithNullableType,
 }
 
 type MimeTypeDescriptor = {

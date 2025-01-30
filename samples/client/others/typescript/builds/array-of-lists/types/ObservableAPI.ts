@@ -25,6 +25,7 @@ export class ObservableDefaultApi {
     /**
      */
     public listWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<ListPaged>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -41,8 +42,6 @@ export class ObservableDefaultApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,

@@ -37,23 +37,10 @@ export class ObservablePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public addPetWithHttpInfo(pet: Pet, _options?: Configuration): Observable<HttpInfo<Pet>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.addPet(pet, _options);
         // build promise chain
@@ -88,23 +75,10 @@ export class ObservablePetApi {
      * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _options);
         // build promise chain
@@ -139,23 +113,10 @@ export class ObservablePetApi {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Observable<HttpInfo<Array<Pet>>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.findPetsByStatus(status, _options);
         // build promise chain
@@ -189,23 +150,10 @@ export class ObservablePetApi {
      * @param tags Tags to filter by
      */
     public findPetsByTagsWithHttpInfo(tags: Array<string>, _options?: Configuration): Observable<HttpInfo<Array<Pet>>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.findPetsByTags(tags, _options);
         // build promise chain
@@ -239,23 +187,10 @@ export class ObservablePetApi {
      * @param petId ID of pet to return
      */
     public getPetByIdWithHttpInfo(petId: number, _options?: Configuration): Observable<HttpInfo<Pet>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.getPetById(petId, _options);
         // build promise chain
@@ -289,23 +224,10 @@ export class ObservablePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public updatePetWithHttpInfo(pet: Pet, _options?: Configuration): Observable<HttpInfo<Pet>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.updatePet(pet, _options);
         // build promise chain
@@ -341,23 +263,10 @@ export class ObservablePetApi {
      * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, _options);
         // build promise chain
@@ -395,23 +304,10 @@ export class ObservablePetApi {
      * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<HttpInfo<ApiResponse>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, _options);
         // build promise chain
@@ -468,23 +364,10 @@ export class ObservableStoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrderWithHttpInfo(orderId: string, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.deleteOrder(orderId, _options);
         // build promise chain
@@ -517,23 +400,10 @@ export class ObservableStoreApi {
      * Returns pet inventories by status
      */
     public getInventoryWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: number; }>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.getInventory(_options);
         // build promise chain
@@ -566,23 +436,10 @@ export class ObservableStoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderByIdWithHttpInfo(orderId: number, _options?: Configuration): Observable<HttpInfo<Order>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.getOrderById(orderId, _options);
         // build promise chain
@@ -616,23 +473,10 @@ export class ObservableStoreApi {
      * @param order order placed for purchasing the pet
      */
     public placeOrderWithHttpInfo(order: Order, _options?: Configuration): Observable<HttpInfo<Order>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.placeOrder(order, _options);
         // build promise chain
@@ -687,23 +531,10 @@ export class ObservableUserApi {
      * @param user Created user object
      */
     public createUserWithHttpInfo(user: User, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.createUser(user, _options);
         // build promise chain
@@ -737,23 +568,10 @@ export class ObservableUserApi {
      * @param user List of user object
      */
     public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.createUsersWithArrayInput(user, _options);
         // build promise chain
@@ -787,23 +605,10 @@ export class ObservableUserApi {
      * @param user List of user object
      */
     public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.createUsersWithListInput(user, _options);
         // build promise chain
@@ -837,23 +642,10 @@ export class ObservableUserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUserWithHttpInfo(username: string, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.deleteUser(username, _options);
         // build promise chain
@@ -887,23 +679,10 @@ export class ObservableUserApi {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByNameWithHttpInfo(username: string, _options?: Configuration): Observable<HttpInfo<User>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.getUserByName(username, _options);
         // build promise chain
@@ -938,23 +717,10 @@ export class ObservableUserApi {
      * @param password The password for login in clear text
      */
     public loginUserWithHttpInfo(username: string, password: string, _options?: Configuration): Observable<HttpInfo<string>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.loginUser(username, password, _options);
         // build promise chain
@@ -988,23 +754,10 @@ export class ObservableUserApi {
      * Logs out current logged in user session
      */
     public logoutUserWithHttpInfo(_options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.logoutUser(_options);
         // build promise chain
@@ -1038,23 +791,10 @@ export class ObservableUserApi {
      * @param user Updated user object
      */
     public updateUserWithHttpInfo(username: string, user: User, _options?: Configuration): Observable<HttpInfo<void>> {
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
-
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+	let _config = this.configuration
+	if (_options){
+	    _config = _options
 	}
-
 
         const requestContextPromise = this.requestFactory.updateUser(username, user, _options);
         // build promise chain

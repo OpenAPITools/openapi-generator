@@ -63,6 +63,13 @@ export class Observable{{classname}} {
      {{/allParams}}
      */
     public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}}Options{{/useInversify}}): Observable<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+	let _config = this.configuration
+	{{#useInversify}}
+	if (_options){
+	    _config = _options
+	}
+	{{/useInversify}}
+	{{^useInversify}}
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -79,9 +86,6 @@ export class Observable{{classname}} {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	{{^useInversify}}
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,

@@ -73,6 +73,7 @@ export class ObservableAnotherFakeApi {
      * @param client client model
      */
     public _123testSpecialTagsWithHttpInfo(client: Client, _options?: ConfigurationOptions): Observable<HttpInfo<Client>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -89,8 +90,6 @@ export class ObservableAnotherFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -147,6 +146,7 @@ export class ObservableDefaultApi {
     /**
      */
     public fooGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -163,8 +163,6 @@ export class ObservableDefaultApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -219,6 +217,7 @@ export class ObservableFakeApi {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
     public fakeBigDecimalMapWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<FakeBigDecimalMap200Response>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -235,8 +234,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -274,6 +271,7 @@ export class ObservableFakeApi {
      * Health check endpoint
      */
     public fakeHealthGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<HealthCheckResult>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -290,8 +288,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -332,6 +328,7 @@ export class ObservableFakeApi {
      * @param [header1] header parameter
      */
     public fakeHttpSignatureTestWithHttpInfo(pet: Pet, query1?: string, header1?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -348,8 +345,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -391,6 +386,7 @@ export class ObservableFakeApi {
      * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerializeWithHttpInfo(body?: boolean, _options?: ConfigurationOptions): Observable<HttpInfo<boolean>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -407,8 +403,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -448,6 +442,7 @@ export class ObservableFakeApi {
      * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerializeWithHttpInfo(outerComposite?: OuterComposite, _options?: ConfigurationOptions): Observable<HttpInfo<OuterComposite>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -464,8 +459,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -505,6 +498,7 @@ export class ObservableFakeApi {
      * @param [body] Input number as post body
      */
     public fakeOuterNumberSerializeWithHttpInfo(body?: number, _options?: ConfigurationOptions): Observable<HttpInfo<number>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -521,8 +515,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -562,6 +554,7 @@ export class ObservableFakeApi {
      * @param [body] Input string as post body
      */
     public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -578,8 +571,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -619,6 +610,7 @@ export class ObservableFakeApi {
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
     public fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: ConfigurationOptions): Observable<HttpInfo<OuterObjectWithEnumProperty>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -635,8 +627,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -676,6 +666,7 @@ export class ObservableFakeApi {
      * @param body image to upload
      */
     public testBodyWithBinaryWithHttpInfo(body: HttpFile, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -692,8 +683,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -733,6 +722,7 @@ export class ObservableFakeApi {
      * @param fileSchemaTestClass
      */
     public testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass: FileSchemaTestClass, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -749,8 +739,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -790,6 +778,7 @@ export class ObservableFakeApi {
      * @param user
      */
     public testBodyWithQueryParamsWithHttpInfo(query: string, user: User, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -806,8 +795,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -848,6 +835,7 @@ export class ObservableFakeApi {
      * @param client client model
      */
     public testClientModelWithHttpInfo(client: Client, _options?: ConfigurationOptions): Observable<HttpInfo<Client>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -864,8 +852,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -920,6 +906,7 @@ export class ObservableFakeApi {
      * @param [callback] None
      */
     public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -936,8 +923,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1000,6 +985,7 @@ export class ObservableFakeApi {
      * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParametersWithHttpInfo(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1016,8 +1002,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1072,6 +1056,7 @@ export class ObservableFakeApi {
      * @param [int64Group] Integer in group parameters
      */
     public testGroupParametersWithHttpInfo(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1088,8 +1073,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1136,6 +1119,7 @@ export class ObservableFakeApi {
      * @param requestBody request body
      */
     public testInlineAdditionalPropertiesWithHttpInfo(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1152,8 +1136,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1196,6 +1178,7 @@ export class ObservableFakeApi {
      * @param param2 field2
      */
     public testJsonFormDataWithHttpInfo(param: string, param2: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1212,8 +1195,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1261,6 +1242,7 @@ export class ObservableFakeApi {
      * @param [language]
      */
     public testQueryParameterCollectionFormatWithHttpInfo(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1277,8 +1259,6 @@ export class ObservableFakeApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1343,6 +1323,7 @@ export class ObservableFakeClassnameTags123Api {
      * @param client client model
      */
     public testClassnameWithHttpInfo(client: Client, _options?: ConfigurationOptions): Observable<HttpInfo<Client>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1359,8 +1340,6 @@ export class ObservableFakeClassnameTags123Api {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1420,6 +1399,7 @@ export class ObservablePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public addPetWithHttpInfo(pet: Pet, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1436,8 +1416,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1480,6 +1458,7 @@ export class ObservablePetApi {
      * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1496,8 +1475,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1540,6 +1517,7 @@ export class ObservablePetApi {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: ConfigurationOptions): Observable<HttpInfo<Array<Pet>>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1556,8 +1534,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1599,6 +1575,7 @@ export class ObservablePetApi {
      * @param tags Tags to filter by
      */
     public findPetsByTagsWithHttpInfo(tags: Set<string>, _options?: ConfigurationOptions): Observable<HttpInfo<Set<Pet>>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1615,8 +1592,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1658,6 +1633,7 @@ export class ObservablePetApi {
      * @param petId ID of pet to return
      */
     public getPetByIdWithHttpInfo(petId: number, _options?: ConfigurationOptions): Observable<HttpInfo<Pet>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1674,8 +1650,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1717,6 +1691,7 @@ export class ObservablePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public updatePetWithHttpInfo(pet: Pet, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1733,8 +1708,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1778,6 +1751,7 @@ export class ObservablePetApi {
      * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1794,8 +1768,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1841,6 +1813,7 @@ export class ObservablePetApi {
      * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: ConfigurationOptions): Observable<HttpInfo<ApiResponse>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1857,8 +1830,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1904,6 +1875,7 @@ export class ObservablePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFileWithHttpInfo(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: ConfigurationOptions): Observable<HttpInfo<ApiResponse>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1920,8 +1892,6 @@ export class ObservablePetApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -1983,6 +1953,7 @@ export class ObservableStoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrderWithHttpInfo(orderId: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -1999,8 +1970,6 @@ export class ObservableStoreApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2041,6 +2010,7 @@ export class ObservableStoreApi {
      * Returns pet inventories by status
      */
     public getInventoryWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: number; }>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2057,8 +2027,6 @@ export class ObservableStoreApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2099,6 +2067,7 @@ export class ObservableStoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderByIdWithHttpInfo(orderId: number, _options?: ConfigurationOptions): Observable<HttpInfo<Order>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2115,8 +2084,6 @@ export class ObservableStoreApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2158,6 +2125,7 @@ export class ObservableStoreApi {
      * @param order order placed for purchasing the pet
      */
     public placeOrderWithHttpInfo(order: Order, _options?: ConfigurationOptions): Observable<HttpInfo<Order>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2174,8 +2142,6 @@ export class ObservableStoreApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2235,6 +2201,7 @@ export class ObservableUserApi {
      * @param user Created user object
      */
     public createUserWithHttpInfo(user: User, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2251,8 +2218,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2294,6 +2259,7 @@ export class ObservableUserApi {
      * @param user List of user object
      */
     public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2310,8 +2276,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2353,6 +2317,7 @@ export class ObservableUserApi {
      * @param user List of user object
      */
     public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2369,8 +2334,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2412,6 +2375,7 @@ export class ObservableUserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUserWithHttpInfo(username: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2428,8 +2392,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2471,6 +2433,7 @@ export class ObservableUserApi {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByNameWithHttpInfo(username: string, _options?: ConfigurationOptions): Observable<HttpInfo<User>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2487,8 +2450,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2531,6 +2492,7 @@ export class ObservableUserApi {
      * @param password The password for login in clear text
      */
     public loginUserWithHttpInfo(username: string, password: string, _options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2547,8 +2509,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2590,6 +2550,7 @@ export class ObservableUserApi {
      * Logs out current logged in user session
      */
     public logoutUserWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2606,8 +2567,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
@@ -2649,6 +2608,7 @@ export class ObservableUserApi {
      * @param user Updated user object
      */
     public updateUserWithHttpInfo(username: string, user: User, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let _config = this.configuration
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
@@ -2665,8 +2625,6 @@ export class ObservableUserApi {
 		    allMiddleware = calltimeMiddleware
 	    }
 	}
-
-	let _config = this.configuration
 	if (_options){
 		_config = {
 		    baseServer: _options.baseServer || this.configuration.baseServer,
