@@ -21,6 +21,13 @@ export interface ConfigurationOptions {
     middlewareMergeStrategy?: 'replace' | 'append' | 'prepend'; // default merge is to replace for backward compatibility
     authMethods?: AuthMethods;
 }
+export interface PromiseConfigurationOptions {
+    baseServer?: BaseServerConfiguration;
+    httpApi?: HttpLibrary;
+    middleware?: PromiseMiddleware[];
+    middlewareMergeStrategy?: 'replace' | 'append' | 'prepend'; // default merge is to replace for backward compatibility
+    authMethods?: AuthMethods;
+}
 
 /**
  * Interface with which a configuration object can be configured.

@@ -1,5 +1,5 @@
 import * as petstore from 'ts-petstore-client'
-import {Middleware, RequestContext, ResponseContext} from 'ts-petstore-client'
+import {Middleware, RequestContext, ResponseContext } from 'ts-petstore-client'
 
 import { expect } from "chai";
 import * as fs from 'fs';
@@ -32,21 +32,22 @@ describe("PetApi", () => {
 
 	it("addPetViaMiddleware", async () => {
 		const IdOverrideMiddleware: Middleware = {
-			pre: (c: RequestContext)=> {
-			return new Promise<RequestContext>((resolve)=>{
-				const segments = c.getUrl().split('/')
-				segments[segments.length - 1] = pet.id.toString()
-				const newURL = segments.join('/')
-				c.setUrl(newURL)
-				resolve(c)
-			})},
+			pre:  (c: RequestContext)=> {
+				return new Promise((resolve) => {
+					const segments = c.getUrl().split('/')
+					segments[segments.length - 1] = pet.id.toString()
+					const newURL = segments.join('/')
+					c.setUrl(newURL)
+					resolve(c)
+				})
+			},
 			post: (c: ResponseContext)=> {
 			return new Promise<ResponseContext>((resolve)=>{
 				resolve(c)
 			})},
 		}
 		const wrongId = pet.id + 1
-		const createdPet = await petApi.getPetById(wrongId, [IdOverrideMiddleware])
+		const createdPet = await petApi.getPetById(wrongId,{middleware:[IdOverrideMiddleware]})
 		expect(createdPet).to.deep.equal(pet);
 	})
 
