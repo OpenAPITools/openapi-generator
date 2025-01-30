@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
-import { Configuration} from '../configuration{{importFileExtension}}'
+import { Configuration{{^useInversify}}, ConfigurationOptions{{/useInversify}} } from '../configuration{{importFileExtension}}'
 import type { Middleware } from "../middleware";
 import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
@@ -62,19 +62,26 @@ export class Observable{{classname}} {
      * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
-    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}} | Middleware[]{{/useInversify}}): Observable<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}}Options{{/useInversify}}): Observable<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -101,7 +108,7 @@ export class Observable{{classname}} {
      * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}} | Middleware[]{{/useInversify}}): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}}Options{{/useInversify}}): Observable<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
         return this.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}_options).pipe(map((apiResponse: HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>) => apiResponse.data));
     }
 

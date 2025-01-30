@@ -1,6 +1,6 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
-import {Configuration} from '../configuration';
+import {Configuration,ConfigurationOptions} from '../configuration';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import  FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -26,7 +26,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async deleteOrder(orderId: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -56,7 +56,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async getInventory(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -86,7 +86,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async getOrderById(orderId: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -117,7 +117,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async placeOrder(order: Order, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 

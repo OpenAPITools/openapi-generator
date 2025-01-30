@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import type { Middleware } from "../middleware";
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -24,19 +24,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfArraysGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Array<Array<string>>>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeArrayOfArraysGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<Array<string>>>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfArraysGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfArraysGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -54,25 +61,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfArraysGet(_options?: Configuration | Middleware[]): Observable<Array<Array<string>>> {
+    public testDecodeArrayOfArraysGet(_options?: ConfigurationOptions): Observable<Array<Array<string>>> {
         return this.testDecodeArrayOfArraysGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<Array<string>>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Array<string>>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeArrayOfGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<string>>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -90,25 +104,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfGet(_options?: Configuration | Middleware[]): Observable<Array<string>> {
+    public testDecodeArrayOfGet(_options?: ConfigurationOptions): Observable<Array<string>> {
         return this.testDecodeArrayOfGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<string>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfMapsOfObjectsGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfMapsOfObjectsGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -126,25 +147,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration | Middleware[]): Observable<Array<{ [key: string]: ComplexObject; }>> {
+    public testDecodeArrayOfMapsOfObjectsGet(_options?: ConfigurationOptions): Observable<Array<{ [key: string]: ComplexObject; }>> {
         return this.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<{ [key: string]: ComplexObject; }>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfNullableGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Array<string | null>>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeArrayOfNullableGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<string | null>>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -162,25 +190,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableGet(_options?: Configuration | Middleware[]): Observable<Array<string | null>> {
+    public testDecodeArrayOfNullableGet(_options?: ConfigurationOptions): Observable<Array<string | null>> {
         return this.testDecodeArrayOfNullableGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<string | null>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Array<ComplexObject>>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<ComplexObject>>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableObjectsGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableObjectsGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -198,25 +233,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGet(_options?: Configuration | Middleware[]): Observable<Array<ComplexObject>> {
+    public testDecodeArrayOfNullableObjectsGet(_options?: ConfigurationOptions): Observable<Array<ComplexObject>> {
         return this.testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<ComplexObject>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeCompositeObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<CompositeObject>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeCompositeObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<CompositeObject>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeCompositeObjectsGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeCompositeObjectsGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -234,25 +276,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeCompositeObjectsGet(_options?: Configuration | Middleware[]): Observable<CompositeObject> {
+    public testDecodeCompositeObjectsGet(_options?: ConfigurationOptions): Observable<CompositeObject> {
         return this.testDecodeCompositeObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<CompositeObject>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeMapOfMapsOfObjectsGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeMapOfMapsOfObjectsGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -270,25 +319,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration | Middleware[]): Observable<{ [key: string]: { [key: string]: ComplexObject; }; }> {
+    public testDecodeMapOfMapsOfObjectsGet(_options?: ConfigurationOptions): Observable<{ [key: string]: { [key: string]: ComplexObject; }; }> {
         return this.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeMapOfObjectsGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeMapOfObjectsGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -306,25 +362,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfObjectsGet(_options?: Configuration | Middleware[]): Observable<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(_options?: ConfigurationOptions): Observable<{ [key: string]: ComplexObject | null; }> {
         return this.testDecodeMapOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: ComplexObject | null; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<{ [key: string]: string; }>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: string; }>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeMapOfPrimitiveGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeMapOfPrimitiveGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -342,25 +405,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfPrimitiveGet(_options?: Configuration | Middleware[]): Observable<{ [key: string]: string; }> {
+    public testDecodeMapOfPrimitiveGet(_options?: ConfigurationOptions): Observable<{ [key: string]: string; }> {
         return this.testDecodeMapOfPrimitiveGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: string; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeNullableArrayGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Array<string>>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeNullableArrayGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<string>>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeNullableArrayGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeNullableArrayGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -378,25 +448,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeNullableArrayGet(_options?: Configuration | Middleware[]): Observable<Array<string>> {
+    public testDecodeNullableArrayGet(_options?: ConfigurationOptions): Observable<Array<string>> {
         return this.testDecodeNullableArrayGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<string>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeNullableGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<string>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeNullableGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeNullableGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeNullableGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -414,25 +491,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeNullableGet(_options?: Configuration | Middleware[]): Observable<string> {
+    public testDecodeNullableGet(_options?: ConfigurationOptions): Observable<string> {
         return this.testDecodeNullableGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeObjectGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<ComplexObject>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodeObjectGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<ComplexObject>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodeObjectGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodeObjectGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -450,25 +534,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeObjectGet(_options?: Configuration | Middleware[]): Observable<ComplexObject> {
+    public testDecodeObjectGet(_options?: ConfigurationOptions): Observable<ComplexObject> {
         return this.testDecodeObjectGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<ComplexObject>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<boolean>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<boolean>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveBooleanGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveBooleanGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -486,25 +577,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveBooleanGet(_options?: Configuration | Middleware[]): Observable<boolean> {
+    public testDecodePrimitiveBooleanGet(_options?: ConfigurationOptions): Observable<boolean> {
         return this.testDecodePrimitiveBooleanGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<boolean>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<number>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<number>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveIntegerGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveIntegerGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -522,25 +620,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveIntegerGet(_options?: Configuration | Middleware[]): Observable<number> {
+    public testDecodePrimitiveIntegerGet(_options?: ConfigurationOptions): Observable<number> {
         return this.testDecodePrimitiveIntegerGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<number>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveNumberGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<number>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodePrimitiveNumberGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<number>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveNumberGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveNumberGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -558,25 +663,32 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveNumberGet(_options?: Configuration | Middleware[]): Observable<number> {
+    public testDecodePrimitiveNumberGet(_options?: ConfigurationOptions): Observable<number> {
         return this.testDecodePrimitiveNumberGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<number>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveStringGetWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<string>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testDecodePrimitiveStringGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveStringGet(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveStringGet(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -594,26 +706,33 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveStringGet(_options?: Configuration | Middleware[]): Observable<string> {
+    public testDecodePrimitiveStringGet(_options?: ConfigurationOptions): Observable<string> {
         return this.testDecodePrimitiveStringGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfArraysPost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfArraysPost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -632,26 +751,33 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -670,26 +796,33 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullableObjectsPost(complexObject, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullableObjectsPost(complexObject, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -708,26 +841,33 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullablePost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullablePost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -746,26 +886,33 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfPost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfPost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -784,26 +931,33 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeArrayOfPost(requestBody: Array<string>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param compositeObject
      */
-    public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeCompositeObjectsPost(compositeObject, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeCompositeObjectsPost(compositeObject, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -822,26 +976,33 @@ export class ObservableDefaultApi {
     /**
      * @param compositeObject
      */
-    public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -860,26 +1021,33 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeMapOfObjectsPost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeMapOfObjectsPost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -898,26 +1066,33 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeMapOfPrimitivePost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeMapOfPrimitivePost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -936,26 +1111,33 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param [requestBody]
      */
-    public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeNullableArrayPost(requestBody, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeNullableArrayPost(requestBody, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -974,26 +1156,33 @@ export class ObservableDefaultApi {
     /**
      * @param [requestBody]
      */
-    public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeNullableArrayPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param [body]
      */
-    public testEncodeNullablePostWithHttpInfo(body?: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeNullablePostWithHttpInfo(body?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeNullablePost(body, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeNullablePost(body, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -1012,26 +1201,33 @@ export class ObservableDefaultApi {
     /**
      * @param [body]
      */
-    public testEncodeNullablePost(body?: string, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeNullablePost(body?: string, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeNullablePostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodeObjectPost(complexObject, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodeObjectPost(complexObject, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -1050,26 +1246,33 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodeObjectPost(complexObject: ComplexObject, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeObjectPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveBooleanPost(body, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveBooleanPost(body, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -1088,26 +1291,33 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodePrimitiveBooleanPost(body: boolean, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveBooleanPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveIntegerPost(body, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveIntegerPost(body, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -1126,26 +1336,33 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveIntegerPost(body: number, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodePrimitiveIntegerPost(body: number, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveIntegerPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveNumberPost(body, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveNumberPost(body, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -1164,26 +1381,33 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveNumberPost(body: number, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodePrimitiveNumberPost(body: number, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveNumberPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: Configuration | Middleware[]): Observable<HttpInfo<void>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveStringPost(body, _options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveStringPost(body, _options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -1202,7 +1426,7 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveStringPost(body: string, _options?: Configuration | Middleware[]): Observable<void> {
+    public testEncodePrimitiveStringPost(body: string, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveStringPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 

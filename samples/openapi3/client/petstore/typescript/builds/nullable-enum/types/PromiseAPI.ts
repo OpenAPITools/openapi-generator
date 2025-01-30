@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
 
 import { Response } from '../models/Response';
@@ -19,27 +19,15 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public uniqueItemsWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<Response>> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.uniqueItemsWithHttpInfo(observableOptions);
+    public uniqueItemsWithHttpInfo(_options?: ConfigurationOptions): Promise<HttpInfo<Response>> {
+        const result = this.api.uniqueItemsWithHttpInfo(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public uniqueItems(_options?: Configuration | PromiseMiddleware[]): Promise<Response> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.uniqueItems(observableOptions);
+    public uniqueItems(_options?: ConfigurationOptions): Promise<Response> {
+        const result = this.api.uniqueItems(_options);
         return result.toPromise();
     }
 

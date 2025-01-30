@@ -1,6 +1,6 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
-import {Configuration} from '../configuration';
+import {Configuration,ConfigurationOptions} from '../configuration';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import  FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -26,7 +26,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async createUser(user: User, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -73,7 +73,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -120,7 +120,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -167,7 +167,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async deleteUser(username: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -204,7 +204,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async getUserByName(username: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -236,7 +236,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async loginUser(username: string, password: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -281,7 +281,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async logoutUser(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -312,7 +312,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async updateUser(username: string, user: User, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 

@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
 
 import { Cat } from '../models/Cat';
@@ -26,84 +26,48 @@ export class PromiseDefaultApi {
     /**
      * @param [filePostRequest]
      */
-    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.filePostWithHttpInfo(filePostRequest, observableOptions);
+    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        const result = this.api.filePostWithHttpInfo(filePostRequest, _options);
         return result.toPromise();
     }
 
     /**
      * @param [filePostRequest]
      */
-    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.filePost(filePostRequest, observableOptions);
+    public filePost(filePostRequest?: FilePostRequest, _options?: ConfigurationOptions): Promise<void> {
+        const result = this.api.filePost(filePostRequest, _options);
         return result.toPromise();
     }
 
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, observableOptions);
+    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options);
         return result.toPromise();
     }
 
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, observableOptions);
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: ConfigurationOptions): Promise<void> {
+        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, _options);
         return result.toPromise();
     }
 
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<void>> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, observableOptions);
+    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, _options);
         return result.toPromise();
     }
 
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration | PromiseMiddleware[]): Promise<void> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.petsPatch(petsPatchRequest, observableOptions);
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: ConfigurationOptions): Promise<void> {
+        const result = this.api.petsPatch(petsPatchRequest, _options);
         return result.toPromise();
     }
 

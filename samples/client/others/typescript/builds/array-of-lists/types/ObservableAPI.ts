@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import type { Middleware } from "../middleware";
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -24,19 +24,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public listWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<ListPaged>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public listWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<ListPaged>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.list(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.list(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -54,7 +61,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public list(_options?: Configuration | Middleware[]): Observable<ListPaged> {
+    public list(_options?: ConfigurationOptions): Observable<ListPaged> {
         return this.listWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<ListPaged>) => apiResponse.data));
     }
 

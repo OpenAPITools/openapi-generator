@@ -1,6 +1,6 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
-import {Configuration} from '../configuration';
+import {Configuration,ConfigurationOptions} from '../configuration';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import  FormData from "form-data";
 import { URLSearchParams } from 'url';
@@ -27,7 +27,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async addPet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -77,7 +77,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -118,7 +118,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -159,7 +159,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async findPetsByTags(tags: Array<string>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -200,7 +200,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async getPetById(petId: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -237,7 +237,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async updatePet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -288,7 +288,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 
@@ -358,7 +358,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      */
     public async uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
+	if (_options){
 		_config = _options
 	}
 

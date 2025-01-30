@@ -1,6 +1,6 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
-import {Configuration} from '../configuration';
+import {Configuration,ConfigurationOptions} from '../configuration';
 import {Middleware} from '../middleware';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import * as FormData from "form-data";
@@ -23,10 +23,14 @@ export class FakeClassnameTags123ApiRequestFactory extends BaseAPIRequestFactory
      * To test class name in snake case
      * @param client client model
      */
-    public async testClassname(client: Client, _options?: Configuration | Middleware[]): Promise<RequestContext> {
+    public async testClassname(client: Client, _options?: ConfigurationOptions): Promise<RequestContext> {
 	let _config = this.configuration;
-	if (_options && !Array.isArray(_options)){
-		_config = _options
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || _config.baseServer
+		    httpApi: _options.httpApi || _config.httpApi
+		    authMethods: _options.authMethods || _config.authMethods
+		}
 	}
 
         // verify required parameter 'client' is not null or undefined

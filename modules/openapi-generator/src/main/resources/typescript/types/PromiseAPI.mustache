@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
-import { Configuration} from '../configuration{{importFileExtension}}'
+import { Configuration{{^useInversify}}, ConfigurationOptions{{/useInversify}} } from '../configuration{{importFileExtension}}'
 {{^useInversify}}
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
 {{/useInversify}}
@@ -54,19 +54,8 @@ export class Promise{{classname}} {
      * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
-    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}} | PromiseMiddleware[]{{/useInversify}}): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
-	{{^useInversify}}
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-	{{/useInversify}}
-	{{#useInversify}}
-	const observableOptions = _options
-	{{/useInversify}}
-        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}observableOptions);
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}}Options{{/useInversify}}): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}_options);
         return result.toPromise();
     }
 
@@ -81,19 +70,8 @@ export class Promise{{classname}} {
      * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}} | PromiseMiddleware[]{{/useInversify}}): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
-	{{^useInversify}}
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-	{{/useInversify}}
-	{{#useInversify}}
-	const observableOptions = _options
-	{{/useInversify}}
-        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}observableOptions);
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}}Options{{/useInversify}}): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
         return result.toPromise();
     }
 

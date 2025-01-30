@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
 
 import { List } from '../models/List';
@@ -20,27 +20,15 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public listWithHttpInfo(_options?: Configuration | PromiseMiddleware[]): Promise<HttpInfo<ListPaged>> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.listWithHttpInfo(observableOptions);
+    public listWithHttpInfo(_options?: ConfigurationOptions): Promise<HttpInfo<ListPaged>> {
+        const result = this.api.listWithHttpInfo(_options);
         return result.toPromise();
     }
 
     /**
      */
-    public list(_options?: Configuration | PromiseMiddleware[]): Promise<ListPaged> {
-	let observableOptions: Configuration | undefined | Middleware[]
-	if (Array.isArray(_options)){
-		observableOptions = _options.map(m => new PromiseMiddlewareWrapper(m))
-	}else{
-		observableOptions = _options
-	}
-        const result = this.api.list(observableOptions);
+    public list(_options?: ConfigurationOptions): Promise<ListPaged> {
+        const result = this.api.list(_options);
         return result.toPromise();
     }
 

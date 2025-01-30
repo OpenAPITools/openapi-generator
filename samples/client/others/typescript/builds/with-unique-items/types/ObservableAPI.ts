@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import type { Middleware } from "../middleware";
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
@@ -23,19 +23,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public uniqueItemsWithHttpInfo(_options?: Configuration | Middleware[]): Observable<HttpInfo<Response>> {
-    	let configuration = undefined
-	let calltimeMiddleware: Middleware[] = []
-	if (Array.isArray(_options)){
+    public uniqueItemsWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Response>> {
+	let allMiddleware: Middleware[] = []
+	if (_options && _options.middleware){
 	    // call-time middleware provided
-	    calltimeMiddleware = _options
-	}else{
-	    configuration = _options
-	}
-        const requestContextPromise = this.requestFactory.uniqueItems(_options);
+            let calltimeMiddleware: Middleware[] = _options.middlware
 
+	    switch(_options.middlewareMergeStrategy){
+	    	case 'append':
+		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+		    break;
+	    	case 'prepend':
+		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+		    break;
+		default: // replace
+		    all = calltimeMiddleware
+	    }
+	}
+
+        const requestContextPromise = this.requestFactory.uniqueItems(_options);
         // build promise chain
-	let allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
@@ -53,7 +60,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public uniqueItems(_options?: Configuration | Middleware[]): Observable<Response> {
+    public uniqueItems(_options?: ConfigurationOptions): Observable<Response> {
         return this.uniqueItemsWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Response>) => apiResponse.data));
     }
 
