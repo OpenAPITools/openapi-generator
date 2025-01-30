@@ -47,19 +47,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        public string? Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin { get; set; }
+        public string? Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets ColorCode
         /// </summary>
         [DataMember(Name = "color_code", EmitDefaultValue = false)]
-        public string ColorCode { get; set; }
+        public string? ColorCode { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

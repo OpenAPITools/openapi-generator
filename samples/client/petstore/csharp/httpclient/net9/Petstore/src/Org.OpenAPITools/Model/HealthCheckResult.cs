@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
-        public string NullableMessage { get; set; }
+        public string? NullableMessage { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

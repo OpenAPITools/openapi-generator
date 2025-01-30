@@ -266,7 +266,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringFormattedAsDecimal
         /// </summary>
         [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
-        public decimal StringFormattedAsDecimal { get; set; }
+        public decimal? StringFormattedAsDecimal { get; set; }
 
         /// <summary>
         /// Gets or Sets StringFormattedAsDecimalRequired
@@ -443,7 +443,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                if (this.StringFormattedAsDecimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
                 return hashCode;
             }

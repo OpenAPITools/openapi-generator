@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        public File File { get; set; }
+        public File? File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files

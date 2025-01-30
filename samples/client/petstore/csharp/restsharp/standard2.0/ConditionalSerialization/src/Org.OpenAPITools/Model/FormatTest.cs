@@ -787,7 +787,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringFormattedAsDecimal
         /// </summary>
         [DataMember(Name = "string_formatted_as_decimal", EmitDefaultValue = false)]
-        public decimal StringFormattedAsDecimal
+        public decimal? StringFormattedAsDecimal
         {
             get{ return _StringFormattedAsDecimal;}
             set
@@ -796,7 +796,7 @@ namespace Org.OpenAPITools.Model
                 _flagStringFormattedAsDecimal = true;
             }
         }
-        private decimal _StringFormattedAsDecimal;
+        private decimal? _StringFormattedAsDecimal;
         private bool _flagStringFormattedAsDecimal;
 
         /// <summary>
@@ -1007,7 +1007,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                if (this.StringFormattedAsDecimal != null)
+                {
+                    hashCode = (hashCode * 59) + this.StringFormattedAsDecimal.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.StringFormattedAsDecimalRequired.GetHashCode();
                 if (this.AdditionalProperties != null)
                 {

@@ -49,21 +49,21 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public string Uuid { get; set; }
+        public string? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
-        public decimal Id { get; set; }
+        public decimal? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
         [Obsolete]
-        public DeprecatedObject DeprecatedRef { get; set; }
+        public DeprecatedObject? DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Bars
@@ -126,7 +126,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Id == input.Id ||
-                    this.Id.Equals(input.Id)
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
                 ) && 
                 (
                     this.DeprecatedRef == input.DeprecatedRef ||
@@ -154,7 +155,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
                 if (this.DeprecatedRef != null)
                 {
                     hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();

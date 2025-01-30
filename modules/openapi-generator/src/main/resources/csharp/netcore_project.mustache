@@ -73,9 +73,11 @@
     {{/net48}}
   </ItemGroup>
   <ItemGroup>
+    {{^netStandard}}
     {{^net60OrLater}}
     <Reference Include="System.Web" />
     {{/net60OrLater}}
+	{{/netStandard}}
     {{#net48}}
     <Reference Include="System.Net.Http" />
     {{/net48}}
