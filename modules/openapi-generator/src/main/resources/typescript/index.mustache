@@ -14,7 +14,6 @@ export { Middleware } from './middleware{{importFileExtension}}';
 {{/useRxJS}}
 {{^useRxJS}}
 export type { PromiseMiddleware as Middleware } from './middleware{{importFileExtension}}';
-export type { Middleware as ObservableMiddleware } from './middleware{{importFileExtension}}';
 {{/useRxJS}}
 {{#useObjectParameters}}
 export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}type {{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI{{importFileExtension}}';

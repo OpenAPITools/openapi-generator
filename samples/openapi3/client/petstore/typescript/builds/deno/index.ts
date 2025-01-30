@@ -8,6 +8,5 @@ export * from "./servers.ts";
 export { RequiredError } from "./apis/baseapi.ts";
 
 export type { PromiseMiddleware as Middleware } from './middleware.ts';
-export type { Middleware as ObservableMiddleware } from './middleware.ts';
 export { PromisePetApi as PetApi,  PromiseStoreApi as StoreApi,  PromiseUserApi as UserApi } from './types/PromiseAPI.ts';
 
