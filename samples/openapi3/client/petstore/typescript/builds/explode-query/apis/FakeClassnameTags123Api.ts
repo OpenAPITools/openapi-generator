@@ -23,14 +23,10 @@ export class FakeClassnameTags123ApiRequestFactory extends BaseAPIRequestFactory
      * To test class name in snake case
      * @param client client model
      */
-    public async testClassname(client: Client, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testClassname(client: Client, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'client' is not null or undefined

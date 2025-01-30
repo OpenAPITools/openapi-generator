@@ -23,14 +23,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Create user
      * @param user Created user object
      */
-    public async createUser(user: User, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async createUser(user: User, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'user' is not null or undefined
@@ -72,14 +68,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public async createUsersWithArrayInput(user: Array<User>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'user' is not null or undefined
@@ -121,14 +113,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public async createUsersWithListInput(user: Array<User>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'user' is not null or undefined
@@ -170,14 +158,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public async deleteUser(username: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async deleteUser(username: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'username' is not null or undefined
@@ -209,14 +193,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public async getUserByName(username: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async getUserByName(username: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'username' is not null or undefined
@@ -249,14 +229,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public async loginUser(username: string, password: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async loginUser(username: string, password: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'username' is not null or undefined
@@ -302,14 +278,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * 
      * Logs out current logged in user session
      */
-    public async logoutUser(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async logoutUser(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -335,14 +307,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public async updateUser(username: string, user: User, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async updateUser(username: string, user: User, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'username' is not null or undefined

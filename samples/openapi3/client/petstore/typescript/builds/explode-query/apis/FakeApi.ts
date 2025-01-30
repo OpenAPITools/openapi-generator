@@ -29,14 +29,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
-    public async fakeBigDecimalMap(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeBigDecimalMap(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -59,14 +55,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Health check endpoint
      */
-    public async fakeHealthGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeHealthGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -92,14 +84,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param query1 query parameter
      * @param header1 header parameter
      */
-    public async fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'pet' is not null or undefined
@@ -158,14 +146,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of outer boolean types
      * @param body Input boolean as post body
      */
-    public async fakeOuterBooleanSerialize(body?: boolean, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeOuterBooleanSerialize(body?: boolean, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -201,14 +185,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of object with outer number type
      * @param outerComposite Input composite as post body
      */
-    public async fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -244,14 +224,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of outer number types
      * @param body Input number as post body
      */
-    public async fakeOuterNumberSerialize(body?: number, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeOuterNumberSerialize(body?: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -287,14 +263,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of outer string types
      * @param body Input string as post body
      */
-    public async fakeOuterStringSerialize(body?: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakeOuterStringSerialize(body?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -330,14 +302,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * Test serialization of enum (int) properties with examples
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
-    public async fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'outerObjectWithEnumProperty' is not null or undefined
@@ -378,14 +346,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * For this test, the body has to be a binary file.
      * @param body image to upload
      */
-    public async testBodyWithBinary(body: HttpFile, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testBodyWithBinary(body: HttpFile, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'body' is not null or undefined
@@ -426,14 +390,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * For this test, the body for this request must reference a schema named `File`.
      * @param fileSchemaTestClass 
      */
-    public async testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'fileSchemaTestClass' is not null or undefined
@@ -474,14 +434,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param query 
      * @param user 
      */
-    public async testBodyWithQueryParams(query: string, user: User, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testBodyWithQueryParams(query: string, user: User, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'query' is not null or undefined
@@ -534,14 +490,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * To test \"client\" model
      * @param client client model
      */
-    public async testClientModel(client: Client, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testClientModel(client: Client, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'client' is not null or undefined
@@ -596,14 +548,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param password None
      * @param callback None
      */
-    public async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'number' is not null or undefined
@@ -755,14 +703,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
      */
-    public async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -867,14 +811,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param booleanGroup Boolean in group parameters
      * @param int64Group Integer in group parameters
      */
-    public async testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requiredStringGroup' is not null or undefined
@@ -952,14 +892,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * test inline additionalProperties
      * @param requestBody request body
      */
-    public async testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -1002,14 +938,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param param field1
      * @param param2 field2
      */
-    public async testJsonFormData(param: string, param2: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testJsonFormData(param: string, param2: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'param' is not null or undefined
@@ -1080,14 +1012,10 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
      * @param allowEmpty 
      * @param language 
      */
-    public async testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'pipe' is not null or undefined

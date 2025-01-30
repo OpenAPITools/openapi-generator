@@ -21,14 +21,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfArraysGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeArrayOfArraysGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -50,14 +46,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeArrayOfGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -79,14 +71,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfMapsOfObjectsGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -108,14 +96,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfNullableGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeArrayOfNullableGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -137,14 +121,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeArrayOfNullableObjectsGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeArrayOfNullableObjectsGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -166,14 +146,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeCompositeObjectsGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeCompositeObjectsGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -195,14 +171,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeMapOfMapsOfObjectsGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -224,14 +196,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeMapOfObjectsGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeMapOfObjectsGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -253,14 +221,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeMapOfPrimitiveGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeMapOfPrimitiveGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -282,14 +246,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeNullableArrayGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeNullableArrayGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -311,14 +271,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeNullableGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeNullableGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -340,14 +296,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodeObjectGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodeObjectGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -369,14 +321,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveBooleanGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodePrimitiveBooleanGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -398,14 +346,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveIntegerGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodePrimitiveIntegerGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -427,14 +371,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveNumberGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodePrimitiveNumberGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -456,14 +396,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async testDecodePrimitiveStringGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testDecodePrimitiveStringGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -486,14 +422,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -533,14 +465,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param complexObject 
      */
-    public async testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'complexObject' is not null or undefined
@@ -580,14 +508,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param complexObject 
      */
-    public async testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'complexObject' is not null or undefined
@@ -627,14 +551,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -674,14 +594,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeArrayOfPost(requestBody: Array<string>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -721,14 +637,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param compositeObject 
      */
-    public async testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'compositeObject' is not null or undefined
@@ -768,14 +680,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -815,14 +723,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -862,14 +766,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'requestBody' is not null or undefined
@@ -909,14 +809,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param requestBody 
      */
-    public async testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -951,14 +847,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodeNullablePost(body?: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeNullablePost(body?: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -993,14 +885,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param complexObject 
      */
-    public async testEncodeObjectPost(complexObject: ComplexObject, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'complexObject' is not null or undefined
@@ -1040,14 +928,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveBooleanPost(body: boolean, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'body' is not null or undefined
@@ -1087,14 +971,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveIntegerPost(body: number, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodePrimitiveIntegerPost(body: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'body' is not null or undefined
@@ -1134,14 +1014,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveNumberPost(body: number, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodePrimitiveNumberPost(body: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'body' is not null or undefined
@@ -1181,14 +1057,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param body 
      */
-    public async testEncodePrimitiveStringPost(body: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async testEncodePrimitiveStringPost(body: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'body' is not null or undefined

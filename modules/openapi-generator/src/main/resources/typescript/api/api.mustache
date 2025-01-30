@@ -45,22 +45,11 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration{{^useInversify}}Options{{/useInversify}}): Promise<RequestContext> {
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
-	{{#useInversify}}
 	if (_options){
 		_config = _options
 	}
-	{{/useInversify}}
-	{{^useInversify}}
-	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
-	}
-	{{/useInversify}}
         {{#allParams}}
 
         {{#required}}

@@ -28,21 +28,31 @@ export class ObservableDefaultApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.list(_options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.list(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {

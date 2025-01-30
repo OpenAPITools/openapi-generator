@@ -76,21 +76,31 @@ export class ObservableAnotherFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory._123testSpecialTags(client, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory._123testSpecialTags(client, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -140,21 +150,31 @@ export class ObservableDefaultApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fooGet(_options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fooGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -202,21 +222,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeBigDecimalMap(_options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeBigDecimalMap(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -247,21 +277,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeHealthGet(_options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeHealthGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -295,21 +335,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeHttpSignatureTest(pet, query1, header1, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeHttpSignatureTest(pet, query1, header1, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -344,21 +394,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeOuterBooleanSerialize(body, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeOuterBooleanSerialize(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -391,21 +451,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeOuterCompositeSerialize(outerComposite, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeOuterCompositeSerialize(outerComposite, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -438,21 +508,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeOuterNumberSerialize(body, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeOuterNumberSerialize(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -485,21 +565,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakeOuterStringSerialize(body, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakeOuterStringSerialize(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -532,21 +622,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -579,21 +679,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testBodyWithBinary(body, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testBodyWithBinary(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -626,21 +736,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testBodyWithFileSchema(fileSchemaTestClass, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testBodyWithFileSchema(fileSchemaTestClass, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -673,21 +793,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testBodyWithQueryParams(query, user, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testBodyWithQueryParams(query, user, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -721,21 +851,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testClientModel(client, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testClientModel(client, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -783,21 +923,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -853,21 +1003,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -915,21 +1075,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -969,21 +1139,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testInlineAdditionalProperties(requestBody, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testInlineAdditionalProperties(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1019,21 +1199,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testJsonFormData(param, param2, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testJsonFormData(param, param2, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1074,21 +1264,31 @@ export class ObservableFakeApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1146,21 +1346,31 @@ export class ObservableFakeClassnameTags123Api {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.testClassname(client, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.testClassname(client, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1213,21 +1423,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.addPet(pet, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.addPet(pet, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1263,21 +1483,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1313,21 +1543,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.findPetsByStatus(status, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.findPetsByStatus(status, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1362,21 +1602,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.findPetsByTags(tags, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.findPetsByTags(tags, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1411,21 +1661,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.getPetById(petId, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.getPetById(petId, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1460,21 +1720,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.updatePet(pet, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.updatePet(pet, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1511,21 +1781,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1564,21 +1844,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1617,21 +1907,31 @@ export class ObservablePetApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1686,21 +1986,31 @@ export class ObservableStoreApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.deleteOrder(orderId, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.deleteOrder(orderId, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1734,21 +2044,31 @@ export class ObservableStoreApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.getInventory(_options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.getInventory(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1782,21 +2102,31 @@ export class ObservableStoreApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.getOrderById(orderId, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.getOrderById(orderId, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1831,21 +2161,31 @@ export class ObservableStoreApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.placeOrder(order, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.placeOrder(order, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1898,21 +2238,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.createUser(user, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.createUser(user, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1947,21 +2297,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.createUsersWithArrayInput(user, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.createUsersWithArrayInput(user, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -1996,21 +2356,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.createUsersWithListInput(user, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.createUsersWithListInput(user, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -2045,21 +2415,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.deleteUser(username, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.deleteUser(username, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -2094,21 +2474,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.getUserByName(username, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.getUserByName(username, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -2144,21 +2534,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.loginUser(username, password, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.loginUser(username, password, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -2193,21 +2593,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.logoutUser(_options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.logoutUser(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {
@@ -2242,21 +2652,31 @@ export class ObservableUserApi {
 	let allMiddleware: Middleware[] = []
 	if (_options && _options.middleware){
 	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middlware
+            let calltimeMiddleware: Middleware[] = _options.middleware
 
 	    switch(_options.middlewareMergeStrategy){
 	    	case 'append':
-		allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
+                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
 		    break;
 	    	case 'prepend':
 		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
 		    break;
 		default: // replace
-		    all = calltimeMiddleware
+		    allMiddleware = calltimeMiddleware
 	    }
 	}
 
-        const requestContextPromise = this.requestFactory.updateUser(username, user, _options);
+	let _config = this.configuration
+	if (_options){
+		_config = {
+		    baseServer: _options.baseServer || this.configuration.baseServer,
+		    httpApi: _options.httpApi || this.configuration.httpApi,
+		    authMethods: _options.authMethods || this.configuration.authMethods,
+		    middleware: allMiddleware || this.configuration.middleware
+		}
+	}
+
+        const requestContextPromise = this.requestFactory.updateUser(username, user, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of allMiddleware) {

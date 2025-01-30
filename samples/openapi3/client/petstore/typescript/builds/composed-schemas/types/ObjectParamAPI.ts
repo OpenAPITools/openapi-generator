@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import type { Middleware } from "../middleware";
 
 import { Cat } from '../models/Cat';
@@ -50,42 +50,42 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public filePostWithHttpInfo(param: DefaultApiFilePostRequest = {}, options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
+    public filePostWithHttpInfo(param: DefaultApiFilePostRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.filePostWithHttpInfo(param.filePostRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
+    public filePost(param: DefaultApiFilePostRequest = {}, options?: ConfigurationOptions): Promise<void> {
         return this.api.filePost(param.filePostRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public petsFilteredPatchWithHttpInfo(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
+    public petsFilteredPatchWithHttpInfo(param: DefaultApiPetsFilteredPatchRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.petsFilteredPatchWithHttpInfo(param.petsFilteredPatchRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
+    public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: ConfigurationOptions): Promise<void> {
         return this.api.petsFilteredPatch(param.petsFilteredPatchRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public petsPatchWithHttpInfo(param: DefaultApiPetsPatchRequest = {}, options?: Configuration | Middleware[]): Promise<HttpInfo<void>> {
+    public petsPatchWithHttpInfo(param: DefaultApiPetsPatchRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.petsPatchWithHttpInfo(param.petsPatchRequest,  options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public petsPatch(param: DefaultApiPetsPatchRequest = {}, options?: Configuration| Middleware[]): Promise<void> {
+    public petsPatch(param: DefaultApiPetsPatchRequest = {}, options?: ConfigurationOptions): Promise<void> {
         return this.api.petsPatch(param.petsPatchRequest,  options).toPromise();
     }
 

@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
 import type { Middleware } from "../middleware";
 
 import { Response } from '../models/Response';
@@ -20,14 +20,14 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public uniqueItemsWithHttpInfo(param: DefaultApiUniqueItemsRequest = {}, options?: Configuration | Middleware[]): Promise<HttpInfo<Response>> {
+    public uniqueItemsWithHttpInfo(param: DefaultApiUniqueItemsRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<Response>> {
         return this.api.uniqueItemsWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public uniqueItems(param: DefaultApiUniqueItemsRequest = {}, options?: Configuration| Middleware[]): Promise<Response> {
+    public uniqueItems(param: DefaultApiUniqueItemsRequest = {}, options?: ConfigurationOptions): Promise<Response> {
         return this.api.uniqueItems( options).toPromise();
     }
 

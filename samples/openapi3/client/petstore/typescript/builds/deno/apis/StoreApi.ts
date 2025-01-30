@@ -21,14 +21,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public async deleteOrder(orderId: string, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async deleteOrder(orderId: string, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'orderId' is not null or undefined
@@ -59,14 +55,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public async getInventory(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async getInventory(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
@@ -97,14 +89,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public async getOrderById(orderId: number, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async getOrderById(orderId: number, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'orderId' is not null or undefined
@@ -136,14 +124,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public async placeOrder(order: Order, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async placeOrder(order: Order, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // verify required parameter 'order' is not null or undefined

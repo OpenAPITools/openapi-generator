@@ -21,14 +21,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param filePostRequest 
      */
-    public async filePost(filePostRequest?: FilePostRequest, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -63,14 +59,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param petsFilteredPatchRequest 
      */
-    public async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 
@@ -105,14 +97,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * @param petsPatchRequest 
      */
-    public async petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: ConfigurationOptions): Promise<RequestContext> {
+    public async petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
 

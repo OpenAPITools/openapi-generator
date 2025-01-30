@@ -20,14 +20,10 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      */
-    public async fooGet(_options?: ConfigurationOptions): Promise<RequestContext> {
+    public async fooGet(_options?: Configuration): Promise<RequestContext> {
 	let _config = this.configuration;
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || _config.baseServer
-		    httpApi: _options.httpApi || _config.httpApi
-		    authMethods: _options.authMethods || _config.authMethods
-		}
+		_config = _options
 	}
 
         // Path Params
