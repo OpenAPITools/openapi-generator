@@ -23,7 +23,7 @@ export class FakeClassnameTags123ApiRequestFactory extends BaseAPIRequestFactory
      * @param client client model
      */
     public async testClassname(client: Client, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'client' is not null or undefined
         if (client === null || client === undefined) {

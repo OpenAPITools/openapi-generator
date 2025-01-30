@@ -21,7 +21,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
      * @param filePostRequest 
      */
     public async filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
 
         // Path Params
@@ -56,7 +56,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
      * @param petsFilteredPatchRequest 
      */
     public async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
 
         // Path Params
@@ -91,7 +91,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
      * @param petsPatchRequest 
      */
     public async petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
 
         // Path Params

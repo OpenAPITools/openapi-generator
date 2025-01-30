@@ -21,7 +21,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * @param orderId ID of the order that needs to be deleted
      */
     public async deleteOrder(orderId: string, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
@@ -52,7 +52,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Returns pet inventories by status
      */
     public async getInventory(_options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // Path Params
         const localVarPath = '/store/inventory';
@@ -83,7 +83,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * @param orderId ID of pet that needs to be fetched
      */
     public async getOrderById(orderId: number, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
@@ -115,7 +115,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * @param order order placed for purchasing the pet
      */
     public async placeOrder(order: Order, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'order' is not null or undefined
         if (order === null || order === undefined) {

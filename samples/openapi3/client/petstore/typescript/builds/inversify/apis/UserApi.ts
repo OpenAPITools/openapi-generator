@@ -25,7 +25,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param user Created user object
      */
     public async createUser(user: User, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -69,7 +69,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param user List of user object
      */
     public async createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -113,7 +113,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param user List of user object
      */
     public async createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -157,7 +157,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username The name that needs to be deleted
      */
     public async deleteUser(username: string, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -191,7 +191,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public async getUserByName(username: string, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -220,7 +220,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param password The password for login in clear text
      */
     public async loginUser(username: string, password: string, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
@@ -262,7 +262,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * Logs out current logged in user session
      */
     public async logoutUser(_options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // Path Params
         const localVarPath = '/user/logout';
@@ -290,7 +290,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * @param user Updated user object
      */
     public async updateUser(username: string, user: User, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {

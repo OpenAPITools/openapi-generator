@@ -20,7 +20,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      */
     public async fooGet(_options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // Path Params
         const localVarPath = '/foo';

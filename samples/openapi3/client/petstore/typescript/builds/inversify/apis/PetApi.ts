@@ -26,7 +26,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param pet Pet object that needs to be added to the store
      */
     public async addPet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
@@ -73,7 +73,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param apiKey 
      */
     public async deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -111,7 +111,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param status Status values that need to be considered for filter
      */
     public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'status' is not null or undefined
         if (status === null || status === undefined) {
@@ -149,7 +149,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param tags Tags to filter by
      */
     public async findPetsByTags(tags: Array<string>, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'tags' is not null or undefined
         if (tags === null || tags === undefined) {
@@ -187,7 +187,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param petId ID of pet to return
      */
     public async getPetById(petId: number, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -221,7 +221,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param pet Pet object that needs to be added to the store
      */
     public async updatePet(pet: Pet, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
@@ -269,7 +269,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param status Updated status of the pet
      */
     public async updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
@@ -336,7 +336,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * @param file file to upload
      */
     public async uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
 
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {

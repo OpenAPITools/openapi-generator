@@ -43,7 +43,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      {{/allParams}}
      */
     public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<RequestContext> {
-	let _config = _options || this.configuration;
+        let _config = _options || this.configuration;
         {{#allParams}}
 
         {{#required}}
