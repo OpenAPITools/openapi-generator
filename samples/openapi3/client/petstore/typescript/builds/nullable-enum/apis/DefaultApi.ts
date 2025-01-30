@@ -1,7 +1,6 @@
 // TODO: better import syntax?
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi';
-import {Configuration,ConfigurationOptions} from '../configuration';
-import {Middleware} from '../middleware';
+import {Configuration} from '../configuration';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile, HttpInfo} from '../http/http';
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
@@ -19,10 +18,7 @@ export class DefaultApiRequestFactory extends BaseAPIRequestFactory {
     /**
      */
     public async uniqueItems(_options?: Configuration): Promise<RequestContext> {
-	let _config = this.configuration;
-	if (_options){
-		_config = _options
-	}
+	let _config = _options || this.configuration;
 
         // Path Params
         const localVarPath = '/unique-items';
