@@ -1,1 +1,1 @@
-{{#useSealed}}{{#oneOf}}{{#-first}}permits {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}{{#directChildren}}{{#-first}}{{#oneOf.isEmpty}}permits {{/oneOf.isEmpty}}{{/-first}}{{{classname}}}{{^-last}}, {{/-last}}{{/directChildren}} {{/useSealed}}
+{{#useSealed}}{{#permits.0}}sealed {{/permits.0}}{{^permits.0}}{{^vendorExtensions.x-is-one-of-interface}}final {{/vendorExtensions.x-is-one-of-interface}}{{/permits.0}}{{/useSealed}}

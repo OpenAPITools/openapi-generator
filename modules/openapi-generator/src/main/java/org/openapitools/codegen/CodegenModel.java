@@ -53,13 +53,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public List<CodegenModel> interfaceModels;
     @Getter @Setter
     public List<CodegenModel> children;
-    @Getter @Setter
-    public List<CodegenModel> directChildren;
 
     // anyOf, oneOf, allOf
     public Set<String> anyOf = new TreeSet<>();
     public Set<String> oneOf = new TreeSet<>();
     public Set<String> allOf = new TreeSet<>();
+
+    public List<String> permits = new ArrayList<>();
 
     // The schema name as written in the OpenAPI document
     // If it's a reserved word, it will be escaped.
@@ -172,7 +172,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean hasOptional;
     public boolean isArray;
     public boolean hasChildren;
-    public boolean hasDirectChildren;
     public boolean isMap;
     /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
     public boolean isOptional;
@@ -891,7 +890,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasOptional == that.hasOptional &&
                 isArray == that.isArray &&
                 hasChildren == that.hasChildren &&
-                hasDirectChildren == that.hasDirectChildren &&
                 isMap == that.isMap &&
                 isOptional == that.isOptional &&
                 isDeprecated == that.isDeprecated &&
@@ -926,7 +924,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(parentModel, that.parentModel) &&
                 Objects.equals(interfaceModels, that.interfaceModels) &&
                 Objects.equals(children, that.children) &&
-                Objects.equals(directChildren, that.directChildren) &&
+                Objects.equals(permits, that.permits) &&
                 Objects.equals(anyOf, that.anyOf) &&
                 Objects.equals(oneOf, that.oneOf) &&
                 Objects.equals(allOf, that.allOf) &&
@@ -980,7 +978,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public int hashCode() {
         return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
-                getInterfaceModels(), getChildren(), getDirectChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
+                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
@@ -988,7 +986,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
-                hasChildren, hasDirectChildren, isMap, isOptional, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, isMap, isOptional, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
@@ -1010,7 +1008,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", allParents=").append(allParents);
         sb.append(", parentModel=").append(parentModel);
         sb.append(", children=").append(children != null ? children.size() : "[]");
-        sb.append(", directChildren=").append(directChildren != null ? directChildren.size() : "[]");
+        sb.append(", permits=").append(permits != null ? permits.size() : "[]");
         sb.append(", anyOf=").append(anyOf);
         sb.append(", oneOf=").append(oneOf);
         sb.append(", allOf=").append(allOf);
@@ -1063,7 +1061,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasOptional=").append(hasOptional);
         sb.append(", isArray=").append(isArray);
         sb.append(", hasChildren=").append(hasChildren);
-        sb.append(", hasDirectChildren=").append(hasDirectChildren);
         sb.append(", isMap=").append(isMap);
         sb.append(", isOptional=").append(isOptional);
         sb.append(", isDeprecated=").append(isDeprecated);

@@ -624,13 +624,9 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
             if (parent != null) {
-                if (parent.getDirectChildren() == null) {
-                    parent.setDirectChildren(new ArrayList<>());
-                }
-                if (parent.getDirectChildren().stream().map(CodegenModel::getName)
+                if (parent.permits.stream()
                         .noneMatch(name -> name.equals(cm.getName()))) {
-                    parent.getDirectChildren().add(cm);
-                    parent.hasDirectChildren = true;
+                    parent.permits.add(cm.classname);
                 }
             }
             // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
@@ -2499,6 +2495,12 @@ public class DefaultCodegen implements CodegenConfig {
         return name;
     }
 
+    public boolean isCollection(final Schema<?> p) {
+        Schema<?> schema = unaliasSchema(p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        return ModelUtils.isArraySchema(target) || ModelUtils.isMapSchema(target);
+    }
+
     /**
      * Output the language-specific type declaration of the property.
      *
@@ -2717,13 +2719,18 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.debug("{} (anyOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.anyOf.add(languageType);
-
                         }
                     } else if (composed.getOneOf() != null) {
                         if (m.oneOf.contains(languageType)) {
                             LOGGER.debug("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.oneOf.add(languageType);
+                            if (!isCollection(interfaceSchema) && Optional.ofNullable(interfaceProperty)
+                                    .map(CodegenProperty::getDataType)
+                                    .filter(dataType -> languageSpecificPrimitives.contains(dataType) || importMapping.containsKey(dataType))
+                                    .isEmpty()) {
+                                m.permits.add(getTypeDeclaration(interfaceSchema));
+                            }
                         }
                     } else if (composed.getAllOf() != null) {
                         // no need to add primitive type to allOf, which should comprise of schemas (models) only
@@ -2764,6 +2771,9 @@ public class DefaultCodegen implements CodegenConfig {
                     m.anyOf.add(modelName);
                 } else if (composed.getOneOf() != null) {
                     m.oneOf.add(modelName);
+                    if (!m.permits.contains(modelName)) {
+                        m.permits.add(modelName);
+                    }
                 } else if (composed.getAllOf() != null) {
                     m.allOf.add(modelName);
                 } else {

@@ -1716,44 +1716,6 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testSealedOneOfAndAllOf() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setUseSealed(true);
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setUseSealed(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-
-        generator.opts(input).generate();
-
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public final class Foo extends Entity implements FooRefOrValue");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public final class FooRef extends EntityRef implements FooRefOrValue");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRefOrValue.java"), "public sealed interface FooRefOrValue permits Foo, FooRef ");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Entity.java"), "public sealed class Entity extends RepresentationModel<Entity>  permits Bar, BarCreate, Foo, Pasta, Pizza");
-    }
-
-    @Test
     public void testDiscriminatorWithMappingIssue14731() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -2295,6 +2257,80 @@ public class SpringCodegenTest {
                 .hasNoImports("org.springframework.data.domain.Pageable", "org.springdoc.core.annotations.ParameterObject")
                 .assertMethod("findPageable")
                 .assertParameter("pageable").hasType("Pageable");
+    }
+
+    @DataProvider(name = "sealedScenarios")
+    public static Object[][] sealedScenarios() {
+        return new Object[][]{
+                {"oneof_polymorphism_and_inheritance.yaml", Map.of(
+                        "Foo.java", "public final class Foo extends Entity implements FooRefOrValue",
+                        "FooRef.java", "public final class FooRef extends EntityRef implements FooRefOrValue",
+                        "FooRefOrValue.java", "public sealed interface FooRefOrValue permits Foo, FooRef ",
+                        "Entity.java", "public sealed class Entity extends RepresentationModel<Entity> permits Bar, BarCreate, Foo, Pasta, Pizza")},
+                {"oneOf_additionalProperties.yaml", Map.of(
+                        "SchemaA.java", "public final class SchemaA extends RepresentationModel<SchemaA>  implements PostRequest {",
+                        "PostRequest.java", "public sealed interface PostRequest permits SchemaA {")},
+                {"oneOf_array.yaml", Map.of(
+                        "MyExampleGet200Response.java", "public interface MyExampleGet200Response")},
+                {"oneOf_duplicateArray.yaml", Map.of(
+                        "Example.java", "public interface Example  {")},
+                {"oneOf_nonPrimitive.yaml", Map.of(
+                        "Example.java", "public interface Example  {")},
+                {"oneOf_primitive.yaml", Map.of(
+                        "Child.java", "public final class Child extends RepresentationModel<Child>  implements Example  {",
+                        "Example.java", "public sealed interface Example permits Child {")},
+                {"oneOf_primitiveAndArray.yaml", Map.of(
+                        "Example.java", "public interface Example  {")},
+                {"oneOf_reuseRef.yaml", Map.of(
+                        "Fruit.java", "public sealed interface Fruit permits Apple, Banana {",
+                        "Banana.java", "public final class Banana extends RepresentationModel<Banana>  implements Fruit  {",
+                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>  implements Fruit  {")},
+                {"oneOf_twoPrimitives.yaml", Map.of(
+                        "MyExamplePostRequest.java", "public interface MyExamplePostRequest  {")},
+                {"oneOfArrayMapImport.yaml", Map.of(
+                        "Fruit.java", "public interface Fruit  {",
+                        "Grape.java", "public final class Grape extends RepresentationModel<Grape>   {",
+                        "Apple.java", "public final class Apple extends RepresentationModel<Apple>   {")},
+                {"oneOfDiscriminator.yaml", Map.of(
+                        "FruitAllOfDisc.java", "public sealed interface FruitAllOfDisc permits AppleAllOfDisc, BananaAllOfDisc {",
+                        "FruitReqDisc.java", "public sealed interface FruitReqDisc permits AppleReqDisc, BananaReqDisc {\n")}
+        };
+    }
+
+    @Test(dataProvider = "sealedScenarios", description = "sealed scenarios")
+    public void sealedScenarios(String apiFile, Map<String, String> definitions) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/" + apiFile, null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setUseSealed(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setUseSealed(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.opts(input).generate();
+
+        definitions.forEach((file, check) ->
+            assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/" + file), check));
     }
 
     @Test

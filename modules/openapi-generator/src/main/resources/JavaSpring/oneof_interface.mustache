@@ -6,7 +6,7 @@
 {{>typeInfoAnnotation}}
 {{/discriminator}}
 {{>generatedAnnotation}}
-public {{#useSealed}}sealed {{/useSealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>sealed}}{
+public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
