@@ -310,7 +310,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SelectedVersionIndex
         /// </summary>
         [DataMember(Name = "selectedVersionIndex", EmitDefaultValue = false)]
-        public int SelectedVersionIndex { get; set; }
+        public int? SelectedVersionIndex { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -540,7 +540,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.SelectedVersionIndex == input.SelectedVersionIndex ||
-                    this.SelectedVersionIndex.Equals(input.SelectedVersionIndex)
+                    (this.SelectedVersionIndex != null &&
+                    this.SelectedVersionIndex.Equals(input.SelectedVersionIndex))
                 );
         }
 
@@ -665,7 +666,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                if (this.SelectedVersionIndex != null)
+                {
+                    hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                }
                 return hashCode;
             }
         }

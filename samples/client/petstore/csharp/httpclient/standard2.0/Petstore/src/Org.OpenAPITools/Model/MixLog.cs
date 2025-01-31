@@ -317,7 +317,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SelectedVersionIndex
         /// </summary>
         [DataMember(Name = "selectedVersionIndex", EmitDefaultValue = false)]
-        public int SelectedVersionIndex { get; set; }
+        public int? SelectedVersionIndex { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -520,7 +520,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                if (this.SelectedVersionIndex != null)
+                {
+                    hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

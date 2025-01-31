@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShopId
         /// </summary>
         [DataMember(Name = "shopId", EmitDefaultValue = false)]
-        public Guid ShopId { get; set; }
+        public Guid? ShopId { get; set; }
 
         /// <summary>
         /// Gets or Sets TotalPrice
@@ -183,109 +183,109 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>SomeCode is only required for color mixes</value>
         [DataMember(Name = "someCode", EmitDefaultValue = true)]
-        public string SomeCode { get; set; }
+        public string? SomeCode { get; set; }
 
         /// <summary>
         /// Gets or Sets BatchNumber
         /// </summary>
         [DataMember(Name = "batchNumber", EmitDefaultValue = false)]
-        public string BatchNumber { get; set; }
+        public string? BatchNumber { get; set; }
 
         /// <summary>
         /// BrandCode is only required for non-color mixes
         /// </summary>
         /// <value>BrandCode is only required for non-color mixes</value>
         [DataMember(Name = "brandCode", EmitDefaultValue = false)]
-        public string BrandCode { get; set; }
+        public string? BrandCode { get; set; }
 
         /// <summary>
         /// BrandId is only required for color mixes
         /// </summary>
         /// <value>BrandId is only required for color mixes</value>
         [DataMember(Name = "brandId", EmitDefaultValue = false)]
-        public string BrandId { get; set; }
+        public string? BrandId { get; set; }
 
         /// <summary>
         /// BrandName is only required for color mixes
         /// </summary>
         /// <value>BrandName is only required for color mixes</value>
         [DataMember(Name = "brandName", EmitDefaultValue = false)]
-        public string BrandName { get; set; }
+        public string? BrandName { get; set; }
 
         /// <summary>
         /// CategoryCode is not used anymore
         /// </summary>
         /// <value>CategoryCode is not used anymore</value>
         [DataMember(Name = "categoryCode", EmitDefaultValue = false)]
-        public string CategoryCode { get; set; }
+        public string? CategoryCode { get; set; }
 
         /// <summary>
         /// Color is only required for color mixes
         /// </summary>
         /// <value>Color is only required for color mixes</value>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Gets or Sets ColorDescription
         /// </summary>
         [DataMember(Name = "colorDescription", EmitDefaultValue = false)]
-        public string ColorDescription { get; set; }
+        public string? ColorDescription { get; set; }
 
         /// <summary>
         /// Gets or Sets Comment
         /// </summary>
         [DataMember(Name = "comment", EmitDefaultValue = false)]
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         /// <summary>
         /// Gets or Sets CommercialProductCode
         /// </summary>
         [DataMember(Name = "commercialProductCode", EmitDefaultValue = false)]
-        public string CommercialProductCode { get; set; }
+        public string? CommercialProductCode { get; set; }
 
         /// <summary>
         /// ProductLineCode is only required for color mixes
         /// </summary>
         /// <value>ProductLineCode is only required for color mixes</value>
         [DataMember(Name = "productLineCode", EmitDefaultValue = false)]
-        public string ProductLineCode { get; set; }
+        public string? ProductLineCode { get; set; }
 
         /// <summary>
         /// Gets or Sets Country
         /// </summary>
         [DataMember(Name = "country", EmitDefaultValue = false)]
-        public string Country { get; set; }
+        public string? Country { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedBy
         /// </summary>
         [DataMember(Name = "createdBy", EmitDefaultValue = false)]
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedByFirstName
         /// </summary>
         [DataMember(Name = "createdByFirstName", EmitDefaultValue = false)]
-        public string CreatedByFirstName { get; set; }
+        public string? CreatedByFirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedByLastName
         /// </summary>
         [DataMember(Name = "createdByLastName", EmitDefaultValue = false)]
-        public string CreatedByLastName { get; set; }
+        public string? CreatedByLastName { get; set; }
 
         /// <summary>
         /// Gets or Sets DeltaECalculationRepaired
         /// </summary>
         [DataMember(Name = "deltaECalculationRepaired", EmitDefaultValue = false)]
-        public string DeltaECalculationRepaired { get; set; }
+        public string? DeltaECalculationRepaired { get; set; }
 
         /// <summary>
         /// Gets or Sets DeltaECalculationSprayout
         /// </summary>
         [DataMember(Name = "deltaECalculationSprayout", EmitDefaultValue = false)]
-        public string DeltaECalculationSprayout { get; set; }
+        public string? DeltaECalculationSprayout { get; set; }
 
         /// <summary>
         /// Gets or Sets OwnColorVariantNumber
@@ -297,27 +297,27 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PrimerProductId
         /// </summary>
         [DataMember(Name = "primerProductId", EmitDefaultValue = false)]
-        public string PrimerProductId { get; set; }
+        public string? PrimerProductId { get; set; }
 
         /// <summary>
         /// ProductId is only required for color mixes
         /// </summary>
         /// <value>ProductId is only required for color mixes</value>
         [DataMember(Name = "productId", EmitDefaultValue = false)]
-        public string ProductId { get; set; }
+        public string? ProductId { get; set; }
 
         /// <summary>
         /// ProductName is only required for color mixes
         /// </summary>
         /// <value>ProductName is only required for color mixes</value>
         [DataMember(Name = "productName", EmitDefaultValue = false)]
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
 
         /// <summary>
         /// Gets or Sets SelectedVersionIndex
         /// </summary>
         [DataMember(Name = "selectedVersionIndex", EmitDefaultValue = false)]
-        public int SelectedVersionIndex { get; set; }
+        public int? SelectedVersionIndex { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -520,7 +520,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                if (this.SelectedVersionIndex != null)
+                {
+                    hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
