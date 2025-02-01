@@ -2323,8 +2323,6 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
 
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setUseSealed(true);
         codegen.setLegacyDiscriminatorBehavior(false);
 
         generator.opts(input).generate();

@@ -2725,12 +2725,6 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.debug("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
                             m.oneOf.add(languageType);
-                            if (!isCollection(interfaceSchema) && Optional.ofNullable(interfaceProperty)
-                                    .map(CodegenProperty::getDataType)
-                                    .filter(dataType -> languageSpecificPrimitives.contains(dataType) || importMapping.containsKey(dataType))
-                                    .isEmpty()) {
-                                m.permits.add(getTypeDeclaration(interfaceSchema));
-                            }
                         }
                     } else if (composed.getAllOf() != null) {
                         // no need to add primitive type to allOf, which should comprise of schemas (models) only
