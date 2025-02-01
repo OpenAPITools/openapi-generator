@@ -1,6 +1,6 @@
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{^useClasses}}Sendable, {{/useClasses}}{{#useClasses}}{{#readonlyProperties}}Sendable, {{/readonlyProperties}}{{/useClasses}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable, JSONEncodable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
     {{#oneOf}}
-    case type{{.}}({{.}})
+    case type{{#transformArrayType}}{{.}}{{/transformArrayType}}({{.}})
     {{/oneOf}}
     {{#oneOfUnknownDefaultCase}}
     case unknownDefaultOpenApi
@@ -10,7 +10,7 @@
         var container = encoder.singleValueContainer()
         switch self {
         {{#oneOf}}
-        case .type{{.}}(let value):
+        case .type{{#transformArrayType}}{{.}}{{/transformArrayType}}(let value):
             try container.encode(value)
         {{/oneOf}}
         {{#oneOfUnknownDefaultCase}}
@@ -29,7 +29,7 @@
         {{^-first}}
         } else if let value = try? container.decode({{.}}.self) {
         {{/-first}}
-            self = .type{{.}}(value)
+            self = .type{{#transformArrayType}}{{.}}{{/transformArrayType}}(value)
         {{/oneOf}}
         } else {
             {{#oneOfUnknownDefaultCase}}
