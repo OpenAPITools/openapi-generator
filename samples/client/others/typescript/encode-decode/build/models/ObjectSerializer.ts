@@ -1,8 +1,8 @@
-export * from '../models/SingleValueEnum30';
-export * from '../models/SingleValueEnum31';
+export * from '../models/ComplexObject';
+export * from '../models/CompositeObject';
 
-import { SingleValueEnum30, SingleValueEnum30TypeEnum   } from '../models/SingleValueEnum30';
-import { SingleValueEnum31, SingleValueEnum31TypeEnum   } from '../models/SingleValueEnum31';
+import { ComplexObject } from '../models/ComplexObject';
+import { CompositeObject } from '../models/CompositeObject';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -17,13 +17,11 @@ let primitives = [
                  ];
 
 let enumsMap: Set<string> = new Set<string>([
-    "SingleValueEnum30TypeEnum",
-    "SingleValueEnum31TypeEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
-    "SingleValueEnum30": SingleValueEnum30,
-    "SingleValueEnum31": SingleValueEnum31,
+    "ComplexObject": ComplexObject,
+    "CompositeObject": CompositeObject,
 }
 
 type MimeTypeDescriptor = {
