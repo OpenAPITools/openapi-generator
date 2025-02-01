@@ -624,7 +624,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenModel cm = allModelsEntry.getValue();
             CodegenModel parent = allModels.get(cm.getParent());
             if (parent != null) {
-                if (parent.permits.stream()
+                if (!parent.permits.contains(cm.classname) && parent.permits.stream()
                         .noneMatch(name -> name.equals(cm.getName()))) {
                     parent.permits.add(cm.classname);
                 }

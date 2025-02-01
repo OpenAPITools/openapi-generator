@@ -2266,7 +2266,7 @@ public class SpringCodegenTest {
                         "Foo.java", "public final class Foo extends Entity implements FooRefOrValue",
                         "FooRef.java", "public final class FooRef extends EntityRef implements FooRefOrValue",
                         "FooRefOrValue.java", "public sealed interface FooRefOrValue permits Foo, FooRef ",
-                        "Entity.java", "public sealed class Entity extends RepresentationModel<Entity> permits Bar, BarCreate, Foo, Pasta, Pizza")},
+                        "Entity.java", "public sealed class Entity extends RepresentationModel<Entity> permits Bar, BarCreate, Foo, Pasta, Pizza {")},
                 {"oneOf_additionalProperties.yaml", Map.of(
                         "SchemaA.java", "public final class SchemaA extends RepresentationModel<SchemaA>  implements PostRequest {",
                         "PostRequest.java", "public sealed interface PostRequest permits SchemaA {")},
