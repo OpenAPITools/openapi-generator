@@ -1,8 +1,6 @@
 .gitattributes
 .gitignore
-DefaultApi.md
 README.md
-apis/DefaultApi.ts
 apis/baseapi.ts
 apis/exception.ts
 auth/auth.ts
@@ -12,9 +10,9 @@ http/http.ts
 http/isomorphic-fetch.ts
 index.ts
 middleware.ts
-models/ComplexObject.ts
-models/CompositeObject.ts
 models/ObjectSerializer.ts
+models/SingleValueEnum30.ts
+models/SingleValueEnum31.ts
 models/all.ts
 package.json
 rxjsStub.ts

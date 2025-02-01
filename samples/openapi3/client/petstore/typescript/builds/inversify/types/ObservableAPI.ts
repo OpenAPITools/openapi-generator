@@ -38,9 +38,11 @@ export class ObservablePetApi {
      */
     public addPetWithHttpInfo(pet: Pet, _options?: Configuration): Observable<HttpInfo<Pet>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.addPet(pet, _options);
         // build promise chain
@@ -76,9 +78,11 @@ export class ObservablePetApi {
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.deletePet(petId, apiKey, _options);
         // build promise chain
@@ -114,9 +118,11 @@ export class ObservablePetApi {
      */
     public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Observable<HttpInfo<Array<Pet>>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.findPetsByStatus(status, _options);
         // build promise chain
@@ -151,9 +157,11 @@ export class ObservablePetApi {
      */
     public findPetsByTagsWithHttpInfo(tags: Array<string>, _options?: Configuration): Observable<HttpInfo<Array<Pet>>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.findPetsByTags(tags, _options);
         // build promise chain
@@ -188,9 +196,11 @@ export class ObservablePetApi {
      */
     public getPetByIdWithHttpInfo(petId: number, _options?: Configuration): Observable<HttpInfo<Pet>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.getPetById(petId, _options);
         // build promise chain
@@ -225,9 +235,11 @@ export class ObservablePetApi {
      */
     public updatePetWithHttpInfo(pet: Pet, _options?: Configuration): Observable<HttpInfo<Pet>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.updatePet(pet, _options);
         // build promise chain
@@ -264,9 +276,11 @@ export class ObservablePetApi {
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.updatePetWithForm(petId, name, status, _options);
         // build promise chain
@@ -305,9 +319,11 @@ export class ObservablePetApi {
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Observable<HttpInfo<ApiResponse>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.uploadFile(petId, additionalMetadata, file, _options);
         // build promise chain
@@ -365,9 +381,11 @@ export class ObservableStoreApi {
      */
     public deleteOrderWithHttpInfo(orderId: string, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.deleteOrder(orderId, _options);
         // build promise chain
@@ -401,9 +419,11 @@ export class ObservableStoreApi {
      */
     public getInventoryWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: number; }>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.getInventory(_options);
         // build promise chain
@@ -437,9 +457,11 @@ export class ObservableStoreApi {
      */
     public getOrderByIdWithHttpInfo(orderId: number, _options?: Configuration): Observable<HttpInfo<Order>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.getOrderById(orderId, _options);
         // build promise chain
@@ -474,9 +496,11 @@ export class ObservableStoreApi {
      */
     public placeOrderWithHttpInfo(order: Order, _options?: Configuration): Observable<HttpInfo<Order>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.placeOrder(order, _options);
         // build promise chain
@@ -532,9 +556,11 @@ export class ObservableUserApi {
      */
     public createUserWithHttpInfo(user: User, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.createUser(user, _options);
         // build promise chain
@@ -569,9 +595,11 @@ export class ObservableUserApi {
      */
     public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.createUsersWithArrayInput(user, _options);
         // build promise chain
@@ -606,9 +634,11 @@ export class ObservableUserApi {
      */
     public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.createUsersWithListInput(user, _options);
         // build promise chain
@@ -643,9 +673,11 @@ export class ObservableUserApi {
      */
     public deleteUserWithHttpInfo(username: string, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.deleteUser(username, _options);
         // build promise chain
@@ -680,9 +712,11 @@ export class ObservableUserApi {
      */
     public getUserByNameWithHttpInfo(username: string, _options?: Configuration): Observable<HttpInfo<User>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.getUserByName(username, _options);
         // build promise chain
@@ -718,9 +752,11 @@ export class ObservableUserApi {
      */
     public loginUserWithHttpInfo(username: string, password: string, _options?: Configuration): Observable<HttpInfo<string>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.loginUser(username, password, _options);
         // build promise chain
@@ -755,9 +791,11 @@ export class ObservableUserApi {
      */
     public logoutUserWithHttpInfo(_options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.logoutUser(_options);
         // build promise chain
@@ -792,9 +830,11 @@ export class ObservableUserApi {
      */
     public updateUserWithHttpInfo(username: string, user: User, _options?: Configuration): Observable<HttpInfo<void>> {
 	let _config = this.configuration
+	let allMiddleware: Middleware[] = []
 	if (_options){
 	    _config = _options
 	}
+	allMiddleware = _config?.middleware
 
         const requestContextPromise = this.requestFactory.updateUser(username, user, _options);
         // build promise chain
