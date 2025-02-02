@@ -63,13 +63,13 @@ secrecy = "0.8.0"
 {{^supportAsync}}
 reqwest = { version = "^0.12", features = ["json", "blocking", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.3", features = ["json", "blocking", "multipart"] }
+reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
 reqwest = { version = "^0.12", features = ["json", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
 async-trait = "^0.1"
@@ -82,7 +82,7 @@ google-cloud-token = "^0.1"
 async-trait = "^0.1"
 reqwest = { version = "^0.12", features = ["json", "multipart"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.3", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
 # TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
