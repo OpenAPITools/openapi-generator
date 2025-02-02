@@ -22,7 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-{{>generatedAnnotation}}
+{{#useJakartaAnnotation}}
+{{>generatedAnnotation}}{{/useJakartaAnnotation}}
 {{#operations}}
 public class {{classname}} {
   private ApiClient apiClient;
