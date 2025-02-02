@@ -126,6 +126,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
             _jsonOptions.Converters.Add(new RequiredClassJsonConverter());
+            _jsonOptions.Converters.Add(new ResultJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
@@ -139,6 +140,9 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
             _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultCodeJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
@@ -228,6 +232,7 @@ namespace Org.OpenAPITools.Client
                 new QuadrilateralInterfaceSerializationContext(),
                 new ReadOnlyFirstSerializationContext(),
                 new RequiredClassSerializationContext(),
+                new ResultSerializationContext(),
                 new ReturnSerializationContext(),
                 new RolesReportsHashSerializationContext(),
                 new RolesReportsHashRoleSerializationContext(),
@@ -241,6 +246,8 @@ namespace Org.OpenAPITools.Client
                 new TestCollectionEndingWithWordListSerializationContext(),
                 new TestCollectionEndingWithWordListObjectSerializationContext(),
                 new TestInlineFreeformAdditionalPropertiesRequestSerializationContext(),
+                new TestResultSerializationContext(),
+                new TestResultCodeSerializationContext(),
                 new TriangleSerializationContext(),
                 new TriangleInterfaceSerializationContext(),
                 new UserSerializationContext(),

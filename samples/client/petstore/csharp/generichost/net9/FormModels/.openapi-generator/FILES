@@ -103,6 +103,7 @@ docs/models/RequiredClassRequiredNotnullableEnumString.md
 docs/models/RequiredClassRequiredNullableEnumInteger.md
 docs/models/RequiredClassRequiredNullableEnumIntegerOnly.md
 docs/models/RequiredClassRequiredNullableEnumString.md
+docs/models/Result.md
 docs/models/Return.md
 docs/models/RolesReportsHash.md
 docs/models/RolesReportsHashRole.md
@@ -121,6 +122,8 @@ docs/models/TestEnumParametersEnumQueryIntegerParameter.md
 docs/models/TestEnumParametersRequestEnumFormString.md
 docs/models/TestEnumParametersRequestEnumFormStringArrayInner.md
 docs/models/TestInlineFreeformAdditionalPropertiesRequest.md
+docs/models/TestResult.md
+docs/models/TestResultCode.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
 docs/models/User.md
@@ -263,6 +266,7 @@ src/Org.OpenAPITools/Model/RequiredClassRequiredNotnullableEnumString.cs
 src/Org.OpenAPITools/Model/RequiredClassRequiredNullableEnumInteger.cs
 src/Org.OpenAPITools/Model/RequiredClassRequiredNullableEnumIntegerOnly.cs
 src/Org.OpenAPITools/Model/RequiredClassRequiredNullableEnumString.cs
+src/Org.OpenAPITools/Model/Result.cs
 src/Org.OpenAPITools/Model/Return.cs
 src/Org.OpenAPITools/Model/RolesReportsHash.cs
 src/Org.OpenAPITools/Model/RolesReportsHashRole.cs
@@ -281,6 +285,8 @@ src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryIntegerParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersRequestEnumFormString.cs
 src/Org.OpenAPITools/Model/TestEnumParametersRequestEnumFormStringArrayInner.cs
 src/Org.OpenAPITools/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
+src/Org.OpenAPITools/Model/TestResult.cs
+src/Org.OpenAPITools/Model/TestResultCode.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs

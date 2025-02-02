@@ -2861,3 +2861,30 @@ components:
         propertyName: $schema
         mapping:
           ScopeActivity: '#/components/schemas/CopyActivity'
+    Result:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Result code
+        uuid:
+          type: string
+          description: Result unique identifier
+        data:
+          type: object
+          description: list of named parameters for current message
+          additionalProperties:
+            type: string
+    TestResult:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Result'
+      properties:
+        code:
+          $ref: "#/components/schemas/TestResultCode"
+    TestResultCode:
+      type: string
+      description: Result code
+      enum:
+        - APPROVED
+        - MANUAL_APPROVAL_REQUIRED

@@ -679,6 +679,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             for (CodegenProperty property : model.nonNullableVars) {
                 patchProperty(enumRefs, model, property);
             }
+
+            List<CodegenProperty> overriddenProperties = model.vars.stream().filter(v -> model.allVars.stream().anyMatch(a -> a.baseName.equals(v.baseName) && a.dataType != v.dataType)).collect(Collectors.toList());
+            for (CodegenProperty overridden : overriddenProperties) {
+                // if the current model overrides an allOf property, use the overridden property
+                model.allVars.set(model.allVars.indexOf(model.allVars.stream().filter(a -> a.baseName.equals(overridden.baseName)).findFirst().get()), overridden);
+            }
         }
         return processed;
     }

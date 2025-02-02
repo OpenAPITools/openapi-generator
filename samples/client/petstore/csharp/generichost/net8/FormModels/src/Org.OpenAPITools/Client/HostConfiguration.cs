@@ -156,6 +156,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new RequiredClassRequiredNullableEnumIntegerOnlyNullableJsonConverter());
             _jsonOptions.Converters.Add(new RequiredClassRequiredNullableEnumStringJsonConverter());
             _jsonOptions.Converters.Add(new RequiredClassRequiredNullableEnumStringNullableJsonConverter());
+            _jsonOptions.Converters.Add(new ResultJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
@@ -179,6 +180,9 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TestEnumParametersRequestEnumFormStringArrayInnerJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersRequestEnumFormStringArrayInnerNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultCodeJsonConverter());
+            _jsonOptions.Converters.Add(new TestResultCodeNullableJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());

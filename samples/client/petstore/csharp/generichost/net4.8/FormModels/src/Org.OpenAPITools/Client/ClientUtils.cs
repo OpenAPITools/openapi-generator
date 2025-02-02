@@ -223,6 +223,8 @@ namespace Org.OpenAPITools.Client
                 return TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString);
             if (obj is TestEnumParametersRequestEnumFormStringArrayInner testEnumParametersRequestEnumFormStringArrayInner)
                 return TestEnumParametersRequestEnumFormStringArrayInnerValueConverter.ToJsonValue(testEnumParametersRequestEnumFormStringArrayInner);
+            if (obj is TestResultCode testResultCode)
+                return TestResultCodeValueConverter.ToJsonValue(testResultCode);
             if (obj is ZebraType zebraType)
                 return ZebraTypeValueConverter.ToJsonValue(zebraType);
             if (obj is ZeroBasedEnum zeroBasedEnum)
