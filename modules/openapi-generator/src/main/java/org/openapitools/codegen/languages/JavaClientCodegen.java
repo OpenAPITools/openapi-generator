@@ -49,7 +49,6 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.languages.features.JakartaAnnotationFeatures.USE_JAKARTAANNOTATION;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -150,6 +149,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean webclientBlockingOperations = false;
     @Setter protected boolean generateClientAsBean = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
+
+    /**
+     * useJakartaAnnotation to include Jakarta Annotation API
+     */
+    @Getter @Setter
+    protected boolean useJakartaAnnotation = true;
 
     @Setter protected int maxAttemptsForRetry = 1;
     @Setter protected long waitTimeMillis = 10l;
@@ -413,6 +418,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToTypeAndWriteBack(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY, Integer::parseInt, this::setMaxAttemptsForRetry);
         convertPropertyToTypeAndWriteBack(CodegenConstants.WAIT_TIME_OF_THREAD, Long::parseLong, this::setWaitTimeMillis);
 
+        if (JERSEY3.equals(getLibrary())) {
+            convertPropertyToBooleanAndWriteBack(JakartaAnnotationFeatures.USE_JAKARTAANNOTATION, this::setUseJakartaAnnotation);
+        }
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
