@@ -1593,9 +1593,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (GENERICHOST.equals(getLibrary())) {
-            // the isInherited property is not always correct
-            // fixing it here causes a breaking change in some generators
-            this.patchIsInheritedProperty = true;
+            this.useLegacyIsInheritedPropertyValue = false;
         }
 
         super.patchProperty(enumRefs, model, property);

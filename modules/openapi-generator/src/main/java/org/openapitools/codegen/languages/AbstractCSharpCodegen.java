@@ -64,7 +64,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Setter protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
     protected boolean useSourceGeneration = false;
-    protected boolean patchIsInheritedProperty = false;
+    protected boolean useLegacyIsInheritedPropertyValue = true;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -737,7 +737,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isPrimitiveType = true;
         }
 
-        if (this.patchIsInheritedProperty && model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
+        // the isInherited property is not always correct
+        // fixing it here causes a breaking change in some generators
+        // use the useLegacyIsInheritedPropertyValue to only do this in generators that are prepared for the improvement
+        if (!this.useLegacyIsInheritedPropertyValue && model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
             property.isInherited = true;
         }
 
