@@ -324,6 +324,7 @@
             <version>${beanvalidation-version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Jakarta Annotation API support -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
