@@ -43,13 +43,6 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new string PetType { get; } = "ParentPet";
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

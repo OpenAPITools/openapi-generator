@@ -2872,6 +2872,40 @@ components:
     uuid:
       format: uuid
       type: string
+    Descendant1:
+      allOf:
+      - $ref: '#/components/schemas/TestDescendants'
+      - properties:
+          descendantName:
+            type: string
+        required:
+        - descendantName
+        type: object
+    Descendant2:
+      allOf:
+      - $ref: '#/components/schemas/TestDescendants'
+      - properties:
+          confidentiality:
+            type: string
+        required:
+        - confidentiality
+        type: object
+    TestDescendants:
+      description: ""
+      discriminator:
+        propertyName: objectType
+      properties:
+        alternativeName:
+          type: string
+        objectType:
+          enum:
+          - Descendant1
+          - Descendant2
+          type: string
+      required:
+      - alternativeName
+      - objectType
+      type: object
     _foo_get_default_response:
       example:
         string:

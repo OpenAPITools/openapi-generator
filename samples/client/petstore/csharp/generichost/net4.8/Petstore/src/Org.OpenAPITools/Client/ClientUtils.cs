@@ -225,6 +225,8 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
                 return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is TestDescendants.ObjectTypeEnum testDescendantsObjectTypeEnum)
+                return TestDescendants.ObjectTypeEnumToJsonValue(testDescendantsObjectTypeEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)

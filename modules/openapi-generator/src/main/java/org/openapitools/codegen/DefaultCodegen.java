@@ -555,7 +555,7 @@ public class DefaultCodegen implements CodegenConfig {
                 ? false
                 : model.parentModel.allVars.stream().anyMatch(p -> 
                     p.name.equals(property.name) &&
-                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false || p.isDiscriminator));
+                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
     }
 
     /**

@@ -46,13 +46,6 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new string ClassName { get; } = "Cat";
-
-        /// <summary>
         /// Used to track the state of Declawed
         /// </summary>
         [JsonIgnore]

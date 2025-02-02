@@ -32,6 +32,8 @@ docs/models/ComplexQuadrilateral.md
 docs/models/DanishPig.md
 docs/models/DateOnlyClass.md
 docs/models/DeprecatedObject.md
+docs/models/Descendant1.md
+docs/models/Descendant2.md
 docs/models/Dog.md
 docs/models/Drawing.md
 docs/models/EnumArrays.md
@@ -98,6 +100,7 @@ docs/models/SpecialModelName.md
 docs/models/Tag.md
 docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
+docs/models/TestDescendants.md
 docs/models/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
@@ -168,6 +171,8 @@ src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
+src/Org.OpenAPITools/Model/Descendant1.cs
+src/Org.OpenAPITools/Model/Descendant2.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
@@ -234,6 +239,7 @@ src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
+src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs

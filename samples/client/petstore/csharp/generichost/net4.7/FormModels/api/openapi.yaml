@@ -2694,6 +2694,37 @@ components:
     uuid:
       format: uuid
       type: string
+    Descendant1:
+      allOf:
+      - $ref: '#/components/schemas/TestDescendants'
+      - properties:
+          descendantName:
+            type: string
+        required:
+        - descendantName
+        type: object
+    Descendant2:
+      allOf:
+      - $ref: '#/components/schemas/TestDescendants'
+      - properties:
+          confidentiality:
+            type: string
+        required:
+        - confidentiality
+        type: object
+    TestDescendants:
+      description: ""
+      discriminator:
+        propertyName: objectType
+      properties:
+        alternativeName:
+          type: string
+        objectType:
+          $ref: '#/components/schemas/TestDescendants_objectType'
+      required:
+      - alternativeName
+      - objectType
+      type: object
     _foo_get_default_response:
       example:
         string:
@@ -3034,6 +3065,11 @@ components:
         type: number
       - $ref: '#/components/schemas/MixedSubId'
       description: Mixed anyOf types for testing
+    TestDescendants_objectType:
+      enum:
+      - Descendant1
+      - Descendant2
+      type: string
   securitySchemes:
     petstore_auth:
       flows:

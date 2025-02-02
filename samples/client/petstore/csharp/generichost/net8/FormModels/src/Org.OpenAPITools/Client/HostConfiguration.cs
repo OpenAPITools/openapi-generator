@@ -65,6 +65,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
+            _jsonOptions.Converters.Add(new Descendant1JsonConverter());
+            _jsonOptions.Converters.Add(new Descendant2JsonConverter());
             _jsonOptions.Converters.Add(new DogJsonConverter());
             _jsonOptions.Converters.Add(new DrawingJsonConverter());
             _jsonOptions.Converters.Add(new EnumArraysJsonConverter());
@@ -167,6 +169,9 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
+            _jsonOptions.Converters.Add(new TestDescendantsJsonConverter());
+            _jsonOptions.Converters.Add(new TestDescendantsObjectTypeJsonConverter());
+            _jsonOptions.Converters.Add(new TestDescendantsObjectTypeNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumHeaderStringParameterJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumHeaderStringParameterNullableJsonConverter());
             _jsonOptions.Converters.Add(new TestEnumParametersEnumQueryDoubleParameterJsonConverter());

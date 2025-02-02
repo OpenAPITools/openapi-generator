@@ -64,6 +64,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Setter protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
     protected boolean useSourceGeneration = false;
+    protected boolean patchIsInheritedProperty = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -720,6 +721,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
         property.vendorExtensions.put("x-is-nullable-type", this.getNullableReferencesTypes() || isValueType);
+        property.vendorExtensions.put("x-is-base-or-new-discriminator", (property.isDiscriminator && !property.isInherited) || (property.isDiscriminator && property.isNew));
     }
 
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
@@ -733,6 +735,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
             // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
             property.isPrimitiveType = true;
+        }
+
+        if (this.patchIsInheritedProperty && model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
+            property.isInherited = true;
         }
 
         patchPropertyVendorExtensions(property);
