@@ -3365,4 +3365,62 @@ public class JavaClientCodegenTest {
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
     }
+
+    @Test
+    public void testJerseyContainsJakartaAnnotation() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY3)
+                .addAdditionalProperty(JavaClientCodegen.USE_JAKARTAANNOTATION, true)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        // check POM includes jakarta-annotation
+        assertThat(files).contains(output.resolve("pom.xml").toFile());
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<jakarta-annotation-version>");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("jakarta.annotation-api");
+        // check API
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/PetApi.java")).content()
+                .contains("@jakarta.annotation.Generated");
+        // check model
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Category.java")).content()
+                .contains("@jakarta.annotation.Generated");
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Category.java")).content()
+                .contains("@jakarta.annotation.Nullable");
+    }
+
+    @Test
+    public void testJerseyWithoutJakartaAnnotation() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY3)
+                .addAdditionalProperty(JavaClientCodegen.USE_JAKARTAANNOTATION, false)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        // check POM includes jakarta-annotation
+        assertThat(files).contains(output.resolve("pom.xml").toFile());
+        assertThat(output.resolve("pom.xml")).content()
+                .doesNotContain("<jakarta-annotation-version>");
+        assertThat(output.resolve("pom.xml")).content()
+                .doesNotContain("jakarta.annotation-api");
+        // check API
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/PetApi.java")).content()
+                .doesNotContain("@jakarta.annotation.Generated");
+        // check model
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Category.java")).content()
+                .doesNotContain("@jakarta.annotation.Generated");
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Category.java")).content()
+                .doesNotContain("@jakarta.annotation.Nullable");
+    }
 }
