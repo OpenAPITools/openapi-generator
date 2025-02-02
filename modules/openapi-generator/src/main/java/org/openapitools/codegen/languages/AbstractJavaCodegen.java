@@ -40,6 +40,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
+import org.openapitools.codegen.languages.features.JakartaAnnotationFeatures;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -193,6 +194,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     @Getter @Setter
     protected boolean useBeanValidation = false;
+    /**
+     * useJakartaAnnotation to include Jakarta Annotation API
+     */
+    @Getter @Setter
+    protected boolean useJakartaAnnotation = true;
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
     public AbstractJavaCodegen() {
@@ -421,6 +427,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         convertPropertyToBooleanAndWriteBack(BeanValidationFeatures.USE_BEANVALIDATION, this::setUseBeanValidation);
+        convertPropertyToBooleanAndWriteBack(JakartaAnnotationFeatures.USE_JAKARTAANNOTATION, this::setUseJakartaAnnotation);
         convertPropertyToBooleanAndWriteBack(DISABLE_HTML_ESCAPING, this::setDisableHtmlEscaping);
         convertPropertyToStringAndWriteBack(BOOLEAN_GETTER_PREFIX, this::setBooleanGetterPrefix);
         convertPropertyToBooleanAndWriteBack(IGNORE_ANYOF_IN_ENUM, this::setIgnoreAnyOfInEnum);
