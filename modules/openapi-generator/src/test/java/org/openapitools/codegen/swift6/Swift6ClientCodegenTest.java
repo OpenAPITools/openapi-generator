@@ -66,6 +66,13 @@ public class Swift6ClientCodegenTest {
     }
 
     @Test(enabled = true)
+    public void testArrayTypeTransformations() throws Exception {
+        Assert.assertEquals(swiftCodegen.transformArrayTypeName("[Int]"), "ArrayOfInt");
+        Assert.assertEquals(swiftCodegen.transformArrayTypeName("[[Int]]"), "ArrayOfArrayOfInt");
+        Assert.assertEquals(swiftCodegen.transformArrayTypeName("String"), "String");
+    }
+
+    @Test(enabled = true)
     public void testCapitalsWithUnderscore() throws Exception {
         Assert.assertEquals(swiftCodegen.toEnumVarName("ENTRY_NAME", null), "entryName");
     }
@@ -319,4 +326,41 @@ public class Swift6ClientCodegenTest {
 
     }
 
+    @Test(description = "Array type name transformation in oneOf schema", enabled = true)
+    public void oneOfArrayTypeNamesTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift6")
+                    .setValidateSpec(false)
+                    .setInputSpec("src/test/resources/bugs/issue_20560.yaml")
+                    .setEnablePostProcessFile(true)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            File modelFile = files.stream()
+                    .filter(f -> f.getName().contains("CreateCompletionRequestPrompt"))
+                    .findFirst()
+                    .get();
+            
+            String content = Files.readString(modelFile.toPath());
+            Assert.assertTrue(content.contains("case typeString(String)"));
+            Assert.assertTrue(content.contains("case typeArrayOfInt([Int])"));
+            Assert.assertTrue(content.contains("case typeArrayOfString([String])"));
+            Assert.assertTrue(content.contains("case typeArrayOfArrayOfInt([[Int]])"));
+        } finally {
+            output.deleteOnExit();
+        }
+    }
 }

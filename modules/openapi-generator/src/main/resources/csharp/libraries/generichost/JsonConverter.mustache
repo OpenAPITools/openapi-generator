@@ -51,7 +51,7 @@
 
             {{/-first}}
             if (discriminator != null && discriminator.Equals("{{name}}"))
-                return JsonSerializer.Deserialize<{{{name}}}>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+                return JsonSerializer.Deserialize<{{{classname}}}>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
 
             {{/children}}
             {{/discriminator}}
@@ -348,7 +348,7 @@
             {{#discriminator}}
             {{#children}}
             if ({{#lambda.paste}}{{/lambda.paste}} is {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}){
-                JsonSerializer.Serialize<{{{name}}}>(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
+                JsonSerializer.Serialize<{{{classname}}}>(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
                 return;
             }
 

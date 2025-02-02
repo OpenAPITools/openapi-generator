@@ -2972,3 +2972,28 @@ components:
       description: ""
       discriminator:
         propertyName: "objectType"
+    CopyActivity:
+      type: object
+      required:
+        - $schema
+        - copyActivitytt
+      properties:
+        $schema:
+          type: string
+          enum:
+            - ScopeActivity
+        copyActivitytt:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityBase'
+    EntityBase:
+      type: object
+      required:
+        - $schema
+      properties:
+        $schema:
+          type: string
+      discriminator:
+        propertyName: $schema
+        mapping:
+          ScopeActivity: '#/components/schemas/CopyActivity'
