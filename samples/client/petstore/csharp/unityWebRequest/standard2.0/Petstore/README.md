@@ -191,7 +191,6 @@ Class | Method | HTTP request | Description
  - [Model.LiteralStringClass](LiteralStringClass.md)
  - [Model.Mammal](Mammal.md)
  - [Model.MapTest](MapTest.md)
- - [Model.MixLog](MixLog.md)
  - [Model.MixedAnyOf](MixedAnyOf.md)
  - [Model.MixedAnyOfContent](MixedAnyOfContent.md)
  - [Model.MixedOneOf](MixedOneOf.md)

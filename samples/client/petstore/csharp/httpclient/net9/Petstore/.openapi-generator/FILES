@@ -55,7 +55,6 @@ docs/List.md
 docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
-docs/MixLog.md
 docs/MixedAnyOf.md
 docs/MixedAnyOfContent.md
 docs/MixedOneOf.md
@@ -187,7 +186,6 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
-src/Org.OpenAPITools/Model/MixLog.cs
 src/Org.OpenAPITools/Model/MixedAnyOf.cs
 src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
 src/Org.OpenAPITools/Model/MixedOneOf.cs
