@@ -240,7 +240,6 @@ Class | Method | HTTP request | Description
  - [Model.LiteralStringClass](docs/LiteralStringClass.md)
  - [Model.Mammal](docs/Mammal.md)
  - [Model.MapTest](docs/MapTest.md)
- - [Model.MixLog](docs/MixLog.md)
  - [Model.MixedAnyOf](docs/MixedAnyOf.md)
  - [Model.MixedAnyOfContent](docs/MixedAnyOfContent.md)
  - [Model.MixedOneOf](docs/MixedOneOf.md)
