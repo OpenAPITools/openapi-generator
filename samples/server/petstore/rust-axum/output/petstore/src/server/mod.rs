@@ -150,7 +150,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .add_pet(&method, &host, &cookies, &body)
+=======
+        .add_pet(method.clone(), host.clone(), cookies.clone(), body)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -182,6 +186,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -190,6 +195,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -267,7 +279,17 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .delete_pet(&method, &host, &cookies, &header_params, &path_params)
+=======
+        .delete_pet(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            header_params,
+            path_params,
+        )
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -283,6 +305,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -291,6 +314,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -337,7 +367,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .find_pets_by_status(&method, &host, &cookies, &query_params)
+=======
+        .find_pets_by_status(method.clone(), host.clone(), cookies.clone(), query_params)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -369,6 +403,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -377,6 +412,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -423,7 +465,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .find_pets_by_tags(&method, &host, &cookies, &query_params)
+=======
+        .find_pets_by_tags(method.clone(), host.clone(), cookies.clone(), query_params)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -455,6 +501,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -463,6 +510,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -522,7 +576,17 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .get_pet_by_id(&method, &host, &cookies, &claims, &path_params)
+=======
+        .get_pet_by_id(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+        )
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -558,6 +622,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -566,6 +631,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -619,7 +691,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .update_pet(&method, &host, &cookies, &body)
+=======
+        .update_pet(method.clone(), host.clone(), cookies.clone(), body)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -659,6 +735,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -667,6 +744,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -732,7 +816,17 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .update_pet_with_form(&method, &host, &cookies, &path_params, &body)
+=======
+        .update_pet_with_form(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            path_params,
+            body,
+        )
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -748,6 +842,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -756,6 +851,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -802,7 +904,17 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .upload_file(&method, &host, &cookies, &path_params, &body)
+=======
+        .upload_file(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            path_params,
+            body,
+        )
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -837,6 +949,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -845,6 +958,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -890,7 +1010,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .delete_order(&method, &host, &cookies, &path_params)
+=======
+        .delete_order(method.clone(), host.clone(), cookies.clone(), path_params)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -910,6 +1034,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -918,6 +1043,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -972,7 +1104,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .get_inventory(&method, &host, &cookies, &claims)
+=======
+        .get_inventory(method.clone(), host.clone(), cookies.clone(), claims)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1007,6 +1143,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1015,6 +1152,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1060,7 +1204,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .get_order_by_id(&method, &host, &cookies, &path_params)
+=======
+        .get_order_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1096,6 +1244,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1104,6 +1253,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1157,7 +1313,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .place_order(&method, &host, &cookies, &body)
+=======
+        .place_order(method.clone(), host.clone(), cookies.clone(), body)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1189,6 +1349,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1197,6 +1358,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1264,7 +1432,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .create_user(&method, &host, &cookies, &claims, &body)
+=======
+        .create_user(method.clone(), host.clone(), cookies.clone(), claims, body)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1280,6 +1452,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1288,6 +1461,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1356,7 +1536,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .create_users_with_array_input(&method, &host, &cookies, &claims, &body)
+=======
+        .create_users_with_array_input(method.clone(), host.clone(), cookies.clone(), claims, body)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1372,6 +1556,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1380,6 +1565,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1448,7 +1640,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .create_users_with_list_input(&method, &host, &cookies, &claims, &body)
+=======
+        .create_users_with_list_input(method.clone(), host.clone(), cookies.clone(), claims, body)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1464,6 +1660,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1472,6 +1669,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1531,7 +1735,17 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .delete_user(&method, &host, &cookies, &claims, &path_params)
+=======
+        .delete_user(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+        )
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1551,6 +1765,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1559,6 +1774,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1604,7 +1826,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .get_user_by_name(&method, &host, &cookies, &path_params)
+=======
+        .get_user_by_name(method.clone(), host.clone(), cookies.clone(), path_params)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1640,6 +1866,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1648,6 +1875,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1693,7 +1927,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .login_user(&method, &host, &cookies, &query_params)
+=======
+        .login_user(method.clone(), host.clone(), cookies.clone(), query_params)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1778,6 +2016,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1786,6 +2025,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1840,7 +2086,11 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .logout_user(&method, &host, &cookies, &claims)
+=======
+        .logout_user(method.clone(), host.clone(), cookies.clone(), claims)
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1856,6 +2106,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1864,6 +2115,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1934,7 +2192,18 @@ where
 
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .update_user(&method, &host, &cookies, &claims, &path_params, &body)
+=======
+        .update_user(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+            body,
+        )
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         .await;
 
     let mut response = Response::builder();
@@ -1954,6 +2223,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -1962,6 +2232,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 

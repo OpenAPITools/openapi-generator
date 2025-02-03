@@ -54,7 +54,14 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
+<<<<<<< HEAD
     let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
+=======
+    let result = api_impl
+        .as_ref()
+        .ping_get(method.clone(), host.clone(), cookies.clone())
+        .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
 
     let mut response = Response::builder();
 
@@ -69,6 +76,7 @@ where
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return api_impl
                 .as_ref()
@@ -77,6 +85,13 @@ where
 =======
             return api_impl.as_ref().handle_error(why).await;
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 

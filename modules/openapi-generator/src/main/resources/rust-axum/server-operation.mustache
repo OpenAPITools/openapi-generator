@@ -187,9 +187,15 @@ where
   {{/disableValidator}}
 
   let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+<<<<<<< HEAD
       &method,
       &host,
       &cookies,
+=======
+      method.clone(),
+      host.clone(),
+      cookies.clone(),
+>>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
       {{#vendorExtensions}}
         {{#x-has-auth-methods}}
         &claims,
