@@ -1286,6 +1286,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .test_endpoint_parameters(&method, &host, &cookies, &body)
 =======
         .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), body)
@@ -1294,6 +1295,8 @@ where
         .test_endpoint_parameters(&method, &host, &cookies, &body)
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 =======
+=======
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .test_endpoint_parameters(&method, &host, &cookies, &body)
 =======
 <<<<<<< HEAD
@@ -1302,7 +1305,13 @@ where
         .test_endpoint_parameters(method, host, cookies, claims, body)
 >>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+<<<<<<< HEAD
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+=======
+        .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), claims, body)
+>>>>>>> ae676ae13c0 (Rebase with updated error handler)
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .await;
 
     let mut response = Response::builder();

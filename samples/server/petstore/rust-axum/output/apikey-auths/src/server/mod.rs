@@ -110,6 +110,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_payment_method_by_id(&method, &host, &cookies, &path_params)
 =======
         .get_payment_method_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
@@ -118,6 +119,8 @@ where
         .get_payment_method_by_id(&method, &host, &cookies, &path_params)
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 =======
+=======
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .get_payment_method_by_id(&method, &host, &cookies, &path_params)
 =======
 <<<<<<< HEAD
@@ -126,7 +129,19 @@ where
         .get_payment_method_by_id(method, host, cookies, claims, path_params)
 >>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+<<<<<<< HEAD
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+=======
+        .get_payment_method_by_id(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+        )
+>>>>>>> ae676ae13c0 (Rebase with updated error handler)
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .await;
 
     let mut response = Response::builder();
@@ -257,6 +272,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_payment_methods(&method, &host, &cookies)
 =======
         .get_payment_methods(method.clone(), host.clone(), cookies.clone())
@@ -265,6 +281,8 @@ where
         .get_payment_methods(&method, &host, &cookies)
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 =======
+=======
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .get_payment_methods(&method, &host, &cookies)
 =======
 <<<<<<< HEAD
@@ -273,7 +291,13 @@ where
         .get_payment_methods(method, host, cookies, claims)
 >>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+<<<<<<< HEAD
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+=======
+        .get_payment_methods(method.clone(), host.clone(), cookies.clone(), claims)
+>>>>>>> ae676ae13c0 (Rebase with updated error handler)
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .await;
 
     let mut response = Response::builder();

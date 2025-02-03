@@ -87,6 +87,7 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .ping_get(method.clone(), host.clone(), cookies.clone())
         .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
@@ -99,6 +100,9 @@ where
 =======
         .ping_get(method, host, cookies, claims)
 >>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
+=======
+        .ping_get(method.clone(), host.clone(), cookies.clone(), claims)
+>>>>>>> 4984f70bdeb (Rebase with updated error handler)
         .await;
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
 >>>>>>> a297ccec6f8 (Rebase error handler)
