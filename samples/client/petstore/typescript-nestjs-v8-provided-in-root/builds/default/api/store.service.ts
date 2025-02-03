@@ -13,7 +13,7 @@
 
 import { Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 import { Order } from '../model/order';
 import { Configuration } from '../configuration';
@@ -49,9 +49,10 @@ export class StoreService {
      * @param orderId ID of the order that needs to be deleted
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param {*} [deleteOrderOpts.config] Override http request option.
      */
-    public deleteOrder(orderId: string, ): Observable<AxiosResponse<any>>;
-    public deleteOrder(orderId: string, ): Observable<any> {
+    public deleteOrder(orderId: string, deleteOrderOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<any>>;
+    public deleteOrder(orderId: string, deleteOrderOpts?: { config?: AxiosRequestConfig }): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
@@ -80,7 +81,8 @@ export class StoreService {
                 return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: headers
+                        ...deleteOrderOpts?.config,
+                        headers: {...headers, ...deleteOrderOpts?.config?.headers},
                     }
                 );
             })
@@ -91,9 +93,10 @@ export class StoreService {
      * Returns a map of status codes to quantities
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param {*} [getInventoryOpts.config] Override http request option.
      */
-    public getInventory(): Observable<AxiosResponse<{ [key: string]: number; }>>;
-    public getInventory(): Observable<any> {
+    public getInventory(getInventoryOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<{ [key: string]: number; }>>;
+    public getInventory(getInventoryOpts?: { config?: AxiosRequestConfig }): Observable<any> {
         let headers = {...this.defaultHeaders};
 
         let accessTokenObservable: Observable<any> = of(null);
@@ -124,7 +127,8 @@ export class StoreService {
                 return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: headers
+                        ...getInventoryOpts?.config,
+                        headers: {...headers, ...getInventoryOpts?.config?.headers},
                     }
                 );
             })
@@ -136,9 +140,10 @@ export class StoreService {
      * @param orderId ID of pet that needs to be fetched
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param {*} [getOrderByIdOpts.config] Override http request option.
      */
-    public getOrderById(orderId: number, ): Observable<AxiosResponse<Order>>;
-    public getOrderById(orderId: number, ): Observable<any> {
+    public getOrderById(orderId: number, getOrderByIdOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<Order>>;
+    public getOrderById(orderId: number, getOrderByIdOpts?: { config?: AxiosRequestConfig }): Observable<any> {
         if (orderId === null || orderId === undefined) {
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
@@ -169,7 +174,8 @@ export class StoreService {
                 return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: headers
+                        ...getOrderByIdOpts?.config,
+                        headers: {...headers, ...getOrderByIdOpts?.config?.headers},
                     }
                 );
             })
@@ -181,9 +187,10 @@ export class StoreService {
      * @param order order placed for purchasing the pet
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param {*} [placeOrderOpts.config] Override http request option.
      */
-    public placeOrder(order: Order, ): Observable<AxiosResponse<Order>>;
-    public placeOrder(order: Order, ): Observable<any> {
+    public placeOrder(order: Order, placeOrderOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<Order>>;
+    public placeOrder(order: Order, placeOrderOpts?: { config?: AxiosRequestConfig }): Observable<any> {
         if (order === null || order === undefined) {
             throw new Error('Required parameter order was null or undefined when calling placeOrder.');
         }
@@ -220,7 +227,8 @@ export class StoreService {
                     order,
                     {
                         withCredentials: this.configuration.withCredentials,
-                        headers: headers
+                        ...placeOrderOpts?.config,
+                        headers: {...headers, ...placeOrderOpts?.config?.headers},
                     }
                 );
             })

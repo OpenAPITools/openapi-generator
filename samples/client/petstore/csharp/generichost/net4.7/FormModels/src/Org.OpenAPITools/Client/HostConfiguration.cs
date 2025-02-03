@@ -102,7 +102,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
             _jsonOptions.Converters.Add(new MapTestMapOfEnumStringValueJsonConverter());
             _jsonOptions.Converters.Add(new MapTestMapOfEnumStringValueNullableJsonConverter());
-            _jsonOptions.Converters.Add(new MixLogJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfContentJsonConverter());
             _jsonOptions.Converters.Add(new MixedOneOfJsonConverter());

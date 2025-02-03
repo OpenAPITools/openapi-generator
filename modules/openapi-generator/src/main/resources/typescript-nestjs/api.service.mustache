@@ -8,7 +8,7 @@ import { HttpService } from '@nestjs/axios';
 {{^useAxiosHttpModule}}
 import { HttpService, Injectable, Optional } from '@nestjs/common';
 {{/useAxiosHttpModule}}
-import { AxiosResponse } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Observable, from, of, switchMap } from 'rxjs';
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
@@ -93,14 +93,15 @@ export class {{classname}} {
      {{/allParams}}* @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      {{/useSingleRequestParameter}}
+     * @param {*} [{{nickname}}Opts.config] Override http request option.
      */
     {{#useSingleRequestParameter}}
-    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}): Observable<any> {
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}{{nickname}}Opts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}{{nickname}}Opts?: { config?: AxiosRequestConfig }): Observable<any> {
     {{/useSingleRequestParameter}}
     {{^useSingleRequestParameter}}
-    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
-    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}): Observable<any> {
+    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}{{nickname}}Opts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{#allParams}}{{^isConstEnumParam}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/isConstEnumParam}}{{/allParams}}{{nickname}}Opts?: { config?: AxiosRequestConfig }): Observable<any> {
     {{/useSingleRequestParameter}}
 {{#allParams.0}}
 {{#useSingleRequestParameter}}
@@ -291,7 +292,8 @@ export class {{classname}} {
                         responseType: "blob",
         {{/isResponseFile}}
                         withCredentials: this.configuration.withCredentials,
-                        headers: headers
+                        ...{{nickname}}Opts?.config,
+                        headers: {...headers, ...{{nickname}}Opts?.config?.headers},
                     }
                 );
             })
