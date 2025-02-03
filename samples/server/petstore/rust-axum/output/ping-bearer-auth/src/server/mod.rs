@@ -17,15 +17,20 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A, E>(api_impl: I) -> Router
+pub fn new<I, A, E, C>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default<E> + Send + Sync + 'static,
+    A: apis::default::Default<E, Claims = C>
+        + apis::ApiAuthBasic<Claims = C>
+        + Send
+        + Sync
+        + 'static,
     E: std::fmt::Debug + Send + Sync + 'static,
+    C: Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
-        .route("/ping", get(ping_get::<I, A, E>))
+        .route("/ping", get(ping_get::<I, A, E, C>))
         .with_state(api_impl)
 }
 
@@ -35,17 +40,31 @@ fn ping_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// PingGet - GET /ping
 #[tracing::instrument(skip_all)]
-async fn ping_get<I, A, E>(
+async fn ping_get<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E> + Send + Sync,
+    A: apis::default::Default<E, Claims = C> + apis::ApiAuthBasic<Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    // Authentication
+    let claims_in_auth_header = api_impl
+        .as_ref()
+        .extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization")
+        .await;
+    let claims = None.or(claims_in_auth_header);
+    let Some(claims) = claims else {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    };
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || ping_get_validation())
         .await
@@ -60,16 +79,29 @@ where
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
     let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
 =======
     let result = api_impl
         .as_ref()
+<<<<<<< HEAD
         .ping_get(method.clone(), host.clone(), cookies.clone())
         .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
 =======
     let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+<<<<<<< HEAD
+        .ping_get(method.clone(), host.clone(), cookies.clone())
+=======
+        .ping_get(method, host, cookies, claims)
+>>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
+        .await;
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
 
     let mut response = Response::builder();
 

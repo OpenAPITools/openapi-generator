@@ -23,11 +23,16 @@ pub enum PingGetResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+    type Claims;
+
     /// PingGet - GET /ping
     async fn ping_get(
         &self,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -35,11 +40,16 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         method: Method,
         host: Host,
         cookies: CookieJar,
+<<<<<<< HEAD
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+        claims: Self::Claims,
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
     ) -> Result<PingGetResponse, E>;
 }

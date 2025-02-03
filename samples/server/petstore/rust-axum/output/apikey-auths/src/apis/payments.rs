@@ -54,21 +54,33 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         &self,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetPaymentMethodByIdPathParams,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
+<<<<<<< HEAD
         path_params: models::GetPaymentMethodByIdPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+        claims: Self::Claims,
+        path_params: models::GetPaymentMethodByIdPathParams,
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
@@ -78,6 +90,9 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         &self,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -85,12 +100,17 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         method: Method,
         host: Host,
         cookies: CookieJar,
+<<<<<<< HEAD
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+        claims: Self::Claims,
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.

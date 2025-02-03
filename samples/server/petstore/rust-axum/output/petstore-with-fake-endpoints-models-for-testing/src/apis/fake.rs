@@ -123,6 +123,8 @@ pub enum TestJsonFormDataResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+    type Claims;
+
     /// Call123example - GET /v2/fake/operation-with-numeric-id
     async fn call123example(
         &self,
@@ -328,21 +330,33 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         &self,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::TestEndpointParametersRequest,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a297ccec6f8 (Rebase error handler)
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
+<<<<<<< HEAD
         body: models::TestEndpointParametersRequest,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+        claims: Self::Claims,
+        body: models::TestEndpointParametersRequest,
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
     ) -> Result<TestEndpointParametersResponse, E>;
 
     /// To test enum parameters.

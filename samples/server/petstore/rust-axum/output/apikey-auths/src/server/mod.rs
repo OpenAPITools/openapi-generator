@@ -21,6 +21,8 @@ pub fn new<I, A, E, C>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
     A: apis::payments::Payments<E, Claims = C>
+        + apis::ApiAuthBasic<Claims = C>
+        + apis::ApiAuthBasic<Claims = C>
         + apis::ApiKeyAuthHeader<Claims = C>
         + apis::CookieAuthentication<Claims = C>
         + Send
@@ -68,14 +70,28 @@ async fn get_payment_method_by_id<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     Path(path_params): Path<models::GetPaymentMethodByIdPathParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments<E, Claims = C> + Send + Sync,
+    A: apis::payments::Payments<E, Claims = C> + apis::ApiAuthBasic<Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    // Authentication
+    let claims_in_auth_header = api_impl
+        .as_ref()
+        .extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization")
+        .await;
+    let claims = None.or(claims_in_auth_header);
+    let Some(claims) = claims else {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    };
+
     #[allow(clippy::redundant_closure)]
     let validation =
         tokio::task::spawn_blocking(move || get_payment_method_by_id_validation(path_params))
@@ -93,6 +109,7 @@ where
         .as_ref()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_payment_method_by_id(&method, &host, &cookies, &path_params)
 =======
         .get_payment_method_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
@@ -100,6 +117,16 @@ where
 =======
         .get_payment_method_by_id(&method, &host, &cookies, &path_params)
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+        .get_payment_method_by_id(&method, &host, &cookies, &path_params)
+=======
+<<<<<<< HEAD
+        .get_payment_method_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
+=======
+        .get_payment_method_by_id(method, host, cookies, claims, path_params)
+>>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
         .await;
 
     let mut response = Response::builder();
@@ -192,13 +219,27 @@ async fn get_payment_methods<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::payments::Payments<E, Claims = C> + Send + Sync,
+    A: apis::payments::Payments<E, Claims = C> + apis::ApiAuthBasic<Claims = C> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
+    // Authentication
+    let claims_in_auth_header = api_impl
+        .as_ref()
+        .extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization")
+        .await;
+    let claims = None.or(claims_in_auth_header);
+    let Some(claims) = claims else {
+        return Response::builder()
+            .status(StatusCode::UNAUTHORIZED)
+            .body(Body::empty())
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    };
+
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_payment_methods_validation())
         .await
@@ -215,6 +256,7 @@ where
         .as_ref()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_payment_methods(&method, &host, &cookies)
 =======
         .get_payment_methods(method.clone(), host.clone(), cookies.clone())
@@ -222,6 +264,16 @@ where
 =======
         .get_payment_methods(&method, &host, &cookies)
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+=======
+        .get_payment_methods(&method, &host, &cookies)
+=======
+<<<<<<< HEAD
+        .get_payment_methods(method.clone(), host.clone(), cookies.clone())
+=======
+        .get_payment_methods(method, host, cookies, claims)
+>>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
+>>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
+>>>>>>> a297ccec6f8 (Rebase error handler)
         .await;
 
     let mut response = Response::builder();
@@ -305,6 +357,7 @@ async fn post_make_payment<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
+    headers: HeaderMap,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::Payment>>,
 ) -> Result<Response, StatusCode>
@@ -312,6 +365,7 @@ where
     I: AsRef<A> + Send + Sync,
     A: apis::payments::Payments<E, Claims = C>
         + apis::CookieAuthentication<Claims = C>
+        + apis::ApiAuthBasic<Claims = C>
         + Send
         + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
@@ -321,7 +375,11 @@ where
         .as_ref()
         .extract_claims_from_cookie(&cookies, "X-API-Key")
         .await;
-    let claims = None.or(claims_in_cookie);
+    let claims_in_auth_header = api_impl
+        .as_ref()
+        .extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization")
+        .await;
+    let claims = None.or(claims_in_cookie).or(claims_in_auth_header);
     let Some(claims) = claims else {
         return Response::builder()
             .status(StatusCode::UNAUTHORIZED)

@@ -5,22 +5,45 @@ pub mod payments;
 pub trait ApiKeyAuthHeader {
     type Claims;
 
-    /// Extracting Claims from Header. Return None if the Claims is invalid.
+    /// Extracting Claims from Header. Return None if the Claims are invalid.
     async fn extract_claims_from_header(
         &self,
         headers: &axum::http::header::HeaderMap,
         key: &str,
     ) -> Option<Self::Claims>;
 }
+
 /// Cookie Authentication.
 #[async_trait::async_trait]
 pub trait CookieAuthentication {
     type Claims;
 
-    /// Extracting Claims from Cookie. Return None if the Claims is invalid.
+    /// Extracting Claims from Cookie. Return None if the Claims are invalid.
     async fn extract_claims_from_cookie(
         &self,
         cookies: &axum_extra::extract::CookieJar,
+        key: &str,
+    ) -> Option<Self::Claims>;
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+#[non_exhaustive]
+pub enum BasicAuthKind {
+    Basic,
+    Bearer,
+}
+
+/// API Key Authentication - Authentication Header.
+/// For `Basic token` and `Bearer token`
+#[async_trait::async_trait]
+pub trait ApiAuthBasic {
+    type Claims;
+
+    /// Extracting Claims from Header. Return None if the Claims are invalid.
+    async fn extract_claims_from_auth_header(
+        &self,
+        kind: BasicAuthKind,
+        headers: &axum::http::header::HeaderMap,
         key: &str,
     ) -> Option<Self::Claims>;
 }

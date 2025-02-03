@@ -85,6 +85,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     // Grouping (Method, Operation) by Path.
     private final Map<String, ArrayList<MethodOperation>> pathMethodOpMap = new HashMap<>();
     private boolean havingAuthMethods = false;
+    private boolean havingBasicAuthMethods = false;
 
     // Logger
     private final Logger LOGGER = LoggerFactory.getLogger(RustAxumServerCodegen.class);
@@ -777,6 +778,16 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     op.vendorExtensions.put("x-has-auth-methods", true);
                     hasAuthMethod = true;
+                } else if (s.isBasic) {
+                    op.vendorExtensions.put("x-has-basic-auth-methods", true);
+                    op.vendorExtensions.put("x-is-basic-bearer", s.isBasicBearer);
+                    op.vendorExtensions.put("x-api-auth-header-name", "authorization");
+
+                    op.vendorExtensions.put("x-has-auth-methods", true);
+                    hasAuthMethod = true;
+
+                    if (!this.havingBasicAuthMethods)
+                        this.havingBasicAuthMethods = true;
                 }
             }
         }
@@ -878,6 +889,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .collect(Collectors.toList());
         bundle.put("pathMethodOps", pathMethodOps);
         if (havingAuthMethods) bundle.put("havingAuthMethods", true);
+        if (havingBasicAuthMethods) bundle.put("havingBasicAuthMethods", true);
 
         return super.postProcessSupportingFileData(bundle);
     }

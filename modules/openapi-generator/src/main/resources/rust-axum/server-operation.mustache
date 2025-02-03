@@ -12,6 +12,11 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{
 {{#x-has-header-auth-methods}}
   headers: HeaderMap,
 {{/x-has-header-auth-methods}}
+{{^x-has-header-auth-methods}}
+  {{#x-has-basic-auth-methods}}
+  headers: HeaderMap,
+  {{/x-has-basic-auth-methods}}
+{{/x-has-header-auth-methods}}
 {{/vendorExtensions}}
 {{/headerParams.size}}
 {{#pathParams.size}}
@@ -54,7 +59,7 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{/vendorExtensions}} + Send + Sync,
+    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
         {
 {{#vendorExtensions}}
@@ -67,14 +72,20 @@ where
 {{#x-has-header-auth-methods}}
     let claims_in_header = api_impl.as_ref().extract_claims_from_header(&headers, "{{x-api-key-header-name}}").await;
 {{/x-has-header-auth-methods}}
+{{#x-has-basic-auth-methods}}
+    let claims_in_auth_header = api_impl.as_ref().extract_claims_from_auth_header(apis::BasicAuthKind::{{#x-is-basic-bearer}}Bearer{{/x-is-basic-bearer}}{{^x-is-basic-bearer}}Basic{{/x-is-basic-bearer}}, &headers, "{{x-api-auth-header-name}}").await;
+{{/x-has-basic-auth-methods}}
 {{#x-has-auth-methods}}
     let claims = None
           {{#x-has-cookie-auth-methods}}
              .or(claims_in_cookie)
           {{/x-has-cookie-auth-methods}}
           {{#x-has-header-auth-methods}}
-             .or(claims_in_header)
+              .or(claims_in_header)
           {{/x-has-header-auth-methods}}
+          {{#x-has-basic-auth-methods}}
+             .or(claims_in_auth_header)
+          {{/x-has-basic-auth-methods}}
           ;
     let Some(claims) = claims else {
         return Response::builder()
