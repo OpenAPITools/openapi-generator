@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum type = default(TypeEnum?), string className = default(string))
+        public Zebra(TypeEnum type = default(TypeEnum), string className = default(string))
         {
             // to ensure "className" is required (not null)
             if (className == null)
