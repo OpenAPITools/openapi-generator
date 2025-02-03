@@ -5,25 +5,28 @@ package {{package}}
 import {{import}}
 {{/imports}}
 import {{invokerPackage}}.JsonSupport.{*, given}
+import {{invokerPackage}}.Helpers.*
 import sttp.client4.jsoniter.*
 import sttp.client4.*
 import sttp.model.Method
 
 {{#operations}}
-object {{classname}} {
+object {{classname}}:
   def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
-}
 
-class {{classname}}(baseUrl: String) {
-
+class {{classname}}(baseUrl: String):
 {{#operation}}
-
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+  def {{operationId}}{{>methodParameters}}: Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+    val requestURL =
+      uri"$baseUrl{{{path}}}"{{#queryParams}}
+        .addParamNamed("{{baseName}}", {{{paramName}}}{{#collectionFormat}}, CollectionFormats.{{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/queryParams}}{{#isApiKey}}{{#isKeyInQuery}}
+        .addParam("{{keyParamName}}", apiKey.value){{/isKeyInQuery}}{{/isApiKey}}
+
     basicRequest
-      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
+      .method(Method.{{httpMethod.toUpperCase}}, requestURL)
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
       .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
       .auth.basic(username, password){{/isBasicBasic}}{{#isBasicBearer}}
@@ -43,6 +46,5 @@ class {{classname}}(baseUrl: String) {
       .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#fnHandleDownload}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/fnHandleDownload}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}
-
-}
 {{/operations}}
+end {{classname}}

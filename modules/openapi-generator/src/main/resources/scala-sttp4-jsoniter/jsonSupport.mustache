@@ -8,9 +8,14 @@ import com.github.plokhotnyuk.jsoniter_scala.macros.*
 import com.github.plokhotnyuk.jsoniter_scala.core.*
 import com.github.plokhotnyuk.jsoniter_scala.circe.JsoniterScalaCodec.*
 
-object JsonSupport extends AdditionalTypeSerializers {
+object JsonSupport extends AdditionalTypeSerializers:
+  inline given CodecMakerConfig = CodecMakerConfig.withAllowRecursiveTypes(true)
+
+  inline def deriveJsonCodec[A](using inline config: CodecMakerConfig): JsonValueCodec[A] =
+    JsonCodecMaker.make(config)
+
 {{#jsonCodecNeedingTypes}}
-    given {{key}}: JsonValueCodec[{{value}}] = JsonCodecMaker.make
+  given {{key}}: JsonValueCodec[{{value}}] = deriveJsonCodec
 {{/jsonCodecNeedingTypes}}
-}
+
 

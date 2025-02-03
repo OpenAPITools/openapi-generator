@@ -4,7 +4,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -18,12 +17,12 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
+
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion",
@@ -46,7 +45,13 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static final List<Property<?>> properties = Arrays.asList(
             STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JSONITER_VERSION, PACKAGE_PROPERTY);
 
-    private static final Set<String> NO_JSON_CODEC_TYPES = new HashSet<>(Arrays.asList("UUID", "URI", "URL", "File", "Path"));
+    private static final String jsonClassBaseName = "Json";
+    private static final String jsonValueClass = "io.circe.Json";
+    private static final String jsonAstCodecImport = "com.github.plokhotnyuk.jsoniter_scala.circe.JsoniterScalaCodec.*";
+
+    private static final Set<String> NO_JSON_CODEC_TYPES = new HashSet<>(Arrays.asList(
+            "UUID", "URI", "URL", "File", "Path", jsonClassBaseName, jsonValueClass, "BigDecimal"
+    ));
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttp4JsoniterClientCodegen.class);
 
@@ -61,8 +66,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
 
     Map<String, ModelsMap> enumRefs = new HashMap<>();
 
-    private Map<String, String> apiNameMappings = new HashMap<>();
-    private Set<String> uniqueApiNames = new HashSet<>();
+    private final Map<String, String> apiNameMappings = new HashMap<>();
+    private final Set<String> uniqueApiNames = new HashSet<>();
 
     public ScalaSttp4JsoniterClientCodegen() {
         super();
@@ -95,7 +100,11 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp4-jsoniter";
 
-        String jsonValueClass = "io.circe.Json";
+        // Scala 3 reserved words
+        reservedWords.addAll(Arrays.asList("enum", "export", "given", "then", "using", "Request", "Method", "Either"));
+
+        importMapping.put(jsonValueClass, jsonAstCodecImport);
+        importMapping.put("BigDecimal", "scala.math.BigDecimal");
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -109,11 +118,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
         additionalProperties.put("fnCodecName", new CodecNameLambda());
         additionalProperties.put("fnHandleDownload", new HandleDownloadLambda());
-
-        // importMapping.remove("Seq");
-        // importMapping.remove("List");
-        // importMapping.remove("Set");
-        // importMapping.remove("Map");
 
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in
         // AbstractScala
@@ -130,16 +134,21 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
         typeMapping.put("double", "Double");
-        typeMapping.put("object", jsonValueClass);
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("ByteArray", "Array[Byte]");
+
+        // actually, these two *are* jsoniter+circe AST specific
+        typeMapping.put("object", jsonValueClass);
         typeMapping.put("AnyType", jsonValueClass);
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
+
+        // remove DATE_LIBRARY option, we don't need it
+        cliOptions.removeIf(option -> option.getOpt().equals(DATE_LIBRARY));
 
         properties.stream()
                 .map(Property::toCliOptions)
@@ -161,6 +170,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder,
                 "AdditionalTypeSerializers.scala"));
+        supportingFiles.add(new SupportingFile("helpers.mustache", invokerFolder,
+                "Helpers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
     }
 
@@ -188,55 +199,13 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         return buf.toString();
     }
 
-    private PathMetadata parseAndEncodePath(String input) {
-        String path = super.encodePath(input);
-        ArrayList<String> pathParams = new ArrayList<>();
-
-        // The parameter names in the URI must be converted to the same case as
-        // the method parameter.
-        StringBuffer buf = new StringBuffer(path.length());
-        Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
-        while (matcher.find()) {
-            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
-            pathParams.add(matcher.group(0));
-        }
-        matcher.appendTail(buf);
-        return new PathMetadata(buf.toString(), pathParams);
-    }
-
     @Override
     public CodegenOperation fromOperation(String path,
             String httpMethod,
             Operation operation,
             List<Server> servers) {
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-
-        PathMetadata pathMetadata = parseAndEncodePath(path);
-
-        op.path = pathMetadata.getPath();
-
-        for (String pathParam : pathMetadata.getPathParams()) {
-            CodegenParameter param = new CodegenParameter();
-            param.isPathParam = true;
-            param.baseName = pathParam;
-            param.paramName = toParamName(pathParam);
-            param.dataType = "String";
-            param.required = true;
-
-            boolean alreadyExists = false;
-            for (CodegenParameter existingParam : op.pathParams) {
-                if (existingParam.baseName.equals(param.baseName) || existingParam.paramName.equals(param.paramName)) {
-                    alreadyExists = true;
-                    break;
-                }
-            }
-
-            if (!alreadyExists) {
-                op.pathParams.add(param);
-                op.allParams.add(param);
-            }
-        }
-
+        op.path = encodePath(path);
         return op;
     }
 
@@ -280,7 +249,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
                 if (!uniqueApiNames.contains(lowerCasedNextGeneratedApiName)) {
                     uniqueApiNames.add(lowerCasedNextGeneratedApiName);
                     apiNameMappings.put(name, nextGeneratedApiName);
-                    
+
                     return nextGeneratedApiName;
                 }
                 i++;
@@ -338,13 +307,32 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
                 continue;
             }
             List<Map<String, String>> newImports = new ArrayList<>();
-            Iterator<Map<String, String>> iterator = imports.iterator();
-            while (iterator.hasNext()) {
-                String importPath = iterator.next().get("import");
+
+            boolean foundJsonImport = false;
+
+            for (Map<String, String> anImport : imports) {
+                String importPath = anImport.get("import");
+
                 Map<String, String> item = new HashMap<>();
+
+                // remove any imports for io.circe.Json, it's a FQCN
+                // but on the first encounter, add the import for the
+                // jsoniter-scala circe AST codec as it will be necessary
+                // for all places where io.circe.Json is used as request body
+                // or response body
+                if (importPath.contains(jsonValueClass)) {
+                    if (!foundJsonImport) {
+                        foundJsonImport = true;
+                        item.put("import", jsonAstCodecImport);
+                        newImports.add(item);
+                    }
+
+                    continue;
+                }
+
                 if (importPath.startsWith(prefix)) {
                     if (isEnumClass(importPath, enumRefs)) {
-                        item.put("import", importPath.concat("._"));
+                        item.put("import", importPath.concat(".*"));
                         newImports.add(item);
                     }
                 } else {
@@ -361,7 +349,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         Map<String, ModelsMap> enums = new HashMap<>();
         for (String key : models.keySet()) {
             CodegenModel model = ModelUtils.getModelByName(key, models);
-            if (model.isEnum) {
+            if (model != null && model.isEnum) {
                 ModelsMap objs = models.get(key);
                 enums.put(key, objs);
             }
@@ -438,18 +426,18 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         List<Map<String, String>> newImports = new ArrayList<>();
         List<Map<String, String>> imports = objs.getImports();
         if (imports != null && !imports.isEmpty()) {
-            Iterator<Map<String, String>> iterator = imports.iterator();
-            while (iterator.hasNext()) {
-                String importPath = iterator.next().get("import");
+            for (Map<String, String> anImport : imports) {
+                String importPath = anImport.get("import");
                 Map<String, String> item = new HashMap<>();
                 if (isEnumClass(importPath, enumRefs)) {
-                    item.put("import", importPath.concat("._"));
+                    item.put("import", importPath.concat(".*"));
                 } else {
                     item.put("import", importPath);
                 }
                 newImports.add(item);
             }
         }
+
         objs.setImports(newImports);
 
         return super.postProcessOperationsWithModels(objs, allModels);
@@ -484,8 +472,14 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     public String toEnumName(CodegenProperty property) {
         String identifier = formatIdentifier(property.baseName, true);
 
-        // remove backticks because there are no capitalized reserved words in Scala
         if (identifier.startsWith("`") && identifier.endsWith("`")) {
+            // is it numeric?
+            String unescaped = identifier.substring(1, identifier.length() - 1);
+            if (StringUtils.isNumeric(unescaped)) {
+                return identifier; // keep backticks
+            }
+
+            // remove backticks because there are no capitalized reserved words in Scala
             return identifier.substring(1, identifier.length() - 1);
         } else {
             return identifier;
@@ -702,17 +696,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
             } else {
                 return fragment;
             }
-        }
-    }
-
-    @Getter
-    private static class PathMetadata {
-        private final String path;
-        private final ArrayList<String> pathParams;
-
-        PathMetadata(String path, ArrayList<String> pathParams) {
-            this.path = path;
-            this.pathParams = pathParams;
         }
     }
 

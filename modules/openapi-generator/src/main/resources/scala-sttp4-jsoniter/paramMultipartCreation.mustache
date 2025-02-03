@@ -1,6 +1,6 @@
 {{#required}}
     {{#isFile}}
-        Some(multipartFile("{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})){{^-last}},{{/-last}}
+        Some(multipartFile("{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, CollectionFormats.{{collectionFormat.toUpperCase}}{{/collectionFormat}}).toString(){{/isContainer}}{{^isContainer}}{{{paramName}}}.toString(){{/isContainer}})){{^-last}},{{/-last}}
     {{/isFile}}
     {{^isFile}}
         Some({{paramName}}).map(_.toString).map(multipart("{{baseName}}", _)){{^-last}},{{/-last}}
@@ -11,6 +11,6 @@
         {{paramName}}.map(multipartFile("{{baseName}}", _)){{^-last}},{{/-last}}
     {{/isFile}}
     {{^isFile}}
-        {{paramName}}{{^isContainer}}.map(_.toString){{/isContainer}}.map(multipart("{{baseName}}", {{#isContainer}}ArrayValues(_{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}_{{/isContainer}})){{^-last}},{{/-last}}
+        {{paramName}}{{^isContainer}}.map(_.toString){{/isContainer}}.map(multipart("{{baseName}}", {{#isContainer}}ArrayValues(_{{#collectionFormat}}, CollectionFormats.{{collectionFormat.toUpperCase}}{{/collectionFormat}}).toString(){{/isContainer}}{{^isContainer}}_{{/isContainer}})){{^-last}},{{/-last}}
     {{/isFile}}
 {{/required}}

@@ -1,0 +1,65 @@
+{{>licenseInfo}}
+package {{invokerPackage}}
+
+import scala.language.implicitConversions
+
+object Helpers:
+  implicit def productToMapStringString[A <: Product](a: A): Map[String, String] =
+    val fields = a.productElementNames.zipWithIndex.map { case (name, index) =>
+      name -> a.productElement(index)
+    }.map {
+      case (name, value: Option[_]) => value.map(v => name -> v.toString)
+      case (name, value) => Some(name -> value.toString)
+    }.collect { case Some(x) => x }
+
+    fields.toMap
+
+  type Primitive = String | Short | Int | Long | Float | Double | BigDecimal | Boolean
+
+  extension (uri: sttp.model.Uri)
+    def addParamNamed(name: String, value: Primitive | Option[Primitive] | Map[String, String]): sttp.model.Uri =
+      value match
+        case opt: Option[_] => opt.fold(uri) { prim => uri.addParam(name, prim.toString) }
+        case map: Map[String, String] => map.foldLeft(uri) { case (uri, (k, v)) => uri.addParam(k, v) }
+        case prim => uri.addParam(name, prim.toString)
+
+    def addParamNamed(name: String, value: Iterable[String], format: CollectionFormat): sttp.model.Uri =
+      format match
+        case CollectionFormats.MULTI => value.foldLeft(uri) { case (uri, v) => uri.addParam(name, v) }
+        case maFormat: MergedArrayFormat => uri.addParam(name, value.mkString(maFormat.separator))
+
+  /**
+   * Used for params being arrays
+   */
+  final case class ArrayValues(values: Seq[Any], format: MergedArrayFormat = CollectionFormats.CSV):
+    override def toString: String = values.mkString(format.separator)
+
+  object ArrayValues:
+    def apply(values: Option[Seq[Any]], format: MergedArrayFormat): ArrayValues =
+      ArrayValues(values.getOrElse(Seq.empty), format)
+
+    def apply(values: Option[Seq[Any]]): ArrayValues = ArrayValues(values, CollectionFormats.CSV)
+
+  /**
+   * Defines how arrays should be rendered in query strings.
+   */
+  sealed trait CollectionFormat
+
+  trait MergedArrayFormat extends CollectionFormat:
+    def separator: String
+
+  object CollectionFormats:
+
+    case object CSV extends MergedArrayFormat:
+      override val separator = ","
+
+    case object TSV extends MergedArrayFormat:
+      override val separator = "\t"
+
+    case object SSV extends MergedArrayFormat:
+      override val separator = " "
+
+    case object PIPES extends MergedArrayFormat:
+      override val separator = "|"
+
+    case object MULTI extends CollectionFormat
