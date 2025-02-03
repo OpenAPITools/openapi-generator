@@ -41,7 +41,7 @@ where
 {
     let result = api_impl
         .as_ref()
-        .mail_put(method, host, cookies, body)
+        .mail_put(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -56,7 +56,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 

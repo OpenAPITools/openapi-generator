@@ -113,7 +113,10 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().add_pet(method, host, cookies, body).await;
+    let result = api_impl
+        .as_ref()
+        .add_pet(method.clone(), host.clone(), cookies.clone(), body)
+        .await;
 
     let mut response = Response::builder();
 
@@ -143,7 +146,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -221,7 +228,13 @@ where
 
     let result = api_impl
         .as_ref()
-        .delete_pet(method, host, cookies, header_params, path_params)
+        .delete_pet(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            header_params,
+            path_params,
+        )
         .await;
 
     let mut response = Response::builder();
@@ -236,7 +249,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -283,7 +300,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .find_pets_by_status(method, host, cookies, query_params)
+        .find_pets_by_status(method.clone(), host.clone(), cookies.clone(), query_params)
         .await;
 
     let mut response = Response::builder();
@@ -314,7 +331,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -361,7 +382,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .find_pets_by_tags(method, host, cookies, query_params)
+        .find_pets_by_tags(method.clone(), host.clone(), cookies.clone(), query_params)
         .await;
 
     let mut response = Response::builder();
@@ -392,7 +413,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -452,7 +477,13 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_pet_by_id(method, host, cookies, claims, path_params)
+        .get_pet_by_id(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+        )
         .await;
 
     let mut response = Response::builder();
@@ -487,7 +518,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -541,7 +576,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_pet(method, host, cookies, body)
+        .update_pet(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -580,7 +615,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -646,7 +685,13 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_pet_with_form(method, host, cookies, path_params, body)
+        .update_pet_with_form(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            path_params,
+            body,
+        )
         .await;
 
     let mut response = Response::builder();
@@ -661,7 +706,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -708,7 +757,13 @@ where
 
     let result = api_impl
         .as_ref()
-        .upload_file(method, host, cookies, path_params, body)
+        .upload_file(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            path_params,
+            body,
+        )
         .await;
 
     let mut response = Response::builder();
@@ -742,7 +797,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -788,7 +847,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .delete_order(method, host, cookies, path_params)
+        .delete_order(method.clone(), host.clone(), cookies.clone(), path_params)
         .await;
 
     let mut response = Response::builder();
@@ -807,7 +866,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -862,7 +925,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_inventory(method, host, cookies, claims)
+        .get_inventory(method.clone(), host.clone(), cookies.clone(), claims)
         .await;
 
     let mut response = Response::builder();
@@ -896,7 +959,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -942,7 +1009,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_order_by_id(method, host, cookies, path_params)
+        .get_order_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
         .await;
 
     let mut response = Response::builder();
@@ -977,7 +1044,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1031,7 +1102,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .place_order(method, host, cookies, body)
+        .place_order(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -1062,7 +1133,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1130,7 +1205,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .create_user(method, host, cookies, claims, body)
+        .create_user(method.clone(), host.clone(), cookies.clone(), claims, body)
         .await;
 
     let mut response = Response::builder();
@@ -1145,7 +1220,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1214,7 +1293,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .create_users_with_array_input(method, host, cookies, claims, body)
+        .create_users_with_array_input(method.clone(), host.clone(), cookies.clone(), claims, body)
         .await;
 
     let mut response = Response::builder();
@@ -1229,7 +1308,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1298,7 +1381,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .create_users_with_list_input(method, host, cookies, claims, body)
+        .create_users_with_list_input(method.clone(), host.clone(), cookies.clone(), claims, body)
         .await;
 
     let mut response = Response::builder();
@@ -1313,7 +1396,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1373,7 +1460,13 @@ where
 
     let result = api_impl
         .as_ref()
-        .delete_user(method, host, cookies, claims, path_params)
+        .delete_user(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+        )
         .await;
 
     let mut response = Response::builder();
@@ -1392,7 +1485,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1438,7 +1535,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_user_by_name(method, host, cookies, path_params)
+        .get_user_by_name(method.clone(), host.clone(), cookies.clone(), path_params)
         .await;
 
     let mut response = Response::builder();
@@ -1473,7 +1570,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1519,7 +1620,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .login_user(method, host, cookies, query_params)
+        .login_user(method.clone(), host.clone(), cookies.clone(), query_params)
         .await;
 
     let mut response = Response::builder();
@@ -1603,7 +1704,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1658,7 +1763,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .logout_user(method, host, cookies, claims)
+        .logout_user(method.clone(), host.clone(), cookies.clone(), claims)
         .await;
 
     let mut response = Response::builder();
@@ -1673,7 +1778,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -1744,7 +1853,14 @@ where
 
     let result = api_impl
         .as_ref()
-        .update_user(method, host, cookies, claims, path_params, body)
+        .update_user(
+            method.clone(),
+            host.clone(),
+            cookies.clone(),
+            claims,
+            path_params,
+            body,
+        )
         .await;
 
     let mut response = Response::builder();
@@ -1763,7 +1879,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 

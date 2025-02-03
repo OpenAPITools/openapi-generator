@@ -69,7 +69,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multipart_related_request_post(method, host, cookies, body)
+        .multipart_related_request_post(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -84,7 +84,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -126,7 +130,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multipart_request_post(method, host, cookies, body)
+        .multipart_request_post(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -141,7 +145,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -184,7 +192,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multiple_identical_mime_types_post(method, host, cookies, body)
+        .multiple_identical_mime_types_post(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -199,7 +207,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 

@@ -94,7 +94,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .users_post(method, host, cookies, header_params)
+        .users_post(method.clone(), host.clone(), cookies.clone(), header_params)
         .await;
 
     let mut response = Response::builder();
@@ -128,7 +128,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 

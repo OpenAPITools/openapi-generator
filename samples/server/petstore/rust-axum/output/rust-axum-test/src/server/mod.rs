@@ -64,7 +64,10 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().all_of_get(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .all_of_get(method.clone(), host.clone(), cookies.clone())
+        .await;
 
     let mut response = Response::builder();
 
@@ -97,7 +100,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -136,7 +143,10 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().dummy_get(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .dummy_get(method.clone(), host.clone(), cookies.clone())
+        .await;
 
     let mut response = Response::builder();
 
@@ -150,7 +160,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -204,7 +218,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .dummy_put(method, host, cookies, body)
+        .dummy_put(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -219,7 +233,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -260,7 +278,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .file_response_get(method, host, cookies)
+        .file_response_get(method.clone(), host.clone(), cookies.clone())
         .await;
 
     let mut response = Response::builder();
@@ -294,7 +312,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -335,7 +357,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_structured_yaml(method, host, cookies)
+        .get_structured_yaml(method.clone(), host.clone(), cookies.clone())
         .await;
 
     let mut response = Response::builder();
@@ -362,7 +384,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -410,7 +436,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .html_post(method, host, cookies, body)
+        .html_post(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -437,7 +463,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -485,7 +515,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .post_yaml(method, host, cookies, body)
+        .post_yaml(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -500,7 +530,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -539,7 +573,10 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().raw_json_get(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .raw_json_get(method.clone(), host.clone(), cookies.clone())
+        .await;
 
     let mut response = Response::builder();
 
@@ -572,7 +609,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
@@ -625,7 +666,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .solo_object_post(method, host, cookies, body)
+        .solo_object_post(method.clone(), host.clone(), cookies.clone(), body)
         .await;
 
     let mut response = Response::builder();
@@ -640,7 +681,11 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            return api_impl.as_ref().handle_error(why).await;
+
+            return api_impl
+                .as_ref()
+                .handle_error(method, host, cookies, why)
+                .await;
         }
     };
 
