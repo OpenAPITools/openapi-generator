@@ -63,6 +63,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Setter protected boolean returnICollection = false;
     @Setter protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean nullCollectionTypesFlag = false;
     protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
@@ -380,6 +381,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.NULLABLE_REFERENCE_TYPES)) {
             setNullableReferenceTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_REFERENCE_TYPES));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.NULLABLE_COLLECTION_TYPES)) {
+            setNullableCollectionTypes(convertPropertyToBooleanAndWriteBack(CodegenConstants.NULLABLE_COLLECTION_TYPES));
         }
 
         String zeroBasedEnums = "zeroBasedEnums";
@@ -1617,6 +1622,24 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
     public boolean getNullableReferencesTypes() {
         return this.nullReferenceTypesFlag;
+    }
+
+    public void setNullableCollectionTypes(final Boolean nullCollectionTypesFlag) {
+        this.nullCollectionTypesFlag = nullCollectionTypesFlag;
+        additionalProperties.put("nullableCollectionTypes", nullCollectionTypesFlag);
+        additionalProperties.put("nct", nullCollectionTypesFlag);
+
+        if (nullCollectionTypesFlag) {
+            additionalProperties.put("nct?", "?");
+            additionalProperties.put("nct!", "!");
+        } else {
+            additionalProperties.remove("nct?");
+            additionalProperties.remove("nct!");
+        }
+    }
+
+    public boolean getNullableCollectionTypes() {
+        return this.nullCollectionTypesFlag;
     }
 
     public void setUseSourceGeneration(final Boolean useSourceGeneration) {

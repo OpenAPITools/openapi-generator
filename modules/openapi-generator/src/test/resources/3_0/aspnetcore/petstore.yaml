@@ -607,7 +607,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TestNullable'
+                $ref: '#/components/schemas/NullableClass'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -651,14 +651,64 @@ components:
       enum:
         - A
         - B
-    TestNullable:
+    NullableClass:
       type: object
       properties:
-        name:
-          type: string
-        nullableName:
+        integer_prop:
+          type: integer
+          nullable: true
+        number_prop:
+          type: number
+          nullable: true
+        boolean_prop:
+          type: boolean
+          nullable: true
+        string_prop:
           type: string
           nullable: true
+        date_prop:
+          type: string
+          format: date
+          nullable: true
+        datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
+        array_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+        array_and_items_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+            nullable: true
+        array_items_nullable:
+          type: array
+          items:
+            type: object
+            nullable: true
+        object_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+        object_and_items_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+            nullable: true
+        object_items_nullable:
+          type: object
+          additionalProperties:
+            type: object
+            nullable: true
+      additionalProperties:
+        type: object
+        nullable: true
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
