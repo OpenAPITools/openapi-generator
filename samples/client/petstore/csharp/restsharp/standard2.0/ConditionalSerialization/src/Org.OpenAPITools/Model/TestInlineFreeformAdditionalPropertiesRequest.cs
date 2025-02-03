@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty.</param>
+
         public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
         {
             this._SomeProperty = someProperty;

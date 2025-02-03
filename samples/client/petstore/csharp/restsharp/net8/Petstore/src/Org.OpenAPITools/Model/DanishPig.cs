@@ -41,6 +41,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DanishPig" /> class.
         /// </summary>
         /// <param name="className">className (required).</param>
+
         public DanishPig(string className = default(string))
         {
             // to ensure "className" is required (not null)

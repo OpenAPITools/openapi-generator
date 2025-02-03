@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DeprecatedObject" /> class.
         /// </summary>
         /// <param name="name">name.</param>
+
         public DeprecatedObject(string name = default(string))
         {
             this.Name = name;

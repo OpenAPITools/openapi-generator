@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_integer", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumInteger
+        public NotrequiredNullableEnumIntegerEnum NotrequiredNullableEnumInteger
         {
             get{ return _NotrequiredNullableEnumInteger;}
             set
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumInteger = true;
             }
         }
-        private NotrequiredNullableEnumIntegerEnum? _NotrequiredNullableEnumInteger;
+        private NotrequiredNullableEnumIntegerEnum _NotrequiredNullableEnumInteger;
         private bool _flagNotrequiredNullableEnumInteger;
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_enum_integer", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumInteger
+        public NotrequiredNotnullableEnumIntegerEnum NotrequiredNotnullableEnumInteger
         {
             get{ return _NotrequiredNotnullableEnumInteger;}
             set
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumInteger = true;
             }
         }
-        private NotrequiredNotnullableEnumIntegerEnum? _NotrequiredNotnullableEnumInteger;
+        private NotrequiredNotnullableEnumIntegerEnum _NotrequiredNotnullableEnumInteger;
         private bool _flagNotrequiredNotnullableEnumInteger;
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_integer_only", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnly
+        public NotrequiredNullableEnumIntegerOnlyEnum NotrequiredNullableEnumIntegerOnly
         {
             get{ return _NotrequiredNullableEnumIntegerOnly;}
             set
@@ -317,7 +317,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumIntegerOnly = true;
             }
         }
-        private NotrequiredNullableEnumIntegerOnlyEnum? _NotrequiredNullableEnumIntegerOnly;
+        private NotrequiredNullableEnumIntegerOnlyEnum _NotrequiredNullableEnumIntegerOnly;
         private bool _flagNotrequiredNullableEnumIntegerOnly;
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_enum_integer_only", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnly
+        public NotrequiredNotnullableEnumIntegerOnlyEnum NotrequiredNotnullableEnumIntegerOnly
         {
             get{ return _NotrequiredNotnullableEnumIntegerOnly;}
             set
@@ -359,7 +359,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumIntegerOnly = true;
             }
         }
-        private NotrequiredNotnullableEnumIntegerOnlyEnum? _NotrequiredNotnullableEnumIntegerOnly;
+        private NotrequiredNotnullableEnumIntegerOnlyEnum _NotrequiredNotnullableEnumIntegerOnly;
         private bool _flagNotrequiredNotnullableEnumIntegerOnly;
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_string", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumString
+        public NotrequiredNullableEnumStringEnum NotrequiredNullableEnumString
         {
             get{ return _NotrequiredNullableEnumString;}
             set
@@ -602,7 +602,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumString = true;
             }
         }
-        private NotrequiredNullableEnumStringEnum? _NotrequiredNullableEnumString;
+        private NotrequiredNullableEnumStringEnum _NotrequiredNullableEnumString;
         private bool _flagNotrequiredNullableEnumString;
 
         /// <summary>
@@ -674,7 +674,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_enum_string", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumString
+        public NotrequiredNotnullableEnumStringEnum NotrequiredNotnullableEnumString
         {
             get{ return _NotrequiredNotnullableEnumString;}
             set
@@ -683,7 +683,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumString = true;
             }
         }
-        private NotrequiredNotnullableEnumStringEnum? _NotrequiredNotnullableEnumString;
+        private NotrequiredNotnullableEnumStringEnum _NotrequiredNotnullableEnumString;
         private bool _flagNotrequiredNotnullableEnumString;
 
         /// <summary>
@@ -752,7 +752,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_outerEnumDefaultValue", EmitDefaultValue = true)]
-        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue
+        public OuterEnumDefaultValue NotrequiredNullableOuterEnumDefaultValue
         {
             get{ return _NotrequiredNullableOuterEnumDefaultValue;}
             set
@@ -761,7 +761,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _NotrequiredNullableOuterEnumDefaultValue;
+        private OuterEnumDefaultValue _NotrequiredNullableOuterEnumDefaultValue;
         private bool _flagNotrequiredNullableOuterEnumDefaultValue;
 
         /// <summary>
@@ -778,7 +778,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue
+        public OuterEnumDefaultValue NotrequiredNotnullableOuterEnumDefaultValue
         {
             get{ return _NotrequiredNotnullableOuterEnumDefaultValue;}
             set
@@ -787,7 +787,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _NotrequiredNotnullableOuterEnumDefaultValue;
+        private OuterEnumDefaultValue _NotrequiredNotnullableOuterEnumDefaultValue;
         private bool _flagNotrequiredNotnullableOuterEnumDefaultValue;
 
         /// <summary>
@@ -853,7 +853,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="requiredNotnullableArrayOfString">requiredNotnullableArrayOfString (required).</param>
         /// <param name="notrequiredNullableArrayOfString">notrequiredNullableArrayOfString.</param>
         /// <param name="notrequiredNotnullableArrayOfString">notrequiredNotnullableArrayOfString.</param>
-        public RequiredClass(int? requiredNullableIntegerProp = default(int?), int requiredNotnullableintegerProp = default(int), int? notRequiredNullableIntegerProp = default(int?), int notRequiredNotnullableintegerProp = default(int), string requiredNullableStringProp = default(string), string requiredNotnullableStringProp = default(string), string notrequiredNullableStringProp = default(string), string notrequiredNotnullableStringProp = default(string), bool? requiredNullableBooleanProp = default(bool?), bool requiredNotnullableBooleanProp = default(bool), bool? notrequiredNullableBooleanProp = default(bool?), bool notrequiredNotnullableBooleanProp = default(bool), DateTime? requiredNullableDateProp = default(DateTime?), DateTime requiredNotNullableDateProp = default(DateTime), DateTime? notRequiredNullableDateProp = default(DateTime?), DateTime notRequiredNotnullableDateProp = default(DateTime), DateTime requiredNotnullableDatetimeProp = default(DateTime), DateTime? requiredNullableDatetimeProp = default(DateTime?), DateTime? notrequiredNullableDatetimeProp = default(DateTime?), DateTime notrequiredNotnullableDatetimeProp = default(DateTime), RequiredNullableEnumIntegerEnum requiredNullableEnumInteger = default(RequiredNullableEnumIntegerEnum), RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger = default(RequiredNotnullableEnumIntegerEnum), NotrequiredNullableEnumIntegerEnum? notrequiredNullableEnumInteger = default(NotrequiredNullableEnumIntegerEnum?), NotrequiredNotnullableEnumIntegerEnum? notrequiredNotnullableEnumInteger = default(NotrequiredNotnullableEnumIntegerEnum?), RequiredNullableEnumIntegerOnlyEnum requiredNullableEnumIntegerOnly = default(RequiredNullableEnumIntegerOnlyEnum), RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly = default(RequiredNotnullableEnumIntegerOnlyEnum), NotrequiredNullableEnumIntegerOnlyEnum? notrequiredNullableEnumIntegerOnly = default(NotrequiredNullableEnumIntegerOnlyEnum?), NotrequiredNotnullableEnumIntegerOnlyEnum? notrequiredNotnullableEnumIntegerOnly = default(NotrequiredNotnullableEnumIntegerOnlyEnum?), RequiredNotnullableEnumStringEnum requiredNotnullableEnumString = default(RequiredNotnullableEnumStringEnum), RequiredNullableEnumStringEnum requiredNullableEnumString = default(RequiredNullableEnumStringEnum), NotrequiredNullableEnumStringEnum? notrequiredNullableEnumString = default(NotrequiredNullableEnumStringEnum?), NotrequiredNotnullableEnumStringEnum? notrequiredNotnullableEnumString = default(NotrequiredNotnullableEnumStringEnum?), OuterEnumDefaultValue requiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue? notrequiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumDefaultValue? notrequiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue?), Guid? requiredNullableUuid = default(Guid?), Guid requiredNotnullableUuid = default(Guid), Guid? notrequiredNullableUuid = default(Guid?), Guid notrequiredNotnullableUuid = default(Guid), List<string> requiredNullableArrayOfString = default(List<string>), List<string> requiredNotnullableArrayOfString = default(List<string>), List<string> notrequiredNullableArrayOfString = default(List<string>), List<string> notrequiredNotnullableArrayOfString = default(List<string>))
+
+        public RequiredClass(int? requiredNullableIntegerProp = default(int?), int requiredNotnullableintegerProp = default(int), int? notRequiredNullableIntegerProp = default(int?), int notRequiredNotnullableintegerProp = default(int), string requiredNullableStringProp = default(string), string requiredNotnullableStringProp = default(string), string notrequiredNullableStringProp = default(string), string notrequiredNotnullableStringProp = default(string), bool? requiredNullableBooleanProp = default(bool?), bool requiredNotnullableBooleanProp = default(bool), bool? notrequiredNullableBooleanProp = default(bool?), bool notrequiredNotnullableBooleanProp = default(bool), DateTime? requiredNullableDateProp = default(DateTime?), DateTime requiredNotNullableDateProp = default(DateTime), DateTime? notRequiredNullableDateProp = default(DateTime?), DateTime notRequiredNotnullableDateProp = default(DateTime), DateTime requiredNotnullableDatetimeProp = default(DateTime), DateTime? requiredNullableDatetimeProp = default(DateTime?), DateTime? notrequiredNullableDatetimeProp = default(DateTime?), DateTime notrequiredNotnullableDatetimeProp = default(DateTime), RequiredNullableEnumIntegerEnum requiredNullableEnumInteger = default(RequiredNullableEnumIntegerEnum), RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger = default(RequiredNotnullableEnumIntegerEnum), NotrequiredNullableEnumIntegerEnum notrequiredNullableEnumInteger = default(NotrequiredNullableEnumIntegerEnum?), NotrequiredNotnullableEnumIntegerEnum notrequiredNotnullableEnumInteger = default(NotrequiredNotnullableEnumIntegerEnum?), RequiredNullableEnumIntegerOnlyEnum requiredNullableEnumIntegerOnly = default(RequiredNullableEnumIntegerOnlyEnum), RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly = default(RequiredNotnullableEnumIntegerOnlyEnum), NotrequiredNullableEnumIntegerOnlyEnum notrequiredNullableEnumIntegerOnly = default(NotrequiredNullableEnumIntegerOnlyEnum?), NotrequiredNotnullableEnumIntegerOnlyEnum notrequiredNotnullableEnumIntegerOnly = default(NotrequiredNotnullableEnumIntegerOnlyEnum?), RequiredNotnullableEnumStringEnum requiredNotnullableEnumString = default(RequiredNotnullableEnumStringEnum), RequiredNullableEnumStringEnum requiredNullableEnumString = default(RequiredNullableEnumStringEnum), NotrequiredNullableEnumStringEnum notrequiredNullableEnumString = default(NotrequiredNullableEnumStringEnum?), NotrequiredNotnullableEnumStringEnum notrequiredNotnullableEnumString = default(NotrequiredNotnullableEnumStringEnum?), OuterEnumDefaultValue requiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue notrequiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumDefaultValue notrequiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue?), Guid? requiredNullableUuid = default(Guid?), Guid requiredNotnullableUuid = default(Guid), Guid? notrequiredNullableUuid = default(Guid?), Guid notrequiredNotnullableUuid = default(Guid), List<string> requiredNullableArrayOfString = default(List<string>), List<string> requiredNotnullableArrayOfString = default(List<string>), List<string> notrequiredNullableArrayOfString = default(List<string>), List<string> notrequiredNotnullableArrayOfString = default(List<string>))
         {
             // to ensure "requiredNullableIntegerProp" is required (not null)
             if (requiredNullableIntegerProp == null)

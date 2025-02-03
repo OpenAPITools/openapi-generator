@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
-        public JustSymbolEnum? JustSymbol
+        public JustSymbolEnum JustSymbol
         {
             get{ return _JustSymbol;}
             set
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
                 _flagJustSymbol = true;
             }
         }
-        private JustSymbolEnum? _JustSymbol;
+        private JustSymbolEnum _JustSymbol;
         private bool _flagJustSymbol;
 
         /// <summary>
@@ -101,7 +101,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
+
+        public EnumArrays(JustSymbolEnum justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
             this._JustSymbol = justSymbol;
             if (this.JustSymbol != null)

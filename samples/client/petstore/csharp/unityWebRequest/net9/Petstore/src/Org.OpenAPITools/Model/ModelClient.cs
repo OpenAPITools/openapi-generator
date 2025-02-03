@@ -34,7 +34,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient.</param>
-        public ModelClient(string varClient = default(string))
+
+        public ModelClient(string? varClient = default(string))
         {
             this.VarClient = varClient;
         }
@@ -43,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string VarClient { get; set; }
+        public string? VarClient { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

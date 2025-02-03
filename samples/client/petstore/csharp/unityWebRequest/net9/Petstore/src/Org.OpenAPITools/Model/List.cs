@@ -34,7 +34,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="var123List">var123List.</param>
-        public List(string var123List = default(string))
+
+        public List(string? var123List = default(string))
         {
             this.Var123List = var123List;
         }
@@ -43,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string Var123List { get; set; }
+        public string? Var123List { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -35,7 +35,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Env" /> class.
         /// </summary>
         /// <param name="dummy">dummy.</param>
-        public Env(string dummy = default(string))
+
+        public Env(string? dummy = default(string))
         {
             this.Dummy = dummy;
         }
@@ -44,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Dummy
         /// </summary>
         [DataMember(Name = "dummy", EmitDefaultValue = false)]
-        public string Dummy { get; set; }
+        public string? Dummy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

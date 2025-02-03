@@ -42,7 +42,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varName">varName (required).</param>
         /// <param name="property">property.</param>
-        public Name(int varName = default(int), string property = default(string))
+
+        public Name(int varName = default(int), string? property = default(string))
         {
             this.VarName = varName;
             this.Property = property;
@@ -58,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
-        public int SnakeCase { get; private set; }
+        public int? SnakeCase { get; private set; }
 
         /// <summary>
         /// Returns false as SnakeCase should not be serialized given that it's read-only.
@@ -72,13 +73,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name = "property", EmitDefaultValue = false)]
-        public string Property { get; set; }
+        public string? Property { get; set; }
 
         /// <summary>
         /// Gets or Sets Var123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int Var123Number { get; private set; }
+        public int? Var123Number { get; private set; }
 
         /// <summary>
         /// Returns false as Var123Number should not be serialized given that it's read-only.

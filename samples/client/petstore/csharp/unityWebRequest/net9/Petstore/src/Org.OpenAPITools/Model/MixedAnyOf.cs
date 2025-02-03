@@ -34,7 +34,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedAnyOf" /> class.
         /// </summary>
         /// <param name="content">content.</param>
-        public MixedAnyOf(MixedAnyOfContent content = default(MixedAnyOfContent))
+
+        public MixedAnyOf(MixedAnyOfContent? content = default(MixedAnyOfContent))
         {
             this.Content = content;
         }
@@ -43,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Content
         /// </summary>
         [DataMember(Name = "content", EmitDefaultValue = false)]
-        public MixedAnyOfContent Content { get; set; }
+        public MixedAnyOfContent? Content { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

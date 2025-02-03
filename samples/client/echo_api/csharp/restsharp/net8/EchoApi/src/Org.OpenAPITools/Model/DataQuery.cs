@@ -40,7 +40,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="date">A date.</param>
         /// <param name="id">Query.</param>
         /// <param name="outcomes">outcomes.</param>
-        public DataQuery(string suffix = default(string), string text = default(string), DateTime date = default(DateTime), long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>)) : base(id, outcomes)
+
+        public DataQuery(string? suffix = default(string), string? text = default(string), DateTime? date = default(DateTime), long? id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>)) : base(id, outcomes)
         {
             this.Suffix = suffix;
             this.Text = text;
@@ -52,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test suffix</value>
         [DataMember(Name = "suffix", EmitDefaultValue = false)]
-        public string Suffix { get; set; }
+        public string? Suffix { get; set; }
 
         /// <summary>
         /// Some text containing white spaces
@@ -62,14 +63,14 @@ namespace Org.OpenAPITools.Model
         <example>Some text</example>
         */
         [DataMember(Name = "text", EmitDefaultValue = false)]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// A date
         /// </summary>
         /// <value>A date</value>
         [DataMember(Name = "date", EmitDefaultValue = false)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

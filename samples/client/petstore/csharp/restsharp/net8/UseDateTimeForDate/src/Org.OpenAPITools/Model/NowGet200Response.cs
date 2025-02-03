@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="today">today.</param>
         /// <param name="now">now.</param>
-        public NowGet200Response(DateTime today = default(DateTime), DateTime now = default(DateTime))
+
+        public NowGet200Response(DateTime? today = default(DateTime), DateTime? now = default(DateTime))
         {
             this.Today = today;
             this.Now = now;
@@ -47,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "today", EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime Today { get; set; }
+        public DateTime? Today { get; set; }
 
         /// <summary>
         /// Gets or Sets Now
         /// </summary>
         [DataMember(Name = "now", EmitDefaultValue = false)]
-        public DateTime Now { get; set; }
+        public DateTime? Now { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

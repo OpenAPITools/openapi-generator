@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "ZeroBasedEnum", EmitDefaultValue = false)]
-        public ZeroBasedEnumEnum? ZeroBasedEnum
+        public ZeroBasedEnumEnum ZeroBasedEnum
         {
             get{ return _ZeroBasedEnum;}
             set
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
                 _flagZeroBasedEnum = true;
             }
         }
-        private ZeroBasedEnumEnum? _ZeroBasedEnum;
+        private ZeroBasedEnumEnum _ZeroBasedEnum;
         private bool _flagZeroBasedEnum;
 
         /// <summary>
@@ -81,7 +81,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default(ZeroBasedEnumEnum?))
+
+        public ZeroBasedEnumClass(ZeroBasedEnumEnum zeroBasedEnum = default(ZeroBasedEnumEnum?))
         {
             this._ZeroBasedEnum = zeroBasedEnum;
             if (this.ZeroBasedEnum != null)

@@ -36,7 +36,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
         /// <param name="varClass">varClass.</param>
-        public ClassModel(string varClass = default(string))
+
+        public ClassModel(string? varClass = default(string))
         {
             this.Class = varClass;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string Class { get; set; }
+        public string? Class { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

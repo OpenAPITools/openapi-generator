@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
         /// <param name="varSpecialModelName">varSpecialModelName.</param>
+
         public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
         {
             this.SpecialPropertyName = specialPropertyName;

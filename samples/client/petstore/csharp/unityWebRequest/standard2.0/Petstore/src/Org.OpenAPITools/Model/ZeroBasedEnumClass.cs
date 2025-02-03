@@ -54,12 +54,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
         [DataMember(Name = "ZeroBasedEnum", EmitDefaultValue = false)]
-        public ZeroBasedEnumEnum? ZeroBasedEnum { get; set; }
+        public ZeroBasedEnumEnum ZeroBasedEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default(ZeroBasedEnumEnum?))
+
+        public ZeroBasedEnumClass(ZeroBasedEnumEnum zeroBasedEnum = default(ZeroBasedEnumEnum?))
         {
             this.ZeroBasedEnum = zeroBasedEnum;
         }

@@ -38,7 +38,8 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="roleUuid">roleUuid.</param>
         /// <param name="role">role.</param>
-        public RolesReportsHash(Guid roleUuid = default(Guid), RolesReportsHashRole role = default(RolesReportsHashRole))
+
+        public RolesReportsHash(Guid? roleUuid = default(Guid), RolesReportsHashRole? role = default(RolesReportsHashRole))
         {
             this.RoleUuid = roleUuid;
             this.Role = role;
@@ -49,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RoleUuid
         /// </summary>
         [DataMember(Name = "role_uuid", EmitDefaultValue = false)]
-        public Guid RoleUuid { get; set; }
+        public Guid? RoleUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Role
         /// </summary>
         [DataMember(Name = "role", EmitDefaultValue = false)]
-        public RolesReportsHashRole Role { get; set; }
+        public RolesReportsHashRole? Role { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
