@@ -51,7 +51,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }
+        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }
         {{#isReadOnly}}
 
         /// <summary>
@@ -70,7 +70,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }
+        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }
 
 
         /// <summary>
@@ -88,7 +88,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}}
+        public {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}}
         {
             get{ return _{{name}};}
             set
@@ -97,7 +97,7 @@
                 _flag{{name}} = true;
             }
         }
-        private {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} _{{name}};
+        private {{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} _{{name}};
         private bool _flag{{name}};
 
         /// <summary>
@@ -138,7 +138,7 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{#vars}}
             {{^isInherited}}
@@ -232,7 +232,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{{dataType}}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        public {{{dataType}}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
         {{#isReadOnly}}
         /// <summary>

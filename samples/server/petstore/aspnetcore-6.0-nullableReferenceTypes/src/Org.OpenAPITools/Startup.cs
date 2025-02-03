@@ -84,7 +84,7 @@ namespace Org.OpenAPITools
                     c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "OpenAPI Petstore",
-                        Description = "OpenAPI Petstore (ASP.NET Core 8.0)",
+                        Description = "OpenAPI Petstore (ASP.NET Core 6.0)",
                         TermsOfService = new Uri("https://github.com/openapitools/openapi-generator"),
                         Contact = new OpenApiContact
                         {

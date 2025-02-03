@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="RolesReportsHashRole" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public RolesReportsHashRole(string? name = default(string))
+        public RolesReportsHashRole(string name = default(string))
         {
             this.Name = name;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

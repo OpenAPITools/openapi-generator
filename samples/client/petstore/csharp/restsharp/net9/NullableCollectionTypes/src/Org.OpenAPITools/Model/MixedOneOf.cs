@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedOneOf" /> class.
         /// </summary>
         /// <param name="content">content.</param>
-        public MixedOneOf(MixedOneOfContent? content = default(MixedOneOfContent))
+        public MixedOneOf(MixedOneOfContent content = default(MixedOneOfContent))
         {
             this.Content = content;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Content
         /// </summary>
         [DataMember(Name = "content", EmitDefaultValue = false)]
-        public MixedOneOfContent? Content { get; set; }
+        public MixedOneOfContent Content { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

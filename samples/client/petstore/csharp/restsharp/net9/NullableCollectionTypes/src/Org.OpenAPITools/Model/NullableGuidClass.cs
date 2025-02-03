@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NullableGuidClass" /> class.
         /// </summary>
         /// <param name="uuid">uuid.</param>
-        public NullableGuidClass(Guid? uuid = default(Guid?))
+        public NullableGuidClass(Guid?? uuid = default(Guid?))
         {
             this.Uuid = uuid;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         */
         [DataMember(Name = "uuid", EmitDefaultValue = true)]
-        public Guid? Uuid { get; set; }
+        public Guid?? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

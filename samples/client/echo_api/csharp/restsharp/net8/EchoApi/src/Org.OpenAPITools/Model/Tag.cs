@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public Tag(long? id = default(long), string? name = default(string))
+        public Tag(long id = default(long), string name = default(string))
         {
             this.Id = id;
             this.Name = name;
@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

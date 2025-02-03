@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="prop1">prop1.</param>
         /// <param name="prop2">prop2.</param>
-        public ActivityOutputElementRepresentation(string? prop1 = default(string), Object? prop2 = default(Object))
+        public ActivityOutputElementRepresentation(string prop1 = default(string), Object prop2 = default(Object))
         {
             this.Prop1 = prop1;
             this.Prop2 = prop2;
@@ -49,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop1
         /// </summary>
         [DataMember(Name = "prop1", EmitDefaultValue = false)]
-        public string? Prop1 { get; set; }
+        public string Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [DataMember(Name = "prop2", EmitDefaultValue = false)]
-        public Object? Prop2 { get; set; }
+        public Object Prop2 { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

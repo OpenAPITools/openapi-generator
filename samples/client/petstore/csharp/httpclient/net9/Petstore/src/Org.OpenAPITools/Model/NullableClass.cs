@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp.</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp.</param>
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
-        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateOnly? dateProp = default(DateOnly?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>))
+        public NullableClass(int?? integerProp = default(int?), decimal?? numberProp = default(decimal?), bool?? booleanProp = default(bool?), string? stringProp = default(string), DateOnly?? dateProp = default(DateOnly?), DateTime?? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>))
         {
             this.IntegerProp = integerProp;
             this.NumberProp = numberProp;
@@ -69,37 +69,37 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IntegerProp
         /// </summary>
         [DataMember(Name = "integer_prop", EmitDefaultValue = true)]
-        public int? IntegerProp { get; set; }
+        public int?? IntegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
         [DataMember(Name = "number_prop", EmitDefaultValue = true)]
-        public decimal? NumberProp { get; set; }
+        public decimal?? NumberProp { get; set; }
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
         [DataMember(Name = "boolean_prop", EmitDefaultValue = true)]
-        public bool? BooleanProp { get; set; }
+        public bool?? BooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
         [DataMember(Name = "string_prop", EmitDefaultValue = true)]
-        public string StringProp { get; set; }
+        public string? StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
-        public DateOnly? DateProp { get; set; }
+        public DateOnly?? DateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
         [DataMember(Name = "datetime_prop", EmitDefaultValue = true)]
-        public DateTime? DatetimeProp { get; set; }
+        public DateTime?? DatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp

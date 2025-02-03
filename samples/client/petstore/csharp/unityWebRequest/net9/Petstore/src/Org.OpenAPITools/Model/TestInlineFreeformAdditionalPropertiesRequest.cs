@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty.</param>
-        public TestInlineFreeformAdditionalPropertiesRequest(string? someProperty = default(string))
+        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
         {
             this.SomeProperty = someProperty;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SomeProperty
         /// </summary>
         [DataMember(Name = "someProperty", EmitDefaultValue = false)]
-        public string? SomeProperty { get; set; }
+        public string SomeProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

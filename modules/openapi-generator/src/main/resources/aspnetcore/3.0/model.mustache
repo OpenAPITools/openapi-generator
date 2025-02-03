@@ -79,7 +79,7 @@ namespace {{modelPackage}}
         public {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^isEnum}}
-        public {{{dataType}}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{^isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
+        public {{{dataType}}}{{#nullableReferenceTypes}}{{#nullableCollectionTypes}}{{#isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableCollectionTypes}}{{^isContainer}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{/isContainer}}{{/nullableReferenceTypes}} {{name}} { get; set; }{{#defaultValue}} = {{{.}}};{{/defaultValue}}
         {{/isEnum}}
         {{^-last}}
 

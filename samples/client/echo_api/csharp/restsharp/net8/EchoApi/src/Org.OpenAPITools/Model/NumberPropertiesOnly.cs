@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number">number.</param>
         /// <param name="varFloat">varFloat.</param>
         /// <param name="varDouble">varDouble.</param>
-        public NumberPropertiesOnly(decimal? number = default(decimal), float? varFloat = default(float), double? varDouble = default(double))
+        public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
         {
             this.Number = number;
             this.Float = varFloat;
@@ -49,19 +49,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", EmitDefaultValue = false)]
-        public decimal? Number { get; set; }
+        public decimal Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float? Float { get; set; }
+        public float Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double? Double { get; set; }
+        public double Double { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

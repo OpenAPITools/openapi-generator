@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">Query.</param>
         /// <param name="outcomes">outcomes.</param>
-        public Query(long? id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>))
+        public Query(long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>))
         {
             this.Id = id;
             this.Outcomes = outcomes;
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Query</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Outcomes

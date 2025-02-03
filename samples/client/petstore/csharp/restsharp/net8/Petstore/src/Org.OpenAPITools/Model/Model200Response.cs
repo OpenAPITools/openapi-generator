@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="varClass">varClass.</param>
-        public Model200Response(int? name = default(int), string? varClass = default(string))
+        public Model200Response(int name = default(int), string varClass = default(string))
         {
             this.Name = name;
             this.Class = varClass;
@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public int? Name { get; set; }
+        public int Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string? Class { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

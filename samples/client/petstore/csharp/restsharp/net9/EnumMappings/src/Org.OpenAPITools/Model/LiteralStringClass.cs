@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;).</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;).</param>
-        public LiteralStringClass(string? escapedLiteralString = @"C:\\Users\\username", string? unescapedLiteralString = @"C:\Users\username")
+        public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
         {
             // use default value if no "escapedLiteralString" provided
             this.EscapedLiteralString = escapedLiteralString ?? @"C:\\Users\\username";
@@ -50,13 +50,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [DataMember(Name = "escapedLiteralString", EmitDefaultValue = false)]
-        public string? EscapedLiteralString { get; set; }
+        public string EscapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [DataMember(Name = "unescapedLiteralString", EmitDefaultValue = false)]
-        public string? UnescapedLiteralString { get; set; }
+        public string UnescapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
