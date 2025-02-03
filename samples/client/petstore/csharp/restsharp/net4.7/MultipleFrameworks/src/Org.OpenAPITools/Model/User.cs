@@ -43,7 +43,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password.</param>
         /// <param name="phone">phone.</param>
         /// <param name="userStatus">User Status.</param>
-
         public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int))
         {
             this.Id = id;

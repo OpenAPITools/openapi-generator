@@ -38,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="number">number.</param>
         /// <param name="varFloat">varFloat.</param>
         /// <param name="varDouble">varDouble.</param>
-
         public NumberPropertiesOnly(decimal? number = default(decimal), float? varFloat = default(float), double? varDouble = default(double))
         {
             this.Number = number;

@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id.</param>
         /// <param name="deprecatedRef">deprecatedRef.</param>
         /// <param name="bars">bars.</param>
-
         public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
         {
             this.Uuid = uuid;

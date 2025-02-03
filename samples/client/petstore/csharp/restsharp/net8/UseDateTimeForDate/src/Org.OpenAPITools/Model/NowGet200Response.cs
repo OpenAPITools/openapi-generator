@@ -36,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="today">today.</param>
         /// <param name="now">now.</param>
-
         public NowGet200Response(DateTime? today = default(DateTime), DateTime? now = default(DateTime))
         {
             this.Today = today;

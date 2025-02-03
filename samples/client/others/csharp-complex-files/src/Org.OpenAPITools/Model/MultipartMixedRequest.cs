@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
         /// <param name="statusArray">statusArray.</param>
-
         public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), System.IO.Stream file = default(System.IO.Stream), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>))
         {
             this.Status = status;

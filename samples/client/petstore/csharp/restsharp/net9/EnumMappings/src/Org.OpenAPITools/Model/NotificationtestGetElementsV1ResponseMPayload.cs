@@ -45,7 +45,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="pkiNotificationtestID">pkiNotificationtestID (required).</param>
         /// <param name="aObjVariableobject">aObjVariableobject (required).</param>
-
         public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID = default(int), List<Dictionary<string, Object>> aObjVariableobject = default(List<Dictionary<string, Object>>))
         {
             this.PkiNotificationtestID = pkiNotificationtestID;

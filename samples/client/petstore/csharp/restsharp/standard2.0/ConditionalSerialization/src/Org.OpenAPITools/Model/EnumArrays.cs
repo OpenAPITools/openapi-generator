@@ -101,7 +101,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-
         public EnumArrays(JustSymbolEnum justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
         {
             this._JustSymbol = justSymbol;

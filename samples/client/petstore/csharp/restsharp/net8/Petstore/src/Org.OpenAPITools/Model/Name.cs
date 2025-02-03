@@ -42,7 +42,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varName">varName (required).</param>
         /// <param name="property">property.</param>
-
         public Name(int varName = default(int), string? property = default(string))
         {
             this.VarName = varName;

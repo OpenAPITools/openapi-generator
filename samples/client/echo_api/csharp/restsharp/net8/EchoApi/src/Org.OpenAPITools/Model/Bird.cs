@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="size">size.</param>
         /// <param name="color">color.</param>
-
         public Bird(string? size = default(string), string? color = default(string))
         {
             this.Size = size;

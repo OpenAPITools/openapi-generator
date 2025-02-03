@@ -38,7 +38,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="underscoreType">underscoreType.</param>
         /// <param name="type">type.</param>
         /// <param name="typeWithUnderscore">typeWithUnderscore.</param>
-
         public PropertyNameMapping(string? httpDebugOperation = default(string), string? underscoreType = default(string), string? type = default(string), string? typeWithUnderscore = default(string))
         {
             this.HttpDebugOperation = httpDebugOperation;

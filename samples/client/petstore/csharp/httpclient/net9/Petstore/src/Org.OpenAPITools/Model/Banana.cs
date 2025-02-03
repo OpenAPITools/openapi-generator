@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
         /// <param name="lengthCm">lengthCm.</param>
-
         public Banana(decimal? lengthCm = default(decimal))
         {
             this.LengthCm = lengthCm;

@@ -44,7 +44,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3.</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
-
         public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
         {
             this.MapProperty = mapProperty;

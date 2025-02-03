@@ -35,7 +35,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-
         public Tag(long? id = default(long), string? name = default(string))
         {
             this.Id = id;

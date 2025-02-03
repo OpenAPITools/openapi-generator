@@ -42,7 +42,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required).</param>
         /// <param name="sweet">sweet.</param>
-
         public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
         {
             this.LengthCm = lengthCm;

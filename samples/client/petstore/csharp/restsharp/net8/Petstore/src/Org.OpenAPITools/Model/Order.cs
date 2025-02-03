@@ -74,7 +74,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-
         public Order(long? id = default(long), long? petId = default(long), int? quantity = default(int), DateTime? shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool? complete = false)
         {
             this.Id = id;

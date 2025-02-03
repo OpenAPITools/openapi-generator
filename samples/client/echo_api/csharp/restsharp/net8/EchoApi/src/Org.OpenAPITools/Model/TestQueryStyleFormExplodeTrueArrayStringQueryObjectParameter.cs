@@ -36,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter" /> class.
         /// </summary>
         /// <param name="values">values.</param>
-
         public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<string> values = default(List<string>))
         {
             this.Values = values;

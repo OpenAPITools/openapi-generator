@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-
         public DateOnlyClass(DateTime dateOnlyProperty = default(DateTime))
         {
             this.DateOnlyProperty = dateOnlyProperty;

@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NullableGuidClass" /> class.
         /// </summary>
         /// <param name="uuid">uuid.</param>
-
         public NullableGuidClass(Guid? uuid = default(Guid?))
         {
             this.Uuid = uuid;

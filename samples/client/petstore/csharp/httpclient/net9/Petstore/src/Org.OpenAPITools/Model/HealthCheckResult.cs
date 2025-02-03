@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
         /// <param name="nullableMessage">nullableMessage.</param>
-
         public HealthCheckResult(string nullableMessage = default(string))
         {
             this.NullableMessage = nullableMessage;

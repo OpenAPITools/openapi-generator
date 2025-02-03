@@ -50,7 +50,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-
         public Animal(string className = default(string), string? color = @"red")
         {
             // to ensure "className" is required (not null)

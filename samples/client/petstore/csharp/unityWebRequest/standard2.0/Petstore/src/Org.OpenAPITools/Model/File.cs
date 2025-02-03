@@ -34,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization.</param>
-
         public File(string sourceURI = default(string))
         {
             this.SourceURI = sourceURI;

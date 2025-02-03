@@ -40,7 +40,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar (required).</param>
         /// <param name="mealy">mealy.</param>
-
         public AppleReq(string cultivar = default(string), bool? mealy = default(bool))
         {
             // to ensure "cultivar" is required (not null)

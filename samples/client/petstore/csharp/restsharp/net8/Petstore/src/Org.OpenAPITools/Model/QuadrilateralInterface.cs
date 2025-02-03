@@ -41,7 +41,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class.
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType (required).</param>
-
         public QuadrilateralInterface(string quadrilateralType = default(string))
         {
             // to ensure "quadrilateralType" is required (not null)

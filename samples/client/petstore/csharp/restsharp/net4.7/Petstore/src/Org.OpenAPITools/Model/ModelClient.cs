@@ -36,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient.</param>
-
         public ModelClient(string varClient = default(string))
         {
             this.VarClient = varClient;

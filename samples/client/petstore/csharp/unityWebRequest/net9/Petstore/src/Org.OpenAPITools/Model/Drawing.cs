@@ -37,7 +37,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-
         public Drawing(Shape? mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
         {
             this.MainShape = mainShape;

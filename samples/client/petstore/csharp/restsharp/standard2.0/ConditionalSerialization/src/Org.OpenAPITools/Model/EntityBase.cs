@@ -47,7 +47,6 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EntityBase" /> class.
         /// </summary>
         /// <param name="schema">schema (required).</param>
-
         public EntityBase(string schema = default(string))
         {
             // to ensure "schema" is required (not null)
