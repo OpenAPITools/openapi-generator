@@ -273,7 +273,7 @@ class MapTest implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @param array $data Associated array of property values initializing the model
      */
-    public function __construct(?array $data = null)
+    public function __construct(?array|null $data = null)
     {
         $this->setIfExists('map_map_of_string', $data ?? [], null);
         $this->setIfExists('map_of_enum_string', $data ?? [], null);
