@@ -20,7 +20,7 @@ Method | HTTP request | Description
 > models::FooPet add_pet(foo_pet)
 Add a new pet to the store
 
-
+This is the description for the addPet operation
 
 ### Parameters
 
@@ -81,7 +81,7 @@ Name | Type | Description  | Required | Notes
 > Vec<models::FooPet> find_pets_by_status(status, r#type)
 Finds Pets by status
 
-Multiple status values can be provided with comma separated strings
+Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 
 ### Parameters
 

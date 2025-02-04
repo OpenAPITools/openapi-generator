@@ -21,9 +21,23 @@ use super::{Error, configuration};
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait StoreApi: Send + Sync {
+
+    /// DELETE /store/order/{orderId}
+    ///
+    /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     async fn delete_order<'order_id>(&self, order_id: &'order_id str) -> Result<(), Error<DeleteOrderError>>;
+
+    /// GET /store/inventory
+    ///
+    /// Returns a map of status codes to quantities
     async fn get_inventory<>(&self, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>>;
+
+    /// GET /store/order/{orderId}
+    ///
+    /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
     async fn get_order_by_id<'order_id>(&self, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>>;
+
+    /// POST /store/order
     async fn place_order<'order>(&self, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>>;
 }
 

@@ -21,7 +21,15 @@ use super::{Error, configuration};
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait TestingApi: Send + Sync {
+
+    /// GET /tests/fileResponse
+    ///
+    /// 
     async fn tests_file_response_get<>(&self, ) -> Result<std::path::PathBuf, Error<TestsFileResponseGetError>>;
+
+    /// GET /tests/typeTesting
+    ///
+    /// 
     async fn tests_type_testing_get<>(&self, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>>;
 }
 

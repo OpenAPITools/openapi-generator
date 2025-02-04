@@ -21,13 +21,35 @@ use super::{Error, configuration};
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait UserApi: Send + Sync {
+
+    /// POST /user
+    ///
+    /// This can only be done by the logged in user.
     async fn create_user<'user>(&self, user: models::User) -> Result<(), Error<CreateUserError>>;
+
+    /// POST /user/createWithArray
     async fn create_users_with_array_input<'user>(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>>;
+
+    /// POST /user/createWithList
     async fn create_users_with_list_input<'user>(&self, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>>;
+
+    /// DELETE /user/{username}
+    ///
+    /// This can only be done by the logged in user.
     async fn delete_user<'username>(&self, username: &'username str) -> Result<(), Error<DeleteUserError>>;
+
+    /// GET /user/{username}
     async fn get_user_by_name<'username>(&self, username: &'username str) -> Result<models::User, Error<GetUserByNameError>>;
+
+    /// GET /user/login
     async fn login_user<'username, 'password>(&self, username: &'username str, password: &'password str) -> Result<String, Error<LoginUserError>>;
+
+    /// GET /user/logout
     async fn logout_user<>(&self, ) -> Result<(), Error<LogoutUserError>>;
+
+    /// PUT /user/{username}
+    ///
+    /// This can only be done by the logged in user.
     async fn update_user<'username, 'user>(&self, username: &'username str, user: models::User) -> Result<(), Error<UpdateUserError>>;
 }
 
