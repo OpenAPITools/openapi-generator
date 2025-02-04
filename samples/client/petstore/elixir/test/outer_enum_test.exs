@@ -7,7 +7,9 @@ defmodule OuterEnumTest do
   @valid_json """
   {
     "enum_string": "UPPER",
-    "outerEnum": "placed"
+    "enum_number": 1.1,
+    "outerEnum": "placed",
+    "outerEnumInteger": 1
   }
   """
 
@@ -17,7 +19,9 @@ defmodule OuterEnumTest do
              {:ok,
               %EnumTest{
                 enum_string: "UPPER",
-                outerEnum: "placed"
+                enum_number: 1.1,
+                outerEnum: "placed",
+                outerEnumInteger: 1
               }}
   end
 end
