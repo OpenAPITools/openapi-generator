@@ -144,7 +144,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
-    @Setter(AccessLevel.PRIVATE) protected boolean useSingleRequestParameter = false;
+    @Setter(AccessLevel.PRIVATE) protected String useSingleRequestParameter = "false";
     protected boolean webclientBlockingOperations = false;
     @Setter protected boolean generateClientAsBean = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
@@ -237,7 +237,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option."));
+        cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option."));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
@@ -334,7 +334,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA3, this::setUseRxJava3);
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA2, this::setUseRxJava2);
         }
-        convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
+        convertPropertyToStringAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
+        writePropertyBack("singleRequestParameter", getSingleRequestParameter());
+        writePropertyBack("staticRequest", getStaticRequest());
 
         if (!useRxJava && !useRxJava2 && !useRxJava3) {
             additionalProperties.put(DO_NOT_USE_RX, true);
@@ -757,7 +759,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
-        if (useSingleRequestParameter && (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary()))) {
+        if (this.getSingleRequestParameter() && (JERSEY2.equals(getLibrary()) || JERSEY3.equals(getLibrary()) || OKHTTP_GSON.equals(getLibrary()))) {
             // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -1123,7 +1125,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return this.useOneOfDiscriminatorLookup;
     }
 
-    private boolean getUseSingleRequestParameter() {
+    public boolean getSingleRequestParameter() {
+        return "true".equals(getUseSingleRequestParameter()) || "static".equals(getUseSingleRequestParameter());
+    }
+
+    public boolean getStaticRequest() {
+        return "static".equals(this.getUseSingleRequestParameter());
+    }
+
+    private String getUseSingleRequestParameter() {
         return useSingleRequestParameter;
     }
 

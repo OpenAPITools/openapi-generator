@@ -415,7 +415,7 @@ public class UserApi {
         return getUserByNameRequestCreation(username);
     }
 
-    public class LoginUserRequest {
+        public class LoginUserRequest {
         private final String username;
         private final String password;
 
@@ -620,7 +620,7 @@ public class UserApi {
         return logoutUserRequestCreation();
     }
 
-    public class UpdateUserRequest {
+        public class UpdateUserRequest {
         private final String username;
         private final User user;
 
