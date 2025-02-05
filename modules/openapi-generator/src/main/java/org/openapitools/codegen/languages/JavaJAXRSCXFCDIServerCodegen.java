@@ -58,6 +58,8 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         // Updated template directory
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
+
+        removeOption(JavaJAXRSSpecServerCodegen.GENERATE_JSON_CREATOR);
     }
 
     @Override
