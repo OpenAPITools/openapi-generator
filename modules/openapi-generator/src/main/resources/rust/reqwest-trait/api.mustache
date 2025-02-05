@@ -18,6 +18,12 @@ use super::{Error, configuration};
 pub trait {{{classname}}}: Send + Sync {
 {{#operations}}
 {{#operation}}
+
+    /// {{{httpMethod}}} {{{path}}}
+    {{^notes.empty}}
+    ///
+    /// {{{notes}}}
+    {{/notes.empty}}
 {{#vendorExtensions.x-group-parameters}}
     async fn {{{operationId}}}(&self, {{#allParams}}{{#-first}} params: {{{operationIdCamelCase}}}Params {{/-first}}{{/allParams}}) -> Result<{{#supportMultipleResponses}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleResponses}}{{^supportMultipleResponses}}{{^returnType}}(){{/returnType}}{{{returnType}}}{{/supportMultipleResponses}}, Error<{{{operationIdCamelCase}}}Error>>;
 {{/vendorExtensions.x-group-parameters}}
