@@ -54,6 +54,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public boolean isOptional;
     public boolean isFile;
     public boolean isEnum;
+    public boolean isAllowReserved;
     public boolean isEnumRef; // true if the enum is a ref (model) but not defined inline
     public List<String> _enum;
     public Map<String, Object> allowableValues;
@@ -184,6 +185,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.example = this.example;
         output.examples = this.examples;
         output.isEnum = this.isEnum;
+        output.isAllowReserved = this.isAllowReserved;
         output.isEnumRef = this.isEnumRef;
         output.maxProperties = this.maxProperties;
         output.minProperties = this.minProperties;
@@ -287,7 +289,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
-                isFreeFormObject, isAnyType, isArray, isMap, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
+                isFreeFormObject, isAnyType, isArray, isMap, isOptional, isFile, isEnum, isAllowReserved, isEnumRef, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
                 getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
                 getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
@@ -340,6 +342,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isOptional == that.isOptional &&
                 isFile == that.isFile &&
                 isEnum == that.isEnum &&
+                isAllowReserved == that.isAllowReserved &&
                 isEnumRef == that.isEnumRef &&
                 hasValidation == that.hasValidation &&
                 isNullable == that.isNullable &&
@@ -474,6 +477,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isOptional=").append(isOptional);
         sb.append(", isFile=").append(isFile);
         sb.append(", isEnum=").append(isEnum);
+        sb.append(", isAllowReserved=").append(isAllowReserved);
         sb.append(", isEnumRef=").append(isEnumRef);
         sb.append(", _enum=").append(_enum);
         sb.append(", allowableValues=").append(allowableValues);
