@@ -36,7 +36,7 @@ case class Project(
 
 val projects = Map(
   "mattermost" -> Project(
-    project = "mm-sttp4",
+    project = "mattermost-scala",
     projectName = "mattermost-scala",
     projectGroupId = "ma.chinespirit",
     projectArtifactId = "mattermost-scala",
@@ -46,7 +46,7 @@ val projects = Map(
     skipValidate = false
   ),
   "kubernetes" -> Project(
-    project = "kube-sttp4",
+    project = "kubeapi-scala",
     projectName = "kubeapi-scala",
     projectGroupId = "ma.chinespirit",
     projectArtifactId = "kubeapi-scala",
@@ -59,7 +59,7 @@ val projects = Map(
     importMappings = "IntOrString=ma.chinespirit.kube.ext.IntOrString"
   ),
   "stripe" -> Project(
-    project = "stripe-sttp4",
+    project = "stripe-scala",
     projectName = "stripe-scala",
     projectGroupId = "ma.chinespirit",
     projectArtifactId = "stripe-scala",
@@ -69,7 +69,7 @@ val projects = Map(
     skipValidate = false
   ),
   "github" -> Project(
-    project = "github-sttp4",
+    project = "github-scala",
     projectName = "github-scala",
     projectGroupId = "ma.chinespirit",
     projectArtifactId = "github-scala",
@@ -79,7 +79,7 @@ val projects = Map(
     skipValidate = false
   ),
   "spotify" -> Project(
-    project = "spotify-sttp4",
+    project = "spotify-scala",
     projectName = "spotify-scala",
     projectGroupId = "ma.chinespirit",
     projectArtifactId = "spotify-scala",
