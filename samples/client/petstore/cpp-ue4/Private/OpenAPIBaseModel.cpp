@@ -17,7 +17,9 @@ namespace OpenAPI
 
 bool HttpRetryManager::Tick(float DeltaTime)
 {
+#if ENGINE_MAJOR_VERSION <= 5 && ENGINE_MINOR_VERSION < 3
 	FManager::Update();
+#endif
 	return true;
 }
 
