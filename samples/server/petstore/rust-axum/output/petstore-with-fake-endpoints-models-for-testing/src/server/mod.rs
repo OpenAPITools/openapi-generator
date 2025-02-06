@@ -54,8 +54,11 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+>>>>>>> 36bb429d2a4 (Fix capture group syntax)
             "/v2/fake/hyphenParam/{hyphen_param}",
 =======
             "/v2/fake/hyphenParam/:hyphen_param",
@@ -66,6 +69,9 @@ where
             get(hyphen_param::<I, A, E>),
 =======
             "/v2/fake/hyphenParam/:hyphen_param",
+=======
+            "/v2/fake/hyphenParam/{hyphen_param}",
+>>>>>>> 51f6e61839d (Fix capture group syntax)
             get(hyphen_param::<I, A, E, C>),
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
         )
