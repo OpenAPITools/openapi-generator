@@ -253,7 +253,7 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
      *
      * @param array $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->setIfExists('number', $data ?? [], null);
         $this->setIfExists('float', $data ?? [], null);

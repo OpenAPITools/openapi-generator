@@ -21,6 +21,8 @@ use super::{Error, configuration};
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait FakeApi: Send + Sync {
+
+    /// GET /fake/user/{user_name}
     async fn test_nullable_required_param<'user_name, 'dummy_required_nullable_param, 'uppercase, 'content>(&self, user_name: &'user_name str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, uppercase: Option<&'uppercase str>, content: Option<&'content str>) -> Result<(), Error<TestNullableRequiredParamError>>;
 }
 

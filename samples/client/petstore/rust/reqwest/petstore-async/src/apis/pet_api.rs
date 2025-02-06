@@ -211,7 +211,7 @@ pub enum UploadFileError {
 }
 
 
-/// 
+/// This is the description for the addPet operation
 pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
 
     let uri_str = format!("{}/pet", configuration.base_path);
@@ -273,7 +273,7 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
     }
 }
 
-/// Multiple status values can be provided with comma separated strings
+/// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
 
     let uri_str = format!("{}/pet/findByStatus", configuration.base_path);

@@ -21,13 +21,37 @@ use super::{Error, configuration};
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait PetApi: Send + Sync {
+
+    /// POST /pet
+    ///
+    /// This is the description for the addPet operation
     async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>>;
+
+    /// DELETE /pet/{petId}
     async fn delete_pet<'pet_id, 'api_key>(&self, pet_id: i64, api_key: Option<&'api_key str>) -> Result<(), Error<DeletePetError>>;
+
+    /// GET /pet/findByStatus
+    ///
+    /// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
     async fn find_pets_by_status<'status, 'r_type>(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>>;
+
+    /// GET /pet/findByTags
+    ///
+    /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     async fn find_pets_by_tags<'tags>(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>>;
+
+    /// GET /pet/{petId}
+    ///
+    /// Returns a single pet
     async fn get_pet_by_id<'pet_id>(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>>;
+
+    /// PUT /pet
     async fn update_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>>;
+
+    /// POST /pet/{petId}
     async fn update_pet_with_form<'pet_id, 'name, 'status>(&self, pet_id: i64, name: Option<&'name str>, status: Option<&'status str>) -> Result<(), Error<UpdatePetWithFormError>>;
+
+    /// POST /pet/{petId}/uploadImage
     async fn upload_file<'pet_id, 'additional_metadata, 'file>(&self, pet_id: i64, additional_metadata: Option<&'additional_metadata str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>>;
 }
 
@@ -45,7 +69,7 @@ impl PetApiClient {
 
 #[async_trait]
 impl PetApi for PetApiClient {
-    /// 
+    /// This is the description for the addPet operation
     async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
         let local_var_configuration = &self.configuration;
 
@@ -111,7 +135,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    /// Multiple status values can be provided with comma separated strings
+    /// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
     async fn find_pets_by_status<'status, 'r_type>(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
         let local_var_configuration = &self.configuration;
 

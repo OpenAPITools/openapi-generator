@@ -62,11 +62,13 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ChildCatJsonConverter());
             _jsonOptions.Converters.Add(new ClassModelJsonConverter());
             _jsonOptions.Converters.Add(new ComplexQuadrilateralJsonConverter());
+            _jsonOptions.Converters.Add(new CopyActivityJsonConverter());
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
             _jsonOptions.Converters.Add(new DogJsonConverter());
             _jsonOptions.Converters.Add(new DrawingJsonConverter());
+            _jsonOptions.Converters.Add(new EntityBaseJsonConverter());
             _jsonOptions.Converters.Add(new EnumArraysJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassJsonConverter());
             _jsonOptions.Converters.Add(new EnumClassNullableJsonConverter());
@@ -88,7 +90,6 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new LiteralStringClassJsonConverter());
             _jsonOptions.Converters.Add(new MammalJsonConverter());
             _jsonOptions.Converters.Add(new MapTestJsonConverter());
-            _jsonOptions.Converters.Add(new MixLogJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfJsonConverter());
             _jsonOptions.Converters.Add(new MixedAnyOfContentJsonConverter());
             _jsonOptions.Converters.Add(new MixedOneOfJsonConverter());
@@ -169,11 +170,13 @@ namespace Org.OpenAPITools.Client
                 new ChildCatSerializationContext(),
                 new ClassModelSerializationContext(),
                 new ComplexQuadrilateralSerializationContext(),
+                new CopyActivitySerializationContext(),
                 new DanishPigSerializationContext(),
                 new DateOnlyClassSerializationContext(),
                 new DeprecatedObjectSerializationContext(),
                 new DogSerializationContext(),
                 new DrawingSerializationContext(),
+                new EntityBaseSerializationContext(),
                 new EnumArraysSerializationContext(),
                 new EnumClassSerializationContext(),
                 new EnumTestSerializationContext(),
@@ -194,7 +197,6 @@ namespace Org.OpenAPITools.Client
                 new LiteralStringClassSerializationContext(),
                 new MammalSerializationContext(),
                 new MapTestSerializationContext(),
-                new MixLogSerializationContext(),
                 new MixedAnyOfSerializationContext(),
                 new MixedAnyOfContentSerializationContext(),
                 new MixedOneOfSerializationContext(),

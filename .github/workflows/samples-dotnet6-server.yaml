@@ -25,7 +25,7 @@ jobs:
           - samples/server/petstore/aspnetcore-6.0-useSwashBuckle
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4.2.0
+      - uses: actions/setup-dotnet@v4.3.0
         with:
           dotnet-version: '6.0.x'
       - name: Build

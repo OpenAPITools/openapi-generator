@@ -93,9 +93,9 @@ defmodule OpenapiPetstore.Deserializer do
     end
   end
 
-  defp to_struct(map_or_list, module)
+  defp to_struct(value, module)
   defp to_struct(nil, _), do: nil
-
+  
   defp to_struct(list, module) when is_list(list) and is_atom(module) do
     Enum.map(list, &to_struct(&1, module))
   end
@@ -110,5 +110,9 @@ defmodule OpenapiPetstore.Deserializer do
       Map.replace(acc, field, Map.get(map, Atom.to_string(field)))
     end)
     |> module.decode()
+  end
+
+  defp to_struct(value, module) when is_atom(module) do
+    module.decode(value)
   end
 end

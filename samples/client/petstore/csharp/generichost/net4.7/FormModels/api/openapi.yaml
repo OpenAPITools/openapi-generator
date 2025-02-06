@@ -2597,108 +2597,31 @@ components:
       properties:
         id:
           type: string
-    MixLog:
+    CopyActivity:
+      allOf:
+      - $ref: '#/components/schemas/EntityBase'
       properties:
-        id:
-          format: uuid
+        $schema:
+          enum:
+          - ScopeActivity
           type: string
-        description:
+        copyActivitytt:
           type: string
-        mixDate:
-          format: date-time
-          type: string
-        shopId:
-          format: uuid
-          type: string
-        totalPrice:
-          format: float
-          nullable: true
-          type: number
-        totalRecalculations:
-          format: int32
-          type: integer
-        totalOverPoors:
-          format: int32
-          type: integer
-        totalSkips:
-          format: int32
-          type: integer
-        totalUnderPours:
-          format: int32
-          type: integer
-        formulaVersionDate:
-          format: date-time
-          type: string
-        someCode:
-          description: SomeCode is only required for color mixes
-          nullable: true
-          type: string
-        batchNumber:
-          type: string
-        brandCode:
-          description: BrandCode is only required for non-color mixes
-          type: string
-        brandId:
-          description: BrandId is only required for color mixes
-          type: string
-        brandName:
-          description: BrandName is only required for color mixes
-          type: string
-        categoryCode:
-          description: CategoryCode is not used anymore
-          type: string
-        color:
-          description: Color is only required for color mixes
-          type: string
-        colorDescription:
-          type: string
-        comment:
-          type: string
-        commercialProductCode:
-          type: string
-        productLineCode:
-          description: ProductLineCode is only required for color mixes
-          type: string
-        country:
-          type: string
-        createdBy:
-          type: string
-        createdByFirstName:
-          type: string
-        createdByLastName:
-          type: string
-        deltaECalculationRepaired:
-          type: string
-        deltaECalculationSprayout:
-          type: string
-        ownColorVariantNumber:
-          format: int32
-          nullable: true
-          type: integer
-        primerProductId:
-          type: string
-        productId:
-          description: ProductId is only required for color mixes
-          type: string
-        productName:
-          description: ProductName is only required for color mixes
-          type: string
-        selectedVersionIndex:
-          format: int32
-          type: integer
       required:
-      - description
-      - formulaVersionDate
-      - id
-      - mixDate
-      - totalOverPoors
-      - totalRecalculations
-      - totalSkips
-      - totalUnderPours
+      - $schema
+      - copyActivitytt
       type: object
-    uuid:
-      format: uuid
-      type: string
+    EntityBase:
+      discriminator:
+        mapping:
+          ScopeActivity: '#/components/schemas/CopyActivity'
+        propertyName: $schema
+      properties:
+        $schema:
+          type: string
+      required:
+      - $schema
+      type: object
     _foo_get_default_response:
       example:
         string:
