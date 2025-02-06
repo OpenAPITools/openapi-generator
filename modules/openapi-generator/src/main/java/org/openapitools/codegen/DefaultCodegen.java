@@ -3190,14 +3190,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
-        Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
-            @Override
-            public int compare(CodegenProperty one, CodegenProperty another) {
-                if (one.required == another.required) return 0;
-                else if (one.required) return -1;
-                else return 1;
-            }
-        };
+        Comparator<CodegenProperty> comparator = Comparator.comparing(prop -> !prop.required);
         Collections.sort(model.vars, comparator);
         Collections.sort(model.allVars, comparator);
     }
