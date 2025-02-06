@@ -8,7 +8,7 @@ object Debug:
   var enabled = false
 
 enum Command:
-  case Clean, Generate, GenerateStrict, Upstream, Strict, Exit
+  case Clean, Generate, GenerateStrict, GenerateOldGen, Strict, Exit
 
 enum Target:
   case Specific(name: String)
@@ -137,7 +137,7 @@ def runGeneratorJsoniter(project: Project, projectRootPath: Path, strict: Boolea
   if Debug.enabled then println(s"Running command: ${command.mkString(" ")}")
   os.proc(command).call(stdout = os.Inherit, stderr = os.Inherit)
 
-def runGeneratorUpstream(project: Project, projectRootPath: Path)(using pwd: Path) =
+def runGeneratorOld(project: Project, projectRootPath: Path)(using pwd: Path) =
   val additionalProps = {
     val base = s"mainPackage=${project.projectMainPackage},groupId=${project.projectGroupId},artifactId=${project.projectArtifactId},artifactVersion=${project.projectVersion},jsonLibrary=circe"
     val extended = if project.additionalProps.nonEmpty then s"$base,${project.additionalProps}" else base
@@ -170,15 +170,13 @@ def processProject(project: Project, cmd: Command)(using pwd: Path) =
     case Command.Clean =>
       cleanMaven
       cleanupGeneratedFiles(project, projectRootPath)
-      installMaven
-      runGeneratorJsoniter(project, projectRootPath)
     case Command.Generate =>
       runGeneratorJsoniter(project, projectRootPath)
     case Command.GenerateStrict =>
       runGeneratorJsoniter(project, projectRootPath, strict = true)
-    case Command.Upstream =>
+    case Command.GenerateOldGen =>
       cleanupGeneratedFiles(project, projectRootPath)
-      runGeneratorUpstream(project, projectRootPath)
+      runGeneratorOld(project, projectRootPath)
     case Command.Strict =>
       cleanMaven
       cleanupGeneratedFiles(project, projectRootPath)
@@ -211,7 +209,7 @@ def main(): Unit =
       case "clean" => Command.Clean
       case "generate" => Command.Generate
       case "generate-strict" => Command.GenerateStrict
-      case "upstream" => Command.Upstream
+      case "generate-old-gen" => Command.GenerateOldGen
       case "strict" => Command.Strict
       case "exit" => Command.Exit
       case _ => Command.Exit
@@ -222,18 +220,18 @@ def main(): Unit =
         println("Available commands: clean, generate, generate-strict, upstream, strict")
       case (Target.All, _) =>
         projects.values.foreach(project => processProject(project, cmd))
-        say("All done, mortal")
+        say("It is done")
       case (Target.Specific(projectName), _) =>
         projects.get(projectName) match
           case Some(project) => 
             processProject(project, cmd)
-            say("All done, mortal")
+            say("It is done")
           case None => 
             System.err.println(s"Project '$projectName' not found. Available projects: ${projects.keys.mkString(", ")}")
             sys.exit(1)        
   catch
     case e: Exception =>
-      say("You dun goofed, Mortal")
+      say("You dun goofed")
       throw e
 
 main()
