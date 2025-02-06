@@ -1,5 +1,5 @@
 import * as petstore from 'ts-petstore-client'
-import {Middleware, RequestContext, ResponseContext } from 'ts-petstore-client'
+import { Middleware, RequestContext, ResponseContext } from 'ts-petstore-client'
 
 import { expect } from "chai";
 import * as fs from 'fs';
@@ -12,6 +12,50 @@ tag.name = "tag1"
 tag.id = Math.floor(Math.random() * 100000)
 
 let pet: petstore.Pet;
+function overridePetIDMiddleware(id: number): Middleware {
+	return {
+		pre: (c: RequestContext) => {
+			return new Promise((resolve) => {
+				const segments = c.getUrl().split('/')
+				segments[segments.length - 1] = id.toString()
+				const newURL = segments.join('/')
+				c.setUrl(newURL)
+				resolve(c)
+			})
+		},
+		post: (c: ResponseContext) => {
+			return new Promise<ResponseContext>((resolve) => {
+				resolve(c)
+			})
+		},
+	}
+}
+
+function NoopMiddleware(onPre: () => void, onPost: () => void): Middleware {
+	return {
+		pre: (c: RequestContext) => {
+			return new Promise((resolve) => {
+				onPre()
+				resolve(c)
+			})
+		},
+		post: (c: ResponseContext) => {
+			return new Promise<ResponseContext>((resolve) => {
+				onPost()
+				resolve(c)
+			})
+		},
+	}
+}
+
+function MiddlewareCallTracker() {
+	let CallOrder = [] as string[]
+	return {
+		CallOrder,
+		BaseMiddleware: NoopMiddleware(() => CallOrder.push('base-pre'), () => CallOrder.push('base-post')),
+		CalltimeMiddleware: NoopMiddleware(() => CallOrder.push('call-pre'), () => CallOrder.push('call-post'))
+	}
+}
 
 describe("PetApi", () => {
 	beforeEach(async () => {
@@ -31,24 +75,70 @@ describe("PetApi", () => {
 	})
 
 	it("addPetViaMiddleware", async () => {
-		const IdOverrideMiddleware: Middleware = {
-			pre:  (c: RequestContext)=> {
-				return new Promise((resolve) => {
-					const segments = c.getUrl().split('/')
-					segments[segments.length - 1] = pet.id.toString()
-					const newURL = segments.join('/')
-					c.setUrl(newURL)
-					resolve(c)
-				})
-			},
-			post: (c: ResponseContext)=> {
-			return new Promise<ResponseContext>((resolve)=>{
-				resolve(c)
-			})},
-		}
 		const wrongId = pet.id + 1
-		const createdPet = await petApi.getPetById(wrongId,{middleware:[IdOverrideMiddleware]})
+		const createdPet = await petApi.getPetById(wrongId, { middleware: [overridePetIDMiddleware(pet.id)] })
 		expect(createdPet).to.deep.equal(pet);
+	})
+
+	it("appendMiddleware petid", async () => {
+		const wrongId = pet.id + 100
+		const configuration = petstore.createConfiguration({ promiseMiddleware: [overridePetIDMiddleware(wrongId)] })
+		const petApi = new petstore.PetApi(configuration)
+		let overridenWrongPet;
+		try {
+			overridenWrongPet = await petApi.getPetById(pet.id)
+		} catch (err) {
+			expect(err.code).to.equal(404);
+			expect(err.message).to.include("Pet not found");
+		}
+		const callTimeAppendedRightPet = await petApi.getPetById(wrongId, { middleware: [overridePetIDMiddleware(pet.id)], middlewareMergeStrategy: 'append' })
+		expect(callTimeAppendedRightPet).to.deep.equal(pet);
+	})
+
+	it("appendMiddleware call order", async () => {
+		let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+		const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] })
+		const petApi = new petstore.PetApi(configuration)
+		const callTimeAppendedRightPet = await petApi.getPetById(pet.id, { middleware: [CalltimeMiddleware], middlewareMergeStrategy: 'append' })
+		expect(callTimeAppendedRightPet).to.deep.equal(pet);
+		expect(CallOrder).deep.eq([ 'base-pre','call-pre', 'call-post', 'base-post'])
+	})
+
+	it("replace Middleware call order", async () => {
+		let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+		const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] })
+		const petApi = new petstore.PetApi(configuration)
+		const callTimeAppendedRightPet = await petApi.getPetById(pet.id, { middleware: [CalltimeMiddleware] })
+		expect(callTimeAppendedRightPet).to.deep.equal(pet);
+		expect(CallOrder).deep.equal(['call-pre', 'call-post'])
+	})
+
+	it("prepend Middleware call order", async () => {
+		let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+		const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] })
+		const petApi = new petstore.PetApi(configuration)
+		const callTimeAppendedRightPet = await petApi.getPetById(pet.id, { middleware: [CalltimeMiddleware], middlewareMergeStrategy: 'prepend' })
+		expect(callTimeAppendedRightPet).to.deep.equal(pet);
+		expect(CallOrder).deep.equal(['call-pre', 'base-pre', 'base-post','call-post'])
+	})
+
+
+	it("append Middleware call order", async () => {
+		let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+		const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] })
+		const petApi = new petstore.PetApi(configuration)
+		const callTimeAppendedRightPet = await petApi.getPetById(pet.id, { middleware: [CalltimeMiddleware],middlewareMergeStrategy: 'append' })
+		expect(callTimeAppendedRightPet).to.deep.equal(pet);
+		expect(CallOrder).deep.equal(['base-pre','call-pre','call-post','base-post'])
+	})
+
+
+	it("prependMiddleware pet id", async () => {
+		const wrongId = pet.id + 100
+		const configuration = petstore.createConfiguration({ promiseMiddleware: [overridePetIDMiddleware(pet.id)] })
+		const petApi = new petstore.PetApi(configuration)
+		const callTimeAppendedRightPet = await petApi.getPetById(wrongId, { middleware: [overridePetIDMiddleware(wrongId)], middlewareMergeStrategy: 'prepend' })
+		expect(callTimeAppendedRightPet).to.deep.equal(pet);
 	})
 
 	it("deletePet", async () => {

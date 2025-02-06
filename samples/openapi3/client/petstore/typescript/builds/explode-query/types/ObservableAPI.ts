@@ -109,7 +109,7 @@ export class ObservableAnotherFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor._123testSpecialTagsWithHttpInfo(rsp)));
@@ -182,7 +182,7 @@ export class ObservableDefaultApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fooGetWithHttpInfo(rsp)));
@@ -253,7 +253,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeBigDecimalMapWithHttpInfo(rsp)));
@@ -307,7 +307,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeHealthGetWithHttpInfo(rsp)));
@@ -364,7 +364,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeHttpSignatureTestWithHttpInfo(rsp)));
@@ -422,7 +422,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeOuterBooleanSerializeWithHttpInfo(rsp)));
@@ -478,7 +478,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeOuterCompositeSerializeWithHttpInfo(rsp)));
@@ -534,7 +534,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeOuterNumberSerializeWithHttpInfo(rsp)));
@@ -590,7 +590,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakeOuterStringSerializeWithHttpInfo(rsp)));
@@ -646,7 +646,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.fakePropertyEnumIntegerSerializeWithHttpInfo(rsp)));
@@ -702,7 +702,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testBodyWithBinaryWithHttpInfo(rsp)));
@@ -758,7 +758,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testBodyWithFileSchemaWithHttpInfo(rsp)));
@@ -814,7 +814,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testBodyWithQueryParamsWithHttpInfo(rsp)));
@@ -871,7 +871,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testClientModelWithHttpInfo(rsp)));
@@ -942,7 +942,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEndpointParametersWithHttpInfo(rsp)));
@@ -1021,7 +1021,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEnumParametersWithHttpInfo(rsp)));
@@ -1092,7 +1092,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testGroupParametersWithHttpInfo(rsp)));
@@ -1155,7 +1155,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testInlineAdditionalPropertiesWithHttpInfo(rsp)));
@@ -1214,7 +1214,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testJsonFormDataWithHttpInfo(rsp)));
@@ -1278,7 +1278,7 @@ export class ObservableFakeApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testQueryParameterCollectionFormatWithHttpInfo(rsp)));
@@ -1359,7 +1359,7 @@ export class ObservableFakeClassnameTags123Api {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testClassnameWithHttpInfo(rsp)));
@@ -1435,7 +1435,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.addPetWithHttpInfo(rsp)));
@@ -1494,7 +1494,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.deletePetWithHttpInfo(rsp)));
@@ -1553,7 +1553,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.findPetsByStatusWithHttpInfo(rsp)));
@@ -1611,7 +1611,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.findPetsByTagsWithHttpInfo(rsp)));
@@ -1669,7 +1669,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getPetByIdWithHttpInfo(rsp)));
@@ -1727,7 +1727,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.updatePetWithHttpInfo(rsp)));
@@ -1787,7 +1787,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.updatePetWithFormWithHttpInfo(rsp)));
@@ -1849,7 +1849,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.uploadFileWithHttpInfo(rsp)));
@@ -1911,7 +1911,7 @@ export class ObservablePetApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.uploadFileWithRequiredFileWithHttpInfo(rsp)));
@@ -1989,7 +1989,7 @@ export class ObservableStoreApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.deleteOrderWithHttpInfo(rsp)));
@@ -2046,7 +2046,7 @@ export class ObservableStoreApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getInventoryWithHttpInfo(rsp)));
@@ -2103,7 +2103,7 @@ export class ObservableStoreApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getOrderByIdWithHttpInfo(rsp)));
@@ -2161,7 +2161,7 @@ export class ObservableStoreApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.placeOrderWithHttpInfo(rsp)));
@@ -2237,7 +2237,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createUserWithHttpInfo(rsp)));
@@ -2295,7 +2295,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createUsersWithArrayInputWithHttpInfo(rsp)));
@@ -2353,7 +2353,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createUsersWithListInputWithHttpInfo(rsp)));
@@ -2411,7 +2411,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.deleteUserWithHttpInfo(rsp)));
@@ -2469,7 +2469,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getUserByNameWithHttpInfo(rsp)));
@@ -2528,7 +2528,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.loginUserWithHttpInfo(rsp)));
@@ -2586,7 +2586,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.logoutUserWithHttpInfo(rsp)));
@@ -2644,7 +2644,7 @@ export class ObservableUserApi {
         return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of allMiddleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.updateUserWithHttpInfo(rsp)));

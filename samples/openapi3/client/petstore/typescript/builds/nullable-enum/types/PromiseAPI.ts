@@ -28,6 +28,7 @@ export class PromiseDefaultApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -46,6 +47,7 @@ export class PromiseDefaultApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}

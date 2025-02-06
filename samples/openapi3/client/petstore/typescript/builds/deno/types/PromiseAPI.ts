@@ -36,6 +36,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -57,6 +58,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -79,6 +81,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -101,6 +104,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -122,6 +126,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -143,6 +148,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -164,6 +170,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -185,6 +192,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -206,6 +214,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -227,6 +236,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -248,6 +258,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -269,6 +280,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -292,6 +304,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -315,6 +328,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -338,6 +352,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -361,6 +376,7 @@ export class PromisePetApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -401,6 +417,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -422,6 +439,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -442,6 +460,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -462,6 +481,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -483,6 +503,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -504,6 +525,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -525,6 +547,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -546,6 +569,7 @@ export class PromiseStoreApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -586,6 +610,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -607,6 +632,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -628,6 +654,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -649,6 +676,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -670,6 +698,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -691,6 +720,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -712,6 +742,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -733,6 +764,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -754,6 +786,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -775,6 +808,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -797,6 +831,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -819,6 +854,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -839,6 +875,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -859,6 +896,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -881,6 +919,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -903,6 +942,7 @@ export class PromiseUserApi {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}

@@ -64,6 +64,7 @@ export class Promise{{classname}} {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
@@ -93,6 +94,7 @@ export class Promise{{classname}} {
                 middleware: _options.middleware?.map(
                     m => new PromiseMiddlewareWrapper(m)
 		),
+		middlewareMergeStrategy: _options.middlewareMergeStrategy,
                 authMethods: _options.authMethods
 	    }
 	}
