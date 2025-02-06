@@ -61,13 +61,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
         public string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
         public string QuadrilateralType { get; set; }
 
         /// <summary>

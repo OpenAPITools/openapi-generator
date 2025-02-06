@@ -92,8 +92,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumString
         /// </summary>
 
-        [DataMember(Name = "enum_string", EmitDefaultValue = false)]
-        public EnumStringEnum? EnumString
+        [DataMember(Name = "enum_string", EmitDefaultValue = true)]
+        public EnumStringEnum EnumString
         {
             get{ return _EnumString;}
             set
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
                 _flagEnumString = true;
             }
         }
-        private EnumStringEnum? _EnumString;
+        private EnumStringEnum _EnumString;
         private bool _flagEnumString;
 
         /// <summary>
@@ -215,8 +215,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumInteger
         /// </summary>
 
-        [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
-        public EnumIntegerEnum? EnumInteger
+        [DataMember(Name = "enum_integer", EmitDefaultValue = true)]
+        public EnumIntegerEnum EnumInteger
         {
             get{ return _EnumInteger;}
             set
@@ -225,7 +225,7 @@ namespace Org.OpenAPITools.Model
                 _flagEnumInteger = true;
             }
         }
-        private EnumIntegerEnum? _EnumInteger;
+        private EnumIntegerEnum _EnumInteger;
         private bool _flagEnumInteger;
 
         /// <summary>
@@ -257,8 +257,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumIntegerOnly
         /// </summary>
 
-        [DataMember(Name = "enum_integer_only", EmitDefaultValue = false)]
-        public EnumIntegerOnlyEnum? EnumIntegerOnly
+        [DataMember(Name = "enum_integer_only", EmitDefaultValue = true)]
+        public EnumIntegerOnlyEnum EnumIntegerOnly
         {
             get{ return _EnumIntegerOnly;}
             set
@@ -267,7 +267,7 @@ namespace Org.OpenAPITools.Model
                 _flagEnumIntegerOnly = true;
             }
         }
-        private EnumIntegerOnlyEnum? _EnumIntegerOnly;
+        private EnumIntegerOnlyEnum _EnumIntegerOnly;
         private bool _flagEnumIntegerOnly;
 
         /// <summary>
@@ -302,8 +302,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumNumber
         /// </summary>
 
-        [DataMember(Name = "enum_number", EmitDefaultValue = false)]
-        public EnumNumberEnum? EnumNumber
+        [DataMember(Name = "enum_number", EmitDefaultValue = true)]
+        public EnumNumberEnum EnumNumber
         {
             get{ return _EnumNumber;}
             set
@@ -312,7 +312,7 @@ namespace Org.OpenAPITools.Model
                 _flagEnumNumber = true;
             }
         }
-        private EnumNumberEnum? _EnumNumber;
+        private EnumNumberEnum _EnumNumber;
         private bool _flagEnumNumber;
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
-        public OuterEnum? OuterEnum
+        public OuterEnum OuterEnum
         {
             get{ return _OuterEnum;}
             set
@@ -338,7 +338,7 @@ namespace Org.OpenAPITools.Model
                 _flagOuterEnum = true;
             }
         }
-        private OuterEnum? _OuterEnum;
+        private OuterEnum _OuterEnum;
         private bool _flagOuterEnum;
 
         /// <summary>
@@ -354,8 +354,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumInteger
         /// </summary>
 
-        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
-        public OuterEnumInteger? OuterEnumInteger
+        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = true)]
+        public OuterEnumInteger OuterEnumInteger
         {
             get{ return _OuterEnumInteger;}
             set
@@ -364,7 +364,7 @@ namespace Org.OpenAPITools.Model
                 _flagOuterEnumInteger = true;
             }
         }
-        private OuterEnumInteger? _OuterEnumInteger;
+        private OuterEnumInteger _OuterEnumInteger;
         private bool _flagOuterEnumInteger;
 
         /// <summary>
@@ -380,8 +380,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
 
-        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? OuterEnumDefaultValue
+        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = true)]
+        public OuterEnumDefaultValue OuterEnumDefaultValue
         {
             get{ return _OuterEnumDefaultValue;}
             set
@@ -390,7 +390,7 @@ namespace Org.OpenAPITools.Model
                 _flagOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _OuterEnumDefaultValue;
+        private OuterEnumDefaultValue _OuterEnumDefaultValue;
         private bool _flagOuterEnumDefaultValue;
 
         /// <summary>
@@ -406,8 +406,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
 
-        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue
+        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = true)]
+        public OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue
         {
             get{ return _OuterEnumIntegerDefaultValue;}
             set
@@ -416,7 +416,7 @@ namespace Org.OpenAPITools.Model
                 _flagOuterEnumIntegerDefaultValue = true;
             }
         }
-        private OuterEnumIntegerDefaultValue? _OuterEnumIntegerDefaultValue;
+        private OuterEnumIntegerDefaultValue _OuterEnumIntegerDefaultValue;
         private bool _flagOuterEnumIntegerDefaultValue;
 
         /// <summary>

@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
-        [DataMember(Name = "integer", EmitDefaultValue = false)]
+        [DataMember(Name = "integer", EmitDefaultValue = true)]
         public int Integer
         {
             get{ return _Integer;}
@@ -213,7 +213,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
-        [DataMember(Name = "int32", EmitDefaultValue = false)]
+        [DataMember(Name = "int32", EmitDefaultValue = true)]
         public int Int32
         {
             get{ return _Int32;}
@@ -237,7 +237,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int32Range
         /// </summary>
-        [DataMember(Name = "int32Range", EmitDefaultValue = false)]
+        [DataMember(Name = "int32Range", EmitDefaultValue = true)]
         public int Int32Range
         {
             get{ return _Int32Range;}
@@ -261,7 +261,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int64Positive
         /// </summary>
-        [DataMember(Name = "int64Positive", EmitDefaultValue = false)]
+        [DataMember(Name = "int64Positive", EmitDefaultValue = true)]
         public long Int64Positive
         {
             get{ return _Int64Positive;}
@@ -285,7 +285,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int64Negative
         /// </summary>
-        [DataMember(Name = "int64Negative", EmitDefaultValue = false)]
+        [DataMember(Name = "int64Negative", EmitDefaultValue = true)]
         public long Int64Negative
         {
             get{ return _Int64Negative;}
@@ -309,7 +309,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int64PositiveExclusive
         /// </summary>
-        [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = false)]
+        [DataMember(Name = "int64PositiveExclusive", EmitDefaultValue = true)]
         public long Int64PositiveExclusive
         {
             get{ return _Int64PositiveExclusive;}
@@ -333,7 +333,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int64NegativeExclusive
         /// </summary>
-        [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = false)]
+        [DataMember(Name = "int64NegativeExclusive", EmitDefaultValue = true)]
         public long Int64NegativeExclusive
         {
             get{ return _Int64NegativeExclusive;}
@@ -357,7 +357,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
-        [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
+        [DataMember(Name = "unsigned_integer", EmitDefaultValue = true)]
         public uint UnsignedInteger
         {
             get{ return _UnsignedInteger;}
@@ -381,7 +381,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
-        [DataMember(Name = "int64", EmitDefaultValue = false)]
+        [DataMember(Name = "int64", EmitDefaultValue = true)]
         public long Int64
         {
             get{ return _Int64;}
@@ -405,7 +405,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
-        [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
+        [DataMember(Name = "unsigned_long", EmitDefaultValue = true)]
         public ulong UnsignedLong
         {
             get{ return _UnsignedLong;}
@@ -453,7 +453,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
-        [DataMember(Name = "float", EmitDefaultValue = false)]
+        [DataMember(Name = "float", EmitDefaultValue = true)]
         public float Float
         {
             get{ return _Float;}
@@ -477,7 +477,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
-        [DataMember(Name = "double", EmitDefaultValue = false)]
+        [DataMember(Name = "double", EmitDefaultValue = true)]
         public double Double
         {
             get{ return _Double;}
@@ -501,7 +501,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
-        [DataMember(Name = "decimal", EmitDefaultValue = false)]
+        [DataMember(Name = "decimal", EmitDefaultValue = true)]
         public decimal Decimal
         {
             get{ return _Decimal;}
@@ -549,7 +549,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
         public byte[] Byte
         {
             get{ return _Byte;}
@@ -601,7 +601,7 @@ namespace Org.OpenAPITools.Model
         <example>Sun Feb 02 00:00:00 UTC 2020</example>
         */
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
         public DateTime Date
         {
             get{ return _Date;}
@@ -679,7 +679,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
         public string Password
         {
             get{ return _Password;}

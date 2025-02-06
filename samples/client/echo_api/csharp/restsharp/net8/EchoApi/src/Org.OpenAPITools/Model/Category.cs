@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /*
         <example>1</example>
         */
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public long Id { get; set; }
 
         /// <summary>

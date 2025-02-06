@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets JustNumber
         /// </summary>
-        [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
+        [DataMember(Name = "JustNumber", EmitDefaultValue = true)]
         public decimal JustNumber { get; set; }
 
         /// <summary>

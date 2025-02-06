@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public long Id { get; set; }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// User Status
         /// </summary>
         /// <value>User Status</value>
-        [DataMember(Name = "userStatus", EmitDefaultValue = false)]
+        [DataMember(Name = "userStatus", EmitDefaultValue = true)]
         public int UserStatus { get; set; }
 
         /// <summary>
@@ -125,21 +125,21 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredPropsNullable", EmitDefaultValue = true)]
-        public Object ObjectWithNoDeclaredPropsNullable { get; set; }
+        public Object? ObjectWithNoDeclaredPropsNullable { get; set; }
 
         /// <summary>
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [DataMember(Name = "anyTypeProp", EmitDefaultValue = true)]
-        public Object AnyTypeProp { get; set; }
+        public Object? AnyTypeProp { get; set; }
 
         /// <summary>
         /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [DataMember(Name = "anyTypePropNullable", EmitDefaultValue = true)]
-        public Object AnyTypePropNullable { get; set; }
+        public Object? AnyTypePropNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

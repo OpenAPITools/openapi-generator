@@ -99,31 +99,31 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Integer
         /// </summary>
-        [DataMember(Name = "integer", EmitDefaultValue = false)]
+        [DataMember(Name = "integer", EmitDefaultValue = true)]
         public int Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
-        [DataMember(Name = "int32", EmitDefaultValue = false)]
+        [DataMember(Name = "int32", EmitDefaultValue = true)]
         public int Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
-        [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
+        [DataMember(Name = "unsigned_integer", EmitDefaultValue = true)]
         public uint UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
-        [DataMember(Name = "int64", EmitDefaultValue = false)]
+        [DataMember(Name = "int64", EmitDefaultValue = true)]
         public long Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
-        [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
+        [DataMember(Name = "unsigned_long", EmitDefaultValue = true)]
         public ulong UnsignedLong { get; set; }
 
         /// <summary>
@@ -135,19 +135,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
-        [DataMember(Name = "float", EmitDefaultValue = false)]
+        [DataMember(Name = "float", EmitDefaultValue = true)]
         public float Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
-        [DataMember(Name = "double", EmitDefaultValue = false)]
+        [DataMember(Name = "double", EmitDefaultValue = true)]
         public double Double { get; set; }
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
-        [DataMember(Name = "decimal", EmitDefaultValue = false)]
+        [DataMember(Name = "decimal", EmitDefaultValue = true)]
         public decimal Decimal { get; set; }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Byte
         /// </summary>
-        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
         public byte[] Byte { get; set; }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Model
         /*
         <example>Sun Feb 02 00:00:00 UTC 2020</example>
         */
-        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime Date { get; set; }
 
@@ -199,7 +199,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "password", IsRequired = true, EmitDefaultValue = false)]
         public string Password { get; set; }
 
         /// <summary>

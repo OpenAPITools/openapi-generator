@@ -89,8 +89,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
-        [DataMember(Name = "enum_string", EmitDefaultValue = false)]
-        public EnumStringEnum? EnumString { get; set; }
+        [DataMember(Name = "enum_string", EmitDefaultValue = true)]
+        public EnumStringEnum EnumString { get; set; }
         /// <summary>
         /// Defines EnumStringRequired
         /// </summary>
@@ -172,8 +172,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
-        [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
-        public EnumIntegerEnum? EnumInteger { get; set; }
+        [DataMember(Name = "enum_integer", EmitDefaultValue = true)]
+        public EnumIntegerEnum EnumInteger { get; set; }
         /// <summary>
         /// Defines EnumIntegerOnly
         /// </summary>
@@ -194,8 +194,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumIntegerOnly
         /// </summary>
-        [DataMember(Name = "enum_integer_only", EmitDefaultValue = false)]
-        public EnumIntegerOnlyEnum? EnumIntegerOnly { get; set; }
+        [DataMember(Name = "enum_integer_only", EmitDefaultValue = true)]
+        public EnumIntegerOnlyEnum EnumIntegerOnly { get; set; }
         /// <summary>
         /// Defines EnumNumber
         /// </summary>
@@ -219,32 +219,32 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
-        [DataMember(Name = "enum_number", EmitDefaultValue = false)]
-        public EnumNumberEnum? EnumNumber { get; set; }
+        [DataMember(Name = "enum_number", EmitDefaultValue = true)]
+        public EnumNumberEnum EnumNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
-        public OuterEnum? OuterEnum { get; set; }
+        public OuterEnum OuterEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
-        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
-        public OuterEnumInteger? OuterEnumInteger { get; set; }
+        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = true)]
+        public OuterEnumInteger OuterEnumInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
-        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
+        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = true)]
+        public OuterEnumDefaultValue OuterEnumDefaultValue { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
-        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
+        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = true)]
+        public OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
