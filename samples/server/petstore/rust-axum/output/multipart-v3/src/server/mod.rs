@@ -69,7 +69,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multipart_related_request_post(method.clone(), host.clone(), cookies.clone(), body)
+        .multipart_related_request_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -87,7 +87,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -130,7 +130,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multipart_request_post(method.clone(), host.clone(), cookies.clone(), body)
+        .multipart_request_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -148,7 +148,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -192,7 +192,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .multiple_identical_mime_types_post(method.clone(), host.clone(), cookies.clone(), body)
+        .multiple_identical_mime_types_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -210,7 +210,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };

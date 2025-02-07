@@ -58,10 +58,10 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// DeleteOrder - DELETE /v2/store/order/{orderId}
     async fn delete_order(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        path_params: models::DeleteOrderPathParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        path_params: &models::DeleteOrderPathParams,
     ) -> Result<DeleteOrderResponse, E>;
 
     /// Returns pet inventories by status.
@@ -69,10 +69,10 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// GetInventory - GET /v2/store/inventory
     async fn get_inventory(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        claims: Self::Claims,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        claims: &Self::Claims,
     ) -> Result<GetInventoryResponse, E>;
 
     /// Find purchase order by ID.
@@ -80,10 +80,10 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// GetOrderById - GET /v2/store/order/{orderId}
     async fn get_order_by_id(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        path_params: models::GetOrderByIdPathParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        path_params: &models::GetOrderByIdPathParams,
     ) -> Result<GetOrderByIdResponse, E>;
 
     /// Place an order for a pet.
@@ -91,9 +91,9 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     /// PlaceOrder - POST /v2/store/order
     async fn place_order(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: models::Order,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &models::Order,
     ) -> Result<PlaceOrderResponse, E>;
 }

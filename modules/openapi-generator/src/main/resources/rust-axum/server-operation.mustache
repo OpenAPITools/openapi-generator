@@ -187,38 +187,38 @@ where
   {{/disableValidator}}
 
   let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
-      method.clone(),
-      host.clone(),
-      cookies.clone(),
+      &method,
+      &host,
+      &cookies,
       {{#vendorExtensions}}
         {{#x-has-auth-methods}}
-        claims,
+        &claims,
         {{/x-has-auth-methods}}
       {{/vendorExtensions}}
       {{#headerParams.size}}
-        header_params,
+        &header_params,
       {{/headerParams.size}}
       {{#pathParams.size}}
-        path_params,
+        &path_params,
       {{/pathParams.size}}
       {{#queryParams.size}}
-        query_params,
+        &query_params,
       {{/queryParams.size}}
       {{#vendorExtensions}}
         {{^x-consumes-multipart-related}}
         {{^x-consumes-multipart}}
           {{#bodyParams}}
             {{#-first}}
-              body,
+              &body,
             {{/-first}}
           {{/bodyParams}}
         {{/x-consumes-multipart}}
         {{/x-consumes-multipart-related}}
         {{#x-consumes-multipart}}
-          body,
+          &body,
         {{/x-consumes-multipart}}
         {{#x-consumes-multipart-related}}
-          body,
+          &body,
         {{/x-consumes-multipart-related}}
       {{/vendorExtensions}}
   ).await;
@@ -347,7 +347,7 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
 
-                                                return api_impl.as_ref().handle_error(method, host, cookies, why).await;
+                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
 

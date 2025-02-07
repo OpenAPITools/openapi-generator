@@ -94,7 +94,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .users_post(method.clone(), host.clone(), cookies.clone(), header_params)
+        .users_post(&method, &host, &cookies, &header_params)
         .await;
 
     let mut response = Response::builder();
@@ -131,7 +131,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };

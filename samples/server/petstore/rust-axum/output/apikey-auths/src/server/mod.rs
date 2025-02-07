@@ -76,7 +76,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_payment_method_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
+        .get_payment_method_by_id(&method, &host, &cookies, &path_params)
         .await;
 
     let mut response = Response::builder();
@@ -136,7 +136,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -178,7 +178,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_payment_methods(method.clone(), host.clone(), cookies.clone())
+        .get_payment_methods(&method, &host, &cookies)
         .await;
 
     let mut response = Response::builder();
@@ -215,7 +215,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -288,7 +288,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .post_make_payment(method.clone(), host.clone(), cookies.clone(), claims, body)
+        .post_make_payment(&method, &host, &cookies, &claims, &body)
         .await;
 
     let mut response = Response::builder();
@@ -348,7 +348,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };

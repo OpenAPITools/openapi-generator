@@ -64,10 +64,7 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl
-        .as_ref()
-        .all_of_get(method.clone(), host.clone(), cookies.clone())
-        .await;
+    let result = api_impl.as_ref().all_of_get(&method, &host, &cookies).await;
 
     let mut response = Response::builder();
 
@@ -103,7 +100,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -143,10 +140,7 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl
-        .as_ref()
-        .dummy_get(method.clone(), host.clone(), cookies.clone())
-        .await;
+    let result = api_impl.as_ref().dummy_get(&method, &host, &cookies).await;
 
     let mut response = Response::builder();
 
@@ -163,7 +157,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -218,7 +212,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .dummy_put(method.clone(), host.clone(), cookies.clone(), body)
+        .dummy_put(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -236,7 +230,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -278,7 +272,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .file_response_get(method.clone(), host.clone(), cookies.clone())
+        .file_response_get(&method, &host, &cookies)
         .await;
 
     let mut response = Response::builder();
@@ -315,7 +309,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -357,7 +351,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_structured_yaml(method.clone(), host.clone(), cookies.clone())
+        .get_structured_yaml(&method, &host, &cookies)
         .await;
 
     let mut response = Response::builder();
@@ -387,7 +381,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -436,7 +430,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .html_post(method.clone(), host.clone(), cookies.clone(), body)
+        .html_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -466,7 +460,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -515,7 +509,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .post_yaml(method.clone(), host.clone(), cookies.clone(), body)
+        .post_yaml(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -533,7 +527,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -575,7 +569,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .raw_json_get(method.clone(), host.clone(), cookies.clone())
+        .raw_json_get(&method, &host, &cookies)
         .await;
 
     let mut response = Response::builder();
@@ -612,7 +606,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
@@ -666,7 +660,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .solo_object_post(method.clone(), host.clone(), cookies.clone(), body)
+        .solo_object_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -684,7 +678,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };

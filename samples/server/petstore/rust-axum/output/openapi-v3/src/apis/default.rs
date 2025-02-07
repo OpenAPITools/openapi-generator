@@ -278,37 +278,37 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// AnyOfGet - GET /any-of
     async fn any_of_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::AnyOfGetQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::AnyOfGetQueryParams,
     ) -> Result<AnyOfGetResponse, E>;
 
     /// CallbackWithHeaderPost - POST /callback-with-header
     async fn callback_with_header_post(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::CallbackWithHeaderPostQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::CallbackWithHeaderPostQueryParams,
     ) -> Result<CallbackWithHeaderPostResponse, E>;
 
     /// ComplexQueryParamGet - GET /complex-query-param
     async fn complex_query_param_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::ComplexQueryParamGetQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::ComplexQueryParamGetQueryParams,
     ) -> Result<ComplexQueryParamGetResponse, E>;
 
     /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
     async fn enum_in_path_path_param_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        path_params: models::EnumInPathPathParamGetPathParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        path_params: &models::EnumInPathPathParamGetPathParams,
     ) -> Result<EnumInPathPathParamGetResponse, E>;
 
     /// Test a Form Post.
@@ -316,45 +316,45 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// FormTest - POST /form-test
     async fn form_test(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: models::FormTestRequest,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &models::FormTestRequest,
     ) -> Result<FormTestResponse, E>;
 
     /// GetWithBooleanParameter - GET /get-with-bool
     async fn get_with_boolean_parameter(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::GetWithBooleanParameterQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::GetWithBooleanParameterQueryParams,
     ) -> Result<GetWithBooleanParameterResponse, E>;
 
     /// JsonComplexQueryParamGet - GET /json-complex-query-param
     async fn json_complex_query_param_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::JsonComplexQueryParamGetQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::JsonComplexQueryParamGetQueryParams,
     ) -> Result<JsonComplexQueryParamGetResponse, E>;
 
     /// MandatoryRequestHeaderGet - GET /mandatory-request-header
     async fn mandatory_request_header_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        header_params: models::MandatoryRequestHeaderGetHeaderParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        header_params: &models::MandatoryRequestHeaderGetHeaderParams,
     ) -> Result<MandatoryRequestHeaderGetResponse, E>;
 
     /// MergePatchJsonGet - GET /merge-patch-json
     async fn merge_patch_json_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<MergePatchJsonGetResponse, E>;
 
     /// Get some stuff..
@@ -362,42 +362,42 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// MultigetGet - GET /multiget
     async fn multiget_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<MultigetGetResponse, E>;
 
     /// MultipleAuthSchemeGet - GET /multiple_auth_scheme
     async fn multiple_auth_scheme_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<MultipleAuthSchemeGetResponse, E>;
 
     /// MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
     async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        path_params: models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        path_params: &models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
     ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, E>;
 
     /// OneOfGet - GET /one-of
     async fn one_of_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<OneOfGetResponse, E>;
 
     /// OverrideServerGet - GET /override-server
     async fn override_server_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<OverrideServerGetResponse, E>;
 
     /// Get some stuff with parameters..
@@ -405,105 +405,105 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// ParamgetGet - GET /paramget
     async fn paramget_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::ParamgetGetQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::ParamgetGetQueryParams,
     ) -> Result<ParamgetGetResponse, E>;
 
     /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
     async fn readonly_auth_scheme_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<ReadonlyAuthSchemeGetResponse, E>;
 
     /// RegisterCallbackPost - POST /register-callback
     async fn register_callback_post(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        query_params: models::RegisterCallbackPostQueryParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        query_params: &models::RegisterCallbackPostQueryParams,
     ) -> Result<RegisterCallbackPostResponse, E>;
 
     /// RequiredOctetStreamPut - PUT /required_octet_stream
     async fn required_octet_stream_put(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Bytes,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
     ) -> Result<RequiredOctetStreamPutResponse, E>;
 
     /// ResponsesWithHeadersGet - GET /responses_with_headers
     async fn responses_with_headers_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<ResponsesWithHeadersGetResponse, E>;
 
     /// Rfc7807Get - GET /rfc7807
     async fn rfc7807_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<Rfc7807GetResponse, E>;
 
     /// TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
     async fn two_first_letter_headers(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        header_params: models::TwoFirstLetterHeadersHeaderParams,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        header_params: &models::TwoFirstLetterHeadersHeaderParams,
     ) -> Result<TwoFirstLetterHeadersResponse, E>;
 
     /// UntypedPropertyGet - GET /untyped_property
     async fn untyped_property_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Option<models::ObjectUntypedProps>,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Option<models::ObjectUntypedProps>,
     ) -> Result<UntypedPropertyGetResponse, E>;
 
     /// UuidGet - GET /uuid
     async fn uuid_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
     ) -> Result<UuidGetResponse, E>;
 
     /// XmlExtraPost - POST /xml_extra
     async fn xml_extra_post(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Bytes,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
     ) -> Result<XmlExtraPostResponse, E>;
 
     /// XmlOtherPost - POST /xml_other
     async fn xml_other_post(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Bytes,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
     ) -> Result<XmlOtherPostResponse, E>;
 
     /// XmlOtherPut - PUT /xml_other
     async fn xml_other_put(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Bytes,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
     ) -> Result<XmlOtherPutResponse, E>;
 
     /// Post an array.  It's important we test apostrophes, so include one here..
@@ -511,18 +511,18 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     /// XmlPost - POST /xml
     async fn xml_post(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Bytes,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
     ) -> Result<XmlPostResponse, E>;
 
     /// XmlPut - PUT /xml
     async fn xml_put(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: Bytes,
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &Bytes,
     ) -> Result<XmlPutResponse, E>;
 }

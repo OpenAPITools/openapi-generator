@@ -54,10 +54,7 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl
-        .as_ref()
-        .ping_get(method.clone(), host.clone(), cookies.clone())
-        .await;
+    let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
 
     let mut response = Response::builder();
 
@@ -74,7 +71,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };

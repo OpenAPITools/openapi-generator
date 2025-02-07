@@ -41,7 +41,7 @@ where
 {
     let result = api_impl
         .as_ref()
-        .mail_put(method.clone(), host.clone(), cookies.clone(), body)
+        .mail_put(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -59,7 +59,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
         }
     };
