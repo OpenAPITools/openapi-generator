@@ -54,7 +54,7 @@ namespace {{packageName}}.{{clientPackage}}
             {{/isEnum}}
             {{/model}}
             {{/models}}
-            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new{{^net60OrLater}} JsonSerializerOptionsProvider{{/net60OrLater}}(_jsonOptions);
+            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new JsonSerializerOptionsProvider(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             {{#useSourceGeneration}}
 
