@@ -43,47 +43,65 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn multipart_related_request_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &axum::body::Body,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: axum::body::Body,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MultipartRelatedRequestPostResponse, E>;
 
     /// MultipartRequestPost - POST /multipart_request
     async fn multipart_request_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Multipart,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Multipart,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MultipartRequestPostResponse, E>;
 
     /// MultipleIdenticalMimeTypesPost - POST /multiple-identical-mime-types
     async fn multiple_identical_mime_types_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &axum::body::Body,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: axum::body::Body,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MultipleIdenticalMimeTypesPostResponse, E>;
 }

@@ -99,16 +99,22 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn add_pet(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Pet,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: models::Pet,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<AddPetResponse, E>;
 
     /// Deletes a pet.
@@ -117,11 +123,15 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn delete_pet(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         header_params: &models::DeletePetHeaderParams,
         path_params: &models::DeletePetPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
@@ -129,6 +139,8 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         header_params: models::DeletePetHeaderParams,
         path_params: models::DeletePetPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<DeletePetResponse, E>;
 
     /// Finds Pets by status.
@@ -137,16 +149,22 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn find_pets_by_status(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::FindPetsByStatusQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::FindPetsByStatusQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<FindPetsByStatusResponse, E>;
 
     /// Finds Pets by tags.
@@ -155,16 +173,22 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn find_pets_by_tags(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::FindPetsByTagsQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::FindPetsByTagsQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<FindPetsByTagsResponse, E>;
 
     /// Find pet by ID.
@@ -173,11 +197,15 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn get_pet_by_id(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         path_params: &models::GetPetByIdPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
@@ -185,6 +213,8 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         claims: Self::Claims,
         path_params: models::GetPetByIdPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetPetByIdResponse, E>;
 
     /// Update an existing pet.
@@ -193,16 +223,22 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn update_pet(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Pet,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: models::Pet,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<UpdatePetResponse, E>;
 
     /// Updates a pet in the store with form data.
@@ -211,11 +247,15 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn update_pet_with_form(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::UpdatePetWithFormPathParams,
         body: &Option<models::UpdatePetWithFormRequest>,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
@@ -223,6 +263,8 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         path_params: models::UpdatePetWithFormPathParams,
         body: Option<models::UpdatePetWithFormRequest>,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<UpdatePetWithFormResponse, E>;
 
     /// uploads an image.
@@ -231,11 +273,15 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
     async fn upload_file(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::UploadFilePathParams,
         body: &Multipart,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
@@ -243,5 +289,7 @@ pub trait Pet<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHand
         path_params: models::UploadFilePathParams,
         body: Multipart,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<UploadFileResponse, E>;
 }

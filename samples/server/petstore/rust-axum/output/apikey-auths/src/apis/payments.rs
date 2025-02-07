@@ -53,16 +53,22 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     async fn get_payment_method_by_id(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetPaymentMethodByIdPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::GetPaymentMethodByIdPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
@@ -71,6 +77,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     async fn get_payment_methods(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -79,6 +86,11 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.
@@ -87,11 +99,15 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
     async fn post_make_payment(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         body: &Option<models::Payment>,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
@@ -99,5 +115,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         claims: Self::Claims,
         body: Option<models::Payment>,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<PostMakePaymentResponse, E>;
 }

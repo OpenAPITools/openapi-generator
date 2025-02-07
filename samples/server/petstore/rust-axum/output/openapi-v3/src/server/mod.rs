@@ -175,10 +175,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .any_of_get(&method, &host, &cookies, &query_params)
 =======
         .any_of_get(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .any_of_get(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -272,7 +276,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -318,10 +322,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .callback_with_header_post(&method, &host, &cookies, &query_params)
 =======
         .callback_with_header_post(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .callback_with_header_post(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -350,7 +358,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -396,10 +404,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .complex_query_param_get(&method, &host, &cookies, &query_params)
 =======
         .complex_query_param_get(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .complex_query_param_get(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -428,7 +440,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -474,10 +486,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .enum_in_path_path_param_get(&method, &host, &cookies, &path_params)
 =======
         .enum_in_path_path_param_get(method.clone(), host.clone(), cookies.clone(), path_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .enum_in_path_path_param_get(&method, &host, &cookies, &path_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -506,7 +522,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -560,10 +576,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .form_test(&method, &host, &cookies, &body)
 =======
         .form_test(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .form_test(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -592,7 +612,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -638,10 +658,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_with_boolean_parameter(&method, &host, &cookies, &query_params)
 =======
         .get_with_boolean_parameter(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .get_with_boolean_parameter(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -670,7 +694,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -716,10 +740,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .json_complex_query_param_get(&method, &host, &cookies, &query_params)
 =======
         .json_complex_query_param_get(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .json_complex_query_param_get(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -748,7 +776,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -827,10 +855,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .mandatory_request_header_get(&method, &host, &cookies, &header_params)
 =======
         .mandatory_request_header_get(method.clone(), host.clone(), cookies.clone(), header_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .mandatory_request_header_get(&method, &host, &cookies, &header_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -859,7 +891,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -900,10 +932,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .merge_patch_json_get(&method, &host, &cookies)
 =======
         .merge_patch_json_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .merge_patch_json_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -951,7 +987,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -992,10 +1028,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .multiget_get(&method, &host, &cookies)
 =======
         .multiget_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .multiget_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1160,7 +1200,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -1201,10 +1241,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .multiple_auth_scheme_get(&method, &host, &cookies)
 =======
         .multiple_auth_scheme_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .multiple_auth_scheme_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1229,8 +1273,12 @@ where
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
 
+<<<<<<< HEAD
                                                 return api_impl.as_ref().handle_error(method, host, cookies, why).await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
                                             },
                                         };
 
@@ -1288,16 +1336,22 @@ where
         .as_ref()
         .multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
             &method,
             &host,
             &cookies,
             &path_params,
+<<<<<<< HEAD
 =======
             method.clone(),
             host.clone(),
             cookies.clone(),
             path_params,
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         )
         .await;
 
@@ -1323,8 +1377,12 @@ where
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
 
+<<<<<<< HEAD
                                                 return api_impl.as_ref().handle_error(method, host, cookies, why).await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
                                             },
                                         };
 
@@ -1361,6 +1419,7 @@ where
     };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     let result = api_impl.as_ref().one_of_get(&method, &host, &cookies).await;
 =======
     let result = api_impl
@@ -1368,6 +1427,9 @@ where
         .one_of_get(method.clone(), host.clone(), cookies.clone())
         .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+    let result = api_impl.as_ref().one_of_get(&method, &host, &cookies).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 
     let mut response = Response::builder();
 
@@ -1414,7 +1476,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -1455,10 +1517,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .override_server_get(&method, &host, &cookies)
 =======
         .override_server_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .override_server_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1487,7 +1553,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -1533,10 +1599,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .paramget_get(&method, &host, &cookies, &query_params)
 =======
         .paramget_get(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .paramget_get(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1584,7 +1654,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -1625,10 +1695,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .readonly_auth_scheme_get(&method, &host, &cookies)
 =======
         .readonly_auth_scheme_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .readonly_auth_scheme_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1653,8 +1727,12 @@ where
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
 
+<<<<<<< HEAD
                                                 return api_impl.as_ref().handle_error(method, host, cookies, why).await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
                                             },
                                         };
 
@@ -1698,10 +1776,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .register_callback_post(&method, &host, &cookies, &query_params)
 =======
         .register_callback_post(method.clone(), host.clone(), cookies.clone(), query_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .register_callback_post(&method, &host, &cookies, &query_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1730,7 +1812,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -1780,10 +1862,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .required_octet_stream_put(&method, &host, &cookies, &body)
 =======
         .required_octet_stream_put(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .required_octet_stream_put(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1812,7 +1898,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -1853,10 +1939,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .responses_with_headers_get(&method, &host, &cookies)
 =======
         .responses_with_headers_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .responses_with_headers_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1993,7 +2083,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2034,10 +2124,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .rfc7807_get(&method, &host, &cookies)
 =======
         .rfc7807_get(method.clone(), host.clone(), cookies.clone())
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .rfc7807_get(&method, &host, &cookies)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2124,7 +2218,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2213,10 +2307,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .two_first_letter_headers(&method, &host, &cookies, &header_params)
 =======
         .two_first_letter_headers(method.clone(), host.clone(), cookies.clone(), header_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .two_first_letter_headers(&method, &host, &cookies, &header_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2245,7 +2343,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2301,10 +2399,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .untyped_property_get(&method, &host, &cookies, &body)
 =======
         .untyped_property_get(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .untyped_property_get(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2329,8 +2431,12 @@ where
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
 =======
 
+<<<<<<< HEAD
                                                 return api_impl.as_ref().handle_error(method, host, cookies, why).await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
                                             },
                                         };
 
@@ -2367,6 +2473,7 @@ where
     };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     let result = api_impl.as_ref().uuid_get(&method, &host, &cookies).await;
 =======
     let result = api_impl
@@ -2374,6 +2481,9 @@ where
         .uuid_get(method.clone(), host.clone(), cookies.clone())
         .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+    let result = api_impl.as_ref().uuid_get(&method, &host, &cookies).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 
     let mut response = Response::builder();
 
@@ -2420,7 +2530,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2468,10 +2578,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .xml_extra_post(&method, &host, &cookies, &body)
 =======
         .xml_extra_post(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .xml_extra_post(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2504,7 +2618,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2552,10 +2666,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .xml_other_post(&method, &host, &cookies, &body)
 =======
         .xml_other_post(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .xml_other_post(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2600,7 +2718,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2648,10 +2766,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .xml_other_put(&method, &host, &cookies, &body)
 =======
         .xml_other_put(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .xml_other_put(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2684,7 +2806,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2732,10 +2854,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .xml_post(&method, &host, &cookies, &body)
 =======
         .xml_post(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .xml_post(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2768,7 +2894,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2816,10 +2942,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .xml_put(&method, &host, &cookies, &body)
 =======
         .xml_put(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .xml_put(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2852,7 +2982,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -2898,10 +3028,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_repo_info(&method, &host, &cookies, &path_params)
 =======
         .get_repo_info(method.clone(), host.clone(), cookies.clone(), path_params)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .get_repo_info(&method, &host, &cookies, &path_params)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2949,7 +3083,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -3003,10 +3137,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .create_repo(&method, &host, &cookies, &body)
 =======
         .create_repo(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .create_repo(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3035,7 +3173,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }

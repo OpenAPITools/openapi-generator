@@ -59,6 +59,7 @@ where
     };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
 =======
     let result = api_impl
@@ -66,6 +67,9 @@ where
         .ping_get(method.clone(), host.clone(), cookies.clone())
         .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+    let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 
     let mut response = Response::builder();
 
@@ -93,7 +97,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }

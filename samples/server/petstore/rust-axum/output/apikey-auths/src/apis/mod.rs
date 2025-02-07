@@ -37,6 +37,7 @@ pub trait ErrorHandler<E: std::fmt::Debug + Send + Sync + 'static = ()> {
     async fn handle_error(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &::http::Method,
         host: &axum_extra::extract::Host,
         cookies: &axum_extra::extract::CookieJar,
@@ -52,6 +53,11 @@ pub trait ErrorHandler<E: std::fmt::Debug + Send + Sync + 'static = ()> {
         method: ::http::Method,
         host: axum_extra::extract::Host,
         cookies: axum_extra::extract::CookieJar,
+=======
+        method: &::http::Method,
+        host: &axum_extra::extract::Host,
+        cookies: &axum_extra::extract::CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         error: E,
     ) -> Result<axum::response::Response, http::StatusCode> {
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)

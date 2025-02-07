@@ -46,10 +46,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .mail_put(&method, &host, &cookies, &body)
 =======
         .mail_put(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .mail_put(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -78,7 +82,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }

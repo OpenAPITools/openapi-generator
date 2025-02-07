@@ -74,10 +74,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .multipart_related_request_post(&method, &host, &cookies, &body)
 =======
         .multipart_related_request_post(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .multipart_related_request_post(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -106,7 +110,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -151,10 +155,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .multipart_request_post(&method, &host, &cookies, &body)
 =======
         .multipart_request_post(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .multipart_request_post(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -183,7 +191,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
@@ -229,10 +237,14 @@ where
     let result = api_impl
         .as_ref()
 <<<<<<< HEAD
+<<<<<<< HEAD
         .multiple_identical_mime_types_post(&method, &host, &cookies, &body)
 =======
         .multiple_identical_mime_types_post(method.clone(), host.clone(), cookies.clone(), body)
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
+=======
+        .multiple_identical_mime_types_post(&method, &host, &cookies, &body)
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -261,7 +273,7 @@ where
 
             return api_impl
                 .as_ref()
-                .handle_error(method, host, cookies, why)
+                .handle_error(&method, &host, &cookies, why)
                 .await;
 >>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }

@@ -99,16 +99,22 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn create_user(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::User,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: models::User,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<CreateUserResponse, E>;
 
     /// Creates list of users with given input array.
@@ -117,16 +123,22 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn create_users_with_array_input(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Vec<models::User>,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Vec<models::User>,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<CreateUsersWithArrayInputResponse, E>;
 
     /// Creates list of users with given input array.
@@ -135,16 +147,22 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn create_users_with_list_input(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Vec<models::User>,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Vec<models::User>,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<CreateUsersWithListInputResponse, E>;
 
     /// Delete user.
@@ -153,16 +171,22 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn delete_user(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::DeleteUserPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::DeleteUserPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<DeleteUserResponse, E>;
 
     /// Get user by user name.
@@ -171,16 +195,22 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn get_user_by_name(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetUserByNamePathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::GetUserByNamePathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetUserByNameResponse, E>;
 
     /// Logs user into the system.
@@ -189,16 +219,22 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn login_user(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::LoginUserQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::LoginUserQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<LoginUserResponse, E>;
 
     /// Logs out current logged in user session.
@@ -207,6 +243,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn logout_user(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -215,6 +252,11 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<LogoutUserResponse, E>;
 
     /// Updated user.
@@ -223,11 +265,15 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
     async fn update_user(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::UpdateUserPathParams,
         body: &models::User,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
@@ -235,5 +281,7 @@ pub trait User<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         path_params: models::UpdateUserPathParams,
         body: models::User,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<UpdateUserResponse, E>;
 }

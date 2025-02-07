@@ -283,64 +283,88 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn any_of_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::AnyOfGetQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::AnyOfGetQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<AnyOfGetResponse, E>;
 
     /// CallbackWithHeaderPost - POST /callback-with-header
     async fn callback_with_header_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::CallbackWithHeaderPostQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::CallbackWithHeaderPostQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<CallbackWithHeaderPostResponse, E>;
 
     /// ComplexQueryParamGet - GET /complex-query-param
     async fn complex_query_param_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::ComplexQueryParamGetQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::ComplexQueryParamGetQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<ComplexQueryParamGetResponse, E>;
 
     /// EnumInPathPathParamGet - GET /enum_in_path/{path_param}
     async fn enum_in_path_path_param_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::EnumInPathPathParamGetPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::EnumInPathPathParamGetPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<EnumInPathPathParamGetResponse, E>;
 
     /// Test a Form Post.
@@ -349,69 +373,94 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn form_test(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::FormTestRequest,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: models::FormTestRequest,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<FormTestResponse, E>;
 
     /// GetWithBooleanParameter - GET /get-with-bool
     async fn get_with_boolean_parameter(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::GetWithBooleanParameterQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::GetWithBooleanParameterQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetWithBooleanParameterResponse, E>;
 
     /// JsonComplexQueryParamGet - GET /json-complex-query-param
     async fn json_complex_query_param_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::JsonComplexQueryParamGetQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::JsonComplexQueryParamGetQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<JsonComplexQueryParamGetResponse, E>;
 
     /// MandatoryRequestHeaderGet - GET /mandatory-request-header
     async fn mandatory_request_header_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         header_params: &models::MandatoryRequestHeaderGetHeaderParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         header_params: models::MandatoryRequestHeaderGetHeaderParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MandatoryRequestHeaderGetResponse, E>;
 
     /// MergePatchJsonGet - GET /merge-patch-json
     async fn merge_patch_json_get(
         &self,
+<<<<<<< HEAD
 <<<<<<< HEAD
         method: &Method,
         host: &Host,
@@ -421,6 +470,11 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MergePatchJsonGetResponse, E>;
 
     /// Get some stuff..
@@ -429,6 +483,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn multiget_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -437,12 +492,18 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MultigetGetResponse, E>;
 
     /// MultipleAuthSchemeGet - GET /multiple_auth_scheme
     async fn multiple_auth_scheme_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -451,41 +512,39 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MultipleAuthSchemeGetResponse, E>;
 
     /// MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet - GET /multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}
     async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetResponse, E>;
 
     /// OneOfGet - GET /one-of
     async fn one_of_get(
         &self,
 <<<<<<< HEAD
-        method: &Method,
-        host: &Host,
-        cookies: &CookieJar,
-=======
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-    ) -> Result<OneOfGetResponse, E>;
-
-    /// OverrideServerGet - GET /override-server
-    async fn override_server_get(
-        &self,
 <<<<<<< HEAD
         method: &Method,
         host: &Host,
@@ -495,6 +554,31 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
+    ) -> Result<OneOfGetResponse, E>;
+
+    /// OverrideServerGet - GET /override-server
+    async fn override_server_get(
+        &self,
+<<<<<<< HEAD
+<<<<<<< HEAD
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+=======
+        method: Method,
+        host: Host,
+        cookies: CookieJar,
+>>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<OverrideServerGetResponse, E>;
 
     /// Get some stuff with parameters..
@@ -503,22 +587,29 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn paramget_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::ParamgetGetQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::ParamgetGetQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<ParamgetGetResponse, E>;
 
     /// ReadonlyAuthSchemeGet - GET /readonly_auth_scheme
     async fn readonly_auth_scheme_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -527,44 +618,62 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<ReadonlyAuthSchemeGetResponse, E>;
 
     /// RegisterCallbackPost - POST /register-callback
     async fn register_callback_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         query_params: &models::RegisterCallbackPostQueryParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         query_params: models::RegisterCallbackPostQueryParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<RegisterCallbackPostResponse, E>;
 
     /// RequiredOctetStreamPut - PUT /required_octet_stream
     async fn required_octet_stream_put(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Bytes,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Bytes,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<RequiredOctetStreamPutResponse, E>;
 
     /// ResponsesWithHeadersGet - GET /responses_with_headers
     async fn responses_with_headers_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -573,12 +682,18 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<ResponsesWithHeadersGetResponse, E>;
 
     /// Rfc7807Get - GET /rfc7807
     async fn rfc7807_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -587,44 +702,62 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<Rfc7807GetResponse, E>;
 
     /// TwoFirstLetterHeaders - POST /operation-two-first-letter-headers
     async fn two_first_letter_headers(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         header_params: &models::TwoFirstLetterHeadersHeaderParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         header_params: models::TwoFirstLetterHeadersHeaderParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<TwoFirstLetterHeadersResponse, E>;
 
     /// UntypedPropertyGet - GET /untyped_property
     async fn untyped_property_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Option<models::ObjectUntypedProps>,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Option<models::ObjectUntypedProps>,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<UntypedPropertyGetResponse, E>;
 
     /// UuidGet - GET /uuid
     async fn uuid_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -633,54 +766,77 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<UuidGetResponse, E>;
 
     /// XmlExtraPost - POST /xml_extra
     async fn xml_extra_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Bytes,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Bytes,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<XmlExtraPostResponse, E>;
 
     /// XmlOtherPost - POST /xml_other
     async fn xml_other_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Bytes,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Bytes,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<XmlOtherPostResponse, E>;
 
     /// XmlOtherPut - PUT /xml_other
     async fn xml_other_put(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Bytes,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Bytes,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<XmlOtherPutResponse, E>;
 
     /// Post an array.  It's important we test apostrophes, so include one here..
@@ -689,31 +845,43 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn xml_post(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Bytes,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Bytes,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<XmlPostResponse, E>;
 
     /// XmlPut - PUT /xml
     async fn xml_put(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &Bytes,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: Bytes,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<XmlPutResponse, E>;
 }

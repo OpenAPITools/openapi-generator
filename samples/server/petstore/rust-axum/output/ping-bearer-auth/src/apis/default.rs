@@ -27,6 +27,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
     async fn ping_get(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
@@ -35,5 +36,10 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         host: Host,
         cookies: CookieJar,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<PingGetResponse, E>;
 }

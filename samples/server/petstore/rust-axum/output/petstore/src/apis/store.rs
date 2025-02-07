@@ -63,16 +63,22 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     async fn delete_order(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::DeleteOrderPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::DeleteOrderPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<DeleteOrderResponse, E>;
 
     /// Returns pet inventories by status.
@@ -81,16 +87,22 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     async fn get_inventory(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         claims: Self::Claims,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetInventoryResponse, E>;
 
     /// Find purchase order by ID.
@@ -99,16 +111,22 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     async fn get_order_by_id(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         path_params: &models::GetOrderByIdPathParams,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         path_params: models::GetOrderByIdPathParams,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<GetOrderByIdResponse, E>;
 
     /// Place an order for a pet.
@@ -117,15 +135,21 @@ pub trait Store<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHa
     async fn place_order(
         &self,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
         body: &models::Order,
+<<<<<<< HEAD
 =======
         method: Method,
         host: Host,
         cookies: CookieJar,
         body: models::Order,
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
     ) -> Result<PlaceOrderResponse, E>;
 }
