@@ -54,16 +54,14 @@ pub trait ErrorHandler<E: std::fmt::Debug + Send + Sync + 'static = ()> {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 46691510f63 (Update deps)
+=======
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         method: &::http::Method,
         host: &axum_extra::extract::Host,
         cookies: &axum_extra::extract::CookieJar,
-=======
-        method: ::http::Method,
-        host: axum_extra::extract::Host,
-        cookies: axum_extra::extract::CookieJar,
->>>>>>> ff8e3cd38e6 (Update deps)
         error: E,
     ) -> Result<axum::response::Response, http::StatusCode> {
         tracing::error!("Unhandled error: {:?}", error);

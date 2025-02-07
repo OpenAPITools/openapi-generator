@@ -111,6 +111,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_payment_method_by_id(&method, &host, &cookies, &path_params)
 =======
         .get_payment_method_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
@@ -142,6 +143,9 @@ where
         )
 >>>>>>> ae676ae13c0 (Rebase with updated error handler)
 >>>>>>> 4984f70bdeb (Rebase with updated error handler)
+=======
+        .get_payment_method_by_id(&method, &host, &cookies, &claims, &path_params)
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         .await;
 
     let mut response = Response::builder();
@@ -273,6 +277,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .get_payment_methods(&method, &host, &cookies)
 =======
         .get_payment_methods(method.clone(), host.clone(), cookies.clone())
@@ -298,6 +303,9 @@ where
         .get_payment_methods(method.clone(), host.clone(), cookies.clone(), claims)
 >>>>>>> ae676ae13c0 (Rebase with updated error handler)
 >>>>>>> 4984f70bdeb (Rebase with updated error handler)
+=======
+        .get_payment_methods(&method, &host, &cookies, &claims)
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         .await;
 
     let mut response = Response::builder();

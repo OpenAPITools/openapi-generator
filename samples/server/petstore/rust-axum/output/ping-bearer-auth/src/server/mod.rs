@@ -80,6 +80,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
     let result = api_impl.as_ref().ping_get(&method, &host, &cookies).await;
@@ -106,6 +107,12 @@ where
         .await;
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+    let result = api_impl
+        .as_ref()
+        .ping_get(&method, &host, &cookies, &claims)
+        .await;
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
 
     let mut response = Response::builder();
 

@@ -55,14 +55,19 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+        claims: &Self::Claims,
         path_params: &models::GetPaymentMethodByIdPathParams,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -81,6 +86,8 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         path_params: models::GetPaymentMethodByIdPathParams,
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
@@ -91,6 +98,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
         method: &Method,
@@ -111,6 +119,12 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         claims: Self::Claims,
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        claims: &Self::Claims,
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.

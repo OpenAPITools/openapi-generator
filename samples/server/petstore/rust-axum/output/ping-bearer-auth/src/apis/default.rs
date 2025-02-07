@@ -31,6 +31,7 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
         method: &Method,
@@ -51,5 +52,11 @@ pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::Error
         claims: Self::Claims,
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        claims: &Self::Claims,
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
     ) -> Result<PingGetResponse, E>;
 }

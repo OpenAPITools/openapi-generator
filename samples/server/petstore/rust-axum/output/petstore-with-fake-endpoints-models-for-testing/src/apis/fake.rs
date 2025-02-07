@@ -331,14 +331,19 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+        claims: &Self::Claims,
         body: &models::TestEndpointParametersRequest,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -357,6 +362,8 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         body: models::TestEndpointParametersRequest,
 >>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
 >>>>>>> a297ccec6f8 (Rebase error handler)
+=======
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
     ) -> Result<TestEndpointParametersResponse, E>;
 
     /// To test enum parameters.

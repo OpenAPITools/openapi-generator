@@ -55,6 +55,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> a297ccec6f8 (Rebase error handler)
 =======
@@ -72,8 +73,10 @@ where
 =======
             "/v2/fake/hyphenParam/{hyphen_param}",
 >>>>>>> 51f6e61839d (Fix capture group syntax)
+=======
+            "/v2/fake/hyphenParam/{hyphen_param}",
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
             get(hyphen_param::<I, A, E, C>),
->>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
         )
         .route(
             "/v2/fake/inline-additionalProperties",
@@ -1293,6 +1296,7 @@ where
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         .test_endpoint_parameters(&method, &host, &cookies, &body)
 =======
         .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), body)
@@ -1318,6 +1322,9 @@ where
         .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), claims, body)
 >>>>>>> ae676ae13c0 (Rebase with updated error handler)
 >>>>>>> 4984f70bdeb (Rebase with updated error handler)
+=======
+        .test_endpoint_parameters(&method, &host, &cookies, &claims, &body)
+>>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         .await;
 
     let mut response = Response::builder();
