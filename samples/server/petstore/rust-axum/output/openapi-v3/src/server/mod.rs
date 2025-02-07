@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
+<<<<<<< HEAD
 use axum_extra::extract::{CookieJar, Host};
+=======
+use axum_extra::extract::{CookieJar, Host, Multipart};
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -36,10 +40,14 @@ where
             get(complex_query_param_get::<I, A, E>)
         )
 <<<<<<< HEAD
+<<<<<<< HEAD
         .route("/enum_in_path/{path_param}",
 =======
         .route("/enum_in_path/:path_param",
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        .route("/enum_in_path/{path_param}",
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
             get(enum_in_path_path_param_get::<I, A, E>)
         )
         .route("/form-test",
@@ -61,10 +69,14 @@ where
             get(multiget_get::<I, A, E>)
         )
 <<<<<<< HEAD
+<<<<<<< HEAD
         .route("/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
 =======
         .route("/multiple-path-params-with-very-long-path-to-test-formatting/:path_param_a/:path_param_b",
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        .route("/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
             get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A, E>)
         )
         .route("/multiple_auth_scheme",
@@ -92,10 +104,14 @@ where
             post(create_repo::<I, A, E>)
         )
 <<<<<<< HEAD
+<<<<<<< HEAD
         .route("/repos/{repo_id}",
 =======
         .route("/repos/:repo_id",
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+        .route("/repos/{repo_id}",
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
             get(get_repo_info::<I, A, E>).get(get_repo_info::<I, A, E>)
         )
         .route("/required_octet_stream",

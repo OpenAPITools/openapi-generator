@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
+<<<<<<< HEAD
 use axum_extra::extract::{CookieJar, Host};
+=======
+use axum_extra::extract::{CookieJar, Host, Multipart};
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -34,12 +38,16 @@ where
         )
         .route(
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
             "/v2/pet/findByStatus",
             get(find_pets_by_status::<I, A, E, C>),
         )
         .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
         .route(
             "/v2/pet/{pet_id}",
+<<<<<<< HEAD
             delete(delete_pet::<I, A, E, C>)
                 .get(get_pet_by_id::<I, A, E, C>)
                 .post(update_pet_with_form::<I, A, E, C>),
@@ -49,27 +57,25 @@ where
             post(upload_file::<I, A, E, C>),
 =======
             "/v2/pet/:pet_id",
+=======
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
             delete(delete_pet::<I, A, E, C>)
                 .get(get_pet_by_id::<I, A, E, C>)
                 .post(update_pet_with_form::<I, A, E, C>),
         )
         .route(
-            "/v2/pet/:pet_id/uploadImage",
+            "/v2/pet/{pet_id}/uploadImage",
             post(upload_file::<I, A, E, C>),
         )
-        .route(
-            "/v2/pet/findByStatus",
-            get(find_pets_by_status::<I, A, E, C>),
-        )
-        .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
         .route("/v2/store/inventory", get(get_inventory::<I, A, E, C>))
         .route("/v2/store/order", post(place_order::<I, A, E, C>))
         .route(
-            "/v2/store/order/:order_id",
+            "/v2/store/order/{order_id}",
             delete(delete_order::<I, A, E, C>).get(get_order_by_id::<I, A, E, C>),
         )
         .route("/v2/user", post(create_user::<I, A, E, C>))
         .route(
+<<<<<<< HEAD
             "/v2/user/:username",
             delete(delete_user::<I, A, E, C>)
                 .get(get_user_by_name::<I, A, E, C>)
@@ -84,6 +90,8 @@ where
         )
         .route("/v2/user", post(create_user::<I, A, E, C>))
         .route(
+=======
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
             "/v2/user/createWithArray",
             post(create_users_with_array_input::<I, A, E, C>),
         )
@@ -100,11 +108,14 @@ where
                 .get(get_user_by_name::<I, A, E, C>)
                 .put(update_user::<I, A, E, C>),
         )
+<<<<<<< HEAD
 =======
         )
         .route("/v2/user/login", get(login_user::<I, A, E, C>))
         .route("/v2/user/logout", get(logout_user::<I, A, E, C>))
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
+=======
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
         .with_state(api_impl)
 }
 

@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
+<<<<<<< HEAD
 use axum_extra::extract::{CookieJar, Host};
+=======
+use axum_extra::extract::{CookieJar, Host, Multipart};
+>>>>>>> fb7dae12a7d (Update axum to 0.8)
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -42,7 +46,7 @@ where
             get(get_payment_methods::<I, A, E, C>),
         )
         .route(
-            "/v71/paymentMethods/:id",
+            "/v71/paymentMethods/{id}",
             get(get_payment_method_by_id::<I, A, E, C>),
         )
 >>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
