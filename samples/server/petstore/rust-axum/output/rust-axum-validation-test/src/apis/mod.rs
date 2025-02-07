@@ -14,7 +14,7 @@ pub trait ErrorHandler<E: std::fmt::Debug + Send + Sync + 'static = ()> {
     ) -> Result<axum::response::Response, http::StatusCode> {
         tracing::error!("Unhandled error: {:?}", error);
         axum::response::Response::builder()
-            .status(500)
+            .status(http::StatusCode::INTERNAL_SERVER_ERROR)
             .body(axum::body::Body::empty())
             .map_err(|_| http::StatusCode::INTERNAL_SERVER_ERROR)
     }
