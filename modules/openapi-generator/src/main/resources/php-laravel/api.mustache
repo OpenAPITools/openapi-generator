@@ -2,7 +2,14 @@
 
 namespace {{apiPackage}};
 
+{{#vendorExtensions.x-autowire}}
+use Attributes\Autowire;
+{{/vendorExtensions.x-autowire}}
+
 {{#operations}}
+{{#vendorExtensions.x-autowire}}
+#[Autowire]
+{{/vendorExtensions.x-autowire}}
 interface {{classname}} {
 
 {{#operation}}

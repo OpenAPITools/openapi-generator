@@ -34,11 +34,13 @@ class {{controllerName}} extends Controller
      * @deprecated
      {{/isDeprecated}}
      */
-    public function {{operationId}}(Request $request): JsonResponse
+    public function {{operationId}}(Request $request{{#pathParams}}, {{dataType}} ${{paramName}}{{/pathParams}}): JsonResponse
     {
         {{>api_validation}}
 
         {{#allParams}}
+        {{^bodyParam}}
+        {{^isPathParam}}
         {{#isFile}}
         ${{paramName}} = $request->file('{{paramName}}');
         {{/isFile}}
@@ -78,13 +80,11 @@ class {{controllerName}} extends Controller
         {{#isMap}}
         ${{paramName}} = $request->get('{{paramName}}');
         {{/isMap}}
-        {{#isModel}}
-        ${{paramName}} = $this->serde->deserialize($request->get('{{paramName}}'), from: 'array', to: {{dataType}}::class);
-
-        if (${{paramName}} === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
-        {{/isModel}}
+        {{/isPathParam}}
+        {{/bodyParam}}
+        {{#bodyParam}}
+        ${{paramName}} = $this->serde->deserialize($request->getContent(), from: 'json', to: {{dataType}}::class);
+        {{/bodyParam}}
 
         {{/allParams}}
         try {
@@ -97,50 +97,22 @@ class {{controllerName}} extends Controller
         {{#responses}}
         {{#isArray}}
         if (is_array($apiResult)) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort({{code}});
-            }
-
-            return response()->json($responseBody, {{code}});
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, {{code}});
         }
 
         {{/isArray}}
         {{#isMap}}
         if (is_array($apiResult)) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort({{code}});
-            }
-
-            return response()->json($responseBody, {{code}});
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, {{code}});
         }
 
         {{/isMap}}
         {{^isArray}}
         {{^isMap}}
         if ($apiResult instanceof {{dataType}}) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort({{code}});
-            }
-
-            return response()->json($responseBody, {{code}});
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), {{code}});
         }
 
         {{/isMap}}

@@ -7,11 +7,14 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +26,7 @@ import java.util.Map;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
+    private static final String AUTOWIRE = "autowire";
     private final Logger LOGGER = LoggerFactory.getLogger(PhpLaravelServerCodegen.class);
 
     public CodegenType getTag() {
@@ -39,6 +43,8 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
 
     protected String controllerDirName = "Http\\Controllers";
     protected String controllerPackage;
+    protected String routesFileName = "routes.php";
+    protected String routesDirectory = "";
 
     public PhpLaravelServerCodegen() {
         super();
@@ -46,6 +52,10 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
         outputFolder = "generated-code" + File.separator + "php-laravel";
         embeddedTemplateDir = templateDir = "php-laravel";
         variableNamingConvention = "camelCase";
+
+        // We need inline enums to be resolved to a separate model so that
+        // anyOf/oneOf that contain them work correctly.
+        inlineSchemaOption.put("RESOLVE_INLINE_ENUMS", "true");
 
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
@@ -61,10 +71,20 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
-        supportingFiles.add(new SupportingFile("routes.mustache", "", "routes.php"));
 
         typeMapping.put("file", "\\Illuminate\\Http\\UploadedFile");
         languageSpecificPrimitives.add("\\Illuminate\\Http\\UploadedFile");
+
+        cliOptions.add(new CliOption(AUTOWIRE, "Should autowire by enabled.").defaultValue("false"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        vendorExtensions.put("x-autowire", additionalProperties.getOrDefault(AUTOWIRE, "false").equals("true"));
+        
+        supportingFiles.add(new SupportingFile("routes.mustache", routesDirectory, routesFileName));
     }
 
     @Override
@@ -160,5 +180,19 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
 
     protected String toControllerName(String name) {
         return camelize(name) + "Controller";
+    }
+
+    @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        if (parameter.get$ref() != null) {
+            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
+            return toModelName(refName);
+        }
+        return null;
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        return super.getSchemaType(p);
     }
 }

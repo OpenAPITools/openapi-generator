@@ -1,7 +1,12 @@
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class {{classname}}
 {
     /**
     {{#vars}}
+    *
     * {{description}}
     {{#deprecated}}
     * @deprecated
@@ -12,12 +17,24 @@ class {{classname}}
 
     public function __construct(
     {{#vars}}
+    {{^isNullable}}
     {{#isContainer}}
-        public {{#isNullable}}?{{/isNullable}}array ${{name}}{{#isNullable}} = []{{/isNullable}},
+        public array ${{name}},
     {{/isContainer}}
     {{^isContainer}}
-        public {{#isNullable}}?{{/isNullable}}{{{dataType}}} ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = null{{/isNullable}}{{/defaultValue}},
+        public {{{dataType}}} ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}},
     {{/isContainer}}
+    {{/isNullable}}
+    {{/vars}}
+    {{#vars}}
+    {{#isNullable}}
+    {{#isContainer}}
+        public ?array ${{name}} = null,
+    {{/isContainer}}
+    {{^isContainer}}
+        public ?{{{dataType}}} ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}},
+    {{/isContainer}}
+    {{/isNullable}}
     {{/vars}}
     ) {}
 }
