@@ -32,7 +32,7 @@ where
             get(get_payment_methods::<I, A, E, C>),
         )
         .route(
-            "/v71/paymentMethods/{id}",
+            "/v71/paymentMethods/:id",
             get(get_payment_method_by_id::<I, A, E, C>),
         )
         .route("/v71/payments", post(post_make_payment::<I, A, E, C>))
