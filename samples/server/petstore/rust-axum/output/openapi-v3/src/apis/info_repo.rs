@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host, Multipart};
 use bytes::Bytes;
 use http::Method;
 use serde::{Deserialize, Serialize};
