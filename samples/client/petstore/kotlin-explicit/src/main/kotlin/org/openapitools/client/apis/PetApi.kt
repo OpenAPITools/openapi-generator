@@ -47,6 +47,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
@@ -77,6 +78,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store
@@ -116,6 +118,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -147,6 +150,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -206,6 +210,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
      }
 
     /**
+     * GET /pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
@@ -237,6 +242,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * GET /pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
@@ -280,6 +286,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -313,6 +320,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -359,6 +367,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -390,6 +399,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -430,6 +440,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
@@ -460,6 +471,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param body Pet object that needs to be added to the store
@@ -499,6 +511,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -531,6 +544,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -575,6 +589,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update
@@ -608,6 +623,7 @@ public class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update
