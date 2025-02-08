@@ -36,6 +36,7 @@ import org.openapitools.client.infrastructure.*
 @Suppress ("UNUSED")
 class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: String? = null, apiKey: MutableMap<String, String> = mutableMapOf(), apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), username: String? = null, password: String? = null, vertx: Vertx): ApiClient(basePath, accessToken, apiKey, apiKeyPrefix, username, password, vertx) {
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param pet Pet object that needs to be added to the store
@@ -67,6 +68,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet
      * Add a new pet to the store
      * 
      * @param pet Pet object that needs to be added to the store
@@ -103,6 +105,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -134,6 +137,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * DELETE /pet/{petId}
      * Deletes a pet
      * 
      * @param petId Pet id to delete
@@ -176,6 +180,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
      }
 
     /**
+     * GET /pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
@@ -207,6 +212,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/findByStatus
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter
@@ -241,6 +247,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -273,6 +280,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/findByTags
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by
@@ -308,6 +316,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -339,6 +348,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * GET /pet/{petId}
      * Find pet by ID
      * Returns a single pet
      * @param petId ID of pet to return
@@ -376,6 +386,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param pet Pet object that needs to be added to the store
@@ -407,6 +418,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * PUT /pet
      * Update an existing pet
      * 
      * @param pet Pet object that needs to be added to the store
@@ -443,6 +455,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -475,6 +488,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated
@@ -512,6 +526,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update
@@ -545,6 +560,7 @@ class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: S
     }
 
     /**
+     * POST /pet/{petId}/uploadImage
      * uploads an image
      * 
      * @param petId ID of pet to update
