@@ -43,6 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
     {{#operation}}
         /**
+        * {{{httpMethod}}} {{{path}}}
         * {{summary}}
         * {{notes}}
         {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
