@@ -64,7 +64,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     @Setter protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
     protected boolean useSourceGeneration = false;
-    protected boolean useLegacyIsInheritedPropertyValue = true;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -724,6 +723,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         property.vendorExtensions.put("x-is-base-or-new-discriminator", (property.isDiscriminator && !property.isInherited) || (property.isDiscriminator && property.isNew));
     }
 
+    protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
+    }
+
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         if (enumRefs.containsKey(property.dataType)) {
             // Handle any enum properties referred to by $ref.
@@ -737,12 +739,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isPrimitiveType = true;
         }
 
-        // the isInherited property is not always correct
-        // fixing it here causes a breaking change in some generators
-        // use the useLegacyIsInheritedPropertyValue to only do this in generators that are prepared for the improvement
-        if (!this.useLegacyIsInheritedPropertyValue && model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
-            property.isInherited = true;
-        }
+        this.patchPropertyIsInherited(model, property);
 
         patchPropertyVendorExtensions(property);
 
