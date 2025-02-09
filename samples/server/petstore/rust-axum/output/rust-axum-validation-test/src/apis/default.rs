@@ -18,13 +18,13 @@ pub enum MailPutResponse {
 /// Default
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Default {
+pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// MailPut - PUT /mail
     async fn mail_put(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        body: models::Email,
-    ) -> Result<MailPutResponse, ()>;
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        body: &models::Email,
+    ) -> Result<MailPutResponse, E>;
 }

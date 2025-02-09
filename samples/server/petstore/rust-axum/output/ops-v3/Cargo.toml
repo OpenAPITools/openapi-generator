@@ -40,7 +40,7 @@ tokio = { version = "1", default-features = false, features = [
 ] }
 tracing = { version = "0.1", features = ["attributes"] }
 uuid = { version = "1", features = ["serde"] }
-validator = { version = "0.19", features = ["derive"] }
+validator = { version = "0.20", features = ["derive"] }
 
 [dev-dependencies]
 tracing-subscriber = "0.3"

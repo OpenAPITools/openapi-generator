@@ -18,13 +18,13 @@ pub enum UsersPostResponse {
 /// Default
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Default {
+pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// UsersPost - POST /users
     async fn users_post(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        header_params: models::UsersPostHeaderParams,
-    ) -> Result<UsersPostResponse, ()>;
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        header_params: &models::UsersPostHeaderParams,
+    ) -> Result<UsersPostResponse, E>;
 }
