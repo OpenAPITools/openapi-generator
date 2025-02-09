@@ -28,6 +28,8 @@ docs/DanishPig.md
 docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
+docs/Descendant1.md
+docs/Descendant2.md
 docs/Dog.md
 docs/Drawing.md
 docs/EntityBase.md
@@ -99,6 +101,7 @@ docs/StoreApi.md
 docs/Tag.md
 docs/TestCollectionEndingWithWordList.md
 docs/TestCollectionEndingWithWordListObject.md
+docs/TestDescendants.md
 docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/TestResult.md
 docs/TestResultCode.md
@@ -160,6 +163,8 @@ src/Org.OpenAPITools/Model/CopyActivity.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
+src/Org.OpenAPITools/Model/Descendant1.cs
+src/Org.OpenAPITools/Model/Descendant2.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EntityBase.cs
@@ -227,6 +232,7 @@ src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
+src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
 src/Org.OpenAPITools/Model/TestResult.cs
 src/Org.OpenAPITools/Model/TestResultCode.cs

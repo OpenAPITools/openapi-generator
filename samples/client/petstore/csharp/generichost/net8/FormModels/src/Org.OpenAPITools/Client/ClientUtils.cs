@@ -212,6 +212,8 @@ namespace Org.OpenAPITools.Client
                 return RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClassRequiredNullableEnumIntegerOnly).ToString();
             if (obj is RequiredClassRequiredNullableEnumString requiredClassRequiredNullableEnumString)
                 return RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString);
+            if (obj is TestDescendantsObjectType testDescendantsObjectType)
+                return TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType);
             if (obj is TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter)
                 return TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter);
             if (obj is TestEnumParametersEnumQueryDoubleParameter testEnumParametersEnumQueryDoubleParameter)
