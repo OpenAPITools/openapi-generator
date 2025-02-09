@@ -59,6 +59,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<>();
     public Set<String> allOf = new TreeSet<>();
 
+    // direct descendants that are allowed to extend the current model
     public List<String> permits = new ArrayList<>();
 
     // The schema name as written in the OpenAPI document

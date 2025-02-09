@@ -2495,12 +2495,6 @@ public class DefaultCodegen implements CodegenConfig {
         return name;
     }
 
-    public boolean isCollection(final Schema<?> p) {
-        Schema<?> schema = unaliasSchema(p);
-        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
-        return ModelUtils.isArraySchema(target) || ModelUtils.isMapSchema(target);
-    }
-
     /**
      * Output the language-specific type declaration of the property.
      *
