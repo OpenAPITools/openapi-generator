@@ -532,6 +532,11 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator addUserDefinedTemplate(TemplateDefinition userDefinedTemplate) {
+        this.userDefinedTemplates.add(userDefinedTemplate);
+        return this;
+    }
+
     public CodegenConfigurator setApiNameSuffix(String suffix) {
         if (StringUtils.isNotEmpty(suffix)) {
             addAdditionalProperty(CodegenConstants.API_NAME_SUFFIX, suffix);
