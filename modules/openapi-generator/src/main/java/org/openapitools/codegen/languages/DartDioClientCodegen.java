@@ -72,7 +72,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public static final String FINAL_PROPERTIES_DEFAULT_VALUE = "true";
 
     public static final String SUPPORT_DART2 = "supportDart2";
-    public static final String SUPPORT_DART2_DEFAULT_VALUE = "false";
+    public static final String SUPPORT_DART2_DEFAULT_VALUE = "true";
 
     private static final String CLIENT_NAME = "clientName";
 
@@ -144,7 +144,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
 
         // Support Dart 2 Option
         final CliOption supportDart2 = CliOption.newBoolean(SUPPORT_DART2, "Use dependencies compatible with Dart 2.");
-        supportDart2.setDefault("false");
+        supportDart2.setDefault("true");
         cliOptions.add(supportDart2);
     }
 
