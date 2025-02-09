@@ -1609,16 +1609,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
+        if (GENERICHOST.equals(getLibrary())) {
+            // the isInherited property is not always correct
+            // fixing it here causes a breaking change in some generators
+            // only do this in generators that are prepared for the improvement
+            if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
+                property.isInherited = true;
+            }
+        }
+    }
+
+    @Override
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         super.patchProperty(enumRefs, model, property);
 
         if (!GENERICHOST.equals(getLibrary())) {
             if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
                 property.vendorExtensions.put("x-csharp-value-type", true);
-            }
-        } else {
-            if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
-                property.isInherited = true;
             }
         }
     }

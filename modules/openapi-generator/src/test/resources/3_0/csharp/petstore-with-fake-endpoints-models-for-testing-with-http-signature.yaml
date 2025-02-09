@@ -2836,6 +2836,40 @@ components:
       properties:
         id:
           type: string
+    Descendant1:
+      allOf:
+      - $ref: "#/components/schemas/TestDescendants"
+      - required:
+        - "descendantName"
+        type: "object"
+        properties:
+          descendantName:
+            type: "string"
+    Descendant2:
+      allOf:
+      - $ref: "#/components/schemas/TestDescendants"
+      - required:
+        - "confidentiality"
+        type: "object"
+        properties:
+          confidentiality:
+            type: "string"
+    TestDescendants:
+      required:
+      - "alternativeName"
+      - "objectType"
+      type: "object"
+      properties:
+        alternativeName:
+          type: "string"
+        objectType:
+          type: "string"
+          enum:
+          - "Descendant1"
+          - "Descendant2"
+      description: ""
+      discriminator:
+        propertyName: "objectType"
     CopyActivity:
       type: object
       required:

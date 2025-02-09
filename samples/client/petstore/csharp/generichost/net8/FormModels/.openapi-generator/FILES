@@ -34,6 +34,8 @@ docs/models/CopyActivity.md
 docs/models/DanishPig.md
 docs/models/DateOnlyClass.md
 docs/models/DeprecatedObject.md
+docs/models/Descendant1.md
+docs/models/Descendant2.md
 docs/models/Dog.md
 docs/models/Drawing.md
 docs/models/EntityBase.md
@@ -116,6 +118,8 @@ docs/models/SpecialModelName.md
 docs/models/Tag.md
 docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
+docs/models/TestDescendants.md
+docs/models/TestDescendantsObjectType.md
 docs/models/TestEnumParametersEnumHeaderStringParameter.md
 docs/models/TestEnumParametersEnumQueryDoubleParameter.md
 docs/models/TestEnumParametersEnumQueryIntegerParameter.md
@@ -197,6 +201,8 @@ src/Org.OpenAPITools/Model/CopyActivity.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
+src/Org.OpenAPITools/Model/Descendant1.cs
+src/Org.OpenAPITools/Model/Descendant2.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EntityBase.cs
@@ -279,6 +285,8 @@ src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
+src/Org.OpenAPITools/Model/TestDescendants.cs
+src/Org.OpenAPITools/Model/TestDescendantsObjectType.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumHeaderStringParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryDoubleParameter.cs
 src/Org.OpenAPITools/Model/TestEnumParametersEnumQueryIntegerParameter.cs

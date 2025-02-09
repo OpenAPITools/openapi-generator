@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public CopyActivity(string copyActivitytt) : base()
         {
+            Schema = (SchemaEnum)Enum.Parse(typeof(SchemaEnum), this.GetType().Name);
             CopyActivitytt = copyActivitytt;
             OnCreated();
         }
@@ -101,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new SchemaEnum Schema { get; } = (SchemaEnum)Enum.Parse(typeof(SchemaEnum), "CopyActivity");
+        public new SchemaEnum Schema { get; }
 
         /// <summary>
         /// Gets or Sets CopyActivitytt

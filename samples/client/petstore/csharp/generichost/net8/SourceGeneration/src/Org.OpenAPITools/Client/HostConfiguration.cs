@@ -66,6 +66,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new DanishPigJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyClassJsonConverter());
             _jsonOptions.Converters.Add(new DeprecatedObjectJsonConverter());
+            _jsonOptions.Converters.Add(new Descendant1JsonConverter());
+            _jsonOptions.Converters.Add(new Descendant2JsonConverter());
             _jsonOptions.Converters.Add(new DogJsonConverter());
             _jsonOptions.Converters.Add(new DrawingJsonConverter());
             _jsonOptions.Converters.Add(new EntityBaseJsonConverter());
@@ -139,6 +141,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
+            _jsonOptions.Converters.Add(new TestDescendantsJsonConverter());
             _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
             _jsonOptions.Converters.Add(new TestResultJsonConverter());
             _jsonOptions.Converters.Add(new TestResultCodeJsonConverter());
@@ -178,6 +181,8 @@ namespace Org.OpenAPITools.Client
                 new DanishPigSerializationContext(),
                 new DateOnlyClassSerializationContext(),
                 new DeprecatedObjectSerializationContext(),
+                new Descendant1SerializationContext(),
+                new Descendant2SerializationContext(),
                 new DogSerializationContext(),
                 new DrawingSerializationContext(),
                 new EntityBaseSerializationContext(),
@@ -245,6 +250,7 @@ namespace Org.OpenAPITools.Client
                 new TagSerializationContext(),
                 new TestCollectionEndingWithWordListSerializationContext(),
                 new TestCollectionEndingWithWordListObjectSerializationContext(),
+                new TestDescendantsSerializationContext(),
                 new TestInlineFreeformAdditionalPropertiesRequestSerializationContext(),
                 new TestResultSerializationContext(),
                 new TestResultCodeSerializationContext(),

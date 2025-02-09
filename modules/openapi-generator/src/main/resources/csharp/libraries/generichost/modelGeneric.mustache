@@ -34,6 +34,13 @@
             {{/isNew}}
             {{/isInherited}}
             {{/isDiscriminator}}
+            {{#vendorExtensions.x-is-base-or-new-discriminator}}
+            {{^model.composedSchemas.anyOf}}
+            {{^model.composedSchemas.oneOf}}
+            {{name}} = {{^isEnum}}this.GetType().Name{{/isEnum}}{{#isEnum}}({{datatypeWithEnum}})Enum.Parse(typeof({{datatypeWithEnum}}), this.GetType().Name){{/isEnum}};
+            {{/model.composedSchemas.oneOf}}
+            {{/model.composedSchemas.anyOf}}
+            {{/vendorExtensions.x-is-base-or-new-discriminator}}
             {{/allVars}}
             OnCreated();
         }
@@ -71,6 +78,13 @@
             {{/isNew}}
             {{/isInherited}}
             {{/isDiscriminator}}
+            {{#vendorExtensions.x-is-base-or-new-discriminator}}
+            {{^model.composedSchemas.anyOf}}
+            {{^model.composedSchemas.oneOf}}
+            {{name}} = {{^isEnum}}this.GetType().Name{{/isEnum}}{{#isEnum}}({{datatypeWithEnum}})Enum.Parse(typeof({{datatypeWithEnum}}), this.GetType().Name){{/isEnum}};
+            {{/model.composedSchemas.oneOf}}
+            {{/model.composedSchemas.anyOf}}
+            {{/vendorExtensions.x-is-base-or-new-discriminator}}
             {{/allVars}}
             OnCreated();
         }
@@ -162,7 +176,7 @@
         {{/vendorExtensions.x-duplicated-data-type}}
         {{/composedSchemas.oneOf}}
         {{#allVars}}
-        {{#isDiscriminator}}
+        {{#vendorExtensions.x-is-base-or-new-discriminator}}
         {{^model.composedSchemas.anyOf}}
         {{^model.composedSchemas.oneOf}}
         /// <summary>
@@ -170,12 +184,12 @@
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public {{#isNew}}new {{/isNew}}{{datatypeWithEnum}} {{name}} { get; } = {{^isNew}}"{{classname}}"{{/isNew}}{{#isNew}}{{^isEnum}}"{{classname}}"{{/isEnum}}{{#isEnum}}({{datatypeWithEnum}})Enum.Parse(typeof({{datatypeWithEnum}}), "{{classname}}"){{/isEnum}}{{/isNew}};
+        public {{#isNew}}new {{/isNew}}{{datatypeWithEnum}} {{name}} { get; }
 
         {{/model.composedSchemas.oneOf}}
         {{/model.composedSchemas.anyOf}}
-        {{/isDiscriminator}}
-        {{^isDiscriminator}}
+        {{/vendorExtensions.x-is-base-or-new-discriminator}}
+        {{^vendorExtensions.x-is-base-or-new-discriminator}}
         {{^isEnum}}
         {{#isInherited}}
         {{#isNew}}
@@ -228,7 +242,7 @@
 
         {{/isInherited}}
         {{/isEnum}}
-        {{/isDiscriminator}}
+        {{/vendorExtensions.x-is-base-or-new-discriminator}}
         {{/allVars}}
         {{#isAdditionalPropertiesTrue}}
         {{^parentModel}}
