@@ -26,36 +26,48 @@ namespace OpenAPI\Server\Model;
 /**
  * EnumTest
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class EnumTest
 {
     /**
+    *
     * 
-    * @param string $enumString
+    * @param \OpenAPI\Server\Model\EnumTestEnumString $enumString
+    *
     * 
-    * @param string $enumStringRequired
+    * @param \OpenAPI\Server\Model\EnumTestEnumString $enumStringRequired
+    *
     * 
-    * @param int $enumInteger
+    * @param \OpenAPI\Server\Model\EnumTestEnumInteger $enumInteger
+    *
     * 
-    * @param float $enumNumber
+    * @param \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumNumber
+    *
     * 
     * @param null | \OpenAPI\Server\Model\OuterEnum $outerEnum
+    *
     * 
     * @param \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger
+    *
     * 
     * @param \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue
+    *
     * 
     * @param \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue
     */
 
     public function __construct(
-        public string $enumString,
-        public string $enumStringRequired,
-        public int $enumInteger,
-        public float $enumNumber,
-        public ?\OpenAPI\Server\Model\OuterEnum $outerEnum = null,
+        public \OpenAPI\Server\Model\EnumTestEnumString $enumString,
+        public \OpenAPI\Server\Model\EnumTestEnumString $enumStringRequired,
+        public \OpenAPI\Server\Model\EnumTestEnumInteger $enumInteger,
+        public \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumNumber,
         public \OpenAPI\Server\Model\OuterEnumInteger $outerEnumInteger,
         public \OpenAPI\Server\Model\OuterEnumDefaultValue $outerEnumDefaultValue,
         public \OpenAPI\Server\Model\OuterEnumIntegerDefaultValue $outerEnumIntegerDefaultValue,
+        public ?\OpenAPI\Server\Model\OuterEnum $outerEnum = null,
     ) {}
 }
 

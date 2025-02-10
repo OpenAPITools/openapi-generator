@@ -27,15 +27,23 @@ namespace OpenAPI\Server\Model;
  * Name
  * @description Model for testing model name same as property name
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Name
 {
     /**
+    *
     * 
     * @param int $name
+    *
     * 
     * @param int $snakeCase
+    *
     * 
     * @param string $property
+    *
     * 
     * @param int $_123number
     */

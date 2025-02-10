@@ -19,31 +19,15 @@
 
 
 /**
- * EnumArrays
+ * EnumArraysJustSymbol
  */
 namespace OpenAPI\Server\Model;
 
 /**
- * EnumArrays
+ * EnumArraysJustSymbol
  */
-use Crell\Serde\Renaming\Cases;
-use Crell\Serde\Attributes as Serde;
-
-#[Serde\ClassSettings(renameWith: Cases::snake_case)]
-class EnumArrays
+enum EnumArraysJustSymbol: string
 {
-    /**
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysArrayEnumInner[] $arrayEnum
-    */
-
-    public function __construct(
-        public \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol,
-        public array $arrayEnum,
-    ) {}
+        case GREATER_THAN_OR_EQUAL_TO = '>=';
+        case DOLLAR = '$';
 }
-

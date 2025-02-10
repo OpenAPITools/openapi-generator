@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * ClassModel
  * @description Model for testing model with \"_class\" property
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class ClassModel
 {
     /**
+    *
     * 
     * @param string $class
     */

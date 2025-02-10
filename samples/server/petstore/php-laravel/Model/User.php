@@ -26,23 +26,35 @@ namespace OpenAPI\Server\Model;
 /**
  * User
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class User
 {
     /**
+    *
     * 
     * @param int $id
+    *
     * 
     * @param string $username
+    *
     * 
     * @param string $firstName
+    *
     * 
     * @param string $lastName
+    *
     * 
     * @param string $email
+    *
     * 
     * @param string $password
+    *
     * 
     * @param string $phone
+    *
     * User Status
     * @param int $userStatus
     */

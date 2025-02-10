@@ -26,19 +26,29 @@ namespace OpenAPI\Server\Model;
 /**
  * Capitalization
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Capitalization
 {
     /**
+    *
     * 
     * @param string $smallCamel
+    *
     * 
     * @param string $capitalCamel
+    *
     * 
     * @param string $smallSnake
+    *
     * 
     * @param string $capitalSnake
+    *
     * 
     * @param string $sCAETHFlowPoints
+    *
     * Name of the pet
     * @param string $aTTNAME
     */

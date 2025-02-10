@@ -26,13 +26,20 @@ namespace OpenAPI\Server\Model;
 /**
  * OuterComposite
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class OuterComposite
 {
     /**
+    *
     * 
     * @param float $myNumber
+    *
     * 
     * @param string $myString
+    *
     * 
     * @param bool $myBoolean
     */

@@ -26,21 +26,28 @@ namespace OpenAPI\Server\Model;
 /**
  * ChildWithNullable
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class ChildWithNullable
 {
     /**
+    *
     * 
-    * @param string $type
+    * @param \OpenAPI\Server\Model\ParentWithNullableType $type
+    *
     * 
     * @param null | string $nullableProperty
+    *
     * 
     * @param string $otherProperty
     */
 
     public function __construct(
-        public string $type,
-        public ?string $nullableProperty = null,
+        public \OpenAPI\Server\Model\ParentWithNullableType $type,
         public string $otherProperty,
+        public ?string $nullableProperty = null,
     ) {}
 }
 

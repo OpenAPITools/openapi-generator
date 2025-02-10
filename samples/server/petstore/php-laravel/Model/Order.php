@@ -26,19 +26,29 @@ namespace OpenAPI\Server\Model;
 /**
  * Order
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Order
 {
     /**
+    *
     * 
     * @param int $id
+    *
     * 
     * @param int $petId
+    *
     * 
     * @param int $quantity
+    *
     * 
     * @param \DateTime $shipDate
-    * Order Status
-    * @param string $status
+    *
+    * 
+    * @param \OpenAPI\Server\Model\OrderStatus $status
+    *
     * 
     * @param bool $complete
     */
@@ -48,7 +58,7 @@ class Order
         public int $petId,
         public int $quantity,
         public \DateTime $shipDate,
-        public string $status,
+        public \OpenAPI\Server\Model\OrderStatus $status,
         public bool $complete = false,
     ) {}
 }

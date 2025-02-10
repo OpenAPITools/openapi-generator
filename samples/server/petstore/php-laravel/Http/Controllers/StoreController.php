@@ -47,21 +47,27 @@ class StoreController extends Controller
      * Delete purchase order by ID.
      *
      */
-    public function deleteOrder(Request $request): JsonResponse
+    public function deleteOrder(Request $request, string $orderId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'orderId' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'orderId' => $orderId,
+                ],
+                $request->all(),
+            ),
+            [
+                'orderId' => [
+                    'required',
+                    'string',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $orderId = $request->string('orderId')->value();
 
         try {
             $apiResult = $this->api->deleteOrder($orderId);
@@ -71,31 +77,11 @@ class StoreController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -110,11 +96,18 @@ class StoreController extends Controller
      */
     public function getInventory(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-        ]);
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+            ],
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -126,17 +119,8 @@ class StoreController extends Controller
         }
 
         if (is_array($apiResult)) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, 200);
         }
 
 
@@ -149,23 +133,29 @@ class StoreController extends Controller
      * Find purchase order by ID.
      *
      */
-    public function getOrderById(Request $request): JsonResponse
+    public function getOrderById(Request $request, int $orderId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'orderId' => [
-                'required',
-                'gte:1',
-                'lte:5',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'orderId' => $orderId,
+                ],
+                $request->all(),
+            ),
+            [
+                'orderId' => [
+                    'required',
+                    'gte:1',
+                    'lte:5',
+                    'integer',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $orderId = $request->integer('orderId');
 
         try {
             $apiResult = $this->api->getOrderById($orderId);
@@ -175,45 +165,15 @@ class StoreController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\Order) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -228,22 +188,22 @@ class StoreController extends Controller
      */
     public function placeOrder(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'order' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $order = $this->serde->deserialize($request->get('order'), from: 'array', to: \OpenAPI\Server\Model\Order::class);
-
-        if ($order === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $order = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Order::class);
 
         try {
             $apiResult = $this->api->placeOrder($order);
@@ -253,31 +213,11 @@ class StoreController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\Order) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
 

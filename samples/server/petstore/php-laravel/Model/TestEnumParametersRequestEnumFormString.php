@@ -19,31 +19,17 @@
 
 
 /**
- * EnumArrays
+ * TestEnumParametersRequestEnumFormString
  */
 namespace OpenAPI\Server\Model;
 
 /**
- * EnumArrays
+ * TestEnumParametersRequestEnumFormString
+ * @description Form parameter enum test (string)
  */
-use Crell\Serde\Renaming\Cases;
-use Crell\Serde\Attributes as Serde;
-
-#[Serde\ClassSettings(renameWith: Cases::snake_case)]
-class EnumArrays
+enum TestEnumParametersRequestEnumFormString: string
 {
-    /**
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysArrayEnumInner[] $arrayEnum
-    */
-
-    public function __construct(
-        public \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol,
-        public array $arrayEnum,
-    ) {}
+        case ABC = '_abc';
+        case EFG = '-efg';
+        case XYZ = '(xyz)';
 }
-

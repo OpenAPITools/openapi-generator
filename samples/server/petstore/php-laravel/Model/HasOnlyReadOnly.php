@@ -26,11 +26,17 @@ namespace OpenAPI\Server\Model;
 /**
  * HasOnlyReadOnly
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class HasOnlyReadOnly
 {
     /**
+    *
     * 
     * @param string $bar
+    *
     * 
     * @param string $foo
     */

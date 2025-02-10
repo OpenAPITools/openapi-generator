@@ -26,13 +26,20 @@ namespace OpenAPI\Server\Model;
 /**
  * Cat
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Cat
 {
     /**
+    *
     * 
     * @param string $className
+    *
     * 
     * @param string $color
+    *
     * 
     * @param bool $declawed
     */

@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * ModelReturn
  * @description Model for testing reserved words
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class ModelReturn
 {
     /**
+    *
     * 
     * @param int $return
     */

@@ -20,6 +20,7 @@
 
 namespace OpenAPI\Server\Api;
 
+
 interface FakeApiInterface {
 
 
@@ -127,7 +128,7 @@ interface FakeApiInterface {
      * Operation testAdditionalPropertiesReference
      *
      * test referenced additionalProperties
-     * @param array&lt;string,mixed&gt; $requestBody
+     * @param array<string,mixed> $requestBody
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testAdditionalPropertiesReference(
@@ -234,27 +235,27 @@ interface FakeApiInterface {
      * Operation testEnumParameters
      *
      * To test enum parameters
-     * @param null | string[] $enumHeaderStringArray
-     * @param null | string $enumHeaderString
-     * @param null | string[] $enumQueryStringArray
-     * @param null | string $enumQueryString
-     * @param null | int $enumQueryInteger
-     * @param null | float $enumQueryDouble
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumHeaderStringArray
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumHeaderString
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumQueryStringArray
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumQueryString
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble
      * @param null | \OpenAPI\Server\Model\EnumClass[] $enumQueryModelArray
-     * @param null | string[] $enumFormStringArray
-     * @param null | string $enumFormString
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormStringArrayInner[] $enumFormStringArray
+     * @param null | \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString
      * @return \OpenAPI\Server\Model\NoContent400 | \OpenAPI\Server\Model\NoContent404
      */
     public function testEnumParameters(
             ?array $enumHeaderStringArray,
-            ?string $enumHeaderString,
+            ?\OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumHeaderString,
             ?array $enumQueryStringArray,
-            ?string $enumQueryString,
-            ?int $enumQueryInteger,
-            ?float $enumQueryDouble,
+            ?\OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter $enumQueryString,
+            ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter $enumQueryInteger,
+            ?\OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter $enumQueryDouble,
             ?array $enumQueryModelArray,
             ?array $enumFormStringArray,
-            ?string $enumFormString,
+            ?\OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString $enumFormString,
     ):
         \OpenAPI\Server\Model\NoContent400 | 
         \OpenAPI\Server\Model\NoContent404
@@ -289,7 +290,7 @@ interface FakeApiInterface {
      * Operation testInlineAdditionalProperties
      *
      * test inline additionalProperties
-     * @param array&lt;string,string&gt; $requestBody
+     * @param array<string,string> $requestBody
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testInlineAdditionalProperties(
@@ -351,7 +352,7 @@ interface FakeApiInterface {
      * @param string[] $url
      * @param string[] $context
      * @param string $allowEmpty
-     * @param null | array&lt;string,string&gt; $language
+     * @param null | array<string,string> $language
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testQueryParameterCollectionFormat(
@@ -371,7 +372,7 @@ interface FakeApiInterface {
      * Operation testStringMapReference
      *
      * test referenced string map
-     * @param array&lt;string,string&gt; $requestBody
+     * @param array<string,string> $requestBody
      * @return \OpenAPI\Server\Model\NoContent200
      */
     public function testStringMapReference(

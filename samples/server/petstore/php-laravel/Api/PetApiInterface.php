@@ -20,6 +20,7 @@
 
 namespace OpenAPI\Server\Api;
 
+
 interface PetApiInterface {
 
 
@@ -59,7 +60,7 @@ interface PetApiInterface {
      * Operation findPetsByStatus
      *
      * Finds Pets by status
-     * @param string[] $status
+     * @param \OpenAPI\Server\Model\FindPetsByStatusStatusParameterInner[] $status
      * @return \OpenAPI\Server\Model\Pet[] | \OpenAPI\Server\Model\NoContent400
      */
     public function findPetsByStatus(

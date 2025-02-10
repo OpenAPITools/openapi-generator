@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * HealthCheckResult
  * @description Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class HealthCheckResult
 {
     /**
+    *
     * 
     * @param null | string $nullableMessage
     */

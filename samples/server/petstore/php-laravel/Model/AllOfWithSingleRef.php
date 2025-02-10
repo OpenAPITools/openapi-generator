@@ -26,11 +26,17 @@ namespace OpenAPI\Server\Model;
 /**
  * AllOfWithSingleRef
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class AllOfWithSingleRef
 {
     /**
+    *
     * 
     * @param string $username
+    *
     * 
     * @param \OpenAPI\Server\Model\SingleRefType $singleRefType
     */

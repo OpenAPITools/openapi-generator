@@ -26,15 +26,23 @@ namespace OpenAPI\Server\Model;
 /**
  * MapTest
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class MapTest
 {
     /**
+    *
     * 
     * @param array<string,array<string,string>> $mapMapOfString
+    *
     * 
-    * @param array<string,string> $mapOfEnumString
+    * @param array<string,\OpenAPI\Server\Model\MapTestMapOfEnumStringValue> $mapOfEnumString
+    *
     * 
     * @param array<string,bool> $directMap
+    *
     * 
     * @param array<string,bool> $indirectMap
     */

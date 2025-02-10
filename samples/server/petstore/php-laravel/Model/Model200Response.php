@@ -27,11 +27,17 @@ namespace OpenAPI\Server\Model;
  * Model200Response
  * @description Model for testing model name starting with number
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Model200Response
 {
     /**
+    *
     * 
     * @param int $name
+    *
     * 
     * @param string $class
     */

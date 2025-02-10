@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * NoContent200
  * @description No content for 200
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class NoContent200
 {
     /**
+    *
     * dummy property for no-content responses
     * @param null | string $dummy
     */

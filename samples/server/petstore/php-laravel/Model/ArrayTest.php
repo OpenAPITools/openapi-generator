@@ -26,13 +26,20 @@ namespace OpenAPI\Server\Model;
 /**
  * ArrayTest
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class ArrayTest
 {
     /**
+    *
     * 
     * @param string[] $arrayOfString
+    *
     * 
     * @param int[][] $arrayArrayOfInteger
+    *
     * 
     * @param \OpenAPI\Server\Model\ReadOnlyFirst[][] $arrayArrayOfModel
     */

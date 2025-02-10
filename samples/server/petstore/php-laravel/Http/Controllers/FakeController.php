@@ -49,11 +49,18 @@ class FakeController extends Controller
      */
     public function fakeBigDecimalMap(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-        ]);
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+            ],
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -65,17 +72,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\FakeBigDecimalMap200Response) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -90,11 +87,18 @@ class FakeController extends Controller
      */
     public function fakeHealthGet(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-        ]);
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+            ],
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -106,17 +110,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\HealthCheckResult) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -131,28 +125,22 @@ class FakeController extends Controller
      */
     public function fakeHttpSignatureTest(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'pet' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-            'query1' => [
-                'string',
-            ],
-            'header1' => [
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $pet = $this->serde->deserialize($request->get('pet'), from: 'array', to: \OpenAPI\Server\Model\Pet::class);
-
-        if ($pet === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $pet = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Pet::class);
 
         $query1 = $request->string('query1')->value();
 
@@ -166,17 +154,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -191,14 +169,18 @@ class FakeController extends Controller
      */
     public function fakeOuterBooleanSerialize(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'body' => [
-                'boolean',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -212,17 +194,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof bool) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -237,21 +209,22 @@ class FakeController extends Controller
      */
     public function fakeOuterCompositeSerialize(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'outerComposite' => [
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $outerComposite = $this->serde->deserialize($request->get('outerComposite'), from: 'array', to: \OpenAPI\Server\Model\OuterComposite::class);
-
-        if ($outerComposite === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $outerComposite = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\OuterComposite::class);
 
         try {
             $apiResult = $this->api->fakeOuterCompositeSerialize($outerComposite);
@@ -261,17 +234,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\OuterComposite) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -286,14 +249,18 @@ class FakeController extends Controller
      */
     public function fakeOuterNumberSerialize(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'body' => [
-                'numeric',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -307,17 +274,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof float) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -332,14 +289,18 @@ class FakeController extends Controller
      */
     public function fakeOuterStringSerialize(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'body' => [
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -353,17 +314,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof string) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -378,22 +329,22 @@ class FakeController extends Controller
      */
     public function fakePropertyEnumIntegerSerialize(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'outerObjectWithEnumProperty' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $outerObjectWithEnumProperty = $this->serde->deserialize($request->get('outerObjectWithEnumProperty'), from: 'array', to: \OpenAPI\Server\Model\OuterObjectWithEnumProperty::class);
-
-        if ($outerObjectWithEnumProperty === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $outerObjectWithEnumProperty = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\OuterObjectWithEnumProperty::class);
 
         try {
             $apiResult = $this->api->fakePropertyEnumIntegerSerialize($outerObjectWithEnumProperty);
@@ -403,17 +354,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\OuterObjectWithEnumProperty) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -428,14 +369,18 @@ class FakeController extends Controller
      */
     public function testAdditionalPropertiesReference(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'requestBody' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -449,17 +394,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -474,15 +409,18 @@ class FakeController extends Controller
      */
     public function testBodyWithBinary(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'body' => [
-                'file',
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -496,17 +434,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -521,22 +449,22 @@ class FakeController extends Controller
      */
     public function testBodyWithFileSchema(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'fileSchemaTestClass' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $fileSchemaTestClass = $this->serde->deserialize($request->get('fileSchemaTestClass'), from: 'array', to: \OpenAPI\Server\Model\FileSchemaTestClass::class);
-
-        if ($fileSchemaTestClass === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $fileSchemaTestClass = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\FileSchemaTestClass::class);
 
         try {
             $apiResult = $this->api->testBodyWithFileSchema($fileSchemaTestClass);
@@ -546,17 +474,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -571,28 +489,24 @@ class FakeController extends Controller
      */
     public function testBodyWithQueryParams(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'query' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-            'user' => [
-                'required',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
         $query = $request->string('query')->value();
 
-        $user = $this->serde->deserialize($request->get('user'), from: 'array', to: \OpenAPI\Server\Model\User::class);
-
-        if ($user === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $user = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\User::class);
 
         try {
             $apiResult = $this->api->testBodyWithQueryParams($query, $user);
@@ -602,17 +516,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -627,22 +531,22 @@ class FakeController extends Controller
      */
     public function testClientModel(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'client' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $client = $this->serde->deserialize($request->get('client'), from: 'array', to: \OpenAPI\Server\Model\Client::class);
-
-        if ($client === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $client = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Client::class);
 
         try {
             $apiResult = $this->api->testClientModel($client);
@@ -652,17 +556,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\Client) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -677,65 +571,72 @@ class FakeController extends Controller
      */
     public function testEndpointParameters(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'number' => [
-                'required',
-                'gte:32.1',
-                'lte:543.2',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'number' => [
+                    'required',
+                    'gte:32.1',
+                    'lte:543.2',
+                ],
+                'double' => [
+                    'required',
+                    'gte:67.8',
+                    'lte:123.4',
+                ],
+                'patternWithoutDelimiter' => [
+                    'required',
+                    'regex:/^[A-Z].*/',
+                    'string',
+                ],
+                'byte' => [
+                    'required',
+                ],
+                'integer' => [
+                    'gte:10',
+                    'lte:100',
+                    'integer',
+                ],
+                'int32' => [
+                    'gte:20',
+                    'lte:200',
+                    'integer',
+                ],
+                'int64' => [
+                    'integer',
+                ],
+                'float' => [
+                    'lte:987.6',
+                ],
+                'string' => [
+                    'regex:/[a-z]/i',
+                    'string',
+                ],
+                'binary' => [
+                    'file',
+                ],
+                'date' => [
+                ],
+                'dateTime' => [
+                    'date',
+                ],
+                'password' => [
+                    'min:10',
+                    'max:64',
+                    'string',
+                ],
+                'callback' => [
+                    'string',
+                ],
             ],
-            'double' => [
-                'required',
-                'gte:67.8',
-                'lte:123.4',
-            ],
-            'patternWithoutDelimiter' => [
-                'required',
-                'regex:/^[A-Z].*/',
-                'string',
-            ],
-            'byte' => [
-                'required',
-            ],
-            'integer' => [
-                'gte:10',
-                'lte:100',
-                'integer',
-            ],
-            'int32' => [
-                'gte:20',
-                'lte:200',
-                'integer',
-            ],
-            'int64' => [
-                'integer',
-            ],
-            'float' => [
-                'lte:987.6',
-            ],
-            'string' => [
-                'regex:/[a-z]/i',
-                'string',
-            ],
-            'binary' => [
-                'file',
-            ],
-            'date' => [
-            ],
-            'dateTime' => [
-                'date',
-            ],
-            'password' => [
-                'min:10',
-                'max:64',
-                'string',
-            ],
-            'callback' => [
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -775,31 +676,11 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -814,57 +695,60 @@ class FakeController extends Controller
      */
     public function testEnumParameters(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'enumHeaderStringArray' => [
-                'array',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'enumHeaderStringArray' => [
+                    'array',
+                ],
+                'enumHeaderString' => [
+                ],
+                'enumQueryStringArray' => [
+                    'array',
+                ],
+                'enumQueryString' => [
+                ],
+                'enumQueryInteger' => [
+                ],
+                'enumQueryDouble' => [
+                ],
+                'enumQueryModelArray' => [
+                    'array',
+                ],
+                'enumFormStringArray' => [
+                    'array',
+                ],
+                'enumFormString' => [
+                ],
             ],
-            'enumHeaderString' => [
-                'string',
-            ],
-            'enumQueryStringArray' => [
-                'array',
-            ],
-            'enumQueryString' => [
-                'string',
-            ],
-            'enumQueryInteger' => [
-                'integer',
-            ],
-            'enumQueryDouble' => [
-            ],
-            'enumQueryModelArray' => [
-                'array',
-            ],
-            'enumFormStringArray' => [
-                'array',
-            ],
-            'enumFormString' => [
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
         $enumHeaderStringArray = $request->get('enumHeaderStringArray');
 
-        $enumHeaderString = $request->string('enumHeaderString')->value();
+        $enumHeaderString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter::class);
 
         $enumQueryStringArray = $request->get('enumQueryStringArray');
 
-        $enumQueryString = $request->string('enumQueryString')->value();
+        $enumQueryString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumHeaderStringParameter::class);
 
-        $enumQueryInteger = $request->integer('enumQueryInteger');
+        $enumQueryInteger = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumQueryIntegerParameter::class);
 
-        $enumQueryDouble = $request->float('enumQueryDouble');
+        $enumQueryDouble = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersEnumQueryDoubleParameter::class);
 
         $enumQueryModelArray = $request->get('enumQueryModelArray');
 
         $enumFormStringArray = $request->get('enumFormStringArray');
 
-        $enumFormString = $request->string('enumFormString')->value();
+        $enumFormString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
 
         try {
             $apiResult = $this->api->testEnumParameters($enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble, $enumQueryModelArray, $enumFormStringArray, $enumFormString);
@@ -874,31 +758,11 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -913,32 +777,39 @@ class FakeController extends Controller
      */
     public function testGroupParameters(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'requiredStringGroup' => [
-                'required',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'requiredStringGroup' => [
+                    'required',
+                    'integer',
+                ],
+                'requiredBooleanGroup' => [
+                    'required',
+                    'boolean',
+                ],
+                'requiredInt64Group' => [
+                    'required',
+                    'integer',
+                ],
+                'stringGroup' => [
+                    'integer',
+                ],
+                'booleanGroup' => [
+                    'boolean',
+                ],
+                'int64Group' => [
+                    'integer',
+                ],
             ],
-            'requiredBooleanGroup' => [
-                'required',
-                'boolean',
-            ],
-            'requiredInt64Group' => [
-                'required',
-                'integer',
-            ],
-            'stringGroup' => [
-                'integer',
-            ],
-            'booleanGroup' => [
-                'boolean',
-            ],
-            'int64Group' => [
-                'integer',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -962,17 +833,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
 
@@ -987,14 +848,18 @@ class FakeController extends Controller
      */
     public function testInlineAdditionalProperties(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'requestBody' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -1008,17 +873,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -1033,22 +888,22 @@ class FakeController extends Controller
      */
     public function testInlineFreeformAdditionalProperties(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'testInlineFreeformAdditionalPropertiesRequest' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $testInlineFreeformAdditionalPropertiesRequest = $this->serde->deserialize($request->get('testInlineFreeformAdditionalPropertiesRequest'), from: 'array', to: \OpenAPI\Server\Model\TestInlineFreeformAdditionalPropertiesRequest::class);
-
-        if ($testInlineFreeformAdditionalPropertiesRequest === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $testInlineFreeformAdditionalPropertiesRequest = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestInlineFreeformAdditionalPropertiesRequest::class);
 
         try {
             $apiResult = $this->api->testInlineFreeformAdditionalProperties($testInlineFreeformAdditionalPropertiesRequest);
@@ -1058,17 +913,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -1083,19 +928,26 @@ class FakeController extends Controller
      */
     public function testJsonFormData(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'param' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'param' => [
+                    'required',
+                    'string',
+                ],
+                'param2' => [
+                    'required',
+                    'string',
+                ],
             ],
-            'param2' => [
-                'required',
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -1111,17 +963,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -1136,22 +978,22 @@ class FakeController extends Controller
      */
     public function testNullable(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'childWithNullable' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $childWithNullable = $this->serde->deserialize($request->get('childWithNullable'), from: 'array', to: \OpenAPI\Server\Model\ChildWithNullable::class);
-
-        if ($childWithNullable === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $childWithNullable = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\ChildWithNullable::class);
 
         try {
             $apiResult = $this->api->testNullable($childWithNullable);
@@ -1161,17 +1003,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -1186,37 +1018,44 @@ class FakeController extends Controller
      */
     public function testQueryParameterCollectionFormat(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'pipe' => [
-                'required',
-                'array',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'pipe' => [
+                    'required',
+                    'array',
+                ],
+                'ioutil' => [
+                    'required',
+                    'array',
+                ],
+                'http' => [
+                    'required',
+                    'array',
+                ],
+                'url' => [
+                    'required',
+                    'array',
+                ],
+                'context' => [
+                    'required',
+                    'array',
+                ],
+                'allowEmpty' => [
+                    'required',
+                    'string',
+                ],
+                'language' => [
+                ],
             ],
-            'ioutil' => [
-                'required',
-                'array',
-            ],
-            'http' => [
-                'required',
-                'array',
-            ],
-            'url' => [
-                'required',
-                'array',
-            ],
-            'context' => [
-                'required',
-                'array',
-            ],
-            'allowEmpty' => [
-                'required',
-                'string',
-            ],
-            'language' => [
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -1242,17 +1081,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -1267,14 +1096,18 @@ class FakeController extends Controller
      */
     public function testStringMapReference(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'requestBody' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -1288,17 +1121,7 @@ class FakeController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 

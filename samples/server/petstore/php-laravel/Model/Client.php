@@ -26,9 +26,14 @@ namespace OpenAPI\Server\Model;
 /**
  * Client
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Client
 {
     /**
+    *
     * 
     * @param string $client
     */

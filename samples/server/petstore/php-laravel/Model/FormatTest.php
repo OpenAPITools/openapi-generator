@@ -26,39 +26,59 @@ namespace OpenAPI\Server\Model;
 /**
  * FormatTest
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class FormatTest
 {
     /**
+    *
     * 
     * @param int $integer
+    *
     * 
     * @param int $int32
+    *
     * 
     * @param int $int64
+    *
     * 
     * @param float $number
+    *
     * 
     * @param float $float
+    *
     * 
     * @param float $double
+    *
     * 
     * @param float $decimal
+    *
     * 
     * @param string $string
+    *
     * 
     * @param string $byte
+    *
     * 
     * @param \Illuminate\Http\UploadedFile $binary
+    *
     * 
     * @param \DateTime $date
+    *
     * 
     * @param \DateTime $dateTime
+    *
     * 
     * @param string $uuid
+    *
     * 
     * @param string $password
+    *
     * A string that is a 10 digit number. Can have leading zeros.
     * @param string $patternWithDigits
+    *
     * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
     * @param string $patternWithDigitsAndDelimiter
     */

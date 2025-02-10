@@ -26,17 +26,25 @@ namespace OpenAPI\Server\Model;
 /**
  * ObjectWithDeprecatedFields
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class ObjectWithDeprecatedFields
 {
     /**
+    *
     * 
     * @param string $uuid
+    *
     * 
     * @deprecated
     * @param float $id
+    *
     * 
     * @deprecated
     * @param \OpenAPI\Server\Model\DeprecatedObject $deprecatedRef
+    *
     * 
     * @deprecated
     * @param string[] $bars

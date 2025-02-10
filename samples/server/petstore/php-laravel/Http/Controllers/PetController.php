@@ -49,22 +49,22 @@ class PetController extends Controller
      */
     public function addPet(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'pet' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $pet = $this->serde->deserialize($request->get('pet'), from: 'array', to: \OpenAPI\Server\Model\Pet::class);
-
-        if ($pet === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $pet = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Pet::class);
 
         try {
             $apiResult = $this->api->addPet($pet);
@@ -74,31 +74,11 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent405) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(405);
-            }
-
-            return response()->json($responseBody, 405);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 405);
         }
 
 
@@ -111,24 +91,30 @@ class PetController extends Controller
      * Deletes a pet.
      *
      */
-    public function deletePet(Request $request): JsonResponse
+    public function deletePet(Request $request, int $petId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'petId' => [
-                'required',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'petId' => $petId,
+                ],
+                $request->all(),
+            ),
+            [
+                'petId' => [
+                    'required',
+                    'integer',
+                ],
+                'apiKey' => [
+                    'string',
+                ],
             ],
-            'apiKey' => [
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $petId = $request->integer('petId');
 
         $apiKey = $request->string('apiKey')->value();
 
@@ -140,31 +126,11 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
 
@@ -179,15 +145,22 @@ class PetController extends Controller
      */
     public function findPetsByStatus(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'status' => [
-                'required',
-                'array',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'status' => [
+                    'required',
+                    'array',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -201,31 +174,12 @@ class PetController extends Controller
         }
 
         if (is_array($apiResult)) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
 
@@ -241,15 +195,22 @@ class PetController extends Controller
      */
     public function findPetsByTags(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'tags' => [
-                'required',
-                'array',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'tags' => [
+                    'required',
+                    'array',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -263,31 +224,12 @@ class PetController extends Controller
         }
 
         if (is_array($apiResult)) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            $serialized = array_map(fn ($item) => $this->serde->serialize($item, format: 'array'), $apiResult);
+            return response()->json($serialized, 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
 
@@ -300,21 +242,27 @@ class PetController extends Controller
      * Find pet by ID.
      *
      */
-    public function getPetById(Request $request): JsonResponse
+    public function getPetById(Request $request, int $petId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'petId' => [
-                'required',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'petId' => $petId,
+                ],
+                $request->all(),
+            ),
+            [
+                'petId' => [
+                    'required',
+                    'integer',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $petId = $request->integer('petId');
 
         try {
             $apiResult = $this->api->getPetById($petId);
@@ -324,45 +272,15 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\Pet) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -377,22 +295,22 @@ class PetController extends Controller
      */
     public function updatePet(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'pet' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $pet = $this->serde->deserialize($request->get('pet'), from: 'array', to: \OpenAPI\Server\Model\Pet::class);
-
-        if ($pet === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $pet = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\Pet::class);
 
         try {
             $apiResult = $this->api->updatePet($pet);
@@ -402,59 +320,19 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent405) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(405);
-            }
-
-            return response()->json($responseBody, 405);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 405);
         }
 
 
@@ -467,27 +345,33 @@ class PetController extends Controller
      * Updates a pet in the store with form data.
      *
      */
-    public function updatePetWithForm(Request $request): JsonResponse
+    public function updatePetWithForm(Request $request, int $petId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'petId' => [
-                'required',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'petId' => $petId,
+                ],
+                $request->all(),
+            ),
+            [
+                'petId' => [
+                    'required',
+                    'integer',
+                ],
+                'name' => [
+                    'string',
+                ],
+                'status' => [
+                    'string',
+                ],
             ],
-            'name' => [
-                'string',
-            ],
-            'status' => [
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $petId = $request->integer('petId');
 
         $name = $request->string('name')->value();
 
@@ -501,31 +385,11 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent200) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent405) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(405);
-            }
-
-            return response()->json($responseBody, 405);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 405);
         }
 
 
@@ -538,27 +402,33 @@ class PetController extends Controller
      * uploads an image.
      *
      */
-    public function uploadFile(Request $request): JsonResponse
+    public function uploadFile(Request $request, int $petId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'petId' => [
-                'required',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'petId' => $petId,
+                ],
+                $request->all(),
+            ),
+            [
+                'petId' => [
+                    'required',
+                    'integer',
+                ],
+                'additionalMetadata' => [
+                    'string',
+                ],
+                'file' => [
+                    'file',
+                ],
             ],
-            'additionalMetadata' => [
-                'string',
-            ],
-            'file' => [
-                'file',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $petId = $request->integer('petId');
 
         $additionalMetadata = $request->string('additionalMetadata')->value();
 
@@ -572,17 +442,7 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\ApiResponse) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 
@@ -595,28 +455,34 @@ class PetController extends Controller
      * uploads an image (required).
      *
      */
-    public function uploadFileWithRequiredFile(Request $request): JsonResponse
+    public function uploadFileWithRequiredFile(Request $request, int $petId): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'petId' => [
-                'required',
-                'integer',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'petId' => $petId,
+                ],
+                $request->all(),
+            ),
+            [
+                'petId' => [
+                    'required',
+                    'integer',
+                ],
+                'requiredFile' => [
+                    'file',
+                    'required',
+                ],
+                'additionalMetadata' => [
+                    'string',
+                ],
             ],
-            'requiredFile' => [
-                'file',
-                'required',
-            ],
-            'additionalMetadata' => [
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $petId = $request->integer('petId');
 
         $requiredFile = $request->file('requiredFile');
 
@@ -630,17 +496,7 @@ class PetController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\ApiResponse) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
 

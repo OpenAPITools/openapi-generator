@@ -1778,7 +1778,7 @@ class QueryApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $query_object,
             'query_object', // param base name
-            'Bird', // openApiType
+            '\OpenAPIClientModelBirdOpenAPIClientModelCategory', // openApiType
             'deepObject', // style
             true, // explode
             false // required
@@ -3368,7 +3368,7 @@ class QueryApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $query_object,
             'query_object', // param base name
-            'object', // openApiType
+            'ObjectOpenAPIClientModelQuery', // openApiType
             'form', // style
             true, // explode
             false // required

@@ -26,13 +26,20 @@ namespace OpenAPI\Server\Model;
 /**
  * ApiResponse
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class ApiResponse
 {
     /**
+    *
     * 
     * @param int $code
+    *
     * 
     * @param string $type
+    *
     * 
     * @param string $message
     */

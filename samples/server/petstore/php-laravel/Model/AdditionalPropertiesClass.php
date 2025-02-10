@@ -26,11 +26,17 @@ namespace OpenAPI\Server\Model;
 /**
  * AdditionalPropertiesClass
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class AdditionalPropertiesClass
 {
     /**
+    *
     * 
     * @param array<string,string> $mapProperty
+    *
     * 
     * @param array<string,array<string,string>> $mapOfMapProperty
     */

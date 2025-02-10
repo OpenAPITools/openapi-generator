@@ -19,31 +19,16 @@
 
 
 /**
- * EnumArrays
+ * FindPetsByStatusStatusParameterInner
  */
 namespace OpenAPI\Server\Model;
 
 /**
- * EnumArrays
+ * FindPetsByStatusStatusParameterInner
  */
-use Crell\Serde\Renaming\Cases;
-use Crell\Serde\Attributes as Serde;
-
-#[Serde\ClassSettings(renameWith: Cases::snake_case)]
-class EnumArrays
+enum FindPetsByStatusStatusParameterInner: string
 {
-    /**
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysArrayEnumInner[] $arrayEnum
-    */
-
-    public function __construct(
-        public \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol,
-        public array $arrayEnum,
-    ) {}
+        case AVAILABLE = 'available';
+        case PENDING = 'pending';
+        case SOLD = 'sold';
 }
-

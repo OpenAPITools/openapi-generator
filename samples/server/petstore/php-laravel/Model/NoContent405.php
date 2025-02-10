@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * NoContent405
  * @description No content for 405
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class NoContent405
 {
     /**
+    *
     * dummy property for no-content responses
     * @param null | string $dummy
     */

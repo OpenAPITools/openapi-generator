@@ -49,11 +49,18 @@ class DefaultController extends Controller
      */
     public function fooGet(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-        ]);
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+            ],
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -65,17 +72,7 @@ class DefaultController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\FooGetDefaultResponse) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(0);
-            }
-
-            return response()->json($responseBody, 0);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 0);
         }
 
 

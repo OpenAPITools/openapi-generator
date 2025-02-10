@@ -26,9 +26,14 @@ namespace OpenAPI\Server\Model;
 /**
  * DeprecatedObject
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class DeprecatedObject
 {
     /**
+    *
     * 
     * @param string $name
     */

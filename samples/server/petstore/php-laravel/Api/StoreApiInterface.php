@@ -20,6 +20,7 @@
 
 namespace OpenAPI\Server\Api;
 
+
 interface StoreApiInterface {
 
 
@@ -42,7 +43,7 @@ interface StoreApiInterface {
      * Operation getInventory
      *
      * Returns pet inventories by status
-     * @return array&lt;string,int&gt;
+     * @return array<string,int>
      */
     public function getInventory(
     ):

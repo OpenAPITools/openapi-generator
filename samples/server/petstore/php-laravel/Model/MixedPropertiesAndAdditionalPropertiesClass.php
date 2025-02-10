@@ -26,13 +26,20 @@ namespace OpenAPI\Server\Model;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class MixedPropertiesAndAdditionalPropertiesClass
 {
     /**
+    *
     * 
     * @param string $uuid
+    *
     * 
     * @param \DateTime $dateTime
+    *
     * 
     * @param array<string,\OpenAPI\Server\Model\Animal> $map
     */

@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * NoContentDefault
  * @description No content for default
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class NoContentDefault
 {
     /**
+    *
     * dummy property for no-content responses
     * @param null | string $dummy
     */

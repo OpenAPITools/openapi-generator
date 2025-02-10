@@ -26,11 +26,17 @@ namespace OpenAPI\Server\Model;
 /**
  * Animal
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Animal
 {
     /**
+    *
     * 
     * @param string $className
+    *
     * 
     * @param string $color
     */

@@ -19,31 +19,15 @@
 
 
 /**
- * EnumArrays
+ * TestEnumParametersEnumQueryIntegerParameter
  */
 namespace OpenAPI\Server\Model;
 
 /**
- * EnumArrays
+ * TestEnumParametersEnumQueryIntegerParameter
  */
-use Crell\Serde\Renaming\Cases;
-use Crell\Serde\Attributes as Serde;
-
-#[Serde\ClassSettings(renameWith: Cases::snake_case)]
-class EnumArrays
+enum TestEnumParametersEnumQueryIntegerParameter: int
 {
-    /**
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol
-    *
-    * 
-    * @param \OpenAPI\Server\Model\EnumArraysArrayEnumInner[] $arrayEnum
-    */
-
-    public function __construct(
-        public \OpenAPI\Server\Model\EnumArraysJustSymbol $justSymbol,
-        public array $arrayEnum,
-    ) {}
+        case NUMBER_1 = 1;
+        case MINUS_2 = -2;
 }
-

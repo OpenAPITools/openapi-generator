@@ -26,48 +26,64 @@ namespace OpenAPI\Server\Model;
 /**
  * NullableClass
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class NullableClass
 {
     /**
+    *
     * 
     * @param null | int $integerProp
+    *
     * 
     * @param null | float $numberProp
+    *
     * 
     * @param null | bool $booleanProp
+    *
     * 
     * @param null | string $stringProp
+    *
     * 
     * @param null | \DateTime $dateProp
+    *
     * 
     * @param null | \DateTime $datetimeProp
+    *
     * 
     * @param null | object[] $arrayNullableProp
+    *
     * 
     * @param null | object[] $arrayAndItemsNullableProp
+    *
     * 
     * @param object[] $arrayItemsNullable
+    *
     * 
     * @param null | array<string,object> $objectNullableProp
+    *
     * 
     * @param null | array<string,object> $objectAndItemsNullableProp
+    *
     * 
     * @param array<string,object> $objectItemsNullable
     */
 
     public function __construct(
+        public array $arrayItemsNullable,
+        public array $objectItemsNullable,
         public ?int $integerProp = null,
         public ?float $numberProp = null,
         public ?bool $booleanProp = null,
         public ?string $stringProp = null,
         public ?\DateTime $dateProp = null,
         public ?\DateTime $datetimeProp = null,
-        public ?array $arrayNullableProp = [],
-        public ?array $arrayAndItemsNullableProp = [],
-        public array $arrayItemsNullable,
-        public ?array $objectNullableProp = [],
-        public ?array $objectAndItemsNullableProp = [],
-        public array $objectItemsNullable,
+        public ?array $arrayNullableProp = null,
+        public ?array $arrayAndItemsNullableProp = null,
+        public ?array $objectNullableProp = null,
+        public ?array $objectAndItemsNullableProp = null,
     ) {}
 }
 

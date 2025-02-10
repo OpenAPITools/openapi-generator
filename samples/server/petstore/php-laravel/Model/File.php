@@ -27,9 +27,14 @@ namespace OpenAPI\Server\Model;
  * File
  * @description Must be named `File` for test.
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class File
 {
     /**
+    *
     * Test capitalization
     * @param string $sourceURI
     */

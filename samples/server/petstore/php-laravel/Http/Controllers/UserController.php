@@ -49,22 +49,22 @@ class UserController extends Controller
      */
     public function createUser(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'user' => [
-                'required',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $user = $this->serde->deserialize($request->get('user'), from: 'array', to: \OpenAPI\Server\Model\User::class);
-
-        if ($user === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $user = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\User::class);
 
         try {
             $apiResult = $this->api->createUser($user);
@@ -74,17 +74,7 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContentDefault) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(0);
-            }
-
-            return response()->json($responseBody, 0);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 0);
         }
 
 
@@ -99,15 +89,18 @@ class UserController extends Controller
      */
     public function createUsersWithArrayInput(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'user' => [
-                'required',
-                'array',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -121,17 +114,7 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContentDefault) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(0);
-            }
-
-            return response()->json($responseBody, 0);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 0);
         }
 
 
@@ -146,15 +129,18 @@ class UserController extends Controller
      */
     public function createUsersWithListInput(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'user' => [
-                'required',
-                'array',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -168,17 +154,7 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContentDefault) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(0);
-            }
-
-            return response()->json($responseBody, 0);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 0);
         }
 
 
@@ -191,21 +167,27 @@ class UserController extends Controller
      * Delete user.
      *
      */
-    public function deleteUser(Request $request): JsonResponse
+    public function deleteUser(Request $request, string $username): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'username' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'username' => $username,
+                ],
+                $request->all(),
+            ),
+            [
+                'username' => [
+                    'required',
+                    'string',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $username = $request->string('username')->value();
 
         try {
             $apiResult = $this->api->deleteUser($username);
@@ -215,31 +197,11 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -252,21 +214,27 @@ class UserController extends Controller
      * Get user by user name.
      *
      */
-    public function getUserByName(Request $request): JsonResponse
+    public function getUserByName(Request $request, string $username): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'username' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'username' => $username,
+                ],
+                $request->all(),
+            ),
+            [
+                'username' => [
+                    'required',
+                    'string',
+                ],
             ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $username = $request->string('username')->value();
 
         try {
             $apiResult = $this->api->getUserByName($username);
@@ -276,45 +244,15 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\User) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 
@@ -329,19 +267,26 @@ class UserController extends Controller
      */
     public function loginUser(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'username' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+                'username' => [
+                    'required',
+                    'string',
+                ],
+                'password' => [
+                    'required',
+                    'string',
+                ],
             ],
-            'password' => [
-                'required',
-                'string',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -357,31 +302,11 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof string) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(200);
-            }
-
-            return response()->json($responseBody, 200);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
 
@@ -396,11 +321,18 @@ class UserController extends Controller
      */
     public function logoutUser(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-        ]);
+        $validator = Validator::make(
+            array_merge(
+                [
+                    
+                ],
+                $request->all(),
+            ),
+            [
+            ],
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
@@ -412,17 +344,7 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContentDefault) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(0);
-            }
-
-            return response()->json($responseBody, 0);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 0);
         }
 
 
@@ -435,30 +357,25 @@ class UserController extends Controller
      * Updated user.
      *
      */
-    public function updateUser(Request $request): JsonResponse
+    public function updateUser(Request $request, string $username): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'username' => [
-                'required',
-                'string',
+        $validator = Validator::make(
+            array_merge(
+                [
+                    'username' => $username,
+                ],
+                $request->all(),
+            ),
+            [
             ],
-            'user' => [
-                'required',
-            ],
-        ]);
+        );
 
         if ($validator->fails()) {
-            \Illuminate\Support\Facades\Log::warning("Failed to validate input for testInlineFreeformAdditionalProperties", $validator->errors()->toArray());
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $username = $request->string('username')->value();
 
-        $user = $this->serde->deserialize($request->get('user'), from: 'array', to: \OpenAPI\Server\Model\User::class);
-
-        if ($user === null) {
-            return response()->json(['error' => 'Invalid input'], 400);
-        }
+        $user = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\User::class);
 
         try {
             $apiResult = $this->api->updateUser($username, $user);
@@ -468,31 +385,11 @@ class UserController extends Controller
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent400) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(400);
-            }
-
-            return response()->json($responseBody, 400);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 400);
         }
 
         if ($apiResult instanceof \OpenAPI\Server\Model\NoContent404) {
-            $responseBody = $this->serde->serialize($apiResult, format: 'array');
-
-            if ($responseBody === null) {
-                return response()->json(['error' => 'Failed to parse api output'], 500);
-            }
-
-            if ($responseBody === []) {
-                abort(404);
-            }
-
-            return response()->json($responseBody, 404);
+            return response()->json($this->serde->serialize($apiResult, format: 'array'), 404);
         }
 
 

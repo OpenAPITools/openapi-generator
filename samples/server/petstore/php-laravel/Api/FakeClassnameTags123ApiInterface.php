@@ -20,6 +20,7 @@
 
 namespace OpenAPI\Server\Api;
 
+
 interface FakeClassnameTags123ApiInterface {
 
 

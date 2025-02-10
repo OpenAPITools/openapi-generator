@@ -26,11 +26,17 @@ namespace OpenAPI\Server\Model;
 /**
  * Tag
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Tag
 {
     /**
+    *
     * 
     * @param int $id
+    *
     * 
     * @param string $name
     */

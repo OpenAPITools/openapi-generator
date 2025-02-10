@@ -26,21 +26,31 @@ namespace OpenAPI\Server\Model;
 /**
  * Pet
  */
+use Crell\Serde\Renaming\Cases;
+use Crell\Serde\Attributes as Serde;
+
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 class Pet
 {
     /**
+    *
     * 
     * @param int $id
+    *
     * 
     * @param \OpenAPI\Server\Model\Category $category
+    *
     * 
     * @param string $name
+    *
     * 
     * @param string[] $photoUrls
+    *
     * 
     * @param \OpenAPI\Server\Model\Tag[] $tags
-    * pet status in the store
-    * @param string $status
+    *
+    * 
+    * @param \OpenAPI\Server\Model\PetStatus $status
     */
 
     public function __construct(
@@ -49,7 +59,7 @@ class Pet
         public string $name,
         public array $photoUrls,
         public array $tags,
-        public string $status,
+        public \OpenAPI\Server\Model\PetStatus $status,
     ) {}
 }
 
