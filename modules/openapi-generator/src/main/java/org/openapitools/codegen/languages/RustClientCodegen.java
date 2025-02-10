@@ -633,6 +633,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
+
+                // For types with `isAnyType` we assume it's a `serde_json::Value` type.
+                // However for path, query, and headers it's unlikely to be JSON so we default to `String`.
+                // Note that we keep the default `serde_json::Value` for body parameters.
+                for (var param : operation.allParams) {
+                    if (param.isAnyType && (param.isPathParam || param.isQueryParam || param.isHeaderParam)) {
+                        param.dataType = "String";
+                        param.isPrimitiveType = true;
+                        param.isString = true;
+                    }
+                }
+
                 for (var pathParam : operation.pathParams) {
                     if (!pathParam.baseName.contains("-")) {
                         continue;
