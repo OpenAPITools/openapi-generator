@@ -42,6 +42,7 @@ public interface FooApi {
         return Optional.empty();
     }
 
+    public static final String PATH_CREATE_FOO = "/foo";
     /**
      * POST /foo : Create a Foo
      *
@@ -60,7 +61,7 @@ public interface FooApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/foo",
+        value = FooApi.PATH_CREATE_FOO,
         produces = { "application/json" },
         consumes = { "application/json;charset=utf-8" }
     )
@@ -82,6 +83,7 @@ public interface FooApi {
     }
 
 
+    public static final String PATH_GET_ALL_FOOS = "/foo";
     /**
      * GET /foo : GET all Foos
      *
@@ -99,7 +101,7 @@ public interface FooApi {
     )
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/foo",
+        value = FooApi.PATH_GET_ALL_FOOS,
         produces = { "application/json;charset=utf-8" }
     )
     
