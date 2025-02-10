@@ -33,7 +33,7 @@ public class FileSchemaTestClass {
   private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
-    this.file = Optional.of(file);
+    this.file = Optional.ofNullable(file);
     return this;
   }
 

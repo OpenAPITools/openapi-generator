@@ -228,7 +228,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"))
                 .toProperty().toType()
                 .assertMethod("born", "LocalDate")
-                .bodyContainsLines("this.born = Optional.of(born)")
+                .bodyContainsLines("this.born = Optional.ofNullable(born)")
                 .doesNotHaveComment();
     }
 
@@ -4397,9 +4397,10 @@ public class SpringCodegenTest {
 
     private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
         String methodName = StringUtils.capitalize(expectedName);
+        var of = wrapperType.equals("Optional") ? "ofNullable" : "of";
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
-                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
+                .bodyContainsLines("this." + expectedName + " = "+wrapperType+ "." + of + "(" +expectedName+");", "return this;")
                 .assertParameter(expectedName)
                 .hasType(type)
                 .toMethod()
