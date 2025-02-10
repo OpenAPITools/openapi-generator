@@ -99,7 +99,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         WireFormatFeature.Custom
                 ))
                 .securityFeatures(EnumSet.of(
-                        SecurityFeature.ApiKey
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken
+                ))
+                .schemaSupportFeatures(EnumSet.of(
+                        SchemaSupportFeature.Simple,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.oneOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
