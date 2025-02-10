@@ -25,9 +25,9 @@ interface {{classname}} {
      * {{.}}
     {{/description}}
     {{#allParams}}
-     * @param {{^required}}null | {{/required}}{{dataType}} ${{paramName}}
+     * @param {{^required}}null | {{/required}}{{{dataType}}} ${{paramName}}
     {{/allParams}}
-     * @return {{#responses}}{{dataType}}{{^-last}} | {{/-last}}{{/responses}}
+     * @return {{#responses}}{{{dataType}}}{{^-last}} | {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}

@@ -22,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiPackage|package for generated api classes| |null|
 |artifactUrl|artifact URL in generated pom.xml| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|
+|autowire|Should autowire be enabled.| |false|
 |composerPackageName|The name to use in the composer package name field. e.g. `vendor/project` (must be lowercase and consist of words separated by `-`, `.` or `_`).| |null|
 |developerOrganization|developer organization in generated pom.xml| |null|
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |null|
@@ -58,7 +59,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>\DateTime</li>
 <li>\Illuminate\Http\UploadedFile</li>
-<li>\Illuminate\Support\Stringable</li>
 <li>\SplFileObject</li>
 <li>array</li>
 <li>bool</li>

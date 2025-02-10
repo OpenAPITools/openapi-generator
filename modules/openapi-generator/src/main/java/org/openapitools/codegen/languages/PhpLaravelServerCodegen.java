@@ -75,7 +75,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("file", "\\Illuminate\\Http\\UploadedFile");
         languageSpecificPrimitives.add("\\Illuminate\\Http\\UploadedFile");
 
-        cliOptions.add(new CliOption(AUTOWIRE, "Should autowire by enabled.").defaultValue("false"));
+        cliOptions.add(new CliOption(AUTOWIRE, "Should autowire be enabled.").defaultValue("false"));
     }
 
     @Override

@@ -39,7 +39,6 @@ class {{controllerName}} extends Controller
         {{>api_validation}}
 
         {{#allParams}}
-        {{^bodyParam}}
         {{^isPathParam}}
         {{#isFile}}
         ${{paramName}} = $request->file('{{paramName}}');
@@ -80,11 +79,12 @@ class {{controllerName}} extends Controller
         {{#isMap}}
         ${{paramName}} = $request->get('{{paramName}}');
         {{/isMap}}
-        {{/isPathParam}}
-        {{/bodyParam}}
-        {{#bodyParam}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
         ${{paramName}} = $this->serde->deserialize($request->getContent(), from: 'json', to: {{dataType}}::class);
-        {{/bodyParam}}
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{/isPathParam}}
 
         {{/allParams}}
         try {
