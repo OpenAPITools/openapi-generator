@@ -4,18 +4,16 @@ info:
   description: SSE test cases
   version: 1.0.0
 servers:
-  - url: 'https'
+  - url: 'https://'
 tags:
   - name: sse
 paths:
-  /path/variant1:
-    post:
-      operationId: sseVariant1
-      tags:
-        - sse
+  /path/sse/1:
+    get:
+      operationId: sse_1
       responses:
-        '200':
-          description: acknowledged
+        "200":
+          description: easiest case
           content:
             text/event-stream:
               schema:
@@ -23,34 +21,109 @@ paths:
                 format: event-stream
                 items:
                   type: string
-  /path/variant2:
-    post:
-      operationId: sseVariant2
-      tags:
-        - sse
+  /path/sse/2:
+    get:
+      operationId: sse_2
       responses:
-        '200':
-          description: acknowledged
+        "200":
+          description: using reference for array items
           content:
             text/event-stream:
               schema:
                 type: array
                 format: event-stream
                 items:
-                  $ref: '#/components/schemas/EventType'
-  /path/variant3:
-    post:
-      operationId: nonSSE
-      tags:
-        - sse
+                  $ref: "#/components/schemas/EventType"
+  # FIXME: Generator Crash
+  #  /path/sse/3:
+  #      get:
+  #        operationId: sse_3
+  #        responses:
+  #          "200":
+  #            description: using reference for schema
+  #            content:
+  #              text/event-stream:
+  #                schema:
+  #                  $ref: "#/components/schemas/EventTypeStream"
+  /path/sse/4:
+    get:
+      operationId: sse_4
+      responses:
+        "200":
+          $ref: "#/components/responses/EventTypeResponse"
+  # FIXME: generator crash
+  #  /path/sse/5:
+  #    post:
+  #      operationId: sse_5
+  #      description: indirect references, see Issue 17271
+  #      responses:
+  #        '200':
+  #          $ref: '#/components/responses/EventTypeResponseWithReference'
+
+  # FIXME: generator crash
+  #  /path/notsse/1:
+  #      get:
+  #        operationId: not_sse_1
+  #        responses:
+  #          '200':
+  #            description: no schema defined, but this is a valid OpenAPI Specification
+  # FIXME: generator crash
+  #  /path/notsse/2:
+  #      get:
+  #        operationId: not_sse_2
+  #        responses:
+  #          '200':
+  #            description: wrong media type
+  #            content:
+  #              application/json:
+  #                schema:
+  #                  type: array
+  #                  format: event-stream
+  #                  items:
+  #                    type: string
+  /path/notsse/3:
+    get:
+      operationId: not_sse_3
       responses:
         '200':
-          description: acknowledged
+          description: schema not of type array
           content:
             text/event-stream:
               schema:
                 type: string
                 format: event-stream
+  /path/notsse/5:
+    get:
+      operationId: not_sse_5
+      responses:
+        '400':
+          description: sse only intended for success status codes not for errors
+          content:
+            text/event-stream:
+              schema:
+                type: array
+                format: event-stream
+                items:
+                  type: string
+  /path/notsse/7:
+    get:
+      operationId: not_sse_7
+      description: referenced response object does not match
+      responses:
+        '200':
+          $ref: "#/components/responses/NotAStreamResponse"
+# FIXME: Generator Crashed
+#  /path/notsse/8:
+#    get:
+#      operationId: not_sse_8
+#      responses:
+#        "200":
+#          description: referenced schema does not match
+#          content:
+#            text/event-stream:
+#              schema:
+#                $ref: "#/components/schemas/NotAStreamType"
+
 components:
   schemas:
     EventType:
@@ -58,5 +131,38 @@ components:
       properties:
         attribute1:
           type: string
+    EventTypeStream:
+      type: array
+      format: event-stream
+      items:
+        type: string
+    NotAStreamType:
+      type: string
+      format: event-stream
 
-  
+
+  responses:
+    EventTypeResponse:
+      description: response
+      content:
+        text/event-stream:
+          schema:
+            type: array
+            format: event-stream
+            items:
+              type: string
+
+    EventTypeResponseWithReference:
+      description: acknowledged
+      content:
+        text/event-stream:
+          schema:
+            $ref: '#/components/schemas/EventTypeStream'
+
+    NotAStreamResponse:
+      description: response
+      content:
+        text/event-stream:
+          schema:
+            type: string
+            format: event-stream

@@ -1,0 +1,23 @@
+openapi: 3.0.1
+info:
+  title: SSE test
+  description: SSE test cases
+  version: 1.0.0
+servers:
+  - url: 'https://'
+tags:
+  - name: sse
+paths:
+  # Generator assumes that it is supposed to be an sse endpoint, but the format value is wrong, thus it throws an exception with an error message telling so
+  /path/sse:
+    get:
+      operationId: sse
+      responses:
+        '200':
+          description: format not event-stream
+          content:
+            text/event-stream:
+              schema:
+                type: array
+                items:
+                  type: string
