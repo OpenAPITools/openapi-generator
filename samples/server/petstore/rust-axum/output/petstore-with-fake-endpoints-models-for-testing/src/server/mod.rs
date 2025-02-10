@@ -1,15 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-<<<<<<< HEAD
-<<<<<<< HEAD
 use axum_extra::extract::{CookieJar, Host};
-=======
-use axum_extra::extract::{CookieJar, Host, Multipart};
->>>>>>> fb7dae12a7d (Update axum to 0.8)
-=======
-use axum_extra::extract::{CookieJar, Host};
->>>>>>> 47c0a58c968 (Multipart is also part of the axum update)
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -55,31 +47,7 @@ where
             put(test_body_with_query_params::<I, A, E, C>),
         )
         .route(
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a297ccec6f8 (Rebase error handler)
-=======
->>>>>>> 36bb429d2a4 (Fix capture group syntax)
             "/v2/fake/hyphenParam/{hyphen_param}",
-=======
-            "/v2/fake/hyphenParam/:hyphen_param",
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-            "/v2/fake/hyphenParam/{hyphen_param}",
->>>>>>> fb7dae12a7d (Update axum to 0.8)
-            get(hyphen_param::<I, A, E>),
-=======
-            "/v2/fake/hyphenParam/:hyphen_param",
-=======
-            "/v2/fake/hyphenParam/{hyphen_param}",
->>>>>>> 51f6e61839d (Fix capture group syntax)
-=======
-            "/v2/fake/hyphenParam/{hyphen_param}",
->>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
             get(hyphen_param::<I, A, E, C>),
         )
         .route(
@@ -120,28 +88,12 @@ where
             post(add_pet::<I, A, E, C>).put(update_pet::<I, A, E, C>),
         )
         .route(
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> fb7dae12a7d (Update axum to 0.8)
             "/v2/pet/findByStatus",
             get(find_pets_by_status::<I, A, E, C>),
         )
         .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
         .route(
             "/v2/pet/{pet_id}",
-<<<<<<< HEAD
-            delete(delete_pet::<I, A, E, C>)
-                .get(get_pet_by_id::<I, A, E, C>)
-                .post(update_pet_with_form::<I, A, E, C>),
-        )
-        .route(
-            "/v2/pet/{pet_id}/uploadImage",
-            post(upload_file::<I, A, E, C>),
-=======
-            "/v2/pet/:pet_id",
-=======
->>>>>>> fb7dae12a7d (Update axum to 0.8)
             delete(delete_pet::<I, A, E, C>)
                 .get(get_pet_by_id::<I, A, E, C>)
                 .post(update_pet_with_form::<I, A, E, C>),
@@ -158,30 +110,12 @@ where
         )
         .route("/v2/user", post(create_user::<I, A, E>))
         .route(
-<<<<<<< HEAD
-            "/v2/user/:username",
-            delete(delete_user::<I, A, E>)
-                .get(get_user_by_name::<I, A, E>)
-                .put(update_user::<I, A, E>),
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-        )
-        .route("/v2/store/inventory", get(get_inventory::<I, A, E, C>))
-        .route("/v2/store/order", post(place_order::<I, A, E, C>))
-        .route(
-            "/v2/store/order/{order_id}",
-            delete(delete_order::<I, A, E, C>).get(get_order_by_id::<I, A, E, C>),
-        )
-        .route("/v2/user", post(create_user::<I, A, E>))
-        .route(
-=======
->>>>>>> fb7dae12a7d (Update axum to 0.8)
             "/v2/user/createWithArray",
             post(create_users_with_array_input::<I, A, E>),
         )
         .route(
             "/v2/user/createWithList",
             post(create_users_with_list_input::<I, A, E>),
-<<<<<<< HEAD
         )
         .route("/v2/user/login", get(login_user::<I, A, E>))
         .route("/v2/user/logout", get(logout_user::<I, A, E>))
@@ -191,14 +125,6 @@ where
                 .get(get_user_by_name::<I, A, E>)
                 .put(update_user::<I, A, E>),
         )
-<<<<<<< HEAD
-=======
-        )
-        .route("/v2/user/login", get(login_user::<I, A, E>))
-        .route("/v2/user/logout", get(logout_user::<I, A, E>))
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
->>>>>>> fb7dae12a7d (Update axum to 0.8)
         .with_state(api_impl)
 }
 
@@ -246,15 +172,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .test_special_tags(&method, &host, &cookies, &body)
-=======
-        .test_special_tags(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_special_tags(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -288,23 +206,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -345,15 +250,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .call123example(&method, &host, &cookies)
-=======
-        .call123example(method.clone(), host.clone(), cookies.clone())
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .call123example(&method, &host, &cookies)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -368,23 +265,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -441,15 +325,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .fake_outer_boolean_serialize(&method, &host, &cookies, &body)
-=======
-        .fake_outer_boolean_serialize(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .fake_outer_boolean_serialize(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -483,23 +359,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -556,15 +419,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .fake_outer_composite_serialize(&method, &host, &cookies, &body)
-=======
-        .fake_outer_composite_serialize(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .fake_outer_composite_serialize(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -598,23 +453,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -671,15 +513,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .fake_outer_number_serialize(&method, &host, &cookies, &body)
-=======
-        .fake_outer_number_serialize(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .fake_outer_number_serialize(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -713,23 +547,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -786,15 +607,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .fake_outer_string_serialize(&method, &host, &cookies, &body)
-=======
-        .fake_outer_string_serialize(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .fake_outer_string_serialize(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -828,23 +641,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -887,15 +687,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .fake_response_with_numerical_description(&method, &host, &cookies)
-=======
-        .fake_response_with_numerical_description(method.clone(), host.clone(), cookies.clone())
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .fake_response_with_numerical_description(&method, &host, &cookies)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -910,23 +702,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -972,15 +751,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .hyphen_param(&method, &host, &cookies, &path_params)
-=======
-        .hyphen_param(method.clone(), host.clone(), cookies.clone(), path_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .hyphen_param(&method, &host, &cookies, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -995,23 +766,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1071,21 +829,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .test_body_with_query_params(&method, &host, &cookies, &query_params, &body)
-=======
-        .test_body_with_query_params(
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            query_params,
-            body,
-        )
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_body_with_query_params(&method, &host, &cookies, &query_params, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1100,23 +844,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1170,15 +901,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .test_client_model(&method, &host, &cookies, &body)
-=======
-        .test_client_model(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_client_model(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1212,23 +935,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1296,39 +1006,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        .test_endpoint_parameters(&method, &host, &cookies, &body)
-=======
-        .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_endpoint_parameters(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
-=======
-=======
->>>>>>> 4984f70bdeb (Rebase with updated error handler)
-        .test_endpoint_parameters(&method, &host, &cookies, &body)
-=======
-<<<<<<< HEAD
-        .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), body)
-=======
-        .test_endpoint_parameters(method, host, cookies, claims, body)
->>>>>>> 99ae104c473 (Implement basic and bearer auth handling)
->>>>>>> ba70bfea1e1 (Implement basic and bearer auth handling)
-<<<<<<< HEAD
->>>>>>> a297ccec6f8 (Rebase error handler)
-=======
-=======
-        .test_endpoint_parameters(method.clone(), host.clone(), cookies.clone(), claims, body)
->>>>>>> ae676ae13c0 (Rebase with updated error handler)
->>>>>>> 4984f70bdeb (Rebase with updated error handler)
-=======
         .test_endpoint_parameters(&method, &host, &cookies, &claims, &body)
->>>>>>> 73be82180e8 (Rebase rust-axum-error-handling)
         .await;
 
     let mut response = Response::builder();
@@ -1347,23 +1025,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1485,27 +1150,12 @@ where
     let result = api_impl
         .as_ref()
         .test_enum_parameters(
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
             &method,
             &host,
             &cookies,
             &header_params,
             &query_params,
             &body,
-<<<<<<< HEAD
-=======
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            header_params,
-            query_params,
-            body,
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         )
         .await;
 
@@ -1525,23 +1175,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1595,15 +1232,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .test_inline_additional_properties(&method, &host, &cookies, &body)
-=======
-        .test_inline_additional_properties(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_inline_additional_properties(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1618,23 +1247,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1688,15 +1304,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .test_json_form_data(&method, &host, &cookies, &body)
-=======
-        .test_json_form_data(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_json_form_data(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1711,23 +1319,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1781,15 +1376,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .test_classname(&method, &host, &cookies, &body)
-=======
-        .test_classname(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .test_classname(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1825,23 +1412,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -1893,15 +1467,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .add_pet(&method, &host, &cookies, &body)
-=======
-        .add_pet(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .add_pet(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -1916,23 +1482,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2010,21 +1563,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .delete_pet(&method, &host, &cookies, &header_params, &path_params)
-=======
-        .delete_pet(
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            header_params,
-            path_params,
-        )
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .delete_pet(&method, &host, &cookies, &header_params, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2039,23 +1578,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2102,15 +1628,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .find_pets_by_status(&method, &host, &cookies, &query_params)
-=======
-        .find_pets_by_status(method.clone(), host.clone(), cookies.clone(), query_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .find_pets_by_status(&method, &host, &cookies, &query_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2141,23 +1659,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2204,15 +1709,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .find_pets_by_tags(&method, &host, &cookies, &query_params)
-=======
-        .find_pets_by_tags(method.clone(), host.clone(), cookies.clone(), query_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .find_pets_by_tags(&method, &host, &cookies, &query_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2243,23 +1740,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2319,21 +1803,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .get_pet_by_id(&method, &host, &cookies, &claims, &path_params)
-=======
-        .get_pet_by_id(
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            claims,
-            path_params,
-        )
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .get_pet_by_id(&method, &host, &cookies, &claims, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2368,23 +1838,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2438,15 +1895,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .update_pet(&method, &host, &cookies, &body)
-=======
-        .update_pet(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .update_pet(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2469,23 +1918,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2551,21 +1987,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .update_pet_with_form(&method, &host, &cookies, &path_params, &body)
-=======
-        .update_pet_with_form(
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            path_params,
-            body,
-        )
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .update_pet_with_form(&method, &host, &cookies, &path_params, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2580,23 +2002,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2643,21 +2052,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .upload_file(&method, &host, &cookies, &path_params, &body)
-=======
-        .upload_file(
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            path_params,
-            body,
-        )
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .upload_file(&method, &host, &cookies, &path_params, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2691,23 +2086,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2753,15 +2135,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .delete_order(&method, &host, &cookies, &path_params)
-=======
-        .delete_order(method.clone(), host.clone(), cookies.clone(), path_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .delete_order(&method, &host, &cookies, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2780,23 +2154,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2851,15 +2212,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .get_inventory(&method, &host, &cookies, &claims)
-=======
-        .get_inventory(method.clone(), host.clone(), cookies.clone(), claims)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .get_inventory(&method, &host, &cookies, &claims)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2893,23 +2246,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -2955,15 +2295,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .get_order_by_id(&method, &host, &cookies, &path_params)
-=======
-        .get_order_by_id(method.clone(), host.clone(), cookies.clone(), path_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .get_order_by_id(&method, &host, &cookies, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -2998,23 +2330,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3068,15 +2387,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .place_order(&method, &host, &cookies, &body)
-=======
-        .place_order(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .place_order(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3107,23 +2418,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3177,15 +2475,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .create_user(&method, &host, &cookies, &body)
-=======
-        .create_user(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .create_user(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3200,23 +2490,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3271,15 +2548,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .create_users_with_array_input(&method, &host, &cookies, &body)
-=======
-        .create_users_with_array_input(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .create_users_with_array_input(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3294,23 +2563,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3365,15 +2621,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .create_users_with_list_input(&method, &host, &cookies, &body)
-=======
-        .create_users_with_list_input(method.clone(), host.clone(), cookies.clone(), body)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .create_users_with_list_input(&method, &host, &cookies, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3388,23 +2636,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3450,15 +2685,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .delete_user(&method, &host, &cookies, &path_params)
-=======
-        .delete_user(method.clone(), host.clone(), cookies.clone(), path_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .delete_user(&method, &host, &cookies, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3477,23 +2704,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3539,15 +2753,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .get_user_by_name(&method, &host, &cookies, &path_params)
-=======
-        .get_user_by_name(method.clone(), host.clone(), cookies.clone(), path_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .get_user_by_name(&method, &host, &cookies, &path_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3582,23 +2788,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3644,15 +2837,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .login_user(&method, &host, &cookies, &query_params)
-=======
-        .login_user(method.clone(), host.clone(), cookies.clone(), query_params)
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .login_user(&method, &host, &cookies, &query_params)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3720,23 +2905,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3777,15 +2949,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .logout_user(&method, &host, &cookies)
-=======
-        .logout_user(method.clone(), host.clone(), cookies.clone())
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .logout_user(&method, &host, &cookies)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3800,23 +2964,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
@@ -3873,21 +3024,7 @@ where
 
     let result = api_impl
         .as_ref()
-<<<<<<< HEAD
-<<<<<<< HEAD
         .update_user(&method, &host, &cookies, &path_params, &body)
-=======
-        .update_user(
-            method.clone(),
-            host.clone(),
-            cookies.clone(),
-            path_params,
-            body,
-        )
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
-=======
-        .update_user(&method, &host, &cookies, &path_params, &body)
->>>>>>> 3d833fd5ff9 (Make API methods take references instead of ownership)
         .await;
 
     let mut response = Response::builder();
@@ -3906,23 +3043,10 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-<<<<<<< HEAD
-<<<<<<< HEAD
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
                 .await;
-=======
-            return api_impl.as_ref().handle_error(why).await;
->>>>>>> 9841fa4dc2c (Implement a custom error handler for unhandled or generic endpoint errors)
-=======
-
-            return api_impl
-                .as_ref()
-                .handle_error(&method, &host, &cookies, why)
-                .await;
->>>>>>> 00e7ad2ac29 (Pass in method, host and cookies to error handler)
         }
     };
 
