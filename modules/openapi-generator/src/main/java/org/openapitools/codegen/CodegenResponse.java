@@ -53,6 +53,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean isBoolean;
     public boolean isDate;
     public boolean isDateTime;
+    public boolean isDuration;
     public boolean isUuid;
     public boolean isEmail;
     public boolean isPassword;
@@ -109,7 +110,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public int hashCode() {
         return Objects.hash(headers, code, message, examples, dataType, baseType, containerType, containerTypeMapped, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
-                isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
+                isDateTime, isDuration, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isOptional, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
                 vars, requiredVars, isNull, isVoid, hasValidation, isShort, isUnboundedInteger,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
@@ -139,6 +140,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isBoolean == that.isBoolean &&
                 isDate == that.isDate &&
                 isDateTime == that.isDateTime &&
+                isDuration == that.isDuration &&
                 isUuid == that.isUuid &&
                 isEmail == that.isEmail &&
                 isPassword == that.isPassword &&
@@ -486,6 +488,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public boolean getIsDuration() {
+        return isDuration;
+    }
+
+    @Override
+    public void setIsDuration(boolean isDuration) {
+        this.isDuration = isDuration;
+    }
+
+    @Override
     public boolean getIsMap() {
         return isMap;
     }
@@ -586,6 +598,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", isBoolean=").append(isBoolean);
         sb.append(", isDate=").append(isDate);
         sb.append(", isDateTime=").append(isDateTime);
+        sb.append(", isDuration=").append(isDuration);
         sb.append(", isUuid=").append(isUuid);
         sb.append(", isEmail=").append(isEmail);
         sb.append(", isPassword=").append(isPassword);

@@ -101,6 +101,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsDateTime(boolean isDateTime);
 
+    boolean getIsDuration();
+
+    void setIsDuration(boolean isDuration);
+
     // true when the schema type is object
     boolean getIsMap();
 
@@ -311,6 +315,8 @@ public interface IJsonSchemaValidationProperties {
             } else if (ModelUtils.isDateSchema(p)) {
                 ;
             } else if (ModelUtils.isDateTimeSchema(p)) {
+                ;
+            } else if (ModelUtils.isDurationSchema(p)) {
                 ;
             } else if (ModelUtils.isDecimalSchema(p)) { // type: string, format: number
                 ;

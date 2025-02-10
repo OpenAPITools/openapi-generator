@@ -159,6 +159,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isBoolean;
     public boolean isDate; // full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
     public boolean isDateTime; // the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+    public boolean isDuration;
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
@@ -486,6 +487,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public void setIsDateTime(boolean isDateTime) {
         this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsDuration() {
+        return isDuration;
+    }
+
+    @Override
+    public void setIsDuration(boolean isDuration) {
+        this.isDuration = isDuration;
     }
 
     @Override
@@ -1014,6 +1025,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isBoolean=").append(isBoolean);
         sb.append(", isDate=").append(isDate);
         sb.append(", isDateTime=").append(isDateTime);
+        sb.append(", isDuration=").append(isDuration);
         sb.append(", isUuid=").append(isUuid);
         sb.append(", isUri=").append(isUri);
         sb.append(", isEmail=").append(isEmail);
@@ -1111,6 +1123,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isBoolean == that.isBoolean &&
                 isDate == that.isDate &&
                 isDateTime == that.isDateTime &&
+                isDuration == that.isDuration &&
                 isUuid == that.isUuid &&
                 isUri == that.isUri &&
                 isEmail == that.isEmail &&
@@ -1210,7 +1223,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
                 hasMoreNonReadOnly, isPrimitiveType, isModel, isContainer, isString, isNumeric,
                 isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary, isFile,
-                isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
+                isBoolean, isDate, isDateTime, isDuration, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
                 isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
