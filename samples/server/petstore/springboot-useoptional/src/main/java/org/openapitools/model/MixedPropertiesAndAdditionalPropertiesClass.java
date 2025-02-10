@@ -38,7 +38,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = Optional.of(uuid);
+    this.uuid = Optional.ofNullable(uuid);
     return this;
   }
 
@@ -58,7 +58,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.of(dateTime);
+    this.dateTime = Optional.ofNullable(dateTime);
     return this;
   }
 

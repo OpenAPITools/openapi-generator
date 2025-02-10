@@ -31,7 +31,7 @@ public class AdditionalPropertiesObject {
   private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesObject name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
