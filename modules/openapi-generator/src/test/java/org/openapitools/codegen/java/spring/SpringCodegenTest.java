@@ -4476,30 +4476,9 @@ public class SpringCodegenTest {
 
     @Test
     public void testSSEOperationSupport() throws Exception {
-
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/sse.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(SSE, "true");
-        codegen.additionalProperties().put(REACTIVE, "true");
-        codegen.additionalProperties().put(INTERFACE_ONLY, "false");
-        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGenerateMetadata(false);
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, Object> additionalProperties = Map.of(SSE, true, REACTIVE, "true", INTERFACE_ONLY, "false",
+                DELEGATE_PATTERN, "true");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/sse.yaml", "spring-boot", additionalProperties);
 
         MapAssert.assertThatMap(files).isNotEmpty();
         File api = files.get("PathApi.java");
