@@ -54,6 +54,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [FooActionContainer](docs/FooActionContainer.md)
+ - [FooAnyTypeTest](docs/FooAnyTypeTest.md)
  - [FooApiResponse](docs/FooApiResponse.md)
  - [FooArrayItemRefTest](docs/FooArrayItemRefTest.md)
  - [FooBaz](docs/FooBaz.md)
