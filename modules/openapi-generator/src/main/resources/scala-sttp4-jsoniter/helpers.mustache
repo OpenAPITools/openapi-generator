@@ -1,65 +1,130 @@
 {{>licenseInfo}}
 package {{invokerPackage}}
 
-import scala.language.implicitConversions
+import scala.deriving.*
+import scala.compiletime.*
+import java.io.File
 
-object Helpers:
-  implicit def productToMapStringString[A <: Product](a: A): Map[String, String] =
-    val fields = a.productElementNames.zipWithIndex.map { case (name, index) =>
-      name -> a.productElement(index)
-    }.map {
-      case (name, value: Option[_]) => value.map(v => name -> v.toString)
-      case (name, value) => Some(name -> value.toString)
-    }.collect { case Some(x) => x }
+enum FormStyleFormat:
+  case FORM
+  case SPACEDELIMITED
+  case PIPEDELIMITED
+  case DEEPOBJECT
 
-    fields.toMap
-
+object FormSerializable:
   type Primitive = String | Short | Int | Long | Float | Double | BigDecimal | Boolean
 
-  extension (uri: sttp.model.Uri)
-    def addParamNamed(name: String, value: Primitive | Option[Primitive] | Map[String, String]): sttp.model.Uri =
-      value match
-        case opt: Option[_] => opt.fold(uri) { prim => uri.addParam(name, prim.toString) }
-        case map: Map[String, String] => map.foldLeft(uri) { case (uri, (k, v)) => uri.addParam(k, v) }
-        case prim => uri.addParam(name, prim.toString)
+  inline def serialize[T](
+      name: String,
+      obj: T,
+      inline format: FormStyleFormat = FormStyleFormat.FORM,
+      inline explode: Boolean = true
+  ): Map[String, String]  =
+    inline obj match
+      case primitive: Primitive => serializePrimitive(name, primitive, format, explode)
+      case array: Seq[Primitive] => serializeArray(name, array, format, explode)
+      case optPrimitive: Option[Primitive] => optPrimitive.map(value => serializePrimitive(name, value, format, explode)).getOrElse(Map.empty[String, String])
+      case optArray: Option[Seq[Primitive]] => optArray.map(serializeArray(name, _, format, explode)).getOrElse(Map.empty[String, String])
+      case freeObj: Map[String, Primitive] => freeObj.map((key, value) => (key, value.toString))
+      case optObj: Option[t] =>
+        inline summonInline[Mirror.Of[t]] match
+          case mirror: Mirror.ProductOf[t] =>
+            checkFields[mirror.MirroredElemTypes]
+            val labels = allLabels[mirror.MirroredElemLabels]
+            optObj.map{ obj =>
+              val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
+              serializeModel(name, keyVals, format, explode)
+            }.getOrElse(Map.empty[String, String])
+          case _ => error("ERROR") // TODO - support for enums
+      case obj =>
+        inline summonInline[Mirror.Of[T]] match
+          case _: Mirror.SumOf[T] =>
+            error("ERROR") // TODO - support for enums
+          case mirror: Mirror.ProductOf[T] =>
+            checkFields[mirror.MirroredElemTypes] // Stripe ma IDGAF bo używają deepObject np. tak lines[0][tax_amounts][0][amount] - mimo tego że spec na to nie pozwala
+            val labels = allLabels[mirror.MirroredElemLabels]
+            val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
+            serializeModel(name, keyVals, format, explode)
 
-    def addParamNamed(name: String, value: Iterable[String], format: CollectionFormat): sttp.model.Uri =
-      format match
-        case CollectionFormats.MULTI => value.foldLeft(uri) { case (uri, v) => uri.addParam(name, v) }
-        case maFormat: MergedArrayFormat => uri.addParam(name, value.mkString(maFormat.separator))
 
-  /**
-   * Used for params being arrays
-   */
-  final case class ArrayValues(values: Seq[Any], format: MergedArrayFormat = CollectionFormats.CSV):
-    override def toString: String = values.mkString(format.separator)
 
-  object ArrayValues:
-    def apply(values: Option[Seq[Any]], format: MergedArrayFormat): ArrayValues =
-      ArrayValues(values.getOrElse(Seq.empty), format)
+  private inline def allLabels[T <: Tuple]: List[String] =
+    constValueTuple[T].toList.asInstanceOf[List[String]]
 
-    def apply(values: Option[Seq[Any]]): ArrayValues = ArrayValues(values, CollectionFormats.CSV)
+  private inline def checkFields[T <: Tuple]: Unit =
+    inline erasedValue[T] match {
+      case _: EmptyTuple => ()
+      case _: (t *: ts) =>
+        inline erasedValue[t] match
+          case _: Primitive => checkFields[ts]
+          case _ =>
+            error(
+              "Cannot derive structure, structure must consist only of primitive fields"
+            )
+    }
 
-  /**
-   * Defines how arrays should be rendered in query strings.
-   */
-  sealed trait CollectionFormat
+  private inline def serializePrimitive(
+      paramName: String,
+      value: Primitive,
+      inline format: FormStyleFormat,
+      inline explode: Boolean
+  ): Map[String, String] = {
+    inline format match
+      case FormStyleFormat.FORM =>
+        Map(paramName -> value.toString) // for primitve values explode does not change anything
+      case FormStyleFormat.SPACEDELIMITED =>
+        error(
+          "FormStyleFormat.SpaceDelimited does not support primitive values"
+        )
+      case FormStyleFormat.PIPEDELIMITED =>
+        error("FormStyleFormat.PipeDelimited does not support primitive values")
+      case FormStyleFormat.DEEPOBJECT =>
+        error("FormStyleFormat.DeepObject does not support primitive values")
 
-  trait MergedArrayFormat extends CollectionFormat:
-    def separator: String
+  }
+  private inline def serializeArray(
+      paramName: String,
+      values: Seq[Primitive],
+      inline format: FormStyleFormat,
+      inline explode: Boolean
+  ): Map[String, String] = {
+    inline format match
+      case FormStyleFormat.FORM =>
+        inline if explode then values.map(s => (paramName, s.toString)).toMap
+        else Map(paramName -> values.mkString(","))
+      case FormStyleFormat.SPACEDELIMITED =>
+        inline if explode then values.map(s => (paramName, s.toString)).toMap
+        else Map(paramName -> values.mkString(" ")) // Sttp will encode space as +, from https://swagger.io/docs/specification/v3_0/serialization/#query-parameters it is not clear if it should be + or %20
+      case FormStyleFormat.PIPEDELIMITED =>
+        inline if explode then values.map(s => (paramName, s.toString)).toMap
+        else Map(paramName -> values.mkString("|"))
+      case FormStyleFormat.DEEPOBJECT =>
+        error("FormStyleFormat.DeepObject does not support arrays")
+  }
+  inline def serializeModel(
+      paramName: String,
+      keyValPairs: Seq[(String, Primitive)],
+      inline format: FormStyleFormat,
+      inline explode: Boolean
+  ): Map[String, String] = {
+    inline format match
+      case FormStyleFormat.FORM =>
+        inline if explode then keyValPairs.map((key, value) => (key, value.toString)).toMap
+        else Map(paramName -> keyValPairs.flatMap((key,value) => Seq(key, value.toString)).mkString(","))
+      case FormStyleFormat.SPACEDELIMITED =>
+        error("FormStyleFormat.SpaceDelimited does not support objects")
+      case FormStyleFormat.PIPEDELIMITED =>
+        error("FormStyleFormat.PipeDelimited does not support objects")
+      case FormStyleFormat.DEEPOBJECT =>
+        inline if explode then
+          keyValPairs.map((key, value) => (s"$paramName[$key]", value.toString)).toMap
+        else error("FormStyleFormat.DeepObject does not support explode=false")
+  }
+end FormSerializable
 
-  object CollectionFormats:
-
-    case object CSV extends MergedArrayFormat:
-      override val separator = ","
-
-    case object TSV extends MergedArrayFormat:
-      override val separator = "\t"
-
-    case object SSV extends MergedArrayFormat:
-      override val separator = " "
-
-    case object PIPES extends MergedArrayFormat:
-      override val separator = "|"
-
-    case object MULTI extends CollectionFormat
+object Helpers:
+  extension (request: sttp.client4.Request[?])
+    def fileBody(file: Option[File] | File): sttp.client4.Request[?] =
+      file match
+        case f: File => request.body(f)
+        case f: Option[File] => f.map(request.body(_)).getOrElse(request)

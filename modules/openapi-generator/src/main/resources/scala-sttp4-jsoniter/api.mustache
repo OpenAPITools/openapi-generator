@@ -5,6 +5,8 @@ package {{package}}
 import {{import}}
 {{/imports}}
 import {{invokerPackage}}.JsonSupport.{*, given}
+import {{invokerPackage}}.FormSerializable
+import {{invokerPackage}}.FormStyleFormat
 import {{invokerPackage}}.Helpers.*
 import sttp.client4.jsoniter.*
 import sttp.client4.*
@@ -19,11 +21,11 @@ class {{classname}}(baseUrl: String):
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
-  def {{operationId}}{{>methodParameters}}: Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+  def {{operationId}}{{>methodParameters}}: sttp.client4.Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
     val requestURL =
       uri"$baseUrl{{{path}}}"{{#queryParams}}
-        .addParamNamed("{{baseName}}", {{{paramName}}}{{#collectionFormat}}, CollectionFormats.{{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/queryParams}}{{#isApiKey}}{{#isKeyInQuery}}
-        .addParam("{{keyParamName}}", apiKey.value){{/isKeyInQuery}}{{/isApiKey}}
+        .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}})){{/queryParams}}{{#isApiKey}}{{#isKeyInQuery}}
+        .addParams("{{keyParamName}}" -> apiKey.value){{/isKeyInQuery}}{{/isApiKey}}
 
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, requestURL)
@@ -42,7 +44,7 @@ class {{classname}}(baseUrl: String):
       .multipartBody(Seq({{#formParams}}
         {{>paramMultipartCreation}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
-      .body({{paramName}}){{/bodyParam}}
+      {{^isFile}}.body({{paramName}}){{/isFile}}{{#isFile}}.fileBody({{paramName}}){{/isFile}}{{/bodyParam}}
       .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#fnHandleDownload}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/fnHandleDownload}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}

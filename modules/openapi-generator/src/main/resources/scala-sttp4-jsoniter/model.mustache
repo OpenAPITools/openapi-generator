@@ -39,14 +39,14 @@ object {{classname}}:
   import com.github.plokhotnyuk.jsoniter_scala.macros.*
   import com.github.plokhotnyuk.jsoniter_scala.core.*
   {{#isString}}
-  given {{#fnCodecName}}{{datatypeWithEnum}}{{/fnCodecName}}: JsonValueCodec[{{datatypeWithEnum}}] = JsonCodecMaker.make {
-    CodecMakerConfig
+  given {{#fnCodecName}}{{classname}}{{/fnCodecName}}: JsonValueCodec[{{classname}}] = JsonCodecMaker.make {
+    CodecMakerConfig{{#allowableValues}}
       .withAdtLeafClassNameMapper { x =>
         JsonCodecMaker.simpleClassName(x) match
           {{#values}}
           case "{{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}" => "{{.}}"
           {{/values}}
-      }
+      }{{/allowableValues}}
       .withDiscriminatorFieldName(scala.None)
   }
   {{/isString}}

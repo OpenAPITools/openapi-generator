@@ -28,7 +28,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion",
             "The version of " +
                     "sttp client",
-            "4.0.0-M19");
+            "4.0.0-RC1");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
@@ -85,8 +85,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
-                        GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling)
+                        GlobalFeature.LinkObjects)
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism)
                 .excludeParameterFeatures(
