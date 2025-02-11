@@ -1041,9 +1041,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                             $ref: <typeRef>
                  */
                 Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
+                        .filter(p -> p.getValue().getContent() != null || p.getValue().get$ref() != null)
                         .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
                         .filter(p -> p.getRight().is2xx) // consider only success
                         .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
+                        .filter(Objects::nonNull)
                         .map(MediaType::getSchema)
                         .map(s -> ModelUtils.unaliasSchema(openAPI, s))
                         .collect(Collectors.toList()).stream()

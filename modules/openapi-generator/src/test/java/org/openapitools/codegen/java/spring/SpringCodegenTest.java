@@ -4489,6 +4489,7 @@ public class SpringCodegenTest {
         File api = files.get("PathApi.java");
         File delegate = files.get("PathApiDelegate.java");
 
+        // SSE Endpoints
         JavaFileAssert.assertThat(api)
                       .assertMethod("sse1", "ServerWebExchange")
                       .hasReturnType("Flux<String>")
@@ -4503,17 +4504,15 @@ public class SpringCodegenTest {
                       .hasReturnType("Flux<String>")
                       .toFileAssert()
                       .assertMethod("sse5", "ServerWebExchange")
-                      .hasReturnType("Flux<EventType>")
+                      .hasReturnType("Flux<EventType>");
+        //Non SSE Endpoints
+        JavaFileAssert.assertThat(api)
+                      .assertMethod("notSse1", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Void>>")
                       .toFileAssert()
-
-                      // FIXME: Generator Crash
-                      // .assertMethod("notSse1", "ServerWebExchange")
-                      // .hasReturnType("Mono<ResponseEntity<Void>>")
-                      // .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("notSse2", "ServerWebExchange")
-                      // .hasReturnType("Mono<ResponseEntity<Flux<String>>>")
-                      // .toFileAssert()
+                      .assertMethod("notSse2", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Flux<String>>>")
+                      .toFileAssert()
                       .assertMethod("notSse3", "ServerWebExchange")
                       .hasReturnType("Mono<ResponseEntity<String>>")
                       .toFileAssert()
@@ -4523,11 +4522,10 @@ public class SpringCodegenTest {
                       .assertMethod("notSse7", "ServerWebExchange")
                       .hasReturnType("Mono<ResponseEntity<String>>")
                       .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("notSse8", "ServerWebExchange")
-                      // .hasReturnType("Mono<ResponseEntity<String>>")
-        ;
+                      .assertMethod("notSse8", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>");
 
+        // SSE Endpoints
         JavaFileAssert.assertThat(delegate)
                       .assertMethod("sse1", "ServerWebExchange")
                       .hasReturnType("Flux<String>")
@@ -4547,19 +4545,18 @@ public class SpringCodegenTest {
                       .toFileAssert()
                       .assertMethod("sse5", "ServerWebExchange")
                       .hasReturnType("Flux<EventType>")
-                      .bodyContainsLines("return Flux.empty();")
-                      .toFileAssert()
+                      .bodyContainsLines("return Flux.empty();");
 
-                      // FIXME: Generator Crash
-                      // .assertMethod("notSse1", "ServerWebExchange")
-                      // .hasReturnType("Mono<ResponseEntity<Void>>")
-                      // .bodyContainsLines("return result.then(Mono.empty());")
-                      // .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("notSse2", "ServerWebExchange")
-                      // .hasReturnType("Mono<ResponseEntity<Flux<String>>>")
-                      // .bodyContainsLines("return result.then(Mono.empty());")
-                      // .toFileAssert()
+        // Non SSE Endpoints
+        JavaFileAssert.assertThat(delegate)
+                      .assertMethod("notSse1", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Void>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
+                      .assertMethod("notSse2", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Flux<String>>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
                       .assertMethod("notSse3", "ServerWebExchange")
                       .hasReturnType("Mono<ResponseEntity<String>>")
                       .bodyContainsLines("return result.then(Mono.empty());")
@@ -4572,12 +4569,9 @@ public class SpringCodegenTest {
                       .hasReturnType("Mono<ResponseEntity<String>>")
                       .bodyContainsLines("return result.then(Mono.empty());")
                       .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("notSse8", "ServerWebExchange")
-                      // .hasReturnType("Mono<ResponseEntity<String>>")
-                      // .bodyContainsLines("return result.then(Mono.empty());")
-        ;
-
+                      .assertMethod("notSse8", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>")
+                      .bodyContainsLines("return result.then(Mono.empty());");
     }
 
     @DataProvider(name = "invalid sse endpoints")

@@ -58,27 +58,26 @@ paths:
         '200':
           $ref: '#/components/responses/StreamResponseWithReference'
 
-  # FIXME: generator crash
-  #  /path/notsse/1:
-  #      get:
-  #        operationId: not_sse_1
-  #        responses:
-  #          '200':
-  #            description: no schema defined, but this is a valid OpenAPI Specification
-  # FIXME: generator crash
-  #  /path/notsse/2:
-  #      get:
-  #        operationId: not_sse_2
-  #        responses:
-  #          '200':
-  #            description: wrong media type
-  #            content:
-  #              application/json:
-  #                schema:
-  #                  type: array
-  #                  format: event-stream
-  #                  items:
-  #                    type: string
+
+  /path/notsse/1:
+    get:
+      operationId: not_sse_1
+      responses:
+        '200':
+          description: no schema defined, but this is a valid OpenAPI Specification
+  /path/notsse/2:
+    get:
+      operationId: not_sse_2
+      responses:
+        '200':
+          description: wrong media type
+          content:
+            application/json:
+              schema:
+                type: array
+                format: event-stream
+                items:
+                  type: string
   /path/notsse/3:
     get:
       operationId: not_sse_3
@@ -110,17 +109,16 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/NotAStreamResponse"
-# FIXME: Generator Crashed
-#  /path/notsse/8:
-#    get:
-#      operationId: not_sse_8
-#      responses:
-#        "200":
-#          description: referenced schema does not match
-#          content:
-#            text/event-stream:
-#              schema:
-#                $ref: "#/components/schemas/NotAStreamType"
+  /path/notsse/8:
+    get:
+      operationId: not_sse_8
+      responses:
+        "200":
+          description: referenced schema does not match
+          content:
+            text/event-stream:
+              schema:
+                $ref: "#/components/schemas/NotAStreamType"
 
 components:
   schemas:
