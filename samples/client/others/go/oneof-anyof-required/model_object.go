@@ -18,21 +18,21 @@ import (
 
 // Object - struct for Object
 type Object struct {
-	NestedObject1 *NestedObject1
-	NestedObject2 *NestedObject2
+	NestedObject1Value *NestedObject1
+	NestedObject2Value *NestedObject2
 }
 
 // NestedObject1AsObject is a convenience function that returns NestedObject1 wrapped in Object
-func NestedObject1AsObject(v *NestedObject1) Object {
+func NestedObject1ValueAsObject(v *NestedObject1) Object {
 	return Object{
-		NestedObject1: v,
+		NestedObject1Value: v,
 	}
 }
 
 // NestedObject2AsObject is a convenience function that returns NestedObject2 wrapped in Object
-func NestedObject2AsObject(v *NestedObject2) Object {
+func NestedObject2ValueAsObject(v *NestedObject2) Object {
 	return Object{
-		NestedObject2: v,
+		NestedObject2Value: v,
 	}
 }
 
@@ -41,44 +41,44 @@ func NestedObject2AsObject(v *NestedObject2) Object {
 func (dst *Object) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into NestedObject1
-	err = newStrictDecoder(data).Decode(&dst.NestedObject1)
+	// try to unmarshal data into NestedObject1Value
+	err = newStrictDecoder(data).Decode(&dst.NestedObject1Value)
 	if err == nil {
-		jsonNestedObject1, _ := json.Marshal(dst.NestedObject1)
-		if string(jsonNestedObject1) == "{}" { // empty struct
-			dst.NestedObject1 = nil
+		jsonNestedObject1Value, _ := json.Marshal(dst.NestedObject1Value)
+		if string(jsonNestedObject1Value) == "{}" { // empty struct
+			dst.NestedObject1Value = nil
 		} else {
-			if err = validator.Validate(dst.NestedObject1); err != nil {
-				dst.NestedObject1 = nil
+			if err = validator.Validate(dst.NestedObject1Value); err != nil {
+				dst.NestedObject1Value = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.NestedObject1 = nil
+		dst.NestedObject1Value = nil
 	}
 
-	// try to unmarshal data into NestedObject2
-	err = newStrictDecoder(data).Decode(&dst.NestedObject2)
+	// try to unmarshal data into NestedObject2Value
+	err = newStrictDecoder(data).Decode(&dst.NestedObject2Value)
 	if err == nil {
-		jsonNestedObject2, _ := json.Marshal(dst.NestedObject2)
-		if string(jsonNestedObject2) == "{}" { // empty struct
-			dst.NestedObject2 = nil
+		jsonNestedObject2Value, _ := json.Marshal(dst.NestedObject2Value)
+		if string(jsonNestedObject2Value) == "{}" { // empty struct
+			dst.NestedObject2Value = nil
 		} else {
-			if err = validator.Validate(dst.NestedObject2); err != nil {
-				dst.NestedObject2 = nil
+			if err = validator.Validate(dst.NestedObject2Value); err != nil {
+				dst.NestedObject2Value = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.NestedObject2 = nil
+		dst.NestedObject2Value = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.NestedObject1 = nil
-		dst.NestedObject2 = nil
+		dst.NestedObject1Value = nil
+		dst.NestedObject2Value = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(Object)")
 	} else if match == 1 {
@@ -90,12 +90,12 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Object) MarshalJSON() ([]byte, error) {
-	if src.NestedObject1 != nil {
-		return json.Marshal(&src.NestedObject1)
+	if src.NestedObject1Value != nil {
+		return json.Marshal(&src.NestedObject1Value)
 	}
 
-	if src.NestedObject2 != nil {
-		return json.Marshal(&src.NestedObject2)
+	if src.NestedObject2Value != nil {
+		return json.Marshal(&src.NestedObject2Value)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -106,12 +106,12 @@ func (obj *Object) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.NestedObject1 != nil {
-		return obj.NestedObject1
+	if obj.NestedObject1Value != nil {
+		return obj.NestedObject1Value
 	}
 
-	if obj.NestedObject2 != nil {
-		return obj.NestedObject2
+	if obj.NestedObject2Value != nil {
+		return obj.NestedObject2Value
 	}
 
 	// all schemas are nil

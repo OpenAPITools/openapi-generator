@@ -20,8 +20,8 @@ var _ MappedNullable = &FilterAny{}
 
 // FilterAny struct for FilterAny
 type FilterAny struct {
-	FilterTypeRange *FilterTypeRange
-	FilterTypeRegex *FilterTypeRegex
+	FilterTypeRangeValue *FilterTypeRange
+	FilterTypeRegexValue *FilterTypeRegex
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
@@ -98,30 +98,30 @@ func (dst *FilterAny) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// try to unmarshal JSON data into FilterTypeRange
-	err = json.Unmarshal(data, &dst.FilterTypeRange);
+	// try to unmarshal JSON data into FilterTypeRangeValue
+	err = json.Unmarshal(data, &dst.FilterTypeRangeValue);
 	if err == nil {
-		jsonFilterTypeRange, _ := json.Marshal(dst.FilterTypeRange)
-		if string(jsonFilterTypeRange) == "{}" { // empty struct
-			dst.FilterTypeRange = nil
+		jsonFilterTypeRangeValue, _ := json.Marshal(dst.FilterTypeRangeValue)
+		if string(jsonFilterTypeRangeValue) == "{}" { // empty struct
+			dst.FilterTypeRangeValue = nil
 		} else {
-			return nil // data stored in dst.FilterTypeRange, return on the first match
+			return nil // data stored in dst.FilterTypeRangeValue, return on the first match
 		}
 	} else {
-		dst.FilterTypeRange = nil
+		dst.FilterTypeRangeValue = nil
 	}
 
-	// try to unmarshal JSON data into FilterTypeRegex
-	err = json.Unmarshal(data, &dst.FilterTypeRegex);
+	// try to unmarshal JSON data into FilterTypeRegexValue
+	err = json.Unmarshal(data, &dst.FilterTypeRegexValue);
 	if err == nil {
-		jsonFilterTypeRegex, _ := json.Marshal(dst.FilterTypeRegex)
-		if string(jsonFilterTypeRegex) == "{}" { // empty struct
-			dst.FilterTypeRegex = nil
+		jsonFilterTypeRegexValue, _ := json.Marshal(dst.FilterTypeRegexValue)
+		if string(jsonFilterTypeRegexValue) == "{}" { // empty struct
+			dst.FilterTypeRegexValue = nil
 		} else {
-			return nil // data stored in dst.FilterTypeRegex, return on the first match
+			return nil // data stored in dst.FilterTypeRegexValue, return on the first match
 		}
 	} else {
-		dst.FilterTypeRegex = nil
+		dst.FilterTypeRegexValue = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(FilterAny)")
@@ -129,24 +129,24 @@ func (dst *FilterAny) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src FilterAny) MarshalJSON() ([]byte, error) {
-	if src.FilterTypeRange != nil {
-		return json.Marshal(&src.FilterTypeRange)
+	if src.FilterTypeRangeValue != nil {
+		return json.Marshal(&src.FilterTypeRangeValue)
 	}
 
-	if src.FilterTypeRegex != nil {
-		return json.Marshal(&src.FilterTypeRegex)
+	if src.FilterTypeRegexValue != nil {
+		return json.Marshal(&src.FilterTypeRegexValue)
 	}
 
 	return nil, nil // no data in anyOf schemas
 }
 
 func (src FilterAny) ToMap() (map[string]interface{}, error) {
-	if src.FilterTypeRange != nil {
-		return src.FilterTypeRange.ToMap()
+	if src.FilterTypeRangeValue != nil {
+		return src.FilterTypeRangeValue.ToMap()
 	}
 
-	if src.FilterTypeRegex != nil {
-		return src.FilterTypeRegex.ToMap()
+	if src.FilterTypeRegexValue != nil {
+		return src.FilterTypeRegexValue.ToMap()
 	}
 
     return nil, nil // no data in anyOf schemas

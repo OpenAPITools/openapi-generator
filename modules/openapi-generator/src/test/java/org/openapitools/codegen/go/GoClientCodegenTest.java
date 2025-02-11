@@ -134,11 +134,11 @@ public class GoClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         Path modelFile = Paths.get(output + "/model_example.go");
-        TestUtils.assertFileContains(modelFile, "Child *Child");
-        TestUtils.assertFileContains(modelFile, "Int32 *int32");
-        TestUtils.assertFileContains(modelFile, "dst.Int32");
-        TestUtils.assertFileNotContains(modelFile, "int32 *int32");
-        TestUtils.assertFileNotContains(modelFile, "dst.int32");
+        TestUtils.assertFileContains(modelFile, "ChildValue *Child");
+        TestUtils.assertFileContains(modelFile, "Int32Value *int32");
+        TestUtils.assertFileContains(modelFile, "dst.Int32Value");
+        TestUtils.assertFileNotContains(modelFile, "int32value *int32");
+        TestUtils.assertFileNotContains(modelFile, "dst.int32value");
     }
 
     @Test
@@ -174,7 +174,7 @@ public class GoClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         Path docFile = Paths.get(output + "/docs/PetAPI.md");
-        TestUtils.assertFileContains(docFile, "openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{Cat: openapiclient.NewCat(\"Attr_example\")}");
+        TestUtils.assertFileContains(docFile, "openapiclient.pet{CatValue: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{CatValue: openapiclient.NewCat(\"Attr_example\")}, openapiclient.pet{CatValue: openapiclient.NewCat(\"Attr_example\")}");
     }
 
     @Test

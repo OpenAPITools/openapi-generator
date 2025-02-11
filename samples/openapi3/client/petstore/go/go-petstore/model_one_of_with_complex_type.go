@@ -18,21 +18,21 @@ import (
 
 // OneOfWithComplexType - struct for OneOfWithComplexType
 type OneOfWithComplexType struct {
-	ArrayOfString *[]string
-	String *string
+	ArrayOfStringValue *[]string
+	StringValue *string
 }
 
 // []stringAsOneOfWithComplexType is a convenience function that returns []string wrapped in OneOfWithComplexType
-func ArrayOfStringAsOneOfWithComplexType(v *[]string) OneOfWithComplexType {
+func ArrayOfStringValueAsOneOfWithComplexType(v *[]string) OneOfWithComplexType {
 	return OneOfWithComplexType{
-		ArrayOfString: v,
+		ArrayOfStringValue: v,
 	}
 }
 
 // stringAsOneOfWithComplexType is a convenience function that returns string wrapped in OneOfWithComplexType
-func StringAsOneOfWithComplexType(v *string) OneOfWithComplexType {
+func StringValueAsOneOfWithComplexType(v *string) OneOfWithComplexType {
 	return OneOfWithComplexType{
-		String: v,
+		StringValue: v,
 	}
 }
 
@@ -41,44 +41,44 @@ func StringAsOneOfWithComplexType(v *string) OneOfWithComplexType {
 func (dst *OneOfWithComplexType) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into ArrayOfString
-	err = newStrictDecoder(data).Decode(&dst.ArrayOfString)
+	// try to unmarshal data into ArrayOfStringValue
+	err = newStrictDecoder(data).Decode(&dst.ArrayOfStringValue)
 	if err == nil {
-		jsonArrayOfString, _ := json.Marshal(dst.ArrayOfString)
-		if string(jsonArrayOfString) == "{}" { // empty struct
-			dst.ArrayOfString = nil
+		jsonArrayOfStringValue, _ := json.Marshal(dst.ArrayOfStringValue)
+		if string(jsonArrayOfStringValue) == "{}" { // empty struct
+			dst.ArrayOfStringValue = nil
 		} else {
-			if err = validator.Validate(dst.ArrayOfString); err != nil {
-				dst.ArrayOfString = nil
+			if err = validator.Validate(dst.ArrayOfStringValue); err != nil {
+				dst.ArrayOfStringValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.ArrayOfString = nil
+		dst.ArrayOfStringValue = nil
 	}
 
-	// try to unmarshal data into String
-	err = newStrictDecoder(data).Decode(&dst.String)
+	// try to unmarshal data into StringValue
+	err = newStrictDecoder(data).Decode(&dst.StringValue)
 	if err == nil {
-		jsonString, _ := json.Marshal(dst.String)
-		if string(jsonString) == "{}" { // empty struct
-			dst.String = nil
+		jsonStringValue, _ := json.Marshal(dst.StringValue)
+		if string(jsonStringValue) == "{}" { // empty struct
+			dst.StringValue = nil
 		} else {
-			if err = validator.Validate(dst.String); err != nil {
-				dst.String = nil
+			if err = validator.Validate(dst.StringValue); err != nil {
+				dst.StringValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.String = nil
+		dst.StringValue = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.ArrayOfString = nil
-		dst.String = nil
+		dst.ArrayOfStringValue = nil
+		dst.StringValue = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(OneOfWithComplexType)")
 	} else if match == 1 {
@@ -90,12 +90,12 @@ func (dst *OneOfWithComplexType) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src OneOfWithComplexType) MarshalJSON() ([]byte, error) {
-	if src.ArrayOfString != nil {
-		return json.Marshal(&src.ArrayOfString)
+	if src.ArrayOfStringValue != nil {
+		return json.Marshal(&src.ArrayOfStringValue)
 	}
 
-	if src.String != nil {
-		return json.Marshal(&src.String)
+	if src.StringValue != nil {
+		return json.Marshal(&src.StringValue)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -106,12 +106,12 @@ func (obj *OneOfWithComplexType) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.ArrayOfString != nil {
-		return obj.ArrayOfString
+	if obj.ArrayOfStringValue != nil {
+		return obj.ArrayOfStringValue
 	}
 
-	if obj.String != nil {
-		return obj.String
+	if obj.StringValue != nil {
+		return obj.StringValue
 	}
 
 	// all schemas are nil

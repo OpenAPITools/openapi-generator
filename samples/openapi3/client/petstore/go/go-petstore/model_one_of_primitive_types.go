@@ -19,21 +19,21 @@ import (
 
 // OneOfPrimitiveTypes - struct for OneOfPrimitiveTypes
 type OneOfPrimitiveTypes struct {
-	String *string
-	TimeTime *time.Time
+	StringValue *string
+	TimeTimeValue *time.Time
 }
 
 // stringAsOneOfPrimitiveTypes is a convenience function that returns string wrapped in OneOfPrimitiveTypes
-func StringAsOneOfPrimitiveTypes(v *string) OneOfPrimitiveTypes {
+func StringValueAsOneOfPrimitiveTypes(v *string) OneOfPrimitiveTypes {
 	return OneOfPrimitiveTypes{
-		String: v,
+		StringValue: v,
 	}
 }
 
 // time.TimeAsOneOfPrimitiveTypes is a convenience function that returns time.Time wrapped in OneOfPrimitiveTypes
-func TimeTimeAsOneOfPrimitiveTypes(v *time.Time) OneOfPrimitiveTypes {
+func TimeTimeValueAsOneOfPrimitiveTypes(v *time.Time) OneOfPrimitiveTypes {
 	return OneOfPrimitiveTypes{
-		TimeTime: v,
+		TimeTimeValue: v,
 	}
 }
 
@@ -42,44 +42,44 @@ func TimeTimeAsOneOfPrimitiveTypes(v *time.Time) OneOfPrimitiveTypes {
 func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into String
-	err = newStrictDecoder(data).Decode(&dst.String)
+	// try to unmarshal data into StringValue
+	err = newStrictDecoder(data).Decode(&dst.StringValue)
 	if err == nil {
-		jsonString, _ := json.Marshal(dst.String)
-		if string(jsonString) == "{}" { // empty struct
-			dst.String = nil
+		jsonStringValue, _ := json.Marshal(dst.StringValue)
+		if string(jsonStringValue) == "{}" { // empty struct
+			dst.StringValue = nil
 		} else {
-			if err = validator.Validate(dst.String); err != nil {
-				dst.String = nil
+			if err = validator.Validate(dst.StringValue); err != nil {
+				dst.StringValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.String = nil
+		dst.StringValue = nil
 	}
 
-	// try to unmarshal data into TimeTime
-	err = newStrictDecoder(data).Decode(&dst.TimeTime)
+	// try to unmarshal data into TimeTimeValue
+	err = newStrictDecoder(data).Decode(&dst.TimeTimeValue)
 	if err == nil {
-		jsonTimeTime, _ := json.Marshal(dst.TimeTime)
-		if string(jsonTimeTime) == "{}" { // empty struct
-			dst.TimeTime = nil
+		jsonTimeTimeValue, _ := json.Marshal(dst.TimeTimeValue)
+		if string(jsonTimeTimeValue) == "{}" { // empty struct
+			dst.TimeTimeValue = nil
 		} else {
-			if err = validator.Validate(dst.TimeTime); err != nil {
-				dst.TimeTime = nil
+			if err = validator.Validate(dst.TimeTimeValue); err != nil {
+				dst.TimeTimeValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.TimeTime = nil
+		dst.TimeTimeValue = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.String = nil
-		dst.TimeTime = nil
+		dst.StringValue = nil
+		dst.TimeTimeValue = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(OneOfPrimitiveTypes)")
 	} else if match == 1 {
@@ -91,12 +91,12 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src OneOfPrimitiveTypes) MarshalJSON() ([]byte, error) {
-	if src.String != nil {
-		return json.Marshal(&src.String)
+	if src.StringValue != nil {
+		return json.Marshal(&src.StringValue)
 	}
 
-	if src.TimeTime != nil {
-		return json.Marshal(&src.TimeTime)
+	if src.TimeTimeValue != nil {
+		return json.Marshal(&src.TimeTimeValue)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -107,12 +107,12 @@ func (obj *OneOfPrimitiveTypes) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.String != nil {
-		return obj.String
+	if obj.StringValue != nil {
+		return obj.StringValue
 	}
 
-	if obj.TimeTime != nil {
-		return obj.TimeTime
+	if obj.TimeTimeValue != nil {
+		return obj.TimeTimeValue
 	}
 
 	// all schemas are nil

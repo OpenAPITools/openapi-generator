@@ -18,37 +18,37 @@ import (
 
 // GmFruit struct for GmFruit
 type GmFruit struct {
-	Apple *Apple
-	Banana *Banana
+	AppleValue *Apple
+	BananaValue *Banana
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *GmFruit) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into Apple
-	err = json.Unmarshal(data, &dst.Apple);
+	// try to unmarshal JSON data into AppleValue
+	err = json.Unmarshal(data, &dst.AppleValue);
 	if err == nil {
-		jsonApple, _ := json.Marshal(dst.Apple)
-		if string(jsonApple) == "{}" { // empty struct
-			dst.Apple = nil
+		jsonAppleValue, _ := json.Marshal(dst.AppleValue)
+		if string(jsonAppleValue) == "{}" { // empty struct
+			dst.AppleValue = nil
 		} else {
-			return nil // data stored in dst.Apple, return on the first match
+			return nil // data stored in dst.AppleValue, return on the first match
 		}
 	} else {
-		dst.Apple = nil
+		dst.AppleValue = nil
 	}
 
-	// try to unmarshal JSON data into Banana
-	err = json.Unmarshal(data, &dst.Banana);
+	// try to unmarshal JSON data into BananaValue
+	err = json.Unmarshal(data, &dst.BananaValue);
 	if err == nil {
-		jsonBanana, _ := json.Marshal(dst.Banana)
-		if string(jsonBanana) == "{}" { // empty struct
-			dst.Banana = nil
+		jsonBananaValue, _ := json.Marshal(dst.BananaValue)
+		if string(jsonBananaValue) == "{}" { // empty struct
+			dst.BananaValue = nil
 		} else {
-			return nil // data stored in dst.Banana, return on the first match
+			return nil // data stored in dst.BananaValue, return on the first match
 		}
 	} else {
-		dst.Banana = nil
+		dst.BananaValue = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(GmFruit)")
@@ -56,12 +56,12 @@ func (dst *GmFruit) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src GmFruit) MarshalJSON() ([]byte, error) {
-	if src.Apple != nil {
-		return json.Marshal(&src.Apple)
+	if src.AppleValue != nil {
+		return json.Marshal(&src.AppleValue)
 	}
 
-	if src.Banana != nil {
-		return json.Marshal(&src.Banana)
+	if src.BananaValue != nil {
+		return json.Marshal(&src.BananaValue)
 	}
 
 	return nil, nil // no data in anyOf schemas

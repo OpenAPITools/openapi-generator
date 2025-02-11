@@ -18,21 +18,21 @@ import (
 
 // Mammal - struct for Mammal
 type Mammal struct {
-	Whale *Whale
-	Zebra *Zebra
+	WhaleValue *Whale
+	ZebraValue *Zebra
 }
 
 // WhaleAsMammal is a convenience function that returns Whale wrapped in Mammal
-func WhaleAsMammal(v *Whale) Mammal {
+func WhaleValueAsMammal(v *Whale) Mammal {
 	return Mammal{
-		Whale: v,
+		WhaleValue: v,
 	}
 }
 
 // ZebraAsMammal is a convenience function that returns Zebra wrapped in Mammal
-func ZebraAsMammal(v *Zebra) Mammal {
+func ZebraValueAsMammal(v *Zebra) Mammal {
 	return Mammal{
-		Zebra: v,
+		ZebraValue: v,
 	}
 }
 
@@ -41,44 +41,44 @@ func ZebraAsMammal(v *Zebra) Mammal {
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into Whale
-	err = newStrictDecoder(data).Decode(&dst.Whale)
+	// try to unmarshal data into WhaleValue
+	err = newStrictDecoder(data).Decode(&dst.WhaleValue)
 	if err == nil {
-		jsonWhale, _ := json.Marshal(dst.Whale)
-		if string(jsonWhale) == "{}" { // empty struct
-			dst.Whale = nil
+		jsonWhaleValue, _ := json.Marshal(dst.WhaleValue)
+		if string(jsonWhaleValue) == "{}" { // empty struct
+			dst.WhaleValue = nil
 		} else {
-			if err = validator.Validate(dst.Whale); err != nil {
-				dst.Whale = nil
+			if err = validator.Validate(dst.WhaleValue); err != nil {
+				dst.WhaleValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Whale = nil
+		dst.WhaleValue = nil
 	}
 
-	// try to unmarshal data into Zebra
-	err = newStrictDecoder(data).Decode(&dst.Zebra)
+	// try to unmarshal data into ZebraValue
+	err = newStrictDecoder(data).Decode(&dst.ZebraValue)
 	if err == nil {
-		jsonZebra, _ := json.Marshal(dst.Zebra)
-		if string(jsonZebra) == "{}" { // empty struct
-			dst.Zebra = nil
+		jsonZebraValue, _ := json.Marshal(dst.ZebraValue)
+		if string(jsonZebraValue) == "{}" { // empty struct
+			dst.ZebraValue = nil
 		} else {
-			if err = validator.Validate(dst.Zebra); err != nil {
-				dst.Zebra = nil
+			if err = validator.Validate(dst.ZebraValue); err != nil {
+				dst.ZebraValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Zebra = nil
+		dst.ZebraValue = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.Whale = nil
-		dst.Zebra = nil
+		dst.WhaleValue = nil
+		dst.ZebraValue = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(Mammal)")
 	} else if match == 1 {
@@ -90,12 +90,12 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Mammal) MarshalJSON() ([]byte, error) {
-	if src.Whale != nil {
-		return json.Marshal(&src.Whale)
+	if src.WhaleValue != nil {
+		return json.Marshal(&src.WhaleValue)
 	}
 
-	if src.Zebra != nil {
-		return json.Marshal(&src.Zebra)
+	if src.ZebraValue != nil {
+		return json.Marshal(&src.ZebraValue)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -106,12 +106,12 @@ func (obj *Mammal) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.Whale != nil {
-		return obj.Whale
+	if obj.WhaleValue != nil {
+		return obj.WhaleValue
 	}
 
-	if obj.Zebra != nil {
-		return obj.Zebra
+	if obj.ZebraValue != nil {
+		return obj.ZebraValue
 	}
 
 	// all schemas are nil

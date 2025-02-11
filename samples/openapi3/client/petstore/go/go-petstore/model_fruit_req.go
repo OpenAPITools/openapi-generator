@@ -18,21 +18,21 @@ import (
 
 // FruitReq - struct for FruitReq
 type FruitReq struct {
-	AppleReq *AppleReq
-	BananaReq *BananaReq
+	AppleReqValue *AppleReq
+	BananaReqValue *BananaReq
 }
 
 // AppleReqAsFruitReq is a convenience function that returns AppleReq wrapped in FruitReq
-func AppleReqAsFruitReq(v *AppleReq) FruitReq {
+func AppleReqValueAsFruitReq(v *AppleReq) FruitReq {
 	return FruitReq{
-		AppleReq: v,
+		AppleReqValue: v,
 	}
 }
 
 // BananaReqAsFruitReq is a convenience function that returns BananaReq wrapped in FruitReq
-func BananaReqAsFruitReq(v *BananaReq) FruitReq {
+func BananaReqValueAsFruitReq(v *BananaReq) FruitReq {
 	return FruitReq{
-		BananaReq: v,
+		BananaReqValue: v,
 	}
 }
 
@@ -41,44 +41,44 @@ func BananaReqAsFruitReq(v *BananaReq) FruitReq {
 func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into AppleReq
-	err = newStrictDecoder(data).Decode(&dst.AppleReq)
+	// try to unmarshal data into AppleReqValue
+	err = newStrictDecoder(data).Decode(&dst.AppleReqValue)
 	if err == nil {
-		jsonAppleReq, _ := json.Marshal(dst.AppleReq)
-		if string(jsonAppleReq) == "{}" { // empty struct
-			dst.AppleReq = nil
+		jsonAppleReqValue, _ := json.Marshal(dst.AppleReqValue)
+		if string(jsonAppleReqValue) == "{}" { // empty struct
+			dst.AppleReqValue = nil
 		} else {
-			if err = validator.Validate(dst.AppleReq); err != nil {
-				dst.AppleReq = nil
+			if err = validator.Validate(dst.AppleReqValue); err != nil {
+				dst.AppleReqValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.AppleReq = nil
+		dst.AppleReqValue = nil
 	}
 
-	// try to unmarshal data into BananaReq
-	err = newStrictDecoder(data).Decode(&dst.BananaReq)
+	// try to unmarshal data into BananaReqValue
+	err = newStrictDecoder(data).Decode(&dst.BananaReqValue)
 	if err == nil {
-		jsonBananaReq, _ := json.Marshal(dst.BananaReq)
-		if string(jsonBananaReq) == "{}" { // empty struct
-			dst.BananaReq = nil
+		jsonBananaReqValue, _ := json.Marshal(dst.BananaReqValue)
+		if string(jsonBananaReqValue) == "{}" { // empty struct
+			dst.BananaReqValue = nil
 		} else {
-			if err = validator.Validate(dst.BananaReq); err != nil {
-				dst.BananaReq = nil
+			if err = validator.Validate(dst.BananaReqValue); err != nil {
+				dst.BananaReqValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.BananaReq = nil
+		dst.BananaReqValue = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.AppleReq = nil
-		dst.BananaReq = nil
+		dst.AppleReqValue = nil
+		dst.BananaReqValue = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(FruitReq)")
 	} else if match == 1 {
@@ -90,12 +90,12 @@ func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src FruitReq) MarshalJSON() ([]byte, error) {
-	if src.AppleReq != nil {
-		return json.Marshal(&src.AppleReq)
+	if src.AppleReqValue != nil {
+		return json.Marshal(&src.AppleReqValue)
 	}
 
-	if src.BananaReq != nil {
-		return json.Marshal(&src.BananaReq)
+	if src.BananaReqValue != nil {
+		return json.Marshal(&src.BananaReqValue)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -106,12 +106,12 @@ func (obj *FruitReq) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.AppleReq != nil {
-		return obj.AppleReq
+	if obj.AppleReqValue != nil {
+		return obj.AppleReqValue
 	}
 
-	if obj.BananaReq != nil {
-		return obj.BananaReq
+	if obj.BananaReqValue != nil {
+		return obj.BananaReqValue
 	}
 
 	// all schemas are nil

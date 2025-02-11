@@ -18,29 +18,29 @@ import (
 
 // OneOfPrimitiveType - struct for OneOfPrimitiveType
 type OneOfPrimitiveType struct {
-	OneOfPrimitiveTypeChild *OneOfPrimitiveTypeChild
-	ArrayOfString *[]string
-	Int32 *int32
+	OneOfPrimitiveTypeChildValue *OneOfPrimitiveTypeChild
+	ArrayOfStringValue *[]string
+	Int32Value *int32
 }
 
 // OneOfPrimitiveTypeChildAsOneOfPrimitiveType is a convenience function that returns OneOfPrimitiveTypeChild wrapped in OneOfPrimitiveType
-func OneOfPrimitiveTypeChildAsOneOfPrimitiveType(v *OneOfPrimitiveTypeChild) OneOfPrimitiveType {
+func OneOfPrimitiveTypeChildValueAsOneOfPrimitiveType(v *OneOfPrimitiveTypeChild) OneOfPrimitiveType {
 	return OneOfPrimitiveType{
-		OneOfPrimitiveTypeChild: v,
+		OneOfPrimitiveTypeChildValue: v,
 	}
 }
 
 // []stringAsOneOfPrimitiveType is a convenience function that returns []string wrapped in OneOfPrimitiveType
-func ArrayOfStringAsOneOfPrimitiveType(v *[]string) OneOfPrimitiveType {
+func ArrayOfStringValueAsOneOfPrimitiveType(v *[]string) OneOfPrimitiveType {
 	return OneOfPrimitiveType{
-		ArrayOfString: v,
+		ArrayOfStringValue: v,
 	}
 }
 
 // int32AsOneOfPrimitiveType is a convenience function that returns int32 wrapped in OneOfPrimitiveType
-func Int32AsOneOfPrimitiveType(v *int32) OneOfPrimitiveType {
+func Int32ValueAsOneOfPrimitiveType(v *int32) OneOfPrimitiveType {
 	return OneOfPrimitiveType{
-		Int32: v,
+		Int32Value: v,
 	}
 }
 
@@ -49,62 +49,62 @@ func Int32AsOneOfPrimitiveType(v *int32) OneOfPrimitiveType {
 func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into OneOfPrimitiveTypeChild
-	err = newStrictDecoder(data).Decode(&dst.OneOfPrimitiveTypeChild)
+	// try to unmarshal data into OneOfPrimitiveTypeChildValue
+	err = newStrictDecoder(data).Decode(&dst.OneOfPrimitiveTypeChildValue)
 	if err == nil {
-		jsonOneOfPrimitiveTypeChild, _ := json.Marshal(dst.OneOfPrimitiveTypeChild)
-		if string(jsonOneOfPrimitiveTypeChild) == "{}" { // empty struct
-			dst.OneOfPrimitiveTypeChild = nil
+		jsonOneOfPrimitiveTypeChildValue, _ := json.Marshal(dst.OneOfPrimitiveTypeChildValue)
+		if string(jsonOneOfPrimitiveTypeChildValue) == "{}" { // empty struct
+			dst.OneOfPrimitiveTypeChildValue = nil
 		} else {
-			if err = validator.Validate(dst.OneOfPrimitiveTypeChild); err != nil {
-				dst.OneOfPrimitiveTypeChild = nil
+			if err = validator.Validate(dst.OneOfPrimitiveTypeChildValue); err != nil {
+				dst.OneOfPrimitiveTypeChildValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.OneOfPrimitiveTypeChild = nil
+		dst.OneOfPrimitiveTypeChildValue = nil
 	}
 
-	// try to unmarshal data into ArrayOfString
-	err = newStrictDecoder(data).Decode(&dst.ArrayOfString)
+	// try to unmarshal data into ArrayOfStringValue
+	err = newStrictDecoder(data).Decode(&dst.ArrayOfStringValue)
 	if err == nil {
-		jsonArrayOfString, _ := json.Marshal(dst.ArrayOfString)
-		if string(jsonArrayOfString) == "{}" { // empty struct
-			dst.ArrayOfString = nil
+		jsonArrayOfStringValue, _ := json.Marshal(dst.ArrayOfStringValue)
+		if string(jsonArrayOfStringValue) == "{}" { // empty struct
+			dst.ArrayOfStringValue = nil
 		} else {
-			if err = validator.Validate(dst.ArrayOfString); err != nil {
-				dst.ArrayOfString = nil
+			if err = validator.Validate(dst.ArrayOfStringValue); err != nil {
+				dst.ArrayOfStringValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.ArrayOfString = nil
+		dst.ArrayOfStringValue = nil
 	}
 
-	// try to unmarshal data into Int32
-	err = newStrictDecoder(data).Decode(&dst.Int32)
+	// try to unmarshal data into Int32Value
+	err = newStrictDecoder(data).Decode(&dst.Int32Value)
 	if err == nil {
-		jsonInt32, _ := json.Marshal(dst.Int32)
-		if string(jsonInt32) == "{}" { // empty struct
-			dst.Int32 = nil
+		jsonInt32Value, _ := json.Marshal(dst.Int32Value)
+		if string(jsonInt32Value) == "{}" { // empty struct
+			dst.Int32Value = nil
 		} else {
-			if err = validator.Validate(dst.Int32); err != nil {
-				dst.Int32 = nil
+			if err = validator.Validate(dst.Int32Value); err != nil {
+				dst.Int32Value = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Int32 = nil
+		dst.Int32Value = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.OneOfPrimitiveTypeChild = nil
-		dst.ArrayOfString = nil
-		dst.Int32 = nil
+		dst.OneOfPrimitiveTypeChildValue = nil
+		dst.ArrayOfStringValue = nil
+		dst.Int32Value = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(OneOfPrimitiveType)")
 	} else if match == 1 {
@@ -116,16 +116,16 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src OneOfPrimitiveType) MarshalJSON() ([]byte, error) {
-	if src.OneOfPrimitiveTypeChild != nil {
-		return json.Marshal(&src.OneOfPrimitiveTypeChild)
+	if src.OneOfPrimitiveTypeChildValue != nil {
+		return json.Marshal(&src.OneOfPrimitiveTypeChildValue)
 	}
 
-	if src.ArrayOfString != nil {
-		return json.Marshal(&src.ArrayOfString)
+	if src.ArrayOfStringValue != nil {
+		return json.Marshal(&src.ArrayOfStringValue)
 	}
 
-	if src.Int32 != nil {
-		return json.Marshal(&src.Int32)
+	if src.Int32Value != nil {
+		return json.Marshal(&src.Int32Value)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -136,16 +136,16 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.OneOfPrimitiveTypeChild != nil {
-		return obj.OneOfPrimitiveTypeChild
+	if obj.OneOfPrimitiveTypeChildValue != nil {
+		return obj.OneOfPrimitiveTypeChildValue
 	}
 
-	if obj.ArrayOfString != nil {
-		return obj.ArrayOfString
+	if obj.ArrayOfStringValue != nil {
+		return obj.ArrayOfStringValue
 	}
 
-	if obj.Int32 != nil {
-		return obj.Int32
+	if obj.Int32Value != nil {
+		return obj.Int32Value
 	}
 
 	// all schemas are nil

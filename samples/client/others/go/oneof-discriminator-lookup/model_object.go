@@ -17,21 +17,21 @@ import (
 
 // Object - struct for Object
 type Object struct {
-	NestedObject1 *NestedObject1
-	NestedObject2 *NestedObject2
+	NestedObject1Value *NestedObject1
+	NestedObject2Value *NestedObject2
 }
 
 // NestedObject1AsObject is a convenience function that returns NestedObject1 wrapped in Object
-func NestedObject1AsObject(v *NestedObject1) Object {
+func NestedObject1ValueAsObject(v *NestedObject1) Object {
 	return Object{
-		NestedObject1: v,
+		NestedObject1Value: v,
 	}
 }
 
 // NestedObject2AsObject is a convenience function that returns NestedObject2 wrapped in Object
-func NestedObject2AsObject(v *NestedObject2) Object {
+func NestedObject2ValueAsObject(v *NestedObject2) Object {
 	return Object{
-		NestedObject2: v,
+		NestedObject2Value: v,
 	}
 }
 
@@ -99,12 +99,12 @@ func (dst *Object) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Object) MarshalJSON() ([]byte, error) {
-	if src.NestedObject1 != nil {
-		return json.Marshal(&src.NestedObject1)
+	if src.NestedObject1Value != nil {
+		return json.Marshal(&src.NestedObject1Value)
 	}
 
-	if src.NestedObject2 != nil {
-		return json.Marshal(&src.NestedObject2)
+	if src.NestedObject2Value != nil {
+		return json.Marshal(&src.NestedObject2Value)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -115,12 +115,12 @@ func (obj *Object) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.NestedObject1 != nil {
-		return obj.NestedObject1
+	if obj.NestedObject1Value != nil {
+		return obj.NestedObject1Value
 	}
 
-	if obj.NestedObject2 != nil {
-		return obj.NestedObject2
+	if obj.NestedObject2Value != nil {
+		return obj.NestedObject2Value
 	}
 
 	// all schemas are nil

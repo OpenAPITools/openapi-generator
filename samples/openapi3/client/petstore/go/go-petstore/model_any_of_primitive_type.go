@@ -18,51 +18,51 @@ import (
 
 // AnyOfPrimitiveType struct for AnyOfPrimitiveType
 type AnyOfPrimitiveType struct {
-	OneOfPrimitiveTypeChild *OneOfPrimitiveTypeChild
-	ArrayOfString *[]string
-	Int32 *int32
+	OneOfPrimitiveTypeChildValue *OneOfPrimitiveTypeChild
+	ArrayOfStringValue *[]string
+	Int32Value *int32
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *AnyOfPrimitiveType) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into OneOfPrimitiveTypeChild
-	err = json.Unmarshal(data, &dst.OneOfPrimitiveTypeChild);
+	// try to unmarshal JSON data into OneOfPrimitiveTypeChildValue
+	err = json.Unmarshal(data, &dst.OneOfPrimitiveTypeChildValue);
 	if err == nil {
-		jsonOneOfPrimitiveTypeChild, _ := json.Marshal(dst.OneOfPrimitiveTypeChild)
-		if string(jsonOneOfPrimitiveTypeChild) == "{}" { // empty struct
-			dst.OneOfPrimitiveTypeChild = nil
+		jsonOneOfPrimitiveTypeChildValue, _ := json.Marshal(dst.OneOfPrimitiveTypeChildValue)
+		if string(jsonOneOfPrimitiveTypeChildValue) == "{}" { // empty struct
+			dst.OneOfPrimitiveTypeChildValue = nil
 		} else {
-			return nil // data stored in dst.OneOfPrimitiveTypeChild, return on the first match
+			return nil // data stored in dst.OneOfPrimitiveTypeChildValue, return on the first match
 		}
 	} else {
-		dst.OneOfPrimitiveTypeChild = nil
+		dst.OneOfPrimitiveTypeChildValue = nil
 	}
 
-	// try to unmarshal JSON data into ArrayOfString
-	err = json.Unmarshal(data, &dst.ArrayOfString);
+	// try to unmarshal JSON data into ArrayOfStringValue
+	err = json.Unmarshal(data, &dst.ArrayOfStringValue);
 	if err == nil {
-		jsonArrayOfString, _ := json.Marshal(dst.ArrayOfString)
-		if string(jsonArrayOfString) == "{}" { // empty struct
-			dst.ArrayOfString = nil
+		jsonArrayOfStringValue, _ := json.Marshal(dst.ArrayOfStringValue)
+		if string(jsonArrayOfStringValue) == "{}" { // empty struct
+			dst.ArrayOfStringValue = nil
 		} else {
-			return nil // data stored in dst.ArrayOfString, return on the first match
+			return nil // data stored in dst.ArrayOfStringValue, return on the first match
 		}
 	} else {
-		dst.ArrayOfString = nil
+		dst.ArrayOfStringValue = nil
 	}
 
-	// try to unmarshal JSON data into Int32
-	err = json.Unmarshal(data, &dst.Int32);
+	// try to unmarshal JSON data into Int32Value
+	err = json.Unmarshal(data, &dst.Int32Value);
 	if err == nil {
-		jsonInt32, _ := json.Marshal(dst.Int32)
-		if string(jsonInt32) == "{}" { // empty struct
-			dst.Int32 = nil
+		jsonInt32Value, _ := json.Marshal(dst.Int32Value)
+		if string(jsonInt32Value) == "{}" { // empty struct
+			dst.Int32Value = nil
 		} else {
-			return nil // data stored in dst.Int32, return on the first match
+			return nil // data stored in dst.Int32Value, return on the first match
 		}
 	} else {
-		dst.Int32 = nil
+		dst.Int32Value = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(AnyOfPrimitiveType)")
@@ -70,16 +70,16 @@ func (dst *AnyOfPrimitiveType) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
-	if src.OneOfPrimitiveTypeChild != nil {
-		return json.Marshal(&src.OneOfPrimitiveTypeChild)
+	if src.OneOfPrimitiveTypeChildValue != nil {
+		return json.Marshal(&src.OneOfPrimitiveTypeChildValue)
 	}
 
-	if src.ArrayOfString != nil {
-		return json.Marshal(&src.ArrayOfString)
+	if src.ArrayOfStringValue != nil {
+		return json.Marshal(&src.ArrayOfStringValue)
 	}
 
-	if src.Int32 != nil {
-		return json.Marshal(&src.Int32)
+	if src.Int32Value != nil {
+		return json.Marshal(&src.Int32Value)
 	}
 
 	return nil, nil // no data in anyOf schemas

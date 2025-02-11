@@ -18,37 +18,37 @@ import (
 
 // Object2 struct for Object2
 type Object2 struct {
-	NestedObject1 *NestedObject1
-	NestedObject2 *NestedObject2
+	NestedObject1Value *NestedObject1
+	NestedObject2Value *NestedObject2
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
 func (dst *Object2) UnmarshalJSON(data []byte) error {
 	var err error
-	// try to unmarshal JSON data into NestedObject1
-	err = json.Unmarshal(data, &dst.NestedObject1);
+	// try to unmarshal JSON data into NestedObject1Value
+	err = json.Unmarshal(data, &dst.NestedObject1Value);
 	if err == nil {
-		jsonNestedObject1, _ := json.Marshal(dst.NestedObject1)
-		if string(jsonNestedObject1) == "{}" { // empty struct
-			dst.NestedObject1 = nil
+		jsonNestedObject1Value, _ := json.Marshal(dst.NestedObject1Value)
+		if string(jsonNestedObject1Value) == "{}" { // empty struct
+			dst.NestedObject1Value = nil
 		} else {
-			return nil // data stored in dst.NestedObject1, return on the first match
+			return nil // data stored in dst.NestedObject1Value, return on the first match
 		}
 	} else {
-		dst.NestedObject1 = nil
+		dst.NestedObject1Value = nil
 	}
 
-	// try to unmarshal JSON data into NestedObject2
-	err = json.Unmarshal(data, &dst.NestedObject2);
+	// try to unmarshal JSON data into NestedObject2Value
+	err = json.Unmarshal(data, &dst.NestedObject2Value);
 	if err == nil {
-		jsonNestedObject2, _ := json.Marshal(dst.NestedObject2)
-		if string(jsonNestedObject2) == "{}" { // empty struct
-			dst.NestedObject2 = nil
+		jsonNestedObject2Value, _ := json.Marshal(dst.NestedObject2Value)
+		if string(jsonNestedObject2Value) == "{}" { // empty struct
+			dst.NestedObject2Value = nil
 		} else {
-			return nil // data stored in dst.NestedObject2, return on the first match
+			return nil // data stored in dst.NestedObject2Value, return on the first match
 		}
 	} else {
-		dst.NestedObject2 = nil
+		dst.NestedObject2Value = nil
 	}
 
 	return fmt.Errorf("data failed to match schemas in anyOf(Object2)")
@@ -56,12 +56,12 @@ func (dst *Object2) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Object2) MarshalJSON() ([]byte, error) {
-	if src.NestedObject1 != nil {
-		return json.Marshal(&src.NestedObject1)
+	if src.NestedObject1Value != nil {
+		return json.Marshal(&src.NestedObject1Value)
 	}
 
-	if src.NestedObject2 != nil {
-		return json.Marshal(&src.NestedObject2)
+	if src.NestedObject2Value != nil {
+		return json.Marshal(&src.NestedObject2Value)
 	}
 
 	return nil, nil // no data in anyOf schemas

@@ -18,21 +18,21 @@ import (
 
 // Fruit - struct for Fruit
 type Fruit struct {
-	Apple *Apple
-	Banana *Banana
+	AppleValue *Apple
+	BananaValue *Banana
 }
 
 // AppleAsFruit is a convenience function that returns Apple wrapped in Fruit
-func AppleAsFruit(v *Apple) Fruit {
+func AppleValueAsFruit(v *Apple) Fruit {
 	return Fruit{
-		Apple: v,
+		AppleValue: v,
 	}
 }
 
 // BananaAsFruit is a convenience function that returns Banana wrapped in Fruit
-func BananaAsFruit(v *Banana) Fruit {
+func BananaValueAsFruit(v *Banana) Fruit {
 	return Fruit{
-		Banana: v,
+		BananaValue: v,
 	}
 }
 
@@ -41,44 +41,44 @@ func BananaAsFruit(v *Banana) Fruit {
 func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
-	// try to unmarshal data into Apple
-	err = newStrictDecoder(data).Decode(&dst.Apple)
+	// try to unmarshal data into AppleValue
+	err = newStrictDecoder(data).Decode(&dst.AppleValue)
 	if err == nil {
-		jsonApple, _ := json.Marshal(dst.Apple)
-		if string(jsonApple) == "{}" { // empty struct
-			dst.Apple = nil
+		jsonAppleValue, _ := json.Marshal(dst.AppleValue)
+		if string(jsonAppleValue) == "{}" { // empty struct
+			dst.AppleValue = nil
 		} else {
-			if err = validator.Validate(dst.Apple); err != nil {
-				dst.Apple = nil
+			if err = validator.Validate(dst.AppleValue); err != nil {
+				dst.AppleValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Apple = nil
+		dst.AppleValue = nil
 	}
 
-	// try to unmarshal data into Banana
-	err = newStrictDecoder(data).Decode(&dst.Banana)
+	// try to unmarshal data into BananaValue
+	err = newStrictDecoder(data).Decode(&dst.BananaValue)
 	if err == nil {
-		jsonBanana, _ := json.Marshal(dst.Banana)
-		if string(jsonBanana) == "{}" { // empty struct
-			dst.Banana = nil
+		jsonBananaValue, _ := json.Marshal(dst.BananaValue)
+		if string(jsonBananaValue) == "{}" { // empty struct
+			dst.BananaValue = nil
 		} else {
-			if err = validator.Validate(dst.Banana); err != nil {
-				dst.Banana = nil
+			if err = validator.Validate(dst.BananaValue); err != nil {
+				dst.BananaValue = nil
 			} else {
 				match++
 			}
 		}
 	} else {
-		dst.Banana = nil
+		dst.BananaValue = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.Apple = nil
-		dst.Banana = nil
+		dst.AppleValue = nil
+		dst.BananaValue = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(Fruit)")
 	} else if match == 1 {
@@ -90,12 +90,12 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src Fruit) MarshalJSON() ([]byte, error) {
-	if src.Apple != nil {
-		return json.Marshal(&src.Apple)
+	if src.AppleValue != nil {
+		return json.Marshal(&src.AppleValue)
 	}
 
-	if src.Banana != nil {
-		return json.Marshal(&src.Banana)
+	if src.BananaValue != nil {
+		return json.Marshal(&src.BananaValue)
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -106,12 +106,12 @@ func (obj *Fruit) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.Apple != nil {
-		return obj.Apple
+	if obj.AppleValue != nil {
+		return obj.AppleValue
 	}
 
-	if obj.Banana != nil {
-		return obj.Banana
+	if obj.BananaValue != nil {
+		return obj.BananaValue
 	}
 
 	// all schemas are nil
