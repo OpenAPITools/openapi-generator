@@ -4496,17 +4496,15 @@ public class SpringCodegenTest {
                       .assertMethod("sse2", "ServerWebExchange")
                       .hasReturnType("Flux<EventType>")
                       .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("sse3", "ServerWebExchange")
-                      // .hasReturnType("Flux<String>")
-                      // .toFileAssert()
+                      .assertMethod("sse3", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .toFileAssert()
                       .assertMethod("sse4", "ServerWebExchange")
                       .hasReturnType("Flux<String>")
                       .toFileAssert()
-                      // FIXME: Generator Crash, see #17271
-                      // .assertMethod("sse5", "ServerWebExchange")
-                      // .hasReturnType("Flux<EventType>")
-                      // .toFileAssert()
+                      .assertMethod("sse5", "ServerWebExchange")
+                      .hasReturnType("Flux<EventType>")
+                      .toFileAssert()
 
                       // FIXME: Generator Crash
                       // .assertMethod("notSse1", "ServerWebExchange")
@@ -4539,20 +4537,18 @@ public class SpringCodegenTest {
                       .hasReturnType("Flux<EventType>")
                       .bodyContainsLines("return Flux.empty();")
                       .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("sse3", "ServerWebExchange")
-                      // .hasReturnType("Flux<String>")
-                      // .bodyContainsLines("return Flux.empty();")
-                      // .toFileAssert()
+                      .assertMethod("sse3", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .bodyContainsLines("return Flux.empty();")
+                      .toFileAssert()
                       .assertMethod("sse4", "ServerWebExchange")
                       .hasReturnType("Flux<String>")
                       .bodyContainsLines("return Flux.empty();")
                       .toFileAssert()
-                      // FIXME: Generator Crash
-                      // .assertMethod("sse5", "ServerWebExchange")
-                      // .hasReturnType("Flux<String>")
-                      // .bodyContainsLines("return Flux.empty();")
-                      // .toFileAssert()
+                      .assertMethod("sse5", "ServerWebExchange")
+                      .hasReturnType("Flux<EventType>")
+                      .bodyContainsLines("return Flux.empty();")
+                      .toFileAssert()
 
                       // FIXME: Generator Crash
                       // .assertMethod("notSse1", "ServerWebExchange")

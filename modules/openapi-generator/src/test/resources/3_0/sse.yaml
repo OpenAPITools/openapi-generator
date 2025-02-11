@@ -34,31 +34,29 @@ paths:
                 format: event-stream
                 items:
                   $ref: "#/components/schemas/EventType"
-  # FIXME: Generator Crash
-  #  /path/sse/3:
-  #      get:
-  #        operationId: sse_3
-  #        responses:
-  #          "200":
-  #            description: using reference for schema
-  #            content:
-  #              text/event-stream:
-  #                schema:
-  #                  $ref: "#/components/schemas/EventTypeStream"
+  /path/sse/3:
+    get:
+      operationId: sse_3
+      responses:
+        "200":
+          description: using reference for schema
+          content:
+            text/event-stream:
+              schema:
+                $ref: "#/components/schemas/Stream"
   /path/sse/4:
     get:
       operationId: sse_4
       responses:
         "200":
-          $ref: "#/components/responses/EventTypeResponse"
-  # FIXME: generator crash
-  #  /path/sse/5:
-  #    post:
-  #      operationId: sse_5
-  #      description: indirect references, see Issue 17271
-  #      responses:
-  #        '200':
-  #          $ref: '#/components/responses/EventTypeResponseWithReference'
+          $ref: "#/components/responses/StreamResponse"
+  /path/sse/5:
+    post:
+      operationId: sse_5
+      description: indirect references, see Issue 17271
+      responses:
+        '200':
+          $ref: '#/components/responses/StreamResponseWithReference'
 
   # FIXME: generator crash
   #  /path/notsse/1:
@@ -135,6 +133,11 @@ components:
       type: array
       format: event-stream
       items:
+        $ref: '#/components/schemas/EventType'
+    Stream:
+      type: array
+      format: event-stream
+      items:
         type: string
     NotAStreamType:
       type: string
@@ -142,7 +145,7 @@ components:
 
 
   responses:
-    EventTypeResponse:
+    StreamResponse:
       description: response
       content:
         text/event-stream:
@@ -152,8 +155,8 @@ components:
             items:
               type: string
 
-    EventTypeResponseWithReference:
-      description: acknowledged
+    StreamResponseWithReference:
+      description: response
       content:
         text/event-stream:
           schema:

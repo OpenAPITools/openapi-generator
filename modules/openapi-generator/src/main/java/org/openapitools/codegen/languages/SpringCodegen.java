@@ -70,6 +70,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -1044,6 +1045,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         .filter(p -> p.getRight().is2xx) // consider only success
                         .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
                         .map(MediaType::getSchema)
+                        .map(s -> ModelUtils.unaliasSchema(openAPI, s))
                         .collect(Collectors.toList()).stream()
                         .collect(Collectors.groupingBy(Schema::getType));
                 if(schemaTypes.containsKey("array")) {
