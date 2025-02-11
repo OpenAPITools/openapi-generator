@@ -3,7 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
- * PHP version 8.3
+ * PHP version 8.1
  *
  * The version of the OpenAPI document: 1.0.0
  * 
