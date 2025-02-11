@@ -337,6 +337,7 @@ impl {{classname}} for {{classname}}Client {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        {{^supportMultipleResponses}}
         {{#returnType}}
         let local_var_content_type = local_var_resp
             .headers()
@@ -345,6 +346,7 @@ impl {{classname}} for {{classname}}Client {
             .unwrap_or("application/octet-stream");
         let local_var_content_type = super::ContentType::from(local_var_content_type);
         {{/returnType}}
+        {{/supportMultipleResponses}}
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {

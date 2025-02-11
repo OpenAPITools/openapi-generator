@@ -355,6 +355,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     let resp = configuration.client.execute(req){{#supportAsync}}.await{{/supportAsync}}?;
 
     let status = resp.status();
+    {{^supportMultipleResponses}}
     {{^isResponseFile}}
     {{#returnType}}
     let content_type = resp
@@ -365,6 +366,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     let content_type = super::ContentType::from(content_type);
     {{/returnType}}
     {{/isResponseFile}}
+    {{/supportMultipleResponses}}
 
     if !status.is_client_error() && !status.is_server_error() {
         {{^supportMultipleResponses}}
