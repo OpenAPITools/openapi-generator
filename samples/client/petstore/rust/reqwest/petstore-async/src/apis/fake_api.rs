@@ -21,6 +21,7 @@ pub struct TestNullableRequiredParamParams {
     pub user_name: String,
     /// To test nullable required parameters
     pub dummy_required_nullable_param: Option<String>,
+    pub any_type: String,
     /// To test parameter names in upper case
     pub uppercase: Option<String>,
     /// To test escaping of parameters in rust code works
@@ -55,6 +56,7 @@ pub async fn test_nullable_required_param(configuration: &configuration::Configu
     if let Some(ref param_value) = params.content {
         req_builder = req_builder.query(&[("content", &param_value.to_string())]);
     }
+    req_builder = req_builder.query(&[("anyType", &params.any_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

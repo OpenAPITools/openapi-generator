@@ -54,6 +54,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [ActionContainer](docs/ActionContainer.md)
+ - [AnyTypeTest](docs/AnyTypeTest.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayItemRefTest](docs/ArrayItemRefTest.md)
  - [Baz](docs/Baz.md)
