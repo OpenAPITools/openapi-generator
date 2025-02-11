@@ -1,9 +1,9 @@
 {{>partial_header}}
 
 use reqwest;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
-use super::{Error, configuration};
+use super::{Error, configuration, ContentType};
 
 {{#operations}}
 {{#operation}}
@@ -355,6 +355,16 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     let resp = configuration.client.execute(req){{#supportAsync}}.await{{/supportAsync}}?;
 
     let status = resp.status();
+    {{^isResponseFile}}
+    {{#returnType}}
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
+    {{/returnType}}
+    {{/isResponseFile}}
 
     if !status.is_client_error() && !status.is_server_error() {
         {{^supportMultipleResponses}}
@@ -367,7 +377,16 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/returnType}}
         {{#returnType}}
         let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            {{#vendorExtensions.x-supports-plain-text}}
+            ContentType::Text => return Ok(content),
+            {{/vendorExtensions.x-supports-plain-text}}
+            {{^vendorExtensions.x-supports-plain-text}}
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `{{returnType}}`"))),
+            {{/vendorExtensions.x-supports-plain-text}}
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `{{returnType}}`")))),
+        }
         {{/returnType}}
         {{/isResponseFile}}
         {{/supportMultipleResponses}}
