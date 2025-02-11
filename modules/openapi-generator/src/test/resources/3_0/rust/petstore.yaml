@@ -615,6 +615,11 @@ paths:
           description: To test escaping of parameters in rust code works
           schema:
             type: string
+        # For testing `isAnyType` types
+        - name: anyType
+          in: query
+          required: true
+          schema: {}
       responses:
         '200':
           description: successful operation
@@ -996,3 +1001,9 @@ components:
       properties:
         dummy:
           type: string
+    AnyTypeTest:
+      type: object
+      properties:
+        foo: {}
+      required: ["foo"]
+
