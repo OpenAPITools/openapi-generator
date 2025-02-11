@@ -84,4 +84,5 @@ Model/TestInlineFreeformAdditionalPropertiesRequest.php
 Model/User.php
 README.md
 composer.json
+phpunit.xml.dist
 routes.php

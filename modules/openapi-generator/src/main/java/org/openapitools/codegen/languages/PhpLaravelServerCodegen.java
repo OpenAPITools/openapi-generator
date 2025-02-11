@@ -66,11 +66,13 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
         setInvokerPackage("OpenAPI\\Server");
 
         additionalProperties.put("controllerPackage", controllerPackage);
+        additionalProperties.put("controllerSrcPath", "." + "/" + toSrcPath(controllerPackage, srcBasePath));
 
         apiTemplateFiles.put("api_controller.mustache", ".php");
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("phpunit.mustache", "", "phpunit.xml.dist"));
 
         typeMapping.put("file", "\\Illuminate\\Http\\UploadedFile");
         languageSpecificPrimitives.add("\\Illuminate\\Http\\UploadedFile");
