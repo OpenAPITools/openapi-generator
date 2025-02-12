@@ -1,4 +1,5 @@
 # {{packageName}}.{{classname}}{{#description}}
+
 {{.}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
@@ -40,6 +41,7 @@ Method | HTTP request | Description
 {{> api_doc_example }}
 
 ### Parameters
+
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
@@ -61,6 +63,7 @@ Name | Type | Description  | Notes
 
 {{#responses.0}}
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 {{#responses}}
