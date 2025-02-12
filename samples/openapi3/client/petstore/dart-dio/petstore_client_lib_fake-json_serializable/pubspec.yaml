@@ -14,4 +14,4 @@ dependencies:
 dev_dependencies:
   build_runner: any
   json_serializable: '^6.9.0'
-  test: ^1.16.0
+  test: '^1.16.0'
