@@ -51,7 +51,8 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
-            {{^interfaceOnly}}<plugin>
+            {{^interfaceOnly}}
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -67,8 +68,10 @@
                     </excludes>
                 {{/lombok}}
                 </configuration>
-            </plugin>{{/interfaceOnly}}
-            {{#interfaceOnly}}<plugin>
+            </plugin>
+            {{/interfaceOnly}}
+            {{#interfaceOnly}}
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
@@ -79,7 +82,8 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>{{/interfaceOnly}}
+            </plugin>
+            {{/interfaceOnly}}
             {{#apiFirst}}
             <plugin>
                 <groupId>org.openapitools</groupId>
