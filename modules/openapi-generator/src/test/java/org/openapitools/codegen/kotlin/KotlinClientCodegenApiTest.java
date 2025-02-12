@@ -9,6 +9,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 
@@ -59,11 +61,15 @@ public class KotlinClientCodegenApiTest {
 
     @DataProvider(name = "useResponseAsReturnType")
     public static Object[][] useResponseAsReturnTypeTestData() {
-        return new Object[][]{{null, "Response<Pet>"}, {true, "Response<Pet>"}, {false, "Pet"}, {"false", "Pet"}}; // null is default
+        return new Object[][]{
+                {null, "Response<Pet>", ": Response<Unit>"},
+                {true, "Response<Pet>", ": Response<Unit>"},
+                {false, "Pet", ""},
+                {"false", "Pet", ""}};
     }
 
     @Test(dataProvider = "useResponseAsReturnType")
-    public void testUseResponseAsReturnType(Object useResponseAsReturnType, String expectedResponse) throws IOException {
+    public void testUseResponseAsReturnType(Object useResponseAsReturnType, String expectedResponse, String expectedUnitResponse) throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
 
         KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_RETROFIT2);
@@ -80,7 +86,13 @@ public class KotlinClientCodegenApiTest {
 
         List<File> files = generator.opts(input).generate();
         File petApi = files.stream().filter(file -> file.getName().equals("PetApi.kt")).findAny().orElseThrow();
-        assertFileContains(petApi.toPath(), "suspend fun addPet(@Body pet: Pet): " + expectedResponse);
+        List<String> lines = Files.readAllLines(petApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+        assertFileContainsLine(lines, "suspend fun addPet(@Body pet: Pet): " + expectedResponse);
+        assertFileContainsLine(lines, "suspend fun deletePet(@Path(\"petId\") petId: kotlin.Long, @Header(\"api_key\") apiKey: kotlin.String? = null)" + expectedUnitResponse);
+    }
+
+    private static void assertFileContainsLine(List<String> lines, String line) {
+        Assert.assertListContains(lines, s -> s.equals(line), line);
     }
 
     private static void enableOnlyApiGeneration(DefaultGenerator generator) {
