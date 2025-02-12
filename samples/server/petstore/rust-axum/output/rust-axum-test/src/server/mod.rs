@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host};
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -13,21 +13,25 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A>(api_impl: I) -> Router
+pub fn new<I, A, E>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default + 'static,
+    A: apis::default::Default<E> + Send + Sync + 'static,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
-        .route("/allOf", get(all_of_get::<I, A>))
-        .route("/dummy", get(dummy_get::<I, A>).put(dummy_put::<I, A>))
-        .route("/file_response", get(file_response_get::<I, A>))
-        .route("/get-structured-yaml", get(get_structured_yaml::<I, A>))
-        .route("/html", post(html_post::<I, A>))
-        .route("/post-yaml", post(post_yaml::<I, A>))
-        .route("/raw_json", get(raw_json_get::<I, A>))
-        .route("/solo-object", post(solo_object_post::<I, A>))
+        .route("/allOf", get(all_of_get::<I, A, E>))
+        .route(
+            "/dummy",
+            get(dummy_get::<I, A, E>).put(dummy_put::<I, A, E>),
+        )
+        .route("/file_response", get(file_response_get::<I, A, E>))
+        .route("/get-structured-yaml", get(get_structured_yaml::<I, A, E>))
+        .route("/html", post(html_post::<I, A, E>))
+        .route("/post-yaml", post(post_yaml::<I, A, E>))
+        .route("/raw_json", get(raw_json_get::<I, A, E>))
+        .route("/solo-object", post(solo_object_post::<I, A, E>))
         .with_state(api_impl)
 }
 
@@ -37,7 +41,7 @@ fn all_of_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// AllOfGet - GET /allOf
 #[tracing::instrument(skip_all)]
-async fn all_of_get<I, A>(
+async fn all_of_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -45,7 +49,8 @@ async fn all_of_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || all_of_get_validation())
@@ -59,7 +64,7 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().all_of_get(method, host, cookies).await;
+    let result = api_impl.as_ref().all_of_get(&method, &host, &cookies).await;
 
     let mut response = Response::builder();
 
@@ -89,10 +94,14 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -108,7 +117,7 @@ fn dummy_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// DummyGet - GET /dummy
 #[tracing::instrument(skip_all)]
-async fn dummy_get<I, A>(
+async fn dummy_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -116,7 +125,8 @@ async fn dummy_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || dummy_get_validation())
@@ -130,7 +140,7 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().dummy_get(method, host, cookies).await;
+    let result = api_impl.as_ref().dummy_get(&method, &host, &cookies).await;
 
     let mut response = Response::builder();
 
@@ -141,10 +151,14 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -172,7 +186,7 @@ fn dummy_put_validation(
 }
 /// DummyPut - PUT /dummy
 #[tracing::instrument(skip_all)]
-async fn dummy_put<I, A>(
+async fn dummy_put<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -181,7 +195,8 @@ async fn dummy_put<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || dummy_put_validation(body))
@@ -197,7 +212,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .dummy_put(method, host, cookies, body)
+        .dummy_put(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -209,10 +224,14 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -228,7 +247,7 @@ fn file_response_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// FileResponseGet - GET /file_response
 #[tracing::instrument(skip_all)]
-async fn file_response_get<I, A>(
+async fn file_response_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -236,7 +255,8 @@ async fn file_response_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || file_response_get_validation())
@@ -252,7 +272,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .file_response_get(method, host, cookies)
+        .file_response_get(&method, &host, &cookies)
         .await;
 
     let mut response = Response::builder();
@@ -283,10 +303,14 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -302,7 +326,7 @@ fn get_structured_yaml_validation() -> std::result::Result<(), ValidationErrors>
 }
 /// GetStructuredYaml - GET /get-structured-yaml
 #[tracing::instrument(skip_all)]
-async fn get_structured_yaml<I, A>(
+async fn get_structured_yaml<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -310,7 +334,8 @@ async fn get_structured_yaml<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || get_structured_yaml_validation())
@@ -326,7 +351,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .get_structured_yaml(method, host, cookies)
+        .get_structured_yaml(&method, &host, &cookies)
         .await;
 
     let mut response = Response::builder();
@@ -350,10 +375,14 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -375,7 +404,7 @@ fn html_post_validation(body: String) -> std::result::Result<(String,), Validati
 }
 /// HtmlPost - POST /html
 #[tracing::instrument(skip_all)]
-async fn html_post<I, A>(
+async fn html_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -384,7 +413,8 @@ async fn html_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || html_post_validation(body))
@@ -400,7 +430,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .html_post(method, host, cookies, body)
+        .html_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -424,10 +454,14 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -449,7 +483,7 @@ fn post_yaml_validation(body: String) -> std::result::Result<(String,), Validati
 }
 /// PostYaml - POST /post-yaml
 #[tracing::instrument(skip_all)]
-async fn post_yaml<I, A>(
+async fn post_yaml<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -458,7 +492,8 @@ async fn post_yaml<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || post_yaml_validation(body))
@@ -474,7 +509,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .post_yaml(method, host, cookies, body)
+        .post_yaml(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -486,10 +521,14 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -505,7 +544,7 @@ fn raw_json_get_validation() -> std::result::Result<(), ValidationErrors> {
 }
 /// RawJsonGet - GET /raw_json
 #[tracing::instrument(skip_all)]
-async fn raw_json_get<I, A>(
+async fn raw_json_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -513,7 +552,8 @@ async fn raw_json_get<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || raw_json_get_validation())
@@ -527,7 +567,10 @@ where
             .map_err(|_| StatusCode::BAD_REQUEST);
     };
 
-    let result = api_impl.as_ref().raw_json_get(method, host, cookies).await;
+    let result = api_impl
+        .as_ref()
+        .raw_json_get(&method, &host, &cookies)
+        .await;
 
     let mut response = Response::builder();
 
@@ -557,10 +600,14 @@ where
                 response.body(Body::from(body_content))
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 
@@ -587,7 +634,7 @@ fn solo_object_post_validation(
 }
 /// SoloObjectPost - POST /solo-object
 #[tracing::instrument(skip_all)]
-async fn solo_object_post<I, A>(
+async fn solo_object_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
@@ -596,7 +643,8 @@ async fn solo_object_post<I, A>(
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default,
+    A: apis::default::Default<E> + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
 {
     #[allow(clippy::redundant_closure)]
     let validation = tokio::task::spawn_blocking(move || solo_object_post_validation(body))
@@ -612,7 +660,7 @@ where
 
     let result = api_impl
         .as_ref()
-        .solo_object_post(method, host, cookies, body)
+        .solo_object_post(&method, &host, &cookies, &body)
         .await;
 
     let mut response = Response::builder();
@@ -624,10 +672,14 @@ where
                 response.body(Body::empty())
             }
         },
-        Err(_) => {
+        Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-            response.status(500).body(Body::empty())
+
+            return api_impl
+                .as_ref()
+                .handle_error(&method, &host, &cookies, why)
+                .await;
         }
     };
 

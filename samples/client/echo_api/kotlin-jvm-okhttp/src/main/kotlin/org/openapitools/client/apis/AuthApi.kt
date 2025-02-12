@@ -45,6 +45,7 @@ class AuthApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /auth/http/basic
      * To test HTTP basic authentication
      * To test HTTP basic authentication
      * @return kotlin.String
@@ -75,6 +76,7 @@ class AuthApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /auth/http/basic
      * To test HTTP basic authentication
      * To test HTTP basic authentication
      * @return ApiResponse<kotlin.String?>
@@ -113,6 +115,7 @@ class AuthApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /auth/http/bearer
      * To test HTTP bearer authentication
      * To test HTTP bearer authentication
      * @return kotlin.String
@@ -143,6 +146,7 @@ class AuthApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /auth/http/bearer
      * To test HTTP bearer authentication
      * To test HTTP bearer authentication
      * @return ApiResponse<kotlin.String?>

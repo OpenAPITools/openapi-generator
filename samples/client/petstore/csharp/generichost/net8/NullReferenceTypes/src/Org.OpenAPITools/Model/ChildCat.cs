@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public ChildCat(Option<string?> name = default) : base()
         {
             NameOption = name;
+            PetType = (PetTypeEnum)Enum.Parse(typeof(PetTypeEnum), this.GetType().Name);
             OnCreated();
         }
 
@@ -114,7 +115,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new PetTypeEnum PetType { get; } = (PetTypeEnum)Enum.Parse(typeof(PetTypeEnum), "ChildCat");
+        public new PetTypeEnum PetType { get; }
 
         /// <summary>
         /// Returns the string presentation of the object

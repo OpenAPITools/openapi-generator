@@ -168,6 +168,8 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ChildCat.PetTypeEnum childCatPetTypeEnum)
                 return ChildCat.PetTypeEnumToJsonValue(childCatPetTypeEnum);
+            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
+                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
             if (obj is EnumArrays.ArrayEnumEnum enumArraysArrayEnumEnum)
                 return EnumArrays.ArrayEnumEnumToJsonValue(enumArraysArrayEnumEnum);
             if (obj is EnumArrays.JustSymbolEnum enumArraysJustSymbolEnum)
@@ -224,6 +226,10 @@ namespace Org.OpenAPITools.Client
                 return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
             if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
                 return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is TestDescendants.ObjectTypeEnum testDescendantsObjectTypeEnum)
+                return TestDescendants.ObjectTypeEnumToJsonValue(testDescendantsObjectTypeEnum);
+            if (obj is TestResultCode testResultCode)
+                return TestResultCodeValueConverter.ToJsonValue(testResultCode);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)

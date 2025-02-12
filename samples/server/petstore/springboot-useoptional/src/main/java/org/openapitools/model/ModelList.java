@@ -22,13 +22,13 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ModelList {
 
   private Optional<String> _123list = Optional.empty();
 
   public ModelList _123list(String _123list) {
-    this._123list = Optional.of(_123list);
+    this._123list = Optional.ofNullable(_123list);
     return this;
   }
 

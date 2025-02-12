@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
   private Optional<UUID> uuid = Optional.empty();
@@ -38,7 +38,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = Optional.of(uuid);
+    this.uuid = Optional.ofNullable(uuid);
     return this;
   }
 
@@ -58,7 +58,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.of(dateTime);
+    this.dateTime = Optional.ofNullable(dateTime);
     return this;
   }
 

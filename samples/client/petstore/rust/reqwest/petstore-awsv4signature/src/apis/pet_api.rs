@@ -82,7 +82,7 @@ pub enum UploadFileError {
 }
 
 
-/// 
+/// This is the description for the addPet operation
 pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_pet = pet;
@@ -172,7 +172,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
     }
 }
 
-/// Multiple status values can be provided with comma separated strings
+/// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_status = status;

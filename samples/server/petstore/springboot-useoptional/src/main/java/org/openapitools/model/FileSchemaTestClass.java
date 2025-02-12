@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  * FileSchemaTestClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FileSchemaTestClass {
 
   private Optional<File> file = Optional.empty();
@@ -33,7 +33,7 @@ public class FileSchemaTestClass {
   private List<@Valid File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(File file) {
-    this.file = Optional.of(file);
+    this.file = Optional.ofNullable(file);
     return this;
   }
 

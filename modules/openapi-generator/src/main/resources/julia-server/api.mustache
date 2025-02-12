@@ -43,6 +43,21 @@ function {{operationId}}_validate(handler)
         {{#minItems}}
         OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minItems}})
         {{/minItems}}
+        {{#uniqueItems}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :uniqueItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{uniqueItems}})
+        {{/uniqueItems}}
+        {{#maxProperties}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :maxProperties, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{maxProperties}})
+        {{/maxProperties}}
+        {{#minProperties}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minProperties, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minProperties}})
+        {{/minProperties}}
+        {{#pattern}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :pattern, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], r"{{{pattern}}}")
+        {{/pattern}}
+        {{#multipleOf}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :multipleOf, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{multipleOf}})
+        {{/multipleOf}}
         {{/hasValidation}}{{/allParams}}
         return handler(req)
     end

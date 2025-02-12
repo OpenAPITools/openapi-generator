@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host};
 use bytes::Bytes;
 use http::Method;
 use serde::{Deserialize, Serialize};
@@ -38,7 +38,9 @@ pub enum PostMakePaymentResponse {
 /// Payments
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Payments {
+pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
+    super::ErrorHandler<E>
+{
     type Claims;
 
     /// Get payment method by id.
@@ -46,31 +48,31 @@ pub trait Payments {
     /// GetPaymentMethodById - GET /v71/paymentMethods/{id}
     async fn get_payment_method_by_id(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        path_params: models::GetPaymentMethodByIdPathParams,
-    ) -> Result<GetPaymentMethodByIdResponse, ()>;
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        path_params: &models::GetPaymentMethodByIdPathParams,
+    ) -> Result<GetPaymentMethodByIdResponse, E>;
 
     /// Get payment methods.
     ///
     /// GetPaymentMethods - GET /v71/paymentMethods
     async fn get_payment_methods(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-    ) -> Result<GetPaymentMethodsResponse, ()>;
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+    ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.
     ///
     /// PostMakePayment - POST /v71/payments
     async fn post_make_payment(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-        claims: Self::Claims,
-        body: Option<models::Payment>,
-    ) -> Result<PostMakePaymentResponse, ()>;
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+        claims: &Self::Claims,
+        body: &Option<models::Payment>,
+    ) -> Result<PostMakePaymentResponse, E>;
 }

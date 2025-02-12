@@ -679,6 +679,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             for (CodegenProperty property : model.nonNullableVars) {
                 patchProperty(enumRefs, model, property);
             }
+
+            List<CodegenProperty> overriddenProperties = model.vars.stream().filter(v -> model.allVars.stream().anyMatch(a -> a.baseName.equals(v.baseName) && a.dataType != v.dataType)).collect(Collectors.toList());
+            for (CodegenProperty overridden : overriddenProperties) {
+                // if the current model overrides an allOf property, use the overridden property
+                model.allVars.set(model.allVars.indexOf(model.allVars.stream().filter(a -> a.baseName.equals(overridden.baseName)).findFirst().get()), overridden);
+            }
         }
         return processed;
     }
@@ -720,6 +726,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
         property.vendorExtensions.put("x-is-nullable-type", this.getNullableReferencesTypes() || isValueType);
+        property.vendorExtensions.put("x-is-base-or-new-discriminator", (property.isDiscriminator && !property.isInherited) || (property.isDiscriminator && property.isNew));
+    }
+
+    protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
     }
 
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
@@ -734,6 +744,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
             property.isPrimitiveType = true;
         }
+
+        this.patchPropertyIsInherited(model, property);
 
         patchPropertyVendorExtensions(property);
 

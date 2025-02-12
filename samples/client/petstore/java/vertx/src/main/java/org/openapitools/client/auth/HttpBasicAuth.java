@@ -19,7 +19,7 @@ import java.util.Base64;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class HttpBasicAuth implements Authentication {
   private String username;
   private String password;

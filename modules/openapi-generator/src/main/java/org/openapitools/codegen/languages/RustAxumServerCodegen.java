@@ -427,7 +427,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             for (CodegenParameter param : op.pathParams) {
                 // Replace {baseName} with {paramName} for format string
                 String paramSearch = "{" + param.baseName + "}";
-                String paramReplace = ":" + param.paramName;
+                String paramReplace = "{" + param.paramName + "}";
 
                 axumPath = axumPath.replace(paramSearch, paramReplace);
             }

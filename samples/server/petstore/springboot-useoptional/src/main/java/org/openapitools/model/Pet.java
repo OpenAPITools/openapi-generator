@@ -29,7 +29,7 @@ import javax.annotation.Generated;
  * Pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Pet {
 
   private Optional<Long> id = Optional.empty();
@@ -97,7 +97,7 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -117,7 +117,7 @@ public class Pet {
   }
 
   public Pet category(Category category) {
-    this.category = Optional.of(category);
+    this.category = Optional.ofNullable(category);
     return this;
   }
 
@@ -214,7 +214,7 @@ public class Pet {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = Optional.of(status);
+    this.status = Optional.ofNullable(status);
     return this;
   }
 

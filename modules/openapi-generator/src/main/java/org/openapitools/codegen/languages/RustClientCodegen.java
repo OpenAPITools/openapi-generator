@@ -38,11 +38,10 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.meta.features.ClientModificationFeature;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -109,6 +108,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
+    // The API has at least one UUID type.
+    // If the API does not contain any UUIDs we do not need depend on the `uuid` crate
+    private boolean hasUUIDs = false;
+
 
     @Override
     public CodegenType getTag() {
@@ -252,6 +255,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
         supportedLibraries.put(REQWEST_TRAIT_LIBRARY, "HTTP client: Reqwest (trait based).");
+
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
@@ -629,6 +633,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
+
+                // For types with `isAnyType` we assume it's a `serde_json::Value` type.
+                // However for path, query, and headers it's unlikely to be JSON so we default to `String`.
+                // Note that we keep the default `serde_json::Value` for body parameters.
+                for (var param : operation.allParams) {
+                    if (param.isAnyType && (param.isPathParam || param.isQueryParam || param.isHeaderParam)) {
+                        param.dataType = "String";
+                        param.isPrimitiveType = true;
+                        param.isString = true;
+                    }
+                }
+
                 for (var pathParam : operation.pathParams) {
                     if (!pathParam.baseName.contains("-")) {
                         continue;
@@ -639,6 +655,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
                     operation.path = operation.path.replace("{" + pathParam.baseName + "}", "{" + newName + "}");
                     pathParam.baseName = newName;
+                }
+            }
+
+            for (var param : operation.allParams) {
+                if (!hasUUIDs && param.isUuid) {
+                    hasUUIDs = true;
+                    break;
                 }
             }
 
@@ -705,7 +728,41 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }*/
         }
 
+        if (!hasUUIDs) {
+            for (var map : allModels) {
+                CodegenModel m = map.getModel();
+                if (m.getIsUuid() || hasUuidInProperties(m.vars)) {
+                    hasUUIDs = true;
+                    LOGGER.debug("found UUID in model: " + m.name);
+                    break;
+                }
+            }
+        }
+
+        this.additionalProperties.put("hasUUIDs", hasUUIDs);
         return objs;
+    }
+
+    /**
+     * Recursively searches for a model's properties for a UUID type field.
+     */
+    private boolean hasUuidInProperties(List<CodegenProperty> properties) {
+        for (CodegenProperty property : properties) {
+            if (property.isUuid) {
+                return true;
+            }
+            // Check nested properties
+            if (property.items != null && hasUuidInProperties(Collections.singletonList(property.items))) {
+                return true;
+            }
+            if (property.additionalProperties != null && hasUuidInProperties(Collections.singletonList(property.additionalProperties))) {
+                return true;
+            }
+            if (property.vars != null && hasUuidInProperties(property.vars)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

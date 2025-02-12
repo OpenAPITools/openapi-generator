@@ -13,7 +13,7 @@ import org.openapitools.model.ModelFile;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private ModelFile _file;

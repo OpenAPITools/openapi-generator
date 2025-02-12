@@ -432,6 +432,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public CodegenModel fromModel(String name, Schema model) {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
+        setEnumDiscriminatorDefaultValue(codegenModel);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema<?> parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
@@ -697,6 +698,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         super.processOpts();
 
+        final String library = getLibrary();
+
         /*
          * NOTE: When supporting boolean additionalProperties, you should read the value and write it back as a boolean.
          * This avoids oddities where additionalProperties contains "false" rather than false, which will cause the
@@ -752,27 +755,37 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setModelPackage("Model");
         }
 
-        if (GENERICHOST.equals(getLibrary())) {
-            setLibrary(GENERICHOST);
-            additionalProperties.put("useGenericHost", true);
-        } else if (RESTSHARP.equals(getLibrary())) {
-            additionalProperties.put("useRestSharp", true);
-            needsCustomHttpMethod = true;
-        } else if (HTTPCLIENT.equals(getLibrary())) {
-            setLibrary(HTTPCLIENT);
-            additionalProperties.put("useHttpClient", true);
-            needsUriBuilder = true;
-        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
-            setLibrary(UNITY_WEB_REQUEST);
-            additionalProperties.put("useUnityWebRequest", true);
-            needsUriBuilder = true;
+        final Map<String, Runnable> libraryActions = Map.of(
+            GENERICHOST, () -> {
+                setLibrary(GENERICHOST);
+                additionalProperties.put("useGenericHost", true);
+            },
+            RESTSHARP, () -> {
+                additionalProperties.put("useRestSharp", true);
+                needsCustomHttpMethod = true;
+            },
+            HTTPCLIENT, () -> {
+                setLibrary(HTTPCLIENT);
+                additionalProperties.put("useHttpClient", true);
+                needsUriBuilder = true;
+            },
+            UNITY_WEB_REQUEST, () -> {
+                setLibrary(UNITY_WEB_REQUEST);
+                additionalProperties.put("useUnityWebRequest", true);
+                needsUriBuilder = true;
+            }
+        );
+        final Runnable action = libraryActions.get(library);
+        if (action != null) {
+            action.run();
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only restsharp, httpclient, and generichost are supported.");
+            String supportedLibraries = String.join(", ", libraryActions.keySet());
+            throw new RuntimeException("Invalid HTTP library " + library + ". Only " + supportedLibraries + " are supported.");
         }
 
-        String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, latestFramework.name);
-        String[] frameworks;
-        List<FrameworkStrategy> strategies = new ArrayList<>();
+        final String inputFramework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, latestFramework.name);
+        final String[] frameworks;
+        final List<FrameworkStrategy> strategies = new ArrayList<>();
 
         if (inputFramework.contains(";")) {
             // multiple target framework
@@ -791,7 +804,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     strategyMatched = true;
                 }
 
-                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && "restsharp".equals(getLibrary())) {
+                if (frameworkStrategy != FrameworkStrategy.NETSTANDARD_2_0 && RESTSHARP.equals(library)) {
                     LOGGER.warn("If using built-in templates, RestSharp only supports netstandard 2.0 or later.");
                 }
             }
@@ -875,39 +888,43 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             apiTestTemplateFiles.put("api_test.mustache", ".cs");
         }
 
-        if (HTTPCLIENT.equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
-            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
-            additionalProperties.put("apiDocPath", apiDocPath);
-            additionalProperties.put("modelDocPath", modelDocPath);
-        } else if (GENERICHOST.equals(getLibrary())) {
-            addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
-            additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
-            additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
-        } else if (UNITY_WEB_REQUEST.equals(getLibrary())) {
-            additionalProperties.put(CodegenConstants.VALIDATABLE, false);
-            setValidatable(false);
-            setSupportsRetry(false);
-            setSupportsAsync(true);
-            // Some consoles and tvOS do not support either Application.persistentDataPath or will refuse to
-            // compile/link if you even reference GetTempPath as well.
-            additionalProperties.put("supportsFileParameters", false);
-            setSupportsFileParameters(false);
+        switch (library) {
+            case HTTPCLIENT:
+                supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
+                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath);
+                additionalProperties.put("modelDocPath", modelDocPath);
+                break;
+            case GENERICHOST:
+                addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
+                additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
+                break;
+            case UNITY_WEB_REQUEST:
+                additionalProperties.put(CodegenConstants.VALIDATABLE, false);
+                setValidatable(false);
+                setSupportsRetry(false);
+                setSupportsAsync(true);
+                // Some consoles and tvOS do not support either Application.persistentDataPath or will refuse to
+                // compile/link if you even reference GetTempPath as well.
+                additionalProperties.put("supportsFileParameters", false);
+                setSupportsFileParameters(false);
 
-            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+                supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
+                supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
+                break;
+            default: // restsharp
+                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath);
+                additionalProperties.put("modelDocPath", modelDocPath);
 
-            supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
-            supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
-        } else { //restsharp
-            addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
-            additionalProperties.put("apiDocPath", apiDocPath);
-            additionalProperties.put("modelDocPath", modelDocPath);
-
-            if (ProcessUtils.hasOAuthMethods(openAPI)) {
-                supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
-                supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
-                supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
-            }
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
+                    supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
+                    supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
+                }
+                break;
         }
 
         if (useDateOnly()) {
@@ -997,7 +1014,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
                                    final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
-        if (RESTSHARP.equals(getLibrary())) { // restsharp
+        final String library = getLibrary();
+        
+        if (RESTSHARP.equals(library)) { // restsharp
             if (useIntForTimeout) { // option to fall back to int for Timeout using v7.9.0 template
                 supportingFiles.add(new SupportingFile("ApiClient.v790.mustache", clientPackageDir, "ApiClient.cs"));
                 supportingFiles.add(new SupportingFile("IReadableConfiguration.v790.mustache", clientPackageDir, "IReadableConfiguration.cs"));
@@ -1045,7 +1064,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+        if (UNITY_WEB_REQUEST.equals(library)) {
             supportingFiles.add(new SupportingFile("asmdef.mustache", packageFolder, packageName + ".asmdef"));
         } else {
             supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
@@ -1053,14 +1072,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (Boolean.FALSE.equals(excludeTests.get())) {
-            if (UNITY_WEB_REQUEST.equals(getLibrary())) {
+            if (UNITY_WEB_REQUEST.equals(library)) {
                 supportingFiles.add(new SupportingFile("asmdef_test.mustache", testPackageFolder, testPackageName + ".asmdef"));
             } else {
                 supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
             }
         }
 
-        if (!UNITY_WEB_REQUEST.equals(getLibrary())) {
+        if (!UNITY_WEB_REQUEST.equals(library)) {
             supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
         }
         supportingFiles.add(new SupportingFile("AbstractOpenAPISchema.mustache", modelPackageDir, "AbstractOpenAPISchema.cs"));
@@ -1590,16 +1609,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
+        if (GENERICHOST.equals(getLibrary())) {
+            // the isInherited property is not always correct
+            // fixing it here causes a breaking change in some generators
+            // only do this in generators that are prepared for the improvement
+            if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
+                property.isInherited = true;
+            }
+        }
+    }
+
+    @Override
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
         super.patchProperty(enumRefs, model, property);
 
         if (!GENERICHOST.equals(getLibrary())) {
             if (!property.isContainer && (this.getNullableTypes().contains(property.dataType) || property.isEnum)) {
                 property.vendorExtensions.put("x-csharp-value-type", true);
-            }
-        } else {
-            if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
-                property.isInherited = true;
             }
         }
     }
@@ -1621,24 +1648,23 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
 
-            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("Null")) {
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.remove("Null")) {
                 // if oneOf contains "null" type
                 cm.isNullable = true;
-                cm.oneOf.remove("Null");
             }
 
-            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("Null")) {
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.remove("Null")) {
                 // if anyOf contains "null" type
                 cm.isNullable = true;
-                cm.anyOf.remove("Null");
             }
 
-            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty()) {
-                cm.getComposedSchemas().getOneOf().removeIf(o -> o.dataType.equals("Null"));
-            }
-
-            if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()) {
-                cm.getComposedSchemas().getAnyOf().removeIf(o -> o.dataType.equals("Null"));
+            if (cm.getComposedSchemas() != null) {
+                if (cm.getComposedSchemas().getOneOf() != null) {
+                    cm.getComposedSchemas().getOneOf().removeIf(o -> "Null".equals(o.dataType));
+                }
+                if (cm.getComposedSchemas().getAnyOf() != null) {
+                    cm.getComposedSchemas().getAnyOf().removeIf(o -> "Null".equals(o.dataType));
+                }
             }
 
             for (CodegenProperty cp : cm.readWriteVars) {
@@ -1647,7 +1673,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 // see modules\openapi-generator\src\test\resources\3_0\allOf.yaml
                 // property boosterSeat will be in readWriteVars but not allVars
                 // the property is present in the model but gets removed at CodegenModel#removeDuplicatedProperty
-                if (Boolean.FALSE.equals(cm.allVars.stream().anyMatch(v -> v.baseName.equals(cp.baseName)))) {
+                if (cm.allVars.stream().noneMatch(v -> v.baseName.equals(cp.baseName))) {
                     LOGGER.debug("Property " + cp.baseName + " was found in readWriteVars but not in allVars. Adding it back to allVars");
                     cm.allVars.add(cp);
                 }
@@ -1656,6 +1682,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         return objs;
     }
+
 
     // https://github.com/OpenAPITools/openapi-generator/issues/15867
     @Override
@@ -1702,7 +1729,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     protected boolean isValueType(CodegenProperty var) {
         // this is temporary until x-csharp-value-type is removed
-        return this.getLibrary().equals("generichost")
+        return this.getLibrary().equals(GENERICHOST)
                 ? super.isValueType(var)
                 : this.getValueTypes().contains(var.dataType) || var.isEnum;
     }

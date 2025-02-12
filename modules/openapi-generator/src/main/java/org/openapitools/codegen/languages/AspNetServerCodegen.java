@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -64,8 +65,14 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRouting";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String CENTRALIZED_PACKAGE_VERSION_MANAGEMENT = "centralizedPackageVersionManagement";
+    public static final String USE_PACKAGE_VERSIONS = "usePackageVersions";
+    public static final String DEFAULT = "default";
+    public static final String ENABLE = "enable";
+    public static final String OPTOUT = "optout";
 
-    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -91,6 +98,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     private boolean useNewtonsoft = true;
     private boolean useDefaultRouting = true;
     private String newtonsoftVersion = "3.0.0";
+    private CliOption centralizedPackageVersionManagement = new CliOption(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "Option to control the usage of centralized package version management. https://devblogs.microsoft.com/nuget/introducing-central-package-management/#disabling-central-package-management");
 
     public AspNetServerCodegen() {
         super();
@@ -249,6 +257,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
 
+
         addOption(NEWTONSOFT_VERSION,
                 "Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+",
                 newtonsoftVersion);
@@ -301,13 +310,24 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         modelClassModifier.setDefault("partial");
         modelClassModifier.setOptValue(modelClassModifier.getDefault());
         addOption(modelClassModifier.getOpt(), modelClassModifier.getDescription(), modelClassModifier.getOptValue());
+
+        addCentralizedPackageManagementOption();
+    }
+
+    private void addCentralizedPackageManagementOption(){
+        Map<String, String> centralizedPackageVersionManagementOptions = new HashMap<>();
+        centralizedPackageVersionManagementOptions.put(DEFAULT, "Property in project won't be used");
+        centralizedPackageVersionManagementOptions.put(ENABLE, "Centralized package version management will be used");
+        centralizedPackageVersionManagementOptions.put(OPTOUT, "Opt out of centralized package version management. Set this if you have a Directory.Packages.pros file but want this project to ignore it.");
+        centralizedPackageVersionManagement.setEnum(centralizedPackageVersionManagementOptions);
+        cliOptions.add(centralizedPackageVersionManagement);
     }
 
     @Deprecated
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
+                "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -463,6 +483,30 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
 
         this.setTypeMapping();
+
+
+        setCentralizedPackageManagementOption();
+    }
+
+    private void setCentralizedPackageManagementOption() {
+        additionalProperties.put(USE_PACKAGE_VERSIONS, true);
+
+        if (additionalProperties.containsKey(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
+            switch ((String) additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT)) {
+                case DEFAULT:
+                    additionalProperties.remove(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT);
+                    break;
+                case ENABLE:
+                    additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "true");
+                    additionalProperties.put(USE_PACKAGE_VERSIONS, false);
+                    break;
+                case OPTOUT:
+                    additionalProperties.replace(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT, "false");
+                    break;
+                default:
+                    throw new RuntimeException("Invalid value `" + additionalProperties.get(CENTRALIZED_PACKAGE_VERSION_MANAGEMENT) + "` for the option `centralizedPackageVersionManagement`. Please refer to the documentation for more information.");
+            }
+        }
     }
 
     @Override
@@ -808,10 +852,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setAdditionalPropertyForFramework() {
-        String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
+        String targetFramework = ((String) additionalProperties.get(TARGET_FRAMEWORK));
         if (targetFramework.startsWith("net6.0") ||
-            targetFramework.startsWith("net7.0") || 
-            targetFramework.startsWith("net8.0")) {
+                targetFramework.startsWith("net7.0") ||
+                targetFramework.startsWith("net8.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }
     }

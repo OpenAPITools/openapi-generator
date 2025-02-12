@@ -555,7 +555,7 @@ public class DefaultCodegen implements CodegenConfig {
                 ? false
                 : model.parentModel.allVars.stream().anyMatch(p -> 
                     p.name.equals(property.name) &&
-                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false || p.isDiscriminator));
+                    (p.dataType.equals(property.dataType) == false || p.datatypeWithEnum.equals(property.datatypeWithEnum) == false));
     }
 
     /**
@@ -3098,6 +3098,7 @@ public class DefaultCodegen implements CodegenConfig {
             listOLists.add(m.requiredVars);
             listOLists.add(m.vars);
             listOLists.add(m.allVars);
+            listOLists.add(m.readWriteVars);
             for (List<CodegenProperty> theseVars : listOLists) {
                 for (CodegenProperty requiredVar : theseVars) {
                     if (discPropName.equals(requiredVar.baseName)) {
@@ -3131,15 +3132,65 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
-        Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
-            @Override
-            public int compare(CodegenProperty one, CodegenProperty another) {
-                if (one.required == another.required) return 0;
-                else if (one.required) return -1;
-                else return 1;
+    /**
+     * Sets the default value for an enum discriminator property in the provided {@link CodegenModel}.
+     * <p>
+     * If the model's discriminator is defined, this method identifies the discriminator properties among the model's
+     * variables and assigns the default value to reflect the corresponding enum value for the model type.
+     * </p>
+     * <p>
+     * Example: If the discriminator is for type `Animal`, and the model is `Cat`, the default value
+     * will be set to `Animal.Cat` for the properties that have the same name as the discriminator.
+     * </p>
+     *
+     * @param model the {@link CodegenModel} whose discriminator property default value is to be set
+     */
+    protected static void setEnumDiscriminatorDefaultValue(CodegenModel model) {
+        if (model.discriminator == null) {
+            return;
+        }
+        String discPropName = model.discriminator.getPropertyBaseName();
+        Stream.of(model.requiredVars, model.vars, model.allVars, model.readWriteVars)
+                .flatMap(List::stream)
+                .filter(v -> discPropName.equals(v.baseName))
+                .forEach(v -> v.defaultValue = getEnumValueForProperty(model.schemaName, model.discriminator, v));
+    }
+
+    /**
+     * Retrieves the appropriate default value for an enum discriminator property based on the model name.
+     * <p>
+     * If the discriminator has a mapping defined, it attempts to find a mapping for the model name.
+     * Otherwise, it defaults to one of the allowable enum value associated with the property.
+     * If no suitable value is found, the original default value of the property is returned.
+     * </p>
+     *
+     * @param modelName     the name of the model to determine the default value for
+     * @param discriminator the {@link CodegenDiscriminator} containing the mapping and enum details
+     * @param var           the {@link CodegenProperty} representing the discriminator property
+     * @return the default value for the enum discriminator property, or its original default value if none is found
+     */
+    protected static String getEnumValueForProperty(
+            String modelName, CodegenDiscriminator discriminator, CodegenProperty var) {
+        if (!discriminator.getIsEnum() && !var.isEnum) {
+            return var.defaultValue;
+        }
+        Map<String, String> mapping = Optional.ofNullable(discriminator.getMapping()).orElseGet(Collections::emptyMap);
+        for (Map.Entry<String, String> e : mapping.entrySet()) {
+            String schemaName = e.getValue().indexOf('/') < 0 ? e.getValue() : ModelUtils.getSimpleRef(e.getValue());
+            if (modelName.equals(schemaName)) {
+                return e.getKey();
             }
-        };
+        }
+        Object values = var.allowableValues.get("values");
+        if (!(values instanceof List<?>)) {
+            return var.defaultValue;
+        }
+        List<?> valueList = (List<?>) values;
+        return valueList.stream().filter(o -> o.equals(modelName)).map(o -> (String) o).findAny().orElse(var.defaultValue);
+    }
+
+    protected void SortModelPropertiesByRequiredFlag(CodegenModel model) {
+        Comparator<CodegenProperty> comparator = Comparator.comparing(prop -> !prop.required);
         Collections.sort(model.vars, comparator);
         Collections.sort(model.allVars, comparator);
     }
@@ -3201,15 +3252,19 @@ public class DefaultCodegen implements CodegenConfig {
      * @param visitedSchemas     A set of visited schema names
      */
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, Set<String> visitedSchemas) {
-        if (visitedSchemas.contains(composedSchemaName)) { // recursive schema definition found
+        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
+        String schemaName = Optional.ofNullable(composedSchemaName)
+                .or(() -> Optional.ofNullable(refSchema.getName()))
+                .or(() -> Optional.ofNullable(sc.get$ref()).map(ModelUtils::getSimpleRef))
+                .orElseGet(sc::toString);
+        if (visitedSchemas.contains(schemaName)) { // recursive schema definition found
             return null;
         } else {
-            visitedSchemas.add(composedSchemaName);
+            visitedSchemas.add(schemaName);
         }
 
-        Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
-            Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
+            Schema discSchema = ModelUtils.getReferencedSchema(openAPI, (Schema)refSchema.getProperties().get(discPropName));
             CodegenProperty cp = new CodegenProperty();
             if (ModelUtils.isStringSchema(discSchema)) {
                 cp.isString = true;
@@ -3218,6 +3273,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (refSchema.getRequired() != null && refSchema.getRequired().contains(discPropName)) {
                 cp.setRequired(true);
             }
+            cp.setIsEnum(discSchema.getEnum() != null && !discSchema.getEnum().isEmpty());
             return cp;
         }
         if (ModelUtils.isComposedSchema(refSchema)) {
@@ -3225,7 +3281,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (composedSchema.getAllOf() != null) {
                 // If our discriminator is in one of the allOf schemas break when we find it
                 for (Object allOf : composedSchema.getAllOf()) {
-                    CodegenProperty cp = discriminatorFound(composedSchemaName, (Schema) allOf, discPropName, visitedSchemas);
+                    Schema allOfSchema = (Schema) allOf;
+                    CodegenProperty cp = discriminatorFound(allOfSchema.getName(), allOfSchema, discPropName, visitedSchemas);
                     if (cp != null) {
                         return cp;
                     }
@@ -3235,8 +3292,11 @@ public class DefaultCodegen implements CodegenConfig {
                 // All oneOf definitions must contain the discriminator
                 CodegenProperty cp = new CodegenProperty();
                 for (Object oneOf : composedSchema.getOneOf()) {
-                    String modelName = ModelUtils.getSimpleRef(((Schema) oneOf).get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) oneOf, discPropName, visitedSchemas);
+                    Schema oneOfSchema = (Schema) oneOf;
+                    String modelName = ModelUtils.getSimpleRef((oneOfSchema).get$ref());
+                    // Must use a copied set as the oneOf schemas can point to the same discriminator.
+                    Set<String> visitedSchemasCopy = new TreeSet<>(visitedSchemas);
+                    CodegenProperty thisCp = discriminatorFound(oneOfSchema.getName(), oneOfSchema, discPropName, visitedSchemasCopy);
                     if (thisCp == null) {
                         once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
@@ -3258,8 +3318,11 @@ public class DefaultCodegen implements CodegenConfig {
                 // All anyOf definitions must contain the discriminator because a min of one must be selected
                 CodegenProperty cp = new CodegenProperty();
                 for (Object anyOf : composedSchema.getAnyOf()) {
-                    String modelName = ModelUtils.getSimpleRef(((Schema) anyOf).get$ref());
-                    CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) anyOf, discPropName, visitedSchemas);
+                    Schema anyOfSchema = (Schema) anyOf;
+                    String modelName = ModelUtils.getSimpleRef(anyOfSchema.get$ref());
+                    // Must use a copied set as the anyOf schemas can point to the same discriminator.
+                    Set<String> visitedSchemasCopy = new TreeSet<>(visitedSchemas);
+                    CodegenProperty thisCp = discriminatorFound(anyOfSchema.getName(), anyOfSchema, discPropName, visitedSchemasCopy);
                     if (thisCp == null) {
                         once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
@@ -3542,13 +3605,11 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setPropertyType(propertyType);
 
         // check to see if the discriminator property is an enum string
-        if (schema.getProperties() != null &&
-                schema.getProperties().get(discriminatorPropertyName) instanceof StringSchema) {
-            StringSchema s = (StringSchema) schema.getProperties().get(discriminatorPropertyName);
-            if (s.getEnum() != null && !s.getEnum().isEmpty()) { // it's an enum string
-                discriminator.setIsEnum(true);
-            }
-        }
+        boolean isEnum = Optional
+                .ofNullable(discriminatorFound(schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
+                .map(CodegenProperty::getIsEnum)
+                .orElse(false);
+        discriminator.setIsEnum(isEnum);
 
         discriminator.setMapping(sourceDiscriminator.getMapping());
         List<MappedModel> uniqueDescendants = new ArrayList<>();
@@ -3658,11 +3719,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            for (String r : required) {
-                if (!properties.containsKey(r)) {
-                    LOGGER.error("Required var {} not in properties", r);
-                }
-            }
             return;
         }
 

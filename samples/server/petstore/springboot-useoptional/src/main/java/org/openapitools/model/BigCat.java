@@ -26,7 +26,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -82,7 +82,7 @@ public class BigCat extends Cat {
   }
 
   public BigCat kind(KindEnum kind) {
-    this.kind = Optional.of(kind);
+    this.kind = Optional.ofNullable(kind);
     return this;
   }
 

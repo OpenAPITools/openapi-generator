@@ -21,13 +21,13 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class File {
 
   private Optional<String> sourceURI = Optional.empty();
 
   public File sourceURI(String sourceURI) {
-    this.sourceURI = Optional.of(sourceURI);
+    this.sourceURI = Optional.ofNullable(sourceURI);
     return this;
   }
 

@@ -169,6 +169,8 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ChildCatAllOfPetType childCatAllOfPetType)
                 return ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType);
+            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
+                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
             if (obj is EnumArraysArrayEnumInner enumArraysArrayEnumInner)
                 return EnumArraysArrayEnumInnerValueConverter.ToJsonValue(enumArraysArrayEnumInner);
             if (obj is EnumArraysJustSymbol enumArraysJustSymbol)
@@ -211,6 +213,8 @@ namespace Org.OpenAPITools.Client
                 return RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClassRequiredNullableEnumIntegerOnly).ToString();
             if (obj is RequiredClassRequiredNullableEnumString requiredClassRequiredNullableEnumString)
                 return RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString);
+            if (obj is TestDescendantsObjectType testDescendantsObjectType)
+                return TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType);
             if (obj is TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter)
                 return TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter);
             if (obj is TestEnumParametersEnumQueryDoubleParameter testEnumParametersEnumQueryDoubleParameter)
@@ -221,6 +225,8 @@ namespace Org.OpenAPITools.Client
                 return TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString);
             if (obj is TestEnumParametersRequestEnumFormStringArrayInner testEnumParametersRequestEnumFormStringArrayInner)
                 return TestEnumParametersRequestEnumFormStringArrayInnerValueConverter.ToJsonValue(testEnumParametersRequestEnumFormStringArrayInner);
+            if (obj is TestResultCode testResultCode)
+                return TestResultCodeValueConverter.ToJsonValue(testResultCode);
             if (obj is ZebraType zebraType)
                 return ZebraTypeValueConverter.ToJsonValue(zebraType);
             if (obj is ZeroBasedEnum zeroBasedEnum)

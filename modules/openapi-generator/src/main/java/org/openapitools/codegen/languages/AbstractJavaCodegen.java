@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.text.SimpleDateFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -71,6 +72,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -1638,6 +1640,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String toExampleValue(Schema p) {
         if (p.getExample() != null) {
+            if (p.getExample() instanceof Date) {
+                return DATE_FORMAT.format(p.getExample());
+            }
             return escapeText(p.getExample().toString());
         } else {
             return null;
@@ -1713,6 +1718,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // additional import for different cases
         addAdditionalImports(codegenModel, codegenModel.getComposedSchemas());
+        setEnumDiscriminatorDefaultValue(codegenModel);
         return codegenModel;
     }
 

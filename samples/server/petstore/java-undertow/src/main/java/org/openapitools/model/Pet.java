@@ -29,7 +29,7 @@ import org.openapitools.model.Tag;
  */
 
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Pet   {
   
   private Long id;

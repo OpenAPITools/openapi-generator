@@ -62,13 +62,6 @@ namespace Org.OpenAPITools.Model
         public int? Age { get { return this.AgeOption; } set { this.AgeOption = new(value); } }
 
         /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new string Type { get; } = "Child";
-
-        /// <summary>
         /// Used to track the state of BoosterSeat
         /// </summary>
         [JsonIgnore]

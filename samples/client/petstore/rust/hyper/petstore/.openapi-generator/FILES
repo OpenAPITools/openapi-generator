@@ -3,6 +3,7 @@
 Cargo.toml
 README.md
 docs/ActionContainer.md
+docs/AnyTypeTest.md
 docs/ApiResponse.md
 docs/ArrayItemRefTest.md
 docs/Baz.md
@@ -37,6 +38,7 @@ src/apis/testing_api.rs
 src/apis/user_api.rs
 src/lib.rs
 src/models/action_container.rs
+src/models/any_type_test.rs
 src/models/api_response.rs
 src/models/array_item_ref_test.rs
 src/models/baz.rs

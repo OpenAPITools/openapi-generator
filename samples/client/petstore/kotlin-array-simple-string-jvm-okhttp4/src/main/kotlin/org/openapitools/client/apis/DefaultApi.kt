@@ -45,6 +45,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * GET /{ids}
      * 
      * 
      * @param ids 
@@ -75,6 +76,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * GET /{ids}
      * 
      * 
      * @param ids 

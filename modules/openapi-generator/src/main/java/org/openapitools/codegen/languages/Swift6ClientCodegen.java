@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -608,6 +609,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         additionalProperties.put(COMBINE_DEFERRED, combineDeferred);
 
+        additionalProperties.put("transformArrayType", (Mustache.Lambda) (frag, out) -> {
+            String type = frag.execute();
+            out.write(transformArrayTypeName(type));
+        });
+
         // infrastructure destination folder
         final String infrastructureFolder = sourceFolder + File.separator + "Infrastructure";
 
@@ -1089,6 +1095,17 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                         .replaceAll("[-_ :\\(\\)]", "")),
                 LOWERCASE_FIRST_LETTER);
     }
+
+    public String transformArrayTypeName(String type) {
+        if (!type.startsWith("[") || !type.endsWith("]")) {
+            return type;
+        }
+        String innerType = type.substring(1, type.length() - 1);
+        String transformed = transformArrayTypeName(innerType);
+
+        return "ArrayOf" + transformed;
+    }
+
 
     private Boolean isLanguageSpecificType(String name) {
         return languageSpecificPrimitives.contains(name);

@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("hasOnlyReadOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class HasOnlyReadOnly {
 
   private Optional<String> bar = Optional.empty();
@@ -30,7 +30,7 @@ public class HasOnlyReadOnly {
   private Optional<String> foo = Optional.empty();
 
   public HasOnlyReadOnly bar(String bar) {
-    this.bar = Optional.of(bar);
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -50,7 +50,7 @@ public class HasOnlyReadOnly {
   }
 
   public HasOnlyReadOnly foo(String foo) {
-    this.foo = Optional.of(foo);
+    this.foo = Optional.ofNullable(foo);
     return this;
   }
 

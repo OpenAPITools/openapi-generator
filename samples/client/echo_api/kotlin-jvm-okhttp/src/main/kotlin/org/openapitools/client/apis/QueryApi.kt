@@ -66,6 +66,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      }
 
     /**
+     * GET /query/enum_ref_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param enumNonrefStringQuery  (optional)
@@ -98,6 +99,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/enum_ref_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param enumNonrefStringQuery  (optional)
@@ -148,6 +150,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/datetime/date/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param datetimeQuery  (optional)
@@ -181,6 +184,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/datetime/date/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param datetimeQuery  (optional)
@@ -236,6 +240,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/integer/boolean/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param integerQuery  (optional)
@@ -269,6 +274,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/integer/boolean/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param integerQuery  (optional)
@@ -324,6 +330,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_deepObject/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -355,6 +362,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_deepObject/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -400,6 +408,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/array_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -431,6 +440,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/array_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -476,6 +486,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -507,6 +518,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)

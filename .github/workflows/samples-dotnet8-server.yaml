@@ -23,9 +23,10 @@ jobs:
           - samples/server/petstore/aspnetcore-8.0-pocoModels
           - samples/server/petstore/aspnetcore-8.0-project4Models
           - samples/server/petstore/aspnetcore-8.0-useSwashBuckle
+          - samples/server/petstore/aspnetcore-8.0-use-centralized-package-version-management
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4.2.0
+      - uses: actions/setup-dotnet@v4.3.0
         with:
           dotnet-version: '8.0.x'
       - name: Build

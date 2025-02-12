@@ -51,7 +51,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * <p>The setter methods of this class return the current object to facilitate
  * a fluent style of configuration.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class ApiClient {
 
   private HttpClient.Builder builder;
@@ -192,7 +192,7 @@ public class ApiClient {
     asyncResponseInterceptor = null;
   }
 
-  protected ObjectMapper createDefaultObjectMapper() {
+  public static ObjectMapper createDefaultObjectMapper() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -206,15 +206,15 @@ public class ApiClient {
     return mapper;
   }
 
-  protected String getDefaultBaseUri() {
+  private String getDefaultBaseUri() {
     return "http://localhost:3000";
   }
 
-  protected HttpClient.Builder createDefaultHttpClientBuilder() {
+  public static HttpClient.Builder createDefaultHttpClientBuilder() {
     return HttpClient.newBuilder();
   }
 
-  public void updateBaseUri(String baseUri) {
+  public final void updateBaseUri(String baseUri) {
     URI uri = URI.create(baseUri);
     scheme = uri.getScheme();
     host = uri.getHost();

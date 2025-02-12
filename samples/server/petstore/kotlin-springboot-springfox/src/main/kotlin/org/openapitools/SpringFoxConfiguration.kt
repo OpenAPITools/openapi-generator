@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 import javax.servlet.ServletContext
 
 
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.12.0-SNAPSHOT")
 @Configuration
 @EnableSwagger2
 class SpringFoxConfiguration {

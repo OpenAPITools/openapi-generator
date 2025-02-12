@@ -64,6 +64,7 @@ class PathApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
      }
 
     /**
+     * GET /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}
      * Test path parameter(s)
      * Test path parameter(s)
      * @param pathString 
@@ -98,6 +99,7 @@ class PathApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}
      * Test path parameter(s)
      * Test path parameter(s)
      * @param pathString 

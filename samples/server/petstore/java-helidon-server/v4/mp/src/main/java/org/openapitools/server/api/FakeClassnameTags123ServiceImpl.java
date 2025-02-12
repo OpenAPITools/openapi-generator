@@ -24,7 +24,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/fake_classname_test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FakeClassnameTags123ServiceImpl implements FakeClassnameTags123Service {
 
     @PATCH

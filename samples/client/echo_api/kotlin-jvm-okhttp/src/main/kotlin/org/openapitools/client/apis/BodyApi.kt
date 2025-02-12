@@ -47,6 +47,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /binary/gif
      * Test binary (gif) response body
      * Test binary (gif) response body
      * @return java.io.File
@@ -77,6 +78,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /binary/gif
      * Test binary (gif) response body
      * Test binary (gif) response body
      * @return ApiResponse<java.io.File?>
@@ -114,6 +116,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /body/application/octetstream/binary
      * Test body parameter(s)
      * Test body parameter(s)
      * @param body  (optional)
@@ -145,6 +148,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /body/application/octetstream/binary
      * Test body parameter(s)
      * Test body parameter(s)
      * @param body  (optional)
@@ -186,6 +190,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /body/application/octetstream/array_of_binary
      * Test array of binary in multipart mime
      * Test array of binary in multipart mime
      * @param files 
@@ -217,6 +222,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /body/application/octetstream/array_of_binary
      * Test array of binary in multipart mime
      * Test array of binary in multipart mime
      * @param files 
@@ -258,6 +264,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /body/application/octetstream/single_binary
      * Test single binary in multipart mime
      * Test single binary in multipart mime
      * @param myFile  (optional)
@@ -289,6 +296,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /body/application/octetstream/single_binary
      * Test single binary in multipart mime
      * Test single binary in multipart mime
      * @param myFile  (optional)
@@ -330,6 +338,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/FreeFormObject/response_string
      * Test free form object
      * Test free form object
      * @param body Free form object (optional)
@@ -361,6 +370,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/FreeFormObject/response_string
      * Test free form object
      * Test free form object
      * @param body Free form object (optional)
@@ -402,6 +412,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/Pet
      * Test body parameter(s)
      * Test body parameter(s)
      * @param apiPet Pet object that needs to be added to the store (optional)
@@ -433,6 +444,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/Pet
      * Test body parameter(s)
      * Test body parameter(s)
      * @param apiPet Pet object that needs to be added to the store (optional)
@@ -474,6 +486,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/Pet/response_string
      * Test empty response body
      * Test empty response body
      * @param apiPet Pet object that needs to be added to the store (optional)
@@ -505,6 +518,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/Pet/response_string
      * Test empty response body
      * Test empty response body
      * @param apiPet Pet object that needs to be added to the store (optional)
@@ -546,6 +560,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/Tag/response_string
      * Test empty json (request body)
      * Test empty json (request body)
      * @param apiTag Tag object (optional)
@@ -577,6 +592,7 @@ class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /echo/body/Tag/response_string
      * Test empty json (request body)
      * Test empty json (request body)
      * @param apiTag Tag object (optional)

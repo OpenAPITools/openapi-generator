@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host};
 use bytes::Bytes;
 use http::Method;
 use serde::{Deserialize, Serialize};
@@ -18,12 +18,12 @@ pub enum PingGetResponse {
 /// Default
 #[async_trait]
 #[allow(clippy::ptr_arg)]
-pub trait Default {
+pub trait Default<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
     /// PingGet - GET /ping
     async fn ping_get(
         &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-    ) -> Result<PingGetResponse, ()>;
+        method: &Method,
+        host: &Host,
+        cookies: &CookieJar,
+    ) -> Result<PingGetResponse, E>;
 }

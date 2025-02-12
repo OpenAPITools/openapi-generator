@@ -99,6 +99,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
      }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default
@@ -143,6 +144,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * GET /test/parameters/{path_default}/{path_nullable}
      * Finds Pets by status
      * Multiple status values can be provided with comma separated strings
      * @param pathDefault path default

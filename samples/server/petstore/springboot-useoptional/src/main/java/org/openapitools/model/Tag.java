@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * Tag
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Tag {
 
   private Optional<Long> id = Optional.empty();
@@ -28,7 +28,7 @@ public class Tag {
   private Optional<String> name = Optional.empty();
 
   public Tag id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -48,7 +48,7 @@ public class Tag {
   }
 
   public Tag name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 

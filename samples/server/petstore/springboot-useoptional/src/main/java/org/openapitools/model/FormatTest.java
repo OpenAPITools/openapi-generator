@@ -28,7 +28,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class FormatTest {
 
   private Optional<@Min(10) @Max(100) Integer> integer = Optional.empty();
@@ -76,7 +76,7 @@ public class FormatTest {
   }
 
   public FormatTest integer(Integer integer) {
-    this.integer = Optional.of(integer);
+    this.integer = Optional.ofNullable(integer);
     return this;
   }
 
@@ -98,7 +98,7 @@ public class FormatTest {
   }
 
   public FormatTest int32(Integer int32) {
-    this.int32 = Optional.of(int32);
+    this.int32 = Optional.ofNullable(int32);
     return this;
   }
 
@@ -120,7 +120,7 @@ public class FormatTest {
   }
 
   public FormatTest int64(Long int64) {
-    this.int64 = Optional.of(int64);
+    this.int64 = Optional.ofNullable(int64);
     return this;
   }
 
@@ -162,7 +162,7 @@ public class FormatTest {
   }
 
   public FormatTest _float(Float _float) {
-    this._float = Optional.of(_float);
+    this._float = Optional.ofNullable(_float);
     return this;
   }
 
@@ -184,7 +184,7 @@ public class FormatTest {
   }
 
   public FormatTest _double(Double _double) {
-    this._double = Optional.of(_double);
+    this._double = Optional.ofNullable(_double);
     return this;
   }
 
@@ -206,7 +206,7 @@ public class FormatTest {
   }
 
   public FormatTest string(String string) {
-    this.string = Optional.of(string);
+    this.string = Optional.ofNullable(string);
     return this;
   }
 
@@ -246,7 +246,7 @@ public class FormatTest {
   }
 
   public FormatTest binary(org.springframework.core.io.Resource binary) {
-    this.binary = Optional.of(binary);
+    this.binary = Optional.ofNullable(binary);
     return this;
   }
 
@@ -286,7 +286,7 @@ public class FormatTest {
   }
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    this.dateTime = Optional.of(dateTime);
+    this.dateTime = Optional.ofNullable(dateTime);
     return this;
   }
 
@@ -306,7 +306,7 @@ public class FormatTest {
   }
 
   public FormatTest uuid(UUID uuid) {
-    this.uuid = Optional.of(uuid);
+    this.uuid = Optional.ofNullable(uuid);
     return this;
   }
 
@@ -346,7 +346,7 @@ public class FormatTest {
   }
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = Optional.of(bigDecimal);
+    this.bigDecimal = Optional.ofNullable(bigDecimal);
     return this;
   }
 
