@@ -677,7 +677,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 operation.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
             }
 
-            if ("String".equals(operation.returnType)) {
+            if (operation.producesTextPlain() && "String".equals(operation.returnType)) {
                 operation.vendorExtensions.put("x-supports-plain-text", Boolean.TRUE);
             }
 
