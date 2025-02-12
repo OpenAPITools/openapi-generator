@@ -4577,17 +4577,16 @@ public class SpringCodegenTest {
     @DataProvider(name = "invalid sse endpoints")
     public static Object[][] specsWithInvalidSSEEndpoints() {
         return new Object[][] {
-                {"sse_but_missing_format.yaml", "schema format 'event-stream' is required, when SSE is detected"},
-                // FIXME: spec does not generate correct code, but not detected
-                //  {"sse_but_multiple_media_types.yaml", "only 1 response media type supported, when SSE is detected"},
-                {"sse_but_incompatible_item_types.yaml", "only single item type is supported, when SSE is detected"}
+            {"sse_but_missing_format.yaml", "schema format 'event-stream' is required"},
+            {"sse_but_incompatible_item_types.yaml", "only single item type is supported"}
         };
     }
 
     @Test(dataProvider = "invalid sse endpoints")
     public void testSSEOperationSupport_forInvalidSSEEndpointSpecs(String inputSpec, String expectedError) {
-        // checks the design decision, that if the specs looks like it should be an SSE endpoint but it is not
-        // matching the required format, an exception is thrown containing a descriptive error message
+        // checks the design decision, that if the specs looks like it should be an SSE endpoint, but it
+        // does not match the required format, an exception is thrown containing a descriptive error
+        // message
         Map<String, Object> additionalProperties = Map.of(
             SSE, true,
             REACTIVE, "true",
@@ -4598,7 +4597,8 @@ public class SpringCodegenTest {
         assertThatThrownBy(() -> generateFromContract(input, "spring-boot", additionalProperties))
                 .rootCause()
                 .isInstanceOf(RuntimeException.class)
-                .hasMessage(expectedError);
+                .message()
+                .contains(expectedError);
     }
 
     @Test

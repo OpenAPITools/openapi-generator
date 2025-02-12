@@ -1034,11 +1034,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                  content:
                     text/event-stream:
                         schema:
-                        type: array
-                        format: event-stream
-                        items:
-                            type: <type> or
-                            $ref: <typeRef>
+                            type: array
+                            format: event-stream
+                            items:
+                                type: <type> or
+                                $ref: <typeRef>
                  */
                 Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
                         .filter(p -> p.getValue().getContent() != null || p.getValue().get$ref() != null)
@@ -1046,9 +1046,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         .filter(p -> p.getRight().is2xx) // consider only success
                         .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
                         .filter(Objects::nonNull)
-                        .map(MediaType::getSchema)
-                        .map(s -> ModelUtils.unaliasSchema(openAPI, s))
-                        .collect(Collectors.toList()).stream()
+                        .map(s -> ModelUtils.unaliasSchema(openAPI, s.getSchema()))
                         .collect(Collectors.groupingBy(Schema::getType));
                 if(schemaTypes.containsKey("array")) {
                     // we have a match with SSE pattern
