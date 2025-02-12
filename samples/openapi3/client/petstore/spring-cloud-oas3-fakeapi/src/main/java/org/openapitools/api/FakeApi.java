@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -187,6 +188,31 @@ public interface FakeApi {
     
     ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) String body
+    );
+
+
+    /**
+     * GET /fake/sse
+     *
+     * @return an sse endpoint (status code 200)
+     */
+    @Operation(
+        operationId = "sse",
+        tags = { "fake" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "an sse endpoint", content = {
+                @Content(mediaType = "text/event-stream", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/fake/sse",
+        produces = { "text/event-stream" }
+    )
+    
+    ResponseEntity<List<Pet>> sse(
+        
     );
 
 

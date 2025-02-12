@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.PetDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import org.springframework.http.ResponseEntity;
@@ -117,6 +118,21 @@ public interface FakeApi {
     )
     ResponseEntity<String> fakeOuterStringSerialize(
          @RequestBody(required = false) String body
+    );
+
+
+    /**
+     * GET /fake/sse
+     *
+     * @return an sse endpoint (status code 200)
+     */
+    @HttpExchange(
+        method = "GET",
+        value = "/fake/sse",
+        accept = { "text/event-stream" }
+    )
+    ResponseEntity<List<PetDto>> sse(
+        
     );
 
 

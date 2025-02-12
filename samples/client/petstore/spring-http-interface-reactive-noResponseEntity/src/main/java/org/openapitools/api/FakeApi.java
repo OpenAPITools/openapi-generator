@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import org.springframework.http.HttpStatus;
@@ -126,6 +127,22 @@ public interface FakeApi {
     )
     Mono<String> fakeOuterStringSerialize(
          @RequestBody(required = false) Mono<String> body
+    );
+
+
+    /**
+     * GET /fake/sse
+     *
+     * @return an sse endpoint (status code 200)
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @HttpExchange(
+        method = "GET",
+        value = "/fake/sse",
+        accept = { "text/event-stream" }
+    )
+    Flux<Pet> sse(
+        
     );
 
 
