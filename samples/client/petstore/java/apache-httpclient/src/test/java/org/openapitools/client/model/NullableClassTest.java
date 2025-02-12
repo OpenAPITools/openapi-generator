@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,17 +33,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for NullableClass
  */
-class NullableClassTest {
+public class NullableClassTest {
     private final NullableClass model = new NullableClass();
 
     /**
      * Model tests for NullableClass
      */
     @Test
-    void testNullableClass() {
+    public void testNullableClass() {
         // TODO: test NullableClass
     }
 
@@ -52,7 +52,7 @@ class NullableClassTest {
      * Test the property 'integerProp'
      */
     @Test
-    void integerPropTest() {
+    public void integerPropTest() {
         // TODO: test integerProp
     }
 
@@ -60,7 +60,7 @@ class NullableClassTest {
      * Test the property 'numberProp'
      */
     @Test
-    void numberPropTest() {
+    public void numberPropTest() {
         // TODO: test numberProp
     }
 
@@ -68,7 +68,7 @@ class NullableClassTest {
      * Test the property 'booleanProp'
      */
     @Test
-    void booleanPropTest() {
+    public void booleanPropTest() {
         // TODO: test booleanProp
     }
 
@@ -76,7 +76,7 @@ class NullableClassTest {
      * Test the property 'stringProp'
      */
     @Test
-    void stringPropTest() {
+    public void stringPropTest() {
         // TODO: test stringProp
     }
 
@@ -84,7 +84,7 @@ class NullableClassTest {
      * Test the property 'dateProp'
      */
     @Test
-    void datePropTest() {
+    public void datePropTest() {
         // TODO: test dateProp
     }
 
@@ -92,7 +92,7 @@ class NullableClassTest {
      * Test the property 'datetimeProp'
      */
     @Test
-    void datetimePropTest() {
+    public void datetimePropTest() {
         // TODO: test datetimeProp
     }
 
@@ -100,7 +100,7 @@ class NullableClassTest {
      * Test the property 'arrayNullableProp'
      */
     @Test
-    void arrayNullablePropTest() {
+    public void arrayNullablePropTest() {
         // TODO: test arrayNullableProp
     }
 
@@ -108,7 +108,7 @@ class NullableClassTest {
      * Test the property 'arrayAndItemsNullableProp'
      */
     @Test
-    void arrayAndItemsNullablePropTest() {
+    public void arrayAndItemsNullablePropTest() {
         // TODO: test arrayAndItemsNullableProp
     }
 
@@ -116,7 +116,7 @@ class NullableClassTest {
      * Test the property 'arrayItemsNullable'
      */
     @Test
-    void arrayItemsNullableTest() {
+    public void arrayItemsNullableTest() {
         // TODO: test arrayItemsNullable
     }
 
@@ -124,7 +124,7 @@ class NullableClassTest {
      * Test the property 'objectNullableProp'
      */
     @Test
-    void objectNullablePropTest() {
+    public void objectNullablePropTest() {
         // TODO: test objectNullableProp
     }
 
@@ -132,7 +132,7 @@ class NullableClassTest {
      * Test the property 'objectAndItemsNullableProp'
      */
     @Test
-    void objectAndItemsNullablePropTest() {
+    public void objectAndItemsNullablePropTest() {
         // TODO: test objectAndItemsNullableProp
     }
 
@@ -140,7 +140,7 @@ class NullableClassTest {
      * Test the property 'objectItemsNullable'
      */
     @Test
-    void objectItemsNullableTest() {
+    public void objectItemsNullableTest() {
         // TODO: test objectItemsNullable
     }
 

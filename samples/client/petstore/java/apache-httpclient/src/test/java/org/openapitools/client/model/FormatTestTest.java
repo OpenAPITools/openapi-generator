@@ -27,17 +27,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for FormatTest
  */
-class FormatTestTest {
+public class FormatTestTest {
     private final FormatTest model = new FormatTest();
 
     /**
      * Model tests for FormatTest
      */
     @Test
-    void testFormatTest() {
+    public void testFormatTest() {
         // TODO: test FormatTest
     }
 
@@ -45,7 +46,7 @@ class FormatTestTest {
      * Test the property 'integer'
      */
     @Test
-    void integerTest() {
+    public void integerTest() {
         // TODO: test integer
     }
 
@@ -53,7 +54,7 @@ class FormatTestTest {
      * Test the property 'int32'
      */
     @Test
-    void int32Test() {
+    public void int32Test() {
         // TODO: test int32
     }
 
@@ -61,7 +62,7 @@ class FormatTestTest {
      * Test the property 'int64'
      */
     @Test
-    void int64Test() {
+    public void int64Test() {
         // TODO: test int64
     }
 
@@ -69,7 +70,7 @@ class FormatTestTest {
      * Test the property 'number'
      */
     @Test
-    void numberTest() {
+    public void numberTest() {
         // TODO: test number
     }
 
@@ -77,7 +78,7 @@ class FormatTestTest {
      * Test the property '_float'
      */
     @Test
-    void _floatTest() {
+    public void _floatTest() {
         // TODO: test _float
     }
 
@@ -85,23 +86,15 @@ class FormatTestTest {
      * Test the property '_double'
      */
     @Test
-    void _doubleTest() {
+    public void _doubleTest() {
         // TODO: test _double
-    }
-
-    /**
-     * Test the property 'decimal'
-     */
-    @Test
-    void decimalTest() {
-        // TODO: test decimal
     }
 
     /**
      * Test the property 'string'
      */
     @Test
-    void stringTest() {
+    public void stringTest() {
         // TODO: test string
     }
 
@@ -109,7 +102,7 @@ class FormatTestTest {
      * Test the property '_byte'
      */
     @Test
-    void _byteTest() {
+    public void _byteTest() {
         // TODO: test _byte
     }
 
@@ -117,7 +110,7 @@ class FormatTestTest {
      * Test the property 'binary'
      */
     @Test
-    void binaryTest() {
+    public void binaryTest() {
         // TODO: test binary
     }
 
@@ -125,7 +118,7 @@ class FormatTestTest {
      * Test the property 'date'
      */
     @Test
-    void dateTest() {
+    public void dateTest() {
         // TODO: test date
     }
 
@@ -133,7 +126,7 @@ class FormatTestTest {
      * Test the property 'dateTime'
      */
     @Test
-    void dateTimeTest() {
+    public void dateTimeTest() {
         // TODO: test dateTime
     }
 
@@ -141,7 +134,7 @@ class FormatTestTest {
      * Test the property 'uuid'
      */
     @Test
-    void uuidTest() {
+    public void uuidTest() {
         // TODO: test uuid
     }
 
@@ -149,24 +142,16 @@ class FormatTestTest {
      * Test the property 'password'
      */
     @Test
-    void passwordTest() {
+    public void passwordTest() {
         // TODO: test password
     }
 
     /**
-     * Test the property 'patternWithDigits'
+     * Test the property 'bigDecimal'
      */
     @Test
-    void patternWithDigitsTest() {
-        // TODO: test patternWithDigits
-    }
-
-    /**
-     * Test the property 'patternWithDigitsAndDelimiter'
-     */
-    @Test
-    void patternWithDigitsAndDelimiterTest() {
-        // TODO: test patternWithDigitsAndDelimiter
+    public void bigDecimalTest() {
+        // TODO: test bigDecimal
     }
 
 }

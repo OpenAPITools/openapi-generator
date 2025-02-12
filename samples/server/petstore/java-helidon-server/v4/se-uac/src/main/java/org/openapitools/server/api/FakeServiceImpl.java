@@ -163,7 +163,9 @@ public class FakeServiceImpl extends FakeService {
                 Optional<Double> enumQueryDouble, 
                 List<EnumClass> enumQueryModelArray, 
                 List<String> enumFormStringArray, 
-                Optional<String> enumFormString) {
+                Optional<String> enumFormString, 
+                Optional<Integer> enumFormInteger, 
+                Optional<BigDecimal> enumFormDouble) {
 
         response.status(Status.NOT_IMPLEMENTED_501).send();
     }

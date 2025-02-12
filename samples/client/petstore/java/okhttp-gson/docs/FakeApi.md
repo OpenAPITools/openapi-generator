@@ -982,7 +982,7 @@ null (empty response body)
 
 <a id="testEnumParameters"></a>
 # **testEnumParameters**
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger)
 
 To test enum parameters
 
@@ -1011,8 +1011,9 @@ public class Example {
     Double enumQueryDouble = 1.1D; // Double | Query parameter enum test (double)
     List<String> enumFormStringArray = Arrays.asList("$"); // List<String> | Form parameter enum test (string array)
     String enumFormString = "_abc"; // String | Form parameter enum test (string)
+    Integer enumFormInteger = 1; // Integer | Form parameter enum test (integer)
     try {
-      apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+      apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger);
     } catch (ApiException e) {
       System.err.println("Exception when calling FakeApi#testEnumParameters");
       System.err.println("Status code: " + e.getCode());
@@ -1036,6 +1037,7 @@ public class Example {
 | **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2] |
 | **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $] |
 | **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)] |
+| **enumFormInteger** | **Integer**| Form parameter enum test (integer) | [optional] [default to 1] [enum: 1, -1, 0] |
 
 ### Return type
 

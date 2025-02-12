@@ -23,17 +23,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for OuterObjectWithEnumProperty
  */
-class OuterObjectWithEnumPropertyTest {
+public class OuterObjectWithEnumPropertyTest {
     private final OuterObjectWithEnumProperty model = new OuterObjectWithEnumProperty();
 
     /**
      * Model tests for OuterObjectWithEnumProperty
      */
     @Test
-    void testOuterObjectWithEnumProperty() {
+    public void testOuterObjectWithEnumProperty() {
         // TODO: test OuterObjectWithEnumProperty
     }
 
@@ -41,7 +42,7 @@ class OuterObjectWithEnumPropertyTest {
      * Test the property 'value'
      */
     @Test
-    void valueTest() {
+    public void valueTest() {
         // TODO: test value
     }
 

@@ -570,6 +570,8 @@ public interface FakeApi extends ApiClient.Api {
    * @param enumQueryModelArray  (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+   * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
    */
   @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}&enum_query_model_array={enumQueryModelArray}")
   @Headers({
@@ -579,7 +581,7 @@ public interface FakeApi extends ApiClient.Api {
     
     "enum_header_string: {enumHeaderString}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumQueryModelArray") List<EnumClass> enumQueryModelArray, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString);
+  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumQueryModelArray") List<EnumClass> enumQueryModelArray, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @Param("enum_form_integer") Integer enumFormInteger, @Param("enum_form_double") BigDecimal enumFormDouble);
 
   /**
    * To test enum parameters
@@ -594,6 +596,8 @@ public interface FakeApi extends ApiClient.Api {
    * @param enumQueryModelArray  (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+   * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
    */
   @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}&enum_query_model_array={enumQueryModelArray}")
   @Headers({
@@ -603,7 +607,7 @@ public interface FakeApi extends ApiClient.Api {
     
     "enum_header_string: {enumHeaderString}"
   })
-  ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumQueryModelArray") List<EnumClass> enumQueryModelArray, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString);
+  ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumQueryModelArray") List<EnumClass> enumQueryModelArray, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @Param("enum_form_integer") Integer enumFormInteger, @Param("enum_form_double") BigDecimal enumFormDouble);
 
 
   /**
@@ -618,6 +622,8 @@ public interface FakeApi extends ApiClient.Api {
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
    * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+   * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
@@ -636,7 +642,7 @@ public interface FakeApi extends ApiClient.Api {
       
       "enum_header_string: {enumHeaderString}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) TestEnumParametersQueryParams queryParams);
+  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @Param("enum_form_integer") Integer enumFormInteger, @Param("enum_form_double") BigDecimal enumFormDouble, @QueryMap(encoded=true) TestEnumParametersQueryParams queryParams);
 
   /**
   * To test enum parameters
@@ -647,6 +653,8 @@ public interface FakeApi extends ApiClient.Api {
               * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
               * @param enumFormStringArray Form parameter enum test (string array) (optional)
               * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+              * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+              * @param enumFormDouble Form parameter enum test (double) (optional, default to 1.1)
       * @param queryParams Map of query parameters as name-value pairs
       *   <p>The following elements may be specified in the query map:</p>
       *   <ul>
@@ -665,7 +673,7 @@ public interface FakeApi extends ApiClient.Api {
       
           "enum_header_string: {enumHeaderString}"
       })
-   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) TestEnumParametersQueryParams queryParams);
+   ApiResponse<Void> testEnumParametersWithHttpInfo(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @Param("enum_form_integer") Integer enumFormInteger, @Param("enum_form_double") BigDecimal enumFormDouble, @QueryMap(encoded=true) TestEnumParametersQueryParams queryParams);
 
 
    /**

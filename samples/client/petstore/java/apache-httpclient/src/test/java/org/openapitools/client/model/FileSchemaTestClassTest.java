@@ -19,24 +19,24 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for FileSchemaTestClass
  */
-class FileSchemaTestClassTest {
+public class FileSchemaTestClassTest {
     private final FileSchemaTestClass model = new FileSchemaTestClass();
 
     /**
      * Model tests for FileSchemaTestClass
      */
     @Test
-    void testFileSchemaTestClass() {
+    public void testFileSchemaTestClass() {
         // TODO: test FileSchemaTestClass
     }
 
@@ -44,7 +44,7 @@ class FileSchemaTestClassTest {
      * Test the property '_file'
      */
     @Test
-    void _fileTest() {
+    public void _fileTest() {
         // TODO: test _file
     }
 
@@ -52,7 +52,7 @@ class FileSchemaTestClassTest {
      * Test the property 'files'
      */
     @Test
-    void filesTest() {
+    public void filesTest() {
         // TODO: test files
     }
 

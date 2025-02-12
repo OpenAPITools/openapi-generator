@@ -23,17 +23,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for NumberOnly
  */
-class NumberOnlyTest {
+public class NumberOnlyTest {
     private final NumberOnly model = new NumberOnly();
 
     /**
      * Model tests for NumberOnly
      */
     @Test
-    void testNumberOnly() {
+    public void testNumberOnly() {
         // TODO: test NumberOnly
     }
 
@@ -41,7 +42,7 @@ class NumberOnlyTest {
      * Test the property 'justNumber'
      */
     @Test
-    void justNumberTest() {
+    public void justNumberTest() {
         // TODO: test justNumber
     }
 

@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for ModelList
  */
-class ModelListTest {
+public class ModelListTest {
     private final ModelList model = new ModelList();
 
     /**
      * Model tests for ModelList
      */
     @Test
-    void testModelList() {
+    public void testModelList() {
         // TODO: test ModelList
     }
 
@@ -40,7 +41,7 @@ class ModelListTest {
      * Test the property '_123list'
      */
     @Test
-    void _123listTest() {
+    public void _123listTest() {
         // TODO: test _123list
     }
 

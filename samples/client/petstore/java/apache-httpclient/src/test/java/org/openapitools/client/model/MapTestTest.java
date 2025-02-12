@@ -24,17 +24,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for MapTest
  */
-class MapTestTest {
+public class MapTestTest {
     private final MapTest model = new MapTest();
 
     /**
      * Model tests for MapTest
      */
     @Test
-    void testMapTest() {
+    public void testMapTest() {
         // TODO: test MapTest
     }
 
@@ -42,7 +43,7 @@ class MapTestTest {
      * Test the property 'mapMapOfString'
      */
     @Test
-    void mapMapOfStringTest() {
+    public void mapMapOfStringTest() {
         // TODO: test mapMapOfString
     }
 
@@ -50,7 +51,7 @@ class MapTestTest {
      * Test the property 'mapOfEnumString'
      */
     @Test
-    void mapOfEnumStringTest() {
+    public void mapOfEnumStringTest() {
         // TODO: test mapOfEnumString
     }
 
@@ -58,7 +59,7 @@ class MapTestTest {
      * Test the property 'directMap'
      */
     @Test
-    void directMapTest() {
+    public void directMapTest() {
         // TODO: test directMap
     }
 
@@ -66,7 +67,7 @@ class MapTestTest {
      * Test the property 'indirectMap'
      */
     @Test
-    void indirectMapTest() {
+    public void indirectMapTest() {
         // TODO: test indirectMap
     }
 

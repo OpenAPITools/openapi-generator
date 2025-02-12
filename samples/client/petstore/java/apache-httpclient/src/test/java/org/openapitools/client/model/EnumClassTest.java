@@ -17,15 +17,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for EnumClass
  */
-class EnumClassTest {
+public class EnumClassTest {
     /**
      * Model tests for EnumClass
      */
     @Test
-    void testEnumClass() {
+    public void testEnumClass() {
         // TODO: test EnumClass
     }
 

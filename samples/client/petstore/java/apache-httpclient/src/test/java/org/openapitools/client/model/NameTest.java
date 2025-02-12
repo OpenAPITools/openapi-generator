@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Name
  */
-class NameTest {
+public class NameTest {
     private final Name model = new Name();
 
     /**
      * Model tests for Name
      */
     @Test
-    void testName() {
+    public void testName() {
         // TODO: test Name
     }
 
@@ -40,7 +41,7 @@ class NameTest {
      * Test the property 'name'
      */
     @Test
-    void nameTest() {
+    public void nameTest() {
         // TODO: test name
     }
 
@@ -48,7 +49,7 @@ class NameTest {
      * Test the property 'snakeCase'
      */
     @Test
-    void snakeCaseTest() {
+    public void snakeCaseTest() {
         // TODO: test snakeCase
     }
 
@@ -56,7 +57,7 @@ class NameTest {
      * Test the property 'property'
      */
     @Test
-    void propertyTest() {
+    public void propertyTest() {
         // TODO: test property
     }
 
@@ -64,7 +65,7 @@ class NameTest {
      * Test the property '_123number'
      */
     @Test
-    void _123numberTest() {
+    public void _123numberTest() {
         // TODO: test _123number
     }
 

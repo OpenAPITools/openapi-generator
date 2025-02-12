@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for ModelFile
  */
-class ModelFileTest {
+public class ModelFileTest {
     private final ModelFile model = new ModelFile();
 
     /**
      * Model tests for ModelFile
      */
     @Test
-    void testModelFile() {
+    public void testModelFile() {
         // TODO: test ModelFile
     }
 
@@ -40,7 +41,7 @@ class ModelFileTest {
      * Test the property 'sourceURI'
      */
     @Test
-    void sourceURITest() {
+    public void sourceURITest() {
         // TODO: test sourceURI
     }
 

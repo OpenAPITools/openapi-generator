@@ -20,23 +20,23 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for ArrayOfArrayOfNumberOnly
  */
-class ArrayOfArrayOfNumberOnlyTest {
+public class ArrayOfArrayOfNumberOnlyTest {
     private final ArrayOfArrayOfNumberOnly model = new ArrayOfArrayOfNumberOnly();
 
     /**
      * Model tests for ArrayOfArrayOfNumberOnly
      */
     @Test
-    void testArrayOfArrayOfNumberOnly() {
+    public void testArrayOfArrayOfNumberOnly() {
         // TODO: test ArrayOfArrayOfNumberOnly
     }
 
@@ -44,7 +44,7 @@ class ArrayOfArrayOfNumberOnlyTest {
      * Test the property 'arrayArrayNumber'
      */
     @Test
-    void arrayArrayNumberTest() {
+    public void arrayArrayNumberTest() {
         // TODO: test arrayArrayNumber
     }
 

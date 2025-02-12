@@ -710,6 +710,23 @@ paths:
                     - '-efg'
                     - (xyz)
                   default: '-efg'
+                enum_form_integer:
+                  description: Form parameter enum test (integer)
+                  type: integer
+                  enum:
+                    - 1
+                    - -1
+                    - 0
+                  default: 1
+                enum_form_double:
+                  description: Form parameter enum test (double)
+                  type: number
+                  enum:
+                    - 1.1
+                    - -1.1
+                    - 0.1
+                    - 0.0
+                  default: 1.1
     post:
       tags:
         - fake

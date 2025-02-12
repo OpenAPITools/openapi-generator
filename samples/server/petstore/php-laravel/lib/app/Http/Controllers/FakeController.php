@@ -187,6 +187,10 @@ class FakeController extends Controller
 
         $enumFormString = $input['enumFormString'];
 
+        $enumFormInteger = $input['enumFormInteger'];
+
+        $enumFormDouble = $input['enumFormDouble'];
+
 
         return response('How about implementing testEnumParameters as a get method ?');
     }

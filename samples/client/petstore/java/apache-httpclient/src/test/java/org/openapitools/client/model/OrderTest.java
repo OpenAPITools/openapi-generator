@@ -23,17 +23,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for Order
  */
-class OrderTest {
+public class OrderTest {
     private final Order model = new Order();
 
     /**
      * Model tests for Order
      */
     @Test
-    void testOrder() {
+    public void testOrder() {
         // TODO: test Order
     }
 
@@ -41,7 +42,7 @@ class OrderTest {
      * Test the property 'id'
      */
     @Test
-    void idTest() {
+    public void idTest() {
         // TODO: test id
     }
 
@@ -49,7 +50,7 @@ class OrderTest {
      * Test the property 'petId'
      */
     @Test
-    void petIdTest() {
+    public void petIdTest() {
         // TODO: test petId
     }
 
@@ -57,7 +58,7 @@ class OrderTest {
      * Test the property 'quantity'
      */
     @Test
-    void quantityTest() {
+    public void quantityTest() {
         // TODO: test quantity
     }
 
@@ -65,7 +66,7 @@ class OrderTest {
      * Test the property 'shipDate'
      */
     @Test
-    void shipDateTest() {
+    public void shipDateTest() {
         // TODO: test shipDate
     }
 
@@ -73,7 +74,7 @@ class OrderTest {
      * Test the property 'status'
      */
     @Test
-    void statusTest() {
+    public void statusTest() {
         // TODO: test status
     }
 
@@ -81,7 +82,7 @@ class OrderTest {
      * Test the property 'complete'
      */
     @Test
-    void completeTest() {
+    public void completeTest() {
         // TODO: test complete
     }
 

@@ -27,17 +27,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for MixedPropertiesAndAdditionalPropertiesClass
  */
-class MixedPropertiesAndAdditionalPropertiesClassTest {
+public class MixedPropertiesAndAdditionalPropertiesClassTest {
     private final MixedPropertiesAndAdditionalPropertiesClass model = new MixedPropertiesAndAdditionalPropertiesClass();
 
     /**
      * Model tests for MixedPropertiesAndAdditionalPropertiesClass
      */
     @Test
-    void testMixedPropertiesAndAdditionalPropertiesClass() {
+    public void testMixedPropertiesAndAdditionalPropertiesClass() {
         // TODO: test MixedPropertiesAndAdditionalPropertiesClass
     }
 
@@ -45,7 +46,7 @@ class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'uuid'
      */
     @Test
-    void uuidTest() {
+    public void uuidTest() {
         // TODO: test uuid
     }
 
@@ -53,7 +54,7 @@ class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'dateTime'
      */
     @Test
-    void dateTimeTest() {
+    public void dateTimeTest() {
         // TODO: test dateTime
     }
 
@@ -61,7 +62,7 @@ class MixedPropertiesAndAdditionalPropertiesClassTest {
      * Test the property 'map'
      */
     @Test
-    void mapTest() {
+    public void mapTest() {
         // TODO: test map
     }
 

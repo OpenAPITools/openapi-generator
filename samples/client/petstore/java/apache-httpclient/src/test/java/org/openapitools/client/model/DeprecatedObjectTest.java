@@ -22,17 +22,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for DeprecatedObject
  */
-class DeprecatedObjectTest {
+public class DeprecatedObjectTest {
     private final DeprecatedObject model = new DeprecatedObject();
 
     /**
      * Model tests for DeprecatedObject
      */
     @Test
-    void testDeprecatedObject() {
+    public void testDeprecatedObject() {
         // TODO: test DeprecatedObject
     }
 
@@ -40,7 +41,7 @@ class DeprecatedObjectTest {
      * Test the property 'name'
      */
     @Test
-    void nameTest() {
+    public void nameTest() {
         // TODO: test name
     }
 

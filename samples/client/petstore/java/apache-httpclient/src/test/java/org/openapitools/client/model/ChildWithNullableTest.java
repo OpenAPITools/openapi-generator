@@ -30,14 +30,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ChildWithNullable
  */
-class ChildWithNullableTest {
+public class ChildWithNullableTest {
     private final ChildWithNullable model = new ChildWithNullable();
 
     /**
      * Model tests for ChildWithNullable
      */
     @Test
-    void testChildWithNullable() {
+    public void testChildWithNullable() {
         // TODO: test ChildWithNullable
     }
 
@@ -45,7 +45,7 @@ class ChildWithNullableTest {
      * Test the property 'type'
      */
     @Test
-    void typeTest() {
+    public void typeTest() {
         // TODO: test type
     }
 
@@ -53,7 +53,7 @@ class ChildWithNullableTest {
      * Test the property 'nullableProperty'
      */
     @Test
-    void nullablePropertyTest() {
+    public void nullablePropertyTest() {
         // TODO: test nullableProperty
     }
 
@@ -61,7 +61,7 @@ class ChildWithNullableTest {
      * Test the property 'otherProperty'
      */
     @Test
-    void otherPropertyTest() {
+    public void otherPropertyTest() {
         // TODO: test otherProperty
     }
 

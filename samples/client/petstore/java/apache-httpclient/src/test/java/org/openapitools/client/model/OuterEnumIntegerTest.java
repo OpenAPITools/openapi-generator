@@ -17,15 +17,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+
 /**
  * Model tests for OuterEnumInteger
  */
-class OuterEnumIntegerTest {
+public class OuterEnumIntegerTest {
     /**
      * Model tests for OuterEnumInteger
      */
     @Test
-    void testOuterEnumInteger() {
+    public void testOuterEnumInteger() {
         // TODO: test OuterEnumInteger
     }
 
