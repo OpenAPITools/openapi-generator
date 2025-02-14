@@ -51,6 +51,8 @@
   sha256: 67a9e63e13ebddac21cb236aa015edce30f5d3bd8d6adcf50044cad00d48c45e
 - filename: "samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model/ZebraTest.java"
   sha256: 15eeb6d8a9a79d0f1930b861540d9c5780d6c49ea4fdb68269ac3e7ec481e142
+- filename: "samples/client/petstore/java/webclient/src/test/java/org/openapitools/client/JacksonTest.java"
+  sha256: 45cdaba3d2adc212cd4f0184ad475419a95e2326254c2ef84175e210c922b2f3
 # rust axum test files
 - filename: "samples/server/petstore/rust-axum/output/rust-axum-oneof/tests/oneof_with_discriminator.rs"
   sha256: 2d4f5a069fdcb3057bb078d5e75b3de63cd477b97725e457079df24bd2c30600
