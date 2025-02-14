@@ -132,6 +132,12 @@ public:
     /// <summary>
     /// 
     /// </summary>
+    std::string getDuration() const;
+    void setDuration(std::string value);
+
+    /// <summary>
+    /// 
+    /// </summary>
     std::string getUuid() const;
     void setUuid(std::string value);
 
@@ -166,6 +172,7 @@ protected:
     std::string m_binary = "";
     std::string m_date = "";
     std::string m_DateTime = "";
+    std::string m_Duration = "";
     std::string m_Uuid = "";
     std::string m_Password = "";
     std::string m_Pattern_with_digits = "";

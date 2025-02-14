@@ -25,6 +25,7 @@ public class FormatTest   {
     private File binary;
     private LocalDate date;
     private OffsetDateTime dateTime;
+    private String duration;
     private UUID uuid;
     private String password;
     private String patternWithDigits;
@@ -52,6 +53,7 @@ public class FormatTest   {
      * @param binary binary
      * @param date date
      * @param dateTime dateTime
+     * @param duration duration
      * @param uuid uuid
      * @param password password
      * @param patternWithDigits A string that is a 10 digit number. Can have leading zeros.
@@ -70,6 +72,7 @@ public class FormatTest   {
         File binary, 
         LocalDate date, 
         OffsetDateTime dateTime, 
+        String duration, 
         UUID uuid, 
         String password, 
         String patternWithDigits, 
@@ -87,6 +90,7 @@ public class FormatTest   {
         this.binary = binary;
         this.date = date;
         this.dateTime = dateTime;
+        this.duration = duration;
         this.uuid = uuid;
         this.password = password;
         this.patternWithDigits = patternWithDigits;
@@ -250,6 +254,18 @@ public class FormatTest   {
     }
 
     /**
+     * Get duration
+     * @return duration
+     */
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    /**
      * Get uuid
      * @return uuid
      */
@@ -317,6 +333,7 @@ public class FormatTest   {
         sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
         sb.append("    date: ").append(toIndentedString(date)).append("\n");
         sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+        sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
         sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
         sb.append("    password: ").append("*").append("\n");
         sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");

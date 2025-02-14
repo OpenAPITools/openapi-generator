@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **binary** | [**Uint8List**](Uint8List.md) |  | [optional] 
 **date** | [**Date**](Date.md) |  | 
 **dateTime** | [**DateTime**](DateTime.md) |  | [optional] 
+**duration** | **String** |  | 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
 **patternWithDigits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 

@@ -41,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_BINARY,
   FormatTest.JSON_PROPERTY_DATE,
   FormatTest.JSON_PROPERTY_DATE_TIME,
+  FormatTest.JSON_PROPERTY_DURATION,
   FormatTest.JSON_PROPERTY_UUID,
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
@@ -97,6 +98,10 @@ public class FormatTest  {
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   
   private Date dateTime;
+
+  public static final String JSON_PROPERTY_DURATION = "duration";
+  
+  private String duration;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
   
@@ -419,6 +424,30 @@ public class FormatTest  {
   }
 
   /**
+   * Get duration
+   * @return duration
+   **/
+  @JsonProperty(JSON_PROPERTY_DURATION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public String getDuration() {
+    return duration;
+  }
+
+  /**
+   * Set duration
+   */
+  @JsonProperty(JSON_PROPERTY_DURATION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setDuration(String duration) {
+    this.duration = duration;
+  }
+
+  public FormatTest duration(String duration) {
+    this.duration = duration;
+    return this;
+  }
+
+  /**
    * Get uuid
    * @return uuid
    **/
@@ -544,6 +573,7 @@ public class FormatTest  {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");

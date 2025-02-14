@@ -43,6 +43,8 @@ class FormatTest {
 
      this.dateTime,
 
+    required  this.duration,
+
      this.uuid,
 
     required  this.password,
@@ -203,6 +205,18 @@ class FormatTest {
 
   @JsonKey(
     
+    name: r'duration',
+    required: true,
+    includeIfNull: false,
+  )
+
+
+  final String duration;
+
+
+
+  @JsonKey(
+    
     name: r'uuid',
     required: false,
     includeIfNull: false,
@@ -267,6 +281,7 @@ class FormatTest {
       other.binary == binary &&
       other.date == date &&
       other.dateTime == dateTime &&
+      other.duration == duration &&
       other.uuid == uuid &&
       other.password == password &&
       other.patternWithDigits == patternWithDigits &&
@@ -286,6 +301,7 @@ class FormatTest {
         binary.hashCode +
         date.hashCode +
         dateTime.hashCode +
+        duration.hashCode +
         uuid.hashCode +
         password.hashCode +
         patternWithDigits.hashCode +

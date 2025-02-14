@@ -71,6 +71,7 @@ ptree Format_test::toPropertyTree() const
 	pt.put("string", m_string);
 	pt.put("date", m_date);
 	pt.put("dateTime", m_DateTime);
+	pt.put("duration", m_Duration);
 	pt.put("uuid", m_Uuid);
 	pt.put("password", m_Password);
 	pt.put("pattern_with_digits", m_Pattern_with_digits);
@@ -90,6 +91,7 @@ void Format_test::fromPropertyTree(ptree const &pt)
 	m_string = pt.get("string", "");
 	m_date = pt.get("date", "");
 	m_DateTime = pt.get("dateTime", "");
+	m_Duration = pt.get("duration", "");
 	m_Uuid = pt.get("uuid", "");
 	m_Password = pt.get("password", "");
 	m_Pattern_with_digits = pt.get("pattern_with_digits", "");
@@ -225,6 +227,17 @@ std::string Format_test::getDateTime() const
 void Format_test::setDateTime(std::string value)
 {
     m_DateTime = value;
+}
+
+
+std::string Format_test::getDuration() const
+{
+    return m_Duration;
+}
+
+void Format_test::setDuration(std::string value)
+{
+    m_Duration = value;
 }
 
 

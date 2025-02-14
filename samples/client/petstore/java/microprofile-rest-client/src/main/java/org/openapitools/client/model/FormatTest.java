@@ -69,6 +69,9 @@ public class FormatTest  {
   @JsonbProperty("dateTime")
   private Date dateTime;
 
+  @JsonbProperty("duration")
+  private String duration;
+
   @JsonbProperty("uuid")
   private UUID uuid;
 
@@ -338,6 +341,26 @@ public class FormatTest  {
   }
 
   /**
+   * Get duration
+   * @return duration
+   **/
+  public String getDuration() {
+    return duration;
+  }
+
+  /**
+   * Set duration
+   */
+  public void setDuration(String duration) {
+    this.duration = duration;
+  }
+
+  public FormatTest duration(String duration) {
+    this.duration = duration;
+    return this;
+  }
+
+  /**
    * Get uuid
    * @return uuid
    **/
@@ -438,6 +461,7 @@ public class FormatTest  {
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.duration, formatTest.duration) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
         Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
@@ -446,7 +470,7 @@ public class FormatTest  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, duration, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   /**
@@ -469,6 +493,7 @@ public class FormatTest  {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");

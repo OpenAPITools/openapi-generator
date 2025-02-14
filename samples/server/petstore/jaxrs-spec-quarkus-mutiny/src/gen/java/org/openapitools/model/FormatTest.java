@@ -35,6 +35,7 @@ public class FormatTest  implements Serializable {
   private File binary;
   private LocalDate date;
   private LocalDateTime dateTime;
+  private String duration;
   private UUID uuid;
   private String password;
   private String patternWithDigits;
@@ -53,6 +54,7 @@ public class FormatTest  implements Serializable {
     this.binary = b.binary;
     this.date = b.date;
     this.dateTime = b.dateTime;
+    this.duration = b.duration;
     this.uuid = b.uuid;
     this.password = b.password;
     this.patternWithDigits = b.patternWithDigits;
@@ -67,11 +69,13 @@ public class FormatTest  implements Serializable {
     @JsonProperty(required = true, value = "number") BigDecimal number,
     @JsonProperty(required = true, value = "byte") byte[] _byte,
     @JsonProperty(required = true, value = "date") LocalDate date,
+    @JsonProperty(required = true, value = "duration") String duration,
     @JsonProperty(required = true, value = "password") String password
   ) {
     this.number = number;
     this._byte = _byte;
     this.date = date;
+    this.duration = duration;
     this.password = password;
   }
 
@@ -315,6 +319,25 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
+  public FormatTest duration(String duration) {
+    this.duration = duration;
+    return this;
+  }
+
+  
+  @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
+  @JsonProperty(required = true, value = "duration")
+  @NotNull public String getDuration() {
+    return duration;
+  }
+
+  @JsonProperty(required = true, value = "duration")
+  public void setDuration(String duration) {
+    this.duration = duration;
+  }
+
+  /**
+   **/
   public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
     return this;
@@ -413,6 +436,7 @@ public class FormatTest  implements Serializable {
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.duration, formatTest.duration) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
         Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
@@ -421,7 +445,7 @@ public class FormatTest  implements Serializable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, duration, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -441,6 +465,7 @@ public class FormatTest  implements Serializable {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
@@ -491,6 +516,7 @@ public class FormatTest  implements Serializable {
     private File binary;
     private LocalDate date;
     private LocalDateTime dateTime;
+    private String duration;
     private UUID uuid;
     private String password;
     private String patternWithDigits;
@@ -545,6 +571,10 @@ public class FormatTest  implements Serializable {
     }
     public B dateTime(LocalDateTime dateTime) {
       this.dateTime = dateTime;
+      return self();
+    }
+    public B duration(String duration) {
+      this.duration = duration;
       return self();
     }
     public B uuid(UUID uuid) {

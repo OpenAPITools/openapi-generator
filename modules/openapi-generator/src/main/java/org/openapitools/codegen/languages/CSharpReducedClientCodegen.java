@@ -306,7 +306,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+            "DateTime", "DateTimeOffset", "TimeSpan", "Guid"));
     }
 
     @Override

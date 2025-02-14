@@ -195,6 +195,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                         "DateTimeOffset",
                         "DateOnly?",
                         "DateOnly",
+                        "TimeSpan?",
+                        "TimeSpan",
                         "Boolean",
                         "Double",
                         "Decimal",
@@ -1439,6 +1441,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";
             }
+        } else if (ModelUtils.isDurationSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 if (ModelUtils.isFloatSchema(p)) { // float
@@ -1998,7 +2004,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "TimeSpan", "Guid"));
     }
 
     protected void setTypeMapping() {
@@ -2018,6 +2024,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
         typeMapping.put("date", this.useDateOnly() ? "DateOnly" : "DateTime");
+        typeMapping.put("duration", "TimeSpan");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");

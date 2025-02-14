@@ -39,6 +39,8 @@ module Petstore
 
     attr_accessor :date_time
 
+    attr_accessor :duration
+
     attr_accessor :uuid
 
     attr_accessor :password
@@ -64,6 +66,7 @@ module Petstore
         :'binary' => :'binary',
         :'date' => :'date',
         :'date_time' => :'dateTime',
+        :'duration' => :'duration',
         :'uuid' => :'uuid',
         :'password' => :'password',
         :'pattern_with_digits' => :'pattern_with_digits',
@@ -91,6 +94,7 @@ module Petstore
         :'binary' => :'File',
         :'date' => :'Date',
         :'date_time' => :'Time',
+        :'duration' => :'String',
         :'uuid' => :'String',
         :'password' => :'String',
         :'pattern_with_digits' => :'String',
@@ -171,6 +175,12 @@ module Petstore
 
       if attributes.key?(:'date_time')
         self.date_time = attributes[:'date_time']
+      end
+
+      if attributes.key?(:'duration')
+        self.duration = attributes[:'duration']
+      else
+        self.duration = nil
       end
 
       if attributes.key?(:'uuid')
@@ -254,6 +264,10 @@ module Petstore
         invalid_properties.push('invalid value for "date", date cannot be nil.')
       end
 
+      if @duration.nil?
+        invalid_properties.push('invalid value for "duration", duration cannot be nil.')
+      end
+
       if @password.nil?
         invalid_properties.push('invalid value for "password", password cannot be nil.')
       end
@@ -297,6 +311,7 @@ module Petstore
       return false if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
       return false if @byte.nil?
       return false if @date.nil?
+      return false if @duration.nil?
       return false if @password.nil?
       return false if @password.to_s.length > 64
       return false if @password.to_s.length < 10
@@ -475,6 +490,7 @@ module Petstore
           binary == o.binary &&
           date == o.date &&
           date_time == o.date_time &&
+          duration == o.duration &&
           uuid == o.uuid &&
           password == o.password &&
           pattern_with_digits == o.pattern_with_digits &&
@@ -490,7 +506,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [integer, int32, int64, number, float, double, decimal, string, byte, binary, date, date_time, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
+      [integer, int32, int64, number, float, double, decimal, string, byte, binary, date, date_time, duration, uuid, password, pattern_with_digits, pattern_with_digits_and_delimiter].hash
     end
 
     # Builds the object from hash

@@ -25,6 +25,7 @@ class FormatTest {
     this.binary,
     required this.date,
     this.dateTime,
+    required this.duration,
     this.uuid,
     required this.password,
     this.patternWithDigits,
@@ -119,6 +120,8 @@ class FormatTest {
   ///
   DateTime? dateTime;
 
+  String duration;
+
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
   /// does not include a default value (using the "default:" property), however, the generated
@@ -161,6 +164,7 @@ class FormatTest {
     other.binary == binary &&
     other.date == date &&
     other.dateTime == dateTime &&
+    other.duration == duration &&
     other.uuid == uuid &&
     other.password == password &&
     other.patternWithDigits == patternWithDigits &&
@@ -181,13 +185,14 @@ class FormatTest {
     (binary == null ? 0 : binary!.hashCode) +
     (date.hashCode) +
     (dateTime == null ? 0 : dateTime!.hashCode) +
+    (duration.hashCode) +
     (uuid == null ? 0 : uuid!.hashCode) +
     (password.hashCode) +
     (patternWithDigits == null ? 0 : patternWithDigits!.hashCode) +
     (patternWithDigitsAndDelimiter == null ? 0 : patternWithDigitsAndDelimiter!.hashCode);
 
   @override
-  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
+  String toString() => 'FormatTest[integer=$integer, int32=$int32, int64=$int64, number=$number, float=$float, double_=$double_, decimal=$decimal, string=$string, byte=$byte, binary=$binary, date=$date, dateTime=$dateTime, duration=$duration, uuid=$uuid, password=$password, patternWithDigits=$patternWithDigits, patternWithDigitsAndDelimiter=$patternWithDigitsAndDelimiter]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -239,6 +244,7 @@ class FormatTest {
     } else {
       json[r'dateTime'] = null;
     }
+      json[r'duration'] = this.duration;
     if (this.uuid != null) {
       json[r'uuid'] = this.uuid;
     } else {
@@ -289,6 +295,7 @@ class FormatTest {
         binary: null, // No support for decoding binary content from JSON
         date: mapDateTime(json, r'date', r'')!,
         dateTime: mapDateTime(json, r'dateTime', r''),
+        duration: mapValueOfType<String>(json, r'duration')!,
         uuid: mapValueOfType<String>(json, r'uuid'),
         password: mapValueOfType<String>(json, r'password')!,
         patternWithDigits: mapValueOfType<String>(json, r'pattern_with_digits'),
@@ -343,6 +350,7 @@ class FormatTest {
     'number',
     'byte',
     'date',
+    'duration',
     'password',
   };
 }

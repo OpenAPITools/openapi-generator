@@ -25,6 +25,7 @@ export class FormatTest {
     'binary'?: HttpFile;
     'date': string;
     'dateTime'?: Date;
+    'duration': string;
     'uuid'?: string;
     'password': string;
     /**
@@ -112,6 +113,12 @@ export class FormatTest {
             "baseName": "dateTime",
             "type": "Date",
             "format": "date-time"
+        },
+        {
+            "name": "duration",
+            "baseName": "duration",
+            "type": "string",
+            "format": "duration"
         },
         {
             "name": "uuid",

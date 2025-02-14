@@ -48,7 +48,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public Map<String, Example> examples;
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBinary,
-            isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject, isAnyType, isShort, isUnboundedInteger;
+            isBoolean, isDate, isDateTime, isDuration, isUuid, isUri, isEmail, isPassword, isFreeFormObject, isAnyType, isShort, isUnboundedInteger;
     public boolean isArray, isMap;
     /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
     public boolean isOptional;
@@ -259,6 +259,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isBoolean = this.isBoolean;
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
+        output.isDuration = this.isDuration;
         output.isUuid = this.isUuid;
         output.isUri = this.isUri;
         output.isEmail = this.isEmail;
@@ -286,7 +287,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 unescapedDescription, baseType, containerType, containerTypeMapped, defaultValue,
                 enumDefaultValue, enumName, style, isDeepObject, isMatrix, isAllowEmptyValue, example, examples,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
-                isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
+                isByteArray, isBinary, isBoolean, isDate, isDateTime, isDuration, isUuid, isUri, isEmail, isPassword,
                 isFreeFormObject, isAnyType, isArray, isMap, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
                 items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
                 getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
@@ -329,6 +330,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isBoolean == that.isBoolean &&
                 isDate == that.isDate &&
                 isDateTime == that.isDateTime &&
+                isDuration == that.isDuration &&
                 isUuid == that.isUuid &&
                 isUri == that.isUri &&
                 isEmail == that.isEmail &&
@@ -463,6 +465,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", isBoolean=").append(isBoolean);
         sb.append(", isDate=").append(isDate);
         sb.append(", isDateTime=").append(isDateTime);
+        sb.append(", isDuration=").append(isDuration);
         sb.append(", isUuid=").append(isUuid);
         sb.append(", isUri=").append(isUri);
         sb.append(", isEmail=").append(isEmail);
@@ -752,6 +755,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setIsDateTime(boolean isDateTime) {
         this.isDateTime = isDateTime;
+    }
+
+    @Override
+    public boolean getIsDuration() {
+        return isDuration;
+    }
+
+    @Override
+    public void setIsDuration(boolean isDuration) {
+        this.isDuration = isDuration;
     }
 
     @Override

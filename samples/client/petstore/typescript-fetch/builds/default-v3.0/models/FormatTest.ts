@@ -96,6 +96,12 @@ export interface FormatTest {
      * @type {string}
      * @memberof FormatTest
      */
+    duration: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FormatTest
+     */
     uuid?: string;
     /**
      * 
@@ -124,6 +130,7 @@ export function instanceOfFormatTest(value: object): value is FormatTest {
     if (!('number' in value) || value['number'] === undefined) return false;
     if (!('_byte' in value) || value['_byte'] === undefined) return false;
     if (!('date' in value) || value['date'] === undefined) return false;
+    if (!('duration' in value) || value['duration'] === undefined) return false;
     if (!('password' in value) || value['password'] === undefined) return false;
     return true;
 }
@@ -150,6 +157,7 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'binary': json['binary'] == null ? undefined : json['binary'],
         'date': (new Date(json['date'])),
         'dateTime': json['dateTime'] == null ? undefined : (new Date(json['dateTime'])),
+        'duration': json['duration'],
         'uuid': json['uuid'] == null ? undefined : json['uuid'],
         'password': json['password'],
         'patternWithDigits': json['pattern_with_digits'] == null ? undefined : json['pattern_with_digits'],
@@ -180,6 +188,7 @@ export function FormatTestToJSONTyped(value?: FormatTest | null, ignoreDiscrimin
         'binary': value['binary'],
         'date': ((value['date']).toISOString().substring(0,10)),
         'dateTime': value['dateTime'] == null ? undefined : ((value['dateTime']).toISOString()),
+        'duration': value['duration'],
         'uuid': value['uuid'],
         'password': value['password'],
         'pattern_with_digits': value['patternWithDigits'],

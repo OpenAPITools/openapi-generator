@@ -45,6 +45,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FormatTest.JSON_PROPERTY_BINARY,
   FormatTest.JSON_PROPERTY_DATE,
   FormatTest.JSON_PROPERTY_DATE_TIME,
+  FormatTest.JSON_PROPERTY_DURATION,
   FormatTest.JSON_PROPERTY_UUID,
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
@@ -100,6 +101,10 @@ public class FormatTest {
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
   @jakarta.annotation.Nullable
   private OffsetDateTime dateTime;
+
+  public static final String JSON_PROPERTY_DURATION = "duration";
+  @jakarta.annotation.Nonnull
+  private String duration;
 
   public static final String JSON_PROPERTY_UUID = "uuid";
   @jakarta.annotation.Nullable
@@ -442,6 +447,32 @@ public class FormatTest {
     this.dateTime = dateTime;
   }
 
+  public FormatTest duration(@jakarta.annotation.Nonnull String duration) {
+    
+    this.duration = duration;
+    return this;
+  }
+
+  /**
+   * Get duration
+   * @return duration
+   */
+  @jakarta.annotation.Nonnull
+  @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
+  @JsonProperty(JSON_PROPERTY_DURATION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
+  public String getDuration() {
+    return duration;
+  }
+
+
+  @JsonProperty(JSON_PROPERTY_DURATION)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  public void setDuration(@jakarta.annotation.Nonnull String duration) {
+    this.duration = duration;
+  }
+
   public FormatTest uuid(@jakarta.annotation.Nullable UUID uuid) {
     
     this.uuid = uuid;
@@ -567,6 +598,7 @@ public class FormatTest {
         Objects.equals(this.binary, formatTest.binary) &&
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.duration, formatTest.duration) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
         Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
@@ -575,7 +607,7 @@ public class FormatTest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, duration, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -594,6 +626,7 @@ public class FormatTest {
     sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    duration: ").append(toIndentedString(duration)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
