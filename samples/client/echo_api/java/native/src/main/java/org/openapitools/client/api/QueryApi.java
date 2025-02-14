@@ -67,7 +67,7 @@ public class QueryApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public QueryApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public QueryApi(ApiClient apiClient) {

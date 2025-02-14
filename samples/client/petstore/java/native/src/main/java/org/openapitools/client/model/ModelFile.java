@@ -137,7 +137,7 @@ public class ModelFile {
 
     // add `sourceURI` to the URL query string
     if (getSourceURI() != null) {
-      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSourceURI()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSourceURI()))));
     }
 
     return joiner.toString();

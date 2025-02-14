@@ -142,7 +142,7 @@ public class ClassModel {
 
     // add `_class` to the URL query string
     if (getPropertyClass() != null) {
-      joiner.add(String.format("%s_class%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPropertyClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s_class%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPropertyClass()))));
     }
 
     return joiner.toString();

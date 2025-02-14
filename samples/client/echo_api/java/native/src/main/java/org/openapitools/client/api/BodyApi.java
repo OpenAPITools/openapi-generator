@@ -64,7 +64,7 @@ public class BodyApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public BodyApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public BodyApi(ApiClient apiClient) {

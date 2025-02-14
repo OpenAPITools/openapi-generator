@@ -173,12 +173,12 @@ public class Model200Response {
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     // add `class` to the URL query string
     if (getPropertyClass() != null) {
-      joiner.add(String.format("%sclass%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPropertyClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclass%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPropertyClass()))));
     }
 
     return joiner.toString();

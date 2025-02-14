@@ -61,7 +61,7 @@ public class HeaderApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public HeaderApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public HeaderApi(ApiClient apiClient) {

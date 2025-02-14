@@ -344,7 +344,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
     if (getActualInstance() instanceof Zebra) {
         if (getActualInstance() != null) {
-          joiner.add(String.format("%sone_of_1%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getActualInstance()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          joiner.add(String.format("%sone_of_1%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         return joiner.toString();
     }

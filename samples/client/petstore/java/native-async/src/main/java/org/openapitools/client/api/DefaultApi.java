@@ -57,7 +57,7 @@ public class DefaultApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public DefaultApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public DefaultApi(ApiClient apiClient) {

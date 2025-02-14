@@ -137,7 +137,7 @@ public class ModelList {
 
     // add `123-list` to the URL query string
     if (get123list() != null) {
-      joiner.add(String.format("%s123-list%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(get123list()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s123-list%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123list()))));
     }
 
     return joiner.toString();

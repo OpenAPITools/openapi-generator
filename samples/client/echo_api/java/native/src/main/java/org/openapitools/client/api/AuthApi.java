@@ -54,7 +54,7 @@ public class AuthApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public AuthApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public AuthApi(ApiClient apiClient) {

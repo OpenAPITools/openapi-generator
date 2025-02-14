@@ -195,7 +195,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
     // add `someProperty` to the URL query string
     if (getSomeProperty() != null) {
-      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSomeProperty()))));
     }
 
     return joiner.toString();

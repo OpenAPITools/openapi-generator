@@ -63,7 +63,7 @@ public class StoreApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public StoreApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public StoreApi(ApiClient apiClient) {

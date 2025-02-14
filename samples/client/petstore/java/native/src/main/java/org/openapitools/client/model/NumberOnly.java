@@ -138,7 +138,7 @@ public class NumberOnly {
 
     // add `JustNumber` to the URL query string
     if (getJustNumber() != null) {
-      joiner.add(String.format("%sJustNumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getJustNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sJustNumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getJustNumber()))));
     }
 
     return joiner.toString();

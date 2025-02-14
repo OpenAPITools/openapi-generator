@@ -17,7 +17,7 @@ package org.openapitools.client;
 public class Configuration {
     public static final String VERSION = "1.0.0";
 
-    private static ApiClient defaultApiClient = new ApiClient();
+    private static volatile ApiClient defaultApiClient = new ApiClient();
 
     /**
      * Get the default API client, which would be used when creating API

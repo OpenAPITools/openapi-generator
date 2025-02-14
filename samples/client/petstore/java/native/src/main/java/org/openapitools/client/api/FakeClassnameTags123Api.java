@@ -61,7 +61,7 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public FakeClassnameTags123Api() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public FakeClassnameTags123Api(ApiClient apiClient) {

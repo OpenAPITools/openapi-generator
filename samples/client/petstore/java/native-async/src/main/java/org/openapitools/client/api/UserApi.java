@@ -64,7 +64,7 @@ public class UserApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public UserApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public UserApi(ApiClient apiClient) {

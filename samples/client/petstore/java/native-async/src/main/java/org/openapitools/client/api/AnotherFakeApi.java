@@ -57,7 +57,7 @@ public class AnotherFakeApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public AnotherFakeApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public AnotherFakeApi(ApiClient apiClient) {

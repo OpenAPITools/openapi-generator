@@ -137,7 +137,7 @@ public class Client {
 
     // add `client` to the URL query string
     if (getClient() != null) {
-      joiner.add(String.format("%sclient%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClient()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclient%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClient()))));
     }
 
     return joiner.toString();
