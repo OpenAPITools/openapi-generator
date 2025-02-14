@@ -1,5 +1,7 @@
 pub mod foo_action_container;
 pub use self::foo_action_container::FooActionContainer;
+pub mod foo_any_type_test;
+pub use self::foo_any_type_test::FooAnyTypeTest;
 pub mod foo_api_response;
 pub use self::foo_api_response::FooApiResponse;
 pub mod foo_array_item_ref_test;
