@@ -1,1 +1,1 @@
-"{{baseName}}" -> {{#isContainer}}FormStyleFormat.serialize({{{paramName}}}{{#collectionFormat}}, FormStyleFormat.{{style.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{^required}}{{{paramName}}}{{/required}}{{#required}}Some({{{paramName}}}){{/required}}{{/isContainer}}
+FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}})

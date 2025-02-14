@@ -430,10 +430,14 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
                 Map<String, String> item = new HashMap<>();
                 if (isEnumClass(importPath, enumRefs)) {
                     item.put("import", importPath.concat(".*"));
+                    Map<String, String> enumClassImport = new HashMap<>();
+                    enumClassImport.put("import", importPath);
+                    newImports.add(item);
+                    newImports.add(enumClassImport);
                 } else {
                     item.put("import", importPath);
+                    newImports.add(item);
                 }
-                newImports.add(item);
             }
         }
 
@@ -691,7 +695,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         @Override
         public String formatFragment(String fragment) {
             if (fragment.equals("asJson[File]")) {
-                return "asFile(File.createTempFile(\"download\", \".tmp\")).mapLeft(errStr => DeserializationException(errStr, new Exception(errStr)))";
+                return "asFile(File.createTempFile(\"download\", \".tmp\")).mapWithMetadata((result, metadata) => result.left.map(errStr => ResponseException.DeserializationException(errStr, new Exception(errStr), metadata)))";
             } else {
                 return fragment;
             }

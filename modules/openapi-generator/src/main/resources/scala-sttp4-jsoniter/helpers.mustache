@@ -19,13 +19,13 @@ object FormSerializable:
       obj: T,
       inline format: FormStyleFormat = FormStyleFormat.FORM,
       inline explode: Boolean = true
-  ): Map[String, String]  =
+  ): Seq[(String, String)]  =
     inline obj match
       case primitive: Primitive => serializePrimitive(name, primitive, format, explode)
       case array: Seq[Primitive] => serializeArray(name, array, format, explode)
-      case optPrimitive: Option[Primitive] => optPrimitive.map(value => serializePrimitive(name, value, format, explode)).getOrElse(Map.empty[String, String])
-      case optArray: Option[Seq[Primitive]] => optArray.map(serializeArray(name, _, format, explode)).getOrElse(Map.empty[String, String])
-      case freeObj: Map[String, Primitive] => freeObj.map((key, value) => (key, value.toString))
+      case optPrimitive: Option[Primitive] => optPrimitive.map(value => serializePrimitive(name, value, format, explode)).getOrElse(Seq.empty[(String, String)])
+      case optArray: Option[Seq[Primitive]] => optArray.map(serializeArray(name, _, format, explode)).getOrElse(Seq.empty[(String, String)])
+      case freeObj: Map[String, Primitive] => freeObj.map((key, value) => (key, value.toString)).toSeq
       case optObj: Option[t] =>
         inline summonInline[Mirror.Of[t]] match
           case mirror: Mirror.ProductOf[t] =>
@@ -34,7 +34,7 @@ object FormSerializable:
             optObj.map{ obj =>
               val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
               serializeModel(name, keyVals, format, explode)
-            }.getOrElse(Map.empty[String, String])
+            }.getOrElse(Seq.empty[(String, String)])
           case _ => error("ERROR") // TODO - support for enums
       case obj =>
         inline summonInline[Mirror.Of[T]] match
@@ -45,7 +45,6 @@ object FormSerializable:
             val labels = allLabels[mirror.MirroredElemLabels]
             val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
             serializeModel(name, keyVals, format, explode)
-
 
 
   private inline def allLabels[T <: Tuple]: List[String] =
@@ -68,10 +67,10 @@ object FormSerializable:
       value: Primitive,
       inline format: FormStyleFormat,
       inline explode: Boolean
-  ): Map[String, String] = {
+  ): Seq[(String, String)] = {
     inline format match
       case FormStyleFormat.FORM =>
-        Map(paramName -> value.toString) // for primitve values explode does not change anything
+        Seq(paramName -> value.toString) // for primitve values explode does not change anything
       case FormStyleFormat.SPACEDELIMITED =>
         error(
           "FormStyleFormat.SpaceDelimited does not support primitive values"
@@ -87,37 +86,37 @@ object FormSerializable:
       values: Seq[Primitive],
       inline format: FormStyleFormat,
       inline explode: Boolean
-  ): Map[String, String] = {
+  ): Seq[(String, String)]  = {
     inline format match
       case FormStyleFormat.FORM =>
-        inline if explode then values.map(s => (paramName, s.toString)).toMap
-        else Map(paramName -> values.mkString(","))
+        inline if explode then values.map(s => (paramName, s.toString))
+        else Seq(paramName -> values.mkString(","))
       case FormStyleFormat.SPACEDELIMITED =>
-        inline if explode then values.map(s => (paramName, s.toString)).toMap
-        else Map(paramName -> values.mkString(" ")) // Sttp will encode space as +, from https://swagger.io/docs/specification/v3_0/serialization/#query-parameters it is not clear if it should be + or %20
+        inline if explode then values.map(s => (paramName, s.toString))
+        else Seq(paramName -> values.mkString(" ")) // Sttp will encode space as +, from https://swagger.io/docs/specification/v3_0/serialization/#query-parameters it is not clear if it should be + or %20
       case FormStyleFormat.PIPEDELIMITED =>
-        inline if explode then values.map(s => (paramName, s.toString)).toMap
-        else Map(paramName -> values.mkString("|"))
+        inline if explode then values.map(s => (paramName, s.toString))
+        else Seq(paramName -> values.mkString("|"))
       case FormStyleFormat.DEEPOBJECT =>
         error("FormStyleFormat.DeepObject does not support arrays")
   }
-  inline def serializeModel(
+  private inline def serializeModel(
       paramName: String,
       keyValPairs: Seq[(String, Primitive)],
       inline format: FormStyleFormat,
       inline explode: Boolean
-  ): Map[String, String] = {
+  ): Seq[(String, String)]  = {
     inline format match
       case FormStyleFormat.FORM =>
-        inline if explode then keyValPairs.map((key, value) => (key, value.toString)).toMap
-        else Map(paramName -> keyValPairs.flatMap((key,value) => Seq(key, value.toString)).mkString(","))
+        inline if explode then keyValPairs.map((key, value) => (key, value.toString))
+        else Seq(paramName -> keyValPairs.flatMap((key,value) => Seq(key, value.toString)).mkString(","))
       case FormStyleFormat.SPACEDELIMITED =>
         error("FormStyleFormat.SpaceDelimited does not support objects")
       case FormStyleFormat.PIPEDELIMITED =>
         error("FormStyleFormat.PipeDelimited does not support objects")
       case FormStyleFormat.DEEPOBJECT =>
         inline if explode then
-          keyValPairs.map((key, value) => (s"$paramName[$key]", value.toString)).toMap
+          keyValPairs.map((key, value) => (s"$paramName[$key]", value.toString))
         else error("FormStyleFormat.DeepObject does not support explode=false")
   }
 end FormSerializable
