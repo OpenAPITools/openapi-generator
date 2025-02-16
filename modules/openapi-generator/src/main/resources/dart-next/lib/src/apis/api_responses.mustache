@@ -1,0 +1,327 @@
+// ignore_for_file: unnecessary_type_check, unnecessary_null_comparison, unnecessary_cast
+
+{{#operations}}
+part of '{{classFilename}}.dart';
+{{/operations}}
+
+{{#operations}}{{#operation}}
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{>lib/src/apis/response/response_class}} {
+  {{>lib/src/apis/response/response_class}}({
+    required this.headers,
+    required this.statusCode,
+    required this.reasonPhrase,
+    required this.userContext,
+    this.bodyBytesStream,
+  });
+
+  final Map<String, String> headers;
+  final int statusCode;
+  final String? reasonPhrase;
+  final Map<String, dynamic> userContext;
+  /// This variable is only assigned if other response classes fail to read the response.
+  /// Thus, handing the responsibility of reading the response to the user.
+  final Stream<List<int>>? bodyBytesStream;
+
+  T split<T>({
+    {{#responses}}
+    required T Function({{>lib/src/apis/response/response_class_code}} response) on{{>lib/src/apis/response/code}},
+    {{/responses}}
+    required T Function({{>lib/src/apis/response/response_class}} response) other,
+  }) {
+    return switch (this) {
+      {{#responses}}
+      {{>lib/src/apis/response/response_class_code}} response => on{{>lib/src/apis/response/code}}(response),
+      {{/responses}}
+      _ => other(this),
+    };
+  }
+
+  static Future<{{>lib/src/apis/response/response_class}}> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
+    final matchedResponse = <(PatternMatchResult, Future<{{>lib/src/apis/response/response_class}}> Function())> [
+    {{#responses}}
+    (
+      OASNetworkingUtils.matchesStatusCodePattern(response.statusCode, {{#wildcard}}r'default'{{/wildcard}}{{^wildcard}}r'{{code}}'{{/wildcard}}),
+      () => {{>lib/src/apis/response/response_class_code}}.fromResponse(response, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
+    ),
+    {{/responses}}
+    ].pickPrioritized();
+    if (matchedResponse != null) {
+      return matchedResponse();
+    }
+    return {{>lib/src/apis/response/response_class}}(
+      headers: response.headers,
+      statusCode: response.statusCode,
+      reasonPhrase: response.reasonPhrase,
+      userContext: userContext,
+      bodyBytesStream: response.bodyBytesStream,
+    );
+  }
+}
+
+{{#responses}}
+
+{{#headers}}
+{{#schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{^schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{/headers}}
+
+{{! generate a class per response code }}
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{>lib/src/apis/response/response_class_code}} extends {{>lib/src/apis/response/response_class}} {
+  {{>lib/src/apis/response/response_class_code}}({
+    required super.headers,
+    required super.statusCode,
+    required super.reasonPhrase,
+    required super.userContext,
+    super.bodyBytesStream,
+    {{#headers}}
+    {{>types/required_ctor}} this.{{name}}{{>types/default}},
+    {{/headers}}
+  });
+
+  {{#headers}}
+  final {{>types/variable}} {{name}};
+  {{/headers}}
+
+  {{#content}}
+  T split{{>lib/src/apis/response/code}}<T>({
+    {{#entrySet}}{{#value}}{{#schema}}
+    required T Function({{>lib/src/apis/response/response_class_code_mime}} response) on{{nameInPascalCase}},
+    {{/schema}}{{/value}}{{/entrySet}}
+    required T Function({{>lib/src/apis/response/response_class_code}} response) other,
+  }) {
+    return switch (this) {
+      {{#entrySet}}{{#value}}{{#schema}}
+      {{>lib/src/apis/response/response_class_code_mime}} response => on{{nameInPascalCase}}(response),
+      {{/schema}}{{/value}}{{/entrySet}}
+      _ => other(this),
+    };
+  }{{/content}}
+
+  static Future<{{>lib/src/apis/response/response_class_code}}> fromResponse(HttpResponseBase response, {required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
+    {{#content}}
+    final headers = response.headers;
+    final contentTypeRaw = headers['Content-Type'];
+    final contentTypeParsed = contentTypeRaw == null ? null : MediaType.parse(contentTypeRaw);
+    if (contentTypeParsed != null) {
+      final matchedResponse = <(PatternMatchResult, Future<{{>lib/src/apis/response/response_class_code}}> Function())>[
+      {{#entrySet}}
+      (
+        OASNetworkingUtils.matchesContentTypePattern(contentTypeParsed, MediaType.parse(r'{{key}}')),
+        () => {{#value}}{{#schema}}{{>lib/src/apis/response/response_class_code_mime}}{{/schema}}{{/value}}.fromResponse(response, contentType: contentTypeParsed, userContext: userContext, wireSerializationOptions: wireSerializationOptions)
+      ),
+      {{/entrySet}}
+      ].pickPrioritized();
+      if (matchedResponse != null) {
+        return matchedResponse();
+      }
+    }
+    {{/content}}
+    return {{>lib/src/apis/response/response_class_code}}(
+      headers: response.headers,
+      statusCode: response.statusCode,
+      reasonPhrase: response.reasonPhrase,
+      userContext: userContext,
+      bodyBytesStream: response.bodyBytesStream,
+    );
+  }
+}
+
+
+{{#content}}{{#entrySet}}{{#value}}
+{{#schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+{{^schema}}{{>lib/src/models/enum_inline_recursive}}{{/schema}}
+
+{{#schema}}
+{{! generate a class per content per response code }}
+/// Represent the response when content-type is {{key}}.
+{{#isDeprecated}}
+@Deprecated('This operation has been deprecated')
+{{/isDeprecated}}
+class {{>lib/src/apis/response/response_class_code_mime}} extends {{>lib/src/apis/response/response_class_code}} {
+  final UndefinedWrapper<{{>types/variable_recursive}}> body;
+
+  static const bodyReflection = {{>types/reflection_recursive}};
+
+  {{#vendorExtensions}}
+  {{#is_mime_application_json}}
+  /// The raw result of calling jsonDecode
+  final Object? rawJson;
+  {{/is_mime_application_json}}
+  {{#is_mime_application_xml}}
+  /// The raw result of calling XmlDocumentFragment.parse
+  final XmlDocumentFragment? rawXml;
+  {{/is_mime_application_xml}}
+  {{#is_mime_text}}
+  /// The raw result of decoding bytes to text.
+  final String? rawText;
+  {{/is_mime_text}}
+  {{#is_mime_application_x-www-form-urlencoded}}
+  final Map<String, dynamic>? rawQueryParameters;
+  {{/is_mime_application_x-www-form-urlencoded}}
+  {{/vendorExtensions}}
+
+  {{>lib/src/apis/response/response_class_code_mime}}({
+    this.body = const UndefinedWrapper.undefined(),
+    required super.headers,
+    required super.statusCode,
+    required super.reasonPhrase,
+    required super.userContext,
+    super.bodyBytesStream,
+    {{#headers}}
+    {{>types/required_ctor}} super.{{name}},
+    {{/headers}}
+    {{#vendorExtensions}}
+    {{#is_mime_application_json}}
+    this.rawJson,
+    {{/is_mime_application_json}}
+    {{#is_mime_application_xml}}
+    this.rawXml,
+    {{/is_mime_application_xml}}
+    {{#is_mime_text}}
+    this.rawText,
+    {{/is_mime_text}}
+    {{#is_mime_application_x-www-form-urlencoded}}
+    this.rawQueryParameters,
+    {{/is_mime_application_x-www-form-urlencoded}}
+    {{/vendorExtensions}}
+  });
+
+  static Future<{{>lib/src/apis/response/response_class_code_mime}}> fromResponse(HttpResponseBase response, {required MediaType contentType, required Map<String,dynamic> userContext, required WireSerializationOptions wireSerializationOptions}) async {
+  final encodingRules = <String, PropertyEncodingRule>{
+      {{#content}}{{#encoding}}
+      {{#entrySet}}
+      r'{{{key}}}': {{#value}}PropertyEncodingRule(
+        {{#style}}style: r'{{{style}}}',{{/style}}
+        {{#explode}}explode: {{explode}},{{/explode}}
+        {{#allowReserved}}allowReserved: {{allowReserved}},{{/allowReserved}}
+        {{#contentType}}contentType: MediaType.parse(r'{{{contentType}}}'),{{/contentType}}
+      ),{{/value}}
+      {{/entrySet}}
+      {{/encoding}}{{/content}}
+    };
+
+    final context = wireSerializationOptions.createSerializationContext(contentType);
+
+    {{#vendorExtensions}}
+    switch (contentType) {
+      {{#is_mime_application_json}}
+      case MediaType(type: 'application', subtype: 'json'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
+        final serialized = await encoding.decodeStream(response.bodyBytesStream);
+        final v = jsonDecode(serialized);
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
+          return {{>lib/src/apis/response/response_class_code_mime}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
+            {{>lib/src/apis/response/read_headers}}
+          );
+        } else {
+          // since we consumed the stream, we need to publish our read result.
+          return {{>lib/src/apis/response/response_class_code_mime}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            userContext: userContext,
+            rawJson: v,
+            {{>lib/src/apis/response/read_headers}}
+          );
+        }
+      {{/is_mime_application_json}}
+      {{#is_mime_text}}
+      case MediaType(type: 'text'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
+        final serialized = await encoding.decodeStream(response.bodyBytesStream);
+        final v = serialized;
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
+          return {{>lib/src/apis/response/response_class_code_mime}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
+            {{>lib/src/apis/response/read_headers}}
+          );
+        } else {
+          // since we consumed the stream, we need to publish our read result.
+          return {{>lib/src/apis/response/response_class_code_mime}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            userContext: userContext,
+            rawText: v,
+            {{>lib/src/apis/response/read_headers}}
+          );
+        }
+      {{/is_mime_text}}
+      {{#is_mime_application_xml}}
+      case MediaType(type: 'application', subtype: 'xml'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
+        final serialized = await encoding.decodeStream(response.bodyBytesStream);
+        final v = XmlDocumentFragment.parse(serialized);
+        // check if v can be deserialized to xml
+        return {{>lib/src/apis/response/response_class_code_mime}}(
+          headers: response.headers,
+          statusCode: response.statusCode,
+          reasonPhrase: response.reasonPhrase,
+          userContext: userContext,
+          rawXml: v,
+          {{>lib/src/apis/response/read_headers}}
+        );
+      {{/is_mime_application_xml}}
+      {{#is_mime_application_x-www-form-urlencoded}}
+      case MediaType(type: 'application', subtype: 'x-www-form-urlencoded'):
+        final encoding = OASNetworkingUtils.getEncodingOrDefault(contentType);
+        final serialized = await encoding.decodeStream(response.bodyBytesStream);
+        final queryParametersAll = Uri(query: serialized).queryParametersAll;
+        final v = queryParametersAll.map((k,v) => MapEntry<String, dynamic>(k, v.isEmpty ? null : v.length == 1 ? v.first.isEmpty ? null : v.first : v));
+        if (bodyReflection.canDeserializeFunction(v, context)) {
+          final res = bodyReflection.deserializeFunction(v, context);
+          return {{>lib/src/apis/response/response_class_code_mime}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            userContext: userContext,
+            body: UndefinedWrapper(res),
+            {{>lib/src/apis/response/read_headers}}
+          );
+        } else {
+          // since we consumed the stream, we need to publish our read result.
+          return {{>lib/src/apis/response/response_class_code_mime}}(
+            headers: response.headers,
+            statusCode: response.statusCode,
+            reasonPhrase: response.reasonPhrase,
+            userContext: userContext,
+            rawQueryParameters: v,
+            {{>lib/src/apis/response/read_headers}}
+          );
+        }
+      {{/is_mime_application_x-www-form-urlencoded}}
+      default:
+    }
+    {{/vendorExtensions}}
+    return {{>lib/src/apis/response/response_class_code_mime}}(
+      headers: response.headers,
+      statusCode: response.statusCode,
+      reasonPhrase: response.reasonPhrase,
+      userContext: userContext,
+      bodyBytesStream: response.bodyBytesStream,
+      {{>lib/src/apis/response/read_headers}}
+    );
+  }
+}
+{{/schema}}{{/value}}{{/entrySet}}{{/content}}
+{{/responses}}
+{{/operation}}{{/operations}}
+
+

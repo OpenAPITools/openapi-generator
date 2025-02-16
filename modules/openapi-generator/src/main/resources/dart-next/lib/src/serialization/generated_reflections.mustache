@@ -1,0 +1,26 @@
+import 'package:{{pubName}}/_internal.dart';
+// All the model reflections that were generated.
+
+const generatedClassReflectionsList = <ModelReflection<Object>>[
+{{#models}}{{#model}}{{^isEnum}}
+    {{classname}}Reflection.instance,
+{{/isEnum}}{{/model}}{{/models}}
+];
+/// This does NOT include inline enums.
+const generatedEnumReflectionsList = <EnumReflection<Object, Object>>[
+  {{#models}}{{#model}}{{#isEnum}}
+    {{classname}}.$reflection,
+  {{/isEnum}}{{/model}}{{/models}}
+];
+
+
+const generatedClassReflectionsMap = <String, ModelReflection<Object>>{
+    {{#models}}{{#model}}{{^isEnum}}
+      r'{{{name}}}': {{classname}}Reflection.instance,
+    {{/isEnum}}{{/model}}{{/models}}
+};
+const generatedEnumReflectionsMap = <String, EnumReflection<Object, Object>>{
+  {{#models}}{{#model}}{{#isEnum}}
+    r'{{{name}}}': {{classname}}.$reflection,
+  {{/isEnum}}{{/model}}{{/models}}
+};

@@ -1,0 +1,19 @@
+generatorName: dart-next
+outputDir: samples/openapi3/client/petstore/dart/next
+inputSpec: modules/openapi-generator/src/test/resources/3_0/dart/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart-next
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  pubName: petstore_api
+nameMappings:
+  _type: $type
+  type_: type$
+parameterNameMappings:
+  _type: $type
+  type_: type$
+enumNameMappings:
+  s: LOWER_CASE_S
+  S: UPPER_CASE_S
+operationIdNameMappings:
+  getArrayOfEnums: getFakeArrayofenums
+  fakeHealthGet: getFakeHealth

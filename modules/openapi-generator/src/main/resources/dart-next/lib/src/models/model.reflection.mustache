@@ -1,0 +1,6 @@
+// Model reflection
+
+{{#models}}{{#model}}part of '{{classFilename}}.dart';
+{{/model}}{{/models}}
+
+{{#models}}{{#model}}{{^isEnum}}{{>lib/src/models/class.reflection}}{{/isEnum}}{{/model}}{{/models}}

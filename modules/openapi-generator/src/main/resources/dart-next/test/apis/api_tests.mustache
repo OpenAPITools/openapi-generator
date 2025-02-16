@@ -1,0 +1,29 @@
+import 'package:test/test.dart';
+import 'package:{{pubName}}/_internal.dart';
+import '../utils.dart';
+
+{{#operations}}
+/// tests for {{{classname}}}
+void main() {
+  final wireOptions = WireSerializationOptions();
+  final exampleContext = ExampleContext();
+  group({{{classname}}}, () {
+    final baseUrl = Uri.https("example.com", "/api");
+    {{#operation}}
+    {{#summary}}
+    // {{{.}}}
+    //
+    {{/summary}}
+    {{#notes}}
+    // {{{.}}}
+    //
+    {{/notes}}
+    group(r'{{{operationId}}}', () {
+      {{>test/apis/request_tests}}
+
+      {{>test/apis/response_tests}}
+    });
+    {{/operation}}
+  });
+}
+{{/operations}}

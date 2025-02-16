@@ -1,0 +1,49 @@
+extension type const {{{enumName}}}._({{dataType}} value) implements {{dataType}} {
+  {{#allowableValues}}
+    {{#enumVars}}
+      {{#description}}
+  /// {{{.}}}
+      {{/description}}
+      const {{{enumName}}}.{{name}}() : this._({{#isString}}r{{/isString}}{{{value}}});
+    {{/enumVars}}
+  {{/allowableValues}}
+
+  /// Creates a [{{{enumName}}}] enum from a value and safely checking if it exists.
+  factory {{{enumName}}}.$safe({{dataType}} value) {
+    final res = values.where((element) => element.value == value).firstOrNull;
+    if (res == null) {
+      throw 'Invalid enum value $value';
+    }
+    return res;
+  }
+
+  static const $reflection = EnumReflection<{{{enumName}}}, {{dataType}}>(
+    PrimitiveReflection.for{{dataType}},
+    members: [
+      {{#allowableValues}}{{#enumVars}}
+        EnumMemberReflection(dartName: r'{{name}}', oasValue: {{#isString}}r{{/isString}}{{{value}}}, value: {{{enumName}}}.{{name}}()),
+      {{/enumVars}}{{/allowableValues}}
+    ],
+  );
+
+  factory {{{enumName}}}.deserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.deserializeFunction(value, context);
+  }
+
+  static bool canDeserialize(Object? value, [SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.canDeserializeFunction(value,context);
+  }
+
+  Object? serialize([SerializationContext context = const SerializationContext.json()]) {
+    return $reflection.serializeFunction(this, context);
+  }
+
+  /// Creates a [{{enumName}}] enum from a value without checking if it exists.
+  const {{enumName}}.$unsafe({{dataType}} value) : this._(value);
+
+  /// All possible values of the enum.
+  static const List<{{enumName}}> values = [
+    {{#allowableValues}}{{#enumVars}}{{enumName}}.{{name}}(),
+    {{/enumVars}}{{/allowableValues}}
+  ];
+}

@@ -1,0 +1,9 @@
+{{#isAnyType}}Object{{/isAnyType}}
+{{^isAnyType}}
+    {{#isContainer}}{{dataType}}<{{#isMap}}String, {{/isMap}}
+        {{#items}}{{>types/variable_recursive}}{{/items}}>
+    {{/isContainer}}
+    {{^isContainer}}
+        {{{datatypeWithEnum}}}
+    {{/isContainer}}
+{{/isAnyType}}

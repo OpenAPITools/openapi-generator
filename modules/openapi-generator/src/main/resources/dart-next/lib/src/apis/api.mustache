@@ -1,0 +1,42 @@
+import 'package:{{pubName}}/_internal.dart';
+
+{{#operations}}
+part '{{classFilename}}.requests.dart';
+part '{{classFilename}}.responses.dart';
+{{/operations}}
+
+{{#operations}}
+class {{classname}} {
+  final NetworkingClientBase networkingClient;
+  final Uri baseUrl;
+  final Map<String, dynamic> userContext;
+
+  const {{classname}}({
+    required this.networkingClient,
+    required this.baseUrl,
+    this.userContext = const {},
+  });
+
+  {{#operation}}
+  {{#isDeprecated}}
+  @Deprecated('This operation has been deprecated')
+  {{/isDeprecated}}
+  Future<{{classname}}{{operationIdCamelCase}}Response> {{operationId}}(
+    {{classname}}{{operationIdCamelCase}}Request request, {
+    Map<String, dynamic> userContext = const {},
+  }) async {
+    final newContext = {...this.userContext, ...userContext};
+    final httpRequest = await request.createHttpRequest(
+      userContext: newContext,
+      baseUrl: baseUrl,
+    );
+    final response = await networkingClient.sendRequest(httpRequest);
+    return {{classname}}{{operationIdCamelCase}}Response.fromResponse(
+      response,
+      userContext: newContext,
+      wireSerializationOptions: request.wireSerializationOptions,
+    );
+  }
+  {{/operation}}
+}
+{{/operations}}

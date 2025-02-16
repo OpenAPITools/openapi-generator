@@ -1,0 +1,15 @@
+{{^required}}= const UndefinedWrapper
+    {{#defaultValue}}(
+        {{#enumName}}{{.}}.$unsafe({{{defaultValue}}}){{/enumName}}
+        {{^enumName}}{{{.}}}{{/enumName}}
+    )
+    {{/defaultValue}}
+    {{^defaultValue}}.undefined(){{/defaultValue}}
+{{/required}}
+{{#required}}
+    {{#defaultValue}}=
+        {{#isContainer}}const{{/isContainer}}
+        {{{.}}}
+        {{#isArray}}{{#enumName}}.map((v) => {{.}}.$unsafe(v)).toList(){{/enumName}}{{/isArray}}
+    {{/defaultValue}}
+{{/required}}

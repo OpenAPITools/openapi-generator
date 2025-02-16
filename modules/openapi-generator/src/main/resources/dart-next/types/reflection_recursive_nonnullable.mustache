@@ -1,0 +1,20 @@
+{{#isAnyType}}ObjectReflection(){{/isAnyType}}
+{{^isAnyType}}
+    {{#isContainer}}{{dataType}}Reflection({{#items}}{{>types/reflection_recursive}}{{/items}})
+    {{/isContainer}}
+    {{^isContainer}}
+        {{#isEnum}}{{{datatypeWithEnum}}}.$reflection{{/isEnum}}
+        {{^isEnum}}{{#enumName}}{{{enumName}}}.$reflection{{/enumName}}{{/isEnum}}
+        {{^isEnum}}{{^enumName}}
+            {{#isEnumRef}}{{{datatypeWithEnum}}}.$reflection{{/isEnumRef}}
+            {{^isEnumRef}}
+                {{#isModel}}
+                {{{dataType}}}.$reflection
+                {{/isModel}}
+                {{^isModel}}
+                PrimitiveReflection.for{{{dataType}}}
+                {{/isModel}}
+            {{/isEnumRef}}
+        {{/enumName}}{{/isEnum}}
+    {{/isContainer}}
+{{/isAnyType}}

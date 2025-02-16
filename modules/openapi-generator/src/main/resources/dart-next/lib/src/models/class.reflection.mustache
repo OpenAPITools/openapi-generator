@@ -1,0 +1,232 @@
+//class reflection
+
+class {{classname}}Reflection extends ModelReflection<{{classname}}> {
+  static {{classname}}Reflection instanceGetter() => instance;
+  static const instance = {{classname}}Reflection._(
+    modelName: r'{{schemaName}}',
+    className: r'{{classname}}',
+    xml: {{>types/xml}},
+    {{#allVars}}
+    {{name}}Part: PropertyReflection<{{classname}}, {{>types/variable}}>(
+      dartName: r'{{name}}',
+      nullable: {{isNullable}},
+      required: {{required}},
+      oasName: r'{{baseName}}',
+      oasType: r'{{openApiType}}',
+      pattern: {{#pattern}}r'{{{pattern}}}'{{/pattern}}{{^pattern}}null{{/pattern}},
+      parentReflectionGetter:  instanceGetter,
+      isDiscriminator: {{isDiscriminator}},
+      xml: {{>types/xml}},
+      getter: FunctionWrapper1(_{{name}}Getter),
+      setter: FunctionWrapper2(_{{name}}Setter),
+      reflection: {{>types/reflection}},
+    ),
+    {{/allVars}}
+    {{#discriminator}}
+    discriminatorKey: r'{{{propertyBaseName}}}',
+    discriminatorImplicitMappings: const {
+      {{#allOf}}
+      r'{{.}}': {{.}}Reflection.instance,
+      {{/allOf}}
+      {{#oneOf}}
+      r'{{.}}': {{.}}Reflection.instance,
+      {{/oneOf}}
+      {{#anyOf}}
+      r'{{.}}': {{.}}Reflection.instance,
+      {{/anyOf}}
+    },
+    discriminatorMappings: const {
+      {{#mappedModels}}
+      r'{{mappingName}}': {{modelName}}Reflection.instance,
+      {{/mappedModels}}
+    },
+    {{/discriminator}}
+    {{#allOf}}allOf{{.}}Part: AllOfReflection(
+      parentReflectionGetter: instanceGetter,
+      reflection: {{.}}Reflection.instance,
+    ),
+    {{/allOf}}
+
+    {{#composedSchemas}}{{#oneOf}}
+    {{name}}Part: {{classname}}{{nameInPascalCase}}Part(
+      parentReflectionGetter: instanceGetter,
+    ),
+    {{/oneOf}}{{#anyOf}}
+    {{name}}Part: {{classname}}{{nameInPascalCase}}Part(
+      parentReflectionGetter: instanceGetter,
+    ),
+    {{/anyOf}}{{/composedSchemas}}
+    {{#additionalProperties}}
+    additionalPropertiesPart: AdditionalPropertiesPart(
+      parentReflectionGetter: instanceGetter,
+      itemReflection: {{>types/reflection_recursive}},
+      getter: FunctionWrapper1(_AdditionalPropertiesGetter),
+      setter: FunctionWrapper2(_AdditionalPropertiesSetter),
+    ),
+    {{/additionalProperties}}
+  );
+  const {{classname}}Reflection._({
+    required this.modelName,
+    required this.className,
+    required this.xml,
+    {{#allVars}}
+    required this.{{name}}Part,
+    {{/allVars}}
+    this.discriminatorKey,
+    this.discriminatorMappings = const {},
+    this.discriminatorImplicitMappings = const {},
+    {{#allOf}}required this.allOf{{.}}Part,
+    {{/allOf}}
+    {{#composedSchemas}}{{#oneOf}}
+    required this.{{name}}Part,
+    {{/oneOf}}{{#anyOf}}
+    required this.{{name}}Part,
+    {{/anyOf}}{{/composedSchemas}}
+    {{#additionalProperties}}
+    required this.additionalPropertiesPart,
+    {{/additionalProperties}}
+  });
+
+  {{#allVars}}
+  final PropertyReflection<{{classname}}, {{>types/variable}}> {{name}}Part;
+  static {{>types/variable}} _{{name}}Getter({{classname}} parent) {
+    return parent.{{name}};
+  }
+  static void _{{name}}Setter({{classname}} parent, {{>types/variable}} value) {
+    parent.{{name}} = value;
+  }
+
+  {{/allVars}}
+
+  @override
+  final Map<String, ModelReflection> discriminatorMappings;
+  @override
+  final Map<String, ModelReflection> discriminatorImplicitMappings;
+  @override
+  final String? discriminatorKey;
+  @override
+  final String modelName;
+  @override
+  final String className;
+  @override
+  final XmlReflection xml;
+
+  @override
+  List<PropertyReflection<{{classname}}, dynamic>> get properties => [
+    {{#allVars}}{{name}}Part,
+    {{/allVars}}
+  ];
+
+  {{#additionalProperties}}
+  @override
+  final AdditionalPropertiesPart<{{classname}}, {{>types/variable_recursive}}>? additionalPropertiesPart;
+
+  static AdditionalProperties<{{>types/variable_recursive}}> _AdditionalPropertiesGetter({{classname}} instance) {
+    return instance.additionalProperties;
+  }
+  static void _AdditionalPropertiesSetter({{classname}} instance, AdditionalProperties<{{>types/variable_recursive}}> additionalProperties) {
+    instance.additionalProperties = additionalProperties;
+  }
+  {{/additionalProperties}}
+
+  {{#allOf}}final AllOfReflection<{{classname}}, {{.}}Mixin> allOf{{.}}Part;
+  {{/allOf}}
+
+  {{#composedSchemas}}{{#oneOf}}
+  final {{classname}}{{nameInPascalCase}}Part {{name}}Part;
+  {{/oneOf}}{{#anyOf}}
+  final {{classname}}{{nameInPascalCase}}Part {{name}}Part;
+  {{/anyOf}}{{/composedSchemas}}
+
+  @override
+  List<AllOfReflection<{{classname}}, Object>> get allOfs => [
+    {{#allOf}}allOf{{.}}Part,{{/allOf}}
+  ];
+
+  {{#composedSchemas}}
+  @override
+  List<OneOfReflection<{{classname}}, Object>> get oneOfs => [
+    {{#oneOf}}{{name}}Part,{{/oneOf}}
+  ];
+  @override
+  List<AnyOfReflection<{{classname}}, Object>> get anyOfs => [
+    {{#anyOf}}{{name}}Part,{{/anyOf}}
+  ];
+  {{/composedSchemas}}
+
+
+  /// Creates an empty instance used as a starting point for deserialization.
+  @override
+  {{classname}} empty() {
+    return {{classname}}(
+      {{#allVars}}
+      {{#required}}
+      {{name}}: {{name}}Part.reflection.emptyFunction(),
+      {{/required}}
+      {{/allVars}}
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is {{classname}}Reflection && oasName == other.oasName;
+  }
+
+  @override
+  int get hashCode => oasName.hashCode;
+}
+
+{{#composedSchemas}}{{#oneOf}}
+class {{classname}}{{nameInPascalCase}}Part extends OneOfReflection<{{classname}}, {{>types/variable_recursive_nonnullable}}> {
+
+  {{>lib/src/models/reflection/oneof_anyof_common}}
+
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
+    if (discriminatorExampleResults.isEmpty) {
+      //return undefined for non-first oneOfs.
+      {{#-first}}
+      // An example SHOULD be generated
+      {{/-first}}
+      {{^-first}}
+      return UndefinedWrapper.undefined();
+      {{/-first}}
+    } else {
+      // if this reflection wasn't a result of any property, don't generate an example.
+
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == reflection.subReflection)) {
+        // if there are no discriminator examples targetting the current class:
+        return UndefinedWrapper.undefined();
+      } else {
+        // An example SHOULD be generated
+      }
+    }
+    return reflection.example();
+  }
+}
+{{/oneOf}}
+{{#anyOf}}
+class {{classname}}{{nameInPascalCase}}Part extends AnyOfReflection<{{classname}}, {{>types/variable_recursive_nonnullable}}> {
+
+  {{>lib/src/models/reflection/oneof_anyof_common}}
+
+  UndefinedWrapper<{{>types/variable_recursive_nonnullable}}> example({
+    required AggregatedDiscriminatorsResult discriminators,
+    required Map<DiscriminatorKey, MapEntry<DiscriminatorValue, ModelReflection>> discriminatorExampleResults,
+    required Map<String, Uint8List>? fileCache,
+  }) {
+    if (discriminatorExampleResults.isNotEmpty) {
+      if (!discriminatorExampleResults.values
+          .any((e) => e.value == reflection.subReflection)) {
+        return UndefinedWrapper.undefined();
+      }
+    }
+    return reflection.example();
+  }
+}
+{{/anyOf}}
+{{/composedSchemas}}
