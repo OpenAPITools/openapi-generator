@@ -191,7 +191,7 @@ public class FakeApi {
         return fakeHealthGetRequestCreation();
     }
 
-        public class FakeHttpSignatureTestRequest {
+    public class FakeHttpSignatureTestRequest {
         private final Pet pet;
         private final String query1;
         private final String header1;
@@ -900,7 +900,7 @@ public class FakeApi {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
 
-        public class TestBodyWithQueryParamsRequest {
+    public class TestBodyWithQueryParamsRequest {
         private final String query;
         private final User user;
 
@@ -1107,7 +1107,7 @@ public class FakeApi {
         return testClientModelRequestCreation(client);
     }
 
-        public class TestEndpointParametersRequest {
+    public class TestEndpointParametersRequest {
         private final BigDecimal number;
         private final Double _double;
         private final String patternWithoutDelimiter;
@@ -1389,7 +1389,7 @@ public class FakeApi {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
-        public class TestEnumParametersRequest {
+    public class TestEnumParametersRequest {
         private final List<String> enumHeaderStringArray;
         private final String enumHeaderString;
         private final List<String> enumQueryStringArray;
@@ -1597,7 +1597,7 @@ public class FakeApi {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
 
-        public class TestGroupParametersRequest {
+    public class TestGroupParametersRequest {
         private final Integer requiredStringGroup;
         private final Boolean requiredBooleanGroup;
         private final Long requiredInt64Group;
@@ -1915,7 +1915,7 @@ public class FakeApi {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
 
-        public class TestJsonFormDataRequest {
+    public class TestJsonFormDataRequest {
         private final String param;
         private final String param2;
 
@@ -2120,7 +2120,7 @@ public class FakeApi {
         return testNullableRequestCreation(childWithNullable);
     }
 
-        public class TestQueryParameterCollectionFormatRequest {
+    public class TestQueryParameterCollectionFormatRequest {
         private final List<String> pipe;
         private final List<String> ioutil;
         private final List<String> http;
