@@ -5,6 +5,18 @@ import scala.deriving.*
 import scala.compiletime.*
 import java.io.File
 
+enum ApiKeyLocation:
+  case HEADER
+  case COOKIE
+  case QUERY
+  case NOAPIKEY
+
+enum Authorization:
+  case NoAuthorization
+  case BasicAuth(username: String, password: String)
+  case ApiKey(apiKey: String)
+  case BearerToken(token: String)
+
 enum FormStyleFormat:
   case FORM
   case SPACEDELIMITED
@@ -127,3 +139,15 @@ object Helpers:
       file match
         case f: File => request.body(f)
         case f: Option[File] => f.map(request.body(_)).getOrElse(request)
+
+    def auth(authConfig: Authorization, location: ApiKeyLocation = ApiKeyLocation.NOAPIKEY, keyParamName: String = ""): sttp.client4.Request[?] =
+      // multiple calls to auth with the same config are not idempotent only for APIKey with COOKIE and QUERY - that's why we have NOAPIKEY as default
+      authConfig match
+        case Authorization.NoAuthorization => request
+        case Authorization.BasicAuth(username, password) => request.auth.basic(username, password)
+        case Authorization.BearerToken(token) => request.auth.bearer(token)
+        case Authorization.ApiKey(apiKey) =>location match
+          case ApiKeyLocation.HEADER => request.header(keyParamName, apiKey)
+          case ApiKeyLocation.COOKIE => request.cookie(keyParamName, apiKey)
+          case ApiKeyLocation.QUERY => request.copy(uri = request.uri.addParam(keyParamName, apiKey))
+          case ApiKeyLocation.NOAPIKEY => request  // since it can be called multiple times in request (when there are for example 2 auth methods) we want to make this call idempotent

@@ -14,9 +14,29 @@ import sttp.model.Method
 
 {{#operations}}
 object {{classname}}:
-  def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+  def apply(baseUrl: String = "{{{basePath}}}"): {{classname}}[{{invokerPackage}}.Authorization.NoAuthorization.type] = {{classname}}(baseUrl, {{invokerPackage}}.Authorization.NoAuthorization)
+  def withBasicAuth(baseUrl: String, username: String, password: String): {{classname}}[{{invokerPackage}}.Authorization.BasicAuth] =
+    {{classname}}(baseUrl, {{invokerPackage}}.Authorization.BasicAuth(username, password))
 
-class {{classname}}(baseUrl: String):
+  def withApiKeyAuth(baseUrl: String, apiKey: String): {{classname}}[{{invokerPackage}}.Authorization.ApiKey] =
+    {{classname}}(baseUrl, {{invokerPackage}}.Authorization.ApiKey(apiKey))
+
+  def withBearerTokenAuth(baseUrl: String, token: String): {{classname}}[{{invokerPackage}}.Authorization.BearerToken] =
+    {{classname}}(baseUrl, {{invokerPackage}}.Authorization.BearerToken(token))
+
+case class {{classname}}[Auth <: {{invokerPackage}}.Authorization] private (baseUrl: String, authConfig: {{invokerPackage}}.Authorization):
+  def withBasicAuth(username: String, password: String): {{classname}}[{{invokerPackage}}.Authorization.BasicAuth] =
+    copy(authConfig = {{invokerPackage}}.Authorization.BasicAuth(username, password))
+
+  def withApiKeyAuth(apiKey: String): {{classname}}[{{invokerPackage}}.Authorization.ApiKey] =
+    copy(authConfig = {{invokerPackage}}.Authorization.ApiKey(apiKey))
+
+  def withNoAuth: {{classname}}[{{invokerPackage}}.Authorization.NoAuthorization.type] =
+    copy(authConfig = {{invokerPackage}}.Authorization.NoAuthorization)
+
+  def withBearerTokenAuth(token: String): {{classname}}[{{invokerPackage}}.Authorization.BearerToken] =
+    copy(authConfig = {{invokerPackage}}.Authorization.BearerToken(token))
+
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
@@ -24,17 +44,13 @@ class {{classname}}(baseUrl: String):
   def {{operationId}}{{>methodParameters}}: sttp.client4.Request[{{#separateErrorChannel}}Either[ResponseException[String], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
     val requestURL =
       uri"$baseUrl{{{path}}}"{{#queryParams}}
-        .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}): _*){{/queryParams}}{{#isApiKey}}{{#isKeyInQuery}}
-        .addParams("{{keyParamName}}" -> apiKey.value){{/isKeyInQuery}}{{/isApiKey}}
+        .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}): _*){{/queryParams}}
 
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, requestURL)
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
-      .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-      .auth.basic(username, password){{/isBasicBasic}}{{#isBasicBearer}}
-      .auth.bearer(bearerToken){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
-      .header("{{keyParamName}}", apiKey){{/isKeyInHeader}}{{#isKeyInCookie}}
-      .cookie("{{keyParamName}}", apiKey){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}{{^isMultipart}}
+      .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}
+      .auth(authConfig{{#isApiKey}}, {{invokerPackage}}.{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}}, "{{keyParamName}}"{{/isApiKey}}){{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body({{#formParams}}
         {{>paramFormCreation}}{{^-last}} ++ {{/-last}}{{/formParams}},
         "utf-8"
