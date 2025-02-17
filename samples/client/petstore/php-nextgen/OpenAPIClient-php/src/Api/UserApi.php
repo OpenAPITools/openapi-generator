@@ -153,12 +153,11 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function createUser(
         \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['createUser'][0]
-    ): void
+    )
     {
         $this->createUserWithHttpInfo($user, $contentType);
     }
@@ -384,12 +383,11 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function createUsersWithArrayInput(
         array $user,
         string $contentType = self::contentTypes['createUsersWithArrayInput'][0]
-    ): void
+    )
     {
         $this->createUsersWithArrayInputWithHttpInfo($user, $contentType);
     }
@@ -615,12 +613,11 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function createUsersWithListInput(
         array $user,
         string $contentType = self::contentTypes['createUsersWithListInput'][0]
-    ): void
+    )
     {
         $this->createUsersWithListInputWithHttpInfo($user, $contentType);
     }
@@ -846,12 +843,11 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function deleteUser(
         string $username,
         string $contentType = self::contentTypes['deleteUser'][0]
-    ): void
+    )
     {
         $this->deleteUserWithHttpInfo($username, $contentType);
     }
@@ -1750,11 +1746,10 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function logoutUser(
         string $contentType = self::contentTypes['logoutUser'][0]
-    ): void
+    )
     {
         $this->logoutUserWithHttpInfo($contentType);
     }
@@ -1959,13 +1954,12 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function updateUser(
         string $username,
         \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['updateUser'][0]
-    ): void
+    )
     {
         $this->updateUserWithHttpInfo($username, $user, $contentType);
     }

@@ -1165,14 +1165,13 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function fakeHttpSignatureTest(
         \OpenAPI\Client\Model\Pet $pet,
         ?string $query_1 = null,
         ?string $header_1 = null,
         string $contentType = self::contentTypes['fakeHttpSignatureTest'][0]
-    ): void
+    )
     {
         $this->fakeHttpSignatureTestWithHttpInfo($pet, $query_1, $header_1, $contentType);
     }
@@ -2975,12 +2974,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testAdditionalPropertiesReference(
         array $request_body,
         string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
-    ): void
+    )
     {
         $this->testAdditionalPropertiesReferenceWithHttpInfo($request_body, $contentType);
     }
@@ -3204,12 +3202,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testBodyWithBinary(
         ?\SplFileObject $body,
         string $contentType = self::contentTypes['testBodyWithBinary'][0]
-    ): void
+    )
     {
         $this->testBodyWithBinaryWithHttpInfo($body, $contentType);
     }
@@ -3427,12 +3424,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testBodyWithFileSchema(
         \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class,
         string $contentType = self::contentTypes['testBodyWithFileSchema'][0]
-    ): void
+    )
     {
         $this->testBodyWithFileSchemaWithHttpInfo($file_schema_test_class, $contentType);
     }
@@ -3651,13 +3647,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testBodyWithQueryParams(
         string $query,
         \OpenAPI\Client\Model\User $user,
         string $contentType = self::contentTypes['testBodyWithQueryParams'][0]
-    ): void
+    )
     {
         $this->testBodyWithQueryParamsWithHttpInfo($query, $user, $contentType);
     }
@@ -4236,7 +4231,6 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testEndpointParameters(
         float $number,
@@ -4254,7 +4248,7 @@ class FakeApi
         ?string $password = null,
         ?string $callback = null,
         string $contentType = self::contentTypes['testEndpointParameters'][0]
-    ): void
+    )
     {
         $this->testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback, $contentType);
     }
@@ -4725,7 +4719,6 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testEnumParameters(
         ?array $enum_header_string_array = ['$'],
@@ -4738,7 +4731,7 @@ class FakeApi
         ?array $enum_form_string_array = ['$'],
         ?string $enum_form_string = '-efg',
         string $contentType = self::contentTypes['testEnumParameters'][0]
-    ): void
+    )
     {
         $this->testEnumParametersWithHttpInfo($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_query_model_array, $enum_form_string_array, $enum_form_string, $contentType);
     }
@@ -5094,11 +5087,10 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testGroupParameters(
         array $associative_array
-    ): void
+    )
     {
         $this->testGroupParametersWithHttpInfo($associative_array);
     }
@@ -5414,12 +5406,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testInlineAdditionalProperties(
         array $request_body,
         string $contentType = self::contentTypes['testInlineAdditionalProperties'][0]
-    ): void
+    )
     {
         $this->testInlineAdditionalPropertiesWithHttpInfo($request_body, $contentType);
     }
@@ -5645,12 +5636,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testInlineFreeformAdditionalProperties(
         \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request,
         string $contentType = self::contentTypes['testInlineFreeformAdditionalProperties'][0]
-    ): void
+    )
     {
         $this->testInlineFreeformAdditionalPropertiesWithHttpInfo($test_inline_freeform_additional_properties_request, $contentType);
     }
@@ -5877,13 +5867,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testJsonFormData(
         string $param,
         string $param2,
         string $contentType = self::contentTypes['testJsonFormData'][0]
-    ): void
+    )
     {
         $this->testJsonFormDataWithHttpInfo($param, $param2, $contentType);
     }
@@ -6125,12 +6114,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testNullable(
         \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable,
         string $contentType = self::contentTypes['testNullable'][0]
-    ): void
+    )
     {
         $this->testNullableWithHttpInfo($child_with_nullable, $contentType);
     }
@@ -6360,7 +6348,6 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testQueryParameterCollectionFormat(
         array $pipe,
@@ -6371,7 +6358,7 @@ class FakeApi
         string $allow_empty,
         ?array $language = null,
         string $contentType = self::contentTypes['testQueryParameterCollectionFormat'][0]
-    ): void
+    )
     {
         $this->testQueryParameterCollectionFormatWithHttpInfo($pipe, $ioutil, $http, $url, $context, $allow_empty, $language, $contentType);
     }
@@ -6731,12 +6718,11 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function testStringMapReference(
         array $request_body,
         string $contentType = self::contentTypes['testStringMapReference'][0]
-    ): void
+    )
     {
         $this->testStringMapReferenceWithHttpInfo($request_body, $contentType);
     }

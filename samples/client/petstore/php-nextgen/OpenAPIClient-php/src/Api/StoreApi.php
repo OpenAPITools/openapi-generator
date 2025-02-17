@@ -141,12 +141,11 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return void
      */
     public function deleteOrder(
         string $order_id,
         string $contentType = self::contentTypes['deleteOrder'][0]
-    ): void
+    )
     {
         $this->deleteOrderWithHttpInfo($order_id, $contentType);
     }
