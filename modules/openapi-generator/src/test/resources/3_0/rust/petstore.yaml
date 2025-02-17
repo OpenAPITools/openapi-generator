@@ -495,6 +495,10 @@ paths:
             application/json:
               schema:
                 type: string
+            text/plain:
+              schema:
+                type: string
+
         '400':
           description: Invalid username/password supplied
   /user/logout:

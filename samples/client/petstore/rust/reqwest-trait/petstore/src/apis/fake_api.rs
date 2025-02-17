@@ -14,9 +14,10 @@ use async_trait::async_trait;
 use mockall::automock;
 use reqwest;
 use std::sync::Arc;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
+use crate::apis::ContentType;
 
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]

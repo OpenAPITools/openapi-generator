@@ -10,9 +10,9 @@
 
 
 use reqwest;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
-use super::{Error, configuration};
+use super::{Error, configuration, ContentType};
 
 
 /// struct for typed errors of method [`delete_order`]
@@ -97,10 +97,20 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<s
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `std::collections::HashMap&lt;String, i32&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `std::collections::HashMap&lt;String, i32&gt;`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<GetInventoryError> = serde_json::from_str(&content).ok();
@@ -124,10 +134,20 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Order`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Order`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<GetOrderByIdError> = serde_json::from_str(&content).ok();
@@ -152,10 +172,20 @@ pub fn place_order(configuration: &configuration::Configuration, order: models::
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Order`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Order`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<PlaceOrderError> = serde_json::from_str(&content).ok();

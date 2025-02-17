@@ -7,9 +7,10 @@ use mockall::automock;
 {{/mockall}}
 use reqwest;
 use std::sync::Arc;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
+use crate::apis::ContentType;
 
 {{#mockall}}
 #[cfg_attr(feature = "mockall", automock)]
@@ -336,6 +337,16 @@ impl {{classname}} for {{classname}}Client {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        {{^supportMultipleResponses}}
+        {{#returnType}}
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
+        {{/returnType}}
+        {{/supportMultipleResponses}}
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
@@ -344,7 +355,16 @@ impl {{classname}} for {{classname}}Client {
             Ok(())
             {{/returnType}}
             {{#returnType}}
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                {{#vendorExtensions.x-supports-plain-text}}
+                ContentType::Text => return Ok(local_var_content),
+                {{/vendorExtensions.x-supports-plain-text}}
+                {{^vendorExtensions.x-supports-plain-text}}
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `{{returnType}}`"))),
+                {{/vendorExtensions.x-supports-plain-text}}
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `{{returnType}}`")))),
+            }
             {{/returnType}}
             {{/supportMultipleResponses}}
             {{#supportMultipleResponses}}
