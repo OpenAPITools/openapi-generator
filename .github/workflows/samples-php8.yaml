@@ -5,10 +5,12 @@ on:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
       - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-laravel/**
   pull_request:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
       - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-laravel/**
 jobs:
   build:
     name: Build PHP projects
@@ -25,6 +27,7 @@ jobs:
           # servers
           - samples/server/petstore/php-symfony/SymfonyBundle-php/
           - samples/server/petstore/php-flight/
+          - samples/server/petstore/php-laravel/
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP with tools

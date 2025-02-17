@@ -373,7 +373,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
-                    ? "\\" + modelPackage + "\\" + type : type;
+                    ? "\\" + modelPackage + "\\" + toModelName(type) : type;
         }
         return super.getTypeDeclaration(p);
     }
@@ -399,6 +399,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (openAPIType == null) {
             LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
             openAPIType = "UNKNOWN_OPENAPI_TYPE";
+        }
+
+        if ((p.getAnyOf() != null && !p.getAnyOf().isEmpty()) || (p.getOneOf() != null && !p.getOneOf().isEmpty())) {
+            return openAPIType;
         }
 
         if (typeMapping.containsKey(openAPIType)) {
@@ -913,5 +917,29 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PHP;
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, Schema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+
+        return String.join("|", types);
+    }
+
+    @Override
+    public String toAllOfName(List<String> names, Schema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+
+        return String.join("&", types);
     }
 }
