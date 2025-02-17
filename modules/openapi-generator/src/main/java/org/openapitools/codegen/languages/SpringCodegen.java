@@ -225,6 +225,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)",
                 reactive));
+        cliOptions.add(CliOption.newBoolean(SSE, "enable server sent events support", sse));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER,
                 "wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)"));
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE,
@@ -424,9 +425,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(ASYNC, this::setAsync);
         if (additionalProperties.containsKey(REACTIVE)) {
             if (SPRING_CLOUD_LIBRARY.equals(library)) {
-                throw new IllegalArgumentException("Currently, reactive option doesn't supported by Spring Cloud");
+                throw new IllegalArgumentException("Currently, reactive option isn't supported by Spring Cloud");
             }
             convertPropertyToBooleanAndWriteBack(REACTIVE, this::setReactive);
+        }
+        if (additionalProperties.containsKey(SSE)) {
             convertPropertyToBooleanAndWriteBack(SSE, this::setSse);
         }
 
@@ -1063,51 +1066,57 @@ public class SpringCodegen extends AbstractJavaCodegen
                 codegenOperation.imports.add("ApiIgnore");
             }
             if (sse) {
-                var MEDIA_EVENT_STREAM = "text/event-stream";
-                // inspecting used streaming media types
-                /*
-                 expected definition:
-                 content:
-                    text/event-stream:
-                        schema:
-                        type: array
-                        format: event-stream
-                        items:
-                            type: <type> or
-                            $ref: <typeRef>
-                 */
-                Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
-                        .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
-                        .filter(p -> p.getRight().is2xx) // consider only success
-                        .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
-                        .map(MediaType::getSchema)
-                        .collect(Collectors.toList()).stream()
-                        .collect(Collectors.groupingBy(Schema::getType));
-                if (schemaTypes.containsKey("array")) {
-                    // we have a match with SSE pattern
-                    // double check potential conflicting, multiple specs
-                    if (schemaTypes.keySet().size() > 1) {
-                        throw new RuntimeException("only 1 response media type supported, when SSE is detected");
-                    }
-                    // double check schema format
-                    List<Schema> eventTypes = schemaTypes.get("array");
-                    if (eventTypes.stream().anyMatch(schema -> !"event-stream".equalsIgnoreCase(schema.getFormat()))) {
-                        throw new RuntimeException("schema format 'event-stream' is required, when SSE is detected");
-                    }
-                    // double check item types
-                    Set<String> itemTypes = eventTypes.stream()
-                            .map(schema -> schema.getItems().getType() != null
-                                    ? schema.getItems().getType()
-                                    : schema.getItems().get$ref())
-                            .collect(Collectors.toSet());
-                    if (itemTypes.size() > 1) {
-                        throw new RuntimeException("only single item type is supported, when SSE is detected");
-                    }
-                    codegenOperation.vendorExtensions.put("x-sse", true);
-                } // Not an SSE compliant definition
+                handleSseConfiguration(operation, codegenOperation);
             }
+        } else if (sse) {
+            handleSseConfiguration(operation, codegenOperation);
         }
+
         return codegenOperation;
+    }
+
+    // inspecting used streaming media types
+    /*
+     expected definition:
+     content:
+        text/event-stream:
+            schema:
+                type: array
+                format: event-stream
+                items:
+                    type: <type> or
+                    $ref: <typeRef>
+     */
+    private void handleSseConfiguration(Operation operation, CodegenOperation codegenOperation) {
+        Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
+                .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
+                .filter(p -> p.getRight().is2xx) // consider only success
+                .map(p -> p.getLeft().getContent().get("text/event-stream"))
+                .map(MediaType::getSchema)
+                .collect(Collectors.toList()).stream()
+                .collect(Collectors.groupingBy(Schema::getType));
+        if (schemaTypes.containsKey("array")) {
+            // we have a match with SSE pattern
+            // double check potential conflicting, multiple specs
+            if (schemaTypes.keySet().size() > 1) {
+                throw new RuntimeException("only 1 response media type supported, when SSE is detected");
+            }
+            // double check schema format
+            List<Schema> eventTypes = schemaTypes.get("array");
+            if (eventTypes.stream().anyMatch(schema -> !"event-stream".equalsIgnoreCase(schema.getFormat()))) {
+                throw new RuntimeException("schema format 'event-stream' is required, when SSE is detected");
+            }
+            // double check item types
+            Set<String> itemTypes = eventTypes.stream()
+                    .map(schema -> schema.getItems().getType() != null
+                            ? schema.getItems().getType()
+                            : schema.getItems().get$ref())
+                    .collect(Collectors.toSet());
+            if (itemTypes.size() > 1) {
+                throw new RuntimeException("only single item type is supported, when SSE is detected");
+            }
+            codegenOperation.vendorExtensions.put("x-sse", true);
+        }
     }
 
     private Set<String> reformatProvideArgsParams(Operation operation) {
