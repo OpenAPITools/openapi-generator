@@ -85,7 +85,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
         super.processOpts();
 
         vendorExtensions.put("x-autowire", additionalProperties.getOrDefault(AUTOWIRE, "false").equals("true"));
-        
+
         supportingFiles.add(new SupportingFile("routes.mustache", routesDirectory, routesFileName));
     }
 
@@ -149,6 +149,10 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
 
         OperationMap operations = objs.getOperations();
         operations.put("controllerName", toControllerName(operations.getPathPrefix()));
+
+        operations.getOperation().forEach(operation -> {
+            operation.vendorExtensions.put("x-route-name", operations.getPathPrefix() + "." + operation.operationIdSnakeCase.replace('_', '.'));
+        });
 
         return objs;
     }
