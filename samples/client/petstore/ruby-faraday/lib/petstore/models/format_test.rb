@@ -411,6 +411,26 @@ module Petstore
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] byte Value to be assigned
+    def byte=(byte)
+      if byte.nil?
+        fail ArgumentError, 'byte cannot be nil'
+      end
+
+      @byte = byte
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] date Value to be assigned
+    def date=(date)
+      if date.nil?
+        fail ArgumentError, 'date cannot be nil'
+      end
+
+      @date = date
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] password Value to be assigned
     def password=(password)
       if password.nil?

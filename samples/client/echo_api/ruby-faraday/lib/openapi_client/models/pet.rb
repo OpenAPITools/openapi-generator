@@ -160,6 +160,26 @@ module OpenapiClient
       true
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] name Value to be assigned
+    def name=(name)
+      if name.nil?
+        fail ArgumentError, 'name cannot be nil'
+      end
+
+      @name = name
+    end
+
+    # Custom attribute writer method with validation
+    # @param [Object] photo_urls Value to be assigned
+    def photo_urls=(photo_urls)
+      if photo_urls.nil?
+        fail ArgumentError, 'photo_urls cannot be nil'
+      end
+
+      @photo_urls = photo_urls
+    end
+
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)

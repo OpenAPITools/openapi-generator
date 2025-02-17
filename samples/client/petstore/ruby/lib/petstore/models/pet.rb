@@ -161,6 +161,16 @@ module Petstore
     end
 
     # Custom attribute writer method with validation
+    # @param [Object] name Value to be assigned
+    def name=(name)
+      if name.nil?
+        fail ArgumentError, 'name cannot be nil'
+      end
+
+      @name = name
+    end
+
+    # Custom attribute writer method with validation
     # @param [Object] photo_urls Value to be assigned
     def photo_urls=(photo_urls)
       if photo_urls.nil?

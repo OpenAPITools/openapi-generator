@@ -106,6 +106,16 @@ module Petstore
       true
     end
 
+    # Custom attribute writer method with validation
+    # @param [Object] value Value to be assigned
+    def value=(value)
+      if value.nil?
+        fail ArgumentError, 'value cannot be nil'
+      end
+
+      @value = value
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
