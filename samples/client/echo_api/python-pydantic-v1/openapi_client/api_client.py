@@ -509,7 +509,7 @@ class ApiClient:
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
-                    new_params.extend((k, quote(value)) for value in v)
+                    new_params.extend((k, value) for value in v)
                 else:
                     if collection_format == 'ssv':
                         delimiter = ' '
