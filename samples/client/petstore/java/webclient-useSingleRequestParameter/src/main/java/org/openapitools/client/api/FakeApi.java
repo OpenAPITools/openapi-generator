@@ -191,7 +191,6 @@ public class FakeApi {
         return fakeHealthGetRequestCreation();
     }
 
-    @lombok.EqualsAndHashCode
     public class FakeHttpSignatureTestRequest {
         private final Pet pet;
         private final String query1;
@@ -229,6 +228,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -918,7 +932,6 @@ public class FakeApi {
         return testBodyWithFileSchemaRequestCreation(fileSchemaTestClass);
     }
 
-    @lombok.EqualsAndHashCode
     public class TestBodyWithQueryParamsRequest {
         private final String query;
         private final User user;
@@ -946,6 +959,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -1138,7 +1166,6 @@ public class FakeApi {
         return testClientModelRequestCreation(client);
     }
 
-    @lombok.EqualsAndHashCode
     public class TestEndpointParametersRequest {
         private final BigDecimal number;
         private final Double _double;
@@ -1286,6 +1313,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -1493,7 +1535,6 @@ public class FakeApi {
         return testEndpointParametersRequestCreation(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
-    @lombok.EqualsAndHashCode
     public class TestEnumParametersRequest {
         private final List<String> enumHeaderStringArray;
         private final String enumHeaderString;
@@ -1591,6 +1632,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -1749,7 +1805,6 @@ public class FakeApi {
         return testEnumParametersRequestCreation(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
     }
 
-    @lombok.EqualsAndHashCode
     public class TestGroupParametersRequest {
         private final Integer requiredStringGroup;
         private final Boolean requiredBooleanGroup;
@@ -1817,6 +1872,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -2100,7 +2170,6 @@ public class FakeApi {
         return testInlineFreeformAdditionalPropertiesRequestCreation(testInlineFreeformAdditionalPropertiesRequest);
     }
 
-    @lombok.EqualsAndHashCode
     public class TestJsonFormDataRequest {
         private final String param;
         private final String param2;
@@ -2128,6 +2197,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -2318,7 +2402,6 @@ public class FakeApi {
         return testNullableRequestCreation(childWithNullable);
     }
 
-    @lombok.EqualsAndHashCode
     public class TestQueryParameterCollectionFormatRequest {
         private final List<String> pipe;
         private final List<String> ioutil;
@@ -2396,6 +2479,21 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**

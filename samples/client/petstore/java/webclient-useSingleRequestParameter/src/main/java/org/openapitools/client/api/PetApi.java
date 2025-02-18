@@ -124,7 +124,6 @@ public class PetApi {
         return addPetRequestCreation(pet);
     }
 
-    @lombok.EqualsAndHashCode
     public class DeletePetRequest {
         private final Long petId;
         private final String apiKey;
@@ -152,6 +151,21 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -598,7 +612,6 @@ public class PetApi {
         return updatePetRequestCreation(pet);
     }
 
-    @lombok.EqualsAndHashCode
     public class UpdatePetWithFormRequest {
         private final Long petId;
         private final String name;
@@ -636,6 +649,21 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -765,7 +793,6 @@ public class PetApi {
         return updatePetWithFormRequestCreation(petId, name, status);
     }
 
-    @lombok.EqualsAndHashCode
     public class UploadFileRequest {
         private final Long petId;
         private final String additionalMetadata;
@@ -803,6 +830,21 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -932,7 +974,6 @@ public class PetApi {
         return uploadFileRequestCreation(petId, additionalMetadata, _file);
     }
 
-    @lombok.EqualsAndHashCode
     public class UploadFileWithRequiredFileRequest {
         private final Long petId;
         private final File requiredFile;
@@ -970,6 +1011,21 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**

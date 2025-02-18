@@ -415,7 +415,6 @@ public class UserApi {
         return getUserByNameRequestCreation(username);
     }
 
-    @lombok.EqualsAndHashCode
     public class LoginUserRequest {
         private final String username;
         private final String password;
@@ -443,6 +442,21 @@ public class UserApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
@@ -633,7 +647,6 @@ public class UserApi {
         return logoutUserRequestCreation();
     }
 
-    @lombok.EqualsAndHashCode
     public class UpdateUserRequest {
         private final String username;
         private final User user;
@@ -661,6 +674,21 @@ public class UserApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+            return true;
+          }
+          if (o == null || getClass() != o.getClass()) {
+            return false;
+          }
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          return Objects.hash();
+        }
     }
 
       /**
