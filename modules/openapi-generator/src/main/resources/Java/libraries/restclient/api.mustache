@@ -83,40 +83,6 @@ public class {{classname}} {
         }
 
         {{/allParams}}
-        @Override
-        public boolean equals(Object o) {
-        {{#useReflectionEqualsHashCode}}
-          return EqualsBuilder.reflectionEquals(this, o, false, null, true);
-        {{/useReflectionEqualsHashCode}}
-        {{^useReflectionEqualsHashCode}}
-          if (this == o) {
-            return true;
-          }
-          if (o == null || getClass() != o.getClass()) {
-            return false;
-          }{{#hasVars}}
-          {{classname}} {{classVarName}} = ({{classname}}) o;
-          return {{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
-              {{/-last}}{{/vars}}{{#additionalPropertiesType}} &&
-              Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
-              super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-          return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
-        {{/useReflectionEqualsHashCode}}
-        }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
-
-        private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-          return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-        }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
-
-        @Override
-        public int hashCode() {
-        {{#useReflectionEqualsHashCode}}
-          return HashCodeBuilder.reflectionHashCode(this);
-        {{/useReflectionEqualsHashCode}}
-        {{^useReflectionEqualsHashCode}}
-          return Objects.hash({{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}hashCodeNullable({{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#additionalPropertiesType}}, additionalProperties{{/additionalPropertiesType}});
-        {{/useReflectionEqualsHashCode}}
-        }
     }
     {{/staticRequest}}
 
