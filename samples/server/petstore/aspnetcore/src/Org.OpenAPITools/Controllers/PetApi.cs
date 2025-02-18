@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Controllers
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Pet>));
+            // return StatusCode(200, default);
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
             string exampleJson = null;
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Controllers
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<Pet>>(exampleJson)
-            : default(List<Pet>);
+            : default;
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Controllers
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Pet>));
+            // return StatusCode(200, default);
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
             string exampleJson = null;
@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.Controllers
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<Pet>>(exampleJson)
-            : default(List<Pet>);
+            : default;
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Controllers
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Pet));
+            // return StatusCode(200, default);
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Controllers
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Pet>(exampleJson)
-            : default(Pet);
+            : default;
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
@@ -224,13 +224,13 @@ namespace Org.OpenAPITools.Controllers
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(ApiResponse));
+            // return StatusCode(200, default);
             string exampleJson = null;
             exampleJson = "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<ApiResponse>(exampleJson)
-            : default(ApiResponse);
+            : default;
             //TODO: Change the data returned
             return new ObjectResult(example);
         }

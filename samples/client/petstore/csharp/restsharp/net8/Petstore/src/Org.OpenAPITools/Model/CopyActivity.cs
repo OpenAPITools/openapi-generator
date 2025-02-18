@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="schema">schema (required) (default to SchemaEnum.ScopeActivity).</param>
         /// <param name="copyActivitytt">copyActivitytt (required).</param>
-        public CopyActivity(SchemaEnum schema = SchemaEnum.ScopeActivity, string copyActivitytt = default(string)) : base()
+        public CopyActivity(SchemaEnum schema = SchemaEnum.ScopeActivity, string copyActivitytt = default) : base()
         {
             this.Schema = schema;
             // to ensure "copyActivitytt" is required (not null)
