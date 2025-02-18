@@ -1,4 +1,5 @@
 generatorName: csharp
+library: restsharp
 outputDir: samples/client/petstore/csharp/restsharp/net8/ParameterMappings
 inputSpec: modules/openapi-generator/src/test/resources/3_0/name-parameter-mappings.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp

@@ -47,6 +47,7 @@ public class CSharpClientDeepObjectTest {
                 .readLocation("src/test/resources/3_0/deepobject.yaml", null, new ParseOptions()).getOpenAPI();
 
         CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("restsharp");
         codegen.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput();

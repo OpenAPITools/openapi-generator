@@ -1,5 +1,6 @@
 # for .net standard
 generatorName: csharp
+library: restsharp
 outputDir: samples/client/petstore/csharp/restsharp/net8/UseDateTimeForDate
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/dates-api.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp

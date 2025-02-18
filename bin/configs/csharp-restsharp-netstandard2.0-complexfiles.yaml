@@ -1,4 +1,5 @@
 generatorName: csharp
+library: restsharp
 outputDir: samples/client/others/csharp-complex-files
 inputSpec: modules/openapi-generator/src/test/resources/3_0/form-multipart-binary-array.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
