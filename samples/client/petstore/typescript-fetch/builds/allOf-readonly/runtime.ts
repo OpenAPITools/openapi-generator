@@ -261,6 +261,7 @@ export class ResponseError extends Error {
     override name: "ResponseError" = "ResponseError";
     constructor(public response: Response, msg?: string) {
         super(msg);
+        Object.setPrototypeOf(this, ResponseError.prototype);
     }
 }
 
@@ -268,6 +269,7 @@ export class FetchError extends Error {
     override name: "FetchError" = "FetchError";
     constructor(public cause: Error, msg?: string) {
         super(msg);
+        Object.setPrototypeOf(this, FetchError.prototype);
     }
 }
 
@@ -275,6 +277,7 @@ export class RequiredError extends Error {
     override name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
+        Object.setPrototypeOf(this, RequiredError.prototype);
     }
 }
 
