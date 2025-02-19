@@ -314,6 +314,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
+        // this is before super.processOpts() because that method uses dateLibrary to select imports
+        if (isLibrary(WEBCLIENT) || isLibrary(NATIVE) || isLibrary(RESTCLIENT)) {
+            dateLibrary = "java8";
+        } else if (isLibrary(MICROPROFILE)) {
+            dateLibrary = "legacy";
+        }
+
+        super.processOpts();    // can actually change the library (possibly only in unit-tests but still...)
+
         // determine and cache client library type once
         final boolean libApache = isLibrary(APACHE);
         final boolean libFeign = isLibrary(FEIGN);
@@ -331,13 +340,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         final boolean libVertx = isLibrary(VERTX);
         final boolean libWebClient = isLibrary(WEBCLIENT);
 
-        // this is before super.processOpts() because that method uses dateLibrary to select imports
-        if (libWebClient || libNative || libRestClient) {
-            dateLibrary = "java8";
-        } else if (libMicroprofile) {
-            dateLibrary = "legacy";
-        }
-        super.processOpts();
         // default jackson unless overridden by setSerializationLibrary
         this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) ||
                 SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
