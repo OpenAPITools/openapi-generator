@@ -16,10 +16,10 @@ title: Documentation for the protobuf-schema Generator
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
-| Option                    | Description                                                              | Values | Default |
-|---------------------------|--------------------------------------------------------------------------| ------ | ------- |
-| numberedFieldNumberList   | Field numbers in order.                                                  | |false|
-| startEnumsWithUnspecified | Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations. | |false|
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|numberedFieldNumberList|Field numbers in order.| |false|
+|startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
 
 ## IMPORT MAPPING
 
