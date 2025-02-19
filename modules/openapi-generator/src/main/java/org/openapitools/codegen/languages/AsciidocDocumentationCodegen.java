@@ -16,8 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 
 import java.io.File;
@@ -324,6 +326,27 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         } else {
             additionalProperties.put(flag, value);
         }
+    }
+
+    // override to avoid printing of string "null"
+    // when no example exists
+    @Override
+    public String toExampleValue(Schema schema) {
+        if (schema.getExample() != null) {
+            return schema.getExample().toString();
+        }
+        return null;
+    }
+
+    // Avoid additional escapes of \ -> \\, " -> \"
+    // in regular expressions that are
+    // introduced by the `escapeText` method.
+    // Note: We don't need this here since we want to print
+    // the plain regular expression
+    // Therefore, override  this method to skip `escapeText`.
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override
