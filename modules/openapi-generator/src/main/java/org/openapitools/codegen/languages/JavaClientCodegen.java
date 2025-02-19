@@ -243,7 +243,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
-      
+
         supportedLibraries.put(APACHE, "HTTP client: Apache httpclient 5.2.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 13.2.1. JSON processing: Jackson 2.17.1 or Gson 2.10.1");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 2.2.0. JSON processing: Jackson 2.17.1");
@@ -1172,7 +1172,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (StringUtils.isBlank(serializationLibrary)) {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
-        switch(serializationLibrary.toLowerCase()) {    // is this even needed?  i.e., do we support MixEd-CaSE serialization library names?
+        switch(serializationLibrary.toLowerCase(Locale.ROOT)) {    // FIXME is this even needed?
             case SERIALIZATION_LIBRARY_JACKSON:
                 this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
                 this.jackson = true;
