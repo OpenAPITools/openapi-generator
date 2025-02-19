@@ -1166,7 +1166,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (StringUtils.isBlank(serializationLibrary)) {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
-        switch(serializationLibrary.toLowerCase(Locale.ROOT)) {    // FIXME is this even needed?
+        switch(serializationLibrary.toLowerCase(Locale.ROOT)) {    // FIXME is toLowerCase even needed?
             case SERIALIZATION_LIBRARY_JACKSON:
                 this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
                 this.jackson = true;
