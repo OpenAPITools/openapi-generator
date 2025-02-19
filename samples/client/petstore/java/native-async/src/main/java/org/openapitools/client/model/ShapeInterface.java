@@ -142,7 +142,7 @@ public class ShapeInterface {
 
     // add `shapeType` to the URL query string
     if (getShapeType() != null) {
-      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShapeType()))));
     }
 
     return joiner.toString();

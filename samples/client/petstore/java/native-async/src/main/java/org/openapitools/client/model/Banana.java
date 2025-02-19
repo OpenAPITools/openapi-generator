@@ -143,7 +143,7 @@ public class Banana {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
     }
 
     return joiner.toString();

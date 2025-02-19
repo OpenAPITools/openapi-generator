@@ -142,7 +142,7 @@ public class QuadrilateralInterface {
 
     // add `quadrilateralType` to the URL query string
     if (getQuadrilateralType() != null) {
-      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuadrilateralType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuadrilateralType()))));
     }
 
     return joiner.toString();

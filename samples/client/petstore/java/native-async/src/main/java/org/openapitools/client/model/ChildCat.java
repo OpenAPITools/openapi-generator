@@ -200,12 +200,12 @@ public class ChildCat extends ParentPet {
 
     // add `pet_type` to the URL query string
     if (getPetType() != null) {
-      joiner.add(String.format("%spet_type%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPetType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spet_type%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPetType()))));
     }
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     return joiner.toString();

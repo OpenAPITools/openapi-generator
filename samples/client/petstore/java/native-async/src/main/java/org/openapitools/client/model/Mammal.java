@@ -55,6 +55,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
@@ -344,7 +345,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
     if (getActualInstance() instanceof Zebra) {
         if (getActualInstance() != null) {
-          joiner.add(String.format("%sone_of_1%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getActualInstance()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          joiner.add(String.format("%sone_of_1%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         return joiner.toString();
     }

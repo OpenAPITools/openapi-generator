@@ -205,17 +205,17 @@ public class OuterComposite {
 
     // add `my_number` to the URL query string
     if (getMyNumber() != null) {
-      joiner.add(String.format("%smy_number%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMyNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smy_number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMyNumber()))));
     }
 
     // add `my_string` to the URL query string
     if (getMyString() != null) {
-      joiner.add(String.format("%smy_string%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMyString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smy_string%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMyString()))));
     }
 
     // add `my_boolean` to the URL query string
     if (getMyBoolean() != null) {
-      joiner.add(String.format("%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getMyBoolean()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%smy_boolean%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMyBoolean()))));
     }
 
     return joiner.toString();

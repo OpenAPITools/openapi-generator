@@ -519,62 +519,62 @@ public class User {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `username` to the URL query string
     if (getUsername() != null) {
-      joiner.add(String.format("%susername%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUsername()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%susername%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUsername()))));
     }
 
     // add `firstName` to the URL query string
     if (getFirstName() != null) {
-      joiner.add(String.format("%sfirstName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFirstName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfirstName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFirstName()))));
     }
 
     // add `lastName` to the URL query string
     if (getLastName() != null) {
-      joiner.add(String.format("%slastName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLastName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slastName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLastName()))));
     }
 
     // add `email` to the URL query string
     if (getEmail() != null) {
-      joiner.add(String.format("%semail%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getEmail()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%semail%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmail()))));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
     }
 
     // add `phone` to the URL query string
     if (getPhone() != null) {
-      joiner.add(String.format("%sphone%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPhone()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sphone%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPhone()))));
     }
 
     // add `userStatus` to the URL query string
     if (getUserStatus() != null) {
-      joiner.add(String.format("%suserStatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUserStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%suserStatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUserStatus()))));
     }
 
     // add `objectWithNoDeclaredProps` to the URL query string
     if (getObjectWithNoDeclaredProps() != null) {
-      joiner.add(String.format("%sobjectWithNoDeclaredProps%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObjectWithNoDeclaredProps()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sobjectWithNoDeclaredProps%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getObjectWithNoDeclaredProps()))));
     }
 
     // add `objectWithNoDeclaredPropsNullable` to the URL query string
     if (getObjectWithNoDeclaredPropsNullable() != null) {
-      joiner.add(String.format("%sobjectWithNoDeclaredPropsNullable%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getObjectWithNoDeclaredPropsNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sobjectWithNoDeclaredPropsNullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getObjectWithNoDeclaredPropsNullable()))));
     }
 
     // add `anyTypeProp` to the URL query string
     if (getAnyTypeProp() != null) {
-      joiner.add(String.format("%sanyTypeProp%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnyTypeProp()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sanyTypeProp%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnyTypeProp()))));
     }
 
     // add `anyTypePropNullable` to the URL query string
     if (getAnyTypePropNullable() != null) {
-      joiner.add(String.format("%sanyTypePropNullable%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getAnyTypePropNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sanyTypePropNullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnyTypePropNullable()))));
     }
 
     return joiner.toString();

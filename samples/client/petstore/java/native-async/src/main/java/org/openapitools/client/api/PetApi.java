@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.io.File;
@@ -65,7 +66,7 @@ public class PetApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public PetApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public PetApi(ApiClient apiClient) {
