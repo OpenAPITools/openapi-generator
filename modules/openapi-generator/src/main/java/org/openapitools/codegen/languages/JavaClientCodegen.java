@@ -22,8 +22,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -52,12 +50,13 @@ import static java.util.Collections.sort;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-@Slf4j
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
 
+    private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
+  
     public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String DO_NOT_USE_RX = "doNotUseRx";
@@ -347,7 +346,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
-            log.warn("You specified all RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
+            LOGGER.warn("You specified all RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA3, this::setUseRxJava3);
             writePropertyBack(USE_RX_JAVA2, false);
             } else {
@@ -522,7 +521,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (libFeign) {
             if (getSerializationLibrary() == null) {
-                log.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             }
             if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
@@ -640,7 +639,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (libRestAssured) {
             if (getSerializationLibrary() == null) {
-                log.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
             }
             if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
@@ -662,7 +661,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
             if (getSerializationLibrary() == null) {
-                log.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JSONB);
+                LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JSONB);
                 setSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
             } else if (getSerializationLibrary().equals(SERIALIZATION_LIBRARY_GSON)) {
                 forceSerializationLibrary(SERIALIZATION_LIBRARY_JSONB);
@@ -687,7 +686,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (libApache) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else {
-            log.error("Unknown library option (-l/--library): {}", getLibrary());
+            LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
         if (usePlayWS) {
@@ -716,7 +715,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         if (getSerializationLibrary() == null) {
-            log.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
+            LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_GSON);
             setSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
         }
         switch (getSerializationLibrary()) {
@@ -1163,30 +1162,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     public void setSerializationLibrary(String serializationLibrary) {
-        if (StringUtils.isBlank(serializationLibrary)) {
+        if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
+            this.jackson = true;
+        } else if (SERIALIZATION_LIBRARY_GSON.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
+            this.jackson = false;
+        } else if (SERIALIZATION_LIBRARY_JSONB.equalsIgnoreCase(serializationLibrary)) {
+            this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
+            this.jackson = false;
+        } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
-        }
-        switch(serializationLibrary.toLowerCase(Locale.ROOT)) {    // FIXME is toLowerCase even needed?
-            case SERIALIZATION_LIBRARY_JACKSON:
-                this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
-                this.jackson = true;
-                break;
-            case SERIALIZATION_LIBRARY_GSON:
-                this.serializationLibrary = SERIALIZATION_LIBRARY_GSON;
-                this.jackson = false;
-                break;
-            case SERIALIZATION_LIBRARY_JSONB:
-                this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
-                this.jackson = false;
-                break;
-            default:
-                throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
         }
     }
 
     public void forceSerializationLibrary(String serializationLibrary) {
-        if (this.serializationLibrary != null && !this.serializationLibrary.equals(serializationLibrary)) {
-            log.warn("The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
+        if (this.serializationLibrary != null && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
+            LOGGER.warn("The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
                     this.serializationLibrary, getLibrary(), serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);
