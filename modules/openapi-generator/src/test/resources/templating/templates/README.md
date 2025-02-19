@@ -1,1 +1,0 @@
-This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`

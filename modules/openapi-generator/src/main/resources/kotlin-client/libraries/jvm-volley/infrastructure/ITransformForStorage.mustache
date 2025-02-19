@@ -1,9 +1,0 @@
-{{>licenseInfo}}
-package {{packageName}}.infrastructure
-
-import {{roomModelPackage}}.*
-
-// TODO ITransformForStorage
-{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface ITransformForStorage<T> {
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toRoomModel(): T
-}

@@ -1,8 +1,0 @@
-generatorName: java
-outputDir: samples/client/echo_api/java/apache-httpclient
-library: apache-httpclient
-inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
-templateDir: modules/openapi-generator/src/main/resources/Java
-additionalProperties:
-  artifactId: echo-api-apache-httpclient
-  hideGenerationTimestamp: "true"

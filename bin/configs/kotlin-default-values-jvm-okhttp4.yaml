@@ -1,8 +1,0 @@
-generatorName: kotlin
-outputDir: samples/client/petstore/kotlin-default-values-jvm-okhttp4
-inputSpec: modules/openapi-generator/src/test/resources/3_0/issue_10865_default_values.yaml
-templateDir: modules/openapi-generator/src/main/resources/kotlin-client
-additionalProperties:
-  artifactId: kotlin-default-values-jvm-okhttp4
-  library: jvm-okhttp4
-  sortParamsByRequiredFlag: false

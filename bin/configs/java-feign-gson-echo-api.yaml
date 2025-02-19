@@ -1,9 +1,0 @@
-generatorName: java
-outputDir: samples/client/echo_api/java/feign-gson
-library: feign
-inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
-templateDir: modules/openapi-generator/src/main/resources/Java
-additionalProperties:
-  serializationLibrary: gson
-  artifactId: echo-api-feign-json
-  hideGenerationTimestamp: "true"

@@ -1,3 +1,0 @@
-Status code: 500 INTERNAL_SERVER_ERROR
-Reason:
-Response headers: [Connection:"close"]

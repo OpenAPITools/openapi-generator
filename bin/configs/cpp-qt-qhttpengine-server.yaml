@@ -1,4 +1,0 @@
-generatorName: cpp-qt-qhttpengine-server
-outputDir: samples/server/petstore/cpp-qt-qhttpengine-server
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/cpp-qt-qhttpengine-server

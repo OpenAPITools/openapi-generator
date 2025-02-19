@@ -1,7 +1,0 @@
-generatorName: javascript
-outputDir: samples/client/petstore/javascript-apollo
-library: apollo
-inputSpec: modules/openapi-generator/src/test/resources/3_0/javascript/petstore-with-fake-endpoints-models-for-testing.yaml
-templateDir: modules/openapi-generator/src/main/resources/Javascript
-additionalProperties:
-  appName: PetstoreClient

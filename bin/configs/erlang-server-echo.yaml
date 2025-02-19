@@ -1,4 +1,0 @@
-generatorName: erlang-server
-outputDir: samples/server/echo_api/erlang-server
-inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
-templateDir: modules/openapi-generator/src/main/resources/erlang-server

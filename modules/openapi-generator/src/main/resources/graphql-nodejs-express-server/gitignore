@@ -1,8 +1,0 @@
-# MacOS
-.DS_Store
-
-# IDE
-/.idea
-
-# JS specific
-/node_modules

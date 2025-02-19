@@ -1,3 +1,0 @@
-Status code: 400 BAD_REQUEST
-Reason: Value null not allowed
-Response headers: [Content-Type:"text/plain", content-length:"22"]

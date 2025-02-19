@@ -1,3 +1,0 @@
-Status code: 405 METHOD_NOT_ALLOWED
-Reason:
-Response headers: []

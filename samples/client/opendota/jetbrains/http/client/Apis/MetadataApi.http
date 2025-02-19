@@ -1,6 +1,0 @@
-## MetadataApi
-
-### GET /metadata
-## GET /metadata
-GET https://api.opendota.com/api/metadata
-Accept: application/json; charset=utf-8

@@ -1,8 +1,0 @@
-imports:
-    - { resource: "../Resources/config/services.yaml" }
-
-framework:
-    secret: "testsecret"
-    test:   ~
-    router:
-        resource: "%kernel.project_dir%/Resources/config/routing.yaml"

@@ -1,5 +1,0 @@
-type: string
-enum:
-  - success
-  - failure
-  - unclassified

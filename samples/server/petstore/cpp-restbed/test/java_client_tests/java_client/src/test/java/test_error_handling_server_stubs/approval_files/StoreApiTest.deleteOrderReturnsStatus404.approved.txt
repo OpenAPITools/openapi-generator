@@ -1,3 +1,0 @@
-Status code: 404 NOT_FOUND
-Reason: Order not found
-Response headers: [Connection:"close", Content-Type:"text/plain"]

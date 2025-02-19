@@ -1,6 +1,0 @@
-{{#description}}
-    /* {{{.}}} */
-{{/description}}
-
-    @JsonProperty("{{{baseName}}}")
-{{#useBeanValidation}}{{>beanValidation}}{{>beanValidationModel}}{{/useBeanValidation}}    {{>modelMutable}} {{{name}}}: {{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}

@@ -1,3 +1,0 @@
-[workspace]
-members = ["hyper/*", "reqwest/*", "reqwest-regression-16119"]
-resolver = "2"

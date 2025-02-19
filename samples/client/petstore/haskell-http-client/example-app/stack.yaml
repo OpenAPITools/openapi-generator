@@ -1,2 +1,0 @@
-resolver: lts-21.0
-extra-deps: [ '..' ]

@@ -1,7 +1,0 @@
-{{#isBodyParam}}{{!
-Multi part
-}}{{#isMultipart}}@Part("{{baseName}}"){{/isMultipart}}{{!
-Non-multipart body
-}}{{^isMultipart}}@Body{{/isMultipart}}{{!
-The type
-}} {{>common/params/beanValidation}}{{>server/params/type}} {{paramName}}{{/isBodyParam}}

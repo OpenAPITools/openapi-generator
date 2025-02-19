@@ -1,4 +1,0 @@
-generatorName: typescript-rxjs
-outputDir: samples/client/others/typescript-rxjs/allOf-composition
-inputSpec: modules/openapi-generator/src/test/resources/3_0/allOf_composition.yaml
-templateDir: modules/openapi-generator/src/main/resources/typescript-rxjs

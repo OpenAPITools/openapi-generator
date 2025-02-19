@@ -1,6 +1,0 @@
-val innerFormat = Format.of[{{parent}}]
-
-Format(
-  innerFormat.map(inner => {{classname}}(inner)),
-  {{classVarName}} => innerFormat.writes({{classVarName}}.{{#isArray}}items{{/isArray}}{{#isMap}}additionalProperties{{/isMap}}
-)

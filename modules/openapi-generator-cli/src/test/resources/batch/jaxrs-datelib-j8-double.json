@@ -1,4 +1,0 @@
-{
-  "!include": "jaxrs-datelib-j8.json",
-  "!include1": "common/jaxrs-datelib-j8.json"
-}

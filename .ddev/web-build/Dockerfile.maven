@@ -1,1 +1,0 @@
-RUN apt update && apt install -y maven

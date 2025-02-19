@@ -1,4 +1,0 @@
-{{#isBodyParam}}
-        RequestParameter body = requestParameters.body();
-        {{{dataType}}} {{paramName}} = body != null ? DatabindCodec.mapper().convertValue(body.get(), new TypeReference<{{{dataType}}}>(){}) : null;
-{{/isBodyParam}}

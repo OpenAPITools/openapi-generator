@@ -1,8 +1,0 @@
-{
-  "id" : null,
-  "category" : null,
-  "name" : null,
-  "photoUrls" : [ ],
-  "tags" : null,
-  "status" : null
-}
