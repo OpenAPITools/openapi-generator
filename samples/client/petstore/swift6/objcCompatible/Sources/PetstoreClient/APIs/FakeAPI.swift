@@ -257,7 +257,7 @@ import Foundation
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "query": (wrappedValue: query.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -530,9 +530,9 @@ import Foundation
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_string": (wrappedValue: enumQueryString?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -592,10 +592,10 @@ import Foundation
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "required_string_group": (wrappedValue: requiredStringGroup.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "string_group": (wrappedValue: stringGroup?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "int64_group": (wrappedValue: int64Group?.encodeToJSON(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [

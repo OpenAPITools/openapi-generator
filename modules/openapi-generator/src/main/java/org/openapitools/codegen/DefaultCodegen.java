@@ -924,6 +924,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public boolean specVersionGreaterThanOrEqualTo310(OpenAPI openAPI) {
+        String originalSpecVersion = getOriginalSpecVersion(openAPI);
+        return getMajorSpecVersion(originalSpecVersion) == 3 && getMinorSpecVersion(originalSpecVersion) >= 1;
+    }
+
+    private String getOriginalSpecVersion(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
         if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
@@ -931,9 +936,15 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             originalSpecVersion = openAPI.getOpenapi();
         }
-        Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
-        Integer specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
-        return specMajorVersion == 3 && specMinorVersion >= 1;
+        return originalSpecVersion;
+    }
+
+    private Integer getMajorSpecVersion(String originalSpecVersion) {
+        return Integer.parseInt(originalSpecVersion.substring(0, 1));
+    }
+
+    private Integer getMinorSpecVersion(String originalSpecVersion) {
+        return Integer.parseInt(originalSpecVersion.substring(2, 3));
     }
 
     /**
@@ -5247,16 +5258,22 @@ public class DefaultCodegen implements CodegenConfig {
             parameterSchema = null;
         }
 
+        String defaultV3Style = null;
+
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isQueryParam = true;
             codegenParameter.isAllowEmptyValue = parameter.getAllowEmptyValue() != null && parameter.getAllowEmptyValue();
+            defaultV3Style = Parameter.StyleEnum.FORM.toString();
         } else if (parameter instanceof PathParameter || "path".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.required = true;
             codegenParameter.isPathParam = true;
+            defaultV3Style = Parameter.StyleEnum.SIMPLE.toString();
         } else if (parameter instanceof HeaderParameter || "header".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isHeaderParam = true;
+            defaultV3Style = Parameter.StyleEnum.SIMPLE.toString();
         } else if (parameter instanceof CookieParameter || "cookie".equalsIgnoreCase(parameter.getIn())) {
             codegenParameter.isCookieParam = true;
+            defaultV3Style = Parameter.StyleEnum.FORM.toString();
         } else {
             LOGGER.warn("Unknown parameter type: {}", parameter.getName());
         }
@@ -5293,11 +5310,15 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.style = parameter.getStyle().toString();
             codegenParameter.isDeepObject = Parameter.StyleEnum.DEEPOBJECT == parameter.getStyle();
             codegenParameter.isMatrix = Parameter.StyleEnum.MATRIX == parameter.getStyle();
+        } else if (openAPI != null && getMajorSpecVersion(getOriginalSpecVersion(openAPI)) >= 3) {
+            // Properly sets the default style for oas V3
+            codegenParameter.style = defaultV3Style;
         }
 
-        // the default value is false
+        // the default value is true if style is set to form, false otherwise
         // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
-        codegenParameter.isExplode = parameter.getExplode() != null && parameter.getExplode();
+        boolean isFormStyle = Parameter.StyleEnum.FORM.toString().equals(codegenParameter.style);
+        codegenParameter.isExplode = parameter.getExplode() != null ? parameter.getExplode() : isFormStyle;
 
         // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
         // https://swagger.io/docs/specification/serialization/
@@ -7154,18 +7175,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected String getCollectionFormat(Parameter parameter) {
-        if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
+        String style = parameter.getStyle() != null ? parameter.getStyle().toString() : null;
+        return getCollectionFormat(style, parameter.getExplode());
+    }
+
+    private String getCollectionFormat(String style, Boolean explode) {
+        if (Parameter.StyleEnum.FORM.toString().equals(style)) {
             // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values
-            if (Boolean.TRUE.equals(parameter.getExplode())) { // explode is true (default)
+            if (Boolean.TRUE.equals(explode)) { // explode is true (default)
                 return "multi";
             } else {
                 return "csv";
             }
-        } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
+        } else if (Parameter.StyleEnum.SIMPLE.toString().equals(style)) {
             return "csv";
-        } else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
+        } else if (Parameter.StyleEnum.PIPEDELIMITED.toString().equals(style)) {
             return "pipes";
-        } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
+        } else if (Parameter.StyleEnum.SPACEDELIMITED.toString().equals(style)) {
             return "ssv";
         } else {
             return null;
@@ -8473,23 +8499,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string for a collectionFormat.
      */
     protected String getCollectionFormat(CodegenParameter codegenParameter) {
-        if ("form".equals(codegenParameter.style)) {
-            // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values
-            if (codegenParameter.isExplode) {
-                return "multi";
-            } else {
-                return "csv";
-            }
-        } else if ("simple".equals(codegenParameter.style)) {
-            return "csv";
-        } else if ("pipeDelimited".equals(codegenParameter.style)) {
-            return "pipes";
-        } else if ("spaceDelimited".equals(codegenParameter.style)) {
-            return "ssv";
-        } else {
-            // Doesn't map to any of the collectionFormat strings
-            return null;
-        }
+        return getCollectionFormat(codegenParameter.style, codegenParameter.isExplode);
     }
 
     private CodegenComposedSchemas getComposedSchemas(Schema schema) {
