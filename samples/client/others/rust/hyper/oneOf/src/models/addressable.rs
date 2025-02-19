@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// Addressable : Base schema for addressable entities
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct Addressable {
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
