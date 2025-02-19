@@ -1,0 +1,14 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+public final class {{classname}}Exception extends MainApiException {
+    public {{classname}}Exception(int statusCode, String statusMessage) {
+        super(statusCode, statusMessage);
+    }
+
+    {{#operations}}{{#operation}}{{#responses}}{{^isDefault}}public static final {{classname}}Exception {{baseName}}_{{{operationId}}}_{{{code}}}_Exception = new {{classname}}Exception({{{code}}}, "{{{message}}}");
+    {{/isDefault}}{{/responses}}{{/operation}}{{/operations}}
+
+}

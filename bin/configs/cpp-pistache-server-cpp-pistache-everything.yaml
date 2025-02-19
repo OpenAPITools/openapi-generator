@@ -1,0 +1,7 @@
+generatorName: cpp-pistache-server
+outputDir: samples/server/petstore/cpp-pistache-everything
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issues-anytype-object-set-petstore-everything.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-pistache-server
+additionalProperties:
+  useStructModel: "false"
+  addExternalLibs: "true"

@@ -1,0 +1,33 @@
+{{#models}}
+{{#model}}
+{{>partial_header}}
+{{#description}}
+# {{.}}
+{{/description}}
+type {{classname}} {
+
+{{#vars}}
+  {{#description}}
+  # {{.}}
+  {{/description}}
+  {{baseName}}: {{datatypeWithEnum}}
+
+{{/vars}}
+}
+{{#vars}}
+{{#isEnum}}
+
+{{#description}}
+# {{.}}
+{{/description}}
+enum {{enumName}} {
+  {{#allowableValues}}
+  {{#values}}
+  {{.}}
+  {{/values}}
+  {{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/model}}
+{{/models}}

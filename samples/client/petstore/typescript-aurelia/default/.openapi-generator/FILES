@@ -1,0 +1,13 @@
+.gitignore
+Api.ts
+AuthStorage.ts
+PetApi.ts
+README.md
+StoreApi.ts
+UserApi.ts
+git_push.sh
+index.ts
+models.ts
+package.json
+tsconfig.json
+tslint.json

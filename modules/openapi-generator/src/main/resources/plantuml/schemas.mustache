@@ -1,0 +1,21 @@
+@startuml
+
+title {{appName}} Schemas Diagram
+
+{{#entities}}
+entity {{{name}}} {
+{{#fields}}
+    {{#isRequired}}* {{/isRequired}}{{{name}}}: {{{dataType}}}
+{{/fields}}
+}
+
+{{/entities}}
+{{#inheritances}}
+{{{parent}}} <|--- {{{child}}}
+{{/inheritances}}
+
+{{#relationships}}
+{{{parent}}} -- {{#isList}}"0..*" {{/isList}}{{{child}}} : {{{name}}}
+{{/relationships}}
+
+@enduml

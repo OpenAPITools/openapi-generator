@@ -1,0 +1,21 @@
+{ application, petstore
+, [ {description, "This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters."}
+  , {vsn, "0.1.0"}
+  , {registered, []}
+  , { applications
+    , [ kernel
+      , stdlib
+      , ssl
+      , jsx
+      ]
+    }
+  , { env
+    , [ {host, "http://petstore.swagger.io"}
+      , {basic_auth, {"admin", "admin"}}
+      ]
+    }
+  , {modules, []}
+  , {maintainers, []}
+  , {licenses, ["Apache-2.0"]}
+  , {links, []}
+]}.

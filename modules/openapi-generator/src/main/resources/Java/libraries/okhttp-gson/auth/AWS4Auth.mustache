@@ -1,0 +1,104 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}}.auth;
+
+import {{invokerPackage}}.Pair;
+import {{invokerPackage}}.ApiException;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import software.amazon.awssdk.auth.credentials.AnonymousCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
+import software.amazon.awssdk.auth.signer.Aws4Signer;
+import software.amazon.awssdk.auth.signer.params.Aws4SignerParams;
+import software.amazon.awssdk.http.ContentStreamProvider;
+import software.amazon.awssdk.http.SdkHttpFullRequest;
+import software.amazon.awssdk.http.SdkHttpMethod;
+import software.amazon.awssdk.regions.Region;
+
+import okio.Buffer;
+
+{{>generatedAnnotation}}
+public class AWS4Auth implements Authentication {
+
+  private AwsCredentials credentials;
+  private String region;
+  private String service;
+
+  public AWS4Auth() {
+    this.credentials = AnonymousCredentialsProvider.create().resolveCredentials();
+  }
+
+  public void setCredentials(String accessKey, String secretKey) {
+    this.credentials = AwsBasicCredentials.create(accessKey, secretKey);
+  }
+
+  public void setCredentials(String accessKey, String secretKey, String sessionToken) {
+    this.credentials = AwsSessionCredentials.create(accessKey, secretKey, sessionToken);
+  }
+
+  public void setRegion(String region) {
+    this.region = region;
+  }
+
+  public void setService(String service) {
+    this.service = service;
+  }
+
+  @Override
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams,
+      Map<String, String> cookieParams, String payload, String method, URI uri)
+      throws ApiException {
+
+    SdkHttpFullRequest.Builder requestBuilder =
+        SdkHttpFullRequest.builder().uri(uri).method(SdkHttpMethod.fromValue(method));
+
+    ContentStreamProvider provider = new ContentStreamProvider() {
+      @Override
+      public InputStream newStream() {
+        InputStream is = new ByteArrayInputStream(payload.getBytes(StandardCharsets.UTF_8));
+        return is;
+      }
+    };
+
+    requestBuilder = requestBuilder.contentStreamProvider(provider);
+
+    SdkHttpFullRequest signableRequest = sign(requestBuilder);
+
+    Map<String, String> headers = signableRequest.headers().entrySet().stream()
+        .collect(Collectors.toMap(s -> s.getKey(), e -> e.getValue().get(0)));
+
+    headerParams.putAll(headers);
+  }
+
+  /**
+   * AWS Signature Version 4 signing.
+   * 
+   * @param request {@link SdkHttpFullRequest.Builder}
+   * @return {@link SdkHttpFullRequest}
+   */
+  private SdkHttpFullRequest sign(final SdkHttpFullRequest.Builder request) {
+
+    SdkHttpFullRequest req = request.build();
+
+    if (this.service != null && this.region != null && this.credentials != null) {
+      Aws4SignerParams params = Aws4SignerParams.builder().signingName(this.service)
+          .signingRegion(Region.of(this.region)).awsCredentials(this.credentials).build();
+
+      Aws4Signer signer = Aws4Signer.create();
+
+      req = signer.sign(req, params);
+    }
+
+    return req;
+  }
+}

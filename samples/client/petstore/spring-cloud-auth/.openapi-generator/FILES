@@ -1,0 +1,7 @@
+README.md
+pom.xml
+src/main/java/org/openapitools/api/SomeApi.java
+src/main/java/org/openapitools/api/SomeApiClient.java
+src/main/java/org/openapitools/configuration/ApiKeyRequestInterceptor.java
+src/main/java/org/openapitools/configuration/ClientConfiguration.java
+src/main/java/org/openapitools/configuration/ClientPropertiesConfiguration.java

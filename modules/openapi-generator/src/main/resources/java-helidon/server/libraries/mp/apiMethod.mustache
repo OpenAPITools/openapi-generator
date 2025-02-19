@@ -1,0 +1,22 @@
+    @{{httpMethod}}{{#subresourceOperation}}
+    @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
+    @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
+    @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
+    public {{#supportAsync}}{{>returnAsyncTypeInterface}}{{/supportAsync}}{{^supportAsync}}{{>returnTypes}}{{/supportAsync}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>cookieParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
+        {{#returnResponse}}
+        return {{#supportAsync}}CompletableFuture.supplyAsync(() -> {{/supportAsync}}Response.ok({{#vendorExtensions.x-helidon-hasReturnType}}/* Pass {{{returnType}}} entity payload */{{/vendorExtensions.x-helidon-hasReturnType}}).build(){{#supportAsync}}){{/supportAsync}}; // Replace with correct business logic.
+        {{/returnResponse}}
+        {{^returnResponse}}
+        {{#vendorExtensions.x-helidon-hasReturnType}}
+        {{{returnType}}} result = {{{vendorExtensions.x-helidon-exampleReturnTypeValue}}}; // Replace with correct business logic.
+        {{/vendorExtensions.x-helidon-hasReturnType}}
+        {{#supportAsync}}
+        return CompletableFuture.supplyAsync(() -> {{#vendorExtensions.x-helidon-hasReturnType}}result{{/vendorExtensions.x-helidon-hasReturnType}}{{^vendorExtensions.x-helidon-hasReturnType}}null{{/vendorExtensions.x-helidon-hasReturnType}});
+        {{/supportAsync}}
+        {{^supportAsync}}
+        {{#vendorExtensions.x-helidon-hasReturnType}}
+        return result;
+        {{/vendorExtensions.x-helidon-hasReturnType}}
+        {{/supportAsync}}
+        {{/returnResponse}}
+    }

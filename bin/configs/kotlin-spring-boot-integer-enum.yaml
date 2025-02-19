@@ -1,0 +1,13 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-integer-enum
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue19244_integer_enum.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  interfaceOnly: "true"
+  skipDefaultInterface: "true"
+  useTags: "true"
+  useSpringBoot3: "true"
+  annotationLibrary: none
+  documentationProvider: none
+  enumPropertyNaming: UPPERCASE

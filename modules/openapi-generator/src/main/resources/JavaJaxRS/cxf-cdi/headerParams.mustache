@@ -1,0 +1,1 @@
+{{#isHeaderParam}}{{#useBeanValidation}}{{>beanValidationHeaderParams}}{{/useBeanValidation}} @ApiParam(value = "{{{description}}}" {{#required}},required=true{{/required}}{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{.}}}"{{/defaultValue}})@HeaderParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isHeaderParam}}

@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /test1:
+    post:
+      requestBody:
+        description: test
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      operationId: test1
+      responses:
+        '200':
+          description: OK

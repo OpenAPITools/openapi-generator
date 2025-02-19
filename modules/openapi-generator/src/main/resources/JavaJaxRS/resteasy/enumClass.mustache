@@ -1,0 +1,24 @@
+  /**
+   * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+   */
+  {{>additionalEnumTypeAnnotations}}public enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}}({{{value}}}){{^-last}},
+
+    {{/-last}}{{#-last}};
+    {{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    private {{dataType}} value;
+
+    {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}({{dataType}} value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }

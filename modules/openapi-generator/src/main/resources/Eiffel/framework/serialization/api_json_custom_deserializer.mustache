@@ -1,0 +1,173 @@
+note
+	description: "[
+					Object Helper to deserialize a string in JSON format to an object in the domain model
+					How to write a converter. Suppose we have the following class
+
+					PERSON
+						id: INTEGER_64
+						name: STRING
+						address: ADDRESS
+						hobbies: LIST [STRING]
+						photos: LIST [PHOTOS]
+
+					conversion:
+					First go to the feature from_json_to_`model' and then start to set
+					the object attributes as follow.
+
+					STRING, INTEGER, etc use the following pattern
+
+						Result.set_id (integer_64_value_from_json (a_json, "id"))
+						Result.set_name (string_value_from_json (a_json, "name"))
+
+					OBJECTS
+					When you have an attribute that's an object itself (part of the domain) you will need to first
+					get JSON_OBJECT to the corresponding attribute and then use the related feature
+					`from_json_to_model' in this case from_json_to_address (l_address)
+
+						if attached {JSON_OBJECT} json_value (a_json, "address") as l_address then
+							Result.set_address(from_json_to_address (l_address))
+						end
+
+					LIST [STRING] or other simple types.
+
+					In the case of a list of string we need to do something similar but we need to traverse the array
+					We will need a local variable to build the lists.
+
+					if attached {JSON_ARRAY} json_value (a_json, "hobbies") as l_array then
+						create {ARRAYED_LIST [STRING]} l_hobbies.make (l_array.count)
+						across l_array as ic loop
+							if attached {JSON_STRING} ic.item as l_value then
+								l_hobbies.force (l_value.unescaped_string_8)
+							end
+						end
+						Result.set_hobbies (l_hobbies)
+					end
+
+					LIST [PHOTOS]
+					This case is similar to the previous, but in this case the element is
+					an object, so we will need to use the feature `from_json_to_model', here
+					we again need a local variable to build a temporary list of photos.
+
+					if attached {JSON_ARRAY} json_value (a_json, "photos") as l_array then
+						create {ARRAYED_LIST [PHOTOS]} l_photos.make (l_array.count)
+						across
+							l_array as ic
+						loop
+							l_photos.force (from_json_to_photos (ic.item))
+						end
+						Result.set_photos (l_photos)
+					end
+
+
+	]"
+	date: "$Date$"
+	revision: "$Revision$"
+
+class
+	API_JSON_DESERIALIZER
+
+feature -- Factories
+
+
+
+feature {NONE} -- Deserialization
+
+
+feature {NONE} -- Implementation
+
+	parsed_json (a_json_text: STRING): detachable JSON_VALUE
+		local
+			j: JSON_PARSER
+		do
+			create j.make_with_string (a_json_text)
+			j.parse_content
+			Result := j.parsed_json_value
+		end
+
+	json_value (a_json_data: detachable JSON_VALUE; a_id: STRING): detachable JSON_VALUE
+		local
+			l_id: JSON_STRING
+			l_ids: LIST [STRING]
+		do
+			Result := a_json_data
+			if Result /= Void then
+				if a_id /= Void and then not a_id.is_empty then
+					from
+						l_ids := a_id.split ('.')
+						l_ids.start
+					until
+						l_ids.after or Result = Void
+					loop
+						create l_id.make_from_string (l_ids.item)
+						if attached {JSON_OBJECT} Result as v_data then
+							if v_data.has_key (l_id) then
+								Result := v_data.item (l_id)
+							else
+								Result := Void
+							end
+						else
+							Result := Void
+						end
+						l_ids.forth
+					end
+				end
+			end
+		end
+
+	integer_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): INTEGER
+		do
+			if attached {JSON_NUMBER} json_value (a_json_data, a_id) as v and then v.numeric_type = v.integer_type then
+				Result := v.item.to_integer
+			end
+		end
+
+	integer_64_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): INTEGER_64
+		do
+			if attached {JSON_NUMBER} json_value (a_json_data, a_id) as v and then v.is_number then
+				Result := v.integer_64_item
+			end
+		end
+
+	real_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): REAL
+		do
+			if attached {JSON_NUMBER} json_value (a_json_data, a_id) as v and then v.numeric_type = v.real_type then
+				Result := v.item.to_real
+			end
+		end
+
+	boolean_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): BOOLEAN
+		do
+			if attached {JSON_BOOLEAN} json_value (a_json_data, a_id) as v then
+				Result := v.item
+			end
+		end
+
+	string_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): detachable STRING
+		do
+			if attached {JSON_STRING} json_value (a_json_data, a_id) as v then
+				Result := v.item
+			end
+		end
+
+	string32_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): detachable STRING_32
+		do
+			if attached {JSON_STRING} json_value (a_json_data, a_id) as v then
+				Result := v.unescaped_string_32
+			end
+		end
+
+	unescaped_string_8_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): detachable STRING_8
+		do
+			if attached {JSON_STRING} json_value (a_json_data, a_id) as v then
+				Result := v.unescaped_string_8
+			end
+		end
+
+	integer_tuple_value_from_json (a_json_data: detachable JSON_VALUE; a_id: STRING): detachable TUPLE [INTEGER, INTEGER]
+		do
+			if attached {JSON_ARRAY} json_value (a_json_data, a_id) as v and then v.count = 2 and then attached {JSON_NUMBER} v.i_th (1) as l_index_1 and then attached {JSON_NUMBER} v.i_th (2) as l_index_2 and then l_index_1.numeric_type = l_index_1.integer_type and then l_index_2.numeric_type = l_index_2.integer_type then
+				Result := [l_index_1.item.to_integer, l_index_2.item.to_integer]
+			end
+		end
+
+end

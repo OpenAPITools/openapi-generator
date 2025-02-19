@@ -1,0 +1,34 @@
+package {{package}}
+
+import play.api.libs.json._
+{{#supportAsync}}
+import scala.concurrent.Future
+{{/supportAsync}}
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#operations}}
+
+{{>generatedAnnotation}}
+trait {{classname}} {
+{{#operation}}
+  /**
+    {{#summary}}
+    * {{.}}
+    {{/summary}}
+    {{#notes}}
+    * {{.}}
+    {{/notes}}
+    {{#allParams}}
+    {{#description}}
+    * @param {{paramName}} {{description}}
+    {{/description}}
+    {{/allParams}}
+    */
+  {{>app/defOperationSignature}}
+{{^-last}}
+
+{{/-last}}
+{{/operation}}
+}
+{{/operations}}

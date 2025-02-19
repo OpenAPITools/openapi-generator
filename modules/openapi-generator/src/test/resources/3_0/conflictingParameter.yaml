@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+paths:
+  /pet/{id}:
+    post:
+      operationId: create
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: header
+          name: id
+          schema:
+            type: integer
+            format: int32
+        - in: cookie
+          name: id
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: id
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  format: int32
+                pathid:
+                  type: integer
+                  format: int32
+                headerId2:
+                  type: integer
+                  format: int32
+                cookieId2:
+                  type: integer
+                  format: int32
+                queryId2:
+                  type: integer
+                  format: int32
+      responses:
+        '400':
+          description: Invalid pet value

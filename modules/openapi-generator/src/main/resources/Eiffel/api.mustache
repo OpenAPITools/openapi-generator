@@ -1,0 +1,87 @@
+{{>noteinfo}}
+{{#operations}}
+
+class
+	{{classname}}
+
+inherit
+
+    API_I
+
+
+feature -- API Access
+
+{{#operation}}
+
+	{{operationId}} {{#hasParams}}({{#allParams}}{{paramName}}: {{#required}}{{{dataType}}}{{/required}}{{^required}}{{#isPrimitiveType}}{{{dataType}}}{{/isPrimitiveType}}{{^isPrimitiveType}}detachable {{{dataType}}}{{/isPrimitiveType}}{{/required}}{{^-last}}; {{/-last}}{{/allParams}}){{/hasParams}}{{#returnType}}: detachable {{{.}}}{{/returnType}}
+			-- {{summary}}
+			-- {{notes}}
+			-- {{#allParams}}
+			-- argument: {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+			-- {{/allParams}}
+			-- {{#returnType}}
+			-- Result {{.}}{{/returnType}}
+		require
+		{{#allParams}}
+		{{#hasValidation}}
+		{{#maximum}}
+			{{{paramName}}}_is_less_or_equal_than: {{{paramName}}} <= {{{maximum}}}
+        {{/maximum}}
+     	{{#minimum}}
+     		{{{paramName}}}_is_greater_or_equal_than: {{{paramName}}} >= {{{minimum}}}
+        {{/minimum}}
+		{{/hasValidation}}
+		{{/allParams}}
+		local
+  			l_path: STRING
+  			l_request: API_CLIENT_REQUEST
+  			l_response: API_CLIENT_RESPONSE
+		do
+			reset_error
+			create l_request
+			{{#bodyParam}}l_request.set_body({{paramName}}){{/bodyParam}}
+			l_path := "{{{path}}}"
+			{{#pathParams}}
+			l_path.replace_substring_all ("{"+"{{baseName}}"+"}", api_client.url_encode ({{{paramName}}}.out))
+			{{/pathParams}}
+			{{#queryParams}}
+			l_request.fill_query_params(api_client.parameter_to_tuple("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+			{{/queryParams}}
+
+			{{#headerParams}}
+			if attached {{paramName}} as l_{{paramName}} then
+				l_request.add_header(l_{{paramName}}.out,"{{baseName}}");
+			end
+			{{/headerParams}}
+			{{#formParams}}
+			if attached {{paramName}} as l_{{paramName}} then
+				l_request.add_form(l_{{paramName}},"{{baseName}}");
+			end
+			{{/formParams}}
+
+			if attached {STRING} api_client.select_header_accept ({ARRAY [STRING]}<<{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}>>)  as l_accept then
+				l_request.add_header(l_accept,"Accept");
+			end
+			l_request.add_header(api_client.select_header_content_type ({ARRAY [STRING]}<<{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}>>),"Content-Type")
+			l_request.set_auth_names ({ARRAY [STRING]}<<{{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}}>>)
+			l_response := api_client.call_api (l_path, "{{httpMethod}}", l_request, {{#returnType}}Void{{/returnType}}{{^returnType}}agent serializer{{/returnType}}, {{#returnType}}agent deserializer{{/returnType}}{{^returnType}}Void{{/returnType}})
+			{{#returnType}}
+			if l_response.has_error then
+				last_error := l_response.error
+			elseif attached { {{{returnType}}} } l_response.data ({ {{{returnType}}} }) as l_data then
+				Result := l_data
+			else
+				create last_error.make ("Unknown error: Status response [ " + l_response.status.out + "]")
+			end
+			{{/returnType}}
+			{{^returnType}}
+			if l_response.has_error then
+				last_error := l_response.error
+			end
+			{{/returnType}}
+		end
+{{/operation}}
+
+
+end
+{{/operations}}

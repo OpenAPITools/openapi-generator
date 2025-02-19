@@ -1,0 +1,26 @@
+.git/
+*.iml
+out/
+*.ipr
+*.iws
+classpath.txt
+version.properties
+.project
+.classpath
+lib/*
+build/*
+generated-files/*
+generated-sources/*
+generated-code/*
+*.swp
+*.swo
+*.bak
+project/
+samples/*
+target/
+.idea/
+.lib/
+.DS_Store
+
+# Not needed in a linux container
+bin/windows/*

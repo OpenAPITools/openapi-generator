@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Test API
+  description: Tags Test
+  version: 1.0.0
+servers:
+  - url: 'http://api.company.xyz/v2'
+paths:
+  /:
+    get:
+      tags:
+        - tag0
+      operationId: op0
+      responses:
+        '200':
+          description: Ok
+  /{id}:
+    get:
+      tags:
+        - tag0
+      operationId: opId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ok
+  /group1/op1:
+    get:
+      tags:
+        - tag1
+      operationId: op1
+      responses:
+        '200':
+          description: Ok
+  /group1/op2:
+    get:
+      tags:
+        - tag2
+      operationId: op2
+      responses:
+        '200':
+          description: Ok
+  /group2/op3:
+    get:
+      tags:
+        - tag2
+      operationId: op3
+      responses:
+        '200':
+          description: Ok
+  /group3/op4:
+    get:
+      operationId: op4
+      responses:
+        '200':
+          description: Ok
+  /group4/op5:
+    get:
+      tags:
+        - group4
+      operationId: op5
+      responses:
+        '200':
+          description: Ok
+  /group4/op6:
+    get:
+      tags:
+        - group4
+      operationId: op6
+      responses:
+        '200':
+          description: Ok
+  /group5/op7:
+    get:
+      tags:
+        - group5
+      operationId: op7
+      responses:
+        '200':
+          description: Ok
+  /group6/op8:
+    get:
+      tags:
+        - group5
+      operationId: op8
+      responses:
+        '200':
+          description: Ok
+# Section bellow is requested because of issue #436
+components:
+  schemas:
+    SomeObj:
+      type: object
+      properties:
+        someProp:
+          type: string

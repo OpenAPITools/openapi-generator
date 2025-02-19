@@ -1,0 +1,69 @@
+## {{npmName}}@{{npmVersion}}
+
+### Building
+
+To build and compile the typescript sources to javascript use:
+```
+npm install
+npm run build
+```
+
+### publishing
+
+First build the package than run ```npm publish```
+
+### consuming
+
+navigate to the folder of your consuming project and run one of next commando's.
+
+_published:_
+
+```
+npm install {{npmName}}@{{npmVersion}} --save
+```
+
+_unPublished (not recommended):_
+
+```
+npm install PATH_TO_GENERATED_PACKAGE --save
+```
+
+_using `npm link`:_
+
+In PATH_TO_GENERATED_PACKAGE:
+```
+npm link
+```
+
+In your project:
+```
+npm link {{npmName}}@{{npmVersion}}
+```
+
+## Requirements
+Services require a `IHttpClient` and a `IApiConfiguration`. The `IHttpClient` is necessary to manage http's call and with the `IApiConfiguration` you can provide settings for the Authentication.
+For the sake of simplicity an implementation of `IHttpClient` is already provided, but if you want you can override it.
+For these reasons you have to manually bind these two services:
+
+```typescript
+let container = new Container();
+container.bind<IHttpClient>("IApiHttpClient").to(HttpClient).inSingletonScope();
+container.bind<IApiConfiguration>("IApiConfiguration").to(ApiConfiguration).inSingletonScope();
+```
+
+
+## Services Binding
+To bind all the generated services you can use `ApiServiceBinder`.
+
+```typescript
+ApiServiceBinder.with(container);
+```
+
+## Final result
+
+```typescript
+let container = new Container();
+container.bind<IHttpClient>("IApiHttpClient").to(HttpClient).inSingletonScope();
+container.bind<IApiConfiguration>("IApiConfiguration").to(ApiConfiguration).inSingletonScope();
+ApiServiceBinder.with(container);
+```

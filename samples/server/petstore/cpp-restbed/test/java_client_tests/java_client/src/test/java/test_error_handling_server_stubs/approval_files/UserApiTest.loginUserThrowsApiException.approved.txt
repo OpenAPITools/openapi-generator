@@ -1,0 +1,3 @@
+Status code: 500 INTERNAL_SERVER_ERROR
+Reason: ApiException raised
+Response headers: [Connection:"close"]

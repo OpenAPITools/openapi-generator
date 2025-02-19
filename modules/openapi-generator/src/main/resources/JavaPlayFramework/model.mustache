@@ -1,0 +1,20 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+import com.fasterxml.jackson.annotation.*;
+import java.util.Set;
+import {{javaxPackage}}.validation.*;
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>enumOuterClass}}
+{{/isEnum}}
+{{^isEnum}}
+{{>pojo}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

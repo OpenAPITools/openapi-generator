@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# this bash script runs the scripts for the 'mature' generators by default.
+# Supports --batch option which will compile all generators defined under bin/ci/*.json
+# it ensures that all changes are committed into the 'samples/' folder
+# shellcheck disable=SC2155
+declare cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+declare root="$(cd "$cwd" && cd ../../ && pwd)"
+declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+
+echo "# START SCRIPT: $0"
+echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
+echo ""
+
+"${root}/bin/generate-samples.sh"
+
+status=$?
+if [ $status -ne 0 ]; then
+  echo "ERROR: One or more generators failed to generate. Halting ensure-up-to-date scripts." >&2
+  exit $status
+fi
+
+if [[ "--skip-docs" == "${1}" ]]; then
+  # We export here rather than modify our iterable so that:
+  #  - the scripts can show they ran and echo meaningfully
+  #  - the scripts can do cleanup (if necessary) when skipped
+  export SKIP_EXPORT_DOCS=true
+fi
+
+# Some special case generators may expect to be run as a standalone process (e.g. modifying classpath)
+# Docs should always be run, regardless of batch or operation.
+declare -a always_iterate=(
+"${root}/bin/meta-codegen.sh"
+"${root}/bin/utils/export_docs_generators.sh"
+"${root}/bin/utils/copy-to-website.sh"
+"${root}/bin/utils/export_generators_readme.sh"
+)
+
+for i in "${always_iterate[@]}"; do
+    echo "Starting $i ..."
+    if eval "$i"; then
+      echo "Executed $i successfully!"
+    else
+      echo "ERROR: Failed to run $i"
+      exit 1
+    fi
+done
+
+# Check:
+if [ -n "$(git status --porcelain)" ]; then
+    echo "UNCOMMITTED CHANGES ERROR"
+    echo "There are uncommitted changes in working tree after execution of 'bin/ensure-up-to-date'"
+    echo "Perform git diff"
+    git --no-pager diff
+    echo "Perform git status"
+    git status
+    echo -e "\nThis script runs in pull requests against the anticipated merge commit (as if the PR was merged now)."
+    echo "When you see unexpected files here, it likely means that there are newer commits in master that you need to "
+    echo -e "rebase or merge into your branch.\n"
+    echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
+    exit 1
+else
+    echo "Git working tree is clean"
+fi
+

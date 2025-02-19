@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>{{appName}} API Client</fullName>
+    <description>Client library for calling the {{appName}} API.{{#appDescription}}
+{{{.}}}{{/appDescription}}
+Generated with OAS Codegen (github.com/OAS-api/OAS-codegen)</description>
+    <types>
+    {{#apiInfo}}
+      {{#apis}}
+        <members>{{classname}}</members>
+        <members>{{classname}}Test</members>
+      {{/apis}}
+    {{/apiInfo}}
+    {{#models}}
+      {{#model}}
+        <members>{{classname}}</members>
+        <members>{{classname}}Test</members>
+      {{/model}}
+    {{/models}}
+        <members>{{classPrefix}}Client</members>
+        <members>OAS</members>
+        <members>OASTest</members>
+        <members>OASResponseMock</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+      <members>{{sanitizedName}}</members>
+      <name>NamedCredential</name>
+    </types>
+    <version>{{apiVersion}}</version>
+</Package>

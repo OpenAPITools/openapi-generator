@@ -1,0 +1,164 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /example1/singular:
+    get:
+      operationId: example1GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example1 value'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+  /example1/plural:
+    get:
+      operationId: example1GetPlural
+      parameters:
+        - name: parameter
+          in: query
+          examples:
+            AnExample:
+              value: 'An example1 value'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+  /example2/singular:
+    get:
+      operationId: example2GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          schema:
+            type: string
+          example: 'example2 value'
+      responses:
+        '200':
+          description: successful operation
+  /example3/singular:
+    get:
+      operationId: example3GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example3: parameter value'
+          schema:
+            type: string
+            example: 'example3: schema value'
+      responses:
+        '200':
+          description: successful operation
+  /example3/plural:
+    get:
+      operationId: example3GetPlural
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example3: parameter value'
+          examples:
+            AnExample:
+              value: 'An example3 value'
+          schema:
+            type: string
+            example: 'example3: schema value'
+      responses:
+        '200':
+          description: successful operation
+  /example4/singular:
+    post:
+      operationId: example4PostSingular
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            example: 'example4 value'
+      responses:
+        '200':
+          description: successful operation
+  /example4/plural:
+    post:
+      operationId: example4PostPlural
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              AnExample:
+                value: 'An example4 value'
+      responses:
+        '200':
+          description: successful operation
+  /example5/multiple_responses:
+    get:
+      operationId: generateFromResponseSchemaWithOneOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: a successful response example
+        '301':
+          description: permanent redirect
+          content:
+            application/json:
+              schema:
+                type: string
+                example: a redirect response example
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: a not found response example
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+                example: an internal server error response example
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        address:
+          type: object
+          nullable: true
+          properties:
+            city:
+              type: string
+    DummyUser:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: '/^[a-z\s]+$/'
+        number:
+          type: string
+          pattern: '/[0-9]{10}/g'
+        address:
+          type: string
+          pattern: '/^[a-z0-9\s]+$/i'

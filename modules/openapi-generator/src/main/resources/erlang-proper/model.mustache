@@ -1,0 +1,39 @@
+{{#models}}
+{{#model}}
+-module({{classname}}).
+
+-include("{{packageName}}.hrl").
+
+-export([{{classname}}/0]).
+{{^isEnum}}{{^isArray}}
+-export([{{classname}}/1]).
+{{/isArray}}{{/isEnum}}
+-export_type([{{classname}}/0]).
+
+-type {{classname}}() ::{{#isEnum}}
+  binary().{{/isEnum}}{{^isEnum}}{{#isArray}}
+  list({{arrayModelType}}).{{/isArray}}{{^isArray}}
+  [ {{#vars}}{{^-first}}
+  | {{/-first}}{'{{name}}', {{dataType}} }{{/vars}}
+  ].{{/isArray}}{{/isEnum}}
+
+{{#isEnum}}
+{{classname}}() ->
+  elements([{{#allowableValues.values}}{{^-first}}, {{/-first}}<<"{{.}}">>{{/allowableValues.values}}]).
+{{/isEnum}}
+{{#isArray}}
+{{classname}}() ->
+  list({{arrayModelType}}{{#minItems}}, {{minItems}}{{#maxItems}}, {{.}}{{/maxItems}}{{/minItems}}).
+{{/isArray}}
+{{^isEnum}}{{^isArray}}
+{{classname}}() ->
+    {{classname}}([]).
+
+{{classname}}(Fields) ->
+  Default = [ {{#vars}}{{^-first}}
+            , {{/-first}}{'{{baseName}}', {{#isString}}{{#isEnum}}elements([{{#allowableValues.values}}{{^-first}}, {{/-first}}<<"{{.}}">>{{/allowableValues.values}}]){{/isEnum}}{{^isEnum}}binary({{#minLength}}{{minLength}}{{#maxLength}}, {{.}}{{/maxLength}}{{/minLength}}){{/isEnum}}{{/isString}}{{^isString}}{{baseType}}{{/isString}} }{{/vars}}
+            ],
+  lists:ukeymerge(1, lists:sort(Fields), lists:sort(Default)).
+{{/isArray}}{{/isEnum}}
+{{/model}}
+{{/models}}

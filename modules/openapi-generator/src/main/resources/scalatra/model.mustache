@@ -1,0 +1,18 @@
+{{>licenseInfo}}
+package {{package}}
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+case class {{classname}}(
+  {{#vars}}
+  {{#description}}
+  /* {{{.}}} */
+  {{/description}}
+  {{name}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{^-last}},{{/-last}}
+
+  {{/vars}}
+ )
+{{/model}}
+{{/models}}

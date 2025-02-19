@@ -1,0 +1,87 @@
+# {{classname}}{{#description}}
+
+{{.}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+## {{operationId}}
+
+> {{#returnType}}{{.}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+{{summary}}{{#notes}}
+
+{{.}}{{/notes}}
+
+### Example
+
+```java
+{{classname}} api = new {{classname}}();
+{{#hasAuthMethods}}
+{{classPrefix}}Client client = api.getClient();
+{{#authMethods}}{{#isBasicBasic}}
+// Configure HTTP basic authorization: {{{name}}}
+HttpBasicAuth {{{name}}} = (HttpBasicAuth) client.getAuthentication('{{{name}}}');
+{{{name}}}.setUsername('YOUR USERNAME');
+{{{name}}}.setPassword('YOUR PASSWORD');
+
+// You can also set your username and password in one line
+{{{name}}}.setCredentials('YOUR USERNAME', 'YOUR PASSWORD');{{/isBasicBasic}}{{#isApiKey}}
+// Configure API key authorization: {{{name}}}
+ApiKeyAuth {{{name}}} = (ApiKeyAuth) client.getAuthentication('{{{name}}}');
+{{{name}}}.setApiKey('YOUR API KEY');{{/isApiKey}}{{#isOAuth}}
+// Configure OAuth2 access token for authorization: {{{name}}}
+OAS.OAuth {{{name}}} = (OAS.OAuth) client.getAuthentication('{{{name}}}');
+{{{name}}}.setAccessToken('YOUR ACCESS TOKEN');{{/isOAuth}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+{{#hasParams}}
+
+Map<String, Object> params = new Map<String, Object>{
+  {{#allParams}}
+    '{{{paramName}}}' => {{{example}}}{{^-last}},{{/-last}}
+  {{/allParams}}
+};
+{{/hasParams}}
+
+try {
+    // cross your fingers
+    {{#returnType}}{{{.}}} result = {{/returnType}}api.{{{operationId}}}({{#hasParams}}params{{/hasParams}});
+  {{#returnType}}
+    System.debug(result);
+  {{/returnType}}
+} catch (OAS.ApiException e) {
+    // ...handle your exceptions
+}
+```
+
+### Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{name}}](../README.md#{{name}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not defined{{/produces}}
+
+{{/operation}}
+{{/operations}}

@@ -1,0 +1,11 @@
+{{>header}}
+# Models
+{{#models}}{{#model}}import {{packageName}}/models/{{classFilename}}
+{{/model}}{{/models}}{{#models}}
+{{#model}}export {{classFilename}}{{/model}}{{/models}}
+
+# APIs
+{{#apiInfo}}{{#apis}}import {{packageName}}/apis/{{classFilename}}
+{{/apis}}{{/apiInfo}}{{#apiInfo}}
+{{#apis}}export {{classFilename}}
+{{/apis}}{{/apiInfo}}

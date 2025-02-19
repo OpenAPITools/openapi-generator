@@ -1,0 +1,9 @@
+generatorName: kotlin-server
+outputDir: samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
+library: jaxrs-spec
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-server
+additionalProperties:
+  returnResponse: "true"
+  interfaceOnly: "true"
+  useMutiny: "true"

@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+components:
+  schemas:
+    Person:
+      required:
+        - duplicated_required
+        - person_required
+      type: object
+      discriminator:
+        propertyName: $_type
+        mapping:
+          a: '#/components/schemas/Adult'
+          c: '#/components/schemas/Child'
+      properties:
+        $_type:
+          type: string
+        lastName:
+          type: string
+        firstName:
+          type: string
+        duplicated_optional:
+           type: string
+        duplicated_required:
+           type: string
+        person_required:
+           type: string
+           format: date-time
+    Adult:
+      description: A representation of an adult
+      allOf:
+      - $ref: '#/components/schemas/Person'
+      - type: object
+        required:
+          - duplicated_required
+          - child_required
+        properties:
+          duplicated_optional:
+             type: integer
+          duplicated_required:
+             type: integer
+          children:
+            type: array
+            items:
+              $ref: "#/components/schemas/Child"
+          adult_required:
+            type: boolean
+    Child:
+      description: A representation of a child
+      allOf:
+      - type: object
+        properties:
+          age:
+            type: integer
+            format: int32
+          firstName:
+            type: string
+      - $ref: '#/components/schemas/Person'
+    MapOnly:
+      additionalProperties:
+        type: string
+    MapOnlyWithProperties:
+      additionalProperties:
+        type: string
+      properties:
+        firstName:
+          type: string

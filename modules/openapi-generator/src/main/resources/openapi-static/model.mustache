@@ -1,0 +1,22 @@
+{{#models}}
+{{#model}}
+
+<h2>{{classname}}</h2>
+  {{#vars}}
+<ul class="parameter">
+  <li class="param-required-{{required}}">{{name}} : {{dataType}}
+    <br/>{{description}}
+    {{#isEnum}}
+      <dl class="param-enum">
+        <dt>Enum:
+          {{#_enum}}
+            <dd>{{this}}</dd>
+          {{/_enum}}
+        </dt>
+      </dl>
+    {{/isEnum}}
+  </li>
+</ul>
+  {{/vars}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>{{packageName}}</Description>
+    <Copyright>{{packageName}}</Copyright>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    {{#models}}
+    {{#model}}
+    <Compile Include="src/model/{{classname}}.fs" />
+    {{/model}}
+    {{/models}}
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    <Compile Include="src/api/{{classname}}HandlerParams.fs" />
+    <Compile Include="src/api/{{classname}}ServiceInterface.fs" />
+    <Compile Include="src/impl/{{classname}}Service.fs" />
+    <Compile Include="src/api/{{classname}}Handler.fs" />
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+  </ItemGroup>
+
+</Project>

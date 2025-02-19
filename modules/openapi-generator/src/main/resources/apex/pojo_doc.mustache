@@ -1,0 +1,14 @@
+# {{classname}}
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+{{#vars}}**{{name}}** | {{#isEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{datatype}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{datatype}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}
+{{/vars}}
+{{#vars}}{{#isEnum}}
+
+## Enum: {{datatypeWithEnum}}
+Name | Value
+---- | -----{{#allowableValues}}{{#enumVars}}
+{{name}} | {{value}}{{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{/vars}}

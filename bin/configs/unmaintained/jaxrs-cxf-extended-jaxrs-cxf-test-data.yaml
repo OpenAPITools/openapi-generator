@@ -1,0 +1,14 @@
+generatorName: jaxrs-cxf-extended
+outputDir: samples/server/petstore/jaxrs-cxf-test-data
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/cxf-ext
+generateAliasAsModel: true
+additionalProperties:
+  java8: "true"
+  generateOperationBody: "true"
+  useAnnotatedBasePath: "true"
+  generateSpringBootApplication: "true"
+  artifactId: cxf-test-data
+  generateSpringApplication: "true"
+  hideGenerationTimestamp: "true"
+  loadTestDataFromFile: "true"

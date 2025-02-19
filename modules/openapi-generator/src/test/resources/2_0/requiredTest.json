@@ -1,0 +1,91 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server Petstore server. For this sample, you can use the api key \"special-key\" to test the authorization filters",
+    "version": "1.0.0",
+    "title": "OpenAPI Petstore",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tests/requiredParams": {
+      "get": {
+        "tags": [
+          "tests"
+        ],
+        "summary": "Operation with required parameters",
+        "description": "",
+        "operationId": "requiredParams",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "param1",
+            "in": "formData",
+            "description": "Some required parameter",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "param2",
+            "in": "formData",
+            "description": "Some optional parameter",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation. Retuning a simple int.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    }
+  },
+  "definitions": {
+    "CustomModel": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie"
+        }
+      }
+    }
+  }
+}

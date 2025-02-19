@@ -1,0 +1,9 @@
+generatorName: ruby
+outputDir: samples/openapi3/client/features/dynamic-servers/ruby/
+inputSpec: modules/openapi-generator/src/test/resources/3_0/features/dynamic-servers.yaml
+templateDir: modules/openapi-generator/src/main/resources/ruby-client
+additionalProperties:
+  gemVersion: 1.0.0
+  moduleName: DynamicServers
+  gemName: dynamic_servers
+  skipFormModel: "true"

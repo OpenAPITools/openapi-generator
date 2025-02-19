@@ -1,0 +1,20 @@
+{{#x-helidon-v3}}{{!
+}}Map<String, List<String>> nonFileFormContent = new HashMap<>();
+        Map<String, List<InputStream>> fileFormContent = new HashMap<>();
+        Single<Void> formSingle = request.content().asStream(ReadableBodyPart.class)
+                                         .forEach(part -> {
+                                            String name = part.name();{{#formParams}}
+                                            if ("{{baseName}}".equals(name)) {
+                                                {{^isFile}}processNonFileFormField(name, nonFileFormContent, part);{{/isFile}}{{!
+                                                }}{{#isFile}}processFileFormField(name, fileFormContent, part);{{/isFile}}
+                                            }{{/formParams}}
+                                            part.drain();
+                                         });
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}
+{{^isMultipart}}{{#hasFormParams}}{{!
+}}        Parameters formParams = request.content().as(Parameters.class);
+{{/hasFormParams}}{{/isMultipart}}{{!
+}}{{#isMultipart}}{{!
+}}        Map<String, ReadablePart> parts = PartsUtils.partsMap(request);
+{{/isMultipart}}{{/x-helidon-v3}}

@@ -1,0 +1,7 @@
+generatorName: go-server
+outputDir: samples/openapi3/server/petstore/go-api-server
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/go-server
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: petstoreserver

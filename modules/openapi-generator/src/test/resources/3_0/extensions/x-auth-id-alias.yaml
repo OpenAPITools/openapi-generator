@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  description: This specification shows how to use x-auth-id-alias extension for API keys.
+  version: 1.0.0
+  title: OpenAPI Extension x-auth-id-alias
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: usage
+    description: Show usage of x-auth-id-alias
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    api_key_query:
+      type: apiKey
+      name: api_key
+      # Test key aliasing
+      x-auth-id-alias: api_key
+      in: query
+paths:
+  /both:
+    get:
+      tags:
+        - usage
+      summary: Use both API keys
+      description: Use both API keys
+      operationId: bothKeys
+      security:
+        - api_key_query: []
+          api_key: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+  /any:
+    get:
+      tags:
+        - usage
+      summary: Use any API key
+      description: Use any API key
+      operationId: anyKey
+      security:
+        - api_key_query: []
+        - api_key: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+  /query:
+    get:
+      tags:
+        - usage
+      summary: Use API key in query
+      description: Use API key in query
+      operationId: keyInQuery
+      security:
+        - api_key_query: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+  /header:
+    get:
+      tags:
+        - usage
+      summary: Use API key in header
+      description: Use API key in header
+      operationId: keyInHeader
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+servers:
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - 80
+          - 8080
+        default: 80
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'

@@ -1,0 +1,9 @@
+generatorName: java-vertx
+outputDir: samples/server/petstore/java-vertx/rx
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaVertXServer
+additionalProperties:
+  artifactId: java-vertx-rx-server
+  hideGenerationTimestamp: "true"
+  vertxSwaggerRouterVersion: 1.4.0
+  rxInterface: "true"

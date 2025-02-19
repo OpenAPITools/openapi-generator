@@ -1,0 +1,32 @@
+{{>licenseInfo}}
+package {{apiPackage}};
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
+import io.helidon.common.GenericType;
+
+class ResponseType<T> {
+
+  static <T> GenericType<T> create(Type rawType, Type... typeParams) {
+    return typeParams.length == 0
+      ? GenericType.create(rawType)
+      : GenericType.create(new ParameterizedType() {
+
+        @Override
+        public Type[] getActualTypeArguments() {
+          return typeParams;
+        }
+
+        @Override
+        public Type getRawType() {
+          return rawType;
+        }
+
+        @Override
+        public Type getOwnerType() {
+          return null;
+        }
+      });
+  }
+}

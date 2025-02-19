@@ -1,0 +1,149 @@
+# OAS document that uses 3.1 features:
+# 'null' type
+# type array
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+components:
+  schemas:
+    # The purpose of this OAS document is to test the OpenAPITool validator and generator against
+    # valid OAS syntax. It is not written to achieve good model design.
+    Person:
+      type: object
+      discriminator:
+        propertyName: $_type
+        mapping:
+          a: '#/components/schemas/Adult'
+          c: Child
+      properties:
+        $_type:
+          type: string
+        lastName:
+          type: string
+        firstName:
+          type: string
+        maidenName:
+          # A property which can be the 'null' value or a string value.
+          # This allows for a concise expression of use cases such as a function that might
+          # return either a string of a certain length or a null value:
+          # The 'maxLength' assertion only constrain values within a certain primitive
+          # type. When the type of the instance is not of the type targeted by
+          # the keyword, the instance is considered to conform to the assertion.
+          # See https://tools.ietf.org/html/draft-handrews-json-schema-02#section-7.6.1
+          type: [ string, 'null']
+          maxLength: 255
+        address:
+          # An object defined inline instead of by reference. codegen and language generators
+          # behave differently when a property is defined inline versus by reference.
+          type: object
+          properties:
+            street:
+              type: string
+            city:
+              type: string
+        secondHomeAddress:
+          # The value of this property may be the null value because the 'Nullable.Address'
+          # schema has set the 'nullable' attribute to true.
+          $ref: "#/components/schemas/Nullable.Address"
+        skills:
+          # An array defined inline instead of by reference. codegen and language generators
+          # behave differently when a property is defined inline versus by reference.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        nullableSkills:
+          # An array defined inline instead of by reference. codegen and language generators
+          # behave differently when a property is defined inline versus by reference.
+          # The value can be 'null'.
+          type: [array, 'null']
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        nullableSkillsVariant2:
+          # An array defined inline instead of by reference. codegen and language generators
+          # behave differently when a property is defined inline versus by reference.
+          # The value can be 'null'.
+          oneOf:
+            - type: 'null'
+            - type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+    Adult:
+      description: A representation of an adult
+      allOf:
+      - $ref: '#/components/schemas/Person'
+      - type: object
+        properties:
+          children:
+            # The value of this property may not be null.
+            # Some language generators are lenient by default (either intentionally or by accident)
+            # and would allow the 'null' value, but from a compliance perspective, the null value
+            # is not allowed.
+            type: array
+            items:
+              $ref: "#/components/schemas/Child"
+          nullableChildren:
+            # Use 'type array' syntax to indicate the value of the property may be the 'null' value or an array.
+            # Type arrays are supported in OAS 3.1 and above.
+            type: [array, 'null']
+            items:
+              $ref: "#/components/schemas/Child"
+          nullableChildrenVariant2:
+            # Use 'oneOf' syntax to indicate the value of the property may be the 'null' value or an array.
+            # The 'null' type is supported in OAS 3.1 and above.
+            oneOf:
+              - type: 'null'
+              - type: array
+                items:
+                  $ref: "#/components/schemas/Child"
+    Child:
+      description: A representation of a child
+      allOf:
+      - type: object
+        properties:
+          age:
+            type: integer
+            format: int32
+      - $ref: '#/components/schemas/Person'
+    Nullable.Address:
+      description: A representation of an address whose value can be null.
+      type: object
+      # Note the 'nullable' attribute has been deprecated in OAS 3.1, hence it should be
+      # avoided in favor of using the 'null' type.
+      nullable: true
+      properties:
+        street:
+          type: string
+        city:
+          type: string

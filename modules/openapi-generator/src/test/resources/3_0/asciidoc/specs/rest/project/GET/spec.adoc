@@ -1,0 +1,7 @@
+// spec to include 
+
+* all _projects_ visible for the _current user_ are returned
+* _projects_ may be active or closed
+
+USER: project lead, admin
+

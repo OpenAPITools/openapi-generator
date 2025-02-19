@@ -1,0 +1,95 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+{{#imports}}{{{this}}}
+{{/imports}}
+#include <nlohmann/json.hpp>
+
+namespace {{modelNamespace}}
+{
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}() = default;
+{{#isEnum}}{{#allowableValues}}
+    enum class e{{classname}} {
+    // To have a valid default value.
+    // Avoiding name clashes with user defined
+    // enum values
+    INVALID_VALUE_OPENAPI_GENERATED = 0,
+    {{#enumVars}}
+    {{{name}}}{{^-last}}, {{/-last}}
+    {{/enumVars}}
+    };{{/allowableValues}}{{/isEnum}}
+
+    /// <summary>
+    /// Validate the current data in the model. Throws a ValidationException on failure.
+    /// </summary>
+    void validate() const;
+
+    /// <summary>
+    /// Validate the current data in the model. Returns false on error and writes an error
+    /// message into the given stringstream.
+    /// </summary>
+    bool validate(std::stringstream& msg) const;
+
+    /// <summary>
+    /// Helper overload for validate. Used when one model stores another model and calls it's validate.
+    /// Not meant to be called outside that case.
+    /// </summary>
+    bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
+
+    bool operator==(const {{classname}}& rhs) const;
+    bool operator!=(const {{classname}}& rhs) const;
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    {{#vars}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{{dataType}}} {{getter}}() const;
+    void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);{{^required}}
+    bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();{{/required}}
+    {{/vars}}
+    {{#isEnum}}
+    {{classname}}::e{{classname}} getValue() const;
+    void setValue({{classname}}::e{{classname}} value);
+    {{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
+    {{{this}}} getValue() const;
+    void setValue({{{this}}} value);
+    {{{this}}}::e{{{this}}} getEnumValue() const;
+    void setEnumValue({{{this}}}::e{{{this}}} value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+    friend {{declspec}} void to_json(nlohmann::json& j, const {{classname}}& o);
+    friend {{declspec}} void from_json(const nlohmann::json& j, {{classname}}& o);{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
+    friend {{declspec}} void to_json(nlohmann::json& j, const {{{this}}}& o);
+    friend {{declspec}} void from_json(const nlohmann::json& j, {{{this}}}& o);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+protected:
+    {{#vars}}
+    {{{dataType}}} m_{{name}};
+    {{^required}}
+    bool m_{{name}}IsSet;{{/required}}
+    {{/vars}}
+    {{#isEnum}}{{classname}}::e{{classname}} m_value = {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}{{{this}}} m_value;{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+};
+
+} // namespace {{modelNamespace}}
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

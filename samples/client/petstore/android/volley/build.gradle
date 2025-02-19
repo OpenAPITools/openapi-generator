@@ -1,0 +1,68 @@
+plugins {
+    id 'com.android.library' version '8.0.0'
+    id 'maven-publish'
+}
+
+android {
+    namespace "org.openapitools.client"
+    compileSdkVersion 33
+    buildToolsVersion '34.0.0'
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 33
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        resources.excludes += "META-INF/DEPENDENCIES"
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+ext {
+    swagger_annotations_version = "1.6.6"
+    gson_version = "2.10.1"
+    httpcore_version = "4.4.16"
+    httpmime_version = "4.5.14"
+    volley_version = "1.2.1"
+    junit_version = "4.13.2"
+}
+
+dependencies {
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation ("org.apache.httpcomponents:httpcore:$httpcore_version") {
+        exclude(group: "org.apache.httpcomponents", module: "httpclient")
+    }
+    implementation ("org.apache.httpcomponents:httpmime:$httpmime_version") {
+        exclude(group: "org.apache.httpcomponents", module: "httpclient")
+    }
+    implementation "com.android.volley:volley:${volley_version}"
+    testImplementation "junit:junit:$junit_version"
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'petstore-android-volley'
+            version = '1.0.0'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}

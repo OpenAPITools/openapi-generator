@@ -1,0 +1,15 @@
+language: eiffel
+before_script:
+  - export current_dir=$PWD ; echo current_dir=$current_dir ; cd ..
+  - export ISE_PLATFORM=linux-x86-64
+  - curl -sSL https://www.eiffel.org/setup/install.sh | bash -s -- --channel latest  > eiffel.rc
+  - source ./eiffel.rc
+  - echo `ec -version`
+  - cd $current_dir
+
+# safelist
+branches:
+  only:
+  - master
+
+script: compile_all -ecb -melt -list_failures -clean -options dotnet=false

@@ -1,0 +1,6 @@
+generatorName: typescript-rxjs
+outputDir: samples/client/petstore/typescript-rxjs/builds/with-progress-subscriber
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-rxjs
+additionalProperties:
+  withProgressSubscriber: "true"

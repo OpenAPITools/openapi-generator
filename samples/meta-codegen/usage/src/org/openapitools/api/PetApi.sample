@@ -1,0 +1,76 @@
+
+# This is a sample api mustache template.  It is representing a fictitious
+# language and won't be usable or compile to anything without lots of changes.
+# Use it as an example.  You can access the variables in the generator object
+# like such:
+
+# use the package from the `apiPackage` variable
+package: org.openapitools.api
+
+# operations block
+classname: PetApi
+
+# loop over each operation in the API:
+
+# each operation has an `operationId`:
+operationId: addPet
+
+# and parameters:
+pet: Pet
+
+
+# each operation has an `operationId`:
+operationId: deletePet
+
+# and parameters:
+petId: Long
+apiKey: String
+
+
+# each operation has an `operationId`:
+operationId: findPetsByStatus
+
+# and parameters:
+status: List
+
+
+# each operation has an `operationId`:
+operationId: findPetsByTags
+
+# and parameters:
+tags: List
+
+
+# each operation has an `operationId`:
+operationId: getPetById
+
+# and parameters:
+petId: Long
+
+
+# each operation has an `operationId`:
+operationId: updatePet
+
+# and parameters:
+pet: Pet
+
+
+# each operation has an `operationId`:
+operationId: updatePetWithForm
+
+# and parameters:
+petId: String
+name: String
+status: String
+
+
+# each operation has an `operationId`:
+operationId: uploadFile
+
+# and parameters:
+petId: Long
+additionalMetadata: String
+file: File
+
+
+# end of operations block

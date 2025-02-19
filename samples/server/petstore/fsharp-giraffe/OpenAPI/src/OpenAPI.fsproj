@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>OpenAPI</Description>
+    <Copyright>OpenAPI</Copyright>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <DebugType>portable</DebugType>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <RunWorkingDirectory>$(MSBuildThisFileDirectory)</RunWorkingDirectory>
+    <AssemblyName>OpenAPI</AssemblyName>
+    <PackageId>OpenAPI</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Giraffe" Version="3.4.*" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.0.1" />
+    <PackageReference Include="AspNet.Security.ApiKey.Providers" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="openapi.yaml"/>
+    <Compile Include="helpers/Helpers.fs" />
+    <Compile Include="model/User.fs" />
+    <Compile Include="model/Tag.fs" />
+    <Compile Include="model/Category.fs" />
+    <Compile Include="model/Order.fs" />
+    <Compile Include="model/Pet.fs" />
+    <Compile Include="model/ApiResponse.fs" />
+    <Compile Include="api/PetApiHandlerParams.fs" />
+    <Compile Include="api/PetApiServiceInterface.fs" />
+    <Compile Include="impl/PetApiService.fs" />
+    <Compile Include="api/PetApiHandler.fs" />
+    <Compile Include="api/StoreApiHandlerParams.fs" />
+    <Compile Include="api/StoreApiServiceInterface.fs" />
+    <Compile Include="impl/StoreApiService.fs" />
+    <Compile Include="api/StoreApiHandler.fs" />
+    <Compile Include="api/UserApiHandlerParams.fs" />
+    <Compile Include="api/UserApiServiceInterface.fs" />
+    <Compile Include="impl/UserApiService.fs" />
+    <Compile Include="api/UserApiHandler.fs" />
+    <Compile Include="impl/CustomHandlers.fs" />
+    <Compile Include="auth/AuthSchemes.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+{{#discriminator}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder : Json.Decode.Decoder {{classname}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder =
+    Json.Decode.field "{{{propertyName}}}" Json.Decode.string
+        |> Json.Decode.andThen {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}TagDecoder
+
+
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}TagDecoder : String -> Json.Decode.Decoder {{classname}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}TagDecoder tag =
+    case tag of
+{{#mappedModels}}
+        "{{mappingName}}" ->
+            Json.Decode.map {{classname}}{{modelName}} {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}Decoder
+
+{{/mappedModels}}
+        _ ->
+            Json.Decode.map {{classname}} base{{classname}}Decoder
+
+
+{{/discriminator}}
+{{#lambda.camelcase}}{{#discriminator}}Base{{/discriminator}}{{classname}}{{/lambda.camelcase}}Decoder : Json.Decode.Decoder {{#discriminator}}Base{{/discriminator}}{{classname}}
+{{#lambda.camelcase}}{{#discriminator}}Base{{/discriminator}}{{classname}}{{/lambda.camelcase}}Decoder =
+    Json.Decode.succeed {{#discriminator}}Base{{/discriminator}}{{classname}}{{#parent}}{{#allOf}}
+        |> decodeChain {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}Decoder{{^-last}}, {{/-last}}{{/allOf}}{{/parent}}{{#vars}}
+        |> {{>recordFieldDecoder}}{{/vars}}{{#vars}}{{#isEnum}}
+
+
+{{>customTypeDecoder}}
+{{/isEnum}}{{/vars}}

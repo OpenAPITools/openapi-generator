@@ -1,0 +1,81 @@
+/**
+{{#vars
+}}{{#isArray
+}}{{#isPrimitiveType
+}} * @DTA\Strategy(name="ScalarList", options={"type":{{>list_item_type}}})
+{{/isPrimitiveType
+}}{{#items.isDate
+}} * @DTA\Strategy(name="DateList")
+{{/items.isDate
+}}{{#items.isDateTime
+}} * @DTA\Strategy(name="DateTimeList")
+{{/items.isDateTime
+}}{{^isPrimitiveType}}{{^items.isDate}}{{^items.isDateTime
+}} * @DTA\Strategy(name="ObjectList", options={"type":{{>list_item_type}}})
+{{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType
+}}{{#minItems}}{{^maxItems
+}} * @DTA\Validator(name="Count", options={"min":{{minItems}}}, blocker=true)
+{{/maxItems}}{{/minItems
+}}{{^minItems}}{{#maxItems
+}} * @DTA\Validator(name="Count", options={"max":{{maxItems}}}, blocker=true)
+{{/maxItems}}{{/minItems
+}}{{#minItems}}{{#maxItems
+}} * @DTA\Validator(name="Count", options={"min":{{minItems}},"max":{{maxItems}}}, blocker=true)
+{{/maxItems}}{{/minItems
+}} * @DTA\Validator(name="Collection", options={"validators":{
+{{#isPrimitiveType
+}} *     {"name":"Scalar", "options":{"type":{{>list_item_type}}}}
+{{/isPrimitiveType
+}}{{#items.isDate
+}} *     {"name":"Date"}
+{{/items.isDate
+}}{{#items.isDateTime
+}} *     {"name":"DateTime"}
+{{/items.isDateTime
+}}{{^isPrimitiveType}}{{^items.isDate}}{{^items.isDateTime
+}} *     {"name":"TypeCompliant", "options":{"type":{{>list_item_type}}}}
+{{/items.isDateTime}}{{/items.isDate}}{{/isPrimitiveType
+}} * }})
+{{/isArray
+}}{{#isMap
+}}{{#isPrimitiveType
+}} * @DTA\Strategy(name="ScalarMap", options={"type":{{>map_item_type}}})
+{{/isPrimitiveType
+}}{{#additionalProperties.isDate
+}} * @DTA\Strategy(name="DateMap")
+{{/additionalProperties.isDate
+}}{{#additionalProperties.isDateTime
+}} * @DTA\Strategy(name="DateTimeMap")
+{{/additionalProperties.isDateTime
+}}{{^isPrimitiveType}}{{^additionalProperties.isDate}}{{^additionalProperties.isDateTime
+}} * @DTA\Strategy(name="ObjectMap", options={"type":{{>map_item_type}}})
+{{/additionalProperties.isDateTime}}{{/additionalProperties.isDate}}{{/isPrimitiveType
+}}{{#minProperties}}{{^maxProperties
+}} * @DTA\Validator(name="Count", options={"min":{{minProperties}}}, blocker=true)
+{{/maxProperties}}{{/minProperties
+}}{{^minProperties}}{{#maxProperties
+}} * @DTA\Validator(name="Count", options={"max":{{maxProperties}}}, blocker=true)
+{{/maxProperties}}{{/minProperties
+}}{{#minProperties}}{{#maxProperties
+}} * @DTA\Validator(name="Count", options={"min":{{minProperties}},"max":{{maxProperties}}}, blocker=true)
+{{/maxProperties}}{{/minProperties
+}} * @DTA\Validator(name="Collection", options={"validators":{
+{{#isPrimitiveType
+}} *     {"name":"Scalar", "options":{"type":{{>map_item_type}}}}
+{{/isPrimitiveType
+}}{{#additionalProperties.isDate
+}} *     {"name":"Date"}
+{{/additionalProperties.isDate
+}}{{#additionalProperties.isDateTime
+}} *     {"name":"DateTime"}
+{{/additionalProperties.isDateTime
+}}{{^isPrimitiveType}}{{^additionalProperties.isDate}}{{^additionalProperties.isDateTime
+}} *     {"name":"TypeCompliant", "options":{"type":{{>map_item_type}}}}
+{{/additionalProperties.isDateTime}}{{/additionalProperties.isDate}}{{/isPrimitiveType
+}} * }})
+{{/isMap
+}}{{/vars
+}} */
+class {{classname}} extends \ArrayObject
+{
+}

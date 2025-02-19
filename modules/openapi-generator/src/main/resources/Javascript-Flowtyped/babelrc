@@ -1,0 +1,9 @@
+{
+  "presets": [
+    ["react-app", { "absoluteRuntime": false }],
+    "@babel/preset-flow"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-flow-strip-types"
+  ]
+}

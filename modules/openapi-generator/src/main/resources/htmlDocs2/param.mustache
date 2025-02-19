@@ -1,0 +1,40 @@
+<tr><td style="width:150px;">{{baseName}}{{#required}}*{{/required}}</td>
+<td>
+
+
+    <div id="d2e199_{{nickname}}_{{paramName}}">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    {{dataType}}
+                </span>
+                {{#dataFormat}}
+                    <span class="format">
+                        ({{.}})
+                    </span>
+                {{/dataFormat}}
+
+                {{#description}}
+                    <div class="inner description marked">
+{{.}}
+                    </div>
+                {{/description}}
+            </div>
+            {{#isEnum}}
+                {{#vendorExtensions.x-eum-formatted}}
+                    <div class="inner enums" id="{{nickname}}_{{paramName}}_enum">
+                        <span class="inner">
+                            <b>Enum: </b>{{{vendorExtensions.x-eum-formatted}}}
+                        </span>
+                    </div>
+                {{/vendorExtensions.x-eum-formatted}}
+            {{/isEnum}}
+            {{#required}}
+                <div class="inner required">
+                    Required
+                </div>
+            {{/required}}
+        </div>
+    </div>
+</td>
+</tr>

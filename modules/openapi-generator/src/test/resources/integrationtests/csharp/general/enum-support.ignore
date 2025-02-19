@@ -1,0 +1,9 @@
+!**/IO.Swagger/Model/*.cs
+**/Api/
+**/Client/
+**/Properties
+**/IO.Swagger.Test/
+**/*
+*/*
+.swagger-codegen/
+*/.*

@@ -1,0 +1,11 @@
+# coding: utf-8
+
+# flake8: noqa
+{{>partial_header}}
+
+# import models into model package
+{{#models}}
+{{#model}}
+from {{modelPackage}}.{{classFilename}} import {{classname}}
+{{/model}}
+{{/models}}

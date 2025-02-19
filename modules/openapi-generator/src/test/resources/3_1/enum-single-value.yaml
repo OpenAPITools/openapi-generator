@@ -1,0 +1,20 @@
+openapi: 3.1.0
+info:
+  title: ""
+  version: 1.0.0
+components:
+  schemas:
+      SingleValueEnum_3_1:
+        required:
+          - type      
+        properties:
+          type:
+            const: this-is-my-only-value
+            type: string
+      SingleValueEnum_3_0:
+        required:
+          - type
+        properties:
+          type:
+            enum:
+              - this-is-my-only-value

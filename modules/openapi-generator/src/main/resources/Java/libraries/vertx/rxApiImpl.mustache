@@ -1,0 +1,87 @@
+package {{package}}.rxjava;
+
+{{#imports}}import {{import}};
+{{/imports}}
+import {{invokerPackage}}.ApiClient;
+
+import java.util.*;
+
+import rx.Single;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}} {
+
+    private final {{package}}.{{classname}} delegate;
+
+    public {{classname}}({{package}}.{{classname}} delegate) {
+        this.delegate = delegate;
+    }
+
+    public {{package}}.{{classname}} getDelegate() {
+        return delegate;
+    }
+
+    {{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @param resultHandler Asynchronous result handler
+    */
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+        delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}resultHandler);
+    }
+
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+        delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, resultHandler);
+    }
+
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<{{{returnType}}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}fut)
+        ));
+    }
+
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<{{{returnType}}}{{^returnType}}Void{{/returnType}}> rx{{operationIdCamelCase}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}authInfo, fut)
+        ));
+    }
+    {{/operation}}
+
+    public static {{classname}} newInstance({{package}}.{{classname}} arg) {
+        return arg != null ? new {{classname}}(arg) : null;
+    }
+}
+{{/operations}}

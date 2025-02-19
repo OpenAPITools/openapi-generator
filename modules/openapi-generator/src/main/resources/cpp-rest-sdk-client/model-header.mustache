@@ -1,0 +1,190 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_{{classname}}_H_
+#define {{modelHeaderGuardPrefix}}_{{classname}}_H_
+
+{{#oneOf}}
+{{#-first}}
+#include <variant>
+{{/-first}}
+{{/oneOf}}
+{{^parent}}
+{{{defaultInclude}}}
+#include "{{packageName}}/ModelBase.h"
+{{/parent}}
+
+{{#imports}}{{{this}}}
+{{/imports}}
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{#vendorExtensions.x-has-forward-declarations}}
+{{#vendorExtensions.x-forward-declarations}}{{.}}
+{{/vendorExtensions.x-forward-declarations}}
+{{/vendorExtensions.x-has-forward-declarations}}
+{{#oneOf}}{{#-first}}
+
+class {{declspec}} {{classname}}
+{
+public:
+    {{classname}}() = default;
+    ~{{classname}}() = default;
+
+    /////////////////////////////////////////////
+
+    void validate();
+
+    web::json::value toJson() const;
+
+    template<typename Target>
+    bool fromJson(const web::json::value& json) {
+        // convert json to Target type
+        Target target;
+        if (!target.fromJson(json)) {
+            return false;
+        }
+
+        m_variantValue = target;
+        return true;
+    }
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const;
+
+    template<typename Target>
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) {
+        // convert multipart to Target type
+        Target target;
+        if (!target.fromMultiPart(multipart, namePrefix)) {
+            return false;
+        }
+
+        m_variantValue = target;
+        return true;
+    }
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    using VariantType = std::variant<{{#oneOf}}{{^-first}}, {{/-first}}{{{.}}}{{/oneOf}}>;
+
+    const VariantType& getVariant() const;
+    void setVariant(VariantType value);
+
+protected:
+    VariantType m_variantValue;
+};
+
+{{/-first}}{{/oneOf}}
+{{^oneOf}}
+{{#isEnum}}
+class {{declspec}} {{classname}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
+    void validate() override;
+
+    web::json::value toJson() const override;
+    bool fromJson(const web::json::value& json) override;
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+
+    enum class e{{classname}}
+    {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{#enumDescription}}
+        /// <summary>
+        /// {{.}}
+        /// </summary>
+        {{/enumDescription}}
+        {{classname}}_{{{name}}}{{^last}},{{/last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    };
+
+    e{{classname}} getValue() const;
+    void setValue(e{{classname}} const value);
+
+    protected:
+        e{{classname}} m_value;
+};
+{{/isEnum}}
+{{^isEnum}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+    : public {{{parent}}}{{^parent}}ModelBase{{/parent}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
+    void validate() override;
+
+    web::json::value toJson() const override;
+    bool fromJson(const web::json::value& json) override;
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    {{#vars}}
+    {{^isInherited}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{#isContainer}}{{{dataType}}}& {{getter}}();
+    {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
+    {{/isContainer}}bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();
+
+    {{#isPrimitiveType}}
+    void {{setter}}({{{dataType}}} value);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    void {{setter}}(const {{{dataType}}}& value);
+    {{/isPrimitiveType}}
+
+    {{/isInherited}}
+    {{/vars}}
+
+protected:
+    {{#vars}}
+    {{^isInherited}}
+    {{{dataType}}} m_{{name}};
+    bool m_{{name}}IsSet;
+    {{/isInherited}}
+    {{/vars}}
+};
+
+{{/isEnum}}
+{{/oneOf}}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_{{classname}}_H_ */
+{{/model}}
+{{/models}}

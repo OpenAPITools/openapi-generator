@@ -1,0 +1,1 @@
+{{#returnType}}resp          <- client.expect[{{.}}](req){{/returnType}}{{^returnType}}resp          <- client.fetch[Unit](req)(_ => Task.now(())){{/returnType}}

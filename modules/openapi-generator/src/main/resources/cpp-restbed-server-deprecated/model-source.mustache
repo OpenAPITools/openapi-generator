@@ -1,0 +1,233 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+#include <string>
+#include <vector>
+#include <sstream>
+#include <stdexcept>
+{{#hasEnums}}
+#include <algorithm>
+{{/hasEnums}}
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+using boost::property_tree::ptree;
+using boost::property_tree::read_json;
+using boost::property_tree::write_json;
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{classname}}::{{classname}}(boost::property_tree::ptree const& pt)
+{
+        fromPropertyTree(pt);
+}
+
+std::string {{classname}}::toJsonString(bool prettyJson /* = false */)
+{
+    return toJsonString_internal(prettyJson);
+}
+
+void {{classname}}::fromJsonString(std::string const& jsonString)
+{
+    fromJsonString_internal(jsonString);
+}
+
+boost::property_tree::ptree {{classname}}::toPropertyTree()
+{
+    return toPropertyTree_internal();
+}
+
+void {{classname}}::fromPropertyTree(boost::property_tree::ptree const& pt)
+{
+    fromPropertyTree_internal(pt);
+}
+
+std::string {{classname}}::toJsonString_internal(bool prettyJson)
+{
+	std::stringstream ss;
+	write_json(ss, this->toPropertyTree(), prettyJson);
+	return ss.str();
+}
+
+void {{classname}}::fromJsonString_internal(std::string const& jsonString)
+{
+	std::stringstream ss(jsonString);
+	ptree pt;
+	read_json(ss,pt);
+	this->fromPropertyTree(pt);
+}
+
+ptree {{classname}}::toPropertyTree_internal()
+{
+	ptree pt;
+	ptree tmp_node;
+	{{#vars}}
+	{{^isContainer}}
+	{{#isPrimitiveType}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isPrimitiveType}}
+	{{^isPrimitiveType}}
+	{{#isString}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isString}}
+	{{#isDate}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isDate}}
+	{{#isDateTime}}
+	pt.put("{{baseName}}", m_{{name}});
+	{{/isDateTime}}
+	{{#isModel}}
+	if (m_{{name}} != nullptr) {
+		pt.add_child("{{baseName}}", m_{{name}}->toPropertyTree());
+	}
+	{{/isModel}}
+	{{/isPrimitiveType}}
+	{{/isContainer}}
+	{{#isContainer}}
+	// generate tree for {{name}}
+	if (!m_{{name}}.empty()) {
+		for (const auto &childEntry : m_{{name}}) {
+            {{#items}}
+            {{#isModel}}
+            tmp_node.push_back(std::make_pair("", childEntry->toPropertyTree()));
+            {{/isModel}}
+            {{^isModel}}
+            ptree {{name}}_node;
+            {{name}}_node.put("", childEntry);
+            tmp_node.push_back(std::make_pair("", {{name}}_node));
+            {{/isModel}}
+            {{/items}}
+		}
+		pt.add_child("{{baseName}}", tmp_node);
+		tmp_node.clear();
+	}
+	{{/isContainer}}
+	{{/vars}}
+	return pt;
+}
+
+void {{classname}}::fromPropertyTree_internal(ptree const &pt)
+{
+	ptree tmp_node;
+	{{#vars}}
+	{{^isContainer}}
+	{{^isEnum}}
+	{{#isPrimitiveType}}
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
+	{{/isPrimitiveType}}
+	{{^isPrimitiveType}}
+	{{#isString}}
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
+	{{/isString}}
+	{{#isDate}}
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
+	{{/isDate}}
+	{{#isDateTime}}
+	m_{{name}} = pt.get("{{baseName}}", {{{defaultValue}}});
+	{{/isDateTime}}
+	{{/isPrimitiveType}}
+	{{/isEnum}}
+	{{#isEnum}}
+	{{setter}}(pt.get("{{baseName}}", {{{defaultValue}}}));
+	{{/isEnum}}
+	{{#isModel}}
+	if (pt.get_child_optional("{{baseName}}")) {
+		m_{{name}} = {{{defaultValue}}};
+		m_{{name}}->fromPropertyTree(pt.get_child("{{baseName}}"));
+	}
+	{{/isModel}}
+	{{/isContainer}}
+	{{#isContainer}}
+	{{^isModelContainer}}
+	// push all items of {{name}} into member vector
+	if (pt.get_child_optional("{{baseName}}")) {
+		for (const auto &childTree : pt.get_child("{{baseName}}")) {
+		    {{#mostInnerItems}}
+            {{{dataType}}} val =
+            {{#isNumeric}}
+                {{^isFloat}}
+                {{^isLong}}
+                {{^isInteger}}
+                std::stod(childTree.second.data());
+                {{/isInteger}}
+                {{/isLong}}
+                {{/isFloat}}
+                {{#isDouble}}
+                std::stod(childTree.second.data());
+                {{/isDouble}}
+                {{#isFloat}}
+                std::stof(childTree.second.data());
+                {{/isFloat}}
+                {{#isInteger}}
+                std::stoi(childTree.second.data());
+                {{/isInteger}}
+                {{#isLong}}
+                std::stol(childTree.second.data());
+                {{/isLong}}
+            {{/isNumeric}}
+            {{#isString}}
+                childTree.second.data();
+            {{/isString}}
+            {{#isModel}}
+                std::make_shared<{{baseType}}>(childTree.second);
+            {{/isModel}}
+            m_{{name}}.emplace_back(std::move(val));
+		    {{/mostInnerItems}}
+		}
+	}
+	{{/isModelContainer}}
+	{{#isModelContainer}}
+	// generate new {{complexType}} Object for each item and assign it to the current
+	if (pt.get_child_optional("{{baseName}}")) {
+		for (const auto &childTree : pt.get_child("{{baseName}}")) {
+		{{#mostInnerItems}}
+			m_{{name}}.emplace_back({{{defaultValue}}});
+			m_{{name}}.back()->fromPropertyTree(childTree.second);
+		{{/mostInnerItems}}
+		}
+	}
+	{{/isModelContainer}}
+	{{/isContainer}}
+	{{/vars}}
+}
+
+{{#vars}}
+{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    return m_{{name}};
+}
+
+void {{classname}}::{{setter}}({{{dataType}}} value)
+{
+	{{#isEnum}}if (std::find(m_{{enumName}}.begin(), m_{{enumName}}.end(), value) != m_{{enumName}}.end()) {
+		{{/isEnum}}m_{{name}} = value;{{#isEnum}}
+	} else {
+		throw std::runtime_error("Value " + value + " not allowed");
+	}{{/isEnum}}
+}
+{{/vars}}
+
+std::vector<{{classname}}> create{{classname}}VectorFromJsonString(const std::string& json)
+{
+    std::stringstream sstream(json);
+    boost::property_tree::ptree pt;
+    boost::property_tree::json_parser::read_json(sstream,pt);
+
+    auto vec = std::vector<{{{classname}}}>();
+    for (const auto& child: pt) {
+        vec.emplace_back({{{classname}}}(child.second));
+    }
+
+    return vec;
+}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

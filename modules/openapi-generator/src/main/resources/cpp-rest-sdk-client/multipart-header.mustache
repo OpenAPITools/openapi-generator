@@ -1,0 +1,49 @@
+{{>licenseInfo}}
+/*
+ * MultipartFormData.h
+ *
+ * This class represents a container for building application/x-multipart-formdata requests.
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_MultipartFormData_H_
+#define {{modelHeaderGuardPrefix}}_MultipartFormData_H_
+
+{{{defaultInclude}}}
+#include "{{packageName}}/IHttpBody.h"
+#include "{{packageName}}/HttpContent.h"
+
+#include <cpprest/details/basic_types.h>
+
+#include <vector>
+#include <map>
+#include <memory>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+class {{declspec}} MultipartFormData
+    : public IHttpBody
+{
+public:
+    MultipartFormData();
+    MultipartFormData(const utility::string_t& boundary);
+    virtual ~MultipartFormData();
+
+    virtual void add( std::shared_ptr<HttpContent> content );
+    virtual utility::string_t getBoundary();
+    virtual std::shared_ptr<HttpContent> getContent(const utility::string_t& name) const;
+    virtual bool hasContent(const utility::string_t& name) const;
+    virtual void writeTo( std::ostream& target );
+
+protected:
+    std::vector<std::shared_ptr<HttpContent>> m_Contents;
+    utility::string_t m_Boundary;
+    std::map<utility::string_t, std::shared_ptr<HttpContent>> m_ContentLookup;
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_MultipartFormData_H_ */

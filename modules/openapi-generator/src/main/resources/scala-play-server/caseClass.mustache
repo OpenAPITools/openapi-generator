@@ -1,0 +1,35 @@
+case class {{classname}}(
+{{#vars}}
+  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{^-last}},{{/-last}}{{#-last}}{{#isMap}},{{/isMap}}{{/-last}}
+{{/vars}}
+{{#isMap}}
+  additionalProperties: {{parent}}
+{{/isMap}}
+)
+
+object {{classname}} {
+  {{^vendorExtensions.x-has-files}}
+  implicit lazy val {{classVarName}}JsonFormat: Format[{{classname}}] = {{^isMap}}Json.format[{{classname}}]{{/isMap}}{{#isMap}}{
+    {{#lambda.indented_4}}{{>extensibleObjectJsonFormat}}{{/lambda.indented_4}}
+  }{{/isMap}}
+  {{/vendorExtensions.x-has-files}}
+  {{#vendorExtensions.x-has-files}}
+  // NOTE: The JSON format for {{classname}} was not generated because it contains a file variable which cannot be encoded to JSON.
+  {{/vendorExtensions.x-has-files}}
+  {{#vars}}
+  {{#isEnum}}
+
+  // noinspection TypeAnnotation
+  object {{enumName}} extends Enumeration {
+    {{#allowableValues}}
+    {{#enumVars}}
+    val {{name}} = Value({{&value}})
+    {{/enumVars}}
+    {{/allowableValues}}
+
+    type {{enumName}} = Value
+    implicit lazy val {{enumName}}JsonFormat: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[this.type])
+  }
+  {{/isEnum}}
+  {{/vars}}
+}

@@ -1,0 +1,82 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiUtils
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+class {{classname}} {
+    String basePath = "{{{basePath}}}"
+    String versionPath = ""
+    ApiUtils apiUtils = new ApiUtils();
+
+    {{#operation}}
+    def {{operationId}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
+        String resourcePath = "{{{path}}}"
+
+        // params
+        def queryParams = [:]
+        def headerParams = [:]
+        def bodyParams
+        def contentType
+
+        {{#allParams}}
+        {{#required}}
+        // verify required params are set
+        if ({{paramName}} == null) {
+            throw new RuntimeException("missing required params {{paramName}}")
+        }
+        {{/required}}
+        {{/allParams}}
+
+        {{#queryParams}}
+        if ({{paramName}} != null) {
+            queryParams.put("{{baseName}}", {{paramName}})
+        }
+        {{/queryParams}}
+
+        {{#headerParams}}
+        if ({{paramName}} != null) {
+            headerParams.put("{{baseName}}", {{paramName}})
+        }
+        {{/headerParams}}
+
+        {{#bodyParam}}
+        {{^consumes}}
+        contentType = 'application/json';
+        {{/consumes}}
+        {{#consumes.0}}
+        contentType = '{{{mediaType}}}';
+        {{/consumes.0}}
+        bodyParams = {{paramName}}
+        {{/bodyParam}}
+
+        {{#hasFormParams}}
+        {{#consumes.0}}
+        contentType = '{{{mediaType}}}';
+        {{/consumes.0}}
+        {{#formParams}}
+        {{#-first}}
+        {{^-last}}
+        bodyParams = [:]
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/-last}}
+        {{#-last}}
+        bodyParams = {{paramName}}
+        {{/-last}}
+        {{/-first}}
+        {{^-first}}
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/-first}}
+        {{/formParams}}
+        {{/hasFormParams}}
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
+                    "{{httpMethod}}", "{{returnContainer}}",
+                    {{#returnBaseType}}{{{.}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
+
+    }
+
+    {{/operation}}
+}
+{{/operations}}

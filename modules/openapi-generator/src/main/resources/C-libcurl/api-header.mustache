@@ -1,0 +1,40 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "../include/apiClient.h"
+#include "../include/list.h"
+#include "../external/cJSON.h"
+#include "../include/keyValuePair.h"
+#include "../include/binary.h"
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+// Enum {{enumName}} for {{{classname}}}_{{{operationId}}}
+{{#allowableValues}}
+typedef enum  { {{projectName}}_{{operationId}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{operationId}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{operationId}}_{{baseName}}_e;
+
+{{/allowableValues}}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+
+{{#operations}}
+{{#operation}}
+{{#summary}}
+// {{{.}}}
+//
+{{/summary}}
+{{#notes}}
+// {{{.}}}
+//
+{{/notes}}
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}} {{/isNumber}}{{#isLong}}{{{dataType}}} {{/isLong}}{{#isInteger}}{{{dataType}}} *{{/isInteger}}{{#isDouble}}{{{dataType}}} {{/isDouble}}{{#isFloat}}{{{dataType}}} {{/isFloat}}{{#isBoolean}}{{dataType}} *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e {{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}} {{/isDate}}{{#isDateTime}}{{{dataType}}} {{/isDateTime}}{{#isFile}}{{{dataType}}} {{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}} {{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}} {{/isMap}}{{/isContainer}}{{{paramName}}}{{/allParams}});
+
+
+{{/operation}}
+{{/operations}}

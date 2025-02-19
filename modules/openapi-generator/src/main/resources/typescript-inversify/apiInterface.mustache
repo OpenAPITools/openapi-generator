@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+import { Headers } from '../Headers';
+{{^useRxJS6}}
+import { Observable } from 'rxjs/Observable';
+{{/useRxJS6}}
+{{#useRxJS6}}
+import { Observable } from 'rxjs';
+{{/useRxJS6}}
+{{#imports}}
+import { {{classname}} } from '../{{filename}}';
+{{/imports}}
+import HttpResponse from '../HttpResponse';
+
+{{#operations}}
+
+{{#description}}
+    /**
+    * {{&description}}
+    */
+{{/description}}
+export interface {{classname}}Interface {
+{{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}* @param {{paramName}} {{description}}
+    {{/allParams}}*/
+
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'body', headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}observe?: 'response', headers?: Headers): {{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+{{/operation}}
+}
+{{/operations}}

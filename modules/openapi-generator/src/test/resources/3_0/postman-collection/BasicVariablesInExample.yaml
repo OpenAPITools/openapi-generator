@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: BasicExample
+  version: '1.0'
+  description: Sample API
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+servers:
+  - url: 'http://localhost:5001'
+    description: dev server
+  - url: 'http://localhost:5001'
+    description: test server
+paths:
+  '/users/{userId}':
+    patch:
+      summary: Patch User
+      description: Update User Info
+      operationId: patch-users-userId
+      tags:
+        - basic
+      parameters:
+        - description: Unique identifier of the user
+          name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              patch-user:
+                $ref: '#/components/examples/patch-user-example'
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith (json):
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                Get User Alice Smith (xml):
+                  value:
+                    id: 143
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '404':
+          description: User Not Found
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+  examples:
+    patch-user-example:
+      summary: Example patch user
+      value:
+        id: 001
+        firstName: "{{MY_VAR_NAME}}"
+        lastName: "{{MY_VAR_LAST_NAME}}"
+        email: alotta.rotta@gmail.com
+        dateOfBirth: "{{ISO_TIMESTAMP}}"
+        emailVerified: true
+        createDate: "{{UNIQUE_REFERENCE}}"
+
+tags:
+  - name: basic
+    description: Basic tag

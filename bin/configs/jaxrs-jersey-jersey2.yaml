@@ -1,0 +1,8 @@
+generatorName: jaxrs-jersey
+outputDir: samples/server/petstore/jaxrs/jersey2
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS
+additionalProperties:
+  artifactId: jaxrs-jersey-petstore-server
+  hideGenerationTimestamp: "true"
+  serverPort: "8082"

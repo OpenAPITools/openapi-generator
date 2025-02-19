@@ -1,0 +1,112 @@
+{
+  "info": {
+    "title": "Sample APIs",
+    "version": "08960d48-2613-4133-92f3-4ade4f1107f8"
+  },
+  "openapi": "3.0.1",
+  "x-group-parameters": true,
+  "components": {
+    "schemas": {
+      "API01_AbstractStuff": {
+        "discriminator": {
+          "mapping": {
+            "FIRST": "#/components/schemas/API01_FirstStuff",
+            "SECOND": "#/components/schemas/API01_SecondStuff"
+          },
+          "propertyName": "type"
+        },
+        "type": "object",
+        "properties": {
+          "date_created": {
+            "description": "Creation date",
+            "format": "date-time",
+            "type": "string"
+          }
+        }
+      },
+      "API01_FirstStuff": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/API01_AbstractStuff"
+          },
+          {
+            "properties": {
+              "end_time": {
+                "description": "Ending date",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        ],
+        "description": "First stuff",
+        "type": "object"
+      },
+      "API01_SecondStuff": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/API01_AbstractStuff"
+          },
+          {
+            "properties": {
+              "emission_date": {
+                "description": "Emission date",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        ],
+        "description": "Second stuff",
+        "type": "object"
+      },
+      "API01_ListOfStuff": {
+        "description": "List of stuff",
+        "items": {
+          "$ref": "#/components/schemas/API01_AbstractStuff"
+        },
+        "type": "array",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/stuff": {
+      "get": {
+        "description": "",
+        "operationId": "API01",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/API01_ListOfStuff",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Do stuff",
+        "parameters": [
+          {
+            "description": "Some parameter",
+            "in": "query",
+            "name": "param1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "servers": []
+}

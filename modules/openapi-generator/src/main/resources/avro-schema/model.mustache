@@ -1,0 +1,11 @@
+{{#models}}
+{{#model}}
+{
+  "namespace": "{{packageName}}",
+  "type": "{{#isEnum}}enum{{/isEnum}}{{^isEnum}}record{{/isEnum}}",
+  "doc": "{{{description}}}",
+  "name": "{{{classname}}}",
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}
+}
+{{/model}}
+{{/models}}

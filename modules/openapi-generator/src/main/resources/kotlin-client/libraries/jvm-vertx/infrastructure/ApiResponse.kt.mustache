@@ -1,0 +1,43 @@
+package {{packageName}}.infrastructure
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class ResponseType {
+    Success, Informational, Redirection, ClientError, ServerError
+}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface Response
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}abstract class ApiResponse<T>({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val responseType: ResponseType): Response {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}abstract val statusCode: Int
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}abstract val headers: Map<String,List<String>>
+}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class Success<T>(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val data: T{{#nullableReturnType}}?{{/nullableReturnType}},
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+): ApiResponse<T>(ResponseType.Success)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class Informational<T>(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val statusText: String,
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+) : ApiResponse<T>(ResponseType.Informational)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class Redirection<T>(
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+) : ApiResponse<T>(ResponseType.Redirection)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ClientError<T>(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val message: String? = null,
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val body: Any? = null,
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>> = mapOf()
+) : ApiResponse<T>(ResponseType.ClientError)
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ServerError<T>(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val message: String? = null,
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val body: Any? = null,
+    override val statusCode: Int = -1,
+    override val headers: Map<String, List<String>>
+): ApiResponse<T>(ResponseType.ServerError)

@@ -1,0 +1,7 @@
+---
+Language:        Cpp
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Empty
+BreakBeforeBinaryOperators: NonAssignment
+ColumnLimit: 0
+IndentWidth:     4

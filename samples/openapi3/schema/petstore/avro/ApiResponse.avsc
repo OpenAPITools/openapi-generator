@@ -1,0 +1,23 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "Describes the result of uploading an image resource",
+  "name": "ApiResponse",
+  "fields": [
+    {
+      "name": "code",
+      "type": ["null", "int"],
+      "doc": ""
+    },
+    {
+      "name": "type",
+      "type": ["null", "string"],
+      "doc": ""
+    },
+    {
+      "name": "message",
+      "type": ["null", "string"],
+      "doc": ""
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: DefaultValuesType
+type: object
+properties:
+  stringDefault:
+    type: array
+    default: []
+    items:
+      type: string
+  stringDefault2:
+    type: array
+    default:
+      - "Hallo"
+      - "Huhu"
+    items:
+      type: string
+  objectDefault:
+    type: array
+    default: []
+    items:
+      $ref: 'objectType.yaml'
+
+

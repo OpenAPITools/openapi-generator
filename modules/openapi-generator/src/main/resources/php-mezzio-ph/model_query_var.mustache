@@ -1,0 +1,51 @@
+{{#isArray
+}}{{#isPrimitiveType
+}}     * @DTA\Strategy(name="QueryStringScalarArray", options={"type":{{>list_item_type}}, "format":"{{internal.ze-ph.collectionFormat}}"})
+     * @DTA\Validator(name="QueryStringScalarArray", options={"type":{{>list_item_type}}, "format":"{{internal.ze-ph.collectionFormat}}"{{#minItems}}, "min_items":{{.}}{{/minItems}}{{#maxItems}}, "max_items":{{.}}{{/maxItems}}})
+{{/isPrimitiveType
+}}{{^isPrimitiveType
+}}     * TODO add validator(s) and strategy for list of {{>list_item_type}} and collection format {{internal.ze-ph.collectionFormat}} inside query string
+{{/isPrimitiveType
+}}{{/isArray
+}}{{#isMap
+}}     * TODO add validator(s) and strategy for map of {{>map_item_type}} and collection format {{internal.ze-ph.collectionFormat}} inside query string
+{{/isMap
+}}{{^isContainer
+}}{{#isPrimitiveType
+}}     * @DTA\Strategy(name="QueryStringScalar", options={"type":"{{dataType}}"})
+     * @DTA\Validator(name="QueryStringScalar", options={"type":"{{dataType}}"})
+{{/isPrimitiveType
+}}{{#isDate
+}}     * @DTA\Strategy(name="Date")
+     * @DTA\Validator(name="Date")
+{{/isDate
+}}{{#isDateTime
+}}     * @DTA\Strategy(name="DateTime")
+     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
+{{/isDateTime
+}}{{^isPrimitiveType
+}}{{^isDate}}{{^isDateTime
+}}     * TODO add validator(s) and strategy for {{dataType}} inside query string
+{{/isDateTime}}{{/isDate
+}}{{/isPrimitiveType
+}}{{/isContainer
+}}{{#hasValidation
+}}{{#minLength}}{{#maxLength
+}}     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
+{{/maxLength}}{{/minLength
+}}{{^minLength}}{{#maxLength
+}}     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
+{{/maxLength}}{{/minLength
+}}{{#minLength}}{{^maxLength
+}}     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
+{{/maxLength}}{{/minLength
+}}{{#minimum
+}}     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
+{{/minimum
+}}{{#maximum
+}}     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
+{{/maximum
+}}{{#pattern
+}}     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
+{{/pattern
+}}{{/hasValidation}}

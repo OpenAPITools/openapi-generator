@@ -1,0 +1,13 @@
+generatorName: java-helidon-server
+library: se
+outputDir: samples/server/petstore/java-helidon-server/v4/se-uac-group-by-file-path
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/java-helidon/server
+additionalProperties:
+  helidonVersion: 4.0.11
+  artifactId: petstore-helidon-server-se
+  hideGenerationTimestamp: "true"
+  fullProject: "true"
+  useAbstractClass: "true"
+  generatorVersion: "stable"
+  x-helidon-groupBy: first-path-segment

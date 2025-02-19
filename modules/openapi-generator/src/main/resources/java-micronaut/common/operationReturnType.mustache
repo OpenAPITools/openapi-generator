@@ -1,0 +1,12 @@
+{{!begin reactive
+}}{{#reactive}}Mono<{{/reactive}}{{!
+begin wrapInHttpResponse
+}}{{#wrapInHttpResponse}}HttpResponse<{{/wrapInHttpResponse}}{{!
+return type
+}}{{#returnType}}{{{returnType}}}{{/returnType}}{{!
+no return type
+}}{{^returnType}}{{#reactive}}Void{{/reactive}}{{^reactive}}{{#wrapInHttpResponse}}Void{{/wrapInHttpResponse}}{{/reactive}}{{^reactive}}{{^wrapInHttpResponse}}void{{/wrapInHttpResponse}}{{/reactive}}{{/returnType}}{{!
+end wrapInHttpResponse
+}}{{#wrapInHttpResponse}}>{{/wrapInHttpResponse}}{{!
+end reactive
+}}{{#reactive}}>{{/reactive}}

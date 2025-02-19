@@ -1,0 +1,42 @@
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}
+{{^oneOf}}
+{{#description}}
+/**
+ * {{{.}}}
+ */
+{{/description}}
+{{^isEnum}}
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{/isEnum}}
+{{#isEnum}}
+export type {{{classname}}} = {{#allowableValues}}{{#values}}'{{{.}}}'{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+{{/isEnum}}
+{{#vars}}
+{{#description}}
+  /**
+   * {{{.}}}
+   */
+{{/description}}
+  {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+{{/vars}}
+{{^isEnum}}
+}
+
+{{/isEnum}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+/**
+ * Enum for the {{name}} property.
+ */
+export type {{{enumName}}} = {{#allowableValues}}{{#values}}'{{{.}}}'{{^-last}} | {{/-last}}{{/values}}{{/allowableValues}};
+
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{/oneOf}}
+{{/model}}
+{{/models}}

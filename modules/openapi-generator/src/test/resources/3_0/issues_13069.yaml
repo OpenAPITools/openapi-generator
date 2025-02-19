@@ -1,0 +1,23 @@
+---
+openapi: 3.0.3
+info:
+  title: Test
+  version: 1.0.0-SNAPSHOT
+paths:
+  /test:
+    get:
+      parameters:
+        - name: uuid
+          in: query
+          schema:
+            $ref: '#/components/schemas/UUID'
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    UUID:
+      format: uuid
+      pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      type: string

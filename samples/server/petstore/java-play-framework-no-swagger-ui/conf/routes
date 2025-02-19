@@ -1,0 +1,35 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+
+#Functions for Pet API
+POST     /v2/pet                     controllers.PetApiController.addPet(request: Request)
+DELETE     /v2/pet/:petId                     controllers.PetApiController.deletePet(request: Request, petId: Long)
+GET     /v2/pet/findByStatus                     controllers.PetApiController.findPetsByStatus(request: Request)
+GET     /v2/pet/findByTags                     controllers.PetApiController.findPetsByTags(request: Request)
+GET     /v2/pet/:petId                     controllers.PetApiController.getPetById(request: Request, petId: Long)
+PUT     /v2/pet                     controllers.PetApiController.updatePet(request: Request)
+POST     /v2/pet/:petId                     controllers.PetApiController.updatePetWithForm(request: Request, petId: Long)
+POST     /v2/pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(request: Request, petId: Long)
+
+#Functions for Store API
+DELETE     /v2/store/order/:orderId                     controllers.StoreApiController.deleteOrder(request: Request, orderId: String)
+GET     /v2/store/inventory                     controllers.StoreApiController.getInventory(request: Request)
+GET     /v2/store/order/:orderId                     controllers.StoreApiController.getOrderById(request: Request, orderId: Long)
+POST     /v2/store/order                     controllers.StoreApiController.placeOrder(request: Request)
+
+#Functions for User API
+POST     /v2/user                     controllers.UserApiController.createUser(request: Request)
+POST     /v2/user/createWithArray                     controllers.UserApiController.createUsersWithArrayInput(request: Request)
+POST     /v2/user/createWithList                     controllers.UserApiController.createUsersWithListInput(request: Request)
+DELETE     /v2/user/:username                     controllers.UserApiController.deleteUser(request: Request, username: String)
+GET     /v2/user/:username                     controllers.UserApiController.getUserByName(request: Request, username: String)
+GET     /v2/user/login                     controllers.UserApiController.loginUser(request: Request)
+GET     /v2/user/logout                     controllers.UserApiController.logoutUser(request: Request)
+PUT     /v2/user/:username                     controllers.UserApiController.updateUser(request: Request, username: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)

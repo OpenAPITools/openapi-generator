@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /postModel:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples: {}
+        '400':
+          description: Missing Required Information
+      description: Create a new user.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Request'
+    parameters: []
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      x-examples: {}
+      properties:
+        integerValue:
+          type: integer
+    Request:
+      title: Request
+      type: object
+      properties:
+        user1:
+          $ref: '#/components/schemas/User'

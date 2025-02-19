@@ -1,0 +1,94 @@
+{{>licenseInfo}}
+{{^models.isEmpty}}
+import * as models from '../model/models';
+{{/models.isEmpty}}
+
+/* tslint:disable:no-unused-variable member-ordering */
+
+{{#operations}}
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+export class {{classname}} {
+    protected basePath = '{{{basePath}}}';
+    public defaultHeaders : any = {};
+
+    static $inject: string[] = ['$http', '$httpParamSerializer', 'basePath'];
+
+    constructor(protected $http: ng.IHttpService, protected $httpParamSerializer?: (d: any) => any, basePath?: string) {
+        if (basePath !== undefined) {
+            this.basePath = basePath;
+        }
+    }
+
+{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public {{nickname}} ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraHttpRequestParams?: any ) : ng.IHttpPromise<{{{returnType}}}{{^returnType}}{}{{/returnType}}> {
+        const localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+
+        let queryParameters: any = {};
+        let headerParams: any = (<any>Object).assign({}, this.defaultHeaders);
+{{#hasFormParams}}
+        let formParams: any = {};
+
+{{/hasFormParams}}
+{{#allParams}}
+{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+        if ({{paramName}} !== undefined) {
+            queryParameters['{{baseName}}'] = {{paramName}};
+        }
+
+{{/queryParams}}
+{{#headerParams}}
+        headerParams['{{baseName}}'] = {{paramName}};
+
+{{/headerParams}}
+{{#hasFormParams}}
+        headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+
+{{/hasFormParams}}
+{{#formParams}}
+        formParams['{{baseName}}'] = {{paramName}};
+
+{{/formParams}}
+        let httpRequestParams: ng.IRequestConfig = {
+            method: '{{httpMethod}}',
+            url: localVarPath,
+            {{#bodyParam}}
+            data: {{paramName}},
+            {{/bodyParam}}
+            {{#hasFormParams}}
+            data: this.$httpParamSerializer(formParams),
+            {{/hasFormParams}}
+            params: queryParameters,
+            headers: headerParams
+        };
+
+        if (extraHttpRequestParams) {
+            httpRequestParams = (<any>Object).assign(httpRequestParams, extraHttpRequestParams);
+        }
+
+        return this.$http(httpRequestParams);
+    }
+{{/operation}}
+}
+{{/operations}}

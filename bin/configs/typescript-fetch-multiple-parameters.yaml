@@ -1,0 +1,7 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/multiple-parameters
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  useSingleRequestParameter: false
+  snapshot: false

@@ -1,0 +1,65 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server Pet"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a Pet"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  Category = openapi_server.resourceTypes.Category
+  Tag = openapi_server.resourceTypes.Tag
+}
+resourceTypes {
+
+  Pet {
+    title = Pet
+    description = Pet
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        category {
+          type = Category
+          description = ""
+          optional = false
+        }
+        name {
+          type =  string
+          description = ""
+          optional = true
+        }
+        photo_urls {
+          type = array
+          items.type =  string
+          description = ""
+          optional = true
+        }
+        tags {
+          type = array
+          items.type = Tag
+          description = ""
+          optional = false
+        }
+        status {
+          type =  string
+          description = "pet status in the store"
+          enum = ["available", "pending", "sold"]
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  Pet {
+    title = Pet
+    description = Pet
+    implements = openapi_server.resourceTypes.Pet
+
+  }
+}

@@ -1,0 +1,74 @@
+{{>licenseInfo}}
+#pragma once
+
+#include "{{modelNamePrefix}}BaseModel.h"
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}}
+{
+{{/cppNamespaceDeclarations}}
+{{#models}}
+{{#model}}
+
+/*
+ * {{classname}}
+ *
+ * {{description}}
+ */
+class {{dllapi}} {{classname}} : public Model
+{
+public:
+    virtual ~{{classname}}() {}
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
+	void WriteJson(JsonWriter& Writer) const final;
+
+	{{#isString}}
+	{{#isEnum}}
+	{{#allowableValues}}
+	enum class Values
+	{
+		{{#enumVars}}
+		{{name}},
+		{{/enumVars}}
+  	};
+
+	Values Value{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+	{{/allowableValues}}
+
+	static FString EnumToString(const Values& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, Values& EnumValue);
+	{{/isEnum}}
+	{{^isEnum}}
+	FString Value{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+	{{/isEnum}}
+	{{/isString}}
+    {{#vars}}
+	{{#isEnum}}
+	{{#allowableValues}}
+	enum class {{{enumName}}}
+	{
+		{{#enumVars}}
+		{{name}},
+		{{/enumVars}}
+  	};
+	{{/allowableValues}}
+
+	static FString EnumToString(const {{{enumName}}}& EnumValue);
+	static bool EnumFromString(const FString& EnumAsString, {{{enumName}}}& EnumValue);
+	{{#description}}/* {{{.}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
+	{{/isEnum}}
+	{{^isEnum}}
+	{{#description}}/* {{{.}}} */
+	{{/description}}{{^required}}TOptional<{{/required}}{{{datatype}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
+	{{/isEnum}}
+    {{/vars}}
+};
+
+{{/model}}
+{{/models}}
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

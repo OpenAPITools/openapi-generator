@@ -1,0 +1,60 @@
+## CopilotApi
+
+### Add teams to the Copilot subscription for an organization
+## Add teams to the Copilot subscription for an organization
+POST https://api.github.com/orgs/{{org}}/copilot/billing/selected_teams
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_teams" : [ "engteam1", "engteam2", "engteam3" ]
+}
+
+
+### Add users to the Copilot subscription for an organization
+## Add users to the Copilot subscription for an organization
+POST https://api.github.com/orgs/{{org}}/copilot/billing/selected_users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_usernames" : [ "cooluser1", "hacker2", "octocat" ]
+}
+
+
+### Remove teams from the Copilot subscription for an organization
+## Remove teams from the Copilot subscription for an organization
+DELETE https://api.github.com/orgs/{{org}}/copilot/billing/selected_teams
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_teams" : [ "engteam1", "engteam2", "engteam3" ]
+}
+
+
+### Remove users from the Copilot subscription for an organization
+## Remove users from the Copilot subscription for an organization
+DELETE https://api.github.com/orgs/{{org}}/copilot/billing/selected_users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "selected_usernames" : [ "cooluser1", "hacker2", "octocat" ]
+}
+
+
+### Get Copilot seat information and settings for an organization
+## Get Copilot seat information and settings for an organization
+GET https://api.github.com/orgs/{{org}}/copilot/billing
+Accept: application/json
+
+### Get Copilot seat assignment details for a user
+## Get Copilot seat assignment details for a user
+GET https://api.github.com/orgs/{{org}}/members/{{username}}/copilot
+Accept: application/json
+
+### List all Copilot seat assignments for an organization
+## List all Copilot seat assignments for an organization
+GET https://api.github.com/orgs/{{org}}/copilot/billing/seats?page={{page}}&perPage={{perPage}}
+Accept: application/json

@@ -1,0 +1,76 @@
+--- 
+swagger: "2.0"
+basePath: /
+info: 
+  description: "Test for response code default"
+  title: "path with html entity test"
+  version: "1.0.0"
+paths: 
+  /foo=bar: 
+    get: 
+      produces: 
+        - application/json
+      responses: 
+        200: 
+          description: "successful operation"
+        default: 
+          description: "Internal server error"
+      summary: Test
+definitions:
+  MapTest:
+    type: object
+    properties:
+      direct_map:
+        type: object
+        additionalProperties:
+          type: boolean
+      indirect_map:
+        $ref: "#/definitions/StringBooleanMap"
+      ref_test:
+        $ref: "#/definitions/StringRef"
+      direct_test:
+        type: string
+  StringBooleanMap:
+    additionalProperties:
+      type: boolean
+  StringRef:
+    type: string
+  Pet:
+    title: a Pet
+    description: A pet for sale in the pet store
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      category:
+        $ref: '#/definitions/Category'
+      tags:
+        type: array
+        xml:
+          name: tag
+          wrapped: true
+        items:
+          $ref: '#/definitions/Tag'
+  Tag:
+    title: Pet Tag
+    description: A tag for a pet
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+  Category:
+    title: Pet category
+    description: A category for a pet
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    xml:
+      name: Category

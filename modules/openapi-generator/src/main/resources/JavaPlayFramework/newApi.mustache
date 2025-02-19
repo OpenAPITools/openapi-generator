@@ -1,0 +1,46 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import play.mvc.Http;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.io.FileInputStream;
+import play.libs.Files.TemporaryFile;
+{{#supportAsync}}
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
+{{/supportAsync}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}}ControllerImp {{#useInterfaces}}extends {{classname}}ControllerImpInterface{{/useInterfaces}} {
+{{#operation}}
+    {{#useInterfaces}}@Override{{/useInterfaces}}
+    public {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
+        //Do your magic!!!
+        {{#returnType}}
+        {{#supportAsync}}
+        return CompletableFuture.supplyAsync(() -> {
+        {{/supportAsync}}
+        {{#isResponseFile}}
+        return new FileInputStream("replace this");
+        {{/isResponseFile}}
+        {{^isResponseFile}}
+        {{#supportAsync}}   {{/supportAsync}}return new {{>returnTypesNoVoidNoAbstract}}({{#vendorExtensions.x-missing-return-info-if-needed}}{{vendorExtensions.x-missing-return-info-if-needed}}{{/vendorExtensions.x-missing-return-info-if-needed}});
+        {{/isResponseFile}}
+        {{#supportAsync}}
+        });
+        {{/supportAsync}}
+        {{/returnType}}
+    }
+
+{{/operation}}
+}
+{{/operations}}

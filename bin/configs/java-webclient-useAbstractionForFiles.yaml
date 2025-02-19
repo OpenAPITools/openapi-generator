@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/others/java/webclient-useAbstractionForFiles
+library: webclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue13146_file_abstraction_response.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: file-webclient
+  hideGenerationTimestamp: "true"
+  useAbstractionForFiles: true

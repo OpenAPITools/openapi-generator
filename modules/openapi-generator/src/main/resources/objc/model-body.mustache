@@ -1,0 +1,72 @@
+{{#models}}
+{{#model}}
+#import "{{classname}}.h"
+
+@implementation {{classname}}
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    // initialize property's default value, if any
+    {{#vars}}{{#defaultValue}}self.{{name}} = {{{defaultValue}}};
+    {{/defaultValue}}{{/vars}}
+  }
+  return self;
+}
+{{#vars}}{{^vendorExtensions.x-unique-id-key}}{{/vendorExtensions.x-unique-id-key}}{{#vendorExtensions.x-unique-id-key}}
+-(NSString*)indexPropertyName {
+    return @"{{name}}";
+}
+{{/vendorExtensions.x-unique-id-key}}{{/vars}}
+{{#discriminator}}
+/**
+ * Maps "discriminator" value to the sub-class name, so that inheritance is supported.
+ */
+- (id)initWithDictionary:(NSDictionary *)dict error:(NSError *__autoreleasing *)err {
+    NSString * discriminatedClassName = [dict valueForKey:@"{{{discriminatorName}}}"];
+    if(discriminatedClassName == nil ){
+         return [super initWithDictionary:dict error:err];
+    }
+
+    Class class = nil;
+{{#discriminator.mappedModels}}
+    if ([discriminatedClassName isEqualToString:@"{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"]) {
+        class = NSClassFromString(@"{{modelName}}");
+    }
+    else
+{{/discriminator.mappedModels}}
+    {
+        class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:discriminatedClassName]);
+        if(!class) {
+            class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:[discriminatedClassName capitalizedString]]);
+        }
+    }
+    if([self class ] == class) {
+        return [super initWithDictionary:dict error:err];
+    }
+    return [[class alloc] initWithDictionary:dict error: err];
+}
+{{/discriminator}}
+
+/**
+ * Maps json key to property name.
+ * This method is used by `JSONModel`.
+ */
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ {{#vars}}@"{{name}}": @"{{baseName}}"{{^-last}}, {{/-last}}{{/vars}} }];
+}
+
+/**
+ * Indicates whether the property with the given name is optional.
+ * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
+ * This method is used by `JSONModel`.
+ */
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
+
+  NSArray *optionalProperties = @[{{#vars}}{{^required}}@"{{name}}"{{^-last}}, {{/-last}}{{/required}}{{/vars}}];
+  return [optionalProperties containsObject:propertyName];
+}
+
+{{/model}}
+@end
+{{/models}}

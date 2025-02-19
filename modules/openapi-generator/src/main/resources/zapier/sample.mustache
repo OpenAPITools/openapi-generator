@@ -1,0 +1,18 @@
+{{#operations}}
+module.exports = {
+{{#operation}}
+{{#returnType}}
+{{^returnTypeIsPrimitive}}
+{{#responses}}
+{{#is2xx}}
+    {{#baseType}}
+    "{{baseType}}Sample": 
+        {{#examples}}{{#-last}}{{{example}}}{{/-last}}{{/examples}}{{^examples}}{ data: {} }{{/examples}},
+    {{/baseType}}
+{{/is2xx}}
+{{/responses}}
+{{/returnTypeIsPrimitive}}
+{{/returnType}}
+{{/operation}}
+}
+{{/operations}}

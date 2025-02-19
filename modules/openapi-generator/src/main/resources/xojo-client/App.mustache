@@ -1,0 +1,16 @@
+#tag Class
+Protected Class App
+Inherits ConsoleApplication
+	#tag Event
+		Function Run(args() as String) As Integer
+		  #Pragma Unused args
+		  {{^supportsAsync}}Dim m As New Mock{{#apiInfo}}{{#apis}}
+		  m.test{{classname}}("http://localhost:4010") 'original basePath: {{{basePath}}}{{/apis}}{{/apiInfo}}{{/supportsAsync}}
+		End Function
+	#tag EndEvent
+
+
+	#tag ViewBehavior
+	#tag EndViewBehavior
+End Class
+#tag EndClass

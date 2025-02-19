@@ -1,0 +1,56 @@
+openapi: 3.0.1
+info:
+  title: ping test
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8000/'
+paths:
+  /ping:
+    get:
+      operationId: pingGet
+      responses:
+        '201':
+          description: OK
+components:
+  schemas:
+    Order:
+      title: Pet Order
+      description: An order for a pets from the pet store
+      allOf:
+        - $ref: "#/components/schemas/Tag"
+        - type: object
+          properties:
+            length:
+              type: integer
+              format: int64
+            shipDate:
+              type: string
+              format: date-time
+            inline_oneof:
+              oneOf:
+                - $ref: "#/components/schemas/Tag"
+                - $ref: "#/components/schemas/Filter"
+            inline_model:
+              properties:
+                something:
+                  type: string
+    Tag:
+      title: Pet Tag
+      description: A tag for a pet
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Filter:
+      title: Pet Tag
+      description: A tag for a pet
+      type: object
+      properties:
+        fid:
+          type: integer
+          format: int64
+        fname:
+          type: string

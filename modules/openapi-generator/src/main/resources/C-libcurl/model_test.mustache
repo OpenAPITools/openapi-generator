@@ -1,0 +1,74 @@
+{{#models}}
+{{#model}}
+#ifndef {{classFilename}}_TEST
+#define {{classFilename}}_TEST
+
+// the following is to include only the main from the first c file
+#ifndef TEST_MAIN
+#define TEST_MAIN
+#define {{classFilename}}_MAIN
+#endif // TEST_MAIN
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include "../external/cJSON.h"
+
+#include "../model/{{classFilename}}.h"
+{{classname}}_t* instantiate_{{classname}}(int include_optional);
+
+{{#vars}}{{#isModel}}{{#isEnum}}
+// it is enum. Work in Progress
+{{/isEnum}}{{^isEnum}}#include "test_{{{dataType}}}.c"
+{{/isEnum}}{{/isModel}}{{/vars}}
+
+{{classname}}_t* instantiate_{{classname}}(int include_optional) {
+  {{classname}}_t* {{classname}} = NULL;
+  if (include_optional) {
+    {{classname}} = {{classname}}_create(
+{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{{example}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{example}}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
+{{/isEnum}}{{^isEnum}} // false, not to have infinite recursion
+      instantiate_{{{dataType}}}(0){{/isEnum}}{{/isModel}}{{^isModel}}0{{/isModel}}{{/example}}{{^-last}},{{/-last}}
+{{/vars}}
+    );
+  } else {
+    {{classname}} = {{classname}}_create(
+{{#vars}}      {{#isEnum}}{{^isContainer}}{{#example}}{{projectName}}_{{classVarName}}_{{enumName}}_{{{.}}}{{/example}}{{/isContainer}}{{#isContainer}}{{{example}}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{example}}}{{/isEnum}}{{^example}}{{#isModel}}{{#isEnum}}// enum {{datatypeWithEnum}}_e Work in Progress
+{{/isEnum}}{{^isEnum}}NULL{{/isEnum}}{{/isModel}}{{^isModel}}0{{/isModel}}{{/example}}{{^-last}},{{/-last}}
+{{/vars}}
+    );
+  }
+
+  return {{classname}};
+}
+
+
+#ifdef {{classFilename}}_MAIN
+
+void test_{{classname}}(int include_optional) {
+    {{classname}}_t* {{classname}}_1 = instantiate_{{classname}}(include_optional);
+
+	cJSON* json{{classname}}_1 = {{classname}}_convertToJSON({{classname}}_1);
+	printf("{{classname}} :\n%s\n", {{{cJSONPrint}}}(json{{classname}}_1));
+	{{classname}}_t* {{classname}}_2 = {{classname}}_parseFromJSON(json{{classname}}_1);
+	cJSON* json{{classname}}_2 = {{classname}}_convertToJSON({{classname}}_2);
+	printf("repeating {{classname}}:\n%s\n", {{{cJSONPrint}}}(json{{classname}}_2));
+}
+
+int main() {
+{{#models}}
+{{#model}}
+  test_{{classname}}(1);
+  test_{{classname}}(0);
+{{/model}}
+{{/models}}
+
+  printf("Hello world \n");
+  return 0;
+}
+
+#endif // {{classFilename}}_MAIN
+#endif // {{classFilename}}_TEST
+{{/model}}
+{{/models}}

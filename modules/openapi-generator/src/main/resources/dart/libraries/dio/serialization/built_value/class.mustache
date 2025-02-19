@@ -1,0 +1,19 @@
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';{{#oneOf}}{{#-first}}
+import 'package:one_of/one_of.dart';{{/-first}}{{/oneOf}}{{#anyOf}}{{#-first}}
+import 'package:one_of/any_of.dart';{{/-first}}{{/anyOf}}
+
+{{#imports}}
+{{/imports}}
+part '{{classFilename}}.g.dart';
+
+{{>serialization/built_value/class_header}} {
+{{>serialization/built_value/class_members}}
+}
+{{#discriminator}}{{#hasDiscriminatorWithNonEmptyMapping}}
+{{>serialization/built_value/class_discriminator}}
+{{/hasDiscriminatorWithNonEmptyMapping}}{{/discriminator}}
+{{>serialization/built_value/class_serializer}}{{#vendorExtensions.x-is-parent}}
+
+{{>serialization/built_value/class_concrete}}{{/vendorExtensions.x-is-parent}}
+{{>serialization/built_value/class_inline_enums}}

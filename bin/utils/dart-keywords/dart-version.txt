@@ -1,0 +1,1 @@
+Dart SDK version: 3.3.0 (stable) (Tue Feb 13 10:25:19 2024 +0000) on "macos_arm64"

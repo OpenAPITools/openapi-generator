@@ -1,0 +1,13 @@
+package {{packageName}}.auth
+
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface Authentication {
+
+    /**
+     * Apply authentication settings to header and query params.
+     *
+     * @param query Query parameters.
+     * @param headers Header parameters.
+     */
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>)
+
+}

@@ -1,0 +1,15 @@
+package {{packageName}}.auth
+
+import io.ktor.util.encodeBase64
+
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class HttpBasicAuth : Authentication {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var username: String? = null
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var password: String? = null
+
+    override fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>) {
+        if (username == null && password == null) return
+        val str = (username ?: "") + ":" + (password ?: "")
+        val auth = str.encodeBase64()
+        headers["Authorization"] = "Basic $auth"
+    }
+}

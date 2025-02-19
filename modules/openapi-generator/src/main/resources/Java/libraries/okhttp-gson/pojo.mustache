@@ -1,0 +1,582 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import {{invokerPackage}}.JSON;
+
+/**
+ * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
+ * @deprecated{{/isDeprecated}}
+ */{{#isDeprecated}}
+@Deprecated{{/isDeprecated}}
+{{#swagger1AnnotationLibrary}}
+{{#description}}
+@ApiModel(description = "{{{.}}}")
+{{/description}}
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+{{#description}}
+@Schema(description = "{{{.}}}")
+{{/description}}
+{{/swagger2AnnotationLibrary}}
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtensions.x-implements}}{{#-first}}implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
+{{#serializableModel}}
+  private static final long serialVersionUID = 1L;
+
+{{/serializableModel}}
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>modelInnerEnum}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+{{>modelInnerEnum}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
+  {{#withXml}}
+  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{#isXmlWrapped}}
+  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
+    {{/isXmlWrapped}}
+  {{/withXml}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
+  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
+  {{#vendorExtensions.x-field-extra-annotation}}
+  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{/vendorExtensions.x-field-extra-annotation}}
+  {{>nullable_var_annotations}}
+  {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+
+  {{/vars}}
+  public {{classname}}() {
+    {{#parent}}
+    {{#parcelableModel}}
+    super();
+    {{/parcelableModel}}
+    {{/parent}}
+    {{#discriminator}}
+    {{^discriminator.isEnum}}
+    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
+    {{/discriminator.isEnum}}
+    {{/discriminator}}
+  }
+  {{#vendorExtensions.x-has-readonly-properties}}
+  {{^withXml}}
+
+  public {{classname}}(
+  {{#readOnlyVars}}
+     {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}
+  {{/readOnlyVars}}
+  ) {
+    this();
+  {{#readOnlyVars}}
+    this.{{name}} = {{name}};
+  {{/readOnlyVars}}
+  }
+  {{/withXml}}
+  {{/vendorExtensions.x-has-readonly-properties}}
+  {{#vars}}
+
+  {{^isReadOnly}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
+  public {{classname}} {{name}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{#isArray}}
+
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+    }
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isArray}}
+  {{#isMap}}
+
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+    }
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMap}}
+
+  {{/isReadOnly}}
+  /**
+  {{#description}}
+   * {{.}}
+  {{/description}}
+  {{^description}}
+   * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+   * minimum: {{.}}
+  {{/minimum}}
+  {{#maximum}}
+   * maximum: {{.}}
+  {{/maximum}}
+   * @return {{name}}
+   {{#deprecated}}
+   * @deprecated
+   {{/deprecated}}
+   */
+{{#deprecated}}
+  @Deprecated
+{{/deprecated}}
+  {{>nullable_var_annotations}}
+{{#useBeanValidation}}
+{{>beanValidation}}
+{{/useBeanValidation}}
+{{#swagger1AnnotationLibrary}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{/swagger1AnnotationLibrary}}
+{{#swagger2AnnotationLibrary}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}, description = "{{{description}}}")
+{{/swagger2AnnotationLibrary}}
+{{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
+  public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }
+
+  {{^isReadOnly}}
+{{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
+{{/vendorExtensions.x-setter-extra-annotation}}{{#deprecated}}  @Deprecated
+{{/deprecated}}  public void {{setter}}({{>nullable_var_annotations}} {{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+  {{/isReadOnly}}
+
+  {{/vars}}
+{{>libraries/okhttp-gson/additional_properties}}
+
+  @Override
+  public boolean equals(Object o) {
+  {{#useReflectionEqualsHashCode}}
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+  {{/useReflectionEqualsHashCode}}
+  {{^useReflectionEqualsHashCode}}
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }{{#hasVars}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{/vars}}{{#isAdditionalPropertiesTrue}}&&
+        Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/isAdditionalPropertiesTrue}}{{#parent}} &&
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
+  {{/useReflectionEqualsHashCode}}
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  @Override
+  public int hashCode() {
+  {{#useReflectionEqualsHashCode}}
+    return HashCodeBuilder.reflectionHashCode(this);
+  {{/useReflectionEqualsHashCode}}
+  {{^useReflectionEqualsHashCode}}
+    return Objects.hash({{#vars}}{{^isByteArray}}{{name}}{{/isByteArray}}{{#isByteArray}}Arrays.hashCode({{name}}){{/isByteArray}}{{^-last}}, {{/-last}}{{/vars}}{{#parent}}{{#hasVars}}, {{/hasVars}}super.hashCode(){{/parent}}{{#isAdditionalPropertiesTrue}}{{#hasVars}}, {{/hasVars}}{{^hasVars}}{{#parent}}, {{/parent}}{{/hasVars}}additionalProperties{{/isAdditionalPropertiesTrue}});
+  {{/useReflectionEqualsHashCode}}
+  }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
+  }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    {{/parent}}
+    {{#vars}}
+    sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
+    {{/vars}}
+{{#isAdditionalPropertiesTrue}}
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
+{{/isAdditionalPropertiesTrue}}
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+{{#parcelableModel}}
+
+  public void writeToParcel(Parcel out, int flags) {
+{{#model}}
+{{#isArray}}
+    out.writeList(this);
+{{/isArray}}
+{{^isArray}}
+{{#parent}}
+    super.writeToParcel(out, flags);
+{{/parent}}
+{{#vars}}
+    out.writeValue({{name}});
+{{/vars}}
+{{/isArray}}
+{{/model}}
+  }
+
+  {{classname}}(Parcel in) {
+{{#isArray}}
+    in.readTypedList(this, {{arrayModelType}}.CREATOR);
+{{/isArray}}
+{{^isArray}}
+{{#parent}}
+    super(in);
+{{/parent}}
+{{#vars}}
+{{#isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue(null);
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+    {{name}} = ({{{datatypeWithEnum}}})in.readValue({{complexType}}.class.getClassLoader());
+{{/isPrimitiveType}}
+{{/vars}}
+{{/isArray}}
+  }
+
+  public int describeContents() {
+    return 0;
+  }
+
+  public static final Parcelable.Creator<{{classname}}> CREATOR = new Parcelable.Creator<{{classname}}>() {
+    public {{classname}} createFromParcel(Parcel in) {
+{{#model}}
+{{#isArray}}
+      {{classname}} result = new {{classname}}();
+      result.addAll(in.readArrayList({{arrayModelType}}.class.getClassLoader()));
+      return result;
+{{/isArray}}
+{{^isArray}}
+      return new {{classname}}(in);
+{{/isArray}}
+{{/model}}
+    }
+    public {{classname}}[] newArray(int size) {
+      return new {{classname}}[size];
+    }
+  };
+{{/parcelableModel}}
+
+  public static HashSet<String> openapiFields;
+  public static HashSet<String> openapiRequiredFields;
+
+  static {
+    // a set of all properties/fields (JSON key names)
+    openapiFields = new HashSet<String>();
+    {{#allVars}}
+    openapiFields.add("{{baseName}}");
+    {{/allVars}}
+
+    // a set of required properties/fields (JSON key names)
+    openapiRequiredFields = new HashSet<String>();
+    {{#requiredVars}}
+    openapiRequiredFields.add("{{baseName}}");
+    {{/requiredVars}}
+  }
+
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to {{classname}}
+   */
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!{{classname}}.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString()));
+        }
+      }
+      {{^hasChildren}}
+      {{^isAdditionalPropertiesTrue}}
+
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      // check to see if the JSON string contains additional fields
+      for (Map.Entry<String, JsonElement> entry : entries) {
+        if (!{{classname}}.openapiFields.contains(entry.getKey())) {
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `{{classname}}` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+        }
+      }
+      {{/isAdditionalPropertiesTrue}}
+      {{#requiredVars}}
+      {{#-first}}
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : {{classname}}.openapiRequiredFields) {
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+        }
+      }
+      {{/-first}}
+      {{/requiredVars}}
+      {{/hasChildren}}
+      {{^discriminator}}
+      {{#hasVars}}
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
+      {{/hasVars}}
+      {{#vars}}
+      {{#isArray}}
+      {{#items.isModel}}
+      {{#required}}
+      // ensure the json data is an array
+      if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+
+      JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+      // validate the required field `{{{baseName}}}` (array)
+      for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+        {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
+      };
+      {{/required}}
+      {{^required}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        if (jsonArray{{name}} != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+          }
+
+          // validate the optional field `{{{baseName}}}` (array)
+          for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+            {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
+          };
+        }
+      }
+      {{/required}}
+      {{/items.isModel}}
+      {{^items.isModel}}
+      {{^required}}
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull() && !jsonObj.get("{{{baseName}}}").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/required}}
+      {{#required}}
+      // ensure the required json array is present
+      if (jsonObj.get("{{{baseName}}}") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/required}}
+      {{/items.isModel}}
+      {{/isArray}}
+      {{^isContainer}}
+      {{#isString}}
+      if ({{#notRequiredOrIsNullable}}(jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) && {{/notRequiredOrIsNullable}}!jsonObj.get("{{{baseName}}}").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `{{{baseName}}}` to be a primitive type in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      }
+      {{/isString}}
+      {{#isModel}}
+      {{#required}}
+      // validate the required field `{{{baseName}}}`
+      {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isModel}}
+      {{#isEnum}}
+      {{#required}}
+      // validate the required field `{{{baseName}}}`
+      {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnum}}
+      {{#isEnumRef}}
+      {{#required}}
+      // validate the required field `{{{baseName}}}`
+      {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnumRef}}
+      {{/isContainer}}
+      {{/vars}}
+      {{/discriminator}}
+      {{#hasChildren}}
+      {{#discriminator}}
+
+      String discriminatorValue = jsonElement.getAsJsonObject().get("{{{propertyBaseName}}}").getAsString();
+      switch (discriminatorValue) {
+      {{#mappedModels}}
+        case "{{mappingName}}":
+          {{modelName}}.validateJsonElement(jsonElement);
+          break;
+      {{/mappedModels}}
+        default:
+          throw new IllegalArgumentException(String.format("The value of the `{{{propertyBaseName}}}` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+      }
+      {{/discriminator}}
+      {{/hasChildren}}
+  }
+
+{{^hasChildren}}
+  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+       if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes '{{classname}}' and its subtypes
+       }
+       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+       final TypeAdapter<{{classname}}> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get({{classname}}.class));
+
+       return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+           @Override
+           public void write(JsonWriter out, {{classname}} value) throws IOException {
+             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             {{#isAdditionalPropertiesTrue}}
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
+                 }
+               }
+             }
+             {{/isAdditionalPropertiesTrue}}
+             elementAdapter.write(out, obj);
+           }
+
+           @Override
+           public {{classname}} read(JsonReader in) throws IOException {
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             {{#isAdditionalPropertiesTrue}}
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
+             // store additional fields in the deserialized instance
+             {{classname}} instance = thisAdapter.fromJsonTree(jsonObj);
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 }
+               }
+             }
+             return instance;
+             {{/isAdditionalPropertiesTrue}}
+             {{^isAdditionalPropertiesTrue}}
+             return thisAdapter.fromJsonTree(jsonElement);
+             {{/isAdditionalPropertiesTrue}}
+           }
+
+       }.nullSafe();
+    }
+  }
+{{/hasChildren}}
+
+  /**
+   * Create an instance of {{classname}} given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of {{classname}}
+   * @throws IOException if the JSON string is invalid with respect to {{classname}}
+   */
+  public static {{{classname}}} fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, {{{classname}}}.class);
+  }
+
+  /**
+   * Convert an instance of {{classname}} to an JSON string
+   *
+   * @return JSON string
+   */
+  public String toJson() {
+    return JSON.getGson().toJson(this);
+  }
+}

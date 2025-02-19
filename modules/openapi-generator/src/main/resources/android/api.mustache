@@ -1,0 +1,119 @@
+{{>licenseInfo}}
+package {{package}};
+
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.ApiInvoker;
+import {{invokerPackage}}.Pair;
+
+{{#hasModel}}
+import {{modelPackage}}.*;
+{{/hasModel}}
+
+import java.util.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+
+import java.util.Map;
+import java.util.HashMap;
+import java.io.File;
+
+{{#operations}}
+public class {{classname}} {
+  String basePath = "{{{basePath}}}";
+  ApiInvoker apiInvoker = ApiInvoker.getInstance();
+
+  public void addHeader(String key, String value) {
+    getInvoker().addDefaultHeader(key, value);
+  }
+
+  public ApiInvoker getInvoker() {
+    return apiInvoker;
+  }
+
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
+
+  public String getBasePath() {
+    return basePath;
+  }
+
+  {{#operation}}
+  /**
+   * {{summary}}
+   * {{notes}}
+{{#allParams}}   * @param {{paramName}} {{description}}
+{{/allParams}}   * @return {{{returnType}}}{{^returnType}}void{{/returnType}}
+   */
+  public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}} {{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+    Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    {{#allParams}}
+    {{#required}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == null) {
+       throw new ApiException(400, "Missing the required parameter '{{paramName}}' when calling {{nickname}}");
+    }
+    {{/required}}
+    {{/allParams}}
+
+    // create path and map variables
+    String localVarPath = "{{{path}}}".replaceAll("\\{format\\}","json"){{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", apiInvoker.escapeString({{{paramName}}}.toString())){{/pathParams}};
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    // header params
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    // form params
+    Map<String, String> localVarFormParams = new HashMap<String, String>();
+
+    {{#queryParams}}
+    localVarQueryParams.addAll(ApiInvoker.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+    {{/queryParams}}
+
+    {{#headerParams}}
+    localVarHeaderParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));
+    {{/headerParams}}
+
+    String[] localVarContentTypes = {
+      {{#consumes}}"{{{mediaType}}}"{{^-last}},{{/-last}}{{/consumes}}
+    };
+    String localVarContentType = localVarContentTypes.length > 0 ? localVarContentTypes[0] : "application/json";
+
+    if (localVarContentType.startsWith("multipart/form-data")) {
+      // file uploading
+      MultipartEntityBuilder localVarBuilder = MultipartEntityBuilder.create();
+      {{#formParams}}{{^isFile}}
+      if ({{paramName}} != null) {
+        localVarBuilder.addTextBody("{{baseName}}", ApiInvoker.parameterToString({{paramName}}), ApiInvoker.TEXT_PLAIN_UTF8);
+      }
+      {{/isFile}}{{#isFile}}
+      if ({{paramName}} != null) {
+        localVarBuilder.addBinaryBody("{{baseName}}", {{paramName}});
+      }
+      {{/isFile}}{{/formParams}}
+
+      localVarPostBody = localVarBuilder.build();
+    } else {
+      // normal form params
+      {{#formParams}}{{^isFile}}localVarFormParams.put("{{baseName}}", ApiInvoker.parameterToString({{paramName}}));{{/isFile}}
+      {{/formParams}}
+    }
+
+    try {
+      String localVarResponse = apiInvoker.invokeAPI(basePath, localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarContentType);
+      if(localVarResponse != null){
+        return {{#returnType}}({{{returnType}}}) ApiInvoker.deserialize(localVarResponse, "{{returnContainer}}", {{returnBaseType}}.class){{/returnType}};
+      }
+      else {
+        return {{#returnType}}null{{/returnType}};
+      }
+    } catch (ApiException ex) {
+      throw ex;
+    }
+  }
+  {{/operation}}
+}
+{{/operations}}

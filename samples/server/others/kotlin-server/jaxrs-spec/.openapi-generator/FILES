@@ -1,0 +1,5 @@
+README.md
+build.gradle
+gradle.properties
+settings.gradle
+src/main/kotlin/org/openapitools/server/apis/DefaultApi.kt

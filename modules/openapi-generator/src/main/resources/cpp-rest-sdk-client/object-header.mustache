@@ -1,0 +1,50 @@
+{{>licenseInfo}}
+/*
+ * Object.h
+ *
+ * This is the implementation of a JSON object.
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_Object_H_
+#define {{modelHeaderGuardPrefix}}_Object_H_
+
+{{{defaultInclude}}}
+#include "{{packageName}}/ModelBase.h"
+
+#include <cpprest/details/basic_types.h>
+#include <cpprest/json.h>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+class {{declspec}} Object : public ModelBase
+{
+public:
+    Object();
+    virtual ~Object();
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+    void validate() override;
+
+    web::json::value toJson() const override;
+    bool fromJson(const web::json::value& json) override;
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+
+    /////////////////////////////////////////////
+    /// Object manipulation
+    web::json::value getValue(const utility::string_t& key) const;
+    void setValue(const utility::string_t& key, const web::json::value& value);
+
+private:
+    web::json::value m_object;
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_Object_H_ */

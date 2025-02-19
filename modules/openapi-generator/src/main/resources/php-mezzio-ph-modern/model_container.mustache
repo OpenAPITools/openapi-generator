@@ -1,0 +1,57 @@
+{{#vars
+}}{{#isArray
+}}#[DTA\Strategy("{{#isPrimitiveType}}ScalarList{{/isPrimitiveType}}{{^isPrimitiveType}}ObjectList{{/isPrimitiveType}}", ["type" => {{>list_item_type}}])]
+{{#minItems}}{{^maxItems
+}}#[DTA\Validator("Count", ["min" => {{minItems}}], blocker: true)]
+{{/maxItems}}{{/minItems
+}}{{^minItems}}{{#maxItems
+}}#[DTA\Validator("Count", ["max" => {{maxItems}}], blocker: true)]
+{{/maxItems}}{{/minItems
+}}{{#minItems}}{{#maxItems
+}}#[DTA\Validator("Count", ["min" => {{minItems}}, "max" => {{maxItems}}], blocker: true)]
+{{/maxItems}}{{/minItems
+}}#[DTA\Validator("Collection", ["validators" => [
+{{#isPrimitiveType
+}}    ["name" => "Scalar", "options" => ["type" => {{>list_item_type}}]]
+{{/isPrimitiveType
+}}{{#isDate
+}}    ["name" => "Date"]
+{{/isDate
+}}{{#isDateTime
+}}    ["name" => "Date", "options" => ["format" => \DateTime::RFC3339]]
+{{/isDateTime
+}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime
+}}    ["name" => "TypeCompliant", "options" => ["type" => {{>list_item_type}}]]
+{{/isDateTime}}{{/isDate}}{{/isPrimitiveType
+}}]])]
+{{/isArray
+}}{{#isMap
+}}#[DTA\Strategy("{{#isPrimitiveType}}ScalarMap{{/isPrimitiveType}}{{^isPrimitiveType}}ObjectMap{{/isPrimitiveType}}", ["type" => {{>map_item_type}}])]
+{{#minProperties}}{{^maxProperties
+}}#[DTA\Validator("Count", ["min" => {{minProperties}}], blocker: true)]
+{{/maxProperties}}{{/minProperties
+}}{{^minProperties}}{{#maxProperties
+}}#[DTA\Validator("Count", ["max" => {{maxProperties}}], blocker: true)]
+{{/maxProperties}}{{/minProperties
+}}{{#minProperties}}{{#maxProperties
+}}#[DTA\Validator("Count", ["min" => {{minProperties}}, "max" => {{maxProperties}}], blocker: true)]
+{{/maxProperties}}{{/minProperties
+}}#[DTA\Validator("Collection", ["validators" => [
+{{#isPrimitiveType
+}}    ["name" => "Scalar", "options" => ["type" => {{>map_item_type}}]]
+{{/isPrimitiveType
+}}{{#isDate
+}}    ["name" => "Date"]
+{{/isDate
+}}{{#isDateTime
+}}    ["name" => "Date", "options" => ["format" => \DateTime::RFC3339]]
+{{/isDateTime
+}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime
+}}    ["name" => "TypeCompliant", "options" => ["type" => {{>map_item_type}}]]
+{{/isDateTime}}{{/isDate}}{{/isPrimitiveType
+}}]])]
+{{/isMap
+}}{{/vars
+}}class {{classname}} extends \ArrayObject
+{
+}

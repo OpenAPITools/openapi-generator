@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/person"
+components:
+  schemas:
+    person:
+      allOf:
+        - $ref: '#/components/schemas/personForCreation'
+        - properties:
+            id:
+              type: integer
+              format: int32
+      required:
+        - id
+
+    personForCreation:
+      allOf:
+        - $ref: '#/components/schemas/personForUpdate'
+      required:
+        - firstName
+        - name
+        - email
+
+    personForUpdate:
+      properties:
+        firstName:
+          type: string
+          maxLength: 255
+        name:
+          type: string
+          maxLength: 255
+        birthDate:
+          type: string
+          format: date
+        address:
+          type: string
+          maxLength: 255
+        postalCode:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+          maxLength: 255
+        phoneNumber:
+          type: string
+          pattern: ^((\+)33|0)[1-9](\d{2}){4}$
+        email:
+          type: string
+          format: email
+        nationality:
+          type: string
+          maxLength: 255

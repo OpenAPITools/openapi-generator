@@ -1,0 +1,59 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_OBJECT_H
+#define {{prefix}}_OBJECT_H
+
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QMetaType>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}Object {
+public:
+    {{prefix}}Object() {}
+
+    {{prefix}}Object(QString jsonString) {
+        fromJson(jsonString);
+    }
+
+    virtual ~{{prefix}}Object() {}
+
+    virtual QJsonObject asJsonObject() const {
+        return jObj;
+    }
+
+    virtual QString asJson() const {
+        QJsonDocument doc(jObj);
+        return doc.toJson(QJsonDocument::Compact);
+    }
+
+    virtual void fromJson(QString jsonString) {
+        QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
+        jObj = doc.object();
+    }
+
+    virtual void fromJsonObject(QJsonObject json) {
+        jObj = json;
+    }
+
+    virtual bool isSet() const {
+        return false;
+    }
+
+    virtual bool isValid() const {
+        return true;
+    }
+
+private:
+    QJsonObject jObj;
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}Object)
+
+#endif // {{prefix}}_OBJECT_H

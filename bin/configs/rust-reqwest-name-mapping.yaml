@@ -1,0 +1,16 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest/name-mapping
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/rust-name-mapping-test.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: petstore-name-mapping
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+  -type: dash_type
+parameterNameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+  -type: dash_type

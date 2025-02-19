@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "dependencies": {
+    "@openapitools/typescript-encode-decode": "file:../build",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^16.6.2",
+    "chai": "^4.3.0",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "preinstall": "npm --prefix ../build install",
+    "test": "mocha test/*.spec.ts --require ts-node/register --timeout 10000"
+  },
+  "name": "typescript-encode-decode-test",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

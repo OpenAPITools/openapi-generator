@@ -1,0 +1,1 @@
+{{#returnType}}{{#returnContainer}}{{#isMap}}HashMap<String, {{{returnType}}}>{{/isMap}}{{#isArray}}{{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<{{{returnType}}}>{{/isArray}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}{{/returnType}}

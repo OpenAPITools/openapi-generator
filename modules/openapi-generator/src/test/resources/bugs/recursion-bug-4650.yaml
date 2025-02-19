@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: Test
+  version: v1
+paths:
+  /api/v1/filters:
+    get:
+      responses:
+        '200':
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Filter'
+components:
+  schemas:
+    AndFilter:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Filter'
+        - type: object
+          properties:
+            operator:
+              type: string
+              default: and
+              enum:
+                - and
+                - or
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/Filter'
+    Filter:
+      type: object
+      properties:
+        operator:
+          type: string
+          enum:
+            - and
+            - or
+      example:
+        operator: eq
+        field: name
+        value: john
+      discriminator:
+        propertyName: operator
+        mapping:
+          and: '#/components/schemas/AndFilter'
+          or: '#/components/schemas/OrFilter'
+      oneOf:
+        - $ref: '#/components/schemas/AndFilter'
+        - $ref: '#/components/schemas/OrFilter'
+    OrFilter:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Filter'
+        - type: object
+          properties:
+            operator:
+              type: string
+              default: or
+              enum:
+                - and
+                - or

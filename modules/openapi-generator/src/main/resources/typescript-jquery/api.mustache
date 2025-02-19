@@ -1,0 +1,251 @@
+{{>licenseInfo}}
+
+{{#jqueryAlreadyImported}}
+declare var $ : any;
+{{/jqueryAlreadyImported}}
+{{^jqueryAlreadyImported}}
+import * as $ from 'jquery';
+{{/jqueryAlreadyImported}}
+import * as models from '../model/models';
+import { COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
+
+/* tslint:disable:no-unused-variable member-ordering */
+
+{{#operations}}
+
+{{#description}}
+/**
+ * {{&description}}
+ */
+{{/description}}
+export class {{classname}} {
+    protected basePath = '{{{basePath}}}';
+    public defaultHeaders: Array<string> = [];
+    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = undefined;
+    public configuration: Configuration = new Configuration();
+
+    constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {
+        if (basePath) {
+            this.basePath = basePath;
+        }
+        if (configuration) {
+            this.configuration = configuration;
+        }
+        if (defaultExtraJQueryAjaxSettings) {
+            this.defaultExtraJQueryAjaxSettings = defaultExtraJQueryAjaxSettings;
+        }
+    }
+
+    private extendObj<T1 extends object, T2 extends T1>(objA: T2, objB: T2): T1|T2 {
+        for (let key in objB) {
+            if (objB.hasOwnProperty(key)) {
+                objA[key] = objB[key];
+            }
+        }
+        return objA;
+    }
+
+{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
+    { response: JQueryXHR; errorThrown: string }
+    > {
+        let localVarPath = this.basePath + '{{{path}}}'{{#pathParams}}.replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+
+        let queryParameters: any = {};
+        let headerParams: any = {};
+{{#hasFormParams}}
+        let formParams = new FormData();
+        let reqHasFile = false;
+
+{{/hasFormParams}}
+{{#allParams}}
+{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new Error('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+
+{{/required}}
+{{/allParams}}
+{{#queryParams}}
+        {{#isArray}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            queryParameters['{{baseName}}'] = [];
+            {{paramName}}.forEach((element: any) => {
+                queryParameters['{{baseName}}'].push(element);
+            });
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            queryParameters['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isArray}}
+        {{^isArray}}
+        if ({{paramName}} !== null && {{paramName}} !== undefined) {
+        {{#isDateTime}}
+            queryParameters['{{baseName}}'] = {{paramName}}.toISOString();
+        {{/isDateTime}}
+        {{^isDateTime}}
+            {{#isDate}}
+            queryParameters['{{baseName}}'] = {{paramName}}.toISOString();
+            {{/isDate}}
+            {{^isDate}}
+            queryParameters['{{baseName}}'] = <string><any>{{paramName}};
+            {{/isDate}}
+        {{/isDateTime}}
+        }
+        {{/isArray}}
+{{/queryParams}}
+
+        localVarPath = localVarPath + "?" + $.param(queryParameters);
+{{#formParams}}
+{{#isFile}}
+        reqHasFile = true;
+        formParams.append("{{baseName}}", {{paramName}});
+{{/isFile}}
+{{^isFile}}
+        {{#isArray}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element: any) => {
+                formParams.append('{{baseName}}', element);
+            });
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+            formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isArray}}
+        {{^isArray}}
+        if ({{paramName}} !== null && {{paramName}} !== undefined) {
+            formParams.append('{{baseName}}', <any>{{paramName}});
+        }
+        {{/isArray}}
+{{/isFile}}
+{{/formParams}}
+{{#headerParams}}
+        {{#isArray}}
+        if ({{paramName}}) {
+            headerParams['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']);
+        }
+        {{/isArray}}
+        {{^isArray}}
+        headerParams['{{baseName}}'] = String({{paramName}});
+        {{/isArray}}
+
+{{/headerParams}}
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            {{#consumes}}
+            '{{{mediaType}}}'{{^-last}}, {{/-last}}
+            {{/consumes}}
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            {{#produces}}
+            '{{{mediaType}}}'{{^-last}}, {{/-last}}
+            {{/produces}}
+        ];
+
+{{#authMethods}}
+        // authentication ({{name}}) required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+        if (this.configuration.apiKey) {
+            headerParams['{{keyParamName}}'] = this.configuration.apiKey;
+        }
+
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+        if (this.configuration.apiKey) {
+            queryParameters.set('{{keyParamName}}', this.configuration.apiKey);
+        }
+
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{#isBasicBasic}}
+        // http basic authentication required
+        if (this.configuration.username || this.configuration.password) {
+            headerParams['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
+        }
+
+{{/isBasicBasic}}
+{{#isOAuth}}
+        // oauth required
+        if (this.configuration.accessToken) {
+            let accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            headerParams['Authorization'] = 'Bearer ' + accessToken;
+        }
+
+{{/isOAuth}}
+{{/authMethods}}
+{{#hasFormParams}}
+        if (!reqHasFile) {
+            headerParams['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
+
+{{/hasFormParams}}
+
+{{#bodyParam}}
+        headerParams['Content-Type'] = 'application/json';
+
+{{/bodyParam}}
+        let requestOptions: JQueryAjaxSettings = {
+            url: localVarPath,
+            type: '{{httpMethod}}',
+            headers: headerParams,
+            processData: false
+        };
+
+{{#bodyParam}}
+        requestOptions.data = JSON.stringify({{paramName}});
+{{/bodyParam}}
+        if (headerParams['Content-Type']) {
+            requestOptions.contentType = headerParams['Content-Type'];
+        }
+{{#hasFormParams}}
+        requestOptions.data = formParams;
+        if (reqHasFile) {
+            requestOptions.contentType = false;
+        }
+{{/hasFormParams}}
+
+        if (extraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+        }
+
+        if (this.defaultExtraJQueryAjaxSettings) {
+            requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+        }
+
+        let dfd = $.Deferred<
+            { response: JQueryXHR; {{#returnType}}body: {{{.}}}; {{/returnType}}{{^returnType}}body?: any; {{/returnType}} },
+            { response: JQueryXHR; errorThrown: string }
+        >();
+        $.ajax(requestOptions).then(
+            (data: {{{returnType}}}{{^returnType}}any{{/returnType}}, textStatus: string, jqXHR: JQueryXHR) =>
+                dfd.resolve({response: jqXHR, body: data}),
+            (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
+                dfd.reject({response: xhr, errorThrown: errorThrown})
+        );
+        return dfd.promise();
+    }
+
+{{/operation}}
+}
+{{/operations}}

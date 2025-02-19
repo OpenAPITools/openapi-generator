@@ -1,0 +1,85 @@
+/**
+ * {{description}}{{^description}}{{classname}}{{/description}}
+ */{{>additionalModelTypeAnnotations}}
+public class {{classname}}{{#parent}} extends {{{.}}}{{/parent}}{{#interfaces}}{{#-first}} implements {{/-first}}{{^-first}}, {{/-first}}{{.}}{{/interfaces}} {
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+{{>modelInnerEnum}}
+    {{/isContainer}}
+    {{/isEnum}}
+    {{#items.isEnum}}
+      {{#items}}
+      {{^isContainer}}
+{{>modelInnerEnum}}
+      {{/isContainer}}
+      {{/items}}
+    {{/items.isEnum}}
+    /**
+    {{#description}}
+     * {{{.}}}
+    {{/description}}
+    {{^description}}
+     * Get {{name}}
+    {{/description}}
+    {{#minimum}}
+     * minimum: {{.}}
+    {{/minimum}}
+    {{#maximum}}
+     * maximum: {{.}}
+    {{/maximum}}
+     * @return {{name}}
+     */
+    public {{{datatypeWithEnum}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+  {{/vars}}
+{{#vendorExtensions}}
+  {{#x-property-mappings}}
+    private static final Map<String, String> propertyMappings = new Map<String, String>{
+      {{#x-property-mappings}}
+        '{{externalName}}' => '{{internalName}}'{{^-last}},{{/-last}}
+      {{/x-property-mappings}}
+    };
+
+    public Map<String, String> getPropertyMappings() {
+        return propertyMappings;
+    }
+
+  {{/x-property-mappings}}
+  {{#x-has-default-values}}
+    public {{classname}}() {
+    {{#vars}}
+      {{#defaultValue}}
+        {{name}} = {{{defaultValue}}};
+      {{/defaultValue}}
+    {{/vars}}
+    }
+
+  {{/x-has-default-values}}
+{{/vendorExtensions}}
+    public static {{classname}} getExample() {
+        {{classname}} {{classVarName}} = new {{classname}}();
+      {{#vars}}
+          {{#example}}{{classVarName}}.{{name}} = {{{example}}};{{/example}}
+      {{/vars}}
+        return {{classVarName}};
+    }
+
+    public Boolean equals(Object obj) {
+        if (obj instanceof {{classname}}) {           {{#hasVars}}
+            {{classname}} {{classVarName}} = ({{classname}}) obj;
+            return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{^-last}}
+                && {{/-last}}{{/vars}};{{/hasVars}}{{^hasVars}}
+                return true;{{/hasVars}}
+        }
+        return false;
+    }
+
+    public Integer hashCode() {
+        Integer hashCode = 43;
+      {{#vars}}
+        hashCode = (17 * hashCode) + ({{name}} == null ? 0 : System.hashCode({{name}}));
+      {{/vars}}
+        return hashCode;
+    }
+}

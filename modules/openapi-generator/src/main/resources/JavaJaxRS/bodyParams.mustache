@@ -1,0 +1,13 @@
+{{#isBodyParam}}{{!
+
+    }}@ApiParam(value = "{{{description}}}"{{!
+        }}{{#required}}, required = true{{/required}}{{!
+        }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
+        }}{{#defaultValue}}, defaultValue = "{{{.}}}"{{/defaultValue}}{{!
+    }}){{!
+
+    }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
+
+    }} {{{dataType}}} {{paramName}}{{!
+
+}}{{/isBodyParam}}

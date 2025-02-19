@@ -1,0 +1,45 @@
+--  {{{appName}}}
+--  {{{appDescription}}}
+--  ------------ EDIT NOTE ------------
+--  This file was generated with openapi-generator.  You can modify it to implement
+--  the server.  After you modify this file, you should add the following line
+--  to the .openapi-generator-ignore file:
+--
+--  src/{{packageName}}-servers.ads
+--
+--  Then, you can drop this edit note comment.
+--  ------------ EDIT NOTE ------------
+with {{openApiPackageName}}.Servers;
+with {{package}}.Models;
+with {{package}}.Skeletons;
+{{#adaImports}}with {{name}};
+{{/adaImports}}
+
+package {{package}}.Servers is
+   pragma Warnings (Off, "*use clause for package*");
+   use {{package}}.Models;
+   type Server_Type is limited new {{package}}.Skeletons.Server_Type with null record;
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+   --  {{summary}}{{#vendorExtensions.x-has-notes}}
+   --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
+   overriding
+   procedure {{operationId}}
+      (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
+       {{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+       {{/-last}}{{/allParams}}{{#returnProperty}};
+       Result  : out {{vendorExtensions.x-ada-type-name}}{{/returnProperty}};
+       Context : in out {{openApiPackageName}}.Servers.Context_Type);
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+   package Server_Impl is
+      new {{package}}.Skeletons.Shared_Instance (Server_Type);
+
+end {{package}}.Servers;

@@ -1,0 +1,4 @@
+generatorName: typescript-inversify
+outputDir: samples/client/petstore/typescript-inversify
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-inversify

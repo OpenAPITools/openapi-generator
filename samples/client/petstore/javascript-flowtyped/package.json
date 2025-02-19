@@ -1,0 +1,35 @@
+{
+  "name": "open_api_petstore",
+  "version": "1.0.0",
+  "description": "OpenAPI Client for open_api_petstore",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "fetch",
+    "flow",
+    "openapi",
+    "openapi-generator",
+    "open_api_petstore"
+  ],
+  "license": "Unlicense",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:lib": "node_modules/.bin/babel -d lib src --ignore '**/__tests__/**'",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib"
+  },
+  "dependencies": {
+    "node-fetch": ">=3.1.1",
+    "portable-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-preset-react-app": "^7.0.0",
+    "flow-copy-source": "^2.0.0",
+    "lodash": ">=4.17.19",
+    "rimraf": "^2.6.2"
+  }
+}

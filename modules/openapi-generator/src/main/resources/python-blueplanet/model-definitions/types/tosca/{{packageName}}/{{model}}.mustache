@@ -1,0 +1,73 @@
+{{#models}}
+{{#model}}
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "{{packageName}} {{classname}}"
+package     = {{packageName}}
+version     = "1.0"
+description = "Defines a {{classname}}"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+  {{#imports}}
+  {{.}} = {{packageName}}.resourceTypes.{{.}}
+  {{/imports}}
+}
+resourceTypes {
+
+  {{classname}} {
+    title = {{classname}}
+    description = {{classname}}
+    derivedFrom = Root
+    properties {
+      {{#vars}}
+        {{name}} {
+          {{^isContainer}}
+          {{#isPrimitiveType}}
+          type =  {{>prop_type}}
+          {{/isPrimitiveType}}
+          {{^isPrimitiveType}}
+          type = {{datatype}}
+          {{/isPrimitiveType}}
+          {{/isContainer}}
+          {{#isArray}}
+          type = array
+            {{#items}}
+              {{#isPrimitiveType}}
+          items.type =  {{>prop_type}}
+              {{/isPrimitiveType}}
+              {{^isPrimitiveType}}
+          items.type = {{datatype}}
+              {{/isPrimitiveType}}
+            {{/items}}
+          {{/isArray}}
+          {{#isMap}}
+          # TODO
+          {{/isMap}}
+          description = "{{description}}"
+          {{#isEnum}}
+          enum = [{{#allowableValues}}{{#values}}"{{{this}}}"{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]
+          {{/isEnum}}
+          {{#required}}
+          optional = true
+          {{/required}}
+          {{^required}}
+          optional = false
+          {{/required}}
+        }
+      {{/vars}}
+    }
+  }
+}
+
+serviceTemplates {
+
+  {{classname}} {
+    title = {{classname}}
+    description = {{classname}}
+    implements = {{packageName}}.resourceTypes.{{classname}}
+
+  }
+}
+{{/model}}
+{{/models}}

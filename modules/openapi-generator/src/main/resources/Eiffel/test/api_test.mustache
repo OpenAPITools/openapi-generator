@@ -1,0 +1,63 @@
+note
+    description: "API tests for {{classname}}"
+    date: "$Date$"
+    revision: "$Revision$"
+
+
+class {{classname}}_TEST
+
+inherit
+
+    EQA_TEST_SET
+
+feature -- Test routines
+
+{{#operations}}
+    {{#operation}}
+
+    test_{{operationId}}
+            -- {{summary}}
+            --
+            -- {{notes}}
+        local
+            {{#returnType}}
+            l_response: {{{.}}}
+            {{/returnType}}
+            {{#allParams}}
+            l_{{paramName}}: {{{dataType}}}
+            {{/allParams}}
+        do
+            -- TODO: Initialize required params.
+            {{#allParams}}
+            {{#required}}
+            {{#isContainer}}
+            {{#isArray}}
+            -- create {ARRAYED_{{dataType}}} l_{{paramName}}.make (2)
+            {{/isArray}}
+            {{/isContainer}}
+            {{^isContainer}}
+            -- l_{{paramName}}
+            {{/isContainer}}
+            {{/required}}
+            {{/allParams}}
+
+            {{#returnType}}
+            -- l_response := api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
+            {{/returnType}}
+            {{^returnType}}
+            -- api.{{operationId}}{{#hasParams}}({{#allParams}}l_{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{/hasParams}}
+            {{/returnType}}
+            assert ("not_implemented", False)
+        end
+    {{/operation}}
+{{/operations}}
+
+feature {NONE} -- Implementation
+
+    api: {{classname}}
+            -- Create an object instance of `{{classname}}'.
+        once
+            create { {{classname}} } Result
+        end
+
+end

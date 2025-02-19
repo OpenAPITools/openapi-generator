@@ -1,0 +1,34 @@
+{{>partial_header}}
+// package {{packageName}}
+
+// {{classname}}
+
+export default {
+    Query: {
+{{#operations}}
+{{#operation}}{{^vendorExtensions.x-is-mutation}}
+        // @return {{returnType}}
+        {{operationId}}: ({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) => {
+            return {
+                {{#allParams}}"{{paramName}}": "{{example}}"{{^-last}},
+                {{/-last}}{{/allParams}}
+            };
+        },
+{{/vendorExtensions.x-is-mutation}}{{/operation}}
+{{/operations}}
+    },
+
+    Mutation: {
+{{#operations}}
+{{#operation}}{{#vendorExtensions.x-is-mutation}}
+        // @return {{returnType}}
+        {{operationId}}: ({{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) => {
+            return {
+                {{#allParams}}"{{paramName}}": "{{example}}"{{^-last}},
+                {{/-last}}{{/allParams}}
+            };
+        },
+{{/vendorExtensions.x-is-mutation}}{{/operation}}
+{{/operations}}
+    }
+}

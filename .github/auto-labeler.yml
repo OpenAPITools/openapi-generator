@@ -1,0 +1,286 @@
+comment: |
+    👍 Thanks for opening this issue!
+    🏷 I have applied any labels matching special text in your issue.
+
+    The team will review the labels and make any necessary changes.
+labels:
+    'Announcement':
+      - '\s*?\[[Aa]nnouncement\]\s*?'
+    'Breaking change (with fallback)':
+      - '\s*?[bB]reaking [cC]hange [wW]ith [fF]allback\s*?'
+    'Breaking change (without fallback)':
+      - '\s*?[bB]reaking [cC]hange [wW]ithout [fF]allback\s*?'
+    'Client: Ada':
+      - '\s*?\[ada\]\s*?'
+      - '\s*?-[gl] ada(?!-)\b'
+    'Client: Android':
+      - '\s*?\[android\]\s*?'
+      - '\s*?-[gl] android(?!-)\b'
+    'Client: Apex':
+      - '\s*?\[apex\]\s*?'
+      - '\s*?-[gl] apex(?!-)\b'
+    'Client: Bash':
+      - '\s*?\[bash\]\s*?'
+      - '\s*?-[gl] bash(?!-)\b'
+    'Client: C':
+      - '\s*?\[[cC]\]\s*?'
+      - '\s*?-[gl] c(?!-)\b'
+    # 'Client: Ceylon':
+    'Client: C++':
+      - '\s*?\[cpp(-.*)?-client\]\s*?'
+      - '\s*?-[gl] cpp(-.*)?-client\s*?'
+      - '\s*?-[gl] cpp-restsdk(?!-)\b'
+      - '\s*?-[gl] cpp-tizen(?!-)\b'
+    'Client: C-Sharp':
+      - '\s*?-[gl] csharp(?!-)\b'
+      - '\s*?[cC]-[sS]harp [cC]lient\s*?'
+      - '\s*?-[gl] csharp-dotnet2\s*?'
+      - '\s*?-[gl] csharp-refactor?\s*?'
+      - '\s*?\[[Cc]#\]'
+      - '\s*?\[csharp\]\s*?'
+    'Client: Clojure':
+      - '\s*?\[clojure\]\s*?'
+      - '\s*?-[gl] clojure(?!-)\b'
+    # 'Client: Crystal':
+    'Client: Dart':
+      - '\s*?\[dart\]\s*?'
+      - '\s*?-[gl] dart(?!-)\b'
+    'Client: Dukescript':
+      - '\s*?\[dukescript\]\s*?'
+      - '\s*?-g dukescript\s*?'
+    'Client: Eiffel':
+      - '\s*?\[eiffel\]\s*?'
+      - '\s*?-[gl] eiffel(?!-)\b'
+    'Client: Elixir':
+      - '\s*?\[elixir\]\s*?'
+      - '\s*?-[gl] elixir(?!-)\b'
+    'Client: Elm':
+      - '\s*?\[elm\]\s*?'
+      - '\s*?-[gl] elm(?!-)\b'
+    'Client: Erlang':
+      - '\s*?\[erlang(-.*)?-client\]\s*?'
+      - '\s*?-[gl] erlang(-.*)?-client\s*?'
+      - '\s*?\[erlang-proper\]\s*?'
+      - '\s*?-[gl] erlang-proper\s*?'
+    'Client: Go':
+      - '\s*?\[go\]\s*?'
+      - '\s*?-[gl] go(?!-)\b'
+    'Client: Groovy':
+      - '\s*?\[groovy\]\s*?'
+      - '\s*?-[gl] groovy(?!-)\b'
+    'Client: HTML':
+      - '\s*?\[html[2]?\]\s*?'
+      - '\s*?-[gl] html[2]?\s*?'
+    'Client: Haskell':
+      - '\s*?\[haskell(-.*)?-client\]\s*?'
+      - '\s*?-[gl] haskell(-.*)?-client\s*?'
+    'Client: JMeter':
+      - '\s*?\[jmeter\]\s*?'
+      - '\s*?-[gl] jmeter\s*?'
+    'Client: Java':
+      - '\s*?\[java\]\s*?'
+      - '\s*?-[gl] java(?!-)\b'
+    'Client: JavaScript/Node.js':
+      - '\s*?\[javascript\]\s*?'
+      - '\s*?-[gl] javascript\s*?'
+      - '\s*?-[gl] javascript-(\S)*\s*?'
+    # 'Client: Julia': # NOTE: Not yet implemented
+    'Client: Kotlin':
+      - '\s*?\[kotlin\]\s*?'
+      - '\s*?-[gl] kotlin(?!-)\b'
+    'Client: Lisp':
+      - '\s*?\[lisp\]\s*?'
+      - '\s*?-[gl] lisp(?!-)\b'
+    'Client: Lua':
+      - '\s*?\[lua\]\s*?'
+      - '\s*?-[gl] lua(?!-)\b'
+    'Client: Objc':
+      - '\s*?\[objc\]\s*?'
+      - '\s*?-[gl] objc\s*?'
+    # 'Client: OCaml':
+    'Client: Perl':
+      - '\s*?\[perl\]\s*?'
+      - '\s*?-[gl] perl(?!-)\b'
+    # 'Client: PHP':
+    'Client: PowerShell':
+      - '\s*?\[powershell\]\s*?'
+      - '\s*?-[gl] powershell\s*?'
+    'Client: Python':
+      - '\s*?\[python\]\s*?'
+      - '\s*?-[gl] python(?!-)\b'
+    'Client: QT':
+      - '\s*?\[cpp-qt5-client\]\s*?'
+      - '\s*?-[gl] cpp-qt5-client\s*?'
+    'Client: R':
+      - '\s*?\[[rR]\]\s*?'
+      - '\s*?-[gl] r(?!-)\b'
+    'Client: Reason ML':
+      - '\s*?\[reasonml\]\s*?'
+      - '\s*?-[g] reasonml\s*?'
+    'Client: Retrofit':
+      - '\s*?retrofit.*?\s*?'
+    'Client: Ruby':
+      - '\s*?\[ruby\]\s*?'
+      - '\s*?-[gl] ruby(?!-)\b'
+    'Client: Rust':
+      - '\s*?\[rust\]\s*?'
+      - '\s*?-[gl] rust(?!-)\b'
+    'Client: Scala':
+      - '\s*?\[scalaz\]\s*?'
+      - '\s*?-[gl] scalaz\s*?'
+      - '\s*?\[scala-(?!finch)[a-z]+\]\b'
+      - '\s*?-[gl] scala-(?!finch)[a-z]+?(?!-)\b'
+    'Client: Swift':
+      - '\s*?\[swift[34]+\]\s*?'
+      - '\s*?-[gl] swift[34]+\s*?'
+      - '\s*?-[gl] swift2-deprecated\s*?'
+    'Client: TypeScript':
+      - '\s*?\[typescript\]\s*?'
+      - '\s*?\[typescript-[\-a-z]+\]\s*?'
+      - '\s*?-[gl] typescript-[\-a-z]+\s*?'
+    # 'Client: VB/VB.net': # NOTE: Not yet implemented
+    # 'Client: Visual Basic': # TODO: REMOVE UNUSED LABEL
+    'Config: Apache':
+      - '\s*?\[apache2\]\s*?'
+      - '\s*?-[gl] apache2\s*?'
+    'Docker':
+      - '\s*?\[docker\]\s*?'
+    'Documentation: Cwiki':
+      - '\s*?\[cwiki\]\s*?'
+      - '\s*?-[gl] cwiki\s*?'
+    'Documentation: Dynamic HTML':
+      - '\s*?\[dynamic-html\]\s*?'
+      - '\s*?-[gl] dynamic-html\s*?'
+    'Enhancement: CI/Test':
+      - '\s*?\[ci\]\s*?'
+    'Enhancement: Code format':
+      - '\s*?\[format(ting)?\]\s*?'
+    # 'Enhancement: Compatibility':
+    'Enhancement: Feature':
+      - '\s*?\[feat(ure)?s*?'
+    'Enhancement: General':
+      - '\s*?\[general\]\s*?'
+      - '\s*?\[core\]\s*?'
+    # 'Enhancement: New generator':
+    'Enhancement: Performance':
+      - '\s*?\[perf\]\s*?'
+    # 'Feature List: API clients':
+    # 'Feature List: API documentations':
+    # 'Feature List: API servers':
+    # 'Feature: Authentication':
+    # 'Feature: Composition / Inheritance':
+    # 'Feature: Documentation':
+    # 'Feature: Enum':
+    # 'Feature: Generator':
+    'Feature: OAS 3.0 spec support':
+      - '\s*?\[oas3[\.0]?\]\s*?'
+    # 'General: Awaiting feedback':
+    'General: Discussion':
+      - '\s*?\[discussion\]\s*?'
+    'General: Question':
+      - '\s*?\[question\]\s*?'
+    'General: Suggestion':
+      - '\s*?\[suggestion\]\s*?'
+    'General: Support':
+      - '\s*?\[support\]\s*?'
+    'Issue: Bug':
+      - '\s*?\[bug(s)?\]\s*?'
+      - '\s*?\[fix(es)?\]\s*?'
+    # 'Issue: Invalid spec':
+    # 'Issue: Migration':
+    # 'Issue: Non-operational':
+    # 'Issue: Platform':
+    # 'Issue: Regression':
+    'Issue: Security':
+      - '\s*?\[security\]\s*?'
+    # 'Issue: Unable to reproduce':
+    # 'Issue: Undo changes':
+    # 'Issue: Usage/Installation':
+    # 'Issue: Workaround available':
+    'OpenAPI Generator CLI':
+      - '\s*?\[cli\]\s*?'
+    'OpenAPI Generator Gradle Plugin':
+      - '\s*?\[gradle\]\s*?'
+    'OpenAPI Generator Maven Plugin':
+      - '\s*?\[maven\]\s*?'
+    'OpenAPI Generator Online':
+      - '\s*?\[online\]\s*?'
+    'Schema: MySQL':
+      - '\s*?\[mysql\]\s*?'
+      - '\s*?-[gl] mysql\s*?'
+    'Schema: GraphQL':
+      - '\s*?\[graphql-schema\]\s*?'
+      - '\s*?-[gl] graphql-schema\s*?'
+    'Server: Ada':
+      - '\s*?\[ada(-.*)?-server\]\s*?'
+      - '\s*?-[gl] ada(-.*)?-server\s*?'
+    'Server: C++':
+      - '\s*?\[cpp(-.*)?-server\]\s*?'
+      - '\s*?-[gl] cpp(-.*)?-server\s*?'
+    'Server: C-Sharp':
+      - '\s*?\[aspnetcore\]\s*?'
+      - '\s*?-[gl] aspnetcore\s*?'
+    # 'Server: Ceylon': # TODO: REMOVE UNUSED LABEL
+    'Server: Eiffel':
+      - '\s*?\[eiffel(-.*)?-server\]\s*?'
+      - '\s*?-[gl] eiffel(-.*)?-server\s*?'
+    'Server: Elixir':
+      - '\s*?\[elixir(-.*)?-server\]\s*?'
+      - '\s*?-[gl] elixir(-.*)?-server\s*?'
+    'Server: Erlang':
+      - '\s*?\[erlang-server\]\s*?'
+      - '\s*?-[gl] erlang-server\s*?'
+    'Server: Go':
+      - '\s*?\[go(-.*)?-server\]\s*?'
+      - '\s*?-[gl] go(-.*)?-server\s*?'
+    'Server: GraphQL':
+      - '\s*?\[graphql(-.*)?-server\]\s*?'
+      - '\s*?-[gl] graphql(-.*)?-server\s*?'
+    'Server: Haskell':
+      - '\s*?\[haskell]\s*?'
+      - '\s*?-[gl] haskell(?!-)\b'
+    'Server: Java':
+      - '\s*?\[java-.*?\]\s*?'
+      - '\s*?-[gl] java-.*?\s*?'
+      - '\s*?-[gl] jaxrs-.*?\s*?'
+    'Server: Kotlin':
+      - '\s*?\[ktor]\s*?'
+      - '\s*?\[kotlin-spring]\s*?'
+      - '\s*?\[kotlin(-.*)?-server\]\s*?'
+      - '\s*?-[gl] kotlin(-.*)?-server\s*?'
+      - '\s*?-[gl] kotlin-spring\s*?'
+    'Server: Nodejs':
+      - '\s*?\[nodejs(-.*)?-server\]\s*?'
+      - '\s*?-[gl] nodejs(-.*)?-server\s*?'
+    'Server: PHP':
+      - '\s*?\[php-.*?\]\s*?'
+      - '\s*?-[gl] php-.*?\s*?'
+    'Server: Perl':
+      - '\s*?\[perl(-.*)?-server\]\s*?'
+      - '\s*?-g perl(-.*)?-server\s*?'
+    'Server: Python':
+      - '\s*?\[python-.*?\]\s*?'
+      - '\s*?-[gl] python-.*?\s*?'
+    'Server: Ruby':
+      - '\s*?\[ruby-.*?\]\s*?'
+      - '\s*?-[gl] ruby-.*?\s*?'
+    'Server: Rust':
+      - '\s*?\[rust(-.*)?-server\]\s*?'
+      - '\s*?-[gl] rust(-.*)?-server\s*?'
+    'Server: Scala':
+      - '\s*?\[scala(-.*)?-server\]\s*?'
+      - '\s*?-[gl] scala(-.*)?-server\s*?'
+      - '\s*?\[scalatra\]\s*?'
+      - '\s*?-[gl] scalatra\s*?'
+      - '\s*?\[scala-finch\]\s*?'
+      - '\s*?-[gl] scala-finch\s*?'
+    'Server: Spring':
+      - '\s*?\[spring\]\s*?'
+      - '\s*?-[g] spring\s*?'
+    # 'Swagger-Parser':
+    'WIP':
+      - '\s*?\[wip\]\s*?'
+      - '\s*?\[WIP\]\s*?'
+      - '\bWIP:.*?'
+    'help wanted':
+      - '\s*?\[help wanted\]\s*?'

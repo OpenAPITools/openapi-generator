@@ -1,0 +1,51 @@
+# OpenAPI schemas support 4 possible combinations for properties:
+# 1. nullable + required
+# 2. nullable + not required
+# 3. not nullable + required
+# 4. not nullable + not required
+# This sample contains all of them to demonstrate how they are rendered in the generated code.
+# Related discussion: https://github.com/OpenAPITools/openapi-generator/issues/14765
+openapi: 3.0.3
+info:
+  title: Nullable Required
+  version: 1.0.0
+servers:
+  - url: /api/v3
+paths:
+  /pet:
+    post:
+      operationId: addPet
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      required:
+        - notNullable_required
+        - nullable_required
+      type: object
+      properties:
+        nullable_notRequired:
+          type: string
+          example: doggie
+          nullable: true
+        notNullable_notRequired:
+          type: string
+          example: doggie
+        notNullable_required:
+          type: string
+          example: doggie
+        nullable_required:
+          type: string
+          example: doggie
+          nullable: true

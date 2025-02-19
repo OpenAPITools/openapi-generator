@@ -1,0 +1,24 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "id" },
+      {"model": "username" },
+      {"model": "first_name" },
+      {"model": "last_name" },
+      {"model": "email" },
+      {"model": "password" },
+      {"model": "phone" },
+      {"model": "user_status" },
+    ]
+  }]
+}

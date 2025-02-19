@@ -1,0 +1,37 @@
+{{=< >=}}(ns <package>.<classname>
+  (:require [<baseNamespace>.core :refer [call-api check-required-params with-collection-format *api-context*]]
+            [clojure.spec.alpha :as s]
+            [spec-tools.core :as st]
+            [orchestra.core :refer [defn-spec]]
+            <#operations><#operation><#-first><#vendorExtensions.x-models>[<modelPackage>.<.> :refer :all]
+            </vendorExtensions.x-models></-first></operation></operations>)
+  (:import (java.io File)))
+
+<#operations><#operation>
+(defn-spec <operationId>-with-http-info any?
+  "<&summary><#notes>
+  <&notes></notes>"<#hasOptionalParams>
+  ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><^-last>, </-last></required></allParams>] (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><^-last>, </-last></required></allParams><#hasOptionalParams>{:keys [<#allParams><^required><#isFile>^File </isFile><paramName><^-last> </-last></required></allParams>]} (s/map-of keyword? any?)</hasOptionalParams>]<#hasRequiredParams>
+  <#hasOptionalParams> </hasOptionalParams>(check-required-params<#allParams><#required> <paramName></required></allParams>)</hasRequiredParams>
+  <#hasOptionalParams> </hasOptionalParams>(call-api "<path>" :<httpMethod>
+  <#hasOptionalParams> </hasOptionalParams>          {:path-params   {<#pathParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </pathParams>}
+  <#hasOptionalParams> </hasOptionalParams>           :header-params {<#headerParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </headerParams>}
+  <#hasOptionalParams> </hasOptionalParams>           :query-params  {<#queryParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </queryParams>}
+  <#hasOptionalParams> </hasOptionalParams>           :form-params   {<#formParams>"<baseName>" <#collectionFormat>(with-collection-format <paramName> :<collectionFormat>)</collectionFormat><^collectionFormat><paramName></collectionFormat> </formParams>}<#bodyParam>
+  <#hasOptionalParams> </hasOptionalParams>           :body-param    <paramName></bodyParam>
+  <#hasOptionalParams> </hasOptionalParams>           :content-types [<#consumes>"<& mediaType>"<^-last> </-last></consumes>]
+  <#hasOptionalParams> </hasOptionalParams>           :accepts       [<#produces>"<& mediaType>"<^-last> </-last></produces>]
+  <#hasOptionalParams> </hasOptionalParams>           :auth-names    [<#authMethods>"<&name>"<^-last> </-last></authMethods>]})<#hasOptionalParams>)</hasOptionalParams>)
+
+(defn-spec <operationId> <#returnType><returnType></returnType><^returnType>any?</returnType>
+  "<&summary><#notes>
+  <&notes></notes>"<#hasOptionalParams>
+  ([<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><^-last>, </-last></required></allParams>] (<operationId><#allParams><#required> <paramName></required></allParams> nil))</hasOptionalParams>
+  <#hasOptionalParams>(</hasOptionalParams>[<#allParams><#required><#isFile>^File </isFile><paramName> <dataType><^-last>, </-last></required></allParams><#hasOptionalParams>optional-params any?</hasOptionalParams>]
+  <#hasOptionalParams> </hasOptionalParams>(let [res (:data (<operationId>-with-http-info<#allParams><#required> <paramName></required></allParams><#hasOptionalParams> optional-params</hasOptionalParams>))]
+  <#hasOptionalParams> </hasOptionalParams>  (if (:decode-models *api-context*)
+  <#hasOptionalParams> </hasOptionalParams>     (st/decode <#returnType><returnType></returnType><^returnType>any?</returnType> res st/string-transformer)
+  <#hasOptionalParams> </hasOptionalParams>     res))<#hasOptionalParams>)</hasOptionalParams>)
+
+</operation></operations>

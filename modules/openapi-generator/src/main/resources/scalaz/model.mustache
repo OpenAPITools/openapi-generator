@@ -1,0 +1,60 @@
+package {{package}}
+
+import argonaut._
+import argonaut.EncodeJson._
+import argonaut.DecodeJson._
+
+import org.http4s.{EntityDecoder, EntityEncoder}
+import org.http4s.argonaut._
+import org.joda.time.DateTime
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+import {{classname}}._
+
+case class {{classname}} (
+  {{#vars}}{{#description}}/* {{{.}}} */
+  {{/description}}{{name}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^required}}]{{/required}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
+  {{/vars}}
+
+object {{classname}} {
+  import DateTimeCodecs._
+  {{#hasEnums}}
+  {{#vars}}
+  {{#isEnum}}
+  sealed trait {{datatypeWithEnum}}
+  {{#_enum}}
+  case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{datatypeWithEnum}}
+  {{/_enum}}
+
+  object {{datatypeWithEnum}} {
+    def to{{datatypeWithEnum}}(s: String): Option[{{datatypeWithEnum}}] = s match {
+{{#_enum}}      case "{{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}" => Some({{#fnEnumEntry}}{{.}}{{/fnEnumEntry}})
+{{/_enum}}
+      case _ => None
+    }
+
+    def from{{datatypeWithEnum}}(x: {{datatypeWithEnum}}): String = x match {
+{{#_enum}}      case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} => "{{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}"
+{{/_enum}}
+    }
+  }
+
+  implicit val {{datatypeWithEnum}}EnumEncoder: EncodeJson[{{datatypeWithEnum}}] =
+    EncodeJson[{{datatypeWithEnum}}](is => StringEncodeJson({{datatypeWithEnum}}.from{{datatypeWithEnum}}(is)))
+
+  implicit val {{datatypeWithEnum}}EnumDecoder: DecodeJson[{{datatypeWithEnum}}] =
+    DecodeJson.optionDecoder[{{datatypeWithEnum}}](n => n.string.flatMap(jStr => {{datatypeWithEnum}}.to{{datatypeWithEnum}}(jStr)), "{{datatypeWithEnum}} failed to de-serialize")
+  {{/isEnum}}
+  {{/vars}}
+  {{/hasEnums}}
+
+  implicit val {{classname}}CodecJson: CodecJson[{{classname}}] = CodecJson.derive[{{classname}}]
+  implicit val {{classname}}Decoder: EntityDecoder[{{classname}}] = jsonOf[{{classname}}]
+  implicit val {{classname}}Encoder: EntityEncoder[{{classname}}] = jsonEncoderOf[{{classname}}]
+}
+{{/model}}
+{{/models}}

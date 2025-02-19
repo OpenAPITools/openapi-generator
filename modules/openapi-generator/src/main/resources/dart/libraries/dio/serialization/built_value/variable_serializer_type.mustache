@@ -1,0 +1,1 @@
+FullType{{#isNullable}}.nullable{{/isNullable}}({{#isContainer}}{{baseType}}, [{{#isMap}}FullType(String), {{/isMap}}{{#items}}{{>serialization/built_value/variable_serializer_type}}{{/items}}]{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}{{/isContainer}})

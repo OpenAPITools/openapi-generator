@@ -1,0 +1,5 @@
+service_name: travis-ci # travis-ci or travis-pro
+
+# for php-coveralls
+coverage_clover: report/logs/clover.xml
+json_path: report/logs/coveralls-upload.json

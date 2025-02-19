@@ -1,0 +1,17 @@
+{{#vendorExtensions}}
+{{#internal.hasParameterData}}
+        {{internal.parameterDataType}} $parameters{{#bodyParam}},{{/bodyParam}}{{^bodyParam}}{{#hasAuthMethods}},{{/hasAuthMethods}}{{^hasAuthMethods}}{{#hasConsumes}},{{/hasConsumes}}{{^hasConsumes}}{{#hasProduces}},{{/hasProduces}}{{/hasConsumes}}{{/hasAuthMethods}}{{/bodyParam}}
+{{/internal.hasParameterData}}
+{{/vendorExtensions}}
+{{#bodyParam}}
+        {{dataType}} $requestContent{{#hasAuthMethods}},{{/hasAuthMethods}}{{^hasAuthMethods}}{{#hasConsumes}},{{/hasConsumes}}{{^hasConsumes}}{{#hasProduces}},{{/hasProduces}}{{/hasConsumes}}{{/hasAuthMethods}}
+{{/bodyParam}}
+{{#hasAuthMethods}}
+        iterable $security = ['{{authMethods.0.name}}' => [{{#authMethods.0.scopes}}'{{scope}}', {{/authMethods.0.scopes}}]]{{#hasConsumes}},{{/hasConsumes}}{{^hasConsumes}}{{#hasProduces}},{{/hasProduces}}{{/hasConsumes}}
+{{/hasAuthMethods}}
+{{#hasConsumes}}
+        string $requestMediaType = '{{consumes.0.mediaType}}'{{#hasProduces}},{{/hasProduces}}
+{{/hasConsumes}}
+{{#hasProduces}}
+        string $responseMediaType = '{{produces.0.mediaType}}'
+{{/hasProduces}}

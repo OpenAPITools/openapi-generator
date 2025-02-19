@@ -1,0 +1,15 @@
+{{> partial_header}}
+Describe -tag '{{{packageName}}}' -name '{{{apiNamePrefix}}}{{{classname}}}' {
+{{#operations}}
+{{#operation}}
+    Context '{{{vendorExtensions.x-powershell-method-name}}}' {
+        It 'Test {{{vendorExtensions.x-powershell-method-name}}}' {
+            #$TestResult = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{{paramName}}} "TEST_VALUE"{{/allParams}}
+            #$TestResult | Should -BeOfType TODO
+            #$TestResult.property | Should -Be 0
+        }
+    }
+
+{{/operation}}
+{{/operations}}
+}

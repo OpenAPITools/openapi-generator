@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: Kotlin Issue
+  version: "1.0"
+
+servers:
+  - url: "http://localhost"
+
+paths:
+  /test/{value}:
+    post:
+      summary: test
+      operationId: test
+      parameters:
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+          example: something
+      responses:
+        '200':
+          description: OK

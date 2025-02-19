@@ -1,0 +1,91 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Simple no path and body param spec
+
+paths:
+  /none/endpoint:
+    get:
+      tags:
+        - none
+      summary: summary
+      description: description
+      operationId: one
+      responses:
+        '204':
+          description: successful operation
+  /path/endpoint/{pathParam}:
+    get:
+      tags:
+        - path
+      summary: summary
+      description: description
+      operationId: path
+      parameters:
+        - name: pathParam
+          in: path
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+      responses:
+        '204':
+          description: successful operation
+
+  /body/endpoint:
+    post:
+      tags:
+        - body
+      summary: summary
+      description: description
+      operationId: body
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                param:
+                  type: string
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: successful operation
+
+  /both/endpoint/{pathParam}:
+    post:
+      tags:
+        - both
+      summary: summary
+      description: description
+      operationId: both
+      parameters:
+        - name: pathParam
+          in: path
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                param:
+                  type: string
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: successful operation

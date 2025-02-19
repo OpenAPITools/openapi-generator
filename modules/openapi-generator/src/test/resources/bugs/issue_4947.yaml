@@ -1,0 +1,185 @@
+openapi: 3.0.3
+info:
+  title: Test Issue
+  version: v1
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Foo'
+components:
+  schemas:
+    string50:
+      type: string
+      pattern: "^[a-zA-Z0-9 .:!()-]$"
+      maxLength: 50
+    Foo:
+      type: object
+      properties:
+        category:
+          type: array
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/string50"
+        stringPattern:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: "[a-z]"
+        stringMaxMinLength:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 10
+          maxItems: 10
+        stringMinLength:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          maxItems: 10
+        stringMaxLength:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 1
+          maxItems: 10
+        stringEmail:
+          type: array
+          items:
+            type: string
+            format: email
+        intMinMax:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 10
+        intMin:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        intMax:
+          type: array
+          items:
+            type: integer
+            maximum: 10
+        numberMinMax:
+          type: array
+          items:
+            type: number
+            minimum: 1
+            maximum: 10
+        numberMin:
+          type: array
+          items:
+            type: number
+            minimum: 1
+        numberMax:
+          type: array
+          items:
+            type: number
+            maximum: 10
+        stringPatternWithMin:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 10
+            pattern: '^\d{3}-\d{2}-\d{4}$'
+        stringPatternNullable:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            pattern: '^\d{3}-\d{2}-\d{4}$'
+        stringMaxMinLengthNullable:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 10
+          maxItems: 10
+        stringMinLengthNullable:
+          nullable: true
+          type: array
+          items:
+            type: string
+            minLength: 1
+          maxItems: 10
+        stringMaxLengthNullable:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 1
+          maxItems: 10
+        stringNumbers:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: number
+            minimum: 1
+            maximum: 10
+          maxItems: 10
+        stringEmailNullable:
+          nullable: true
+          type: array
+          items:
+            type: string
+            format: email
+        intMinMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 10
+        intMinNullable:
+          nullable: true
+          type: array
+          items:
+            type: integer
+            minimum: 1
+        intMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: integer
+            maximum: 10
+        numberMinMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: number
+            minimum: 1
+            maximum: 10
+        numberMinNullable:
+          nullable: true
+          type: array
+          items:
+            type: number
+            minimum: 1
+        numberMaxNullable:
+          nullable: true
+          type: array
+          items:
+            type: number
+            maximum: 10
+            exclusiveMaximum: true

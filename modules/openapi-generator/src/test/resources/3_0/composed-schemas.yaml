@@ -1,0 +1,107 @@
+
+
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /pets:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/Cat'
+                - $ref: '#/components/schemas/Dog'
+                # This field will not match to any type.
+                - description: Any kind of pet
+              discriminator:
+                propertyName: pet_type
+      responses:
+        '200':
+          description: Updated
+
+  /pets-filtered:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/PetByAge'
+                - $ref: '#/components/schemas/PetByType'
+                # This field will not match to any type.
+                - description: Any kind of filter
+      responses:
+        '200':
+          description: Updated
+
+  /file:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  allOf:
+                    - type: file
+                    # This field will not match to any type.
+                    - description: The file to upload
+      responses:
+        '200':
+          description: File uploaded
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - pet_type
+    Dog:
+      allOf:
+        # This field will not match to any type.
+        - description: Dog information
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            hunts:
+              type: boolean
+            age:
+              type: integer
+    PetByAge:
+      type: object
+      properties:
+        age:
+          type: integer
+        nickname:
+          type: string
+      required:
+        - age
+
+    PetByType:
+      type: object
+      properties:
+        pet_type:
+          type: string
+          enum: [Cat, Dog]
+        hunts:
+          type: boolean
+      required:
+        - pet_type

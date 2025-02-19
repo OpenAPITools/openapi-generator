@@ -1,0 +1,294 @@
+.mvn/.gradle-enterprise/
+.mvn/.develocity/
+.scannerwork/
+.vscode
+*.iml
+out/
+*.ipr
+*.iws
+*.gpg
+classpath.txt
+version.properties
+modules/openapi-generator-maven-plugin/src/test/resources/default/_merged_spec.yaml
+modules/openapi-generator-gradle-plugin/bin/
+!modules/openapi-generator-cli/src/main/resources/version.properties
+.project
+.classpath
+lib/*
+build/*
+generated-files/*
+generated-sources/*
+generated-code/*
+*.swp
+*.swo
+target
+.idea
+.lib
+atlassian-ide-plugin.xml
+.DS_Store
+packages/
+.pub
+.packages
+.vagrant/
+.vscode/
+**/.vs
+.factorypath
+.metals/*
+nbproject/
+nbactions.xml
+nb-configuration.xml
+.direnv/
+**/:w
+
+.settings
+
+*.mustache~
+*.java~
+*.pm~
+*.xml~
+*.t~
+
+/target
+/generated-files
+test-output/
+nbactions.xml
+test-output/
+
+# website
+website/build/
+website/package-lock.json
+
+# scalatra
+samples/server-generator/scalatra/output
+samples/server-generator/scalatra/target
+samples/server-generator/scalatra/output/.history
+
+# nodejs
+**/node_modules
+samples/server-generator/node/output/node_modules
+samples/server/petstore/nodejs/node_modules
+samples/server/petstore/nodejs-server/node_modules
+
+# qt cpp
+samples/client/build
+samples/client/petstore/build
+samples/client/petstore/cpp-qt/PetStore/moc_*
+samples/client/petstore/cpp-qt/PetStore/*.o
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/build-*
+samples/client/petstore/cpp-qt/PetStore/PetStore
+samples/client/petstore/cpp-qt/PetStore/Makefile
+samples/client/petstore/cpp-qt/PetStore/PetStore.pro.user
+samples/client/petstore/cpp-qt/CMakeLists.txt.user
+
+# cpprestsdk
+samples/client/petstore/cpp-restsdk/CMakeCache.txt
+samples/client/petstore/cpp-restsdk/CMakeFiles/
+samples/client/petstore/cpp-restsdk/Makefile
+samples/client/petstore/cpp-restsdk/cmake_install.cmake
+samples/client/petstore/cpp-restsdk/client/CMakeFiles
+samples/client/petstore/cpp-restsdk/client/Makefile
+samples/client/petstore/cpp-restsdk/client/cmake_install.cmake
+samples/client/petstore/cpp-restsdk/client/CppRestPetstoreClientConfig.cmake
+samples/client/petstore/cpp-restsdk/client/CMakeCache.txt
+
+#Java/Android
+**/.gradle
+samples/client/petstore/java/hello.txt
+samples/client/petstore/java/okhttp-gson/hello.txt
+samples/client/petstore/java/okhttp-gson-3.1/hello.txt
+samples/client/petstore/java/jersey2-java8/hello.txt
+samples/client/petstore/java/jersey2/hello.txt
+samples/client/petstore/android/default/hello.txt
+samples/client/petstore/android/volley/.gradle/
+samples/client/petstore/android/volley/build/
+samples/client/petstore/java/jersey2/.gradle/
+samples/client/petstore/java/jersey2/build/
+samples/client/petstore/java/okhttp-gson/.gradle/
+samples/client/petstore/java/okhttp-gson/build/
+samples/client/petstore/java/feign/build/
+samples/client/petstore/java/feign10x/build/
+samples/client/petstore/java/feign/project/
+samples/client/petstore/java/feign10x/project/
+samples/client/petstore/java/retrofit/build/
+samples/client/petstore/java/retrofit2/build/
+samples/client/petstore/java/retrofit2/hello.txt
+samples/client/petstore/java/retrofit2rx/build/
+samples/client/petstore/java/default/build/
+samples/client/petstore/scala/build/
+samples/client/petstore/java/resttemplate/hello.txt
+samples/client/petstore/java/retrofit2/hello.txt
+samples/client/petstore/java/feign/hello.txt
+samples/client/petstore/java/jersey2-java6/project/
+samples/client/petstore/java/jersey2-java8/project/
+samples/client/petstore/java/jersey2/project/
+
+# Perl
+samples/client/petstore/perl/deep_module_test/
+
+# Objc
+samples/client/petstore/objc/default/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/objc/default/SwaggerClientTests/Build
+samples/client/petstore/objc/default/SwaggerClientTests/Pods
+samples/client/petstore/objc/default/SwaggerClientTests/SwaggerClient.xcworkspace
+samples/client/petstore/objc/default/SwaggerClientTests/Podfile.lock
+
+samples/client/petstore/objc/core-data/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/objc/core-data/SwaggerClientTests/Build
+samples/client/petstore/objc/core-data/SwaggerClientTests/Pods
+samples/client/petstore/objc/core-data/SwaggerClientTests/SwaggerClient.xcworkspace
+samples/client/petstore/objc/core-data/SwaggerClientTests/Podfile.lock
+
+# Swift
+samples/client/petstore/swift/**/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/swift/**/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
+samples/client/petstore/swift/**/SwaggerClientTests/Pods/
+#samples/client/petstore/swift/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
+#samples/client/petstore/swift/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
+samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock
+# Swift3
+samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
+samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
+#samples/client/petstore/swift3/**/SwaggerClientTests/Pods/
+#samples/client/petstore/swift3/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
+#samples/client/petstore/swift3/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
+samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock
+
+# C#
+*.csproj.user
+samples/client/petstore/csharp/SwaggerClient/IO.Swagger.userprefs
+samples/client/petstore/csharp/SwaggerClientTest/obj
+samples/client/petstore/csharp/SwaggerClientTest/bin
+samples/client/petstore/csharp/SwaggerClientTest/packages
+samples/client/petstore/csharp/SwaggerClientTest/bin/Debug/
+samples/client/petstore/csharp/SwaggerClientTest/obj/Debug/
+samples/client/petstore/csharp/SwaggerClientTest/TestResult.xml
+samples/client/petstore/csharp/SwaggerClientTest/nuget.exe
+samples/client/petstore/csharp/SwaggerClientTest/testrunner/
+samples/client/petstore/csharp/SwaggerClient/.vs
+samples/client/petstore/csharp/SwaggerClient/nuget.exe
+samples/client/petstore/csharp/SwaggerClient/obj
+samples/client/petstore/csharp/SwaggerClient/bin
+samples/client/petstore/csharp/SwaggerClient/obj/Debug/
+samples/client/petstore/csharp/SwaggerClient/bin/Debug/
+samples/client/petstore/csharp/SwaggerClient/packages
+samples/client/petstore/csharp/SwaggerClient/TestResult.xml
+samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/IO.Swagger.userprefs
+samples/client/petstore/csharp-refactor/OpenAPIClient/TestResult.xml
+samples/client/petstore/csharp-refactor/OpenAPIClient/nuget.exe
+
+# Python
+*.pyc
+__pycache__
+.venv/
+samples/client/petstore/python/dev-requirements.txt.log
+samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
+samples/client/petstore/python/.coverage
+samples/client/petstore/python/.projectile
+samples/client/petstore/python-asyncio/.pytest_cache/
+**/poetry.lock
+
+# PHP
+samples/client/petstore/php/OpenAPIClient-php/composer.lock
+samples/client/petstore/php-nextgen/OpenAPIClient-php/composer.lock
+samples/client/petstore/php-dt/composer.lock
+samples/client/petstore/php-dt-modern/composer.lock
+samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/server/petstore/php-laravel/lib/composer.lock
+samples/server/petstore/php-lumen/lib/composer.lock
+samples/server/petstore/php-slim4/composer.lock
+samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/server/petstore/php-mezzio-ph/composer.lock
+samples/server/petstore/php-mezzio-ph-modern/composer.lock
+
+# ts
+samples/client/petstore/typescript-angular2/npm/npm-debug.log
+samples/client/petstore/typescript-node/npm/npm-debug.log
+samples/client/petstore/typescript-angular/tsd-debug.log
+samples/client/petstore/typescript-axios/tests/**/dist/
+samples/client/petstore/typescript-fetch/tests/**/dist/
+
+# aspnetcore
+samples/server/petstore/aspnetcore/.vs/
+effective.pom
+
+# kotlin
+samples/openapi3/client/petstore/kotlin/build
+samples/server/petstore/kotlin-server/ktor/build
+samples/server/petstore/kotlin-springboot/build
+samples/client/petstore/kotlin*/src/main/kotlin/test/
+samples/client/petstore/kotlin*/build/
+samples/server/others/kotlin-server/jaxrs-spec/build/
+samples/client/echo_api/kotlin-jvm-spring-3-restclient/build/
+
+# haskell
+.stack-work
+.cabal-sandbox
+cabal.project.local
+samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
+samples/client/petstore/haskell-http-client/docs/meta.json
+samples/client/petstore/haskell-http-client/docs/quick-jump.css
+samples/client/petstore/haskell-http-client/stack.yaml.lock
+samples/server/petstore/haskell-servant/stack.yaml.lock
+samples/server/petstore/haskell-yesod/stack.yaml.lock
+
+# R
+.Rproj.user
+samples/client/petstore/R/**/petstore.Rcheck/
+samples/client/petstore/R/**/*.tar.gz
+samples/client/petstore/R/R.Rproj
+samples/client/petstore/R/man/
+samples/client/petstore/R-httr2-wrapper/man/
+samples/client/petstore/R-httr2/man/
+
+# elixir
+samples/client/petstore/elixir/_build/
+samples/client/petstore/elixir/deps/
+samples/client/petstore/elixir/mix.lock
+
+# groovy
+samples/client/petstore/groovy/build
+
+# erlang
+samples/client/petstore/erlang-client/_build/
+samples/client/petstore/erlang-client/rebar.lock
+samples/client/petstore/erlang-proper/_build/
+samples/client/petstore/erlang-proper/rebar.lock
+samples/server/petstore/erlang-server/_build/
+samples/server/petstore/erlang-server/rebar.lock
+
+# Dart
+**/dart*/**/.dart_tool
+**/dart*/**/.packages
+**/dart*/**/pubspec.lock
+# Dart dio
+**/dart*/**/*.g.dart
+
+# JS
+samples/client/petstore/javascript-es6/package-lock.json
+samples/client/petstore/javascript-promise-es6/package-lock.json
+samples/client/petstore/javascript-apollo/package-lock.json
+
+# elm
+samples/client/petstore/elm/index.html
+
+# C
+samples/client/petstore/c/build
+samples/client/petstore/c/*.so
+
+# Ruby
+samples/openapi3/client/petstore/ruby/Gemfile.lock
+samples/openapi3/client/petstore/ruby-faraday/Gemfile.lock
+samples/openapi3/client/petstore/ruby-httpx/Gemfile.lock
+
+# Crystal
+samples/client/petstore/crystal/lib
+
+# Go
+samples/openapi3/client/petstore/go/privatekey.pem
+
+## OCaml
+samples/client/petstore/ocaml/_build/
+
+# jetbrain http client
+samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json

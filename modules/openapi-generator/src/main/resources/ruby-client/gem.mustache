@@ -1,0 +1,64 @@
+=begin
+{{> api_info}}
+=end
+
+# Common files
+require '{{gemName}}/api_client'
+require '{{gemName}}/api_error'
+require '{{gemName}}/version'
+require '{{gemName}}/configuration'
+
+# Models
+{{^useAutoload}}
+{{#models}}
+{{#model}}
+{{^parent}}
+require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
+{{/parent}}
+{{/model}}
+{{/models}}
+{{#models}}
+{{#model}}
+{{#parent}}
+require '{{gemName}}/{{modelPackage}}/{{classFilename}}'
+{{/parent}}
+{{/model}}
+{{/models}}
+{{/useAutoload}}
+{{#useAutoload}}
+{{#models}}
+{{#model}}
+{{moduleName}}.autoload :{{classname}}, '{{gemName}}/{{modelPackage}}/{{classFilename}}'
+{{/model}}
+{{/models}}
+{{/useAutoload}}
+
+# APIs
+{{#apiInfo}}
+{{#apis}}
+{{^useAutoload}}
+require '{{importPath}}'
+{{/useAutoload}}
+{{#useAutoload}}
+{{moduleName}}.autoload :{{classname}}, '{{importPath}}'
+{{/useAutoload}}
+{{/apis}}
+{{/apiInfo}}
+
+module {{moduleName}}
+  class << self
+    # Customize default settings for the SDK using block.
+    #   {{moduleName}}.configure do |config|
+    #     config.username = "xxx"
+    #     config.password = "xxx"
+    #   end
+    # If no block given, return the default Configuration object.
+    def configure
+      if block_given?
+        yield(Configuration.default)
+      else
+        Configuration.default
+      end
+    end
+  end
+end

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite>
+            <directory>./Tests/Api</directory>
+            <directory>./Tests/Model</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">././Api</directory>
+            <directory suffix=".php">././Model</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <ini name="error_reporting" value="E_ALL" />
+        <server name="KERNEL_DIR" value="Tests/" />
+    </php>
+</phpunit>

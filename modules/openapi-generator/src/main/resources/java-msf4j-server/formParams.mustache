@@ -1,0 +1,3 @@
+{{#isFormParam}}{{^isFile}}@ApiParam(value = "{{{description}}}"{{#required}}, required=true{{/required}}{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{.}}}"{{/defaultValue}}){{#vendorExtensions.x-multipart}}@FormDataParam("{{baseName}}")  {{{dataType}}} {{paramName}}{{/vendorExtensions.x-multipart}}{{^vendorExtensions.x-multipart}} {{#defaultValue}} @DefaultValue("{{{.}}}"){{/defaultValue}} @FormParam("{{baseName}}")  {{{dataType}}} {{paramName}}{{/vendorExtensions.x-multipart}}{{/isFile}}{{#isFile}}
+            @FormDataParam("{{baseName}}") InputStream {{paramName}}InputStream,
+            @FormDataParam("{{baseName}}") FileInfo {{paramName}}Detail{{/isFile}}{{/isFormParam}}

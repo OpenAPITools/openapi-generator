@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /example:
+    get:
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Example"
+components:
+  schemas:
+    Child:
+      type: object
+      properties:
+        name:
+          type: string
+    Example:
+      oneOf:
+      - $ref: '#/components/schemas/Child'
+      - type: integer
+        format: int32

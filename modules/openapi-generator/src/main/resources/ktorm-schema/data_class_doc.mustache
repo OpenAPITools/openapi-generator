@@ -1,0 +1,20 @@
+# Table {{#vendorExtensions}}{{#x-ktorm-schema}}{{#tableDefinition}}`{{tblName}}`{{/tableDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}}
+(mapped from: {{classname}})
+
+## Properties
+Name | Mapping | SQL Type | Default | Type | Description | Notes
+---- | ------- | -------- | ------- | ---- | ----------- | -----
+{{#allVars}}**{{name}}** | {{^isArray}}{{#vendorExtensions}}{{#x-ktorm-schema}}{{#columnDefinition}}{{colName}} | {{colType}}{{#colTypeArgs}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argVal}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colTypeArgs}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colPrimaryKey}} PRIMARY KEY{{#isNumeric}} AUTOINCREMENT{{/isNumeric}}{{/colPrimaryKey}} | {{#colDefault}}{{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{/columnDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}}{{/isArray}}{{#isArray}}`One-To-Many` | `----` | `----` {{/isArray}} | {{#isEnum}}[**{{baseName}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}{{#vendorExtensions}}{{#x-ktorm-schema}}{{^isArray}}{{#relation}} [foreignkey]{{/relation}}{{/isArray}}{{/x-ktorm-schema}}{{/vendorExtensions}}
+{{/allVars}}
+{{#allVars}}{{#isArray}}{{#vendorExtensions}}{{#x-ktorm-schema}}{{#relationDefinition}}
+
+# **Table `{{{relTblName}}}`**
+(mapped from: {{relName}})
+
+## Properties
+Name | Mapping | SQL Type | Default | Type | Description | Notes
+---- | ------- | -------- | ------- | ---- | ----------- | -----
+{{{pkName}}} | {{{pkColName}}} | {{{pkColType}}} | | {{{pkColKotlinType}}} | Primary Key | *one*
+{{{fkName}}} | {{{fkColName}}} | {{{fkColType}}} | | {{{fkColKotlinType}}} | Foreign Key | *many*
+{{/relationDefinition}}{{/x-ktorm-schema}}{{/vendorExtensions}}{{/isArray}}
+{{/allVars}}

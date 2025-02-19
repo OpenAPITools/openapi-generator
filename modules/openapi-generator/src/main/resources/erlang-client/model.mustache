@@ -1,0 +1,21 @@
+{{#models}}
+{{#model}}
+-module({{classname}}).
+
+-export([encode/1]).
+
+-export_type([{{classname}}/0]).
+
+-type {{classname}}() ::
+    #{ {{#vars}}'{{name}}' {{#required}}:={{/required}}{{^required}}=>{{/required}} {{{dataType}}}{{^-last}},
+       {{/-last}}{{/vars}}
+     }.
+
+encode(#{ {{#vars}}'{{name}}' := {{{nameInPascalCase}}}{{^-last}},
+          {{/-last}}{{/vars}}
+        }) ->
+    #{ {{#vars}}'{{baseName}}' => {{{nameInPascalCase}}}{{^-last}},
+       {{/-last}}{{/vars}}
+     }.
+{{/model}}
+{{/models}}

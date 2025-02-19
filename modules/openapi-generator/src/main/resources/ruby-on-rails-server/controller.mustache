@@ -1,0 +1,52 @@
+=begin
+{{> info}}
+=end
+class {{classname}} < ApplicationController
+{{#operations}}
+{{#operation}}
+
+{{#isRestfulIndex}}
+  def index
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+{{/isRestfulIndex}}
+{{#isRestfulShow}}
+  def show
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+{{/isRestfulShow}}
+{{#isRestfulCreate}}
+  def create
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+{{/isRestfulCreate}}
+{{#isRestfulUpdate}}
+  def update
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+{{/isRestfulUpdate}}
+{{#isRestfulDestroy}}
+  def destroy
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+{{/isRestfulDestroy}}
+{{^isRestful}}
+  def {{nickname}}
+    # Your code here
+
+    render json: {"message" => "yes, it worked"}
+  end
+{{/isRestful}}
+{{/operation}}
+{{/operations}}
+end

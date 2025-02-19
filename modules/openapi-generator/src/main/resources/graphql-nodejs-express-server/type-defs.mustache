@@ -1,0 +1,11 @@
+{{>partial_header}}
+
+import { merge } from 'lodash';
+{{#models}}{{#model}}
+import { typeDef as {{classname}} } from './model/{{classFilename}}.js';{{/model}}{{/models}}
+
+export const typeDefs = [
+
+    {{#models}}{{#model}}{{classname}},
+    {{/model}}{{/models}}
+].join('\r\n');

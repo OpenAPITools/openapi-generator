@@ -1,0 +1,83 @@
+package {{invokerPackage}};
+
+import java.util.Collections;
+{{#x-helidon-v3}}{{!
+}}import java.util.concurrent.TimeUnit;
+{{/x-helidon-v3}}
+
+import {{rootJavaEEPackage}}.json.Json;
+import {{rootJavaEEPackage}}.json.JsonBuilderFactory;
+
+{{#x-helidon-v3}}import io.helidon.media.jsonp.JsonpSupport;
+{{/x-helidon-v3}}
+{{#x-helidon-v3}}{{!
+}}import io.helidon.webclient.WebClient;
+import io.helidon.webserver.WebServer;
+{{/x-helidon-v3}}
+{{^x-helidon-v3}}{{!
+}}import io.helidon.webclient.http1.Http1Client;
+import io.helidon.webserver.http.HttpRouting;
+import io.helidon.webserver.testing.junit5.ServerTest;
+import io.helidon.webserver.testing.junit5.SetUpRoute;
+{{/x-helidon-v3}}
+
+{{#x-helidon-v3}}{{!
+}}import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+{{/x-helidon-v3}}
+import org.junit.jupiter.api.Test;
+
+{{#x-helidon-v3}}@Disabled
+{{/x-helidon-v3}}
+{{^x-helidon-v3}}@ServerTest
+{{/x-helidon-v3}}
+public class MainTest {
+
+{{#x-helidon-v3}}{{!
+}}    private static WebServer webServer;
+    private static WebClient webClient;
+{{/x-helidon-v3}}
+    private static final JsonBuilderFactory JSON_BUILDER = Json.createBuilderFactory(Collections.emptyMap());
+
+{{#x-helidon-v3}}{{!
+}}    @BeforeAll
+    public static void startTheServer() throws Exception {
+        webServer = Main.startServer().await();
+
+        webClient = WebClient.builder()
+                             .baseUri("http://localhost:" + webServer.port())
+                             .addMediaSupport(JsonpSupport.create())
+                             .build();
+    }
+
+    @AfterAll
+    public static void stopServer() throws Exception {
+        if (webServer != null) {
+            webServer.shutdown()
+                     .toCompletableFuture()
+                     .get(10, TimeUnit.SECONDS);
+        }
+    }
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}
+
+    private Http1Client client;
+
+    MainTest(Http1Client client) {
+        this.client = client;
+    }
+
+    @SetUpRoute
+    static void routing(HttpRouting.Builder builder) {
+        Main.routing(builder);
+    }
+
+
+
+{{/x-helidon-v3}}
+
+    @Test
+    public void test() throws Exception {
+    }
+}

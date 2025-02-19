@@ -1,0 +1,59 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}};
+
+import {{apiPackage}}.*;
+
+{{#imports}}import {{import}};
+{{/imports}}
+import io.restassured.builder.RequestSpecBuilder;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
+import static io.restassured.config.RestAssuredConfig.config;
+import static {{invokerPackage}}.{{#gson}}GsonObjectMapper.gson{{/gson}}{{#jackson}}JacksonObjectMapper.jackson{{/jackson}};
+
+public class ApiClient {
+    {{#basePath}}
+    public static final String BASE_URI = "{{.}}";
+    {{/basePath}}
+
+    private final Config config;
+
+    private ApiClient(Config config) {
+        this.config = config;
+    }
+
+    public static ApiClient api(Config config) {
+        return new ApiClient(config);
+    }
+
+     {{#apiInfo}}
+     {{#apis}}
+    public {{classname}} {{classVarName}}() {
+        return {{classname}}.{{classVarName}}(config.reqSpecSupplier);
+    }
+     {{/apis}}
+     {{/apiInfo}}
+
+    public static class Config {
+        private Supplier<RequestSpecBuilder> reqSpecSupplier = () -> new RequestSpecBuilder()
+                {{#basePath}}.setBaseUri(BASE_URI){{/basePath}}
+                .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper({{#gson}}gson(){{/gson}}{{#jackson}}jackson(){{/jackson}})));
+
+        /**
+         * Use common specification for all operations
+         * @param supplier supplier
+         * @return configuration
+         */
+        public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
+            this.reqSpecSupplier = supplier;
+            return this;
+        }
+
+        public static Config apiConfig() {
+            return new Config();
+        }
+    }
+}

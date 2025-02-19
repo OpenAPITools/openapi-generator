@@ -1,0 +1,30 @@
+openapi: "3.0.3"
+info:
+  title: "Demo models"
+  version: "1.0"
+paths: {}
+components:
+  schemas:
+    ComplexObject:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        probability:
+          type: "number"
+          format: "double"
+        dates:
+          type: "array"
+          items:
+            type: "string"
+            format: "date"
+        symbolType:
+          type: "string"
+          enum:
+            - "SYMBOL1"
+            - "SYMBOL2"
+            - "SYMBOL3"
+    ComplexArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/ComplexObject'

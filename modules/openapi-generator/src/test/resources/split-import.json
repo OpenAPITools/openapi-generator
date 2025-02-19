@@ -1,0 +1,74 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "SAP Graph - Customers API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/Customer": {
+      "get": {
+        "operationId": "getCustomer",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CustomerResponse"
+          }
+        }
+      }
+    },
+    "/Person": {
+      "get": {
+        "operationId": "getPerson",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/PersonResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrganizationWrapper": {
+        "type": "object",
+        "properties": {
+          "id":  {"type": "string"}
+        }
+      },
+      "PersonWrapper": {
+        "type": "object",
+        "properties": {
+          "id":  {"type": "string"}
+        }
+      }
+    },
+    "responses": {
+      "CustomerResponse": {
+        "description": "Get Customer",
+        "content": {
+          "application/json": {
+            "schema": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/OrganizationWrapper"
+                },
+                {
+                  "$ref": "#/components/schemas/PersonWrapper"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "PersonResponse": {
+        "description": "Get Person",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PersonWrapper"
+            }
+          }
+        }
+      }
+    }
+  }
+}

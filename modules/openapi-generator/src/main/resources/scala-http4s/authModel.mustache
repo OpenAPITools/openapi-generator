@@ -1,0 +1,10 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+sealed trait _Authorization
+
+object _Authorization {
+  final case class Basic(username: String, password: Option[String] = None) extends _Authorization
+  final case class ApiKey(name: String, value: String)                      extends _Authorization
+  final case class Bearer(token: String)                                    extends _Authorization
+}

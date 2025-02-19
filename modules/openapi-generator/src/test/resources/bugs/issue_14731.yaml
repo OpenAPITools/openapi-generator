@@ -1,0 +1,109 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'FooService'
+paths:
+  /parentWithMapping:
+    put:
+      tags:
+        - pet
+      summary: put parent
+      operationId: putParentWithMapping
+      requestBody:
+        description: The updated account definition to save.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParentWithMapping'
+      responses:
+        '200':
+          $ref: '#/components/responses/ParentWithMapping'
+  /parentWithoutMapping:
+    put:
+      tags:
+        - pet
+      summary: put parent
+      operationId: putParentWithoutMapping
+      requestBody:
+        description: The updated account definition to save.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParentWithoutMapping'
+      responses:
+        '200':
+          $ref: '#/components/responses/ParentWithoutMapping'
+components:
+  schemas:
+    ParentWithMapping:
+      type: object
+      description: Defines an account by name.
+      properties:
+        childType:
+          $ref: '#/components/schemas/ChildType'
+      required:
+        - type
+      discriminator:
+        propertyName: childType
+        mapping:
+          child_a: '#/components/schemas/ChildWithMappingA'
+          child_b: '#/components/schemas/ChildWithMappingB'
+
+    ChildWithMappingA:
+      allOf:
+        - $ref: "#/components/schemas/ParentWithMapping"
+        - type: object
+          properties:
+            nameA:
+              type: string
+    ChildWithMappingB:
+      allOf:
+        - $ref: "#/components/schemas/ParentWithMapping"
+        - type: object
+          properties:
+            nameB:
+              type: string
+    ChildType:
+      type: string
+      x-extensible-enum:
+        - child_a
+        - child_b
+    ParentWithoutMapping:
+      type: object
+      description: Defines an account by name.
+      properties:
+        childType:
+          $ref: '#/components/schemas/ChildType'
+      required:
+        - type
+      discriminator:
+        propertyName: childType
+    ChildWithoutMappingA:
+      allOf:
+        - $ref: "#/components/schemas/ParentWithoutMapping"
+        - type: object
+          properties:
+            nameA:
+              type: string
+    ChildWithoutMappingB:
+      allOf:
+        - $ref: "#/components/schemas/ParentWithoutMapping"
+        - type: object
+          properties:
+            nameB:
+              type: string
+  responses:
+    ParentWithMapping:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ParentWithMapping'
+    ParentWithoutMapping:
+      description: The saved account definition.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ParentWithoutMapping'

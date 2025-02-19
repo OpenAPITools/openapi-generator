@@ -1,0 +1,15 @@
+=begin
+{{> info}}
+=end
+
+class InitTables < ActiveRecord::Migration
+  def change{{#models}}{{#model}}
+    create_table "{{classFilename}}".pluralize.to_sym, id: false do |t|{{#vars}}{{#isContainer}}
+      t.string :{{name}}{{/isContainer}}{{^isContainer}}
+      t.{{dataType}} :{{{name}}}{{/isContainer}}{{/vars}}
+
+      t.timestamps
+    end
+{{/model}}{{/models}}
+  end
+end

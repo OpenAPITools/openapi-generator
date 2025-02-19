@@ -1,0 +1,104 @@
+{{>partial_header}}
+{-|
+Module : {{baseModule}}.API.{{classname}}
+-}
+
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MonoLocalBinds #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{baseModule}}.API.{{classname}} where
+
+import {{baseModule}}.Core
+import {{baseModule}}.MimeTypes
+import {{baseModule}}.Model as M
+
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Set as Set
+import qualified Data.String as P
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy.Encoding as TL
+import qualified Data.Time as TI
+import qualified Network.HTTP.Client.MultipartFormData as NH
+import qualified Network.HTTP.Media as ME
+import qualified Network.HTTP.Types as NH
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
+
+import Data.Text (Text)
+import GHC.Base ((<|>))
+
+import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import qualified Prelude as P
+
+-- * Operations
+{{#operations}}{{#operation}}{{#vendorExtensions.x-has-new-tag}}
+
+-- ** {{baseName}}{{/vendorExtensions.x-has-new-tag}}
+
+-- *** {{operationId}}
+
+-- | @{{{vendorExtensions.x-haddock-path}}}@
+-- {{#summary}}
+-- {{{.}}}
+-- {{/summary}}{{#notes}}
+-- {{{.}}}
+-- {{/notes}}{{#hasAuthMethods}}
+-- AuthMethod: {{#authMethods}}'{{{name}}}'{{^-last}}, {{/-last}}{{/authMethods}}
+-- {{/hasAuthMethods}}{{#vendorExtensions.x-has-unknown-return}}
+-- Note: Has 'Produces' instances, but no response schema
+-- {{/vendorExtensions.x-has-unknown-return}}
+{{operationId}}
+  :: {{#vendorExtensions.x-has-body-or-form-param}}(Consumes {{{vendorExtensions.x-operation-type}}} {{>_contentType}}{{#allParams}}{{#isBodyParam}}{{#required}}, MimeRender {{>_contentType}} {{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}}{{/required}}{{/isBodyParam}}{{/allParams}})
+  => {{^vendorExtensions.x-inline-content-type}}ContentType contentType -- ^ request content-type ('MimeType')
+  -> {{/vendorExtensions.x-inline-content-type}}{{/vendorExtensions.x-has-body-or-form-param}}{{^vendorExtensions.x-inline-accept}}Accept accept -- ^ request accept ('MimeType')
+  -> {{/vendorExtensions.x-inline-accept}}{{#allParams}}{{#required}}{{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} -- ^ "{{{paramName}}}"{{#description}} -  {{{.}}}{{/description}}{{^required}}{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}{{/required}}
+  -> {{/required}}{{/allParams}}{{requestType}} {{{vendorExtensions.x-operation-type}}} {{>_contentType}} {{vendorExtensions.x-return-type}} {{>_accept}}
+{{operationId}} {{^vendorExtensions.x-inline-content-type}}_ {{/vendorExtensions.x-inline-content-type}}{{^vendorExtensions.x-inline-accept}} _ {{/vendorExtensions.x-inline-accept}}{{#allParams}}{{#required}}{{#isBodyParam}}{{{paramName}}}{{/isBodyParam}}{{^isBodyParam}}({{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} {{{paramName}}}){{/isBodyParam}} {{/required}}{{/allParams}}=
+  _mkRequest "{{httpMethod}}" {{{vendorExtensions.x-path}}}{{#authMethods}}
+    `_hasAuthType` (P.Proxy :: P.Proxy {{name}}){{/authMethods}}{{#allParams}}{{#required}}{{#isHeaderParam}}
+    `addHeader` {{>_headerColl}} ("{{{baseName}}}", {{{paramName}}}){{/isHeaderParam}}{{#isQueryParam}}
+    `addQuery` {{>_queryColl}} ("{{{baseName}}}", Just {{{paramName}}}){{/isQueryParam}}{{#isFormParam}}{{#isFile}}
+    `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" {{{paramName}}}{{/isFile}}{{^isFile}}{{#isMultipart}}
+    `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData {{{paramName}}}){{/isMultipart}}{{^isMultipart}}
+    `addForm` {{>_formColl}} ("{{{baseName}}}", {{{paramName}}}){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{#isBodyParam}}
+    `setBodyParam` {{{paramName}}}{{/isBodyParam}}{{/required}}{{/allParams}}{{#isDeprecated}}
+
+{-# DEPRECATED {{operationId}} "" #-}{{/isDeprecated}}
+
+data {{{vendorExtensions.x-operation-type}}} {{#allParams}}{{#isBodyParam}}{{#description}}
+
+-- | /Body Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
+instance HasBodyParam {{{vendorExtensions.x-operation-type}}} {{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}}{{/isBodyParam}}{{/allParams}} {{#vendorExtensions.x-has-optional-params}}{{#allParams}}{{^isBodyParam}}{{^required}}{{#description}}
+
+-- | /Optional Param/ "{{{baseName}}}" - {{{description}}}{{/description}}
+instance HasOptionalParam {{{vendorExtensions.x-operation-type}}} {{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} where
+  applyOptionalParam req ({{#vendorExtensions.x-param-name-type}}{{{.}}}{{/vendorExtensions.x-param-name-type}}{{^vendorExtensions.x-param-name-type}}{{{dataType}}}{{/vendorExtensions.x-param-name-type}} xs) =
+    {{#isHeaderParam}}req `addHeader` {{>_headerColl}} ("{{{baseName}}}", xs){{/isHeaderParam}}{{#isQueryParam}}req `addQuery` {{>_queryColl}} ("{{{baseName}}}", Just xs){{/isQueryParam}}{{#isFormParam}}{{#isFile}}req `_addMultiFormPart` NH.partFileSource "{{{baseName}}}" xs{{/isFile}}{{^isFile}}{{#isMultipart}}req `_addMultiFormPart` NH.partLBS "{{{baseName}}}" (mimeRender' MimeMultipartFormData xs){{/isMultipart}}{{^isMultipart}}req `addForm` {{>_formColl}} ("{{{baseName}}}", xs){{/isMultipart}}{{/isFile}}{{/isFormParam}}{{/required}}{{/isBodyParam}}{{/allParams}}{{/vendorExtensions.x-has-optional-params}}{{#hasConsumes}}
+
+{{#consumes}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
+instance Consumes {{{vendorExtensions.x-operation-type}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
+instance MimeType mtype => Consumes {{{vendorExtensions.x-operation-type}}} mtype{{/x-mediaIsWildcard}}
+{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}{{#vendorExtensions.x-has-body-or-form-param}}
+
+-- | @*/*@
+instance MimeType mtype => Consumes {{{vendorExtensions.x-operation-type}}} mtype
+{{/vendorExtensions.x-has-body-or-form-param}}{{/hasConsumes}}{{#hasProduces}}
+{{#produces}}-- | @{{{mediaType}}}@{{^x-mediaIsWildcard}}
+instance Produces {{{vendorExtensions.x-operation-type}}} {{{x-mediaDataType}}}{{/x-mediaIsWildcard}}{{#x-mediaIsWildcard}}
+instance MimeType mtype => Produces {{{vendorExtensions.x-operation-type}}} mtype{{/x-mediaIsWildcard}}
+{{/produces}}{{/hasProduces}}{{^hasProduces}}
+instance Produces {{{vendorExtensions.x-operation-type}}} MimeNoContent
+{{/hasProduces}}{{/operation}}{{/operations}}

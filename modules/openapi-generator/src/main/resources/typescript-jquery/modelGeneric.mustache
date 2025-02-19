@@ -1,0 +1,28 @@
+export interface {{classname}} {{#parent}}extends models.{{{.}}} {{/parent}}{
+{{#additionalPropertiesType}}
+    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+
+{{/additionalPropertiesType}}
+{{#vars}}
+    {{#description}}
+    /**
+     * {{{.}}}
+     */
+    {{/description}}
+    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+
+{{/vars}}
+}{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+    {{#isEnum}}
+    export enum {{enumName}} {
+    {{#allowableValues}}
+        {{#enumVars}}
+        {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
+        {{/enumVars}}
+    {{/allowableValues}}
+    }
+    {{/isEnum}}
+{{/vars}}
+}{{/hasEnums}}

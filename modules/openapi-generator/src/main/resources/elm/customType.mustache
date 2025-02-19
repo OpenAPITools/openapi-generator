@@ -1,0 +1,16 @@
+type {{^paramName}}{{classname}}{{/paramName}}{{enumName}}
+{{#allowableValues}}
+  {{#enumVars}}
+    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{name}}
+  {{/enumVars}}
+{{/allowableValues}}
+
+
+{{#lambda.camelcase}}{{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{/lambda.camelcase}}Variants : List {{^paramName}}{{classname}}{{/paramName}}{{enumName}}
+{{#lambda.camelcase}}{{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{/lambda.camelcase}}Variants =
+{{#allowableValues}}
+  {{#enumVars}}
+    {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{^paramName}}{{classname}}{{/paramName}}{{enumName}}{{name}}
+  {{/enumVars}}
+{{/allowableValues}}
+    ]

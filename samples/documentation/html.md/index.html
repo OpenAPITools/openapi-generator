@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+  <head>
+    <title>An <em>API</em> with more <strong>Markdown</strong> in summary, description, and other text</title>
+    <style type="text/css">
+      body {
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>An <em>API</em> with more <strong>Markdown</strong> in summary, description, and other text</h1>
+    <div class="app-desc"><p>Not really a <em>pseudo-random</em> number generator API. This API uses <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> in text:</p>
+<ol>
+<li>in this API description</li>
+<li>in operation summaries</li>
+<li>in operation descriptions</li>
+<li>in schema (model) titles and descriptions</li>
+<li>in schema (model) member descriptions</li>
+</ol>
+</div>
+    <div class="app-desc">More information: <a href="https://openapi-generator.tech">https://openapi-generator.tech</a></div>
+    <div class="app-desc">Contact Info: <a href="team@openapitools.org">team@openapitools.org</a></div>
+    <div class="app-desc">Version: 0.1.0</div>
+    <div class="app-desc">BasePath:/v1</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Tag1">Tag1</a></h4>
+  <ul>
+  <li><a href="#getRandomNumber"><code><span class="http-method">get</span> /random</code></a></li>
+  </ul>
+
+  <h1><a name="Tag1">Tag1</a></h1>
+  <div class="method"><a name="getRandomNumber"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /random</code></pre></div>
+    <div class="method-summary">A single <em>random</em> result (<span class="nickname">getRandomNumber</span>)</div>
+    <div class="method-notes">Return a single <em>random</em> result from a given seed</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">seed (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; A random number <em>seed</em>. default: null </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#RandomNumber">RandomNumber</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: */*</div>
+    <pre class="example"><code>{
+  "sequence" : 1,
+  "seed" : 6.027456183070403,
+  "value" : 0.8008281904610115
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>*/*</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Operation <em>succeeded</em>
+        <a href="#RandomNumber">RandomNumber</a>
+    <h4 class="field-label">404</h4>
+    Invalid or omitted <em>seed</em>. Seeds must be <strong>valid</strong> numbers.
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#RandomNumber"><code>RandomNumber</code> - <em>Pseudo-random</em> number</a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="RandomNumber"><code>RandomNumber</code> - <em>Pseudo-random</em> number</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A <em>pseudo-random</em> number generated from a seed.</div>
+    <div class="field-items">
+      <div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> The <em>pseudo-random</em> number format: double</div>
+<div class="param">seed (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> The <code>seed</code> used to generate this number format: double</div>
+<div class="param">sequence (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> The sequence number of this random number. format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>

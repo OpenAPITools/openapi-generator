@@ -1,0 +1,1 @@
+{{#isMap}}{{baseName}}{{/isMap}}{{^isMap}}"{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}}{{/isMap}}

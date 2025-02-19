@@ -1,0 +1,23 @@
+# ref: https://docs.travis-ci.com/user/languages/r/
+language: r
+cache:
+  directories:
+  - /home/travis/R/Library
+r_packages:
+- jsonlite
+{{^isHttr2}}
+- httr
+{{/isHttr2}}
+{{#isHttr2}}
+- httr2
+{{/isHttr2}}
+- testthat
+# uncomment below to install deps with devtools
+#install:
+#- R -e 'devtools::install_deps(dep = T)'
+script:
+- R CMD build .
+- R CMD check *tar.gz
+- R CMD INSTALL *tar.gz
+after_failure:
+- cat ${TRAVIS_BUILD_DIR}/namsor.Rcheck/tests/testthat.Rout.fail

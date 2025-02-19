@@ -1,0 +1,26 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import {{invokerPackage}}.ApiResponse;
+
+import io.vertx.core.Future;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.handler.HttpException;
+
+import java.util.List;
+import java.util.Map;
+
+// Implement this class
+
+public class {{classname}}Impl implements {{classname}} {
+{{#operations}}
+{{#operation}}
+    public Future<ApiResponse<{{{returnType}}}>> {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        return Future.failedFuture(new HttpException(501));
+    }
+
+{{/operation}}
+{{/operations}}
+}

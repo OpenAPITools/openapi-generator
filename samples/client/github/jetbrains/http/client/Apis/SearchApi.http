@@ -1,0 +1,36 @@
+## SearchApi
+
+### Search code
+## Search code
+GET https://api.github.com/search/code?q={{q}}&sort={{sort}}&order={{order}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Search commits
+## Search commits
+GET https://api.github.com/search/commits?q={{q}}&sort={{sort}}&order={{order}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Search issues and pull requests
+## Search issues and pull requests
+GET https://api.github.com/search/issues?q={{q}}&sort={{sort}}&order={{order}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Search labels
+## Search labels
+GET https://api.github.com/search/labels?repositoryId={{repositoryId}}&q={{q}}&sort={{sort}}&order={{order}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Search repositories
+## Search repositories
+GET https://api.github.com/search/repositories?q={{q}}&sort={{sort}}&order={{order}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Search topics
+## Search topics
+GET https://api.github.com/search/topics?q={{q}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Search users
+## Search users
+GET https://api.github.com/search/users?q={{q}}&sort={{sort}}&order={{order}}&perPage={{perPage}}&page={{page}}
+Accept: application/json

@@ -1,0 +1,7 @@
+generatorName: perl
+outputDir: samples/client/petstore/perl/deep_module_test
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/perl
+additionalProperties:
+  moduleName: Something::Deep
+  hideGenerationTimestamp: "true"

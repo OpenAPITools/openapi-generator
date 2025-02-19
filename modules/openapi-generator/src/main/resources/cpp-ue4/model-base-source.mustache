@@ -1,0 +1,40 @@
+{{>licenseInfo}}
+#include "{{modelNamePrefix}}BaseModel.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}}
+{
+{{/cppNamespaceDeclarations}}
+
+bool HttpRetryManager::Tick(float DeltaTime)
+{
+	FManager::Update();
+	return true;
+}
+
+HttpRetryParams::HttpRetryParams(const FRetryLimitCountSetting& InRetryLimitCountOverride /*= FRetryLimitCountSetting()*/,
+    const FRetryTimeoutRelativeSecondsSetting& InRetryTimeoutRelativeSecondsOverride /*= FRetryTimeoutRelativeSecondsSetting()*/,
+    const FRetryResponseCodes& InRetryResponseCodes /*= FRetryResponseCodes()*/,
+    const FRetryVerbs& InRetryVerbs /*= FRetryVerbs()*/,
+    const FRetryDomainsPtr& InRetryDomains /*= FRetryDomainsPtr() */)
+    : RetryLimitCountOverride(InRetryLimitCountOverride)
+    , RetryTimeoutRelativeSecondsOverride(InRetryTimeoutRelativeSecondsOverride)
+    , RetryResponseCodes(InRetryResponseCodes)
+    , RetryVerbs(InRetryVerbs)
+    , RetryDomains(InRetryDomains)
+{
+}
+
+void Response::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+    ResponseCode = InHttpResponseCode;
+    SetSuccessful(EHttpResponseCodes::IsOk(InHttpResponseCode));
+    if(InHttpResponseCode == EHttpResponseCodes::RequestTimeout)
+    {
+        SetResponseString(TEXT("Request Timeout"));
+    }
+}
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

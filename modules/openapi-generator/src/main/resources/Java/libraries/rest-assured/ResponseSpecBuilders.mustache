@@ -1,0 +1,31 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}};
+
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.response.Response;
+import io.restassured.specification.ResponseSpecification;
+
+import java.util.function.Function;
+
+public class ResponseSpecBuilders {
+
+    private ResponseSpecBuilders() {
+    }
+
+    public static Function<Response, Response> validatedWith(ResponseSpecification respSpec) {
+        return response -> response.then().spec(respSpec).extract().response();
+    }
+
+    public static Function<Response, Response> validatedWith(ResponseSpecBuilder respSpec) {
+        return validatedWith(respSpec.build());
+    }
+
+    /**
+     * @param code expected status code
+     * @return ResponseSpecBuilder
+     */
+    public static ResponseSpecBuilder shouldBeCode(int code) {
+        return new ResponseSpecBuilder().expectStatusCode(code);
+    }
+}

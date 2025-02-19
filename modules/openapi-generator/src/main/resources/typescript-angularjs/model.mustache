@@ -1,0 +1,38 @@
+{{>licenseInfo}}
+import * as models from './models';
+
+{{#models}}
+{{#model}}
+{{#description}}
+/**
+ * {{{.}}}
+ */
+{{/description}}
+export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+    /**
+     * {{{.}}}
+     */
+{{/description}}
+    "{{name}}"{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+{{/vars}}
+}
+
+{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+{{#isEnum}}
+    export enum {{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+        {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+}
+{{/hasEnums}}
+{{/model}}
+{{/models}}

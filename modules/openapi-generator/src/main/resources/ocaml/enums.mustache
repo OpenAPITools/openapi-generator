@@ -1,0 +1,25 @@
+{{>partial_header}}
+{{#description}}
+ * Schema {{{classname}}} : {{{description}}}
+{{/description}}
+ *)
+{{#models}}
+{{#model}}
+{{#isEnum}}
+
+type {{name}} = [
+{{#allowableValues}}
+{{#values}}
+| {{{camlEnumValueName}}} [@printer fun fmt _ -> Format.pp_print_string fmt "{{{name}}}"] [@name "{{{name}}}"]
+{{/values}}
+{{/allowableValues}}
+] [@@deriving yojson, show { with_path = false }];;
+
+let {{name}}_of_yojson json = {{name}}_of_yojson (`List [json])
+let {{name}}_to_yojson e =
+    match {{name}}_to_yojson e with
+    | `List [json] -> json
+    | json -> json
+{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,121 @@
+{{>licenseInfo}}
+pragma Warnings (Off, "*is not referenced");
+pragma Warnings (Off, "*no entities of*are referenced");
+with {{openApiPackageName}}.Servers;
+with {{package}}.Models;
+with Security.Permissions;
+{{#adaImports}}with {{name}};
+{{/adaImports}}
+package {{package}}.Skeletons is
+   pragma Style_Checks ("-bmrIu");
+   pragma Warnings (Off, "*use clause for package*");
+   use {{package}}.Models;
+   type Server_Type is limited interface;
+{{#authMethods}}{{#scopes}}
+   --  {{description}}
+   package ACL_{{ident}} is new Security.Permissions.Definition ("{{scope}}");
+{{/scopes}}{{/authMethods}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+   --  {{summary}}{{#vendorExtensions.x-has-notes}}
+   --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
+   procedure {{operationId}}
+      (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
+       {{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+       {{/-last}}{{/allParams}}{{#returnProperty}};
+       Result  : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}};
+       Context : in out {{openApiPackageName}}.Servers.Context_Type) is abstract;
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+   generic
+      type Implementation_Type is limited new Server_Type with private;
+      URI_Prefix : String := "";
+   package Skeleton is
+
+      procedure Register (Server : in out {{openApiPackageName}}.Servers.Application_Type'Class);
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+      --  {{summary}}
+      procedure {{operationId}}
+         (Req     : in out {{openApiPackageName}}.Servers.Request'Class;
+          Reply   : in out {{openApiPackageName}}.Servers.Response'Class;
+          Stream  : in out {{openApiPackageName}}.Servers.Output_Stream'Class;
+          Context : in out {{openApiPackageName}}.Servers.Context_Type);
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+   end Skeleton;
+
+   generic
+      type Implementation_Type is limited new Server_Type with private;
+      URI_Prefix : String := "";
+   package Shared_Instance is
+
+      procedure Register (Server : in out {{openApiPackageName}}.Servers.Application_Type'Class);
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+      --  {{summary}}
+      procedure {{operationId}}
+         (Req     : in out {{openApiPackageName}}.Servers.Request'Class;
+          Reply   : in out {{openApiPackageName}}.Servers.Response'Class;
+          Stream  : in out {{openApiPackageName}}.Servers.Output_Stream'Class;
+          Context : in out {{openApiPackageName}}.Servers.Context_Type);
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+   private
+      protected Server is
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+         --  {{summary}}
+         {{#hasParams}}
+         procedure {{operationId}}
+            ({{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+             {{/-last}}{{/allParams}}{{#returnProperty}};
+       Result  : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}};
+             Context : in out {{openApiPackageName}}.Servers.Context_Type);
+         {{/hasParams}}
+         {{^hasParams}}
+         {{#returnProperty}}
+         procedure {{operationId}}
+            (Result  : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}};
+             Context : in out {{openApiPackageName}}.Servers.Context_Type);
+         {{/returnProperty}}
+         {{^returnProperty}}
+         procedure {{operationId}} (Context : in out {{openApiPackageName}}.Servers.Context_Type);
+         {{/returnProperty}}
+         {{/hasParams}}
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+      private
+         Impl : Implementation_Type;
+      end Server;
+   end Shared_Instance;
+
+end {{package}}.Skeletons;

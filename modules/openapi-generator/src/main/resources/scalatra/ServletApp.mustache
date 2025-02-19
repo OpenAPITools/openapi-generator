@@ -1,0 +1,27 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}}.app
+
+import org.scalatra.swagger.{ ApiInfo, SwaggerWithAuth, Swagger }
+import org.scalatra.swagger.{ JacksonSwaggerBase, Swagger }
+import org.scalatra.ScalatraServlet
+import org.json4s.{ DefaultFormats, Formats }
+
+class ResourcesApp(implicit protected val swagger: OpenAPIApp)
+  extends ScalatraServlet with JacksonSwaggerBase {
+  before() {
+    response.headers += ("Access-Control-Allow-Origin" -> "*")
+  }
+}
+
+class OpenAPIApp extends Swagger(apiInfo = OpenAPIInfo.apiInfo, apiVersion = "{{apiVersion}}", swaggerVersion = Swagger.SpecVersion)
+
+object OpenAPIInfo {
+  val apiInfo = ApiInfo(
+    """{{{appName}}}""",
+    """{{{appDescription}}}""",
+    """{{{infoUrl}}}""",
+    """{{{infoEmail}}}""",
+    """{{{licenseInfo}}}""",
+    """{{{licenseUrl}}}""")
+}

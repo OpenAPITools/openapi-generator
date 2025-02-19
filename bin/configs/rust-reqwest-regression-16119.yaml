@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/reqwest-regression-16119
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_1/regression-16119.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: regression-16119-reqwest

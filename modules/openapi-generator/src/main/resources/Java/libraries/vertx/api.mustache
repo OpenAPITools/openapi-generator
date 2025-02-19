@@ -1,0 +1,28 @@
+package {{package}};
+
+import {{invokerPackage}}.ApiClient;
+{{#imports}}import {{import}};
+{{/imports}}
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.json.JsonObject;
+
+import java.util.*;
+
+public interface {{classname}} {
+
+    {{#operations}}
+    {{#operation}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+
+    {{/operation}}
+    {{/operations}}
+}

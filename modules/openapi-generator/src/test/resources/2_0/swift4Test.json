@@ -1,0 +1,466 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Swift 4 Test Schema",
+    "description": "This is a test schema which exercises Swagger schema features for testing the swift4 language codegen module.",
+    "termsOfService": "These are the dummy Terms of Service for the swift4 test schema.",
+    "contact": {
+        "name": "John Doe",
+        "url": "http://www.example.com",
+        "email": "jdoe@example.com"
+    },
+    "license": {
+        "name": "This is the license name for the swift4 test schema.",
+        "url": "http://www.example.com"
+    },
+    "version": "1.0"
+  },
+  "host": "api.example.com",
+  "basePath": "/basePath",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+      "application/json"
+  ],
+  "produces": [
+      "application/json"
+  ],
+  "tags": [
+    {
+      "name": "Swift4Test"
+    }
+  ],
+  "externalDocs": {
+      "description": "Look in this doc for further information.",
+      "url": "https://www.example.com/doc/index.html"
+  },
+  "paths": {
+    "/allModels": {
+      "get": {
+        "tags": [
+          "Swift4Test"
+        ],
+        "summary": "Get all of the models",
+        "description": "This endpoint tests get a dictionary which contains examples of all of the models.",
+        "operationId": "GetAllModels",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "query",
+            "description": "id that represent the Api client",
+            "required": true,
+            "type": "string",
+            "x-example": "swagger_ui"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/GetAllModelsResult"
+            }
+          },
+          "400": {
+            "description": "Invalid client input",
+            "schema": {
+              "$ref": "#/definitions/ErrorInfo"
+            }
+          },
+          "424": {
+            "description": "Timeout",
+            "schema": {
+              "$ref": "#/definitions/ErrorInfo"
+            }
+          },
+          "500": {
+            "description": "Unexpected Server Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorInfo"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "StringEnum": {
+      "type": "string",
+      "enum": [
+        "stringEnumValue1",
+        "stringEnumValue2",
+        "stringEnumValue3"
+      ]
+    },
+    "AllPrimitives": {
+      "type": "object",
+      "properties": {
+        "myInteger": {
+          "type": "integer"
+        },
+        "myIntegerArray": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "myLong": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "myLongArray": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "myFloat": {
+          "type": "number",
+          "format": "float"
+        },
+        "myFloatArray": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "myDouble": {
+          "type": "number",
+          "format": "double"
+        },
+        "myDoubleArray": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "myString": {
+          "type": "string"
+        },
+        "myStringArray": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "myBytes": {
+          "type": "string",
+          "format": "byte"
+        },
+        "myBytesArray": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "byte"
+          }
+        },
+        "myBoolean": {
+          "type": "boolean"
+        },
+        "myBooleanArray": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
+        "myDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "myDateArray": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "myDateTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "myDateTimeArray": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "myFile": {
+          "type": "file"
+        },
+        "myFileArray": {
+          "type": "array",
+          "items": {
+            "type": "file"
+          }
+        },
+        "myUUID": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "myUUIDArray": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "myStringEnum": {
+          "$ref": "#/definitions/StringEnum"
+        },
+        "myStringEnumArray": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StringEnum"
+          }
+        },
+        "myInlineStringEnum": {
+          "type": "string",
+          "enum": [
+            "inlineStringEnumValue1",
+            "inlineStringEnumValue2",
+            "inlineStringEnumValue3"
+          ]
+        }
+      },
+      "description": "Object which contains lots of different primitive OpenAPI types"
+    },
+    "ErrorInfo": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Example Error object"
+    },
+    "ModelStringArray": {
+      "type": "array",
+      "description": "This defines an array of strings.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ModelDoubleArray": {
+      "type": "array",
+      "description": "This defines an array of doubles.",
+      "items": {
+        "type": "number",
+        "format": "double"
+      }
+    },
+    "ModelErrorInfoArray": {
+      "type": "array",
+      "description": "This defines an array of ErrorInfo objects.",
+      "items": {
+        "$ref": "#/definitions/ErrorInfo"
+      }
+    },
+    "VariableNameTest": {
+      "description": "This object contains property names which we know will be different from their variable name. Examples of this include snake case property names and property names which are Swift 4 reserved words.",
+      "type": "object",
+      "properties": {
+        "example_name": {
+          "description": "This snake-case example_name property name should be converted to a camelCase variable name like exampleName",
+          "type": "string"
+        },
+        "for": {
+          "description": "This property name is a reserved word in most languages, including Swift 4.",
+          "type": "string"
+        },
+        "normalName": {
+          "description": "This model object property name should be unchanged from the JSON property name.",
+          "type": "string"
+        }
+      }
+    },
+    "GetAllModelsResult": {
+      "type": "object",
+      "properties": {
+        "myPrimitiveArray": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AllPrimitives"
+          }
+        },
+        "myPrimitive": {
+          "$ref": "#/definitions/AllPrimitives"
+        },
+        "myVariableNameTest": {
+          "$ref": "#/definitions/VariableNameTest"
+        }
+      },
+      "description": "Response object containing AllPrimitives object"
+    },
+    "ModelWithStringAdditionalPropertiesOnly": {
+      "description": "This is an empty model with no properties and only additionalProperties of type string",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "ModelWithIntAdditionalPropertiesOnly": {
+      "description": "This is an empty model with no properties and only additionalProperties of type int32",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "ModelWithPropertiesAndAdditionalProperties": {
+      "description": "This is an empty model with no properties and only additionalProperties of type int32",
+      "type": "object",
+      "required": [
+        "myIntegerReq",
+        "myPrimitiveReq",
+        "myStringArrayReq",
+        "myPrimitiveArrayReq"
+      ],
+      "properties": {
+        "myIntegerReq": {
+          "type": "integer"
+        },
+        "myIntegerOpt": {
+          "type": "integer"
+        },
+        "myPrimitiveReq": {
+          "$ref": "#/definitions/AllPrimitives"
+        },
+        "myPrimitiveOpt": {
+          "$ref": "#/definitions/AllPrimitives"
+        },
+        "myStringArrayReq": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "myStringArrayOpt": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "myPrimitiveArrayReq": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AllPrimitives"
+          }
+        },
+        "myPrimitiveArrayOpt": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AllPrimitives"
+          }
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "SampleBase": {
+      "type": "object",
+      "description": "This is a base class object from which other classes will derive.",
+      "properties": {
+        "baseClassStringProp": {
+          "type": "string"
+        },
+        "baseClassIntegerProp": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SampleSubClass": {
+      "description": "This is a subclass derived from the SampleBase class.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SampleBase"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "subClassStringProp": {
+              "type": "string"
+            },
+            "subClassIntegerProp": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "BaseCard": {
+      "type": "object",
+      "description": "This is a base card object which uses a 'cardType' discriminator.",
+      "x-unit-tests": ["B45"],
+      "discriminator": "cardType",
+      "required": [
+        "cardType"
+      ],
+      "properties": {
+        "cardType": {
+          "type": "string"
+        }
+      }
+    },
+    "PersonCard": {
+      "description": "This is a card object for a Person derived from BaseCard.",
+      "x-unit-tests": ["B45"],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseCard"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "PlaceCard": {
+      "description": "This is a card object for a Person derived from BaseCard.",
+      "x-unit-tests": ["B45"],
+      "allOf": [
+        {
+          "$ref": "#/definitions/BaseCard"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "placeName": {
+              "type": "string"
+            },
+            "placeAddress": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

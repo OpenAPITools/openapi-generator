@@ -1,0 +1,157 @@
+## ClassicCheckoutSDKApi
+
+### Create a payment session
+## Set up a payment session (Android)
+POST https://checkout-test.adyen.com/v71/paymentSession
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 17408
+},
+ "reference": "Your order number",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "channel": "Android",
+ "token": "TOKEN_YOU_GET_FROM_CHECKOUT_SDK",
+ "returnUrl": "app://",
+ "countryCode": "NL",
+ "shopperLocale": "nl_NL",
+ "sessionValidity": "2017-04-06T13:09:13Z",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Create a payment session
+## Set up a payment session with the option to store card details
+POST https://checkout-test.adyen.com/v71/paymentSession
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 17408
+},
+ "reference": "Your order number",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "enableOneClick": true,
+ "enableRecurring": true,
+ "channel": "Web",
+ "origin": "https://www.yourwebsite.com",
+ "returnUrl": "https://www.yourshop.com/checkout/result",
+ "countryCode": "NL",
+ "shopperLocale": "nl_NL",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "sdkVersion": "1.7.0"
+}
+
+### Create a payment session
+## Set up a payment session (iOS)
+POST https://checkout-test.adyen.com/v71/paymentSession
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 17408
+},
+ "reference": "Your order number",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "channel": "iOS",
+ "token": "TOKEN_YOU_GET_FROM_CHECKOUT_SDK",
+ "returnUrl": "app://",
+ "countryCode": "NL",
+ "shopperLocale": "nl_NL",
+ "sessionValidity": "2017-04-06T13:09:13Z",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Create a payment session
+## Split a payment between a sub-merchant and a platform account
+POST https://checkout-test.adyen.com/v71/paymentSession
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 6200
+},
+ "additionalData": {
+ "split.api": "1",
+ "split.nrOfItems": "2",
+ "split.totalAmount": "6200",
+ "split.currencyCode": "EUR",
+ "split.item1.amount": "6000",
+ "split.item1.type": "MarketPlace",
+ "split.item1.account": "151272963",
+ "split.item1.reference": "6124145",
+ "split.item1.description": "Porcelain Doll: Eliza (20cm)",
+ "split.item2.amount": "200",
+ "split.item2.type": "Commission",
+ "split.item2.reference": "6124146"
+},
+ "reference": "Your order number",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "channel": "Android",
+ "token": "TOKEN_YOU_GET_FROM_CHECKOUT_SDK",
+ "returnUrl": "app://",
+ "countryCode": "NL",
+ "shopperLocale": "nl_NL",
+ "sessionValidity": "2017-04-06T13:09:13Z",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Create a payment session
+## Set up a payment session (Web)
+POST https://checkout-test.adyen.com/v71/paymentSession
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 17408
+},
+ "reference": "Your order number",
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "channel": "Web",
+ "origin": "https://www.yourwebsite.com",
+ "returnUrl": "https://www.yourshop.com/checkout/result",
+ "countryCode": "NL",
+ "shopperLocale": "nl_NL",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "sdkVersion": "1.9.5"
+}
+
+
+### Verify a payment result
+## Verify payment results
+POST https://checkout-test.adyen.com/v71/payments/result
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"
+}
+

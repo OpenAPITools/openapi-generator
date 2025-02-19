@@ -1,0 +1,11 @@
+    ### TLS/SSL setting
+    # You can use this to customize SSL Context settings (see https://ruby-doc.org/stdlib-2.5.1/libdoc/openssl/rdoc/OpenSSL/SSL/SSLContext.html
+    # to know which ones).
+    #
+    # @return [Hash{Symbol => Object}, OpenSSL::SSL::SSLContext, nil]
+    attr_accessor :ssl
+
+    ### Proxy setting
+    # HTTP Proxy settings (see https://honeyryderchuck.gitlab.io/httpx/wiki/Proxy#options)
+    # @return [Hash{Symbol => Object}, nil]
+    attr_accessor :proxy

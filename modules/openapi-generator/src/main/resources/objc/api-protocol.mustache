@@ -1,0 +1,18 @@
+#import <Foundation/Foundation.h>
+
+@class {{classPrefix}}ApiClient;
+
+{{>licenceInfo}}
+
+@protocol {{classPrefix}}Api <NSObject>
+
+@property(readonly, nonatomic, strong) {{classPrefix}}ApiClient *apiClient;
+
+-(instancetype) initWithApiClient:({{classPrefix}}ApiClient *)apiClient;
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key;
+-(NSString*) defaultHeaderForKey:(NSString*)key;
+
+-(NSDictionary *)defaultHeaders;
+
+@end

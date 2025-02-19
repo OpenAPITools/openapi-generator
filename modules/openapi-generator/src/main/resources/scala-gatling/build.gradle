@@ -1,0 +1,29 @@
+plugins {
+    id 'io.gatling.gradle' version '3.7.3'
+}
+
+repositories {
+    maven { url "https://repo1.maven.org/maven2" }
+}
+
+dependencies {
+
+}
+
+apply plugin: "io.gatling.gradle"
+
+gatling {
+    toolVersion = '2.3.0'
+    jvmArgs = ['-server', '-XX:+UseThreadPriorities',
+               '-XX:ThreadPriorityPolicy=42',
+               '-Xms2048M', '-Xmx2048M', '-Xmn500M',
+               '-XX:+HeapDumpOnOutOfMemoryError',
+               '-XX:+AggressiveOpts',
+               '-XX:+OptimizeStringConcat',
+               '-XX:+UseFastAccessorMethods',
+               '-XX:+UseParNewGC',
+               '-XX:+UseConcMarkSweepGC',
+               '-XX:+CMSParallelRemarkEnabled',
+               '-Djava.net.preferIPv4Stack=true',
+               '-Djava.net.preferIPv6Addresses=false']
+}

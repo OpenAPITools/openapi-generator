@@ -1,0 +1,22 @@
+{
+  "type": "form",
+  "version": "2.0",
+  "cells": [{
+    "label": "General",
+    "children": [
+      {"model": "label"},
+      {"model": "description"}
+    ]
+  },{
+    "label": "Details",
+    "model": "properties",
+    "children": [
+      {"model": "id" },
+      {"model": "category" },
+      {"model": "name" },
+      {"model": "photo_urls" },
+      {"model": "tags" },
+      {"model": "status" },
+    ]
+  }]
+}

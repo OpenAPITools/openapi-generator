@@ -1,0 +1,24 @@
+{{>licenseInfo}}
+#include "{{packageName}}/JsonBody.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+JsonBody::JsonBody( const web::json::value& json)
+    : m_Json(json)
+{
+}
+
+JsonBody::~JsonBody()
+{
+}
+
+void JsonBody::writeTo( std::ostream& target )
+{
+    m_Json.serialize(target);
+}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}

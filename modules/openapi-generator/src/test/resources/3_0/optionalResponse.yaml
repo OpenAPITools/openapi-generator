@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: My Sample User API
+  version: '1.0'
+paths:
+  /api/Users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Get a specific user
+      operationId: GetUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '204':
+          description: No Content
+components:
+  schemas:
+    UserDto:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false

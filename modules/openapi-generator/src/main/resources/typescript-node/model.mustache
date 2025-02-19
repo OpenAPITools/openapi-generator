@@ -1,0 +1,92 @@
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+import { RequestFile } from './models';
+{{#tsImports}}
+import { {{classname}} } from '{{filename}}';
+{{/tsImports}}
+
+{{#description}}
+/**
+* {{{.}}}
+*/
+{{/description}}
+{{^isEnum}}
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+    /**
+    * {{{.}}}
+    {{#deprecated}}
+    *
+    * @deprecated
+    {{/deprecated}}
+    */
+{{/description}}
+{{^description}}
+    {{#deprecated}}
+    /**
+    * @deprecated
+    */
+    {{/deprecated}}
+{{/description}}
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#defaultValue}} = {{#isEnum}}{{classname}}.{{/isEnum}}{{{.}}}{{/defaultValue}};
+{{/vars}}
+
+    {{#discriminator}}
+    static discriminator: string | undefined = "{{discriminatorName}}";
+    {{/discriminator}}
+    {{^discriminator}}
+    static discriminator: string | undefined = undefined;
+    {{/discriminator}}
+
+    {{^isArray}}
+    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+        {{#vars}}
+        {
+            "name": "{{name}}",
+            "baseName": "{{baseName}}",
+            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}"
+        }{{^-last}},
+        {{/-last}}
+        {{/vars}}
+    ];
+
+    static getAttributeTypeMap() {
+        {{#parent}}
+        return super.getAttributeTypeMap().concat({{classname}}.attributeTypeMap);
+        {{/parent}}
+        {{^parent}}
+        return {{classname}}.attributeTypeMap;
+        {{/parent}}
+    }
+    {{/isArray}}
+}
+
+{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+{{#isEnum}}
+    export enum {{enumName}} {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+}
+{{/hasEnums}}
+{{/isEnum}}
+{{#isEnum}}
+export enum {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,206 @@
+{{>partials/api_statement_extends}}
+{{>partials/api_statement_class_name}}
+
+
+{{>partials/api_headers}}
+
+func _bzz_get_api_name() -> String:
+	return "{{classname}}"
+
+{{#with operations}}
+{{#each operation}}
+
+{{#if isDeprecated}}
+# /!.  DEPRECATED
+{{/if}}
+# Operation {{{operationId}}} → {{{httpMethod}}} {{{path}}}
+{{#if summary}}
+# {{{summary}}}
+{{/if}}
+{{#if description}}
+#
+# {{{description}}}
+{{/if}}
+{{#if notes}}
+#
+# {{{notes}}}
+{{/if}}
+func {{operationIdSnakeCase}}(
+{{>partials/api_method_params}}
+):
+{{#if isDeprecated}}
+	push_warning("Usage of `{{operationIdSnakeCase}}()` is deprecated.")
+{{/if}}
+
+	{{#each allParams}}
+	{{#if hasValidation}}
+	# Validate param `{{paramName}}` constraints
+	{{#if maxLength}}
+	{{#if isString}}
+	if ({{paramName}} is String) and {{paramName}}.length() > {{maxLength}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		#error.internal_code = ERR_INVALID_PARAMETER
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.max_length"
+		error.message = "Invalid length for `{{paramName}}`, must be smaller than or equal to {{maxLength}}."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if minLength}}
+	{{#if isString}}
+	if ({{paramName}} is String) and {{paramName}}.length() < {{minLength}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.min_length"
+		error.message = "Invalid length for `{{paramName}}`, must be greater than or equal to {{minLength}}."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if maximum}}
+	{{! isNumeric / isNumber yields false yet isLong yields true }}
+	{{! not sure if bug 'cause of handlebars or not ; let's skip }}
+	{{!#if isNumeric}}
+	if {{paramName}} >{{#if exclusiveMaximum}}={{/if}} {{maximum}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.maximum"
+		error.message = "Invalid value for `{{paramName}}`, must be smaller than{{#unless exclusiveMaximum}} or equal to{{/unless}} {{maximum}}."
+		on_failure.call(error)
+		return
+	{{!/if}}
+	{{/if}}
+	{{#if minimum}}
+	{{!#if isNumeric}}
+	if {{paramName}} <{{#if exclusiveMinimum}}={{/if}} {{minimum}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.minimum"
+		error.message = "Invalid value for `{{paramName}}`, must be greater than{{#unless exclusiveMinimum}} or equal to{{/unless}} {{minimum}}."
+		on_failure.call(error)
+		return
+	{{!/if}}
+	{{/if}}
+	{{#if maxItems}}
+	{{#if isArray}}
+	if ({{paramName}} is Array) and {{paramName}}.size() > {{maxItems}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.max_items"
+		error.message = "Invalid array size for `{{paramName}}`, must hold at most {{maxItems}} elements."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if minItems}}
+	{{#if isArray}}
+	if ({{paramName}} is Array) and {{paramName}}.size() < {{minItems}}:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.min_items"
+		error.message = "Invalid array size for `{{paramName}}`, must hold at least {{minItems}} elements."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{/if}}
+	{{#if pattern}}
+	var bzz_{{paramName}}_regex := RegEx.new()
+	{{! These regex trimming shenanigans will fail if regex has flags }}
+	{{! A solution would be to use another RegEx to extract that data from the pattern ? }}
+	bzz_{{paramName}}_regex.compile("{{{pattern}}}".trim_prefix('/').trim_suffix('/'))
+	if not bzz_{{paramName}}_regex.search(str({{paramName}})):
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.param.validation.pattern"
+		error.message = "Invalid value for `{{paramName}}`, must conform to the pattern `{{{pattern}}}`."
+		on_failure.call(error)
+		return
+	{{/if}}
+
+	{{/if}}
+	{{/each}}
+	# Convert the String HTTP method to a Constant Godot understands
+	var bzz_method := self._bzz_convert_http_method("{{httpMethod}}")
+
+	# Compute the URL path to the API resource
+	var bzz_path := "{{{contextPath}}}{{{path}}}"{{#each pathParams}}.replace("{" + "{{baseName}}" + "}", _bzz_urlize_path_param({{{paramName}}})){{/each}}
+
+	# Collect the headers
+	var bzz_headers := Dictionary()
+	{{#each headerParams}}
+	bzz_headers["{{baseName}}"] = {{paramName}}
+	{{/each}}
+	{{#if consumes}}
+	var bzz_mimes_consumable_by_server := [{{#each consumes}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
+	var bzz_found_producible_mime := false
+	for bzz_mime in BZZ_PRODUCIBLE_CONTENT_TYPES:
+		if bzz_mime in bzz_mimes_consumable_by_server:
+			bzz_headers["Content-Type"] = bzz_mime
+			bzz_found_producible_mime = true
+			break
+	if not bzz_found_producible_mime:
+		var error := {{>partials/api_error_class_name}}.new()
+		error.identifier = "{{operationIdSnakeCase}}.headers.content_type"
+		error.message = "That endpoint only accepts %s as content type(s) and none are supported by this client."
+		on_failure.call(error)
+		return
+	{{/if}}
+	{{#if produces}}
+	var bzz_mimes_produced_by_server := [{{#each produces}}'{{{mediaType}}}'{{#unless @last}}, {{/unless}}{{/each}}]
+	for bzz_mime in BZZ_CONSUMABLE_CONTENT_TYPES:
+		if bzz_mime in bzz_mimes_produced_by_server:
+			bzz_headers["Accept"] = bzz_mime
+			break
+	{{/if}}
+
+	# Collect the query parameters
+	# Note: we do not support multiple values for a single param (for now), nor arrays
+	var bzz_query := Dictionary()
+	{{#each queryParams}}
+	bzz_query["{{baseName}}"] = {{paramName}}
+	{{/each}}
+
+	var bzz_body = null
+	{{#if bodyParams}}
+	{{#each bodyParams}}
+	{{! What should happen here when there are multiple body params?  for now last wins }}
+	bzz_body = {{paramName}}
+	{{/each}}
+	{{/if}}
+	{{#if formParams}}
+	bzz_body = Dictionary()
+	{{#each formParams}}
+	bzz_body["{{paramName}}"] = {{paramName}}
+	{{/each}}
+	{{/if}}
+
+	self._bzz_request(
+		bzz_method, bzz_path, bzz_headers, bzz_query, bzz_body,
+		func(bzz_response):
+{{#with returnProperty}}
+	{{#if isArray}}
+			bzz_response.data = {{>partials/complex_type}}.bzz_denormalize_multiple(bzz_response.data)
+	{{else if isModel}}
+			bzz_response.data = {{>partials/data_type}}.bzz_denormalize_single(bzz_response.data)
+	{{/if}}
+{{/with}}
+			on_success.call(bzz_response)
+			,
+		func(bzz_error):
+			on_failure.call(bzz_error)
+			,  # ざわ‥
+	)
+
+
+func {{operationIdSnakeCase}}_threaded(
+{{>partials/api_method_params}}
+) -> Thread:
+	var bzz_thread := Thread.new()
+	var bzz_callable := Callable(self, "{{operationIdSnakeCase}}")
+	bzz_callable.bind(
+	{{#each allParams}}
+		{{paramName}},
+	{{/each}}
+		on_success,
+		on_failure,
+	)
+	bzz_thread.start(bzz_callable)
+	return bzz_thread
+
+{{/each}}
+
+{{/with}}

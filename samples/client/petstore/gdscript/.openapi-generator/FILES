@@ -1,0 +1,16 @@
+README.md
+apis/DemoPetApi.gd
+apis/DemoPetApi.md
+apis/DemoStoreApi.gd
+apis/DemoStoreApi.md
+apis/DemoUserApi.gd
+apis/DemoUserApi.md
+core/DemoApiBee.gd
+core/DemoApiConfig.gd
+core/DemoApiError.gd
+models/DemoApiResponse.gd
+models/DemoCategory.gd
+models/DemoOrder.gd
+models/DemoPet.gd
+models/DemoTag.gd
+models/DemoUser.gd

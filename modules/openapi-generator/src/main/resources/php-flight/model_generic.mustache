@@ -1,0 +1,90 @@
+class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}} implements \JsonSerializable
+{
+    {{#vars}}{{>model_variables}}
+    {{/vars}}
+    /**
+     * Constructor
+     *
+{{#vars}}
+     * @param {{vendorExtensions.x-comment-type}} ${{name}}
+{{/vars}}
+     */
+    public function __construct({{#vars}}{{vendorExtensions.x-parameter-type}} ${{name}}{{^-last}}, {{/-last}}{{/vars}})
+    {
+        {{#vars}}
+        $this->{{name}} = ${{name}};
+        {{/vars}}
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+        {{#vars}}
+        {{#isDateTime}}
+            isset($data['{{baseName}}']) ? new \DateTime($data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/isDateTime}}
+        {{#isEnum}}
+            isset($data['{{baseName}}']) ? {{enumName}}::tryFrom($data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/isEnum}}
+        {{#isEnumRef}}
+            isset($data['{{baseName}}']) ? {{complexType}}::tryFrom($data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/isEnumRef}}
+        {{#isModel}}
+            isset($data['{{baseName}}']) ? {{complexType}}::fromArray($data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/isModel}}
+        {{#isArray}}
+        {{#items.isEnumRef}}
+            isset($data['{{baseName}}']) ? array_map(fn($item) => {{items.complexType}}::tryFrom($item), $data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/items.isEnumRef}}
+        {{#items.isModel}}
+            isset($data['{{baseName}}']) ? array_map(fn($item) => {{items.complexType}}::fromArray($item), $data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/items.isModel}}
+        {{#items.isDateTime}}
+            isset($data['{{baseName}}']) ? array_map(fn($item) => new \DateTime($item), $data['{{baseName}}']) : null{{^last}}, {{/last}}
+        {{/items.isDateTime}}
+        {{^items.isEnumRef}}
+        {{^items.isModel}}
+        {{^items.isDateTime}}
+            $data['{{baseName}}'] ?? null{{^last}}, {{/last}}
+        {{/items.isDateTime}}
+        {{/items.isModel}}
+        {{/items.isEnumRef}}
+        {{/isArray}}
+        {{^isEnumRef}}
+        {{^isEnum}}
+        {{^isModel}}
+        {{^isArray}}
+        {{^isDateTime}}
+            $data['{{baseName}}'] ?? null{{^last}}, {{/last}}
+        {{/isDateTime}}
+        {{/isArray}}
+        {{/isModel}}
+        {{/isEnum}}
+        {{/isEnumRef}}
+        {{/vars}}
+        );
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+        {{#vars}}
+        {{#isDateTime}}
+            '{{baseName}}' => $this->{{name}}?->format('c'){{^last}}, {{/last}}
+        {{/isDateTime}}
+        {{#isArray}}
+        {{#items.isDateTime}}
+            '{{baseName}}' => $this->{{name}} ? array_map(fn($item) => $item->format('c'), $this->{{name}}) : null{{^last}}, {{/last}}
+        {{/items.isDateTime}}
+        {{^items.isDateTime}}
+            '{{baseName}}' => $this->{{name}}{{^last}}, {{/last}}
+        {{/items.isDateTime}}
+        {{/isArray}}
+        {{^isDateTime}}
+        {{^isArray}}
+            '{{baseName}}' => $this->{{name}}{{^last}}, {{/last}}
+        {{/isArray}}
+        {{/isDateTime}}
+        {{/vars}}
+        ];
+    }
+}

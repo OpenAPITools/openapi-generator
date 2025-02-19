@@ -1,0 +1,62 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://api.example.com/v3'
+info:
+  version: 1.0.0
+  title: OpenAPI Test
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /ping/text:
+    get:
+      operationId: pingText
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              example: "Hello world 2018-06-29T07:32:23Z"
+  /ping/json:
+    get:
+      operationId: pingJson
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+              example: '{ "message": "Hello world", "timestamp": "2018-06-29T07:32:23Z"}'
+  /other/issue443:
+    get:
+      operationId: issue443
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+        default:
+          description: Unexpected error
+          content:
+            application/text:
+              schema:
+                type: string
+components:
+  schemas:
+    LocationData:
+      type: object
+      properties:
+        xPos:
+          type: integer
+          format: int32
+        yPos:
+          type: integer
+          format: int32

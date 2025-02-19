@@ -1,0 +1,35 @@
+{{#withXml}}
+@XmlType(name="{{datatypeWithEnum}}")
+@XmlEnum({{dataType}}.class)
+{{/withXml}}
+{{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+
+    {{#allowableValues}}
+    {{#enumVars}}{{#withXml}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{/withXml}}@JsonProperty({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{/allowableValues}}
+
+
+    private {{dataType}} value;
+
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}({{dataType}} v) {
+        value = v;
+    }
+
+    public {{dataType}} value() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{dataType}} value) {
+        for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
+            if (b.value.{{^isString}}equals{{/isString}}{{#isString}}{{#useEnumCaseInsensitive}}equalsIgnoreCase{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}equals{{/useEnumCaseInsensitive}}{{/isString}}(value)) {
+                return b;
+            }
+        }
+        {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/isNullable}}
+    }
+}

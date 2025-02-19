@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /api                        com.puppies.store.apis.ApiDocController.api
+
+
+#Functions for Pet API
+POST     /v2/pet                     com.puppies.store.apis.PetApiController.addPet(request: Request)
+DELETE     /v2/pet/:petId                     com.puppies.store.apis.PetApiController.deletePet(request: Request, petId: Long)
+GET     /v2/pet/findByStatus                     com.puppies.store.apis.PetApiController.findPetsByStatus(request: Request)
+GET     /v2/pet/findByTags                     com.puppies.store.apis.PetApiController.findPetsByTags(request: Request)
+GET     /v2/pet/:petId                     com.puppies.store.apis.PetApiController.getPetById(request: Request, petId: Long)
+PUT     /v2/pet                     com.puppies.store.apis.PetApiController.updatePet(request: Request)
+POST     /v2/pet/:petId                     com.puppies.store.apis.PetApiController.updatePetWithForm(request: Request, petId: Long)
+POST     /v2/pet/:petId/uploadImage                     com.puppies.store.apis.PetApiController.uploadFile(request: Request, petId: Long)
+
+#Functions for Store API
+DELETE     /v2/store/order/:orderId                     com.puppies.store.apis.StoreApiController.deleteOrder(request: Request, orderId: String)
+GET     /v2/store/inventory                     com.puppies.store.apis.StoreApiController.getInventory(request: Request)
+GET     /v2/store/order/:orderId                     com.puppies.store.apis.StoreApiController.getOrderById(request: Request, orderId: Long)
+POST     /v2/store/order                     com.puppies.store.apis.StoreApiController.placeOrder(request: Request)
+
+#Functions for User API
+POST     /v2/user                     com.puppies.store.apis.UserApiController.createUser(request: Request)
+POST     /v2/user/createWithArray                     com.puppies.store.apis.UserApiController.createUsersWithArrayInput(request: Request)
+POST     /v2/user/createWithList                     com.puppies.store.apis.UserApiController.createUsersWithListInput(request: Request)
+DELETE     /v2/user/:username                     com.puppies.store.apis.UserApiController.deleteUser(request: Request, username: String)
+GET     /v2/user/:username                     com.puppies.store.apis.UserApiController.getUserByName(request: Request, username: String)
+GET     /v2/user/login                     com.puppies.store.apis.UserApiController.loginUser(request: Request)
+GET     /v2/user/logout                     com.puppies.store.apis.UserApiController.logoutUser(request: Request)
+PUT     /v2/user/:username                     com.puppies.store.apis.UserApiController.updateUser(request: Request, username: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)

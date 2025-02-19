@@ -1,0 +1,28 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /elephants:
+    get:
+      operationId: getElephants
+      parameters:
+        - in: query
+          name: startDate
+          schema:
+            type: string
+            format: date
+  /zebras:
+    get:
+      operationId: getZebras
+      parameters:
+        - in: query
+          name: startDateTime
+          schema:
+            type: string
+            format: date-time

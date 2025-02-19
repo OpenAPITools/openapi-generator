@@ -1,0 +1,1 @@
+{{#isBodyParam}}@ApiParam(value = "{{{description}}}" {{#required}},required=true{{/required}} {{^isContainer}}{{#allowableValues}}, allowableValues="{{{.}}}"{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{.}}}"{{/defaultValue}}{{/isContainer}})  {{#useBeanValidation}}@Valid{{/useBeanValidation}} @RequestBody {{{dataType}}} {{paramName}}{{/isBodyParam}}

@@ -1,0 +1,6 @@
+README.md
+pom.xml
+src/main/java/org/openapitools/api/PetApi.java
+src/main/java/org/openapitools/model/Category.java
+src/main/java/org/openapitools/model/Pet.java
+src/main/java/org/openapitools/model/Tag.java

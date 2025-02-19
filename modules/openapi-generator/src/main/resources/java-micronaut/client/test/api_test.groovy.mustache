@@ -1,0 +1,59 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import spock.lang.Specification
+import jakarta.inject.Inject
+import spock.lang.Ignore
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse
+{{/wrapInHttpResponse}}
+import java.util.Arrays
+import java.util.ArrayList
+import java.util.HashMap
+import java.util.List
+import java.util.Map
+import java.util.HashSet
+
+
+/**
+ * API tests for {{classname}}
+ */
+@MicronautTest
+class {{classname}}Spec extends Specification {
+
+    @Inject
+    {{classname}} api
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     {{#notes}}
+     *
+     * {{notes}}
+     {{/notes}}
+     */
+    @Ignore("Not Implemented")
+    void '{{operationId}}() test'() {
+        given:
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = {{{vendorExtensions.groovyExample}}}
+        {{/allParams}}
+
+        when:
+        {{#wrapInHttpResponse}}
+        HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> response = api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#reactive}}.block(){{/reactive}}{{#returnType}}
+        {{{returnType}}} body = response.body(){{/returnType}}
+        {{/wrapInHttpResponse}}
+        {{^wrapInHttpResponse}}
+        {{#returnType}}{{{returnType}}} body = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#reactive}}.block(){{/reactive}}
+        {{/wrapInHttpResponse}}
+
+        then:
+        true
+        // TODO: test validations
+    }
+
+    {{/operation}}{{/operations}}
+}

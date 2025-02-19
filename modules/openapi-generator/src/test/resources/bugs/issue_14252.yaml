@@ -1,0 +1,28 @@
+openapi: 3.0.2
+
+servers:
+- url: https://test.org
+
+info:
+  version: 1.0.0
+  title: test bigdecimal as String
+  description: test bigdecimal as String
+
+paths:
+  /test:
+    get:
+      operationId: get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MyResponse"
+
+components:
+  schemas:
+    MyResponse:
+      properties:
+        myPropTypeNumber:
+          type: number

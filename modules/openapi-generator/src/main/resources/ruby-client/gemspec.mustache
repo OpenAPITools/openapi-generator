@@ -1,0 +1,41 @@
+# -*- encoding: utf-8 -*-
+
+=begin
+{{> api_info}}
+=end
+
+$:.push File.expand_path("../lib", __FILE__)
+require "{{gemName}}/version"
+
+Gem::Specification.new do |s|
+  s.name        = "{{gemName}}{{^gemName}}{{{appName}}}{{/gemName}}"
+  s.version     = {{moduleName}}::VERSION
+  s.platform    = Gem::Platform::RUBY
+  s.authors     = ["{{gemAuthor}}{{^gemAuthor}}OpenAPI-Generator{{/gemAuthor}}"]
+  s.email       = ["{{gemAuthorEmail}}{{^gemAuthorEmail}}{{infoEmail}}{{/gemAuthorEmail}}"]
+  s.homepage    = "{{gemHomepage}}{{^gemHomepage}}https://openapi-generator.tech{{/gemHomepage}}"
+  s.summary     = "{{gemSummary}}{{^gemSummary}}{{{appName}}} Ruby Gem{{/gemSummary}}"
+  s.description = "{{gemDescription}}{{^gemDescription}}{{{appDescription}}}{{^appDescription}}{{{appName}}} Ruby Gem{{/appDescription}}{{/gemDescription}}"
+  s.license     = "{{{gemLicense}}}{{^gemLicense}}Unlicense{{/gemLicense}}"
+  s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 2.7{{/gemRequiredRubyVersion}}"
+  s.metadata    = {{{gemMetadata}}}{{^gemMetadata}}{}{{/gemMetadata}}
+
+  {{#isFaraday}}
+  s.add_runtime_dependency 'faraday', '>= 1.0.1', '< 3.0'
+  s.add_runtime_dependency 'faraday-multipart'
+  s.add_runtime_dependency 'marcel'
+  {{/isFaraday}}
+  {{#isTyphoeus}}
+  s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
+  {{/isTyphoeus}}
+  {{#isHttpx}}
+  s.add_runtime_dependency 'httpx', '~> 1.0', '>= 1.0.0'
+  {{/isHttpx}}
+
+  s.add_development_dependency 'rspec', '~> 3.6', '>= 3.6.0'
+
+  s.files         = `find *`.split("\n").uniq.sort.select { |f| !f.empty? }
+  s.test_files    = `find spec/*`.split("\n")
+  s.executables   = []
+  s.require_paths = ["lib"]
+end

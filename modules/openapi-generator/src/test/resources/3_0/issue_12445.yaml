@@ -1,0 +1,60 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /pets/petType/{type}:
+    get:
+      parameters:
+        - name: 'type'
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/PetByType'
+      responses:
+        '200':
+          description: 'get by type'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        petType:
+          $ref: '#/components/schemas/PetByType'
+      required:
+        - petType
+    Dog:
+      allOf:
+        # This field will not match to any type.
+        - description: Dog information
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            hunts:
+              type: boolean
+            age:
+              type: integer
+    PetByType:
+      type: string
+      enum: [Cat, Dog]

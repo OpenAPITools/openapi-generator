@@ -1,0 +1,126 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Spec for testing global consumes and produces",
+    "version": "1.0.0",
+    "title": "OpenAPI Petstore",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
+  "consumes": ["application/global_consumes"],
+  "produces": ["application/global_produces"],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tests/localConsumesAndProduces": {
+      "get": {
+        "tags": [
+          "tests"
+        ],
+        "summary": "Operation with local consumes and produces",
+        "description": "",
+        "operationId": "localConsumesAndProduces",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation. Returning a simple int.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    },
+    "/tests/globalConsumesAndProduces": {
+      "get": {
+        "tags": [
+          "tests"
+        ],
+        "summary": "Operation with global consumes and produces",
+        "description": "",
+        "operationId": "globalConsumesAndProduces",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation. Returning a simple int.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    },
+    "/tests/localResetConsumesAndProduces": {
+      "get": {
+        "tags": [
+          "tests"
+        ],
+        "summary": "Operation with local consumes and produces set to empty (reset)",
+        "description": "",
+        "operationId": "localResetConsumesAndProduces",
+        "parameters": [
+        ],
+        "consumes": [],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "successful operation. Returning a simple int.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    }
+ 
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    }
+  },
+  "definitions": {
+    "CustomModel": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie"
+        }
+      }
+    }
+  }
+}

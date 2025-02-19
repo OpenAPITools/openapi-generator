@@ -1,0 +1,44 @@
+openapi: 3.0.1
+info:
+  title: metadata-svc
+  description: Metadata Service
+  contact:
+    name: Test Svc
+    email: xyz@xyz.com
+  version: 3.1.2
+servers:
+- url: https://localhost:8080/
+tags:
+- name: metadata
+  description: APIs to get metadata.
+paths:
+  /v1/a-path:
+    get:
+      tags:
+      - metadata
+      summary: A generic getter operation.
+      description: Get something from somewhere.
+      operationId: getSomething
+      responses:
+        200:
+          description: List of groups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /v1/another-path:
+    post:
+      tags:
+      - metadata
+      summary: Insert something.
+      description: Insert something somewhere.
+      operationId: putSomething
+      responses:
+        201:
+          description: List of groups.
+          content:
+            application/json:
+              schema:
+                type: string

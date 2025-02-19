@@ -1,0 +1,16 @@
+{{>licenseInfo}}
+package {{modelPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+{{^generateOneOfAnyOfWrappers}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{>data_class}}{{/isAlias}}{{/isEnum}}
+{{/generateOneOfAnyOfWrappers}}
+{{#generateOneOfAnyOfWrappers}}
+{{#isEnum}}{{>enum_class}}{{/isEnum}}{{^isEnum}}{{#isAlias}}typealias {{classname}} = {{{dataType}}}{{/isAlias}}{{^isAlias}}{{#oneOf}}{{#-first}}{{>oneof_class}}{{/-first}}{{/oneOf}}{{#anyOf}}{{#-first}}{{>anyof_class}}{{/-first}}{{/anyOf}}{{^oneOf}}{{^anyOf}}{{>data_class}}{{/anyOf}}{{/oneOf}}{{/isAlias}}{{/isEnum}}
+{{/generateOneOfAnyOfWrappers}}
+{{/model}}
+{{/models}}

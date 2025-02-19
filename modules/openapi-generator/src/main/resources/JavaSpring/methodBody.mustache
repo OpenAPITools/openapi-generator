@@ -1,0 +1,59 @@
+{{^reactive}}
+{{#examples}}
+    {{#-first}}
+            {{#async}}
+return CompletableFuture.supplyAsync(()-> {
+            {{/async}}getRequest().ifPresent(request -> {
+{{#async}}    {{/async}}            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+    {{/-first}}
+{{#async}}        {{/async}}{{^async}}    {{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+{{#async}}        {{/async}}{{^async}}    {{/async}}                String exampleString = {{>exampleString}};
+{{#async}}        {{/async}}{{^async}}    {{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", exampleString);
+{{#async}}        {{/async}}{{^async}}    {{/async}}                break;
+{{#async}}        {{/async}}{{^async}}    {{/async}}            }
+    {{#-last}}
+{{#async}}        {{/async}}{{^async}}    {{/async}}        }
+{{#async}}    {{/async}}        });
+{{#async}}    {{/async}}        {{#useResponseEntity}}return new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
+            {{#async}}
+        }, Runnable::run);
+            {{/async}}
+    {{/-last}}
+{{/examples}}
+{{^examples}}
+{{#useResponseEntity}}return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
+{{/examples}}
+{{/reactive}}
+{{#reactive}}
+{{^vendorExtensions.x-sse}}
+Mono<Void> result = Mono.empty();
+    {{#examples}}
+        {{#-first}}
+        exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+        {{/-first}}
+            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+                String exampleString = {{>exampleString}};
+                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("{{{generatedContentType}}}"), exampleString);
+                break;
+            }
+        {{#-last}}
+        }
+        {{/-last}}
+    {{/examples}}
+{{^examples}}
+        exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+{{/examples}}
+        return result{{#allParams}}{{#isBodyParam}}{{^isArray}}{{#paramName}}.then({{.}}){{/paramName}}{{/isArray}}{{#isArray}}{{#paramName}}.thenMany({{.}}){{/paramName}}{{/isArray}}{{/isBodyParam}}{{/allParams}}{{#isArray}}{{#useResponseEntity}}.then(Mono.empty()){{/useResponseEntity}}{{^useResponseEntity}}.thenMany(Flux.empty()){{/useResponseEntity}}{{/isArray}}{{^isArray}}.then(Mono.empty()){{/isArray}};
+{{/vendorExtensions.x-sse}}
+{{#vendorExtensions.x-sse}}
+exchange.getResponse().setStatusCode({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}});
+        return Flux.empty();
+{{/vendorExtensions.x-sse}}
+{{/reactive}}

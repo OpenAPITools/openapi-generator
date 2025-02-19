@@ -1,0 +1,121 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
+import io.vertx.core.MultiMap;
+import io.vertx.core.json.JsonObject;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+import {{invokerPackage}}.ApiClient;
+import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.Configuration;
+import {{invokerPackage}}.Pair;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}}Impl implements {{classname}} {
+
+    private ApiClient apiClient;
+
+    public {{classname}}Impl() {
+        this(null);
+    }
+
+    public {{classname}}Impl(ApiClient apiClient) {
+        this.apiClient = apiClient != null ? apiClient : Configuration.getDefaultApiClient();
+    }
+
+    public ApiClient getApiClient() {
+        return apiClient;
+    }
+
+    public void setApiClient(ApiClient apiClient) {
+        this.apiClient = apiClient;
+    }
+
+    {{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+        * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @param resultHandler Asynchronous result handler
+    */
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+        {{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}null, resultHandler);
+    }
+
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> resultHandler) {
+        Object localVarBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+        {{#allParams}}{{#required}}
+        // verify the required parameter '{{paramName}}' is set
+        if ({{paramName}} == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter '{{paramName}}' when calling {{operationId}}"));
+            return;
+        }
+        {{/required}}{{/allParams}}
+        // create path and map variables
+        String localVarPath = "{{{path}}}"{{#pathParams}}.replaceAll("\\{" + "{{baseName}}" + "\\}", encodeParameter({{{paramName}}}.toString())){{/pathParams}};
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        {{#queryParams}}
+        localVarQueryParams.addAll(apiClient.parameterToPairs("{{{collectionFormat}}}", "{{baseName}}", {{paramName}}));
+        {{/queryParams}}
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        {{#headerParams}}if ({{paramName}} != null)
+        localVarHeaderParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));
+        {{/headerParams}}
+
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        {{#cookieParams}}if ({{paramName}} != null)
+        localVarCookieParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));
+        {{/cookieParams}}
+
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        {{#formParams}}if ({{paramName}} != null) localVarFormParams.put("{{baseName}}", {{paramName}});
+        {{/formParams}}
+
+        String[] localVarAccepts = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} };
+        String[] localVarContentTypes = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} };
+        String[] localVarAuthNames = new String[] { {{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}} };
+        {{#returnType}}
+        TypeReference<{{{returnType}}}> localVarReturnType = new TypeReference<{{{returnType}}}>() {};
+        apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);{{/returnType}}{{^returnType}}
+        apiClient.invokeAPI(localVarPath, "{{httpMethod}}", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);{{/returnType}}
+    }
+    {{/operation}}
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
+    }
+}
+{{/operations}}

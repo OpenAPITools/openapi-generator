@@ -1,0 +1,11 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"

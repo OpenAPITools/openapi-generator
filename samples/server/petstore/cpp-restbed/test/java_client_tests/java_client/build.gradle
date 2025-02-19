@@ -1,0 +1,51 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "org.openapi.generator" version "5.4.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "https://repo1.maven.org/maven2" }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.2'
+    implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.6.6'
+    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
+    testImplementation('com.approvaltests:approvaltests:15.3.0')
+    testImplementation(platform('org.junit:junit-bom:5.8.2'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+compileJava.dependsOn tasks.openApiGenerate
+
+openApiGenerate {
+    generatorName = "java"
+    inputSpec = "$rootDir/../../../../../../../modules/openapi-generator/src/test/resources/3_0/petstore.yaml".toString()
+    outputDir = "$buildDir/generated".toString()
+    apiPackage = "org.openapi.example.api"
+    invokerPackage = "org.openapi.example.invoker"
+    modelPackage = "org.openapi.example.model"
+    configOptions = [
+            dateLibrary: "java8",
+            library: "webclient"
+    ]
+}
+
+sourceSets.main.java.srcDirs += "$buildDir/generated/src/main/java".toString()

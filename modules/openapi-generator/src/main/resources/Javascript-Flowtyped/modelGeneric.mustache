@@ -1,0 +1,26 @@
+{{#hasEnums}}
+    {{#vars}}
+        {{#isEnum}}
+
+            export type {{classname}}{{enumName}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
+        {{/isEnum}}
+    {{/vars}}
+{{/hasEnums}}
+/**
+ * {{{description}}}
+ * @export
+ */
+export type {{classname}} = {
+{{#additionalPropertiesType}}
+    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+
+{{/additionalPropertiesType}}
+{{#vars}}
+    /**
+     * {{{description}}}
+     * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
+     * @memberof {{classname}}
+     */
+    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+}{{#parent}} & {{.}}{{/parent}}

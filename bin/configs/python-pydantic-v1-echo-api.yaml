@@ -1,0 +1,6 @@
+generatorName: python-pydantic-v1
+outputDir: samples/client/echo_api/python-pydantic-v1
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-pydantic-v1
+additionalProperties:
+  hideGenerationTimestamp: "true"

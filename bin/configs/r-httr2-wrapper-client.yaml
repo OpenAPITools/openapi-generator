@@ -1,0 +1,16 @@
+generatorName: r
+outputDir: samples/client/petstore/R-httr2-wrapper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/r/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/r
+httpUserAgent: PetstoreAgent
+library: httr2
+additionalProperties:
+  packageName: petstore
+  exceptionPackage: rlang
+  useRlangExceptionHandling: true
+  returnExceptionOnFailure: true
+  errorObjectType: "ModelApiResponse"
+  operationIdNaming: snake_case
+  generateWrapper: true
+  useOneOfDiscriminatorLookup: true
+  disallowAdditionalPropertiesIfNotPresent: false

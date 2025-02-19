@@ -1,0 +1,6 @@
+generatorName: jetbrains-http-client
+outputDir: samples/client/jetbrains/adyen/adyen/http/client
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jetbrains/CheckoutService-v71.yaml
+templateDir: modules/openapi-generator/src/main/resources/jetbrains-http-client
+additionalProperties:
+  hideGenerationTimestamp: "true"

@@ -1,0 +1,28 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}}.auth;
+
+import {{invokerPackage}}.Pair;
+import io.vertx.core.MultiMap;
+
+import java.util.List;
+
+{{>generatedAnnotation}}
+public class OAuth implements Authentication {
+  private String accessToken;
+
+  public String getAccessToken() {
+    return accessToken;
+  }
+
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  @Override
+  public void applyToParams(List<Pair> queryParams, MultiMap headerParams, MultiMap cookieParams) {
+    if (accessToken != null) {
+      headerParams.add("Authorization", "Bearer " + accessToken);
+    }
+  }
+}

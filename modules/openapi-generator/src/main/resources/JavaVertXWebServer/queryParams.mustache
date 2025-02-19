@@ -1,0 +1,13 @@
+{{#isQueryParam}}
+{{^isArray}}
+{{#isModel}}
+        {{{dataType}}} {{paramName}} = requestParameters.queryParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.queryParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
+{{/isModel}}
+{{^isModel}}
+        {{{dataType}}} {{paramName}} = requestParameters.queryParameter("{{baseName}}") != null ? requestParameters.queryParameter("{{baseName}}").get{{dataType}}() : {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{#isString}}{{#isEnum}}"{{/isEnum}}{{.}}{{#isEnum}}"{{/isEnum}}{{/isString}}{{#isBoolean}}{{.}}{{/isBoolean}}{{#isLong}}{{.}}L{{/isLong}}{{^isLong}}{{#isInteger}}{{.}}{{/isInteger}}{{^isInteger}}{{#isShort}}{{.}}{{/isShort}}{{/isInteger}}{{/isLong}}{{/defaultValue}};
+{{/isModel}}
+{{/isArray}}
+{{#isArray}}
+        {{{dataType}}} {{paramName}} = requestParameters.queryParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.queryParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
+{{/isArray}}
+{{/isQueryParam}}

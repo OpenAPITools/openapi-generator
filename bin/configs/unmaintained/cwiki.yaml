@@ -1,0 +1,4 @@
+generatorName: cwiki
+outputDir: samples/documentation/cwiki
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/confluenceWikiDocs

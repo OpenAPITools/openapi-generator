@@ -1,0 +1,538 @@
+/* ------------------------------------------------------------------------------------------
+ * Content
+ * ------------------------------------------------------------------------------------------ */
+
+
+* {
+  font-family: 'Source Code Pro', sans-serif;
+}
+body {
+  min-width: 980px;
+}
+
+.app-desc {
+  color: #808080
+}
+
+body, p, a, div, th, td, li {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  text-shadow: none !important;
+}
+
+td.code {
+  font-size: 14px;
+  font-family: "Source Code Pro", monospace;
+  font-style: normal;
+  font-weight: 400;
+}
+
+#content {
+  padding-top: 16px;
+  z-Index: -1;
+  margin-left: 270px;
+}
+
+p {
+  color: #808080;
+}
+
+h1 {
+  font-family: "Source Sans Pro Semibold", sans-serif;
+  font-weight: normal;
+  font-size: 44px;
+  line-height: 50px;
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+h2 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 40px;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+section {
+  border-top: 1px solid #ebebeb;
+  padding: 30px 0;
+}
+
+section h1 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  padding-bottom: 14px;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+article {
+  padding: 14px 0 30px 0;
+}
+
+article h1 {
+  font-family: "Source Sans Pro Bold", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 26px;
+}
+
+article h2 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  margin: 0 0 10px 0;
+}
+
+article h3 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 18px;
+  margin: 0 0 10px 0;
+}
+
+article h4 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0 0 8px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
+th {
+  background-color: #f5f5f5;
+  text-align: left;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 700;
+  padding: 4px 8px;
+  border: #e0e0e0 1px solid;
+}
+
+td {
+  vertical-align: top;
+  padding: 2px 8px;
+  border: #e0e0e0 1px solid;
+}
+
+#generator .content {
+  color: #b0b0b0;
+  border-top: 1px solid #ebebeb;
+  padding: 10px 0;
+}
+
+.label-optional {
+  float: right;
+}
+
+.open-left {
+  right: 0;
+  left: auto;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * apidoc - intro
+ * ------------------------------------------------------------------------------------------ */
+
+#apidoc .apidoc {
+  border-top: 1px solid #ebebeb;
+  padding: 30px 0;
+}
+
+#apidoc h1 {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  padding-bottom: 14px;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+#apidoc h2 {
+  font-family: "Source Sans Pro Bold", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 26px;
+  padding-top: 14px;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * pre / code
+ * ------------------------------------------------------------------------------------------ */
+pre {
+  background-color: #292b36;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 6px;
+  position: relative;
+  margin: 10px 0 20px 0;
+}
+
+code.language-text {
+  word-wrap: break-word;
+}
+
+pre.language-json {
+  overflow: auto;
+}
+
+pre.language-html {
+  margin: 40px 0 20px 0;
+}
+
+pre.language-html:before {
+  content: attr(data-type);
+  position: absolute;
+  top: -30px;
+  left: 0;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  background-color: #3387CC;
+  color: #ffffff;
+}
+
+pre.language-html[data-type="get"]:before {
+  background-color: green;
+}
+
+pre.language-html[data-type="put"]:before {
+  background-color: #e5c500;
+}
+
+pre.language-html[data-type="post"]:before {
+  background-color: #4070ec;
+}
+
+pre.language-html[data-type="delete"]:before {
+  background-color: #ed0039;
+}
+
+pre.language-api .str {
+  color: #ffffff;
+}
+
+pre.language-api .pln,
+pre.language-api .pun {
+  color: #65B042;
+}
+
+pre code {
+  display: block;
+  font-size: 14px;
+  font-family: "Source Code Pro", monospace;
+  font-style: normal;
+  font-weight: 400;
+}
+
+pre code.sample-request-response-json {
+  white-space: pre-wrap;
+  max-height: 500px;
+  overflow: auto;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Sidenav
+ * ------------------------------------------------------------------------------------------ */
+.sidenav {
+  width: 228px;
+  margin: 0;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+  z-index: 10;
+}
+
+.sidenav > li > a {
+  display: block;
+  width: 192px;
+  margin: 0;
+  padding: 2px 11px;
+  border: 0;
+  border-left: transparent 4px solid;
+  border-right: transparent 4px solid;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.sidenav > li.nav-header > a {
+  padding: 5px 15px;
+  border: 1px solid #e5e5e5;
+  width: 190px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  background-color: #4c8eca;
+  color: #fff;
+}
+
+.sidenav > li.nav-header.active > a {
+  background-color: #4c8eca;
+  color: #fff;
+}
+
+
+00427D
+
+.sidenav > .active > a {
+  position: relative;
+  z-index: 2;
+}
+
+.sidenav > li > a:hover {
+  background-color: #ffffff;
+}
+
+.sidenav > li.has-modifications a {
+  border-right: #60d060 4px solid;
+}
+
+.sidenav > li.is-new a {
+  border-left: #e5e5e5 4px solid;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Tabs
+ * ------------------------------------------------------------------------------------------ */
+ul.nav-tabs {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------------------------------
+ * Print
+ * ------------------------------------------------------------------------------------------ */
+
+@media print {
+
+  #sidenav,
+  #version,
+  #versions,
+  section .version,
+  section .versions {
+    display: none;
+  }
+
+  #content {
+    margin-left: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:after {
+    content: " [" attr(href) "] ";
+  }
+
+  p {
+    color: #000000
+  }
+
+  pre {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 10px;
+    border: #808080 1px solid;
+    border-radius: 6px;
+    position: relative;
+    margin: 10px 0 20px 0;
+  }
+
+} /* /@media print */
+
+.doc-chapter {
+  display: none;
+  background-color: #eee;
+  border-radius: 1px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+/*!
+* json-schema-view-js
+* https://github.com/mohsen1/json-schema-view-js#readme
+* Version: 0.4.1 - 2015-11-12T17:19:27.615Z
+* License: MIT
+*/
+
+.json-schema-view .toggle-handle:after, .json-schema-view.json-schema-view-dark .toggle-handle:after, json-schema-view .toggle-handle:after, json-schema-view[json-schema-view-dark] .toggle-handle:after {
+  content: "\25BC"
+}
+.json-schema-view .title, .json-schema-view.json-schema-view-dark .title, json-schema-view .title, json-schema-view[json-schema-view-dark] .title {
+  font-weight: 700;
+  cursor: pointer
+}
+.json-schema-view, json-schema-view {
+  font-family: monospace;
+  font-size: 0;
+  display: table-cell
+}
+.json-schema-view>*, json-schema-view>* {
+  font-size: 14px
+}
+.json-schema-view .toggle-handle, json-schema-view .toggle-handle {
+  cursor: pointer;
+  margin: auto .3em;
+  font-size: 10px;
+  display: inline-block;
+  transform-origin: 50% 40%;
+  transition: transform 150ms ease-in
+}
+.json-schema-view .toggle-handle, .json-schema-view .toggle-handle:hover, json-schema-view .toggle-handle, json-schema-view .toggle-handle:hover {
+  text-decoration: none;
+  color: #333
+}
+.json-schema-view .description, json-schema-view .description {
+  color: gray;
+  font-style: italic
+}
+.json-schema-view .readOnly, json-schema-view .readOnly {
+  color: gray;
+  font-style: italic
+}
+.json-schema-view .nullable, json-schema-view .nullable {
+  color: gray;
+  font-style: italic
+}
+.pattern, .example {
+  color: blue;
+}
+.default {
+  color: black;
+}
+.required {
+  color: black;
+}
+.json-schema-view .title, .json-schema-view .title:hover, json-schema-view .title, json-schema-view .title:hover {
+  text-decoration: none;
+  color: #333
+}
+.json-schema-view .brace, .json-schema-view .bracket, .json-schema-view .title, json-schema-view .brace, json-schema-view .bracket, json-schema-view .title {
+  color: #333
+}
+.json-schema-view .property, json-schema-view .property {
+  font-size: 0;
+  display: table-row
+}
+.json-schema-view .property>*, json-schema-view .property>* {
+  font-size: 14px;
+  padding: .2em
+}
+.json-schema-view .name, json-schema-view .name {
+  color: #00f;
+  display: table-cell;
+  vertical-align: top
+}
+.json-schema-view .type, json-schema-view .type {
+  color: green
+}
+.json-schema-view .type-any, json-schema-view .type-any {
+  color: #33f
+}
+.json-schema-view .required, json-schema-view .required {
+  color: red
+}
+.json-schema-view .inner, json-schema-view .inner {
+  padding-left: 18px
+}
+.json-schema-view.collapsed .description, .json-schema-view.collapsed .property, json-schema-view.collapsed .description, json-schema-view.collapsed .property {
+  display: none
+}
+.json-schema-view.collapsed .closing.brace, json-schema-view.collapsed .closing.brace {
+  display: inline-block
+}
+.json-schema-view.collapsed .toggle-handle, json-schema-view.collapsed .toggle-handle {
+  transform: rotate(-90deg)
+}
+.json-schema-view.json-schema-view-dark, json-schema-view[json-schema-view-dark] {
+  font-family: monospace;
+  font-size: 0;
+  display: table-cell
+}
+.json-schema-view.json-schema-view-dark>*, json-schema-view[json-schema-view-dark]>* {
+  font-size: 14px
+}
+.json-schema-view.json-schema-view-dark .toggle-handle, json-schema-view[json-schema-view-dark] .toggle-handle {
+  cursor: pointer;
+  margin: auto .3em;
+  font-size: 10px;
+  display: inline-block;
+  transform-origin: 50% 40%;
+  transition: transform 150ms ease-in
+}
+.json-schema-view.json-schema-view-dark .toggle-handle, .json-schema-view.json-schema-view-dark .toggle-handle:hover, json-schema-view[json-schema-view-dark] .toggle-handle, json-schema-view[json-schema-view-dark] .toggle-handle:hover {
+  text-decoration: none;
+  color: #eee
+}
+.json-schema-view.json-schema-view-dark .description, json-schema-view[json-schema-view-dark] .description {
+  color: gray;
+  font-style: italic
+}
+.json-schema-view.json-schema-view-dark .title, .json-schema-view.json-schema-view-dark .title:hover, json-schema-view[json-schema-view-dark] .title, json-schema-view[json-schema-view-dark] .title:hover {
+  text-decoration: none;
+  color: #eee
+}
+.json-schema-view.json-schema-view-dark .brace, .json-schema-view.json-schema-view-dark .bracket, .json-schema-view.json-schema-view-dark .title, json-schema-view[json-schema-view-dark] .brace, json-schema-view[json-schema-view-dark] .bracket, json-schema-view[json-schema-view-dark] .title {
+  color: #eee
+}
+.json-schema-view.json-schema-view-dark .property, json-schema-view[json-schema-view-dark] .property {
+  font-size: 0;
+  display: table-row
+}
+.json-schema-view.json-schema-view-dark .property>*, json-schema-view[json-schema-view-dark] .property>* {
+  font-size: 14px;
+  padding: .2em
+}
+.json-schema-view.json-schema-view-dark .name, json-schema-view[json-schema-view-dark] .name {
+  color: #add8e6;
+  display: table-cell;
+  vertical-align: top
+}
+.json-schema-view.json-schema-view-dark .type, json-schema-view[json-schema-view-dark] .type {
+  color: #90ee90
+}
+.json-schema-view.json-schema-view-dark .type-any, json-schema-view[json-schema-view-dark] .type-any {
+  color: #d4ebf2
+}
+.json-schema-view.json-schema-view-dark .required, json-schema-view[json-schema-view-dark] .required {
+  color: #fe0000
+}
+.json-schema-view.json-schema-view-dark .inner, json-schema-view[json-schema-view-dark] .inner {
+  padding-left: 18px
+}
+.json-schema-view.json-schema-view-dark.collapsed .description, .json-schema-view.json-schema-view-dark.collapsed .property, json-schema-view[json-schema-view-dark].collapsed .description, json-schema-view[json-schema-view-dark].collapsed .property {
+  display: none
+}
+.json-schema-view.json-schema-view-dark.collapsed .closing.brace, json-schema-view[json-schema-view-dark].collapsed .closing.brace {
+  display: inline-block
+}
+.json-schema-view.json-schema-view-dark.collapsed .toggle-handle, json-schema-view[json-schema-view-dark].collapsed .toggle-handle {
+  transform: rotate(-90deg)
+}
+.exampleStyle {
+  padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;
+}

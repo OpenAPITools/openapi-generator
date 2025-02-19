@@ -1,0 +1,6 @@
+generatorName: r
+outputDir: samples/client/echo_api/r
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/r
+additionalProperties:
+  hideGenerationTimestamp: "true"

@@ -1,0 +1,123 @@
+# Test the multipart function of the OpenAPI specification
+#
+# Specifically, these tests include
+#   - multipart/form data including
+#      - binary data
+#      - string data
+#      - objects
+
+openapi: 3.0.1
+info:
+  title: Multipart OpenAPI V3 Rust Server Test
+  description: API under test
+  version: 1.0.7
+paths:
+  /multipart_request:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multipart_request'
+      responses:
+        '201':
+          description: 'OK'
+  /multipart_related_request:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/related:  # message with binary body part(s)
+            schema:
+              $ref: '#/components/schemas/multipart_related_request'
+            encoding:
+              object_field:
+                contentType:  application/json
+              optional_binary_field:
+                contentType:  application/zip
+                headers:
+                  Content-Id:
+                    schema:
+                      type: string
+              required_binary_field:
+                contentType:  image/png
+                headers:
+                  Content-Id:
+                    schema:
+                      type: string
+
+      responses:
+        '201':
+          description: 'OK'
+  /multiple-identical-mime-types:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/related:
+            schema:
+              type: object
+              properties:
+                binary1:
+                  type: string
+                  format: binary
+                binary2:
+                  type: string
+                  format: binary
+            encoding:
+              binary1:
+                contentType: application/octet-stream
+              binary2:
+                contentType: application/octet-stream
+      responses:
+        200:
+          description: OK
+components:
+  schemas:
+    multipart_request:
+      type: object
+      required:
+        - string_field
+        - binary_field
+      properties:
+        string_field:
+          type: string
+        optional_string_field:
+          type: string
+        object_field:
+          type: object
+          required:
+            - field_a
+          properties:
+            field_a:
+              type: string
+            field_b:
+              type: array
+              items:
+                type: string
+        binary_field:
+          type: string
+          format: byte
+    multipart_related_request:
+      type: object
+      required:
+        - required_binary_field
+      properties:
+        object_field:
+          type: object
+          required:
+            - field_a
+          properties:
+            field_a:
+              type: string
+            field_b:
+              type: array
+              items:
+                type: string
+        optional_binary_field:
+          type: string
+          format: binary
+        required_binary_field:
+          type: string
+          format: binary

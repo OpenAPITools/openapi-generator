@@ -1,0 +1,35 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+{{#apiInfo}}
+{{#apis}}
+
+# Routes for {{{baseName}}} API
+{{! Note: operations with path parameters are emitted last to give them lower priority than operations with possibly more specific paths. }}
+
+{{#operations}}
+{{#operation}}
+{{^vendorExtensions.x-has-path-params}}
+{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.x-padded-path}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}()
+{{/vendorExtensions.x-has-path-params}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.x-has-path-params}}
+{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.x-padded-path}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{^-last}}, {{/-last}}{{/pathParams}})
+{{/vendorExtensions.x-has-path-params}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+# Map static resources from the /public folder to the /assets URL path
+GET /assets/*file           controllers.Assets.at(file)
+GET /versionedAssets/*file  controllers.Assets.versioned(file)
+
+{{#useSwaggerUI}}
+# Swagger UI
+GET /api                    {{apiPackage}}.ApiDocController.api
+{{/useSwaggerUI}}

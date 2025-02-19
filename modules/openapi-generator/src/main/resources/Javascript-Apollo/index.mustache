@@ -1,0 +1,58 @@
+{{>licenseInfo}}
+
+import ApiClient from './ApiClient';
+{{#models}}import {{#model}}{{classFilename}}{{/model}} from './{{#modelPackage}}{{.}}/{{/modelPackage}}{{importPath}}';
+{{/models}}{{#apiInfo}}{{#apis}}import {{importPath}} from './{{#apiPackage}}{{.}}/{{/apiPackage}}{{importPath}}';
+{{/apis}}{{/apiInfo}}
+
+{{#emitJSDoc}}/**{{#projectDescription}}
+* {{.}}.<br>{{/projectDescription}}
+* The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
+* <p>
+* An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
+* <pre>
+* var {{moduleName}} = require('{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'); // See note below*.
+* var xxxSvc = new {{moduleName}}.XxxApi(); // Allocate the API class we're going to use.
+* var yyyModel = new {{moduleName}}.Yyy(); // Construct a model instance.
+* yyyModel.someProperty = 'someValue';
+* ...
+* var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
+* ...
+* </pre>
+* <em>*NOTE: For a top-level AMD script, use require(['{{#invokerPackage}}{{.}}/{{/invokerPackage}}index'], function(){...})
+* and put the application logic within the callback function.</em>
+* </p>
+* <p>
+* A non-AMD browser application (discouraged) might do something like this:
+* <pre>
+* var xxxSvc = new {{moduleName}}.XxxApi(); // Allocate the API class we're going to use.
+* var yyy = new {{moduleName}}.Yyy(); // Construct a model instance.
+* yyyModel.someProperty = 'someValue';
+* ...
+* var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
+* ...
+* </pre>
+* </p>
+* @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}index
+* @version {{projectVersion}}
+*/{{/emitJSDoc}}
+export {
+    {{=< >=}}
+    <#emitJSDoc>/**
+     * The ApiClient constructor.
+     * @property {module:<#invokerPackage><invokerPackage>/</invokerPackage>ApiClient}
+     */</emitJSDoc>
+    ApiClient<#models>,
+
+    <#emitJSDoc>/**
+     * The <importPath> model constructor.
+     * @property {module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><importPath>}
+     */</emitJSDoc>
+    <importPath></models><#apiInfo><#apis>,
+
+    <#emitJSDoc>/**
+    * The <importPath> service constructor.
+    * @property {module:<#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><importPath>}
+    */</emitJSDoc>
+    <importPath></apis></apiInfo>
+};<={{ }}=>

@@ -1,0 +1,18 @@
+{application, {{packageName}},
+ [{description, {{#appDescription}}"{{.}}"{{/appDescription}}{{^appDescription}}"OpenAPI client library"{{/appDescription}}},
+  {vsn, "{{apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"},
+  {registered, []},
+  {applications,
+    [kernel,
+     stdlib,
+     ssl,
+     hackney,
+     ctx
+    ]},
+  {env, [{host, "{{{host}}}{{^host}}localhost{{/host}}"}]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, [{{#licenseInfo}}"{{.}}"{{/licenseInfo}}]},
+  {links, [{{#infoUrl}}"{{.}}"{{/infoUrl}}]}
+]}.

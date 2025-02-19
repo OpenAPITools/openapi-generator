@@ -1,0 +1,31 @@
+package {{package}}
+
+import java.util.Objects
+{{#imports}}import {{import}}
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable
+{{/serializableModel}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
+import {{javaxPackage}}.validation.Valid
+{{/useBeanValidation}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.media.Schema
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
+import io.swagger.annotations.ApiModelProperty
+{{/swagger1AnnotationLibrary}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{>dataClass}}{{/isEnum}}
+{{/model}}
+{{/models}}

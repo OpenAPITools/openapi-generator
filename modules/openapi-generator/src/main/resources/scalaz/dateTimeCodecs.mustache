@@ -1,0 +1,32 @@
+package {{apiPackage}}
+
+import argonaut._
+import argonaut.EncodeJson._
+import argonaut.DecodeJson._
+
+import org.http4s._
+import org.http4s.{EntityDecoder, EntityEncoder}
+import org.http4s.argonaut._
+{{#joda}}
+import org.joda.time.DateTime
+{{/joda}}
+{{#java8}}
+import java.time.OffsetDateTime
+{{/java8}}
+
+object DateTimeCodecs {
+{{#joda}}
+  implicit def dateTimeEncodeJson: EncodeJson[DateTime] =
+    EncodeJson[DateTime](dt => StringEncodeJson(dt.toString))
+
+  implicit def dateTimeDecodeJson: DecodeJson[DateTime] =
+    DecodeJson.of[String].map(DateTime.parse(_)) setName "org.joda.time.DateTime"
+{{/joda}}
+{{#java8}}
+  implicit def dateTimeEncodeJson: EncodeJson[OffsetDateTime] =
+    EncodeJson[OffsetDateTime](dt => StringEncodeJson(dt.toString))
+
+  implicit def dateTimeDecodeJson: DecodeJson[OffsetDateTime] =
+    DecodeJson.of[String].map(OffsetDateTime.parse(_)) setName "java.time.OffsetDateTime"
+{{/java8}}
+}

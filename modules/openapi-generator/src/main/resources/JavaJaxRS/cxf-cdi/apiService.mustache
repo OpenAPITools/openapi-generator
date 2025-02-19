@@ -1,0 +1,31 @@
+package {{package}};
+
+import {{package}}.*;
+import {{modelPackage}}.*;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.List;
+
+import java.io.InputStream;
+
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
+import {{javaxPackage}}.ws.rs.core.Response;
+import {{javaxPackage}}.ws.rs.core.SecurityContext;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public interface {{classname}}Service {
+  {{#operation}}
+      {{#isDeprecated}}@Deprecated {{/isDeprecated}}public Response {{nickname}}({{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{>serviceFormParams}}, {{/allParams}}SecurityContext securityContext);
+  {{/operation}}
+}
+{{/operations}}

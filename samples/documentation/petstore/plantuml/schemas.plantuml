@@ -1,0 +1,64 @@
+@startuml
+
+title OpenAPI Petstore Schemas Diagram
+
+entity ApiResponse { 
+    code: Integer
+    type: String
+    message: String
+}
+
+entity Category { 
+    id: Long
+    name: String
+}
+
+entity InlineObject { 
+    name: String
+    status: String
+}
+
+entity InlineObject1 { 
+    additionalMetadata: String
+    file: File
+}
+
+entity Order { 
+    id: Long
+    petId: Long
+    quantity: Integer
+    shipDate: Date
+    status: String
+    complete: Boolean
+}
+
+entity Pet { 
+    id: Long
+    category: Category
+    * name: String
+    * photoUrls: List<String>
+    tags: List<Tag>
+    status: String
+}
+
+entity Tag { 
+    id: Long
+    name: String
+}
+
+entity User { 
+    id: Long
+    username: String
+    firstName: String
+    lastName: String
+    email: String
+    password: String
+    phone: String
+    userStatus: Integer
+}
+
+
+Pet -- Category : category
+Pet -- "0..*" Tag : tags
+
+@enduml

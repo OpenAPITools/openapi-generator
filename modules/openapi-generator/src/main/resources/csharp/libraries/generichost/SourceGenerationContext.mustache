@@ -1,0 +1,9 @@
+{{#useSourceGeneration}}
+
+    /// <summary>
+    /// The {{classname}}SerializationContext
+    /// </summary>
+    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
+    [JsonSerializable(typeof({{classname}}))]
+    {{>visibility}} partial class {{classname}}SerializationContext : JsonSerializerContext { }
+{{/useSourceGeneration}}

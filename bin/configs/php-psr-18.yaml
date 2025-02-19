@@ -1,0 +1,12 @@
+generatorName: php
+outputDir: samples/client/petstore/php/psr-18
+inputSpec: modules/openapi-generator/src/test/resources/3_0/php/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/php
+library: psr-18
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+  type-: type_with_dash
+parameterNameMappings:
+  _type: underscore_type
+  type_: type_with_underscore

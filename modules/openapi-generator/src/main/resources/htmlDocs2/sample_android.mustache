@@ -1,0 +1,18 @@
+import {{{invokerPackage}}}.api.{{{classname}}};
+
+public class {{{classname}}}Example {
+    public static void main(String[] args) {
+        {{{classname}}} apiInstance = new {{{classname}}}();
+        {{#allParams}}
+        {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{unescapedDescription}}}
+        {{/allParams}}
+
+        try {
+            {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}});{{#returnType}}
+            System.out.println(result);{{/returnType}}
+        } catch (ApiException e) {
+            System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
+            e.printStackTrace();
+        }
+    }
+}

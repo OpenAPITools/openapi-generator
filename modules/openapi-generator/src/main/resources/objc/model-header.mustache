@@ -1,0 +1,30 @@
+#import <Foundation/Foundation.h>
+#import "{{classPrefix}}Object.h"
+
+{{>licenceInfo}}
+
+{{#imports}}#import "{{import}}.h"
+{{/imports}}
+{{#imports}}
+@protocol {{import}};
+@class {{import}};
+{{/imports}}
+
+{{newline}}
+{{#models}}
+{{#model}}
+
+@protocol {{classname}}
+@end
+
+@interface {{classname}} : {{{parent}}}{{^parent}}{{classPrefix}}Object{{/parent}}
+
+{{#vars}}
+{{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
+ */{{/description}}
+@property(nonatomic) {{{ datatype }}} {{name}};
+{{/vars}}
+
+@end
+{{/model}}
+{{/models}}

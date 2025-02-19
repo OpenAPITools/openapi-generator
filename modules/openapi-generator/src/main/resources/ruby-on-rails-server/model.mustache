@@ -1,0 +1,12 @@
+=begin
+{{> info}}
+=end
+
+{{#models}}{{#model}}
+class {{classname}} < ApplicationRecord
+{{#requiredVars}}
+  validates_presence_of :{{name}}
+{{/requiredVars}}{{#vars}}{{#isArray}}
+  serialize :{{name}}, Array{{/isArray}}{{#isMap}}
+  serialize :{{name}}, Hash{{/isMap}}{{/vars}}
+end{{/model}}{{/models}}

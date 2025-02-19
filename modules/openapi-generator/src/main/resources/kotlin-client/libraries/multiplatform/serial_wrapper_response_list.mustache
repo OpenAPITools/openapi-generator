@@ -1,0 +1,9 @@
+    @Serializable({{operationIdCamelCase}}Response.Companion::class)
+    private class {{operationIdCamelCase}}Response(val value: List<{{returnBaseType}}>) {
+        companion object : KSerializer<{{operationIdCamelCase}}Response> {
+            private val serializer: KSerializer<List<{{returnBaseType}}>> = serializer<List<{{returnBaseType}}>>()
+            override val descriptor = serializer.descriptor
+            override fun serialize(encoder: Encoder, value: {{operationIdCamelCase}}Response) = serializer.serialize(encoder, value.value)
+            override fun deserialize(decoder: Decoder) = {{operationIdCamelCase}}Response(serializer.deserialize(decoder))
+        }
+    }

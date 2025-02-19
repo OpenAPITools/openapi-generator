@@ -1,0 +1,34 @@
+openapi: 3.0.3
+info:
+  title: dummy
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/__post_request'
+      responses:
+        "200":
+          description: OK
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    schemaA:
+      properties:
+        propA:
+          type: string
+      type: object
+    __post_request:
+      oneOf:
+      - $ref: '#/components/schemas/schemaA'
+      - additionalProperties: true
+        properties: {}
+        type: object
+

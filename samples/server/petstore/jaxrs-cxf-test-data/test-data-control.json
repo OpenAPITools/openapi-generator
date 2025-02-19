@@ -1,0 +1,161 @@
+{
+  "org.openapitools.api" : {
+    "FakeApi" : {
+      "createXmlItem" : {
+        "xmlItem" : {
+          "wrappedArray" : {
+            "testItemCount" : 1
+          },
+          "nameArray" : {
+            "testItemCount" : 1
+          },
+          "nameWrappedArray" : {
+            "testItemCount" : 1
+          },
+          "prefixArray" : {
+            "testItemCount" : 1
+          },
+          "prefixWrappedArray" : {
+            "testItemCount" : 1
+          },
+          "namespaceArray" : {
+            "testItemCount" : 1
+          },
+          "namespaceWrappedArray" : {
+            "testItemCount" : 1
+          },
+          "prefixNsArray" : {
+            "testItemCount" : 1
+          },
+          "prefixNsWrappedArray" : {
+            "testItemCount" : 1
+          }
+        }
+      },
+      "testBodyWithFileSchema" : {
+        "body" : {
+          "files" : {
+            "testItemCount" : 1
+          }
+        }
+      },
+      "testEndpointParameters" : {
+        "_byte" : {
+          "testItemCount" : 1
+        }
+      },
+      "testEnumParameters" : {
+        "enumHeaderStringArray" : {
+          "testItemCount" : 1
+        },
+        "enumQueryStringArray" : {
+          "testItemCount" : 1
+        },
+        "enumFormStringArray" : {
+          "testItemCount" : 1
+        }
+      },
+      "testInlineAdditionalProperties" : {
+        "param" : {
+          "testItemCount" : 1
+        }
+      },
+      "testQueryParameterCollectionFormat" : {
+        "pipe" : {
+          "testItemCount" : 1
+        },
+        "ioutil" : {
+          "testItemCount" : 1
+        },
+        "http" : {
+          "testItemCount" : 1
+        },
+        "url" : {
+          "testItemCount" : 1
+        },
+        "context" : {
+          "testItemCount" : 1
+        }
+      }
+    },
+    "PetApi" : {
+      "addPet" : {
+        "body" : {
+          "photoUrls" : {
+            "testItemCount" : 1
+          },
+          "tags" : {
+            "testItemCount" : 1
+          }
+        }
+      },
+      "findPetsByStatus" : {
+        "status" : {
+          "testItemCount" : 1
+        },
+        "response" : {
+          "testItemCount" : 1,
+          "photoUrls" : {
+            "testItemCount" : 1
+          },
+          "tags" : {
+            "testItemCount" : 1
+          }
+        }
+      },
+      "findPetsByTags" : {
+        "tags" : {
+          "testItemCount" : 1
+        },
+        "response" : {
+          "testItemCount" : 1,
+          "photoUrls" : {
+            "testItemCount" : 1
+          },
+          "tags" : {
+            "testItemCount" : 1
+          }
+        }
+      },
+      "getPetById" : {
+        "response" : {
+          "photoUrls" : {
+            "testItemCount" : 1
+          },
+          "tags" : {
+            "testItemCount" : 1
+          }
+        }
+      },
+      "updatePet" : {
+        "body" : {
+          "photoUrls" : {
+            "testItemCount" : 1
+          },
+          "tags" : {
+            "testItemCount" : 1
+          }
+        }
+      }
+    },
+    "StoreApi" : {
+      "getInventory" : {
+        "response" : {
+          "testItemCount" : 1
+        }
+      }
+    },
+    "UserApi" : {
+      "createUsersWithArrayInput" : {
+        "body" : {
+          "testItemCount" : 1
+        }
+      },
+      "createUsersWithListInput" : {
+        "body" : {
+          "testItemCount" : 1
+        }
+      }
+    }
+  }
+}

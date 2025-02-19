@@ -1,0 +1,81 @@
+## UserApi
+
+### Create user
+## Create user
+POST http://petstore.swagger.io/v2/user
+Content-Type: application/json
+api_key: {{apiKey}}
+
+{
+ "id": "<number>",
+ "username": "<string>",
+ "firstName": "<string>",
+ "lastName": "<string>",
+ "email": "<string>",
+ "password": "<string>",
+ "phone": "<string>",
+ "userStatus": "<number>"
+}
+
+
+### Creates list of users with given input array
+## Creates list of users with given input array
+POST http://petstore.swagger.io/v2/user/createWithArray
+Content-Type: application/json
+api_key: {{apiKey}}
+
+{
+ 
+}
+
+
+### Creates list of users with given input array
+## Creates list of users with given input array
+POST http://petstore.swagger.io/v2/user/createWithList
+Content-Type: application/json
+api_key: {{apiKey}}
+
+{
+ 
+}
+
+
+### Delete user
+## Delete user
+DELETE http://petstore.swagger.io/v2/user/{{username}}
+api_key: {{apiKey}}
+
+### Get user by user name
+## Get user by user name
+GET http://petstore.swagger.io/v2/user/{{username}}
+Accept: application/xml
+Accept: application/json
+
+### Logs user into the system
+## Logs user into the system
+GET http://petstore.swagger.io/v2/user/login?username={{username}}&password={{password}}
+Accept: application/xml
+Accept: application/json
+
+### Logs out current logged in user session
+## Logs out current logged in user session
+GET http://petstore.swagger.io/v2/user/logout
+api_key: {{apiKey}}
+
+### Updated user
+## Updated user
+PUT http://petstore.swagger.io/v2/user/{{username}}
+Content-Type: application/json
+api_key: {{apiKey}}
+
+{
+ "id": "<number>",
+ "username": "<string>",
+ "firstName": "<string>",
+ "lastName": "<string>",
+ "email": "<string>",
+ "password": "<string>",
+ "phone": "<string>",
+ "userStatus": "<number>"
+}
+

@@ -1,0 +1,8 @@
+generatorName: java
+outputDir: samples/openapi3/client/extensions/x-auth-id-alias/java/jersey2-java8
+library: jersey2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/extensions/x-auth-id-alias.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: openapi3-extensions-x-auth-id-alias-jersey2-java8
+  hideGenerationTimestamp: true

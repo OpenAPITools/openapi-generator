@@ -1,0 +1,24 @@
+public class {{classPrefix}}Client extends OAS.ApiClient {
+{{#hasAuthMethods}}
+    public {{classPrefix}}Client() {
+        basePath = '{{basePath}}';
+        calloutName = '{{calloutName}}';
+  {{#authMethods}}
+    {{#isApiKey}}
+      {{#isKeyInQuery}}
+        authentications.put('{{name}}', new OAS.ApiKeyQueryAuth('{{keyParamName}}'));
+      {{/isKeyInQuery}}
+      {{^isKeyInQuery}}
+        authentications.put('{{name}}', new OAS.ApiKeyHeaderAuth('{{keyParamName}}'));
+      {{/isKeyInQuery}}
+    {{/isApiKey}}
+  {{/authMethods}}
+    }
+{{/hasAuthMethods}}
+{{^hasAuthMethods}}
+    public {{classPrefix}}Client() {
+        basePath = '{{basePath}}';
+        calloutName = '{{calloutName}}';
+    }
+{{/hasAuthMethods}}
+}

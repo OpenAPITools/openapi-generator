@@ -1,0 +1,36 @@
+<Project Sdk="{{projectSdk}}">
+  <PropertyGroup>
+    <Description>{{packageDescription}}{{^packageDescription}}{{packageName}}{{/packageDescription}}</Description>
+    <Copyright>{{packageCopyright}}</Copyright>
+    <Authors>{{packageAuthors}}</Authors>
+    <TargetFramework>netcoreapp{{aspnetCoreVersion}}</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <Version>{{packageVersion}}</Version>
+{{#isLibrary}}
+    <OutputType>Library</OutputType>
+{{/isLibrary}}
+    <AssemblyName>{{packageName}}</AssemblyName>
+    <PackageId>{{packageName}}</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+{{#useFrameworkReference}}
+{{#isLibrary}}
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+{{/isLibrary}}
+{{/useFrameworkReference}}
+{{^useFrameworkReference}}
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+{{/useFrameworkReference}}
+{{#useNewtonsoft}}
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="{{newtonsoftVersion}}" />
+{{/useNewtonsoft}}
+{{#useSwashbuckle}}
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="{{swashbuckleVersion}}"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="{{swashbuckleVersion}}" />
+{{/useSwashbuckle}}
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+</Project>

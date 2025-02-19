@@ -1,0 +1,444 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	"bytes"
+	"context"
+	"io"
+	"net/http"
+	"net/url"
+{{#imports}}	"{{import}}"
+{{/imports}}
+)
+
+{{#generateInterfaces}}
+
+type {{classname}} interface {
+	{{#operation}}
+
+	/*
+	{{operationId}} {{{summary}}}{{^summary}}Method for {{operationId}}{{/summary}}
+	{{#notes}}
+
+	{{{unescapedNotes}}}
+	{{/notes}}
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	@param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	@return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
+	{{#isDeprecated}}
+
+	Deprecated
+	{{/isDeprecated}}
+	*/
+	{{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
+
+	// {{nickname}}Execute executes the request{{#returnType}}
+	//  @return {{{.}}}{{/returnType}}
+	{{#isDeprecated}}
+	// Deprecated
+	{{/isDeprecated}}
+	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error)
+	{{/operation}}
+}
+{{/generateInterfaces}}
+
+// {{classname}}Service {{classname}} service
+type {{classname}}Service service
+{{#operation}}
+
+type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request struct {
+	ctx context.Context{{#generateInterfaces}}
+	ApiService {{classname}}
+{{/generateInterfaces}}{{^generateInterfaces}}
+	ApiService *{{classname}}Service
+{{/generateInterfaces}}
+{{#allParams}}
+	{{paramName}} {{^isPathParam}}{{^isFile}}*{{/isFile}}{{/isPathParam}}{{{dataType}}}
+{{/allParams}}
+}
+
+{{#allParams}}
+{{^isPathParam}}
+{{#description}}
+// {{.}}
+{{/description}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request {
+	r.{{paramName}} = {{^isFile}}&{{/isFile}}{{paramName}}
+	return r
+}
+
+{{/isPathParam}}
+{{/allParams}}
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) Execute() ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
+	return r.ApiService.{{nickname}}Execute(r)
+}
+
+/*
+{{operationId}} {{{summary}}}{{^summary}}Method for {{operationId}}{{/summary}}
+{{#notes}}
+
+{{{unescapedNotes}}}
+{{/notes}}
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+ @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+ @return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request
+{{#isDeprecated}}
+
+Deprecated
+{{/isDeprecated}}
+*/
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request {
+	return {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request{
+		ApiService: a,
+		ctx: ctx,
+		{{#pathParams}}
+		{{paramName}}: {{paramName}},
+		{{/pathParams}}
+	}
+}
+
+// Execute executes the request{{#returnType}}
+//  @return {{{.}}}{{/returnType}}
+{{#isDeprecated}}
+// Deprecated
+{{/isDeprecated}}
+func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}{{^structPrefix}}Api{{/structPrefix}}{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.Method{{httpMethod}}
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		{{#returnType}}
+		localVarReturnValue  {{^isArray}}{{^returnTypeIsPrimitive}}{{^isResponseFile}}*{{/isResponseFile}}{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}
+		{{/returnType}}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
+	if err != nil {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{{baseName}}}"+"}", url.PathEscape(parameterValueToString(r.{{paramName}}, "{{paramName}}")), -1){{/pathParams}}
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	{{#allParams}}
+	{{#required}}
+	{{^isPathParam}}
+	if r.{{paramName}} == nil {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} is required and must be specified")
+	}
+	{{/isPathParam}}
+	{{#minItems}}
+	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minItems}} {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")
+	}
+	{{/minItems}}
+	{{#maxItems}}
+	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) > {{maxItems}} {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxItems}} elements")
+	}
+	{{/maxItems}}
+	{{#minLength}}
+	if strlen({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minLength}} {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minLength}} elements")
+	}
+	{{/minLength}}
+	{{#maxLength}}
+	if strlen({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) > {{maxLength}} {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have less than {{maxLength}} elements")
+	}
+	{{/maxLength}}
+	{{#minimum}}
+	{{#isString}}
+	{{paramName}}Txt, err := atoi({{^isPathParam}}*{{/isPathParam}}r.{{paramName}})
+	if {{paramName}}Txt < {{minimum}} {
+	{{/isString}}
+	{{^isString}}
+	if {{^isPathParam}}*{{/isPathParam}}r.{{paramName}} < {{minimum}} {
+	{{/isString}}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must be greater than {{minimum}}")
+	}
+	{{/minimum}}
+	{{#maximum}}
+	{{#isString}}
+	{{paramName}}Txt, err := atoi({{^isPathParam}}*{{/isPathParam}}r.{{paramName}})
+	if {{paramName}}Txt > {{maximum}} {
+	{{/isString}}
+	{{^isString}}
+	if {{^isPathParam}}*{{/isPathParam}}r.{{paramName}} > {{maximum}} {
+	{{/isString}}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must be less than {{maximum}}")
+	}
+	{{/maximum}}
+	{{/required}}
+	{{/allParams}}
+
+	{{#queryParams}}
+	{{#required}}
+	{{#isCollectionFormatMulti}}
+	{
+		t := *r.{{paramName}}
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", s.Index(i).Interface(), "{{style}}", "{{collectionFormat}}")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", t, "{{style}}", "{{collectionFormat}}")
+		}
+	}
+	{{/isCollectionFormatMulti}}
+	{{^isCollectionFormatMulti}}
+	parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	{{/isCollectionFormatMulti}}
+	{{/required}}
+	{{^required}}
+	if r.{{paramName}} != nil {
+	{{#isCollectionFormatMulti}}
+		t := *r.{{paramName}}
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", s.Index(i).Interface(), "{{style}}", "{{collectionFormat}}")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", t, "{{style}}", "{{collectionFormat}}")
+		}
+	{{/isCollectionFormatMulti}}
+	{{^isCollectionFormatMulti}}
+		parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	{{/isCollectionFormatMulti}}
+	{{#defaultValue}}} else {
+		var defaultValue {{{dataType}}} = {{{.}}}
+		r.{{paramName}} = &defaultValue
+	{{/defaultValue}}}
+	{{/required}}
+	{{/queryParams}}
+	// to determine the Content-Type header
+{{=<% %>=}}
+	localVarHTTPContentTypes := []string{<%#consumes%>"<%&mediaType%>"<%^-last%>, <%/-last%><%/consumes%>}
+<%={{ }}=%>
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+{{=<% %>=}}
+	localVarHTTPHeaderAccepts := []string{<%#produces%>"<%&mediaType%>"<%^-last%>, <%/-last%><%/produces%>}
+<%={{ }}=%>
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+{{#headerParams}}
+	{{#required}}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	{{/required}}
+	{{^required}}
+	if r.{{paramName}} != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	}
+	{{/required}}
+{{/headerParams}}
+{{#formParams}}
+{{#isFile}}
+{{#isArray}}
+	var {{paramName}}LocalVarFormFileName string
+	var {{paramName}}LocalVarFileName     string
+	var {{paramName}}LocalVarFileBytes    []byte
+
+	{{paramName}}LocalVarFormFileName = "{{{baseName}}}"
+	{{paramName}}LocalVarFile := r.{{paramName}}
+
+	if {{paramName}}LocalVarFile != nil {
+		// loop through the array to prepare multiple files upload
+		for _, {{paramName}}LocalVarFileValue := range {{paramName}}LocalVarFile {
+			fbs, _ := io.ReadAll({{paramName}}LocalVarFileValue)
+
+			{{paramName}}LocalVarFileBytes = fbs
+			{{paramName}}LocalVarFileName = {{paramName}}LocalVarFileValue.Name()
+			{{paramName}}LocalVarFileValue.Close()
+			formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
+		}
+	}
+{{/isArray}}
+{{^isArray}}
+	var {{paramName}}LocalVarFormFileName string
+	var {{paramName}}LocalVarFileName     string
+	var {{paramName}}LocalVarFileBytes    []byte
+
+	{{paramName}}LocalVarFormFileName = "{{{baseName}}}"
+	{{paramName}}LocalVarFile := r.{{paramName}}
+
+	if {{paramName}}LocalVarFile != nil {
+		fbs, _ := io.ReadAll({{paramName}}LocalVarFile)
+
+		{{paramName}}LocalVarFileBytes = fbs
+		{{paramName}}LocalVarFileName = {{paramName}}LocalVarFile.Name()
+		{{paramName}}LocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: {{paramName}}LocalVarFileBytes, fileName: {{paramName}}LocalVarFileName, formFileName: {{paramName}}LocalVarFormFileName})
+	}
+{{/isArray}}
+{{/isFile}}
+{{^isFile}}
+{{#required}}
+	parameterAddToHeaderOrQuery(localVarFormParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+{{/required}}
+{{^required}}
+{{#isModel}}
+	if r.{{paramName}} != nil {
+		paramJson, err := parameterToJson(*r.{{paramName}})
+		if err != nil {
+			return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
+		}
+		localVarFormParams.Add("{{{baseName}}}", paramJson)
+	}
+{{/isModel}}
+{{^isModel}}
+	if r.{{paramName}} != nil {
+		parameterAddToHeaderOrQuery(localVarFormParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
+	}
+{{/isModel}}
+{{/required}}
+{{/isFile}}
+{{/formParams}}
+{{#bodyParams}}
+	// body params
+	localVarPostBody = r.{{paramName}}
+{{/bodyParams}}
+{{#authMethods}}
+{{#isApiKey}}
+{{^isKeyInCookie}}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			{{#vendorExtensions.x-auth-id-alias}}
+			if apiKey, ok := auth["{{.}}"]; ok {
+				var key string
+				if prefix, ok := auth["{{name}}"]; ok && prefix.Prefix != "" {
+					key = prefix.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+			{{/vendorExtensions.x-auth-id-alias}}
+			{{^vendorExtensions.x-auth-id-alias}}
+			if apiKey, ok := auth["{{name}}"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+			{{/vendorExtensions.x-auth-id-alias}}
+				{{#isKeyInHeader}}
+				localVarHeaderParams["{{keyParamName}}"] = key
+				{{/isKeyInHeader}}
+				{{#isKeyInQuery}}
+				localVarQueryParams.Add("{{keyParamName}}", key)
+				{{/isKeyInQuery}}
+			}
+		}
+	}
+{{/isKeyInCookie}}
+{{/isApiKey}}
+{{/authMethods}}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
+	}
+
+{{#withCustomMiddlewareFunction}}
+	if a.client.cfg.ResponseMiddleware != nil {
+		err = a.client.cfg.ResponseMiddleware(localVarHTTPResponse, localVarBody)
+		if err != nil {
+			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
+		}
+	}
+
+{{/withCustomMiddlewareFunction}}
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		{{#responses}}
+		{{#dataType}}
+		{{^is1xx}}
+		{{^is2xx}}
+		{{#range}}
+		{{#is3xx}}
+		if localVarHTTPResponse.StatusCode >= 300 && localVarHTTPResponse.StatusCode < 400 {
+		{{/is3xx}}
+		{{#is4xx}}
+		if localVarHTTPResponse.StatusCode >= 400 && localVarHTTPResponse.StatusCode < 500 {
+		{{/is4xx}}
+		{{#is5xx}}
+		if localVarHTTPResponse.StatusCode >= 500 {
+		{{/is5xx}}
+		{{/range}}
+		{{^range}}
+		{{^wildcard}}
+		if localVarHTTPResponse.StatusCode == {{{code}}} {
+		{{/wildcard}}
+		{{/range}}
+			var v {{{dataType}}}
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			{{^-last}}
+			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
+			{{/-last}}
+		{{^wildcard}}
+		}
+		{{/wildcard}}
+		{{/is2xx}}
+		{{/is1xx}}
+		{{/dataType}}
+		{{/responses}}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
+	}
+
+	{{#returnType}}
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
+	}
+
+	{{/returnType}}
+	return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, nil
+}
+{{/operation}}
+{{/operations}}

@@ -1,0 +1,113 @@
+{{>licenseInfo}}
+import { autoinject } from 'aurelia-framework';
+import { HttpClient } from 'aurelia-http-client';
+import { Api } from './Api';
+import { AuthStorage } from './AuthStorage';
+import {
+{{#modelImports}}  {{this}},
+{{/modelImports}}
+} from './models';
+
+{{#operations}}
+{{#operation}}
+/**
+ * {{operationId}} - parameters interface
+ */
+export interface I{{operationIdCamelCase}}Params {
+{{#allParams}}  {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};
+{{/allParams}}
+}
+
+{{/operation}}
+/**
+ * {{classname}} - API class{{#description}}
+ * {{&description}}{{/description}}
+ */
+@autoinject()
+export class {{classname}} extends Api {
+
+  /**
+   * Creates a new {{classname}} class.
+   *
+   * @param httpClient The Aurelia HTTP client to be injected.
+   * @param authStorage A storage for authentication data.
+   */
+  constructor(httpClient: HttpClient, authStorage: AuthStorage) {
+    super(httpClient, authStorage);
+  }
+
+{{#operation}}
+  /**
+  {{#summary}}
+   * {{.}}
+  {{/summary}}
+  {{#notes}}
+   * {{.}}
+  {{/notes}}
+  {{#allParams}}
+   * @param params.{{paramName}} {{description}}
+  {{/allParams}}
+   */
+  async {{nickname}}({{#hasParams}}params: I{{operationIdCamelCase}}Params{{/hasParams}}): Promise<{{{returnType}}}{{^returnType}}any{{/returnType}}> {
+    // Verify required parameters are set
+{{#allParams}}
+{{#required}}
+    this.ensureParamIsSet('{{nickname}}', params, '{{paramName}}');
+{{/required}}
+{{/allParams}}
+
+    // Create URL to call
+    const url = `${this.basePath}{{{path}}}`{{#pathParams}}
+      .replace(`{${'{{baseName}}'}}`, encodeURIComponent(`${params['{{paramName}}']}`)){{/pathParams}};
+
+    const response = await this.httpClient.createRequest(url)
+      // Set HTTP method
+      .as{{httpMethod}}()
+{{#hasQueryParams}}
+      // Set query parameters
+      .withParams({ {{#queryParams}}
+        '{{baseName}}': params['{{paramName}}'],{{/queryParams}}
+      })
+{{/hasQueryParams}}
+{{#hasFormParams}}
+      // Encode form parameters
+      .withHeader('content-type', 'application/x-www-form-urlencoded')
+      .withContent(this.queryString({ {{#formParams}}
+        '{{baseName}}': params['{{paramName}}'],{{/formParams}}
+      }))
+{{/hasFormParams}}
+{{#hasBodyParam}}
+{{#bodyParam}}
+      // Encode body parameter
+      .withHeader('content-type', 'application/json')
+      .withContent(JSON.stringify(params['{{paramName}}'] || {}))
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{#headerParams}}
+      .withHeader('{{baseName}}', params['{{paramName}}']){{/headerParams}}
+{{#authMethods}}
+      // Authentication '{{name}}' required
+{{#isApiKey}}
+{{#isKeyInHeader}}
+      .withHeader('{{keyParamName}}', this.authStorage.get{{name}}())
+{{/isKeyInHeader}}
+{{#isKeyInQuery}}
+      .withParams({ {{keyParamName}}: this.authStorage.get{{name}}() })
+{{/isKeyInQuery}}
+{{/isApiKey}}
+{{/authMethods}}
+      // Send the request
+      .send();
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Error(response.content);
+    }
+
+    // Extract the content
+    return response.content;
+  }
+
+{{/operation}}
+}
+
+{{/operations}}

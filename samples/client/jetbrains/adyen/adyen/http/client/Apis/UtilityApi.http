@@ -1,0 +1,31 @@
+## UtilityApi
+
+### Get an Apple Pay session
+## Get payment session for Apple Pay
+POST https://checkout-test.adyen.com/v71/applePay/sessions
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "displayName": "YOUR_MERCHANT_NAME",
+ "domainName": "YOUR_DOMAIN_NAME",
+ "merchantIdentifier": "YOUR_MERCHANT_ID"
+}
+
+
+### Create originKey values for domains
+## Get origin keys
+POST https://checkout-test.adyen.com/v71/originKeys
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "originDomains": ["https://www.your-domain1.com","https://www.your-domain2.com","https://www.your-domain3.com"]
+}
+

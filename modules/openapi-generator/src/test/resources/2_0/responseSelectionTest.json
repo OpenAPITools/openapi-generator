@@ -1,0 +1,137 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server Petstore server. For this sample, you can use the api key \"special-key\" to test the authorization filters",
+    "version": "1.0.0",
+    "title": "OpenAPI Petstore",
+    "license": {
+      "name": "Apache-2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/tests/withTwoHundredAndDefault": {
+      "get": {
+        "summary": "Operation with several unordered 2XX results and one default",
+        "description": "",
+        "operationId": "withTwoHundredAndDefault",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "default response",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "100": {
+            "description": "100 response",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "202": {
+            "description": "201 response",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "203": {
+            "description": "202 response",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "201": {
+            "description": "200 response",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/tests/withoutTwoHundredButDefault": {
+      "get": {
+        "summary": "Operation with several unordered 2XX results and one default",
+        "description": "",
+        "operationId": "withoutTwoHundredButDefault",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "default": {
+            "description": "default response",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "100": {
+            "description": "100 response",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "301": {
+            "description": "301 response",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/api/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    }
+  },
+  "definitions": {
+    "CustomModel": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie"
+        }
+      }
+    }
+  }
+}

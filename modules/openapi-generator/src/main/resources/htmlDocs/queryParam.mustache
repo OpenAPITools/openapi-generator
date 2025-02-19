@@ -1,0 +1,3 @@
+{{#isQueryParam}}<div class="param">{{baseName}} {{^required}}(optional){{/required}}{{#required}}(required){{/required}}</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; {{unescapedDescription}} {{#defaultValue}}default: {{{.}}} {{/defaultValue}}{{#dataFormat}}format: {{{.}}}{{/dataFormat}}</div>{{/isQueryParam}}

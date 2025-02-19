@@ -1,0 +1,23 @@
+openapi: 3.0.1
+info:
+  title: Test to check that validation logic is not rendered when disabled.
+  version: 0.0.1
+paths:
+   /mail:
+    put:
+      description: Updates the email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Email"
+      responses:
+        "204":
+          description: OK.
+components:
+  schemas:
+    Email:
+      type: string
+      pattern: '^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$'
+      example: example@example.com

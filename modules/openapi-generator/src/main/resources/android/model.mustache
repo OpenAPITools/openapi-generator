@@ -1,0 +1,75 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.swagger.annotations.*;
+import com.google.gson.annotations.SerializedName;
+{{#models}}
+
+{{#model}}{{#description}}
+/**
+ * {{.}}
+ **/{{/description}}
+@ApiModel(description = "{{{description}}}")
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {
+  {{#vars}}{{#isEnum}}
+  public enum {{datatypeWithEnum}} {
+    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
+  };
+  @SerializedName("{{baseName}}")
+  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
+  @SerializedName("{{baseName}}")
+  private {{{dataType}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
+
+  {{#vars}}
+  /**{{#description}}
+   * {{{.}}}{{/description}}{{#minimum}}
+   * minimum: {{.}}{{/minimum}}{{#maximum}}
+   * maximum: {{.}}{{/maximum}}
+   **/
+  @ApiModelProperty({{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }
+  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+  {{/vars}}
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+    return {{#vars}}(this.{{name}} == null ? {{classVarName}}.{{name}} == null : this.{{name}}.equals({{classVarName}}.{{name}})){{^-last}} &&
+        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}
+    return true;{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    int result = 17;
+    {{#vars}}
+    result = 31 * result + (this.{{name}} == null ? 0: this.{{name}}.hashCode());
+    {{/vars}}
+    return result;
+  }
+
+  @Override
+  public String toString()  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("  " + super.toString()).append("\n");{{/parent}}
+    {{#vars}}sb.append("  {{name}}: ").append({{name}}).append("\n");
+    {{/vars}}sb.append("}\n");
+    return sb.toString();
+  }
+}
+{{/model}}
+{{/models}}

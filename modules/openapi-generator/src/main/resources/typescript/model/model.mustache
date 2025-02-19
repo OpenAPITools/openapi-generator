@@ -1,0 +1,112 @@
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+{{#tsImports}}
+import { {{classname}} } from '{{filename}}{{importFileExtension}}';
+{{/tsImports}}
+import { HttpFile } from '../http/http{{importFileExtension}}';
+
+{{#description}}
+/**
+* {{{.}}}
+*/
+{{/description}}
+{{^isEnum}}
+{{#oneOf}}
+{{#-first}}{{>model/modelOneOf}}{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+    /**
+    * {{{.}}}
+    */
+{{/description}}
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
+{{/vars}}
+
+    {{#discriminator}}
+    static {{#parent}}override {{/parent}}readonly discriminator: string | undefined = "{{discriminatorName}}";
+    {{/discriminator}}
+    {{^discriminator}}
+    static {{#parent}}override {{/parent}}readonly discriminator: string | undefined = undefined;
+    {{/discriminator}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+
+    static {{#parent}}override {{/parent}}readonly mapping: {[index: string]: string} | undefined = {
+    {{#discriminator.mappedModels}}
+        "{{mappingName}}": "{{modelName}}",
+    {{/discriminator.mappedModels}}
+    };
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+
+    static {{#parent}}override {{/parent}}readonly mapping: {[index: string]: string} | undefined = undefined;
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+
+    {{^isArray}}
+    static {{#parent}}override {{/parent}}readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {{#vars}}
+        {
+            "name": "{{name}}",
+            "baseName": "{{baseName}}",
+            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}",
+            "format": "{{dataFormat}}"
+        }{{^-last}},
+        {{/-last}}
+        {{/vars}}
+    ];
+
+    static {{#parent}}override {{/parent}}getAttributeTypeMap() {
+        {{#parent}}
+        return super.getAttributeTypeMap().concat({{classname}}.attributeTypeMap);
+        {{/parent}}
+        {{^parent}}
+        return {{classname}}.attributeTypeMap;
+        {{/parent}}
+    }
+    {{/isArray}}
+
+    public constructor() {
+        {{#parent}}
+        super();
+        {{/parent}}
+        {{#allVars}}
+        {{#discriminatorValue}}
+        this.{{name}} = "{{discriminatorValue}}";
+        {{/discriminatorValue}}
+        {{/allVars}}
+        {{#discriminatorName}}
+        this.{{discriminatorName}} = "{{classname}}";
+        {{/discriminatorName}}
+    }
+}
+{{#hasEnums}}
+
+{{#vars}}
+{{#isEnum}}
+export enum {{classname}}{{enumName}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+
+{{/hasEnums}}
+{{/oneOf}}
+{{/isEnum}}
+{{#isEnum}}
+export enum {{classname}} {
+    {{#allowableValues}}
+    {{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+}
+{{/isEnum}}
+{{/model}}
+{{/models}}

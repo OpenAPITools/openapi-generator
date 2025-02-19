@@ -1,0 +1,465 @@
+[
+    {
+        "description": "$dynamicRef without $dynamicAnchor works like $ref",
+        "schema": {
+            "properties": {
+                "foo": {"$dynamicRef": "#"}
+            },
+            "additionalProperties": false
+        },
+        "tests": [
+            {
+                "description": "match",
+                "data": {"foo": false},
+                "valid": true
+            },
+            {
+                "description": "recursive match",
+                "data": {"foo": {"foo": false}},
+                "valid": true
+            },
+            {
+                "description": "mismatch",
+                "data": {"bar": false},
+                "valid": false
+            },
+            {
+                "description": "recursive mismatch (but $dynamicRef is ignored)",
+                "data": {"foo": {"bar": false}},
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "prefixItems: an array of schemas for items",
+        "schema": {
+            "prefixItems": [
+                {"type": "integer"},
+                {"type": "string"}
+            ]
+        },
+        "tests": [
+            {
+                "description": "correct types",
+                "data": [ 1, "foo" ],
+                "valid": true
+            },
+            {
+                "description": "wrong types",
+                "data": [ "foo", 1 ],
+                "valid": true
+            },
+            {
+                "description": "incomplete array of items",
+                "data": [ 1 ],
+                "valid": true
+            },
+            {
+                "description": "array with additional items",
+                "data": [ 1, "foo", true ],
+                "valid": true
+            },
+            {
+                "description": "empty array",
+                "data": [ ],
+                "valid": true
+            },
+            {
+                "description": "JavaScript pseudo-array is valid",
+                "data": {
+                    "0": "invalid",
+                    "1": "valid",
+                    "length": 2
+                },
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "dependentSchemas: single dependency",
+        "schema": {
+            "dependentSchemas": {
+                "bar": {
+                    "properties": {
+                        "foo": {"type": "integer"},
+                        "bar": {"type": "integer"}
+                    }
+                }
+            }
+        },
+        "tests": [
+            {
+                "description": "valid",
+                "data": {"foo": 1, "bar": 2},
+                "valid": true
+            },
+            {
+                "description": "no dependency",
+                "data": {"foo": "quux"},
+                "valid": true
+            },
+            {
+                "description": "wrong type",
+                "data": {"foo": "quux", "bar": 2},
+                "valid": true
+            },
+            {
+                "description": "wrong type other",
+                "data": {"foo": 2, "bar": "quux"},
+                "valid": true
+            },
+            {
+                "description": "wrong type both",
+                "data": {"foo": "quux", "bar": "quux"},
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "dependentRequired: single dependency",
+        "schema": {"dependentRequired": {"bar": ["foo"]}},
+        "tests": [
+            {
+                "description": "neither",
+                "data": {},
+                "valid": true
+            },
+            {
+                "description": "nondependant",
+                "data": {"foo": 1},
+                "valid": true
+            },
+            {
+                "description": "with dependency",
+                "data": {"foo": 1, "bar": 2},
+                "valid": true
+            },
+            {
+                "description": "missing dependency",
+                "data": {"bar": 2},
+                "valid": true
+            },
+            {
+                "description": "ignores arrays",
+                "data": ["bar"],
+                "valid": true
+            },
+            {
+                "description": "ignores strings",
+                "data": "foobar",
+                "valid": true
+            },
+            {
+                "description": "ignores other non-objects",
+                "data": 12,
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "unevaluatedItems false",
+        "schema": {
+            "type": "array",
+            "unevaluatedItems": false
+        },
+        "tests": [
+            {
+                "description": "with no unevaluated items",
+                "data": [],
+                "valid": true
+            },
+            {
+                "description": "with unevaluated items",
+                "data": ["foo"],
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "unevaluatedProperties schema",
+        "schema": {
+            "type": "object",
+            "unevaluatedProperties": {
+                "type": "string",
+                "minLength": 3
+            }
+        },
+        "tests": [
+            {
+                "description": "with no unevaluated properties",
+                "data": {},
+                "valid": true
+            },
+            {
+                "description": "with valid unevaluated properties",
+                "data": {
+                    "foo": "foo"
+                },
+                "valid": true
+            },
+            {
+                "description": "with invalid unevaluated properties",
+                "data": {
+                    "foo": "fo"
+                },
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "maxContains with contains",
+        "schema": {
+            "contains": {"const": 1},
+            "maxContains": 1
+        },
+        "tests": [
+            {
+                "description": "empty data",
+                "data": [ ],
+                "valid": false
+            },
+            {
+                "description": "all elements match, valid maxContains",
+                "data": [ 1 ],
+                "valid": true
+            },
+            {
+                "description": "all elements match, invalid maxContains",
+                "data": [ 1, 1 ],
+                "valid": true
+            },
+            {
+                "description": "some elements match, valid maxContains",
+                "data": [ 1, 2 ],
+                "valid": true
+            },
+            {
+                "description": "some elements match, invalid maxContains",
+                "data": [ 1, 2, 1 ],
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "minContains=2 with contains",
+        "schema": {
+            "contains": {"const": 1},
+            "minContains": 2
+        },
+        "tests": [
+            {
+                "description": "empty data",
+                "data": [ ],
+                "valid": false
+            },
+            {
+                "description": "all elements match, invalid minContains",
+                "data": [ 1 ],
+                "valid": true
+            },
+            {
+                "description": "some elements match, invalid minContains",
+                "data": [ 1, 2 ],
+                "valid": true
+            },
+            {
+                "description": "all elements match, valid minContains (exactly as needed)",
+                "data": [ 1, 1 ],
+                "valid": true
+            },
+            {
+                "description": "all elements match, valid minContains (more than needed)",
+                "data": [ 1, 1, 1 ],
+                "valid": true
+            },
+            {
+                "description": "some elements match, valid minContains",
+                "data": [ 1, 2, 1 ],
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "minContains = 0",
+        "schema": {
+            "contains": {"const": 1},
+            "minContains": 0
+        },
+        "tests": [
+            {
+                "description": "empty array is valid with minContains=0",
+                "data": [ ],
+                "valid": false
+            },
+            {
+                "description": "minContains = 0 would make contains always pass",
+                "data": [ 2 ],
+                "valid": false
+            }
+        ]
+    },
+    {
+        "description": "if with boolean schema true",
+        "schema": { "if": true, "then": { "const": "then" }, "else": { "const": "else" } },
+        "tests": [
+            {
+                "description": "boolean schema true in if (invalid when supported)",
+                "data": "then",
+                "valid": true
+            },
+            {
+                "description": "boolean schema true in if (valid when supported)",
+                "data": "else",
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "if with boolean schema false",
+        "schema": { "if": false, "then": { "const": "then" }, "else": { "const": "else" } },
+        "tests": [
+            {
+                "description": "boolean schema false in if (invalid when supported)",
+                "data": "then",
+                "valid": true
+            },
+            {
+                "description": "boolean schema false in if (valid when supported)",
+                "data": "else",
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "$recursiveRef without $recursiveAnchor works like $ref",
+        "schema": {
+            "properties": {
+                "foo": { "$recursiveRef": "#" }
+            },
+            "additionalProperties": false
+        },
+        "tests": [
+            {
+                "description": "match",
+                "data": {"foo": false},
+                "valid": true
+            },
+            {
+                "description": "recursive match",
+                "data": { "foo": { "foo": false } },
+                "valid": true
+            },
+            {
+                "description": "mismatch",
+                "data": { "bar": false },
+                "valid": false
+            },
+            {
+                "description": "recursive mismatch",
+                "data": { "foo": { "bar": false } },
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "$recursiveRef without using nesting",
+        "schema": {
+            "$id": "http://localhost:4242",
+            "definitions": {
+                "myobject": {
+                    "$id": "myobject.json",
+                    "$recursiveAnchor": true,
+                    "anyOf": [
+                        { "type": "string" },
+                        {
+                            "type": "object",
+                            "additionalProperties": { "$recursiveRef": "#" }
+                        }
+                    ]
+                }
+            },
+            "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/myobject" }
+            ]
+        },
+        "tests": [
+            {
+                "description": "integer matches at the outer level",
+                "data": 1,
+                "valid": true
+            },
+            {
+                "description": "single level match",
+                "data": { "foo": "hi" },
+                "valid": true
+            },
+            {
+                "description": "integer does not match as a property value",
+                "data": { "foo": 1 },
+                "valid": true
+            },
+            {
+                "description": "two levels, additionalProperties always matches, 1",
+                "data": { "foo": { "bar": "hi" } },
+                "valid": true
+            },
+            {
+                "description": "two levels, additionalProperties always matches, 2",
+                "data": { "foo": { "bar": 1 } },
+                "valid": true
+            }
+        ]
+    },
+    {
+        "description": "$recursiveRef with nesting",
+        "schema": {
+            "$id": "http://localhost:4242",
+            "$recursiveAnchor": true,
+            "definitions": {
+                "myobject": {
+                    "$id": "myobject.json",
+                    "$recursiveAnchor": true,
+                    "anyOf": [
+                        { "type": "string" },
+                        {
+                            "type": "object",
+                            "additionalProperties": { "$recursiveRef": "#" }
+                        }
+                    ]
+                }
+            },
+            "anyOf": [
+                { "type": "integer" },
+                { "$ref": "#/definitions/myobject" }
+            ]
+        },
+        "tests": [
+            {
+                "description": "integer matches at the outer level",
+                "data": 1,
+                "valid": true
+            },
+            {
+                "description": "single level match",
+                "data": { "foo": "hi" },
+                "valid": true
+            },
+            {
+                "description": "integer now matches as a property value",
+                "data": { "foo": 1 },
+                "valid": true
+            },
+            {
+                "description": "two levels, properties match with inner definition",
+                "data": { "foo": { "bar": "hi" } },
+                "valid": true
+            },
+            {
+                "description": "two levels, properties match with $recursiveRef",
+                "data": { "foo": { "bar": 1 } },
+                "valid": true
+            }
+        ]
+    }
+]

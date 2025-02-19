@@ -1,0 +1,9 @@
+generatorName: typescript-axios
+outputDir: samples/client/petstore/typescript-axios/builds/with-npm-version
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-axios
+additionalProperties:
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-axios-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

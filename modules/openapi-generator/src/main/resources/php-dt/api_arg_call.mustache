@@ -1,0 +1,13 @@
+{{#vendorExtensions}}{{#internal.hasParameterData
+}}$parameters{{#bodyParam}}, {{/bodyParam}}{{^bodyParam}}{{#hasAuthMethods}}, {{/hasAuthMethods}}{{^hasAuthMethods}}{{#hasConsumes}}, {{/hasConsumes}}{{^hasConsumes}}{{#hasProduces}}, {{/hasProduces}}{{/hasConsumes}}{{/hasAuthMethods}}{{/bodyParam
+}}{{/internal.hasParameterData}}{{/vendorExtensions
+}}{{#bodyParam
+}}$requestContent{{#hasAuthMethods}}, {{/hasAuthMethods}}{{^hasAuthMethods}}{{#hasConsumes}}, {{/hasConsumes}}{{^hasConsumes}}{{#hasProduces}}, {{/hasProduces}}{{/hasConsumes}}{{/hasAuthMethods
+}}{{/bodyParam
+}}{{#hasAuthMethods
+}}$security{{#hasConsumes}}, {{/hasConsumes}}{{^hasConsumes}}{{#hasProduces}}, {{/hasProduces}}{{/hasConsumes
+}}{{/hasAuthMethods
+}}{{#hasConsumes
+}}$requestMediaType{{#hasProduces}}, {{/hasProduces
+}}{{/hasConsumes
+}}{{#hasProduces}}$responseMediaType{{/hasProduces}}

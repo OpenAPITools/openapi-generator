@@ -1,0 +1,13 @@
+{{>licenseInfo}}
+import * as models from './models';
+{{#models}}
+{{#model}}
+
+{{#description}}
+/**
+ * {{{.}}}
+ */
+{{/description}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,5 @@
+generatorName: go
+outputDir: samples/client/others/go/allof_multiple_ref_and_discriminator
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml
+additionalProperties:
+  hideGenerationTimestamp: "true"

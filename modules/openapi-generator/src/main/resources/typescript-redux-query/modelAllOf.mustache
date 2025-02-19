@@ -1,0 +1,36 @@
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}ToJSON,
+    {{/imports}}
+} from './';
+
+{{/hasImports}}
+/**
+ * @type {{classname}}{{#description}}
+ * {{{.}}}{{/description}}
+ * @export
+ */
+export interface {{classname}} extends {{#allOf}}{{{.}}}{{^-last}}, {{/-last}}{{/allOf}} {
+}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {
+        {{#allOf}}
+        ...{{.}}FromJSON(json),
+        {{/allOf}}
+    };
+}
+
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    if (value === undefined) {
+        return undefined;
+    }
+    return {
+        {{#allOf}}
+        ...{{.}}ToJSON(value),
+        {{/allOf}}
+    };
+}

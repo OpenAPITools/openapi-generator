@@ -1,0 +1,15 @@
+{{> partial_header}}
+{{#models}}
+{{#model}}
+Describe -tag '{{{packageName}}}' -name '{{{apiNamePrefix}}}{{{classname}}}' {
+    Context '{{{apiNamePrefix}}}{{{classname}}}' {
+        It 'Initialize-{{{apiNamePrefix}}}{{{classname}}}' {
+            # a simple test to create an object
+            #$NewObject = Initialize-{{{apiNamePrefix}}}{{{classname}}}{{#vars}} -{{name}} "TEST_VALUE"{{/vars}}
+            #$NewObject | Should -BeOfType {{classname}}
+            #$NewObject.property | Should -Be 0
+        }
+    }
+}
+{{/model}}
+{{/models}}

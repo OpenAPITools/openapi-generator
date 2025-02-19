@@ -1,0 +1,36 @@
+<settings>
+    <localRepository/>
+    <interactiveMode/>
+    <usePluginRegistry/>
+    <offline/>
+    <pluginGroups/>
+    <servers>
+        <server>
+            <id>sonatype-nexus-snapshots</id>
+            <username>${env.SONATYPE_USERNAME}</username>
+            <password>${env.SONATYPE_PASSWORD}</password>
+        </server>
+        <server>
+            <id>ossrh</id>
+            <username>${env.SONATYPE_USERNAME}</username>
+            <password>${env.SONATYPE_PASSWORD}</password>
+        </server>
+    </servers>
+    <mirrors/>
+    <proxies/>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.executable>gpg</gpg.executable>
+                <gpg.keyname>${env.SIGNING_KEY}</gpg.keyname>
+                <gpg.passphrase>${env.SIGNING_PASSPHRASE}</gpg.passphrase>
+                <gpg.secretKeyring>${env.TRAVIS_BUILD_DIR}/sec.gpg</gpg.secretKeyring>
+            </properties>
+        </profile>
+    </profiles>
+    <activeProfiles/>
+</settings>

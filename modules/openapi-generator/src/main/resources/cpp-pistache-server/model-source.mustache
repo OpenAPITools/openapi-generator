@@ -1,0 +1,187 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
+{{#isEnum}}#include <stdexcept>{{/isEnum}}
+#include <sstream>
+
+namespace {{modelNamespace}}
+{
+
+{{classname}}::{{classname}}()
+{
+    {{#vars}}{{^isContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
+    {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
+    {{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{^required}}m_{{name}}IsSet = false;
+    {{/required}}{{/vars}}
+}
+
+void {{classname}}::validate() const
+{
+    std::stringstream msg;
+    if (!validate(msg))
+    {
+        throw {{helpersNamespace}}::ValidationException(msg.str());
+    }
+}
+
+bool {{classname}}::validate(std::stringstream& msg) const
+{
+    return validate(msg, "");
+}
+
+bool {{classname}}::validate(std::stringstream& msg, const std::string& pathPrefix) const
+{
+    bool success = true;
+    const std::string _pathPrefix = pathPrefix.empty() ? "{{classname}}" : pathPrefix;
+
+    {{#isEnum}}{{! Special case for enum types }}
+    if (m_value == {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED)
+    {
+        success = false;
+        msg << _pathPrefix << ": has no value;";
+    }
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#vars}}
+    {{#isArray}} {{! Always generate validation body for array types }}
+    {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = m_{{name}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/isArray}}{{^isArray}}{{#hasValidation}} {{! Only generate validation if necessary }}
+    {{^required}}if ({{nameInCamelCase}}IsSet()){{/required}}
+    {{#required}}/* {{name}} */ {{/required}}{
+        const {{{dataType}}}& value = m_{{name}};
+        const std::string currentValuePath = _pathPrefix + ".{{nameInCamelCase}}";
+        {{> model-validation-body }}
+    }
+    {{/hasValidation}}{{#required}}{{#isModel}}
+    if (!m_{{name}}.validate(msg, _pathPrefix + ".{{nameInCamelCase}}")) {
+        msg << _pathPrefix << ": {{name}} is invalid;";
+        success = false;
+    }{{/isModel}}{{/required}}{{/isArray}}{{/vars}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}
+    if (!m_value.validate(msg))
+    {
+        success = false;
+    }{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+    return success;
+}
+
+bool {{classname}}::operator==(const {{classname}}& rhs) const
+{
+    return
+    {{#isEnum}}getValue() == rhs.getValue(){{/isEnum}}
+    {{^isEnum}}{{#hasVars}}{{#vars}}
+    {{#required}}({{getter}}() == rhs.{{getter}}()){{/required}}
+    {{^required}}((!{{nameInCamelCase}}IsSet() && !rhs.{{nameInCamelCase}}IsSet()) || ({{nameInCamelCase}}IsSet() && rhs.{{nameInCamelCase}}IsSet() && {{getter}}() == rhs.{{getter}}())){{/required}}{{^-last}} &&{{/-last}}
+    {{/vars}}{{/hasVars}}{{^hasVars}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}getValue() == rhs.getValue(){{/-first}}{{/anyOf}}{{^anyOf}}true{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}{{/hasVars}}{{/isEnum}}
+    ;
+}
+
+bool {{classname}}::operator!=(const {{classname}}& rhs) const
+{
+    return !(*this == rhs);
+}
+
+void to_json(nlohmann::json& j, const {{classname}}& o)
+{
+    j = nlohmann::json::object();
+    {{#vars}}
+    {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet(){{#isContainer}} || !o.m_{{name}}.empty(){{/isContainer}})
+        j["{{baseName}}"] = o.m_{{name}};{{/required}}
+    {{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    switch (o.getValue())
+    {
+        {{#enumVars}}
+        {{#-first}}
+        case {{classname}}::e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
+            j = {{#isInteger}}0{{/isInteger}}{{^isInteger}}"INVALID_VALUE_OPENAPI_GENERATED"{{/isInteger}};
+            break;
+        {{/-first}}
+        case {{classname}}::e{{classname}}::{{name}}:
+            j = {{#isInteger}}{{value}}{{/isInteger}}{{^isInteger}}"{{value}}"{{/isInteger}};
+            break;
+        {{/enumVars}}
+    }{{/allowableValues}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}to_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+}
+
+void from_json(const nlohmann::json& j, {{classname}}& o)
+{
+    {{#vars}}
+    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(j.find("{{baseName}}") != j.end())
+    {
+        j.at("{{baseName}}").get_to(o.m_{{name}});
+        o.m_{{name}}IsSet = true;
+    } {{/required}}
+    {{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    auto s = j.get<{{#isInteger}}{{dataType}}{{/isInteger}}{{^isInteger}}std::string{{/isInteger}}>();
+    {{#enumVars}}
+    {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (s == {{#isInteger}}{{value}}{{/isInteger}}{{^isInteger}}"{{value}}"{{/isInteger}}) {
+     o.setValue({{classname}}::e{{classname}}::{{name}});
+    } {{#-last}} else {
+     std::stringstream ss;
+     ss << "Unexpected value " << s << " in json"
+        << " cannot be converted to enum of type"
+        << " {{classname}}::e{{classname}}";
+     throw std::invalid_argument(ss.str());
+    } {{/-last}}
+{{/enumVars}}{{/allowableValues}}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}from_json(j, o.m_value);{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+}
+
+{{#vars}}{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    return m_{{name}};
+}
+void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value)
+{
+    m_{{name}} = value;{{^required}}
+    m_{{name}}IsSet = true;{{/required}}
+}
+{{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
+{
+    return m_{{name}}IsSet;
+}
+void {{classname}}::unset{{name}}()
+{
+    m_{{name}}IsSet = false;
+}
+{{/required}}
+{{/vars}}
+{{#isEnum}}{{classname}}::e{{classname}} {{classname}}::getValue() const
+{
+    return m_value;
+}
+void {{classname}}::setValue({{classname}}::e{{classname}} value)
+{
+    m_value = value;
+}{{/isEnum}}{{#vendorExtensions.x-is-string-enum-container}}{{#anyOf}}{{#-first}}{{{this}}} {{classname}}::getValue() const
+{
+    return m_value;
+}
+
+void {{classname}}::setValue({{{this}}} value)
+{
+    m_value = value;
+}
+
+{{{this}}}::e{{{this}}} {{classname}}::getEnumValue() const
+{
+    return m_value.getValue();
+}
+
+void {{classname}}::setEnumValue({{{this}}}::e{{{this}}}  value)
+{
+    m_value.setValue(value);
+}{{/-first}}{{/anyOf}}{{/vendorExtensions.x-is-string-enum-container}}
+
+} // namespace {{modelNamespace}}
+
+{{/model}}
+{{/models}}

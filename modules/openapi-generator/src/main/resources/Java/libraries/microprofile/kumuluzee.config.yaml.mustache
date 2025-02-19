@@ -1,0 +1,10 @@
+kumuluzee:
+    server:
+        http:
+            port: 8081
+
+    rest-client:
+        registrations:
+            {{#apiInfo}}{{#apis}}{{#operations}}- class: {{{invokerPackage}}}.{{{classname}}}
+              url: http://localhost:8080/v2
+            {{/operations}}{{/apis}}{{/apiInfo}}

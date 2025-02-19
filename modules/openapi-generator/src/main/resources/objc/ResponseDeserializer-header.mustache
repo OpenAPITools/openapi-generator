@@ -1,0 +1,46 @@
+#import <Foundation/Foundation.h>
+
+{{>licenceInfo}}
+
+/**
+ * A key for deserialization ErrorDomain
+ */
+extern NSString *const {{classPrefix}}DeserializationErrorDomainKey;
+
+/**
+ * Code for deserialization type mismatch error
+ */
+extern NSInteger const {{classPrefix}}TypeMismatchErrorCode;
+
+/**
+ * Code for deserialization empty value error
+ */
+extern NSInteger const {{classPrefix}}EmptyValueOccurredErrorCode;
+
+/**
+ * Error code for unknown response
+ */
+extern NSInteger const {{classPrefix}}UnknownResponseObjectErrorCode;
+
+@protocol {{classPrefix}}ResponseDeserializer <NSObject>
+
+/**
+ * Deserializes the given data to Objective-C object.
+ *
+ * @param data The data will be deserialized.
+ * @param className The type of objective-c object.
+ * @param error The error
+ */
+- (id) deserialize:(id) data class:(NSString *) className error:(NSError**)error;
+
+@end
+
+@interface {{classPrefix}}ResponseDeserializer : NSObject <{{classPrefix}}ResponseDeserializer>
+
+/**
+ *  If a null value occurs in dictionary or array if set to YES whole response will be invalid else will be ignored
+ *  @default NO
+ */
+@property (nonatomic, assign) BOOL treatNullAsError;
+
+@end

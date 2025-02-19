@@ -1,0 +1,58 @@
+swagger: "2.0"
+info:
+  version: "2"
+  title: "Test API"
+basePath: "/xx2"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /ping:
+    post:
+      tags:
+        - Messaging
+      summary: Add a message event to the given message calendar
+      operationId: addMessageEventToMessageCalendar
+      parameters:
+        - in: body
+          name: new-message-event
+          required: true
+          schema:
+            $ref: "#/definitions/MessageEventCoreWithTimeListEntries"
+      responses:
+        200:
+          description: OK
+definitions:
+  MessageEventCoreWithTimeListEntries:
+    type: object
+    description: "Base of a message event with Time List entries"
+    allOf:
+      - $ref: "#/definitions/MessageEventCore"
+      - type: object
+        required:
+          - timeListEntries
+        properties:
+          timeListEntries:
+            type: array
+            items:
+              $ref: "#/definitions/TimeListEntry"
+  MessageEventCore:
+    type: object
+    properties:
+      id:
+        type: integer
+      message:
+        type: string
+  TimeListEntry:
+    type: object
+    properties:
+      p1:
+        type: string
+      p2:
+        type: string
+
+  NewMessageEventCoreNoOwnProps:
+    type: object
+    allOf:
+      - $ref: "#/definitions/MessageEventCore"

@@ -1,0 +1,77 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE DuplicateRecordFields      #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
+
+module {{title}}.Types (
+{{#models}}
+{{#model}}
+  {{classname}} (..),
+{{/model}}
+{{/models}}
+  ) where
+
+import Data.Data (Data)
+import Data.UUID (UUID)
+import Data.List (lookup)
+import Data.Maybe (fromMaybe)
+import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
+import Data.Aeson.Types (Options(..), defaultOptions)
+import Data.Set (Set)
+import Data.Text (Text)
+import Data.Time
+import Data.Swagger (ToSchema, declareNamedSchema)
+import qualified Data.Swagger as Swagger
+import qualified Data.Char as Char
+import qualified Data.Text as T
+import qualified Data.Map as Map
+import GHC.Generics (Generic)
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+
+-- | {{description}}
+{{^vendorExtensions.x-custom-newtype}}
+{{^parent}}
+{{vendorExtensions.x-data}} {{classname}} = {{classname}}
+  { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{^-last}}
+  , {{/-last}}{{/vars}}
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON {{classname}} where
+  parseJSON = genericParseJSON options{{classname}}
+instance ToJSON {{classname}} where
+  toJSON = genericToJSON options{{classname}}
+{{#generateToSchema}}
+instance ToSchema {{classname}} where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ options{{classname}}
+{{/generateToSchema}}
+
+options{{classname}} :: Options
+options{{classname}} =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ {{#vars}}("{{& name}}", {{& vendorExtensions.x-base-name-string-literal}}){{^-last}}
+      , {{/-last}}{{/vars}}
+      ]
+
+{{/parent}}
+{{#parent}}
+newtype {{classname}} = {{classname}} { un{{classname}} :: {{parent}} }
+  deriving (Show, Eq, FromJSON, ToJSON, Generic, Data)
+{{/parent}}
+{{/vendorExtensions.x-custom-newtype}}
+{{#vendorExtensions.x-custom-newtype}}
+newtype {{classname}} = {{classname}} {{vendorExtensions.x-custom-newtype}} deriving (Show, Eq, FromJSON, ToJSON, Generic)
+{{/vendorExtensions.x-custom-newtype}}
+{{/model}}
+{{/models}}

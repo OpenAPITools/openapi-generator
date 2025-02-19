@@ -1,0 +1,7 @@
+resolver: lts-21.0
+build:
+  haddock-arguments:
+    haddock-args:
+    - "--odir=./docs"
+packages:
+- '.'

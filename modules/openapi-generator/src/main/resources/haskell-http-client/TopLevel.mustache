@@ -1,0 +1,22 @@
+{{>partial_header}}
+{-|
+Module : {{baseModule}}
+-}
+
+module {{baseModule}}
+  ( {{^x-allowNonUniqueOperationIds}} module {{baseModule}}.API
+  ,{{/x-allowNonUniqueOperationIds}} module {{baseModule}}.Client
+  , module {{baseModule}}.Core
+  , module {{baseModule}}.Logging
+  , module {{baseModule}}.MimeTypes
+  , module {{baseModule}}.Model{{#generateLenses}}
+  , module {{baseModule}}.ModelLens{{/generateLenses}}
+  ) where
+
+{{^x-allowNonUniqueOperationIds}}import {{baseModule}}.API{{/x-allowNonUniqueOperationIds}}
+import {{baseModule}}.Client
+import {{baseModule}}.Core
+import {{baseModule}}.Logging
+import {{baseModule}}.MimeTypes
+import {{baseModule}}.Model{{#generateLenses}}
+import {{baseModule}}.ModelLens{{/generateLenses}}

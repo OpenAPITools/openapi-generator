@@ -1,0 +1,18 @@
+                service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/hasParams}}).subscribe(
+                {{#returnType}}
+                    result -> {
+                    {{#isArray}}
+                        message.reply(new JsonArray(Json.encode(result)).encodePrettily());
+                    {{/isArray}}
+                    {{^isArray}}
+                        message.reply(new JsonObject(Json.encode(result)).encodePrettily());
+                    {{/isArray}}
+                {{/returnType}}
+                {{^returnType}}
+                    () -> {
+                        message.reply(null);
+                {{/returnType}}
+                    },
+                    error -> {
+                        manageError(message, error, "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}");
+                    });

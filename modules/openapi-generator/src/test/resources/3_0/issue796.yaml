@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: Issue 796
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:123/api
+paths:
+  /test:
+    get:
+      tags:
+      - test
+      responses:
+        201:
+          description: Successful response
+components:
+  schemas:
+    MapTest1:
+      type: object
+      description: This type example 1
+      additionalProperties: {}
+    MapTest2:
+      type: object
+      description: This type example 2
+      additionalProperties: true
+    MapTest3:
+      type: object
+      description: This type example 3
+      additionalProperties:
+        type: object
+    OtherObj:
+      type: object
+      description: This type example 4
+      additionalProperties: false
+    MapObject:
+      properties:
+        map_test1:
+          $ref: '#/components/schemas/MapTest1'
+        map_test2:
+          $ref: '#/components/schemas/MapTest2'
+        map_test3:
+          $ref: '#/components/schemas/MapTest3'
+        other_obj:
+          $ref: '#/components/schemas/OtherObj'

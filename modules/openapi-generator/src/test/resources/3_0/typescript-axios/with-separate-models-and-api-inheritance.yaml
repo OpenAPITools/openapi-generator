@@ -1,0 +1,95 @@
+---
+openapi: 3.0.1
+info:
+  title: Example
+  version: '1'
+paths: {}
+components:
+  schemas:
+    BranchDto:
+      type: object
+      properties:
+        name:
+          type: string
+    AbstractUserDto:
+      type: object
+      properties:
+        username:
+          type: string
+        branch:
+          "$ref": "#/components/schemas/BranchDto"
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          internal-authenticated: "#/components/schemas/InternalAuthenticatedUserDto"
+          remote-authenticated: "#/components/schemas/RemoteAuthenticatedUserDto"
+    InternalAuthenticatedUserDto:
+      type: object
+      allOf:
+      - "$ref": "#/components/schemas/AbstractUserDto"
+    RemoteAuthenticatedUserDto:
+      type: object
+      allOf:
+      - "$ref": "#/components/schemas/AbstractUserDto"
+    AbstractFlatStockPickOrderBaseDto:
+      required:
+      - externalDmsCustomerOrderId
+      - id
+      - partInformation
+      - pickedQuantity
+      - quantity
+      - type
+      - warehouseId
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        warehouseId:
+          type: integer
+          format: int64
+        quantity:
+          type: number
+        stockLocation:
+          maxLength: 31
+          minLength: 0
+          type: string
+        barcode:
+          maxLength: 31
+          minLength: 1
+          type: string
+        pickedQuantity:
+          type: number
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          STOCK_PICK_ORDER: '#/components/schemas/FlatStockPickOrderDto'
+    FlatStockPickOrderDto:
+      required:
+      - externalDmsCustomerOrderId
+      - id
+      - partInformation
+      - pickedQuantity
+      - quantity
+      - warehouseId
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/AbstractFlatStockPickOrderBaseDto'
+      - type: object
+        properties:
+          blockedUntil:
+            type: string
+            format: date-time
+          blockedById:
+            type: integer
+            format: int64

@@ -1,0 +1,10 @@
+{{>header}}
+// ignore_for_file: unused_element
+{{#models}}
+    {{#model}}
+        {{#imports}}
+import '{{.}}';
+        {{/imports}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+    {{/model}}
+{{/models}}

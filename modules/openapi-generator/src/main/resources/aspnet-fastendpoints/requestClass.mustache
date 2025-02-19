@@ -1,0 +1,42 @@
+{{#operations}}
+    {{#operation}}
+public class {{operationId}}Request
+{
+    {{#pathParams}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    [FastEndpoints.BindFrom("{{baseName}}")]
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
+    {{/pathParams}}
+    {{#queryParams}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    [FastEndpoints.QueryParam, FastEndpoints.BindFrom("{{baseName}}")]
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
+    {{/queryParams}}
+    {{#bodyParams}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    [FastEndpoints.FromBody]
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{paramName}} { get; set; }
+    {{/bodyParams}}
+    {{#formParams}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    [FastEndpoints.BindFrom("{{baseName}}")]
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
+    {{/formParams}}
+    {{#headerParams}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    [FastEndpoints.FromHeader]
+    public {{&dataType}}{{^required}}{{#isNullable}}?{{/isNullable}}{{/required}} {{nameInPascalCase}} { get; set; }
+    {{/headerParams}}
+}
+    {{/operation}}
+{{/operations}}

@@ -1,0 +1,37 @@
+{{>licenseInfo}}
+/*
+ * JsonBody.h
+ *
+ * This is a JSON http body which can be submitted via http
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_JsonBody_H_
+#define {{modelHeaderGuardPrefix}}_JsonBody_H_
+
+{{{defaultInclude}}}
+#include "{{packageName}}/IHttpBody.h"
+
+#include <cpprest/json.h>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+class {{declspec}} JsonBody
+    : public IHttpBody
+{
+public:
+    JsonBody( const web::json::value& value );
+    virtual ~JsonBody();
+
+    void writeTo( std::ostream& target ) override;
+
+protected:
+    web::json::value m_Json;
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_JsonBody_H_ */

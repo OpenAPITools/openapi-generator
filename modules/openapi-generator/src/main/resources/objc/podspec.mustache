@@ -1,0 +1,36 @@
+#
+# Be sure to run `pod lib lint {{podName}}.podspec' to ensure this is a
+# valid spec and remove all comments before submitting the spec.
+#
+# Any lines starting with a # are optional, but encouraged
+#
+# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
+#
+
+Pod::Spec.new do |s|
+    s.name             = "{{podName}}"
+    s.version          = "{{podVersion}}"
+{{#apiInfo}}{{#apis}}{{#-last}}
+    s.summary          = "{{appName}}"
+{{{#appDescription}}}    s.description      = <<-DESC
+                         {{{appDescription}}}
+                         DESC{{{/appDescription}}}
+{{/-last}}{{/apis}}{{/apiInfo}}
+    s.platform     = :ios, '7.0'
+    s.requires_arc = true
+
+    {{^useCoreData}}s.framework    = 'SystemConfiguration'{{/useCoreData}}{{#useCoreData}}s.frameworks = 'SystemConfiguration', 'CoreData'{{/useCoreData}}
+
+    s.homepage     = "{{gitRepoURL}}"
+    s.license      = "{{license}}{{^license}}Apache License, Version 2.0{{/license}}"
+    s.source       = { :git => "{{gitRepoURL}}.git", :tag => "#{s.version}" }
+    s.author       = { "{{authorName}}" => "{{authorEmail}}" }
+
+    s.source_files = '{{podName}}/**/*.{m,h}'
+    s.public_header_files = '{{podName}}/**/*.h'
+{{#useCoreData}}    s.resources      = '{{podName}}/**/*.{xcdatamodeld,xcdatamodel}'{{/useCoreData}}
+
+    s.dependency 'AFNetworking', '~> 3'
+    s.dependency 'JSONModel', '~> 1.2'
+    s.dependency 'ISO8601', '~> 0.6'
+end

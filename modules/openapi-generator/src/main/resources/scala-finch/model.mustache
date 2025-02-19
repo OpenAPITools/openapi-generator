@@ -1,0 +1,30 @@
+package {{modelPackage}}
+
+import io.circe._
+import io.finch.circe._
+import io.circe.generic.semiauto._
+import io.circe.java8.time._
+import {{packageName}}._
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+/**
+ * {{{description}}}
+{{#vars}}
+ * @param {{name}} {{{description}}}
+{{/vars}}
+ */
+case class {{classname}}({{#vars}}{{name}}: {{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
+                {{/vars}})
+
+object {{classname}} {
+    /**
+     * Creates the codec for converting {{classname}} from and to JSON.
+     */
+    implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+    implicit val encoder: ObjectEncoder[{{classname}}] = deriveEncoder
+}
+{{/model}}
+{{/models}}

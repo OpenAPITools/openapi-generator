@@ -1,0 +1,80 @@
+plugins {
+    {{#androidGradleVersion}}
+    id 'com.android.library' version '{{{.}}}'
+    {{/androidGradleVersion}}
+    {{^androidGradleVersion}}
+    id 'com.android.library' version '8.0.0'
+    {{/androidGradleVersion}}
+    id 'maven-publish'
+}
+
+android {
+    namespace "{{invokerPackage}}"
+    {{#androidSdkVersion}}
+    compileSdkVersion {{{.}}}
+    {{/androidSdkVersion}}
+    {{^androidSdkVersion}}
+    compileSdkVersion 33
+    {{/androidSdkVersion}}
+    {{#androidBuildToolsVersion}}
+    buildToolsVersion '{{{.}}}'
+    {{/androidBuildToolsVersion}}
+    {{^androidBuildToolsVersion}}
+    buildToolsVersion '34.0.0'
+    {{/androidBuildToolsVersion}}
+    useLibrary  'org.apache.http.legacy'
+    defaultConfig {
+        minSdkVersion 14
+        {{#androidSdkVersion}}
+        targetSdkVersion {{{.}}}
+        {{/androidSdkVersion}}
+        {{^androidSdkVersion}}
+        targetSdkVersion 33
+        {{/androidSdkVersion}}
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+ext {
+    swagger_annotations_version = "1.6.6"
+    gson_version = "2.10.1"
+    httpclient_version = "4.5.13"
+    httpcore_version = "4.4.4"
+    junit_version = "4.13"
+}
+
+dependencies {
+    implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "org.apache.httpcomponents:httpcore:$httpcore_version"
+    implementation "org.apache.httpcomponents:httpclient:$httpclient_version"
+    implementation ("org.apache.httpcomponents:httpcore:$httpcore_version") {
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
+    implementation ("org.apache.httpcomponents:httpmime:$httpclient_version") {
+        exclude(group: 'org.apache.httpcomponents', module: 'httpclient')
+    }
+    testImplementation "junit:junit:$junit_version"
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = '{{groupId}}'
+            artifactId = '{{artifactId}}'
+            version = '{{artifactVersion}}'
+
+            afterEvaluate {
+                from components.release
+            }
+        }
+    }
+}

@@ -1,0 +1,104 @@
+from typing import List, Dict
+from aiohttp import web
+
+{{#imports}}{{import}}
+{{/imports}}
+from {{packageName}} import util
+{{#operations}}
+{{#operation}}
+
+
+async def {{operationId}}(request: web.Request, {{#allParams}}{{paramName}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) -> web.Response:
+    """{{summary}}{{^summary}}{{operationId}}{{/summary}}
+
+    {{notes}}
+
+    {{#allParams}}
+    :param {{paramName}}: {{description}}
+        {{^isContainer}}
+            {{#isPrimitiveType}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isPrimitiveType}}
+            {{#isUuid}}
+    :type {{paramName}}: {{>param_type}}
+            {{/isUuid}}
+            {{^isPrimitiveType}}
+                {{#isFile}}
+    :type {{paramName}}: werkzeug.datastructures.FileStorage
+                {{/isFile}}
+                {{^isFile}}
+                    {{^isUuid}}
+    :type {{paramName}}: dict | bytes
+                    {{/isUuid}}
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isArray}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: List[{{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: list | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isArray}}
+        {{#isMap}}
+            {{#items}}
+                {{#isPrimitiveType}}
+    :type {{paramName}}: Dict[str, {{>param_type}}]
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+    :type {{paramName}}: dict | bytes
+                {{/isPrimitiveType}}
+            {{/items}}
+        {{/isMap}}
+    {{/allParams}}
+
+    """
+    {{#allParams}}
+        {{^isContainer}}
+            {{#isDate}}
+    {{paramName}} = util.deserialize_date({{paramName}})
+            {{/isDate}}
+            {{#isDateTime}}
+    {{paramName}} = util.deserialize_datetime({{paramName}})
+            {{/isDateTime}}
+            {{^isPrimitiveType}}
+                {{^isFile}}
+                    {{^isUuid}}
+    {{paramName}} = {{baseType}}.from_dict({{paramName}})
+                    {{/isUuid}}
+                {{/isFile}}
+            {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isArray}}
+            {{#items}}
+                {{#isDate}}
+    {{paramName}} = [util.deserialize_date(s) for s in {{paramName}}]
+                {{/isDate}}
+                {{#isDateTime}}
+    {{paramName}} = [util.deserialize_datetime(s) for s in {{paramName}}]
+                {{/isDateTime}}
+                {{#complexType}}
+    {{paramName}} = [{{complexType}}.from_dict(d) for d in {{paramName}}]
+                {{/complexType}}
+            {{/items}}
+        {{/isArray}}
+        {{#isMap}}
+            {{#items}}
+                {{#isDate}}
+    {{paramName}} = {k: util.deserialize_date(v) for k, v in {{paramName}}}
+                {{/isDate}}
+                {{#isDateTime}}
+    {{paramName}} = {k: util.deserialize_datetime(v) for k, v in {{paramName}}}
+                {{/isDateTime}}
+                {{#complexType}}
+    {{paramName}} = {k: {{baseType}}.from_dict(v) for k, v in {{paramName}}}
+                {{/complexType}}
+            {{/items}}
+        {{/isMap}}
+    {{/allParams}}
+    return web.Response(status=200)
+{{/operation}}
+{{/operations}}

@@ -1,0 +1,234 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import com.typesafe.config.Config;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Http;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
+import java.io.File;
+import play.libs.Files.TemporaryFile;
+{{^handleExceptions}}
+import java.io.IOException;
+{{/handleExceptions}}
+import openapitools.OpenAPIUtils;
+{{^useInterfaces}}
+import openapitools.SecurityAPIUtils;
+{{/useInterfaces}}
+import com.fasterxml.jackson.core.type.TypeReference;
+{{#supportAsync}}
+
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
+{{/supportAsync}}
+
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+import com.typesafe.config.Config;
+{{/useBeanValidation}}
+
+{{#wrapCalls}}
+import openapitools.OpenAPIUtils.ApiAction;
+{{/wrapCalls}}
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}}Controller extends Controller {
+    {{^controllerOnly}}
+    private final {{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp;
+    {{/controllerOnly}}
+    private final ObjectMapper mapper;
+    {{#useBeanValidation}}
+    private final Config configuration;
+    {{/useBeanValidation}}
+{{^useInterfaces}}
+    private final SecurityAPIUtils securityAPIUtils;
+{{/useInterfaces}}
+
+    @Inject
+    private {{classname}}Controller({{#useBeanValidation}}Config configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}{{^useInterfaces}}, SecurityAPIUtils securityAPIUtils{{/useInterfaces}}) {
+        {{^controllerOnly}}
+        this.imp = imp;
+        {{/controllerOnly}}
+        mapper = new ObjectMapper();
+        {{#useBeanValidation}}
+        this.configuration = configuration;
+        {{/useBeanValidation}}
+{{^useInterfaces}}
+        this.securityAPIUtils = securityAPIUtils;
+{{/useInterfaces}}
+    }
+
+{{#operation}}
+    {{#wrapCalls}}@ApiAction{{/wrapCalls}}
+    public {{#supportAsync}}CompletionStage<{{/supportAsync}}Result{{#supportAsync}}>{{/supportAsync}} {{operationId}}(Http.Request request{{#hasPathParams}}, {{/hasPathParams}}{{#pathParams}}{{>pathParams}}{{^-last}},{{/-last}}{{/pathParams}}) {{^handleExceptions}}{{#bodyParams}}throws IOException{{/bodyParams}}{{/handleExceptions}}{{#handleExceptions}}throws Exception{{/handleExceptions}} {
+        {{#bodyParams}}
+        {{^collectionFormat}}
+        JsonNode node{{paramName}} = request.body().asJson();
+        {{{dataType}}} {{paramName}};
+        if (node{{paramName}} != null) {
+            {{paramName}} = mapper.readValue(node{{paramName}}.toString(), {{#isContainer}}new TypeReference<{{{dataType}}}>(){}{{/isContainer}}{{^isContainer}}{{{dataType}}}.class{{/isContainer}});
+            {{#useBeanValidation}}
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                {{#isArray}}
+                for ({{{items.baseType}}} curItem : {{paramName}}) {
+                    OpenAPIUtils.validate(curItem);
+                }
+                {{/isArray}}
+                {{#isMap}}
+                for (Map.Entry<String, {{{items.baseType}}}> entry : {{paramName}}.entrySet()) {
+                    OpenAPIUtils.validate(entry.getValue());
+                }
+                {{/isMap}}
+                {{^isContainer}}
+                OpenAPIUtils.validate({{paramName}});
+                {{/isContainer}}
+            }
+            {{/useBeanValidation}}
+        } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
+            {{paramName}} = null;
+            {{/required}}
+        }
+        {{/collectionFormat}}
+        {{/bodyParams}}
+        {{#queryParams}}
+        {{#collectionFormat}}
+        String[] {{paramName}}Array = request.queryString().get("{{baseName}}");
+        {{#required}}
+        if ({{paramName}}Array == null) {
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+        }
+        {{/required}}
+        List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
+        for (String curParam : {{paramName}}List) {
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            }
+        }
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        String value{{paramName}} = request.getQueryString("{{baseName}}");
+        {{{dataType}}} {{paramName}};
+        if (value{{paramName}} != null) {
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};
+        } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
+            {{paramName}} = {{>paramDefaultValue}};
+            {{/required}}
+        }
+        {{/collectionFormat}}
+        {{/queryParams}}
+        {{#formParams}}
+        {{#isFile}}
+        Http.MultipartFormData<TemporaryFile> body{{paramName}} = request.body().asMultipartFormData();
+        {{{dataType}}} {{paramName}} = body{{paramName}}.getFile("{{baseName}}");
+        {{#required}}
+        if (({{paramName}} == null || {{paramName}}.getFileSize() == 0)) {
+            throw new IllegalArgumentException("'{{baseName}}' file cannot be empty");
+        }
+        {{/required}}
+        {{/isFile}}
+        {{^isFile}}
+        {{#collectionFormat}}
+        String[] {{paramName}}Array = request.body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}");
+        {{#required}}
+        if ({{paramName}}Array == null) {
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+        }
+        {{/required}}
+        List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
+        for (String curParam : {{paramName}}List) {
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            }
+        }
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        String[] value{{paramName}} = request.body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}");
+        {{{dataType}}} {{paramName}};
+        if (value{{paramName}} != null) {
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}[0]{{>conversionEnd}};
+        } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
+            {{paramName}} = {{>paramDefaultValue}};
+            {{/required}}
+        }
+        {{/collectionFormat}}
+        {{/isFile}}
+        {{/formParams}}
+        {{#headerParams}}
+        {{#collectionFormat}}
+        String[] {{paramName}}Array = request.getHeaders().getAll("{{baseName}}").toArray(new String[0]);
+        {{#required}}
+        if ({{paramName}}Array == null) {
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+        }
+        {{/required}}
+        List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
+        for (String curParam : {{paramName}}List) {
+            if (!curParam.isEmpty()) {
+                //noinspection UseBulkOperation
+                {{paramName}}.add({{>itemConversionBegin}}curParam{{>itemConversionEnd}});
+            }
+        }
+        {{/collectionFormat}}
+        {{^collectionFormat}}
+        String value{{paramName}} = request.header("{{baseName}}").orElse(null);
+        {{{dataType}}} {{paramName}};
+        if (value{{paramName}} != null) {
+            {{paramName}} = {{>conversionBegin}}value{{paramName}}{{>conversionEnd}};
+        } else {
+            {{#required}}
+            throw new IllegalArgumentException("'{{baseName}}' parameter is required");
+            {{/required}}
+            {{^required}}
+            {{paramName}} = {{>paramDefaultValue}};
+            {{/required}}
+        }
+        {{/collectionFormat}}
+        {{/headerParams}}
+        {{#useInterfaces}}
+        {{#controllerOnly}}
+        return ok();
+        {{/controllerOnly}}
+        {{^controllerOnly}}
+        {{#supportAsync}}
+        return imp.{{operationId}}Http(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{/supportAsync}}
+        {{^supportAsync}}
+        return imp.{{operationId}}Http(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        {{/supportAsync}}
+        {{/controllerOnly}}
+        {{/useInterfaces}}
+        {{^useInterfaces}}
+        {{>responseToResult}}
+        {{/useInterfaces}}
+    }
+
+{{/operation}}
+}
+{{/operations}}

@@ -1,0 +1,41 @@
+{{>licenseInfo}}
+{{#operations}}
+#ifndef {{apiHeaderGuardPrefix}}_{{classname}}GMock_H_
+#define {{apiHeaderGuardPrefix}}_{{classname}}GMock_H_
+
+#include <gmock/gmock.h>
+
+#include "{{classname}}.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+
+class {{declspec}} {{classname}}Mock : public I{{classname}}
+{
+public:
+    using Base = I{{classname}};
+
+    {{classname}}Mock() = default;
+    explicit {{classname}}Mock( std::shared_ptr<ApiClient> apiClient ) { };
+    ~{{classname}}Mock() override = default;
+
+    {{#operation}}
+    MOCK_METHOD{{allParams.size}}( {{operationId}}, pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> (
+        {{#allParams}}
+        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{^-last}},{{/-last}}
+        {{/allParams}}
+    ) );
+    {{/operation}}
+};
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{apiHeaderGuardPrefix}}_{{classname}}GMock_H_ */
+
+{{/operations}}

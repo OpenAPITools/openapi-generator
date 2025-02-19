@@ -1,0 +1,164 @@
+{{>partial_header}}
+--package {{packageName}}
+
+{{#operations}}
+local http_request = require "http.request"
+local http_util = require "http.util"
+local dkjson = require "dkjson"
+local basexx = require "basexx"
+
+-- model import
+{{#imports}}
+local {{{packageName}}}_{{import}} = require "{{{packageName}}}.model.{{import}}"
+{{/imports}}
+
+local {{{classname}}} = {}
+local {{{classname}}}_mt = {
+	__name = "{{{classname}}}";
+	__index = {{{classname}}};
+}
+
+local function new_{{classname}}(authority, basePath, schemes)
+	local schemes_map = {}
+	for _,v in ipairs(schemes) do
+		schemes_map[v] = v
+	end
+	local default_scheme = schemes_map.https or schemes_map.http
+	local host, port = http_util.split_authority(authority, default_scheme)
+	return setmetatable({
+		host = host;
+		port = port;
+		basePath = basePath or "{{{basePath}}}";
+		schemes = schemes_map;
+		default_scheme = default_scheme;
+		http_username = nil;
+		http_password = nil;
+		api_key = {};
+		access_token = nil;
+	}, {{{classname}}}_mt)
+end
+
+{{#operation}}
+function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+	local req = http_request.new_from_uri({
+		scheme = self.default_scheme;
+		host = self.host;
+		port = self.port;
+		path = string.format("%s{{{vendorExtensions.x-codegen-path}}}{{#queryParams}}{{#-first}}?{{/-first}}{{{baseName}}}=%s{{^-last}}&{{/-last}}{{/queryParams}}",
+			self.basePath{{#pathParams}}, {{paramName}}{{/pathParams}}{{#queryParams}}, http_util.encodeURIComponent({{paramName}}){{/queryParams}});
+	})
+
+	-- set HTTP verb
+	req.headers:upsert(":method", "{{httpMethod}}")
+	{{#hasConsumes}}
+	-- TODO: create a function to select proper accept
+	--local var_content_type = { {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }
+	req.headers:upsert("accept", {{#consumes}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/consumes}})
+
+	{{/hasConsumes}}
+	{{#hasProduces}}
+	-- TODO: create a function to select proper content-type
+	--local var_accept = { {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }
+	req.headers:upsert("content-type", {{#produces}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/produces}})
+
+	{{/hasProduces}}
+	{{#headerParams}}
+	if {{paramName}} then
+		req.headers:upsert("{{baseName}}", {{paramName}})
+	end
+	{{/headerParams}}
+	{{#formParams}}
+	{{#-first}}
+	req:set_body(http_util.dict_to_query({
+	{{/-first}}
+		["{{baseName}}"] = {{paramName}};
+	{{#-last}}
+	}))
+	{{/-last}}
+	{{/formParams}}
+	{{#bodyParams}}
+	req:set_body(dkjson.encode({{paramName}}))
+
+	{{/bodyParams}}
+	{{#authMethods}}
+	{{#isApiKey}}
+	{{#isKeyInHeader}}
+	-- api key in headers '{{keyParamName}}'
+	if self.api_key['{{{keyParamName}}}'] then
+		req.headers:upsert("{{{name}}}", self.api_key['{{{keyParamName}}}'])
+	end
+	{{/isKeyInHeader}}
+	{{#isKeyInQuery}}
+	-- TODO: api key in query '{{keyParamName}}'
+	{{/isKeyInQuery}}
+	{{/isApiKey}}
+	{{#isBasicBasic}}
+	-- HTTP basic auth
+	req.readers:upsert("authorization", "Basic " .. basexx.to_base64(self.http_username .. " " .. self.http_password))
+	{{/isBasicBasic}}
+	{{#isOAuth}}
+	-- oAuth
+	if self.access_token then
+		req.headers:upsert("authorization", "Bearer " .. self.access_token)
+	end
+	{{/isOAuth}}
+	{{/authMethods}}
+
+	-- make the HTTP call
+	local headers, stream, errno = req:go()
+	if not headers then
+		return nil, stream, errno
+	end
+	local http_status = headers:get(":status")
+	if http_status:sub(1,1) == "2" then
+		{{#returnType}}
+		local body, err, errno2 = stream:get_body_as_string()
+		-- exception when getting the HTTP body
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		local result, _, err3 = dkjson.decode(body)
+		-- exception when decoding the HTTP body
+		if result == nil then
+			return nil, err3
+		end
+		{{#returnTypeIsPrimitive}}
+		return result, headers
+		{{/returnTypeIsPrimitive}}
+		{{^returnTypeIsPrimitive}}
+		{{#isArray}}
+		for _, ob in ipairs(result) do
+			{{packageName}}_{{returnType}}.cast(ob)
+		end
+		return result, headers
+		{{/isArray}}
+		{{#isMap}}
+		return result, headers
+		{{/isMap}}
+		{{^isMap}}
+		{{^isArray}}
+		return {{packageName}}_{{returnType}}.cast(result), headers
+		{{/isArray}}
+		{{/isMap}}
+		{{/returnTypeIsPrimitive}}
+		{{/returnType}}
+		{{^returnType}}
+		return nil, headers
+		{{/returnType}}
+	else
+		local body, err, errno2 = stream:get_body_as_string()
+		if not body then
+			return nil, err, errno2
+		end
+		stream:shutdown()
+		-- return the error message (http body)
+		return nil, http_status, body
+	end
+end
+
+{{/operation}}
+return {
+	new = new_{{classname}};
+}
+{{/operations}}

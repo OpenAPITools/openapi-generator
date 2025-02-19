@@ -1,0 +1,142 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+import io
+import json
+import re
+
+from urllib.parse import urlencode
+import tornado
+import tornado.gen
+from tornado import httpclient
+from urllib3.filepost import encode_multipart_formdata
+
+from {{packageName}}.exceptions import ApiException, ApiValueError
+
+RESTResponseType = httpclient.HTTPResponse
+
+class RESTResponse(io.IOBase):
+
+    def __init__(self, resp) -> None:
+        self.response = resp
+        self.status = resp.code
+        self.reason = resp.reason
+        self.data = None
+
+    def read(self):
+        if self.data is None:
+            self.data = self.response.body
+        return self.data
+
+    def getheaders(self):
+        """Returns a CIMultiDictProxy of the response headers."""
+        return self.response.headers
+
+    def getheader(self, name, default=None):
+        """Returns a given response header."""
+        return self.response.headers.get(name, default)
+
+
+class RESTClientObject:
+
+    def __init__(self, configuration) -> None:
+
+        self.ca_certs = configuration.ssl_ca_cert
+        self.client_key = configuration.key_file
+        self.client_cert = configuration.cert_file
+
+        self.proxy_port = self.proxy_host = None
+
+        # https pool manager
+        if configuration.proxy:
+            self.proxy_port = 80
+            self.proxy_host = configuration.proxy
+
+        self.pool_manager = httpclient.AsyncHTTPClient()
+
+    @tornado.gen.coroutine
+    def request(
+        self,
+        method,
+        url,
+        headers=None,
+        body=None,
+        post_params=None,
+        _request_timeout=None
+    ):
+        """Execute Request
+
+        :param method: http request method
+        :param url: http request url
+        :param headers: http request headers
+        :param body: request json body, for `application/json`
+        :param post_params: request post parameters,
+                            `application/x-www-form-urlencoded`
+                            and `multipart/form-data`
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        """
+        method = method.upper()
+        assert method in [
+            'GET',
+            'HEAD',
+            'DELETE',
+            'POST',
+            'PUT',
+            'PATCH',
+            'OPTIONS'
+        ]
+
+        if post_params and body:
+            raise ApiValueError(
+                "body parameter cannot be used with post_params parameter."
+            )
+
+        request = httpclient.HTTPRequest(url)
+        request.allow_nonstandard_methods = True
+        request.ca_certs = self.ca_certs
+        request.client_key = self.client_key
+        request.client_cert = self.client_cert
+        request.proxy_host = self.proxy_host
+        request.proxy_port = self.proxy_port
+        request.method = method
+        if headers:
+            request.headers = headers
+        if 'Content-Type' not in headers:
+            request.headers['Content-Type'] = 'application/json'
+        request.request_timeout = _request_timeout or 5 * 60
+
+        post_params = post_params or {}
+
+        # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
+        if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
+            if re.search('json', headers['Content-Type'], re.IGNORECASE):
+                if body:
+                    body = json.dumps(body)
+                request.body = body
+            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
+                request.body = urlencode(post_params)
+            elif headers['Content-Type'] == 'multipart/form-data':
+                multipart = encode_multipart_formdata(post_params)
+                request.body, headers['Content-Type'] = multipart
+            # Pass a `bytes` parameter directly in the body to support
+            # other content types than Json when `body` argument is provided
+            # in serialized form
+            elif isinstance(body, bytes):
+                request.body = body
+            else:
+                # Cannot generate the request from given parameters
+                msg = """Cannot prepare a request message for provided
+                         arguments. Please check that your arguments match
+                         declared content type."""
+                raise ApiException(status=0, reason=msg)
+
+        r = yield self.pool_manager.fetch(request, raise_error=False)
+
+
+        r = RESTResponse(r)
+
+        raise tornado.gen.Return(r)

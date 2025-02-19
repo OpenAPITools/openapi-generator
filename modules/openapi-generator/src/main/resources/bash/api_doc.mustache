@@ -1,0 +1,51 @@
+# {{classname}}{{#description}}
+
+{{.}}{{/description}}
+
+All URIs are relative to *{{basePathWithoutHost}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+{{#operation}}
+
+## {{{operationId}}}
+
+{{{summary}}}{{#notes}}
+
+{{{.}}}{{/notes}}
+
+### Example
+
+```bash
+{{scriptName}} {{operationId}}{{#allParams}}{{#isPathParam}} {{baseName}}=value{{/isPathParam}}{{#isQueryParam}} {{#isContainer}} Specify as: {{#vendorExtensions}}{{#x-codegen-collection-multi}} {{baseName}}=value1 {{baseName}}=value2 {{baseName}}=...{{/x-codegen-collection-multi}}{{#x-codegen-collection-csv}} {{baseName}}="value1,value2,..."{{/x-codegen-collection-csv}}{{#x-codegen-collection-pipes}} {{baseName}}="value1|value2|..."{{/x-codegen-collection-pipes}}{{#x-codegen-collection-ssv}} {{baseName}}="value1 value2 ..."{{/x-codegen-collection-ssv}}{{#x-codegen-collection-tsv}} {{baseName}}="value1\\tvalue2\\t..."{{/x-codegen-collection-tsv}}{{/vendorExtensions}}{{/isContainer}}{{^isContainer}} {{baseName}}=value{{/isContainer}}{{/isQueryParam}}{{#isHeaderParam}} {{baseName}}:value{{/isHeaderParam}}{{#isBodyParam}}{{#vendorExtensions}}{{#x-codegen-body-example}} '{{{x-codegen-body-example}}}'{{/x-codegen-body-example}}{{/vendorExtensions}}{{/isBodyParam}}{{/allParams}}
+```
+
+### Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
+{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}{{/isFile}} | {{{description}}} |{{^required}} [optional]{{/required}}{{#defaultValue}} [default to {{.}}]{{/defaultValue}}
+{{/allParams}}
+
+### Return type
+
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}(empty response body){{/returnType}}
+
+### Authorization
+
+{{^authMethods}}No authorization required{{/authMethods}}{{#authMethods}}[{{{name}}}](../README.md#{{{name}}}){{^-last}}, {{/-last}}{{/authMethods}}
+
+### HTTP request headers
+
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}{{^consumes}}Not Applicable{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{^produces}}Not Applicable{{/produces}}
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+{{/operation}}
+{{/operations}}

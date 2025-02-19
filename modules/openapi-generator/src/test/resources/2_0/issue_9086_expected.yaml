@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: Buggy Api
+  version: "1.0"
+servers:
+  - url: /
+paths:
+  /foo/bar:
+    post:
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/_foo_bar_post_200_response'
+          description: ok
+  /foo/bar2:
+    post:
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/bar2'
+          description: ok
+components:
+  schemas:
+    bar2:
+      additionalProperties: false
+      example:
+        "n": 4.56
+      properties:
+        "n":
+          example: 4.56
+          type: number
+      type: object
+    _foo_bar_post_200_response:
+      additionalProperties: false
+      example:
+        "n": 1.23
+      properties:
+        "n":
+          example: 1.23
+          type: number
+      type: object
+x-original-swagger-version: "2.0"

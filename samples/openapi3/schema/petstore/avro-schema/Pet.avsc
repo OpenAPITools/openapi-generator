@@ -1,0 +1,57 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "A pet for sale in the pet store",
+  "name": "Pet",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "long"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "category",
+      "type": ["null", "model.Category"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": ""
+    },
+    {
+      "name": "photoUrls",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": ""
+    },
+    {
+      "name": "tags",
+      "type": ["null", {
+        "type": "array",
+        "items": "model.Tag"
+      }],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "status",
+      "type": ["null", {
+        "type": "enum",
+        "name": "Pet_status",
+        "symbols": [
+          "available",
+          "pending",
+          "sold"
+        ]
+      }],
+      "doc": "pet status in the store",
+      "default": null
+    }
+  ]
+
+}

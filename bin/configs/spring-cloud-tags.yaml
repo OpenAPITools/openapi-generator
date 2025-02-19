@@ -1,0 +1,13 @@
+generatorName: spring
+library: spring-cloud
+outputDir: samples/client/petstore/spring-cloud-tags
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-tags.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  documentationProvider: springfox
+  artifactId: spring-cloud-date-time
+  interfaceOnly: "true"
+  singleContentTypes: "true"
+  hideGenerationTimestamp: "true"
+  useTags: "false"
+  apiNameSuffix: "Controller"

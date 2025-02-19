@@ -1,0 +1,1 @@
+    public {{#returnType}}Single<{{{.}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}},{{/-last}}{{/allParams}});

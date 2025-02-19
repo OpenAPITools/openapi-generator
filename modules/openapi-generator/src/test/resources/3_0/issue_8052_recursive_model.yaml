@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  version: 01.01.00
+  title: APITest API documentation.
+  termsOfService: http://api.apitest.com/party/tos/
+servers:
+  - url: https://api.apitest.com/v1
+paths:
+  /geojson:
+    post:
+      summary: Add a GeoJson Object
+      operationId: post-geojson
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: string
+                description: GeoJson ID
+        '400':
+          description: Bad Request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoJsonGeometry'
+      parameters: []
+components:
+  schemas:
+    GeoJsonGeometry:
+      title: GeoJsonGeometry
+      description: GeoJSON geometry
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - GeometryCollection
+        geometries:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoJsonGeometry'
+      externalDocs:
+        url: http://geojson.org/geojson-spec.html#geometry-objects
+    Point:
+      title: Point
+      type: object
+      description: GeoJSON geometry
+      externalDocs:
+        url: http://geojson.org/geojson-spec.html#id2
+      properties:
+        coordinates:
+          title: Point3D
+          type: array
+          description: Point in 3D space
+          externalDocs:
+            url: http://geojson.org/geojson-spec.html#id2
+          minItems: 2
+          maxItems: 3
+          items:
+            type: number
+            format: double
+        type:
+          type: string
+          default: Point
+      required:
+        - type
+    GeometryCollection:
+      title: GeometryCollection
+      type: object
+      description: GeoJSon geometry collection
+      required:
+        - type
+        - geometries
+      externalDocs:
+        url: http://geojson.org/geojson-spec.html#geometrycollection
+      properties:
+        type:
+          type: string
+          default: GeometryCollection
+        geometries:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoJsonGeometry'

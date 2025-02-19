@@ -1,0 +1,17 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore
+  description: "sample spec"
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: /
+  - url: http://trailingshlash.io:80/v1/
+  - url: http://notrailingslash.io:80/v2
+tags: []
+paths: {}
+components:
+  schemas: {}
+  securitySchemes: {}

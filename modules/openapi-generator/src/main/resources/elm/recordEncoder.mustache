@@ -1,0 +1,35 @@
+{{#discriminator}}
+encode{{classname}} : {{classname}} -> Json.Encode.Value
+encode{{classname}} model =
+    case model of
+        {{classname}} subModel ->
+            encodeBase{{classname}} subModel{{#mappedModels}}
+
+        {{classname}}{{modelName}} subModel ->
+            {{#lambda.camelcase}}encode{{modelName}}WithTag{{/lambda.camelcase}} ("{{discriminatorName}}", "{{mappingName}}") subModel
+{{/mappedModels}}
+
+
+{{/discriminator}}
+{{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}{{/lambda.camelcase}} : {{#discriminator}}Base{{/discriminator}}{{classname}} -> Json.Encode.Value
+{{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}{{/lambda.camelcase}} =
+    encodeObject << {{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs{{/lambda.camelcase}}
+
+
+{{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}WithTag{{/lambda.camelcase}} : ( String, String ) -> {{#discriminator}}Base{{/discriminator}}{{classname}} -> Json.Encode.Value
+{{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}WithTag{{/lambda.camelcase}} (tagField, tag) model =
+    encodeObject ({{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs{{/lambda.camelcase}} model ++ [ encode tagField Json.Encode.string tag ])
+
+
+{{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs{{/lambda.camelcase}} : {{#discriminator}}Base{{/discriminator}}{{classname}} -> List EncodedField
+{{#lambda.camelcase}}encode{{#discriminator}}Base{{/discriminator}}{{classname}}Pairs{{/lambda.camelcase}} model =
+    let
+        pairs =
+{{#vars}}            {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
+{{/vars}}
+            ]
+    in
+    {{#parent}}{{#allOf}}{{#lambda.camelcase}}encode{{.}}Pairs{{/lambda.camelcase}} model.{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}} ++ {{/allOf}}{{/parent}}pairs{{#vars}}{{#isEnum}}
+
+{{>customTypeEncoder}}
+{{/isEnum}}{{/vars}}

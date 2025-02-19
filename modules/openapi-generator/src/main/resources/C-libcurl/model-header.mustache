@@ -1,0 +1,234 @@
+{{#models}}{{#model}}/*
+ * {{classFilename}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
+
+#include <string.h>
+#include "../external/cJSON.h"
+#include "../include/list.h"
+#include "../include/keyValuePair.h"
+#include "../include/binary.h"
+
+typedef struct {{classname}}_t {{classname}}_t;
+
+{{#imports}}
+#include "{{{.}}}.h"
+{{/imports}}
+
+{{#isEnum}}
+{{#allowableValues}}
+// Enum {{enumName}} for {{classVarName}}
+
+typedef enum { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
+{{/allowableValues}}
+
+char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
+
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}});
+
+//cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
+
+//{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
+
+{{/isEnum}}
+{{^isEnum}}
+{{#vars}}
+{{^isContainer}}
+    {{^isModel}}
+    {{#isEnum}}
+// Enum {{enumName}} for {{classVarName}}
+
+        {{#allowableValues}}
+typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
+        {{/allowableValues}}
+
+char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
+
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+
+    {{/isEnum}}
+    {{/isModel}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#items}}
+        {{^isModel}}
+        {{#isEnum}}
+// Enum {{enumName}} for {{classVarName}}
+
+            {{#allowableValues}}
+typedef enum  { {{projectName}}_{{classVarName}}_{{enumName}}_NULL = 0{{#enumVars}}, {{projectName}}_{{classVarName}}_{{enumName}}_{{{value}}}{{/enumVars}} } {{projectName}}_{{classVarName}}_{{enumName}}_e;
+            {{/allowableValues}}
+
+char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}});
+
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{name}}_FromString(char* {{name}});
+
+        {{/isEnum}}
+        {{/isModel}}
+        {{/items}}
+    {{/isContainer}}
+{{/vars}}
+
+
+typedef struct {{classname}}_t {
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{#isEnum}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}; //enum model
+    {{/isEnum}}
+    {{^isEnum}}
+    struct {{datatype}}_t *{{name}}; //model
+    {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{datatype}}_t *{{name}}; // custom
+    {{/isFreeFormObject}}
+    {{/isModel}}
+    {{#isUuid}}
+    {{datatype}} *{{name}}; // uuid
+    {{/isUuid}}
+    {{#isEmail}}
+    {{datatype}} *{{name}}; // email
+    {{/isEmail}}
+    {{#isFreeFormObject}}
+    {{datatype}}_t *{{name}}; //object
+    {{/isFreeFormObject}}
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    {{datatype}} {{name}}; //numeric
+    {{/isNumeric}}
+    {{#isBoolean}}
+    {{datatype}} {{name}}; //boolean
+    {{/isBoolean}}
+    {{#isEnum}}
+    {{#isString}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}; //enum
+    {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    {{datatype}} *{{name}}; // string
+    {{/isString}}
+    {{/isEnum}}
+    {{#isByteArray}}
+    {{datatype}} *{{name}}; //ByteArray
+    {{/isByteArray}}
+    {{#isBinary}}
+    {{datatype}} {{name}}; //binary
+    {{/isBinary}}
+    {{#isDate}}
+    {{datatype}} *{{name}}; //date
+    {{/isDate}}
+    {{#isDateTime}}
+    {{datatype}} *{{name}}; //date time
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isArray}}
+    {{#isPrimitiveType}}
+    {{datatype}}_t *{{name}}; //primitive container
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{datatype}}_t *{{name}}; //nonprimitive container
+    {{/isPrimitiveType}}
+    {{/isArray}}
+    {{#isMap}}
+    {{datatype}} {{name}}; //map
+    {{/isMap}}
+    {{/isContainer}}
+    {{/vars}}
+
+} {{classname}}_t;
+
+{{classname}}_t *{{classname}}_create(
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isModel}}
+    {{#isEnum}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{/isModel}}
+    {{^isModel}}
+    {{^isFreeFormObject}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isFreeFormObject}}
+    {{/isModel}}
+    {{#isUuid}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isUuid}}
+    {{#isEmail}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isEmail}}
+    {{#isFreeFormObject}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isFreeFormObject}}
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isNumeric}}
+    {{#isBoolean}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isBoolean}}
+    {{#isEnum}}
+    {{#isString}}
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isString}}
+    {{/isEnum}}
+    {{#isByteArray}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isByteArray}}
+    {{#isBinary}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isBinary}}
+    {{#isDate}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isDate}}
+    {{#isDateTime}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isArray}}
+    {{#isPrimitiveType}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isPrimitiveType}}
+    {{/isArray}}
+    {{#isMap}}
+    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{/isMap}}
+    {{/isContainer}}
+    {{/vars}}
+);
+
+void {{classname}}_free({{classname}}_t *{{classname}});
+
+{{classname}}_t *{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
+
+cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});
+
+{{/isEnum}}
+#endif /* _{{classname}}_H_ */
+{{/model}}{{/models}}

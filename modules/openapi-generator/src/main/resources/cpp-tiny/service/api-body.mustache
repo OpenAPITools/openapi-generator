@@ -1,0 +1,249 @@
+#include "{{classname}}.h"
+
+using namespace Tiny;
+
+{{#operations}}
+
+    {{! Method }}
+    {{#operation}}
+
+        Response<
+        {{#returnType}}
+            {{#returnContainer}}
+            {{#isArray}}
+            {{returnType}}<{{returnBaseType}}>
+            {{/isArray}}
+            {{#isMap}}
+            String
+            {{/isMap}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+            {{returnType}}
+            {{/returnContainer}}
+        {{/returnType}}
+        {{^returnType}}
+            String
+        {{/returnType}}
+        >
+        {{classname}}::
+        {{! Method name }}
+        {{nickname}}(
+        {{! Params }}
+        {{#allParams}}
+        {{! Arrays }}
+            {{#isContainer}}{{{dataType}}}<{{baseType}}> {{paramName}}{{/isContainer}}{{#isMap}}// TODO: Implement Maps{{/isMap}}
+            {{! Normal types/objects }}
+            {{^isContainer}}{{{dataType}}} {{paramName}}{{/isContainer}}
+            {{^-last}}, {{/-last}}
+        {{/allParams}}
+        )
+        {{! Method start}}
+        {
+            std::string url = basepath + "{{{path}}}"; //{{#pathParams}}{{{paramName}}} {{/pathParams}}
+
+
+            // Headers  | {{#headerParams}} {{paramName}} {{/headerParams}}
+        {{#headerParams}}
+            addHeader("{{baseName}}",{{paramName}});
+        {{/headerParams}}
+
+            // Query    | {{#queryParams}}{{paramName}} {{/queryParams}}
+        {{#queryParams}}
+        {{#isArray}}
+            for (auto &x : {{paramName}}){
+                addQueryParam("{{baseName}}", std::string(x));
+            }
+        {{/isArray}}
+        {{^isArray}}
+            addQueryParam("{{baseName}}",{{paramName}});
+        {{/isArray}}
+        {{/queryParams}}
+
+            // Form     | {{#formParams}}{{paramName}} {{/formParams}}
+        {{#hasFormParams}}
+            addHeader("Content-Type", "application/x-www-form-urlencoded");
+        {{/hasFormParams}}
+        {{#hasBodyParam}}
+            addHeader("Content-Type", "application/json");
+        {{/hasBodyParam}}
+
+        {{#formParams}}
+            {{#isArray}}
+            for (auto &x : {{paramName}}){
+                addFormParam("{{baseName}}", std::string(x));
+            }
+            {{/isArray}}
+            {{^isArray}}
+            addFormParam("{{baseName}}",{{paramName}});
+            {{/isArray}}
+        {{/formParams}}
+
+
+            {{#pathParams}}
+                std::string s_{{paramName}}("{");
+                s_{{paramName}}.append("{{{baseName}}}");
+                s_{{paramName}}.append("}");
+
+                int pos = url.find(s_{{paramName}});
+
+                url.erase(pos, s_{{paramName}}.length());
+                url.insert(pos, stringify({{paramName}}));
+            {{/pathParams}}
+
+
+            std::string payload = "";
+            // Send Request
+            // METHOD | {{httpMethod}}
+            // Body     | {{#bodyParam}}{{paramName}}{{/bodyParam}}
+            {{#bodyParam}}
+
+            {{#isContainer}}
+            {{#isArray}}
+            {{#items}}
+            {{#isPrimitiveType}}
+            bourne::json tmp_arr = bourne::json::array();
+            for(auto& var : {{paramName}})
+            {
+                tmp_arr.append(var);
+            }
+            payload = tmp_arr.dump();
+            {{/isPrimitiveType}}
+
+            {{^isPrimitiveType}}
+            bourne::json tmp_arr = bourne::json::array();
+            for(auto& var : {{paramName}})
+            {
+                auto tmp = var.toJson();
+                tmp_arr.append(tmp);
+
+            }
+            payload = tmp_arr.dump();
+            {{/isPrimitiveType}}
+            {{/items}}
+            {{/isArray}}
+            {{/isContainer}}
+
+            {{^isContainer}}
+            {{#isPrimitiveType}}
+            payload = stringify({{paramName}});
+            {{/isPrimitiveType}}
+
+            {{^isPrimitiveType}}
+            payload = {{paramName}}.toJson().dump();
+            {{/isPrimitiveType}}
+            {{/isContainer}}
+
+            {{/bodyParam}}
+            int httpCode = sendRequest(url, "{{httpMethod}}", reinterpret_cast<uint8_t*>(&payload[0]), payload.length());
+
+            // Handle Request
+            String output = getResponseBody();
+            std::string output_string = output.c_str();
+
+            {{#returnType}}
+
+            {{#returnContainer}}
+            {{#isArray}}
+
+            std::list<{{returnBaseType}}> obj = std::list<{{returnBaseType}}>();
+            bourne::json jsonPayload(output_string);
+
+            {{#returnBaseType}}
+
+            {{#isBool}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = var.to_bool();
+                obj.push_back(tmp);
+            }
+            {{/isBool}}
+
+            {{#isInteger}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = var.to_int();
+                obj.push_back(tmp);
+            }
+            {{/isInteger}}
+
+            {{#isLong}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = (long)(var.to_int());
+                obj.push_back(tmp);
+            }
+            {{/isLong}}
+
+            {{#isFloat}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = (float)(var.to_float());
+                obj.push_back(tmp);
+            }
+            {{/isFloat}}
+
+            {{#isString}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp = var.to_string();
+                obj.push_back(tmp);
+            }
+            {{/isString}}
+
+
+            {{^isBool}}{{^isInteger}}{{^isLong}}{{^isString}}{{^isFloat}}
+            for(auto& var : jsonPayload.array_range())
+            {
+                {{returnBaseType}} tmp(var.dump());
+                obj.push_back(tmp);
+            }
+            {{/isFloat}}{{/isString}}{{/isLong}}{{/isInteger}}{{/isBool}}
+
+            {{/returnBaseType}}
+
+            {{/isArray}}
+
+            {{#isMap}}
+            //TODO: Implement map logic here
+            {{/isMap}}
+
+            {{/returnContainer}}
+
+            {{^returnContainer}}
+            {{#returnTypeIsPrimitive}}
+            bourne::json jsonPayload(output_string);
+            {{returnType}} obj;
+            jsonToValue(&obj, jsonPayload, "{{returnType}}");
+            {{/returnTypeIsPrimitive}}
+
+            {{^returnTypeIsPrimitive}}
+            {{returnType}} obj(output_string);
+            {{/returnTypeIsPrimitive}}
+            {{/returnContainer}}
+
+            {{/returnType}}
+
+            {{#returnType}}
+            {{#returnContainer}}
+            {{#isArray}}
+            Response<{{returnType}}<{{returnBaseType}}>> response(obj, httpCode);
+            {{/isArray}}
+            {{#isMap}}
+            //TODO: No support for maps.
+            Response<String> response(output, httpCode);
+            {{/isMap}}
+            {{/returnContainer}}
+            {{^returnContainer}}
+            Response<{{returnType}}> response(obj, httpCode);
+            {{/returnContainer}}
+            {{/returnType}}
+            {{^returnType}}
+            Response<String> response(output, httpCode);
+            {{/returnType}}
+            return response;
+        }
+    {{/operation}}
+
+
+
+{{/operations}}

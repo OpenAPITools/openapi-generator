@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/petstore/java/jersey3-oneOf
+library: jersey3
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_additionalProperties.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: true

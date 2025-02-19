@@ -1,0 +1,11 @@
+extern crate {{classname}};
+
+pub fn main() {
+{{#allParams}}    let {{paramName}} = {{{example}}}; // {{{dataType}}}
+{{/allParams}}
+
+    let mut context = {{classname}}::Context::default();
+    let result = client.{{operationId}}({{#allParams}}{{paramName}}, {{/allParams}}&context).wait();
+
+    println!("{:?}", result);
+}

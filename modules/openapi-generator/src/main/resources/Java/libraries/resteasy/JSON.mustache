@@ -1,0 +1,48 @@
+{{>licenseInfo}}
+
+package {{invokerPackage}};
+
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.*;
+{{#openApiNullable}}
+import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
+import com.fasterxml.jackson.datatype.jsr310.*;
+
+import java.text.DateFormat;
+
+import {{javaxPackage}}.ws.rs.ext.ContextResolver;
+
+{{>generatedAnnotation}}
+public class JSON implements ContextResolver<ObjectMapper> {
+  private ObjectMapper mapper;
+
+  public JSON() {
+    mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}});
+    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
+    mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+    mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+    mapper.setDateFormat(new RFC3339DateFormat());
+    {{#openApiNullable}}
+    JsonNullableModule jnm = new JsonNullableModule();
+    mapper.registerModule(jnm);
+    {{/openApiNullable}}
+    mapper.registerModule(new JavaTimeModule());
+  }
+
+  /**
+   * Set the date format for JSON (de)serialization with Date properties.
+   * @param dateFormat the date format to set
+   */
+  public void setDateFormat(DateFormat dateFormat) {
+    mapper.setDateFormat(dateFormat);
+  }
+
+  @Override
+  public ObjectMapper getContext(Class<?> type) {
+    return mapper;
+  }
+}

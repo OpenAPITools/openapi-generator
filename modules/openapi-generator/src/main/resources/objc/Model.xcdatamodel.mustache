@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15D21" minimumToolsVersion="Xcode 7.0">
+
+    {{#models}}{{#model}}<entity name="{{{classname}}}ManagedObject" representedClassName="{{{classname}}}ManagedObject" syncable="YES">
+{{#isArray}}        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="{{{arrayModelType}}}ManagedObject" syncable="YES"/>
+{{/isArray}}{{^isArray}}{{#vars}}{{#complexType}}        <relationship name="{{name}}" {{^required}}optional="YES"{{/required}} {{#isArray}}toMany="YES" ordered="YES"{{/isArray}}{{^isArray}}maxCount="1"{{/isArray}} deletionRule="Cascade" destinationEntity="{{{complexType}}}ManagedObject" syncable="YES"/>{{/complexType}}{{^complexType}}        <attribute name="{{name}}" {{^required}}optional="YES"{{/required}} attributeType="{{#isString}}String{{/isString}}{{#isInteger}}Integer 16{{/isInteger}}{{#isLong}}Double{{/isLong}}{{#isDouble}}Double{{/isDouble}}{{#isFloat}}Float{{/isFloat}}{{#isByteArray}}Binary{{/isByteArray}}{{#isBinary}}Binary{{/isBinary}}{{#isArray}}Transformable{{/isArray}}{{#isMap}}Transformable{{/isMap}}{{#isBoolean}}Boolean{{/isBoolean}}{{#isDate}}Date{{/isDate}}{{#isDateTime}}Date{{/isDateTime}}" syncable="YES"/>{{/complexType}}{{#vendorExtensions.x-is-unique}}
+       <uniquenessConstraints><uniquenessConstraint><constraint value="{{name}}"/></uniquenessConstraint></uniquenessConstraints>{{/vendorExtensions.x-is-unique}}
+{{/vars}}
+{{/isArray}}
+    </entity>
+    {{/model}}{{/models}}
+</model>

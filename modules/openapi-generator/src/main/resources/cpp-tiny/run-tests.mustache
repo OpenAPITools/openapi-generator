@@ -1,0 +1,44 @@
+{{#models}}{{#model}}
+#include "{{classname}}Test.cpp"
+{{/model}}{{/models}}
+
+
+void setUp(){}
+
+void tearDown(){}
+
+void runTests(){
+    {{#models}}{{#model}}
+    {{#vars}}
+    {{#isPrimitiveType}}{{^isArray}}
+    RUN_TEST(test_{{classname}}_{{name}}_is_assigned_from_json);
+    {{/isArray}}{{/isPrimitiveType}}
+    {{/vars}}
+    {{/model}}{{/models}}
+
+    {{#models}}{{#model}}
+    {{#vars}}
+    {{#isPrimitiveType}}{{^isArray}}
+    RUN_TEST(test_{{classname}}_{{name}}_is_converted_to_json);
+    {{/isArray}}{{/isPrimitiveType}}
+    {{/vars}}
+    {{/model}}{{/models}}
+
+
+}
+
+int main(void) {
+    UNITY_BEGIN();
+    runTests();
+    return UNITY_END();
+}
+
+void setup() {
+    UNITY_BEGIN();
+    runTests();
+    UNITY_END();
+}
+
+void loop() {
+
+}

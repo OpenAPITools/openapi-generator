@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+                           http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+    <!-- JAXRS providers -->
+    <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+    <bean id="xmlProvider" class="com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider" />
+    <bean id="multipartProvider" class="org.apache.cxf.jaxrs.provider.MultipartProvider" />
+    <bean id="formEncodingProvider" class="org.apache.cxf.jaxrs.provider.FormEncodingProvider" />
+
+    <!-- Controller -->
+    <bean id="AnotherFakeApi" class="org.openapitools.api.impl.AnotherFakeApiServiceImpl" />
+    <bean id="FakeApi" class="org.openapitools.api.impl.FakeApiServiceImpl" />
+    <bean id="FakeClassnameTags123Api" class="org.openapitools.api.impl.FakeClassnameTags123ApiServiceImpl" />
+    <bean id="PetApi" class="org.openapitools.api.impl.PetApiServiceImpl" />
+    <bean id="StoreApi" class="org.openapitools.api.impl.StoreApiServiceImpl" />
+    <bean id="UserApi" class="org.openapitools.api.impl.UserApiServiceImpl" />
+
+    <cxf:bus>
+        <cxf:inInterceptors>
+        </cxf:inInterceptors>
+        <cxf:outInterceptors>
+        </cxf:outInterceptors>
+        <cxf:features>
+        </cxf:features>
+        <cxf:properties>
+            <entry key="javax.ws.rs.ext.ExceptionMapper" value-ref="exceptionMapper"/>
+        </cxf:properties>
+    </cxf:bus>
+
+    <bean id="exceptionMapper" class="org.apache.cxf.jaxrs.impl.WebApplicationExceptionMapper">
+        <property name="addMessageToResponse" value="true" />
+    </bean>
+
+    <!-- REST server -->
+    <jaxrs:server id="restServer" address="/services">
+        <jaxrs:serviceBeans>
+            <ref bean="AnotherFakeApi" />
+            <ref bean="FakeApi" />
+            <ref bean="FakeClassnameTags123Api" />
+            <ref bean="PetApi" />
+            <ref bean="StoreApi" />
+            <ref bean="UserApi" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+            <ref bean="xmlProvider" />
+            <ref bean="multipartProvider" />
+            <ref bean="formEncodingProvider" />
+        </jaxrs:providers>
+        <jaxrs:features>
+        </jaxrs:features>
+    </jaxrs:server>
+
+</beans>

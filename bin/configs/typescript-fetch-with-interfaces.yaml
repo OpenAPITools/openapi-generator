@@ -1,0 +1,6 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/with-interfaces
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  withInterfaces: "true"

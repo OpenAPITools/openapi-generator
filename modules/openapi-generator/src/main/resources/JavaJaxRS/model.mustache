@@ -1,0 +1,23 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+import java.util.Objects;
+{{#imports}}import {{import}};
+{{/imports}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+{{/jackson}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>pojo}}{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -1,0 +1,9 @@
+generatorName: typescript-node
+outputDir: samples/client/petstore/typescript-node/npm
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-node
+additionalProperties:
+  npmVersion: 0.0.1
+  npmName: '@openapitools/node-typescript-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

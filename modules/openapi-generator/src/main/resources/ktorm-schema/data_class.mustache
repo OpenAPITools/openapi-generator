@@ -1,0 +1,102 @@
+{{#vendorExtensions}}{{#x-ktorm-schema}}{{^discriminator}}
+/**
+ * {{{description}}}
+{{#allVars}}
+ * @param {{{name}}} {{{description}}}
+{{/allVars}}
+ */
+{{#isDeprecated}}
+@Deprecated(message = "This schema is deprecated.")
+{{/isDeprecated}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}object {{{classname}}}s : BaseTable<{{{classname}}}>("{{#tableDefinition}}{{{tblName}}}{{/tableDefinition}}") {
+{{#allVars}}
+{{^isArray}}
+{{#isEnum}}
+{{#required}}{{>data_class_enum_req}}{{/required}}{{^required}}{{>data_class_enum_opt}}{{/required}}
+{{/isEnum}}
+{{^isEnum}}
+{{#required}}{{>data_class_field_req}}{{/required}}{{^required}}{{>data_class_field_opt}}{{/required}}
+{{/isEnum}}
+{{/isArray}}
+{{/allVars}}
+
+    /**
+     * Create an entity of type {{{classname}}} from the model
+     */
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean) = {{{classname}}}(
+{{#allVars}}
+{{#vendorExtensions}}
+{{#x-ktorm-schema}}
+{{^isArray}}
+{{#relation}}
+{{#required}}{{>data_class_bind_ref_req}}{{/required}}{{^required}}{{>data_class_bind_ref_opt}}{{/required}}{{^-last}},{{/-last}}
+{{/relation}}
+{{^relation}}
+{{#required}}{{>data_class_bind_field_req}}{{/required}}{{^required}}{{>data_class_bind_field_opt}}{{/required}}{{^-last}},{{/-last}}
+{{/relation}}
+{{/isArray}}
+{{#isArray}}
+{{#required}}{{>data_class_bind_list_req}}{{/required}}{{^required}}{{>data_class_bind_list_opt}}{{/required}}{{^-last}},{{/-last}}
+{{/isArray}}
+{{/x-ktorm-schema}}
+{{/vendorExtensions}}
+{{/allVars}}
+    )
+
+    /**
+    * Assign all the columns from the entity of type {{{classname}}} to the DML expression.
+    *
+    * Usage:
+    *
+    * ```kotlin
+    * let entity = {{{classname}}}()
+    * database.update({{{classname}}}s, {
+    *     assignFrom(entity)
+    * })
+    * ```
+    * @return the builder with the columns for the update or insert.
+    */
+    fun AssignmentsBuilder.assignFrom(entity: {{{classname}}}) {
+        this.apply {
+{{#allVars}}
+{{^isArray}}
+{{>data_class_set}}
+{{/isArray}}
+{{/allVars}}
+        }
+    }
+
+}
+
+{{#allVars}}
+{{#isArray}}
+{{#vendorExtensions}}
+{{#x-ktorm-schema}}
+{{#isDeprecated}}
+@Deprecated(message = "This schema is deprecated.")
+{{/isDeprecated}}
+{{#relationDefinition}}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}object {{{relName}}} : BaseTable<Pair<{{{pkColKotlinType}}}, {{{fkColKotlinType}}}>>("{{{relTblName}}}") {
+    val {{{pkName}}} = {{{pkColType}}}("{{{pkColName}}}")
+    val {{{fkName}}} = {{{fkColType}}}("{{{fkColName}}}")
+
+    override fun doCreateEntity(row: QueryRowSet, withReferences: Boolean): Pair<{{{pkColKotlinType}}}, {{{fkColKotlinType}}}> =
+        Pair(row[{{{pkName}}}] ?: {{#pkIsString}}""{{/pkIsString}}{{#pkIsNumeric}}0{{/pkIsNumeric}}, row[{{{fkName}}}] ?: {{#fkIsString}}""{{/fkIsString}}{{#fkIsNumeric}}0{{/fkIsNumeric}})
+
+    fun AssignmentsBuilder.assignFrom(entity: Pair<{{{pkColKotlinType}}}, {{{fkColKotlinType}}}>) {
+        this.apply {
+            set({{{relName}}}.{{{pkName}}}, entity.first)
+            set({{{relName}}}.{{{fkName}}}, entity.second)
+        }
+    }
+
+}
+{{/relationDefinition}}
+{{/x-ktorm-schema}}
+{{/vendorExtensions}}
+{{/isArray}}
+{{/allVars}}
+{{/discriminator}}
+{{/x-ktorm-schema}}
+{{/vendorExtensions}}

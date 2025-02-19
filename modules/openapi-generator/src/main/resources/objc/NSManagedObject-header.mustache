@@ -1,0 +1,49 @@
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+{{>licenceInfo}}
+
+{{#imports}}#import "{{import}}ManagedObject.h"
+{{/imports}}
+{{newline}}
+{{#models}}
+{{#model}}
+
+NS_ASSUME_NONNULL_BEGIN
+{{#isArray}}
+
+@interface {{classname}}ManagedObject : NSManagedObject
+
+@property (nullable, nonatomic, retain) NSOrderedSet<{{{arrayModelType}}}ManagedObject*>* entries;
+
+{{/isArray}}{{^isArray}}
+@interface {{classname}}ManagedObject : {{#parent}}{{{.}}}ManagedObject{{/parent}}{{^parent}}NSManagedObject{{/parent}}
+
+{{#vars}}
+{{#description}}/* {{{description}}} {{^required}}[optional]{{/required}}
+ */{{/description}}
+@property (nullable, nonatomic, retain) {{^complexType}}{{{ datatype }}}{{/complexType}}{{#complexType}}{{#isArray}}NSOrderedSet<{{{complexType}}}ManagedObject*>*{{/isArray}}{{^isArray}}{{#isMap}}{{{ datatype }}}{{/isMap}}{{^isMap}}{{{complexType}}}ManagedObject*{{/isMap}}{{/isArray}}{{/complexType}} {{name}};
+{{/vars}}
+{{/isArray}}
+@end
+
+@interface {{classname}}ManagedObject (GeneratedAccessors)
+{{#isArray}}
+- (void)addEntriesObject:({{arrayModelType}}ManagedObject *)value;
+- (void)removeEntriesObject:({{arrayModelType}}ManagedObject *)value;
+- (void)addEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
+- (void)removeEntries:(NSOrderedSet<{{{arrayModelType}}}ManagedObject*> *)values;
+{{/isArray}}
+{{^isArray}}
+{{#vars}}{{#isArray}}{{#complexType}}- (void)add{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
+- (void)remove{{vendorExtensions.x-uppercase-name}}Object:({{complexType}}ManagedObject *)value;
+- (void)add{{vendorExtensions.x-uppercase-name}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
+- (void)remove{{vendorExtensions.x-uppercase-name}}:(NSOrderedSet<{{{complexType}}}ManagedObject*> *)values;
+{{/complexType}}{{/isArray}}{{/vars}}
+{{/isArray}}
+@end
+
+
+NS_ASSUME_NONNULL_END
+{{/model}}
+{{/models}}

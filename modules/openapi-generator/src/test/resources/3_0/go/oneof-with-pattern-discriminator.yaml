@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    rtmp_source:
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          pattern: "^rtmp://.+$"
+    hls_source:
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          description: this pattern is more complicated and requires escaping
+          pattern: "^hls://.+$|^http.*\\.m3u8$"
+    source:
+      oneOf:
+        - $ref: '#/components/schemas/rtmp_source'
+        - $ref: '#/components/schemas/hls_source'

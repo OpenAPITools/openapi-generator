@@ -1,0 +1,160 @@
+
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+
+using namespace Tiny;
+
+{{classname}}::{{classname}}()
+{
+    {{#vars}}
+	{{#isContainer}}
+	{{name}} = {{defaultValue}}<{{#items}}{{baseType}}{{/items}}>();
+	{{/isContainer}}
+	{{^isContainer}}
+	{{name}} = {{defaultValue}};
+	{{/isContainer}}
+	{{/vars}}
+}
+
+{{classname}}::{{classname}}(std::string jsonString)
+{
+	this->fromJson(jsonString);
+}
+
+{{classname}}::~{{classname}}()
+{
+
+}
+
+void
+{{classname}}::fromJson(std::string jsonObj)
+{
+    bourne::json object = bourne::json::parse(jsonObj);
+
+    {{#vars}}
+    const char *{{name}}Key = "{{baseName}}";
+
+    if(object.has_key({{name}}Key))
+    {
+        bourne::json value = object[{{name}}Key];
+
+        {{#isContainer}}
+        {{#isArray}}
+
+        std::list<{{#items}}{{dataType}}{{/items}}> {{name}}_list;
+        {{#items}}{{dataType}}{{/items}} element;
+        for(auto& var : value.array_range())
+        {
+            {{#items}}
+
+            {{#isPrimitiveType}}
+            jsonToValue(&element, var, "{{dataType}}");
+            {{/isPrimitiveType}}
+
+            {{^isPrimitiveType}}
+            element.fromJson(var.dump());
+            {{/isPrimitiveType}}
+
+            {{/items}}
+            {{name}}_list.push_back(element);
+        }
+        {{name}} = {{name}}_list;
+
+        {{/isArray}}
+        {{/isContainer}}
+
+        {{^isContainer}}
+
+        {{#isPrimitiveType}}
+        jsonToValue(&{{name}}, value, "{{baseType}}");
+        {{/isPrimitiveType}}
+
+        {{^isPrimitiveType}}
+        {{baseType}}* obj = &{{name}};
+		obj->fromJson(value.dump());
+        {{/isPrimitiveType}}
+
+        {{/isContainer}}
+    }
+
+    {{/vars}}
+
+}
+
+bourne::json
+{{classname}}::toJson()
+{
+    bourne::json object = bourne::json::object();
+
+    {{#vars}}
+
+    {{#isContainer}}
+    {{#isArray}}
+
+    {{#items}}
+    {{#isPrimitiveType}}
+
+    std::list<{{dataType}}> {{name}}_list = {{getter}}();
+    bourne::json {{name}}_arr = bourne::json::array();
+
+    for(auto& var : {{name}}_list)
+    {
+        {{name}}_arr.append(var);
+    }
+    object["{{name}}"] = {{name}}_arr;
+
+
+    {{/isPrimitiveType}}
+
+    {{^isPrimitiveType}}
+    std::list<{{dataType}}> {{name}}_list = {{getter}}();
+    bourne::json {{name}}_arr = bourne::json::array();
+
+    for(auto& var : {{name}}_list)
+    {
+        {{dataType}} obj = var;
+        {{name}}_arr.append(obj.toJson());
+    }
+    object["{{name}}"] = {{name}}_arr;
+
+    {{/isPrimitiveType}}
+    {{/items}}
+    {{/isArray}}
+    {{/isContainer}}
+
+
+    {{^isContainer}}
+
+    {{#isPrimitiveType}}
+    object["{{name}}"] = {{getter}}();
+    {{/isPrimitiveType}}
+
+    {{^isPrimitiveType}}
+	object["{{name}}"] = {{getter}}().toJson();
+    {{/isPrimitiveType}}
+
+    {{/isContainer}}
+    {{/vars}}
+
+    return object;
+
+}
+
+{{#vars}}
+{{dataType}}{{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}}
+{{classname}}::{{getter}}()
+{
+	return {{name}};
+}
+
+void
+{{classname}}::{{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<string, string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}})
+{
+	this->{{name}} = {{name}};
+}
+
+{{/vars}}
+
+
+{{/model}}
+{{/models}}

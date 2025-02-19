@@ -1,0 +1,16 @@
+{
+  "id" : "238a47e3-2533-41a4-ac62-f6654c936ada",
+  "request" : {
+    "url" : "/rest/project/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"id\":-3,\"name\":\"a third inactive project\",\"active\":false,\"projectLeads\":[{\"id\":-2,\"name\":\"another second lead\",\"userId\":\"tlead2\"},{\"id\":-1,\"name\":\"a first test lead and user\",\"userId\":\"tlead1\"}]},{\"id\":-2,\"name\":\"a second active project\",\"active\":true,\"projectLeads\":[{\"id\":-1,\"name\":\"a first test lead and user\",\"userId\":\"tlead1\"}]},{\"id\":-1,\"name\":\"a first active project\",\"active\":true,\"projectLeads\":[{\"id\":-2,\"name\":\"another second lead\",\"userId\":\"tlead2\"},{\"id\":-1,\"name\":\"a first test lead and user\",\"userId\":\"tlead1\"}]}]",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "238a47e3-2533-41a4-ac62-f6654c936ada"
+}

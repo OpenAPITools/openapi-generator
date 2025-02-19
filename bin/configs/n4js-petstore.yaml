@@ -1,0 +1,9 @@
+generatorName: n4js
+outputDir: samples/client/petstore/n4js
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/n4js
+additionalProperties:
+  apiPackage: "api"
+  modelPackage: "model"
+  fetchExecuterConstName: "FETCH_EXEC"
+  fetchExecuterConstImplPath: "FetchExecuterMock"

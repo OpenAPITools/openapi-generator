@@ -1,0 +1,30 @@
+{{>licenseInfo}}
+/*
+ * IHttpBody.h
+ *
+ * This is the interface for contents that can be sent to a remote HTTP server.
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_IHttpBody_H_
+#define {{modelHeaderGuardPrefix}}_IHttpBody_H_
+
+{{{defaultInclude}}}
+#include <iostream>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+class {{declspec}} IHttpBody
+{
+public:
+    virtual ~IHttpBody() { }
+
+    virtual void writeTo( std::ostream& stream ) = 0;
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_IHttpBody_H_ */

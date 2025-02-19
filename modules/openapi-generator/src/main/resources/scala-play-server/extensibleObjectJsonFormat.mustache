@@ -1,0 +1,25 @@
+{{#hasVars}}
+val realJsonFormat = Json.format[{{classname}}]
+val declaredPropNames = Set({{#vars}}"{{&name}}"{{^-last}}, {{/-last}}{{/vars}})
+
+Format(
+  Reads {
+    case JsObject(xs) =>
+      val declaredProps = xs.filterKeys(declaredPropNames)
+      val additionalProps = JsObject(xs -- declaredPropNames)
+      val restructuredProps = declaredProps + ("additionalProperties" -> additionalProps)
+      val newObj = JsObject(restructuredProps)
+      realJsonFormat.reads(newObj)
+    case _ =>
+      JsError("error.expected.jsobject")
+  },
+  Writes { {{classVarName}} =>
+    val jsObj = realJsonFormat.writes({{classVarName}})
+    val additionalProps = jsObj.value("additionalProperties").as[JsObject]
+    val declaredProps = jsObj - "additionalProperties"
+    val newObj = declaredProps ++ additionalProps
+    newObj
+  }
+){{/hasVars}}{{^hasVars}}
+{{>simpleParentJsonFormat}}
+{{/hasVars}}

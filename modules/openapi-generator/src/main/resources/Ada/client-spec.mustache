@@ -1,0 +1,28 @@
+{{>licenseInfo}}
+{{#imports}}with {{import}};
+{{/imports}}
+with {{package}}.Models;
+with {{openApiPackageName}}.Clients;
+{{#adaImports}}with {{name}};
+{{/adaImports}}
+package {{package}}.Clients is
+   pragma Style_Checks ("-bmrIu");
+
+   type Client_Type is new {{openApiPackageName}}.Clients.Client_Type with null record;
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+   --  {{summary}}{{#vendorExtensions.x-has-notes}}
+   --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
+   procedure {{operationId}}
+      (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
+       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};{{/-last}}{{/allParams}}{{#returnProperty}};
+       Result : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}});
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+end {{package}}.Clients;

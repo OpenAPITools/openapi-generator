@@ -1,0 +1,14 @@
+version: 2.0
+shards:
+  crest:
+    git: https://github.com/mamantoha/crest.git
+    version: 1.3.13
+
+  http-client-digest_auth:
+    git: https://github.com/mamantoha/http-client-digest_auth.git
+    version: 0.6.0
+
+  http_proxy:
+    git: https://github.com/mamantoha/http_proxy.git
+    version: 0.10.3
+

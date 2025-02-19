@@ -1,0 +1,68 @@
+swagger: '2.0'
+info:
+  description: "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  */ ' \" =end -- \r\n \n \r"
+  version: 1.0.0 */ ' " =end -- \r\n \n \r
+  title: OpenAPI Petstore */ ' " =end -- \r\n \n \r
+  termsOfService: http://url.to/terms/ */ ' " =end -- \r\n \n \r
+  contact:
+    email: something@something.abc */ ' " =end -- \r\n \n \r
+  license:
+    name: Apache-2.0 */ ' " =end -- \r\n \n \r
+    url: https://www.apache.org/licenses/LICENSE-2.0.html */ ' " =end -- \r\n \n \r
+host: petstore.swagger.io */ ' " =end -- \r\n \n \r
+basePath: /v2 */ ' " =end -- \r\n \n \r
+tags:
+  - name: fake
+    description: Everything about your Pets */ ' " =end -- \r\n \n \r
+    externalDocs:
+      description: Find out more */ ' " =end -- \r\n \n \r
+      url: 'https://openapis.org'
+schemes:
+  - http */ ' " =end -- \r\n \n \r
+paths:
+  /fake:
+    put:
+      tags:
+        - fake
+      summary: To test code injection */ ' " =end -- \r\n \n \r
+      description: To test code injection */ ' " =end -- \r\n \n \r
+      operationId: testCodeInject */ ' " =end -- \r\n \n \r
+      consumes:
+        - application/x-www-form-urlencoded
+        - "*/ ' \" =end -- \r\n \n \r"
+      produces:
+        - application/json
+        - "*/ ' \" =end -- \r\n \n \r"
+      parameters:
+        - name: test code inject */ ' " =end -- \r\n \n \r
+          type: string
+          in: formData
+          description: To test code injection */ ' " =end -- \r\n \n \r
+      responses:
+        '400':
+          description: To test code injection */ ' " =end -- \r\n \n \r
+securityDefinitions:
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+    flow: implicit
+    scopes:
+      'write:pets': modify pets in your account  */ ' " =end -- \r\n \n \r
+      'read:pets': read your pets  */ ' " =end -- \r\n \n \r
+  api_key:
+    type: apiKey
+    name: api_key  */ ' " =end -- \r\n \n \r
+    in: header
+definitions:
+  Return:
+    description: Model for testing reserved words  */ ' " =end -- \r\n \n \r
+    properties:
+      return:
+        description: property description  */ ' " =end -- \r\n \n \r
+        type: integer
+        format: int32
+    xml:
+      name: Return
+externalDocs:
+  description: Find out more about OpenAPI  */ ' " =end -- \r\n \n \r
+  url: 'https://openapis.org'

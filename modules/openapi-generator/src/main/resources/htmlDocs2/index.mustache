@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>{{{appName}}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8" />
+  {{>js_jquery}}
+  {{>js_prettify}}
+  {{>js_bootstrap}}
+  {{>marked}}
+  <script>
+    $( document ).ready(function() {
+      marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false
+      });
+
+      var textFile = null;
+
+      /// Function to be used to download a text json schema
+      function makeTextFile(text) {
+
+        var data = new Blob([text], {type: 'text/plain'});
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+          window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        a.href = textFile;
+        a.download = 'schema.txt';
+        a.click();
+
+        return textFile;
+      };
+
+      /// TODO: Implement resizing for expanding within iframe
+      function callResize() {
+        window.parent.postMessage('resize', "*");
+      }
+
+      function processMarked() {
+        $(".marked").each(function() {
+          $(this).html(marked($(this).html()));
+        });
+      }
+
+      // Bootstrap Scrollspy
+      $(this).scrollspy({ target: '#scrollingNav', offset: 18 });
+
+      // Content-Scroll on Navigation click.
+      $('.sidenav').find('a').on('click', function(e) {
+          e.preventDefault();
+          var id = $(this).attr('href');
+          if ($(id).length > 0)
+              $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 400);
+          window.location.hash = $(this).attr('href');
+      });
+
+      // Quickjump on Pageload to hash position.
+      if(window.location.hash) {
+          var id = window.location.hash;
+          if ($(id).length > 0)
+              $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 0);
+      }
+
+
+      function initDynamic() {
+        // tabs
+        $('.nav-tabs-examples a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+
+        $('.nav-tabs-examples').find('a:first').tab('show');
+
+        // call scrollspy refresh method
+        $(window).scrollspy('refresh');
+      }
+
+      initDynamic();
+
+      // Pre- / Code-Format
+      prettyPrint();
+
+      //Convert elements with "marked" class to markdown
+      processMarked();
+    });
+
+    function findNode(id, currentNode) {
+        var currentChild,
+            result;
+
+        if ( Object.keys(currentNode)[0] == id) {
+            return currentNode;
+        } else {
+            // Use a for loop instead of forEach to avoid nested functions
+            // Otherwise "return" will not work properly
+            for(var propt in currentNode){
+                if (currentNode.hasOwnProperty(propt)) {
+                    currentChild = currentNode[propt]
+                    if (id == propt) {
+                        return currentChild;
+                    } else {
+                        // Search in the current child
+                        if (typeof(currentChild) === 'object') {
+                            result = findNode(id, currentChild);
+                            if (result != false) {
+                                return result;
+                            }
+                        }
+                    }
+                }
+            }
+            // The node has not been found and we have no more options
+           return false;
+        }
+    }
+  </script>
+  <style type="text/css">
+    {{>fonts}}
+
+    {{>css_bootstrap}}
+    {{>css_prettify}}
+
+    {{>styles}}
+  </style>
+</head>
+<body>
+  <script>
+    // Script section to load models into a JS Var
+    var defs = {}
+    {{#models}}
+    {{#model}}
+    defs["{{name}}"] = {{{modelJson}}};
+    {{/model}}
+    {{/models}}
+
+    {{#aliasModels}}
+      {{#model}}
+        defs["{{name}}"] = {{{modelJson}}};
+      {{/model}}
+    {{/aliasModels}}
+
+    var errs = {};
+    {{#swagger.vendorExtensions.x-shared-errors}}
+    {
+      let err = {{{.}}};
+      errs[err.errorID] = err;
+    }
+    {{/swagger.vendorExtensions.x-shared-errors}}
+  </script>
+
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id="sidenav" class="span2">
+        <nav id="scrollingNav">
+          <ul class="sidenav nav nav-list">
+            <!-- Logo Area -->
+              <!--<div style="width: 80%; background-color: #4c8eca; color: white; padding: 20px; text-align: center; margin-bottom: 20px; ">
+
+              API Docs 2
+
+              </div>
+            -->
+            <li class="nav-fixed nav-header active" data-group="_"><a href="#api-_">API Summary</a></li>
+
+            {{#apiInfo}}
+              {{#apis}}
+                {{#operations}}
+                  <li class="nav-header" data-group="{{baseName}}"><a href="#api-{{baseName}}">API Methods - {{baseName}}</a></li>
+                  {{#operation}}
+                    <li data-group="{{baseName}}" data-name="{{nickname}}" class="">
+                      <a href="#api-{{baseName}}-{{nickname}}">{{nickname}}</a>
+                    </li>
+                  {{/operation}}
+                {{/operations}}
+              {{/apis}}
+            {{/apiInfo}}
+          </ul>
+        </nav>
+      </div>
+      <div id="content">
+        <div id="project">
+          <div class="pull-left">
+            <h1>{{{appName}}}</h1>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div id="header">
+          <div id="api-_">
+            <h2 id="welcome-to-apidoc">API and SDK Documentation</h2>
+            {{#version}}
+              <div class="app-desc">Version: {{{.}}}</div>
+            {{/version}}
+            <hr>
+            <div id="app-description" class="app-desc">
+                {{{appDescription}}}
+            </div>
+          </div>
+        </div>
+        <div id="sections">
+          {{#apiInfo}}
+            {{#apis}}
+              {{#operations}}
+                <section id="api-{{baseName}}">
+                  <h1>{{baseName}}</h1>
+                  {{#operation}}
+                    <div id="api-{{baseName}}-{{nickname}}">
+                      <article id="api-{{baseName}}-{{nickname}}-0" data-group="User" data-name="{{nickname}}" data-version="0">
+                        <div class="pull-left">
+                          <h1>{{nickname}}</h1>
+                          <p>{{summary}}</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">{{notes}}</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="{{httpMethod}}"><code><span class="pln">{{path}}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-{{baseName}}-{{nickname}}-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-java">Java</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-python">Python</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">{{>sample_curl}}</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-java">
+                            <pre class="prettyprint"><code class="language-java">{{>sample_java}}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">{{>sample_dart}}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-android">
+                            <pre class="prettyprint"><code class="language-java">{{>sample_android}}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">{{>sample_objc}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">{{>sample_js}}</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">{{>sample_csharp}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-php">
+                              <pre class="prettyprint"><code class="language-php">{{>sample_php}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">{{>sample_perl}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-python">
+                              <pre class="prettyprint"><code class="language-python">{{>sample_python}}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">{{>sample_rust}}</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            {{#authMethods}}{{#scopes}}
+                              <tr>
+                                <td>{{scope}}</td>
+                                <td>{{description}}</td>
+                              </tr>
+                            {{/scopes}}{{/authMethods}}
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                          {{#hasPathParams}}
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                {{#pathParams}}
+                                  {{>param}}
+                                {{/pathParams}}
+                            </table>
+                          {{/hasPathParams}}
+
+                          {{#hasHeaderParams}}
+                            <div class="methodsubtabletitle">Header parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                              {{#headerParams}}
+                                  {{>param}}
+                              {{/headerParams}}
+                            </table>
+                          {{/hasHeaderParams}}
+
+                          {{#hasBodyParam}}
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                              {{#bodyParams}}
+                                {{>paramB}}
+                              {{/bodyParams}}
+                            </table>
+                          {{/hasBodyParam}}
+
+                          {{#hasFormParams}}
+                            <div class="methodsubtabletitle">Form parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                              {{#formParams}}
+                                  {{>param}}
+                              {{/formParams}}
+                            </table>
+                          {{/hasFormParams}}
+
+                          {{#hasQueryParams}}
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                              {{#queryParams}}
+                                {{>param}}
+                              {{/queryParams}}
+                            </table>
+                          {{/hasQueryParams}}
+
+                          <h2>Responses</h2>
+                          {{#responses}}
+                            <h3 id="examples-{{baseName}}-{{nickname}}-title-{{code}}"></h3>
+                            <p id="examples-{{baseName}}-{{nickname}}-description-{{code}}" class="marked"></p>
+                            <script>
+                              var response{{baseName}}{{code}}_description = `{{{message}}}`;
+                              var response{{baseName}}{{code}}_description_break = response{{baseName}}{{code}}_description.indexOf('\n');
+                              if (response{{baseName}}{{code}}_description_break == -1) {
+                                $("#examples-{{baseName}}-{{nickname}}-title-{{code}}").text("Status: {{code}} - " + response{{baseName}}{{code}}_description);
+                              } else {
+                                $("#examples-{{baseName}}-{{nickname}}-title-{{code}}").text("Status: {{code}} - " + response{{baseName}}{{code}}_description.substring(0, response{{baseName}}{{code}}_description_break));
+                                $("#examples-{{baseName}}-{{nickname}}-description-{{code}}").html(response{{baseName}}{{code}}_description.substring(response{{baseName}}{{code}}_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-{{baseName}}-{{nickname}}-{{code}}" class="nav nav-tabs nav-tabs-examples" >
+                              {{#schema}}
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-{{baseName}}-{{nickname}}-{{code}}-schema">Schema</a>
+                                </li>
+
+                                {{#examples}}
+                                  <li class="">
+                                    <a data-toggle="tab" href="#responses-{{baseName}}-{{nickname}}-{{code}}-example">Response Example</a>
+                                  </li>
+                                {{/examples}}
+
+                              {{/schema}}
+
+                              {{#hasHeaders}}
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-headers">Headers</a>
+                                </li>
+                              {{/hasHeaders}}
+
+                              {{#vendorExtensions}}
+                                {{#x-shared-errors}}
+                                  <script>
+                                    $(document).ready(function()
+                                    {
+                                      var errRef = "{{{$ref}}}";
+                                      var errorID = errRef.substring(errRef.lastIndexOf("/") + 1);
+                                      var errorDef = errs[errorID];
+                                      var tabID = 'responses-detail-{{baseName}}-{{nickname}}-{{code}}-' + errorID;
+                                      var contentID = tabID + "-content";
+
+                                      $('#responses-detail-{{baseName}}-{{nickname}}-{{code}}').append("<li><a href='#" + tabID + "' data-toggle='tab'>" + errorID + "</a></li>");
+                                      var contentWrapper = $('#responses-{{baseName}}-{{nickname}}-{{code}}-wrapper');
+                                      contentWrapper.append('<div class="tab-pane" id="' + tabID + '"><div id="' + contentID + '" class="exampleStyle"></div></div>');
+                                      var contentPane = $('#' + contentID);
+
+                                      contentPane.append('<p>' + errorDef.message + '</p>');
+                                      if (errorDef.variables)
+                                      {
+                                        contentPane.append('<h4>Variables</h4>');
+                                        var lVars = $('<ol></ol>').appendTo(contentPane);
+                                        for (lii = 0; lii < errorDef.variables.length; lii++)
+                                        {
+                                          $("<li></li>").appendTo(lVars).text(errorDef.variables[lii]);
+                                        }
+                                      }
+                                    });
+                                  </script>
+                                {{/x-shared-errors}}
+                              {{/vendorExtensions}}
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-{{baseName}}-{{nickname}}-{{code}}-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-{{baseName}}-{{nickname}}-{{code}}-schema">
+                                <div id="responses-{{baseName}}-{{nickname}}-schema-{{code}}" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {{{jsonSchema}}};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-{{baseName}}-{{nickname}}-{{code}}-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-{{baseName}}-{{nickname}}-schema-{{code}}');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-{{baseName}}-{{nickname}}-{{code}}-schema-data' type='hidden' value=''></input>
+                              </div>
+                              {{#examples}}
+                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-{{code}}-example">
+                                  <pre class="prettyprint"><code class="json">{{example}}</code></pre>
+                                </div>
+                              {{/examples}}
+                              {{#hasHeaders}}
+                                  <div class="tab-pane" id="responses-{{nickname}}-{{code}}-headers">
+                                      <table>
+                                          <tr>
+                                              <th width="150px">Name</th>
+                                              <th width="100px">Type</th>
+                                              <th width="100px">Format</th>
+                                              <th>Description</th>
+                                          </tr>
+                                          {{#headers}}
+                                              <tr>
+                                                  <td>{{baseName}}</td>
+                                                  <td>{{#datatype}}{{dataType}}{{/datatype}}</td>
+                                                  <td>{{dataFormat}}</td>
+                                                  <td>{{description}}</td>
+                                              </tr>
+                                          {{/headers}}
+                                      </table>
+                                  </div>
+                              {{/hasHeaders}}
+                            </div>
+                          {{/responses}}
+                        </article>
+                      </div>
+                      <hr>
+                    {{/operation}}
+                  </section>
+                {{/operations}}
+              {{/apis}}
+            {{/apiInfo}}
+          </div>
+          <div id="footer">
+            <div id="api-_footer">
+              <p>Suggestions, contact, support and error reporting;
+                {{#infoUrl}}
+                  <div class="app-desc">Information URL: <a href="{{{infoUrl}}}">{{{infoUrl}}}</a></div>
+                {{/infoUrl}}
+                {{#infoEmail}}
+                  <div class="app-desc">Contact Info: <a href="{{{infoEmail}}}">{{{infoEmail}}}</a></div>
+                {{/infoEmail}}
+              </p>
+              {{#licenseInfo}}
+                <div class="license-info">{{{.}}}</div>
+              {{/licenseInfo}}
+              {{#licenseUrl}}
+                <div class="license-url">{{{.}}}</div>
+              {{/licenseUrl}}
+            </div>
+          </div>
+{{^hideGenerationTimestamp}}          <div id="generator">
+            <div class="content">
+              Generated {{generatedDate}}
+            </div>
+          </div>
+{{/hideGenerationTimestamp}}      </div>
+    </div>
+  </div>
+  {{>js_jsonformatter}}
+  {{>js_jsonschemaview}}
+  {{>js_json_schema_ref_parser}}
+  {{>js_json_stringify_safe}}
+  {{>js_webfontloader}}
+  <script>
+    var schemaWrapper = { "components": { "schemas" : defs}};
+    defsParser = new $RefParser();
+    defsParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  </script>
+  <script>
+  $(document).ready(function () {
+    $('.nav-tabs-examples').find('a:first').tab('show');
+    $(this).scrollspy({ target: '#scrollingNav', offset: 18 });
+  });
+  </script>
+</body>
+</html>

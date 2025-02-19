@@ -1,0 +1,35 @@
+input {
+  file {
+    path => ""
+    start_position => "beginning"
+
+  }
+}
+
+
+filter {
+       # pattern matching logback pattern
+       grok {
+
+       }
+
+
+}
+
+
+
+}
+
+output {
+  # Print each event to stdout, useful for debugging. Should be commented out in production.
+  # Enabling 'rubydebug' codec on the stdout output will make logstash
+  # pretty-print the entire event as something similar to a JSON representation.
+  stdout {
+    codec => rubydebug
+  }
+
+  # Sending properly parsed log events to elasticsearch
+  elasticsearch {
+    hosts => ["localhost:9200"]
+  }
+}

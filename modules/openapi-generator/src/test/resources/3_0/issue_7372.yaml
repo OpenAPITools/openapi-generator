@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+  title: foo
+  version: 1.0.0
+components:
+  schemas:
+    A:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/B'
+    B:
+      type: array
+      items:
+        type: object
+paths: {}

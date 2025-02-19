@@ -1,0 +1,16 @@
+package {{invokerPackage}}
+
+import {{akkaImportGroupId}}.http.scaladsl.Http
+import {{akkaImportGroupId}}.http.scaladsl.server.Route
+{{#apiInfo}}{{#apis}}{{#operations}}import {{package}}.{{classname}}
+{{/operations}}{{/apis}}{{/apiInfo}}
+import {{akkaImportGroupId}}.http.scaladsl.server.Directives._
+import {{akkaImportGroupId}}.actor.ActorSystem
+import {{akkaImportGroupId}}.stream.ActorMaterializer
+
+class Controller({{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}: {{classname}}{{^-last}}, {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}})(implicit system: ActorSystem, materializer: ActorMaterializer) {
+
+    lazy val routes: Route = {{#apiInfo}}{{#apis}}{{#operations}}{{classVarName}}.route {{^-last}}~ {{/-last}}{{/operations}}{{/apis}}{{/apiInfo}}
+
+    Http().bindAndHandle(routes, "0.0.0.0", 9000)
+}

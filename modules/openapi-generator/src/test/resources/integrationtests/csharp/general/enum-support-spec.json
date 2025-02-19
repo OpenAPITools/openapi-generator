@@ -1,0 +1,125 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1",
+    "title": "My title"
+  },
+  "host": "localhost:10010",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "getRoot",
+        "summary": "Root operation",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK Response"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "WeekDays": {
+      "type": "string",
+      "enum": [
+        "sun",
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ]
+    },
+    "My_Class_With_Optional_Enum": {
+      "properties": {
+        "quarantine": {
+          "type": "boolean"
+        },
+        "grayware": {
+          "type": "boolean"
+        },
+        "days": {
+          "$ref": "#/definitions/WeekDays"
+        }
+      }
+    },
+
+    "My_Class_With_Invalid_Required_Enum_Usage_On_Ref": {
+      "description": "Invalid use of required on $ref enum, per Swagger 2.0 spec: Any members other than '$ref' in a JSON Reference object SHALL be ignored. See My_Class_With_Required_Inline_Enum for appropriate usage.",
+      "properties": {
+        "first": {
+          "type": "boolean"
+        },
+        "days": {
+          "$ref": "#/definitions/WeekDays",
+          "required": true
+        },
+        "second": {
+          "type": "int"
+        }
+      }
+    },
+
+    "My_Class_With_Optional_Inline_Enum": {
+      "properties": {
+        "quarantine": {
+          "type": "boolean"
+        },
+        "grayware": {
+          "type": "boolean"
+        },
+        "days": {
+          "type": "string",
+          "enum": [
+            "sun",
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+          ]
+        }
+      }
+    },
+
+    "My_Class_With_Required_Inline_Enum": {
+      "required": [ "days" ],
+      "properties": {
+        "quarantine": {
+          "type": "boolean"
+        },
+        "grayware": {
+          "type": "boolean"
+        },
+        "days": {
+          "type": "string",
+          "enum": [
+            "sun",
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+          ]
+        }
+      }
+    }
+  }
+}

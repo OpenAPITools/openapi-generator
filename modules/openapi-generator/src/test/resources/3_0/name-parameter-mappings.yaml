@@ -1,0 +1,64 @@
+openapi: 3.0.0
+info:
+  description: To test name, parameter mapping options
+  version: 1.0.0
+  title: Dummy
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+        - name: http_debug_option
+          in: query
+          description: http debug option (to test parameter naming option)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+components:
+  schemas:
+    Environment:
+      properties:
+        dummy:
+          type: string
+    PropertyNameMapping:
+      properties:
+        http_debug_operation:
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string

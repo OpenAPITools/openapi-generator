@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  description: test
+  version: 1.0.0
+  title: test
+paths:
+  /test:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MySchemaName._-Characters'
+      responses:
+        '200':
+          description: the response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MySchemaName._-Characters'
+components:
+  schemas:
+    Parent:
+      properties:
+        objectType:
+          type: string
+      discriminator:
+        propertyName: objectType
+    ChildSchema:
+      description: A schema that does not have any special character.
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: object
+          properties:
+            prop1:
+              type: string
+    # Note: the name below with non-ASCII characters is a valid JSON schema name,
+    # however currently OpenAPI generator does not allow special characters beyond [.-_]
+    #
+    # The set of allowed characters for OpenAPI schema names is specified in RFC 8259
+    # at https://tools.ietf.org/html/rfc8259.
+    # The OpenAPI schema uses the JSON schema specification, which references RFC 8259.
+    # A string is a sequence of zero or more Unicode characters [UNICODE].
+    # Note that this citation references the latest version of Unicode
+    # rather than a specific release. Any character may be escaped.
+    # MySchemaNameWithUnusual#$12.3!@#%🍇🍅😀🏄🏾‍♂️Characters:
+    MySchemaName._-Characters:
+      description:
+        A schema name that has letters, numbers, punctuation and non-ASCII characters.
+        The sanitization rules should make it possible to generate a language-specific
+        classname with allowed characters in that programming language. 
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: object
+          properties:
+            prop2:
+              type: string
+    # Below is a schema with the same name, except special characters have been removed.
+    # This causes a codegen issue because the generated code will have exactly the same class name
+    # as the above 'MySchemaName._-Characters'.
+    # Hence the schema is commented out for now.
+    #
+    #MySchemaNameCharacters:
+    #  description:
+    #    A schema with same name as above, without the special characters. 
+    #  allOf:
+    #    - $ref: '#/components/schemas/Parent'
+    #    - type: object
+    #      properties:
+    #        prop2:
+    #          type: string

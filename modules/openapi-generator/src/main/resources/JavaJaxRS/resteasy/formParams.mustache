@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}@ApiParam(value = "{{{description}}}"{{#required}}, required=true{{/required}}{{#allowableValues}}, {{> allowableValues }}{{/allowableValues}}{{#defaultValue}}, defaultValue="{{{.}}}"{{/defaultValue}}) @FormParam("{{baseName}}") {{{dataType}}} {{paramName}}{{/isFile}}{{/isFormParam}}

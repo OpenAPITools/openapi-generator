@@ -1,0 +1,9 @@
+generatorName: typescript-redux-query
+outputDir: samples/client/petstore/typescript-redux-query/builds/with-npm-version
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-redux-query
+additionalProperties:
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-redux-query-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false

@@ -1,0 +1,37 @@
+{{>common/licenseInfo}}
+package {{controllerPackage}};
+
+import io.micronaut.http.annotation.Controller;
+{{#reactive}}
+import reactor.core.publisher.Mono;
+{{/reactive}}
+{{#wrapInHttpResponse}}
+import io.micronaut.http.HttpResponse;
+{{/wrapInHttpResponse}}
+import {{package}}.{{classname}};
+{{#imports}}
+import {{import}};
+{{/imports}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{#generateControllerFromExamples}}
+import java.util.Arrays;
+{{/generateControllerFromExamples}}
+
+
+@Controller
+public class {{controllerClassname}} extends {{classname}} {
+{{#operations}}
+    {{#operation}}
+    {{!the method definition}}
+    @Override
+    public {{>common/operationReturnType}} {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+{{>server/controllerOperationBody}}    }
+    {{^-last}}
+
+    {{/-last}}
+    {{/operation}}
+{{/operations}}
+}

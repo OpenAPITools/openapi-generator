@@ -1,0 +1,14 @@
+generatorName: bash
+outputDir: samples/client/petstore/bash
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/bash
+additionalProperties:
+  generateZshCompletion: true
+  hostEnvironmentVariable: PETSTORE_HOST
+  curlOptions: -sS --tlsv1.2
+  apiKeyAuthEnvironmentVariable: PETSTORE_API_KEY
+  processMarkdown: true
+  basicAuthEnvironmentVariable: PETSTORE_BASIC_AUTH
+  scriptName: petstore-cli
+  generateBashCompletion: true
+  hideGenerationTimestamp: "true"

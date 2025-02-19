@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Foo API
+servers:
+  - url: http://127.0.0.1:8080/{basePath}
+    variables:
+      basePath:
+        default: v1
+paths:
+  /foo:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                bar:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK

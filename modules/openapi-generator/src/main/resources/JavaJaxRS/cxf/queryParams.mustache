@@ -1,0 +1,1 @@
+{{#isQueryParam}}@QueryParam("{{baseName}}"){{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}} {{^isContainer}}{{#defaultValue}}@DefaultValue("{{{.}}}"){{/defaultValue}}{{/isContainer}}{{{dataType}}} {{paramName}}{{/isQueryParam}}

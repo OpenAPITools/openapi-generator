@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  title: test handle of free form query parameters
+  version: 0.0.1
+servers:
+  - url: "http://localhost"
+paths:
+  /some/endpoint:
+    get:
+      parameters:
+        - in: "query"
+          name: "free-form"
+          schema:
+            type: "object"
+          style: "form"
+      responses:
+        200:
+          description: "test"

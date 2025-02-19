@@ -1,0 +1,68 @@
+{{>licenseInfo}}
+
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import java.io.File
+
+import org.scalatra.ScalatraServlet
+import org.scalatra.swagger._
+import org.json4s._
+import org.json4s.JsonDSL._
+import org.scalatra.json.{ JValueResult, JacksonJsonSupport }
+import org.scalatra.servlet.{ FileUploadSupport, MultipartConfig, SizeConstraintExceededException }
+
+import scala.collection.JavaConverters._
+
+class {{classname}}(implicit val swagger: Swagger) extends ScalatraServlet
+  with FileUploadSupport
+  with JacksonJsonSupport
+  with SwaggerSupport {
+  protected implicit val jsonFormats: Formats = DefaultFormats
+
+  protected val applicationDescription: String = "{{classname}}"
+
+  before() {
+    contentType = formats("json")
+    response.headers += ("Access-Control-Allow-Origin" -> "*")
+  }
+{{#operations}}
+{{#operation}}
+  {{newline}}
+
+  val {{operationId}}Operation = (apiOperation[{{{returnType}}}{{^returnType}}Unit{{/returnType}}]("{{operationId}}")
+    summary "{{{summary}}}"
+    parameters({{#allParams}}{{>queryParam}}{{>pathParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{^-last}}, {{/-last}}{{/allParams}})
+  )
+
+  {{httpMethod}}("{{{vendorExtensions.x-scalatra-path}}}", operation({{operationId}}Operation)) {
+    {{#allParams}}
+    {{#isFile}}
+    val {{paramName}} = fileParams("{{paramName}}")
+    {{/isFile}}
+    {{^isFile}}
+    {{#isPathParam}}
+    val {{paramName}} = params.getOrElse("{{paramName}}", halt(400))
+    {{/isPathParam}}
+    {{#isQueryParam}}
+    {{>queryParamOperation}}
+    {{/isQueryParam}}
+    {{#isHeaderParam}}
+    {{>headerParamOperation}}
+    {{/isHeaderParam}}
+    {{#isFormParams}}
+    {{>formParamOperation}}
+    {{/isFormParams}}
+    {{#isBodyParams}}
+    {{>bodyParamOperation}}
+    {{/isBodyParams}}
+    {{/isFile}}
+    //println("{{paramName}}: " + {{paramName}})
+    {{/allParams}}
+  }
+
+{{/operation}}
+{{/operations}}
+}

@@ -1,0 +1,40 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Matrix Path Parameter Stuff",
+    "description": "This API shows the usage of path parameters in matrix style",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/plainMatrixParamFlat{matrixParam}/{simpleParam}": {
+      "parameters": [
+        {
+          "name": "matrixParam",
+          "in": "path",
+          "style": "matrix",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "simpleParam",
+          "in": "path",
+          "style": "simple",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "operationId": "plainMatrixParamFlat",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,174 @@
+import io.swagger.annotations.ApiModelProperty;
+{{#withXml}}
+import {{javaxPackage}}.xml.bind.annotation.XmlElement;
+import {{javaxPackage}}.xml.bind.annotation.XmlRootElement;
+import {{javaxPackage}}.xml.bind.annotation.XmlAccessType;
+import {{javaxPackage}}.xml.bind.annotation.XmlAccessorType;
+import {{javaxPackage}}.xml.bind.annotation.XmlType;
+import {{javaxPackage}}.xml.bind.annotation.XmlEnum;
+import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
+{{/withXml}}
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+{{#withXml}}
+@XmlAccessorType(XmlAccessType.FIELD)
+{{#hasVars}} @XmlType(name = "{{classname}}", propOrder =
+    { {{#vars}}"{{name}}"{{^-last}}, {{/-last}}{{/vars}}
+}){{/hasVars}}
+{{^hasVars}}@XmlType(name = "{{classname}}"){{/hasVars}}
+{{^parent}}@XmlRootElement(name="{{classname}}"){{/parent}}
+{{/withXml}}
+{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}
+/**
+ * {{{description}}}
+ */
+@ApiModel(description="{{{description}}}")
+{{/description}}{{>additionalModelTypeAnnotations}}
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{vendorExtensions.x-class-extra-annotation}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+  {{#vars}}{{#isEnum}}{{^isContainer}}
+{{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
+{{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+{{#description}}
+ /**
+  * {{{.}}}
+  */
+{{/description}}
+{{#withXml}}
+  @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
+{{/withXml}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+  @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
+{{#isDate}}
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+{{/isDate}}
+{{#isDateTime}}
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss.SSSX")
+{{/isDateTime}}
+{{#vendorExtensions.x-field-extra-annotation}}
+{{{vendorExtensions.x-field-extra-annotation}}}
+{{/vendorExtensions.x-field-extra-annotation}}
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/vars}}
+  {{#vars}}
+ /**
+  {{#description}}
+  * {{.}}
+  {{/description}}
+  {{^description}}
+  * Get {{name}}
+  {{/description}}
+  {{#minimum}}
+  * minimum: {{.}}
+  {{/minimum}}
+  {{#maximum}}
+  * maximum: {{.}}
+  {{/maximum}}
+  * @return {{name}}
+  */
+  @JsonProperty("{{baseName}}")
+{{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
+{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isArray}}{{^isMap}}public {{dataType}} {{getter}}() {
+    return {{name}} == null ? null : {{name}}.value();
+  }{{/isMap}}{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isArray}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isArray}}{{/isEnum}}{{#isEnum}}{{#isMap}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isMap}}{{/isEnum}}{{^isEnum}}public {{{datatypeWithEnum}}} {{getter}}() {
+    return {{name}};
+  }{{/isEnum}}
+
+  /**
+   * Sets the <code>{{name}}</code> property.
+{{#isReadOnly}}
+   * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
+{{/isReadOnly}}
+   */
+ {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
+ {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+  }
+
+  /**
+   * Sets the <code>{{name}}</code> property.
+{{#isReadOnly}}
+   * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
+{{/isReadOnly}}
+   */
+  public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    this.{{name}} = {{name}};
+    return this;
+  }
+  {{#isArray}}
+
+  /**
+   * Adds a new item to the <code>{{name}}</code> list.
+{{#isReadOnly}}
+   * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
+{{/isReadOnly}}
+   */
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    this.{{name}}.add({{name}}Item);
+    return this;
+  }
+  {{/isArray}}
+  {{#isMap}}
+
+  /**
+   * Puts a new item into the <code>{{name}}</code> map.
+{{#isReadOnly}}
+   * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
+{{/isReadOnly}}
+   */
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+    this.{{name}}.put(key, {{name}}Item);
+    return this;
+  }
+  {{/isMap}}
+
+  {{/vars}}
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    {{classname}} {{classVarName}} = ({{classname}}) o;{{#hasVars}}
+    return {{#parent}}super.equals(o) && {{/parent}}{{#vars}}Objects.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
+        {{/-last}}{{#-last}};{{/-last}}{{/vars}}{{/hasVars}}{{^hasVars}}{{#parent}}return super.equals(o);{{/parent}}{{^parent}}return true;{{/parent}}{{/hasVars}}
+  }
+
+  @Override
+  public int hashCode() {
+    return {{^hasVars}}{{#parent}}super.hashCode(){{/parent}}{{^parent}}1{{/parent}}{{/hasVars}}{{#hasVars}}Objects.hash({{#vars}}{{#parent}}super.hashCode(), {{/parent}}{{name}}{{^-last}}, {{/-last}}{{/vars}}){{/hasVars}};
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class {{classname}} {\n");
+    {{#parent}}sb.append("    ").append(toIndentedString(super.toString())).append("\n");{{/parent}}
+    {{#vars}}sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
+    {{/vars}}sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private static String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+}

@@ -1,0 +1,15 @@
+{{>noteinfo}}
+
+deferred class
+	AUTHENTICATION
+
+feature -- Access
+
+   apply_to_params(a_query_params: LIST [TUPLE [name:READABLE_STRING_8; value:READABLE_STRING_8]]; a_header_params: STRING_TABLE [READABLE_STRING_8])
+   			-- Apply authentication settings to header and query params.
+   			-- `a_query_params' List of query parameters.
+   			-- `a_header_params' Map of header parameters.
+   		deferred
+   		end
+
+end

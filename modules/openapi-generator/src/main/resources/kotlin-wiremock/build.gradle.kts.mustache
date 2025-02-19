@@ -1,0 +1,21 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+group = "{{groupId}}"
+version = "{{artifactVersion}}"
+
+tasks.wrapper {
+    gradleVersion = "8.7"
+}
+
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "11"
+}
+
+dependencies {
+    implementation(libs.wiremock)
+    implementation(libs.jackson.databind)
+}

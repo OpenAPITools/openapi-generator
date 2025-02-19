@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Whatever this is
+  description: whatever this description is
+
+servers:
+  - url: http://127.0.0.1:8080/{basePath}
+    variables:
+      basePath:
+        default: v1
+
+components:
+  schemas:
+    MyModel:
+      type: object
+      description: Description of a model
+      properties:
+        sortOrder:
+          type: string
+          enum: [asc, desc]

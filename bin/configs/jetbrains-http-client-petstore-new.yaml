@@ -1,0 +1,6 @@
+generatorName: jetbrains-http-client
+outputDir: samples/client/petstore/jetbrains/http/client
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/jetbrains-http-client
+additionalProperties:
+  hideGenerationTimestamp: "true"

@@ -1,0 +1,14 @@
+generatorName: javascript
+outputDir: samples/client/petstore/javascript-es6
+library: javascript
+inputSpec: modules/openapi-generator/src/test/resources/3_0/javascript/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/Javascript
+additionalProperties:
+  appName: PetstoreClient
+modelNameMappings:
+  HealthCheckResult: HealthCheckStatus
+parameterNameMappings:
+  query_1: queryOne
+# the following has no effect as js client gen use baseName directly
+nameMappings:
+  NullableMessage: nullable_field

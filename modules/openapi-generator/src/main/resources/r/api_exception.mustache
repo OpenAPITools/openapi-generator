@@ -1,0 +1,83 @@
+{{>partial_header}}
+{{! ApiException class for returning the ApiException object on encountering errors}}
+#' @docType class
+#' @title ApiException
+#' @description ApiException Class
+#' @format An \code{R6Class} generator object
+#' @field status Status of the ApiException
+#' @field reason Reason of the ApiException
+#' @field body Body of the http response
+#' @field headers Headers of the http response
+{{#errorObjectType}}
+#' @field error_object error object type
+{{/errorObjectType}}
+#' @export
+ApiException <- R6::R6Class(
+  "ApiException",
+  public = list(
+    status = NULL,
+    reason = NULL,
+    body = NULL,
+    headers = NULL,
+    {{#errorObjectType}}
+    error_object = NULL,
+    {{/errorObjectType}}
+
+    #' @description
+    #' Initialize a new ApiException class.
+    #'
+    #' @param status HTTP status.
+    #' @param reason Reason of the ApiException.
+    #' @param http_response HTTP response object.
+    initialize = function(status = NULL, reason = NULL, http_response = NULL) {
+      if (!is.null(http_response)) {
+        self$status <- http_response$status_code
+        errorMsg <- http_response$response
+        if (is.null(errorMsg) || errorMsg == "") {
+          errorMsg <- "Api exception encountered. No details given."
+        }
+        self$body <- errorMsg
+        self$headers <- http_response$headers
+        self$reason <- http_response$http_status_desc
+        {{#errorObjectType}}
+        self$error_object <- {{errorObjectType}}$new()$fromJSONString(http_response$response)
+        {{/errorObjectType}}
+      } else {
+        self$status <- status
+        self$reason <- reason
+        self$body <- NULL
+        self$headers <- NULL
+        {{#errorObjectType}}
+        self$error_object <- NULL
+        {{/errorObjectType}}
+      }
+    },
+
+    #' @description
+    #' Returns the string format of ApiException.
+    #'
+    #' @return the string format of ApiException.
+    toString = function() {
+      errorMsg <- ""
+      errorMsg <- paste("status : ", self$status, "\n", sep = "")
+      errorMsg <- paste(errorMsg, "Reason : ", self$reason, "\n", sep = "")
+      if (!is.null(self$headers)) {
+        errorMsg <- paste(errorMsg, "Headers : ", "\n", sep = "")
+        for (name in names(self$headers)) {
+          errorMsg <- paste(errorMsg, name, " : ", self$headers[[name]], "\n", sep = " ")
+        }
+      }
+      if (!is.null(self$body)) {
+        errorMsg <- paste(errorMsg, "Body : ", "\n", sep = "")
+        errorMsg <- paste(errorMsg, self$body, "\n")
+      }
+      {{#errorObjectType}}
+      if (!is.null(self$error_object)) {
+        errorMsg <- paste(errorMsg, "Error object : ", "\n", sep = "")
+        errorMsg <- paste(errorMsg, self$error_object$toJSONString(), "\n")
+      }
+      {{/errorObjectType}}
+      errorMsg
+    }
+  )
+)

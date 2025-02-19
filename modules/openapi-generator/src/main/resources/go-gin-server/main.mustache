@@ -1,0 +1,21 @@
+{{>partial_header}}
+package main
+
+import (
+	"log"
+
+	// WARNING!
+	// Pass --git-repo-id and --git-user-id properties when generating the code
+	//
+	sw "{{gitHost}}/{{gitUserId}}/{{gitRepoId}}{{#isGoSubmodule}}/{{packageName}}{{/isGoSubmodule}}/{{apiPath}}"
+)
+
+func main() {
+	routes := sw.ApiHandleFunctions{}
+
+	log.Printf("Server started")
+
+	router := sw.NewRouter(routes)
+
+	log.Fatal(router.Run(":{{serverPort}}"))
+}

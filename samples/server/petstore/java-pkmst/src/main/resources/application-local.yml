@@ -1,0 +1,46 @@
+# Discovery Server Access
+server:
+  port: 8080
+
+# Spring Actuator
+management:
+  health:
+    redis:
+      enabled: false
+  security:
+    enabled: false
+
+
+endpoints:
+  health:
+    sensitive: false
+
+info:
+  app:
+    name: Pkmst
+    description: Microservice developed by PKMST
+    version: 1.0.0
+    
+security:
+  basic:
+    enabled: false
+
+# provide rabbitmq configuration
+spring:
+  rabbitmq:
+    host:
+    virtual-host:
+    username:
+    password:
+    port:
+
+  sleuth:
+    sampler:
+      percentage: 1.0
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          sleuth: DEBUG
+          

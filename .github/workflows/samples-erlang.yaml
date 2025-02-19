@@ -1,0 +1,35 @@
+name: Samples Erlang
+
+on:
+  push:
+    paths:
+      - samples/server/echo_api/erlang-server/**
+      - samples/server/petstore/erlang-server/**
+      - samples/client/petstore/erlang-client/**
+      - samples/client/petstore/erlang-proper/**
+  pull_request:
+    paths:
+      - samples/server/echo_api/erlang-server/**
+      - samples/server/petstore/erlang-server/**
+      - samples/client/petstore/erlang-client/**
+      - samples/client/petstore/erlang-proper/**
+jobs:
+  build:
+    name: Build Erlang projects
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/server/echo_api/erlang-server/
+          - samples/server/petstore/erlang-server/
+          - samples/client/petstore/erlang-client/
+          - samples/client/petstore/erlang-proper/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: '27'
+          rebar3-version: '3.23.0'
+      - run: rebar3 compile
+        working-directory: ${{ matrix.sample }}

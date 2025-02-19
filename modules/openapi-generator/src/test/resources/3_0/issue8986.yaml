@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: My title
+  description: API under test
+  version: 1.0.7
+servers:
+  - url: https://localhost:9999/root
+paths:
+  /numericqueryparams:
+    get:
+      tags:
+        - user
+      summary: a test route for numeric query params
+      description: ''
+      operationId: numericQueryParams
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: int64
+          schema:
+            type: integer
+            format: int64
+            default: 100
+        - in: query
+          name: float
+          schema:
+            type: number
+            format: float
+            default: 3.14159
+        - in: query
+          name: double
+          schema:
+            type: number
+            format: double
+            default: 3.14159
+      responses:
+        default:
+          description: successful operation
+securityDefinitions: {}

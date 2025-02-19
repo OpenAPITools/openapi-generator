@@ -1,0 +1,15 @@
+{{#isPathParam}}{{!
+
+    }}@ApiParam(value = "{{{description}}}"{{!
+        }}{{#required}}, required = true{{/required}}{{!
+        }}{{#allowableValues}}, {{> allowableValues}}{{/allowableValues}}{{!
+        }}{{#defaultValue}}, defaultValue = "{{{.}}}"{{/defaultValue}}{{!
+    }}){{!
+
+    }} @PathParam("{{baseName}}"){{!
+
+    }}{{#useBeanValidation}} {{>beanValidation}}{{/useBeanValidation}}{{!
+
+    }} {{{dataType}}} {{paramName}}{{!
+
+}}{{/isPathParam}}

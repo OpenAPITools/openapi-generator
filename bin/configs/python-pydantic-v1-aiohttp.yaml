@@ -1,0 +1,8 @@
+generatorName: python-pydantic-v1
+outputDir: samples/openapi3/client/petstore/python-pydantic-v1-aiohttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-pydantic-v1
+library: asyncio
+additionalProperties:
+  packageName: petstore_api
+  mapNumberTo: float

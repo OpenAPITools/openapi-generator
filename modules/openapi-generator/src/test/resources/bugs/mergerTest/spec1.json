@@ -1,0 +1,74 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "description": "Specification to reproduce nullable issue with Array",
+    "title": "ArrayNullableTest Api"
+  },
+  "paths": {
+    "/spec1": {
+      "get": {
+        "tags": [
+          "spec1"
+        ],
+        "summary": "dummy",
+        "operationId": "spec1Operation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Spec1Model"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/spec1/complex/{param1}/path": {
+      "get": {
+        "tags": [
+          "spec1"
+        ],
+        "summary": "dummy",
+        "operationId": "spec1OperationComplex",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param1",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Spec1Model"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Spec1Model": {
+        "type": "object",
+        "properties": {
+          "spec1Field": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+import {ApiEntitiesRecord} from "./ApiEntitiesRecord";
+import {ReducerBuilder} from "redux-ts-simple";
+import {normalizedEntities} from "./runtimeSagasAndRecords";
+
+export const ApiEntitiesReducer = new ReducerBuilder(ApiEntitiesRecord())
+    .on(normalizedEntities, (state, action): ApiEntitiesRecord => {
+        const {entities} = action.payload;
+        return state.withMutations(mutableState => {
+            for (const entityKey in entities) {
+                const entityMap = entities[entityKey];
+                const currentEntityMap = mutableState.get(entityKey as any);
+                if (currentEntityMap) {
+                    let mergedEntityMap = currentEntityMap.mergeDeep(entityMap);
+                    if (!mergedEntityMap.equals(currentEntityMap)) {
+                        mutableState.set(entityKey as any, mergedEntityMap);
+                    }
+                }
+            }
+        });
+    })
+    .build();

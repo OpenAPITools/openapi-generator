@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>{{packageName}}</Description>
+    <Copyright>{{packageName}}</Copyright>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <DebugType>portable</DebugType>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <RunWorkingDirectory>$(MSBuildThisFileDirectory)</RunWorkingDirectory>
+    <AssemblyName>{{packageName}}</AssemblyName>
+    <PackageId>{{packageName}}</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Giraffe" Version="3.4.*" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.0.1" />
+    <PackageReference Include="AspNet.Security.ApiKey.Providers" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="openapi.yaml"/>
+    <Compile Include="helpers/Helpers.fs" />
+    {{#models}}
+    {{#model}}
+    <Compile Include="model/{{classname}}.fs" />
+    {{/model}}
+    {{/models}}
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    <Compile Include="api/{{classname}}HandlerParams.fs" />
+    <Compile Include="api/{{classname}}ServiceInterface.fs" />
+    <Compile Include="impl/{{classname}}Service.fs" />
+    <Compile Include="api/{{classname}}Handler.fs" />
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+    <Compile Include="impl/CustomHandlers.fs" />
+    <Compile Include="auth/AuthSchemes.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>

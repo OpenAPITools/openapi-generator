@@ -1,0 +1,30 @@
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Silex\Application;
+
+$app = new Silex\Application();
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+
+$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function(Application $app, Request $request{{#pathParams}}, ${{baseName}}{{/pathParams}}) {
+            {{#queryParams}}
+            ${{paramName}} = $request->get('{{paramName}}');
+            {{/queryParams}}
+            {{#formParams}}
+            ${{paramName}} = $request->get('{{paramName}}');
+            {{/formParams}}
+            return new Response('How about implementing {{operationId}} as a {{httpMethod}} method ?');
+            });
+
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+$app->run();

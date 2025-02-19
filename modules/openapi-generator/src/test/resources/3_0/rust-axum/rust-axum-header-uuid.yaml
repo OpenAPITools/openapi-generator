@@ -1,0 +1,32 @@
+# Test deserialization of uuid objects in headers
+openapi: 3.0.0
+info:
+  title: Sample API
+  version: 0.1.9
+paths:
+  /users:
+    post:
+      description: Adds a user to the users database table.
+      parameters: 
+        - $ref: "#/components/parameters/UuidHeaderParam"
+      responses:
+        "201": # status code
+          description: Added row to table!
+          content:
+            application/json:
+              schema:
+                type: string 
+components:
+  schemas: 
+      HeaderUuid:
+        type: string
+        format: uuid
+        example: a9f5a638-728c-479d-af9b-016eb8049ab6
+  parameters: 
+    UuidHeaderParam:
+      name: some_uid
+      in: header
+      required: true
+      description: A uuid transmitted in the header.
+      schema:
+        $ref: "#/components/schemas/HeaderUuid"

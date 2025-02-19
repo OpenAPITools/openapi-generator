@@ -1,0 +1,358 @@
+---
+swagger: '2.0'
+info:
+  version: 0.10.190
+  title: LUSID API
+paths:
+  "/api/instruments":
+    post:
+      tags:
+        - Instruments
+      summary: Upsert instruments
+      description: Upsert instruments
+      operationId: UpsertInstruments
+      consumes: []
+      produces:
+        - text/plain
+        - application/json
+        - text/json
+      parameters:
+        - name: requests
+          in: body
+          description: The instrument definitions
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              "$ref": "#/definitions/InstrumentDefinition"
+      responses:
+        '201':
+          description: Success
+          schema:
+            type: object
+            additionalProperties:
+              "$ref": "#/definitions/UpsertInstrumentsResponse"
+        '400':
+          description: The details of the input related failure
+          schema:
+            type: object
+            additionalProperties:
+              "$ref": "#/definitions/LusidValidationProblemDetails"
+        default:
+          description: Error response
+          schema:
+            type: object
+            additionalProperties:
+              "$ref": "#/definitions/LusidProblemDetails"
+definitions:
+  Link:
+    required:
+      - relation
+      - href
+      - method
+    type: object
+    properties:
+      relation:
+        enum:
+          - Root
+          - Properties
+          - Transactions
+          - Details
+          - Constituents
+          - Holdings
+          - Commands
+          - HoldingsAdjustments
+          - Parent
+          - PropertySchema
+          - EntitySchema
+          - NextPage
+          - PreviousPage
+          - Quote
+          - ConstituentsAdjustments
+          - Values
+        type: string
+      href:
+        type: string
+      description:
+        type: string
+      method:
+        enum:
+          - POST
+          - GET
+          - PATCH
+          - DELETE
+        type: string
+  LusidValidationProblemDetails:
+    required:
+      - name
+      - code
+    type: object
+    properties:
+      name:
+        type: string
+      errorDetails:
+        uniqueItems: false
+        type: array
+        items:
+          type: object
+          additionalProperties:
+            type: string
+      code:
+        format: int32
+        type: integer
+      errors:
+        type: object
+        additionalProperties:
+          uniqueItems: false
+          type: array
+          items:
+            type: string
+        readOnly: true
+      type:
+        type: string
+      title:
+        type: string
+      status:
+        format: int32
+        type: integer
+      detail:
+        type: string
+      instance:
+        type: string
+  LusidProblemDetails:
+    required:
+      - name
+      - code
+    type: object
+    properties:
+      name:
+        type: string
+      errorDetails:
+        uniqueItems: false
+        type: array
+        items:
+          type: object
+          additionalProperties:
+            type: string
+      code:
+        format: int32
+        type: integer
+      type:
+        type: string
+      title:
+        type: string
+      status:
+        format: int32
+        type: integer
+      detail:
+        type: string
+      instance:
+        type: string
+  ResourceId:
+    type: object
+    properties:
+      scope:
+        type: string
+      code:
+        type: string
+  Version:
+    description: Describes the version metadata of an entity.
+    type: object
+    properties:
+      effectiveFrom:
+        format: date-time
+        description: ''
+        type: string
+      asAtDate:
+        format: date-time
+        description: ''
+        type: string
+  ErrorDetail:
+    type: object
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      detail:
+        type: string
+  InstrumentDefinition:
+    required:
+      - name
+      - identifiers
+    type: object
+    properties:
+      name:
+        description: Required. The name of the instrument
+        type: string
+      identifiers:
+        description: Required. A set of identifiers that identify this instrument
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/InstrumentIdValue"
+      properties:
+        description: Optional. A collection of properties to upsert on the instrument.
+        uniqueItems: false
+        type: array
+        items:
+          "$ref": "#/definitions/InstrumentProperty"
+      lookThroughPortfolioId:
+        "$ref": "#/definitions/ResourceId"
+        description: Optional. The identifier of the portfolio that represents this
+          instrument.
+      definition:
+        "$ref": "#/definitions/InstrumentEconomicDefinition"
+        description: Expanded instrument definition
+  InstrumentIdValue:
+    required:
+      - value
+    type: object
+    properties:
+      value:
+        description: The value of the instrument id, which must not be empty or null.
+          e.g, 'BBG123456'
+        type: string
+      effectiveAt:
+        format: date-time
+        description: "The effective at date of the instrument id, which is optional.
+          The default value in the null case\r\nis DateTimeOffset.MinValue."
+        type: string
+  InstrumentProperty:
+    type: object
+    properties:
+      key:
+        description: The property key of the property, e.g, 'Instrument/default/Isin'
+        type: string
+      value:
+        "$ref": "#/definitions/PropertyValue"
+        description: The value of the property, which must not be empty or null. e.g,
+          'US0378331005'
+  InstrumentEconomicDefinition:
+    description: Expanded instrument definition
+    required:
+      - instrumentFormat
+      - content
+    type: object
+    properties:
+      instrumentFormat:
+        type: string
+      content:
+        type: string
+  PropertyValue:
+    type: object
+    properties:
+      labelValue:
+        description: ''
+        type: string
+      metricValue:
+        "$ref": "#/definitions/MetricValue"
+        description: ''
+      effectiveFrom:
+        format: date-time
+        description: Date for which the property is effective from
+        type: string
+  MetricValue:
+    type: object
+    properties:
+      value:
+        format: double
+        type: number
+      unit:
+        type: string
+  UpsertInstrumentsResponse:
+    type: object
+    properties:
+      href:
+        type: string
+      values:
+        description: The collection of upserted instruments with their latest parameters.
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/Instrument"
+      failed:
+        description: "If any instruments failed to be upserted, they will be listed
+          in 'Failed', along\r\nwith a reason why."
+        type: object
+        additionalProperties:
+          "$ref": "#/definitions/ErrorDetail"
+      links:
+        uniqueItems: false
+        type: array
+        items:
+          "$ref": "#/definitions/Link"
+  Instrument:
+    required:
+      - state
+    type: object
+    properties:
+      href:
+        type: string
+      lusidInstrumentId:
+        description: The lusid instrument id (LUID) of the instrument
+        type: string
+      version:
+        "$ref": "#/definitions/Version"
+        description: The version of the instrument
+      name:
+        description: The name of the instrument
+        type: string
+      identifiers:
+        description: The set of identifiers that can be used to uniquely identify
+          the instrument
+        type: object
+        additionalProperties:
+          type: string
+      properties:
+        description: "Any requested instrument properties. If no property can be found
+          for the instrument, then\r\na value of 'Unknown' will be returned"
+        uniqueItems: false
+        type: array
+        items:
+          "$ref": "#/definitions/Property"
+      lookthroughPortfolio:
+        "$ref": "#/definitions/ResourceId"
+        description: The lookthrough portfolio of the instrument (if any).
+      instrumentDefinition:
+        "$ref": "#/definitions/InstrumentEconomicDefinition"
+        description: The economic definition of the instrument for an OTC or instrument
+          where an expanded definition exists.
+      state:
+        enum:
+          - Active
+          - Inactive
+        type: string
+      links:
+        uniqueItems: false
+        type: array
+        items:
+          "$ref": "#/definitions/Link"
+  Property:
+    required:
+      - key
+      - value
+    type: object
+    properties:
+      key:
+        description: ''
+        type: string
+      value:
+        description: ''
+        type: object
+      unit:
+        description: ''
+        type: string
+      effectiveFrom:
+        format: date-time
+        description: Date for which the property is effective from
+        type: string
+securityDefinitions:
+  oauth2:
+    flow: implicit
+    authorizationUrl: https://lusid.okta.com/oauth2/aus5al5yopbHW2wJn2p6/v1/authorize
+    type: oauth2
+    description: OAuth2 Implicit Grant
+security:
+  - oauth2: []
+tags:
+  - name: Instruments
+    description: Methods for interacting with instruments

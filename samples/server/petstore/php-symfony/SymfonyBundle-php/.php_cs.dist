@@ -1,0 +1,20 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__)
+;
+
+return PhpCsFixer\Config::create()
+    ->setUsingCache(true)
+    ->setRules([
+        '@PSR2' => true,
+        'ordered_imports' => [
+            'sort_algorithm' => 'alpha'
+        ],
+        'phpdoc_order' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'strict_comparison' => true,
+        'strict_param' => true
+    ])
+    ->setFinder($finder)
+;

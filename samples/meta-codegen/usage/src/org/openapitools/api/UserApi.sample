@@ -1,0 +1,72 @@
+
+# This is a sample api mustache template.  It is representing a fictitious
+# language and won't be usable or compile to anything without lots of changes.
+# Use it as an example.  You can access the variables in the generator object
+# like such:
+
+# use the package from the `apiPackage` variable
+package: org.openapitools.api
+
+# operations block
+classname: UserApi
+
+# loop over each operation in the API:
+
+# each operation has an `operationId`:
+operationId: createUser
+
+# and parameters:
+user: User
+
+
+# each operation has an `operationId`:
+operationId: createUsersWithArrayInput
+
+# and parameters:
+user: List
+
+
+# each operation has an `operationId`:
+operationId: createUsersWithListInput
+
+# and parameters:
+user: List
+
+
+# each operation has an `operationId`:
+operationId: deleteUser
+
+# and parameters:
+username: String
+
+
+# each operation has an `operationId`:
+operationId: getUserByName
+
+# and parameters:
+username: String
+
+
+# each operation has an `operationId`:
+operationId: loginUser
+
+# and parameters:
+username: String
+password: String
+
+
+# each operation has an `operationId`:
+operationId: logoutUser
+
+# and parameters:
+
+
+# each operation has an `operationId`:
+operationId: updateUser
+
+# and parameters:
+username: String
+user: User
+
+
+# end of operations block

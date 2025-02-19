@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "OpenAPI Petstore"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "description": "get all pets in a household",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/Dog"
+        }, {
+          "$ref" : "#/components/schemas/Cat"
+        } ],
+        "discriminator": {
+          "propertyName": "type"
+        }
+      },
+      "Animal": {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "type" ]
+      },
+      "Dog": {
+        "allOf": [ {
+          "$ref": "#/components/schemas/Animal"
+        }, {
+          "type" : "object",
+          "title": "Dog",
+          "properties" : {
+            "type" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "required" : [ "type" ]
+      },
+      "Cat": {
+        "allOf": [ {
+          "$ref": "#/components/schemas/Animal"
+        }, {
+          "type" : "object",
+          "title": "Cat",
+          "properties" : {
+            "type" : {
+              "type" : "string"
+            }
+          }
+        } ],
+        "required" : [ "type" ]
+      }
+    }
+  }
+}

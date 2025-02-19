@@ -1,0 +1,78 @@
+abstract project Config is
+   for Source_Dirs use ();
+
+   type Yes_No is ("yes", "no");
+
+   type Library_Type_Type is ("relocatable", "static", "static-pic");
+
+   type Build_Type is ("distrib", "debug", "optimize", "profile", "coverage");
+   Mode : Build_Type := external ("BUILD", "debug");
+
+   Processors := External ("PROCESSORS", "1");
+
+   package Builder is
+       for Default_Switches ("Ada") use ("-j" & Processors);
+   end Builder;
+
+   package compiler is
+      warnings := ("-gnatwua");
+      defaults := ("-gnat2012");
+      case Mode is
+         when "distrib" =>
+            for Default_Switches ("Ada") use defaults & ("-O2", "-gnatafno", "-gnatVa", "-gnatwa");
+
+         when "debug" =>
+            for Default_Switches ("Ada") use defaults & warnings
+               & ("-g", "-gnata", "-gnatVaMI", "-gnaty3abcefhiklmnprstxM127");
+
+         when "coverage" =>
+            for Default_Switches ("Ada") use defaults & warnings
+               & ("-g", "-O2", "-gnata", "-gnatVaMI", "-gnaty3abcefhiklmnprstxM127",
+                  "-fprofile-arcs", "-ftest-coverage");
+
+         when "optimize" =>
+            for Default_Switches ("Ada") use defaults & warnings
+               & ("-O2", "-gnatn", "-gnatp", "-fdata-sections", "-ffunction-sections");
+
+         when "profile" =>
+            for Default_Switches ("Ada") use defaults & warnings & ("-pg");
+
+      end case;
+   end compiler;
+
+   package binder is
+      case Mode is
+         when "debug" =>
+            for Default_Switches ("Ada") use ("-E");
+
+         when others =>
+            for Default_Switches ("Ada") use ("-E");
+
+      end case;
+   end binder;
+
+   package linker is
+      case Mode is
+         when "profile" =>
+            for Default_Switches ("Ada") use ("-pg");
+
+         when "distrib" =>
+            for Default_Switches ("Ada") use ("-s");
+
+         when "optimize" =>
+            for Default_Switches ("Ada") use ("-Wl,--gc-sections");
+
+         when "coverage" =>
+            for Default_Switches ("ada") use ("-fprofile-arcs");
+
+         when others =>
+            null;
+      end case;
+
+   end linker;
+ 
+   package Ide is
+      for VCS_Kind use "git";
+   end Ide;
+
+end Config;

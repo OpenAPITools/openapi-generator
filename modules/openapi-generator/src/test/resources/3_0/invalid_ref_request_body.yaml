@@ -1,0 +1,30 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /resolve_request_body_invalid_ref:
+    post:
+      requestBody:
+        $ref: '#/components/schemas/Invalid'
+      operationId: resolveRequestBodyInvalidRef
+      responses:
+        '200':
+          description: OK
+components:
+  requestBodies: {}
+  schemas:
+    Users:
+      type: array
+      items:
+        title: User
+        type: object
+        properties:
+          street:
+            type: string
+          city:
+            type: string

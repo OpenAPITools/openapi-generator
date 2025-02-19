@@ -1,0 +1,130 @@
+#include "Pet.h"
+#include <string>
+#include <list>
+#include <unity.h>
+#include "bourne/json.hpp"
+
+void setUp(){
+}
+
+
+void tearDown(){
+}
+
+void test_id_is_assigned(){
+    bourne::json petJSON =
+    {
+        "id", 1
+    };
+
+    Tiny::Pet pet(petJSON.dump());
+
+
+    TEST_ASSERT_EQUAL_INT(1, pet.getId());
+}
+
+void test_name_is_assigned(){
+    bourne::json petJSON =
+    {
+        "name", "Shiba"
+    };
+
+    Tiny::Pet pet(petJSON.dump());
+
+    TEST_ASSERT_EQUAL_STRING("Shiba", pet.getName().c_str());
+
+}
+
+void test_status_is_assigned(){
+    bourne::json petJSON =
+    {
+        "status", "Sold"
+    };
+
+    Tiny::Pet pet(petJSON.dump());
+
+    TEST_ASSERT_EQUAL_STRING("Sold", pet.getStatus().c_str());
+}
+
+void test_category_object_is_assigned(){
+
+    bourne::json catJSON =
+    {
+        "id", 3,
+        "name", "Small dog"
+    };
+
+    bourne::json petJSON =
+    {
+        "category", catJSON,
+    };
+
+    Tiny::Pet pet(petJSON.dump());
+
+    TEST_ASSERT_EQUAL_STRING("Small dog", pet.getCategory().getName().c_str());
+    TEST_ASSERT_EQUAL_INT(3, pet.getCategory().getId());
+
+}
+
+
+void test_photo_string_list_is_assigned(){
+
+    std::list<std::string> photoList = {"url1", "url2", "url3", "url4"};
+
+    bourne::json photoARR = bourne::json::array("url1", "url2", "url3", "url4");
+
+    bourne::json petJSON =
+    {
+        "photoUrls", photoARR,
+    };
+
+    Tiny::Pet pet(petJSON.dump());
+
+    TEST_ASSERT(photoList == pet.getPhotoUrls());
+}
+
+void test_tags_object_list_is_assigned(){
+    bourne::json aTag =
+    {
+        "id", 2,
+        "name", "Hello"
+    };
+
+    bourne::json tagsARR = bourne::json::array(aTag);
+    bourne::json petJSON =
+    {
+        "tags", tagsARR,
+    };
+
+    Tiny::Pet pet(petJSON.dump());
+
+    TEST_ASSERT_EQUAL_INT(2, pet.getTags().front().getId());
+    TEST_ASSERT_EQUAL_STRING("Hello", pet.getTags().front().getName().c_str());
+}
+
+
+
+void runTests(){
+    RUN_TEST(test_id_is_assigned);
+    RUN_TEST(test_category_object_is_assigned);
+    RUN_TEST(test_name_is_assigned);
+    RUN_TEST(test_status_is_assigned);
+    RUN_TEST(test_photo_string_list_is_assigned);
+    RUN_TEST(test_tags_object_list_is_assigned);
+}
+
+int main(void) {
+    UNITY_BEGIN();
+    runTests();
+    return UNITY_END();
+}
+
+void setup() {
+    UNITY_BEGIN();
+    runTests();
+    UNITY_END();
+}
+
+void loop() {
+
+}

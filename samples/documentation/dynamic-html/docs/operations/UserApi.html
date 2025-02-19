@@ -1,0 +1,208 @@
+<div class="main-content">
+  <h2><a name=""></a></h2>
+  <p>This is the  API</p>
+
+  <h2><a name="createUser"></a>createUser</h2>
+  <hr>
+  <p></p>
+  <p>This can only be done by the logged in user.</p>
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      
+      
+      <span class="param-in">Body: </span>
+      <span class="param-name">User</span>
+      <span class="param-type">User(User)</span>
+      
+      <p class="param-description">Created user object</p>
+	  </li>
+  </ul>
+  <h2><a name="createUsersWithArrayInput"></a>createUsersWithArrayInput</h2>
+  <hr>
+  <p></p>
+  
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/createWithArray</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      
+      
+      <span class="param-in">Body: </span>
+      <span class="param-name">User</span>
+      <span class="param-type">List(User)</span>
+      
+      <p class="param-description">List of user object</p>
+	  </li>
+  </ul>
+  <h2><a name="createUsersWithListInput"></a>createUsersWithListInput</h2>
+  <hr>
+  <p></p>
+  
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/createWithList</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>POST</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      
+      
+      <span class="param-in">Body: </span>
+      <span class="param-name">User</span>
+      <span class="param-type">List(User)</span>
+      
+      <p class="param-description">List of user object</p>
+	  </li>
+  </ul>
+  <h2><a name="deleteUser"></a>deleteUser</h2>
+  <hr>
+  <p></p>
+  <p>This can only be done by the logged in user.</p>
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>DELETE</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">username</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The name that needs to be deleted</p>
+	  </li>
+  </ul>
+  <h2><a name="getUserByName"></a>getUserByName</h2>
+  <hr>
+  <p></p>
+  
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="User"><a href="">User</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">username</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The name that needs to be fetched. Use user1 for testing.</p>
+	  </li>
+  </ul>
+  <h2><a name="loginUser"></a>loginUser</h2>
+  <hr>
+  <p></p>
+  
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/login</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model="string"><a href="">String</a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">username</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The user name for login</p>
+	  </li>
+	  <li class="parameter">
+      
+      <span class="param-in">Query: </span>
+      
+      
+      
+      <span class="param-name">password</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">The password for login in clear text</p>
+	  </li>
+  </ul>
+  <h2><a name="logoutUser"></a>logoutUser</h2>
+  <hr>
+  <p></p>
+  
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/logout</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>GET</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+  </ul>
+  <h2><a name="updateUser"></a>updateUser</h2>
+  <hr>
+  <p></p>
+  <p>This can only be done by the logged in user.</p>
+  <h3 class="section">URL</h3>
+  <code>http://petstore.swagger.io/v2/user/{username}</code>
+  <h3 class="section">HTTP Method</h3>
+  <code>PUT</code>
+  <h3 class="section">Response Type</h3>
+  <div class="model" data-model=""><a href=""></a></div>
+  <h3 class="section">Parameters</h3>
+  <ul>
+	  <li class="parameter">
+      
+      
+      <span class="param-in">Path: </span>
+      
+      
+      <span class="param-name">username</span>
+      <span class="param-type">String</span>
+      
+      <p class="param-description">name that need to be deleted</p>
+	  </li>
+	  <li class="parameter">
+      
+      
+      
+      
+      <span class="param-in">Body: </span>
+      <span class="param-name">User</span>
+      <span class="param-type">User(User)</span>
+      
+      <p class="param-description">Updated user object</p>
+	  </li>
+  </ul>
+</div>

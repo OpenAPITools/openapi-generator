@@ -1,0 +1,92 @@
+<!--
+  ~ Copyright 2020, 2021 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>common.maven</groupId>
+    <artifactId>common-maven</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>OpenAPI Generator Configuration Test</name>
+    <url>https://openapi-generator.tech/</url>
+    <profiles>
+        <profile>
+            <id>file</id>
+            <properties>
+                <inputSpec>${basedir}/src/main/resources/petstore.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>resource</id>
+            <properties>
+                <inputSpec>petstore-on-classpath.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>resource-external-ref</id>
+            <properties>
+                <!-- Directory schemas inside schema-external-ref to not shadow JARs schema directory   -->
+                <inputSpec>schema-external-ref/petstore-on-classpath.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>jar</id>
+            <properties>
+                <inputSpec>jar:file:${basedir}/local-repo/petstore/schema/1/schema-1.jar!/petstore.yaml</inputSpec>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>petstore</groupId>
+                    <artifactId>schema</artifactId>
+                    <version>1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+    <build>
+        <finalName>common-maven</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <configuration>
+                    <inputSpec>${inputSpec}</inputSpec>
+                    <generatorName>java</generatorName>
+                    <configOptions>
+                        <dateLibrary>joda</dateLibrary>
+                    </configOptions>
+                    <apiNameSuffix>Suffix</apiNameSuffix>
+                    <library>jersey2</library>
+                    <output>${basedir}/target/generated-sources/common-maven/remote-openapi</output>
+                    <apiPackage>remote.org.openapitools.client.api</apiPackage>
+                    <modelPackage>remote.org.openapitools.client.model</modelPackage>
+                    <invokerPackage>remote.org.openapitools.client</invokerPackage>
+                    <collapsedSpec>petstore-full-spec</collapsedSpec>
+                    <includeCollapsedSpecInArtifacts>true</includeCollapsedSpecInArtifacts>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>executionId</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

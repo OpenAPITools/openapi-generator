@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "include": [
+    "builds/composed-schemas/index.ts",
+    "builds/composed-schemas-tagged-unions/index.ts"
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "downlevelIteration": true,
+    "module": "es2022",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noEmit": true,
+    "target": "es2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2022",
+      "dom"
+    ]
+  }
+}

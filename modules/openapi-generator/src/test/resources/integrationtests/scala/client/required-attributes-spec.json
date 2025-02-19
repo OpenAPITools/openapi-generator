@@ -1,0 +1,340 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1",
+    "title": "Scala Client API Integration Test"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/people": {
+      "get": {
+        "tags": [
+          "People"
+        ],
+        "operationId": "getPeople",
+        "summary": "People listing",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Limit results to people of a certain age.",
+            "name": "age",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK Response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Person"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "People"
+        ],
+        "operationId": "savePeople",
+        "summary": "People batch save",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "Batch input of people to save",
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Person"
+              }
+            }
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Explicitly sets the batch size",
+            "name": "size",
+            "required": false,
+            "in": "query",
+            "minimum": "10",
+            "maximum": "250",
+            "default": "25"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 OK Response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Person"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/people/{personId}": {
+      "get": {
+        "tags": [
+          "People"
+        ],
+        "summary": "get people by id",
+        "description": "Retrieves a single person record by personId",
+        "operationId": "getPersonById",
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The person requested",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "404": {
+            "description": "No person with the provided id was found"
+          },
+          "400": {
+            "description": "Invalid person id"
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The person's ID.",
+            "name": "personId",
+            "required": true,
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/hobbies": {
+      "get": {
+        "tags": [
+          "Hobbies"
+        ],
+        "summary": "Get hobbies",
+        "description": "Query hobbies with some additional optional meaningless parameters",
+        "operationId": "getHobbies",
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of hobbies",
+            "schema": {
+              "type": "array",
+              "$ref": "#/definitions/Hobby"
+            }
+          },
+          "404": {
+            "description": "No hobbies."
+          },
+          "400": {
+            "description": "There was an issue with your request."
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "description": "a string",
+            "name": "s",
+            "required": false,
+            "in": "query",
+            "default": "some string"
+          },
+          {
+            "type": "string",
+            "description": "a string, testing keyword escaping",
+            "name": "class",
+            "required": false,
+            "in": "query",
+            "default": "some string"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "an integer",
+            "name": "i",
+            "required": false,
+            "in": "query",
+            "default": 1
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "a long",
+            "name": "l",
+            "required": false,
+            "in": "query",
+            "default": 2
+          },
+          {
+            "type": "boolean",
+            "description": "a bool",
+            "name": "bool",
+            "required": false,
+            "in": "query",
+            "default": true
+          },
+          {
+            "type": "number",
+            "format": "float",
+            "description": "a float",
+            "name": "f",
+            "required": false,
+            "in": "query",
+            "default": 0.1
+          },
+          {
+            "type": "number",
+            "format": "double",
+            "description": "a double",
+            "name": "d",
+            "required": false,
+            "in": "query",
+            "default": 10.005
+          },
+          {
+            "type": "string",
+            "format": "date-time",
+            "description": "a date time",
+            "name": "datetime",
+            "required": false,
+            "in": "query",
+            "default": "2018-01-01T08:30:00Z-04:00"
+          },
+          {
+            "type": "string",
+            "format": "date",
+            "description": "a date",
+            "name": "date",
+            "required": false,
+            "in": "query",
+            "default": "2018-01-01"
+          },
+          {
+            "type": "string",
+            "format": "byte",
+            "description": "a base64 encoded string",
+            "name": "b",
+            "required": false,
+            "in": "query",
+            "default": "c3dhZ2dlciBjb2RlZ2Vu"
+          },
+          {
+            "type": "string",
+            "format": "binary",
+            "description": "an octet string",
+            "name": "bin",
+            "required": false,
+            "in": "query",
+            "default": "DEADBEEF"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Person": {
+      "type": "object",
+      "required": ["id","firstName","lastName"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "text"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "text"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Hobby": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "default": -1
+        },
+        "name": {
+          "type": "string",
+          "default": "Hobby Name"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "default": 1
+        },
+        "rate": {
+          "type": "number",
+          "format": "float",
+          "default": 10.0
+        },
+        "ratio": {
+          "type": "number",
+          "format": "double",
+          "default": 0.0005
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "created": {
+          "type": "string",
+          "format": "date",
+          "default": "2018-01-01"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "default": "2018-01-02T23:58:43.066-05:00"
+        },
+        "bytes": {
+          "type": "string",
+          "format": "byte",
+          "default": "c3dhZ2dlciBjb2RlZ2Vu"
+        },
+        "binary": {
+          "type": "string",
+          "example": "binary",
+          "default": "DEADBEEF"
+        }
+      }
+    }
+  }
+}

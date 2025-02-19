@@ -1,0 +1,21 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "",
+  "name": "InlineObject1",
+  "fields": [
+    {
+      "name": "additionalMetadata",
+      "type": ["null", "string"],
+      "doc": "Additional data to pass to server",
+      "default": null
+    },
+    {
+      "name": "file",
+      "type": ["null", "model.File"],
+      "doc": "file to upload",
+      "default": null
+    }
+  ]
+
+}
