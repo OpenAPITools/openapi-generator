@@ -34,6 +34,9 @@ components:
     DogBreed:
       type: string
       enum: [Dingo, Husky]
+      x-enum-descriptions:
+      - Canis lupus dingo
+      - Siberian Husky
 
     PetWithSimpleDiscriminator:
       type: object
@@ -104,6 +107,9 @@ components:
             inlineBreed:
               type: string
               enum: [ Dingo, Husky ]
+              x-enum-descriptions:
+              - Canis lupus dingo
+              - Siberian Husky
     CatComposed:
       allOf:
         - $ref: '#/components/schemas/PetWithoutDiscriminator'
