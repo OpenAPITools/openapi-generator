@@ -12,8 +12,6 @@ Method | HTTP request | Description
 
 test date time
 
-
-
 ### Example
 
 

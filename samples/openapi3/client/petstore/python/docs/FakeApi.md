@@ -48,8 +48,6 @@ Method | HTTP request | Description
 
 test any type request body
 
-
-
 ### Example
 
 
@@ -112,8 +110,6 @@ No authorization required
 > fake_enum_ref_query_parameter(enum_ref=enum_ref)
 
 test enum reference query parameter
-
-
 
 ### Example
 
@@ -179,8 +175,6 @@ No authorization required
 
 Health check endpoint
 
-
-
 ### Example
 
 
@@ -242,8 +236,6 @@ No authorization required
 > fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
 
 test http signature authentication
-
-
 
 ### Example
 
@@ -378,8 +370,6 @@ void (empty response body)
 # **fake_outer_boolean_serialize**
 > bool fake_outer_boolean_serialize(body=body)
 
-
-
 Test serialization of outer boolean types
 
 ### Example
@@ -443,8 +433,6 @@ No authorization required
 
 # **fake_outer_composite_serialize**
 > OuterComposite fake_outer_composite_serialize(outer_composite=outer_composite)
-
-
 
 Test serialization of object with outer number type
 
@@ -511,8 +499,6 @@ No authorization required
 # **fake_outer_number_serialize**
 > float fake_outer_number_serialize(body=body)
 
-
-
 Test serialization of outer number types
 
 ### Example
@@ -577,8 +563,6 @@ No authorization required
 # **fake_outer_string_serialize**
 > str fake_outer_string_serialize(body=body)
 
-
-
 Test serialization of outer string types
 
 ### Example
@@ -642,8 +626,6 @@ No authorization required
 
 # **fake_property_enum_integer_serialize**
 > OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
-
-
 
 Test serialization of enum (int) properties with examples
 
@@ -715,8 +697,6 @@ No authorization required
 
 test ref to enum string
 
-
-
 ### Example
 
 
@@ -779,8 +759,6 @@ No authorization required
 
 test returning boolean
 
-
-
 ### Example
 
 
@@ -841,8 +819,6 @@ No authorization required
 > bytearray fake_return_byte_like_json()
 
 test byte like json
-
-
 
 ### Example
 
@@ -905,8 +881,6 @@ No authorization required
 
 test returning enum
 
-
-
 ### Example
 
 
@@ -967,8 +941,6 @@ No authorization required
 > str fake_return_enum_like_json()
 
 test enum like json
-
-
 
 ### Example
 
@@ -1031,8 +1003,6 @@ No authorization required
 
 test returning float
 
-
-
 ### Example
 
 
@@ -1094,8 +1064,6 @@ No authorization required
 
 test returning int
 
-
-
 ### Example
 
 
@@ -1156,8 +1124,6 @@ No authorization required
 > List[List[Tag]] fake_return_list_of_objects()
 
 test returning list of objects
-
-
 
 ### Example
 
@@ -1221,8 +1187,6 @@ No authorization required
 
 test str like json
 
-
-
 ### Example
 
 
@@ -1284,8 +1248,6 @@ No authorization required
 
 test returning string
 
-
-
 ### Example
 
 
@@ -1346,8 +1308,6 @@ No authorization required
 > fake_uuid_example(uuid_example)
 
 test uuid example
-
-
 
 ### Example
 
@@ -1475,8 +1435,6 @@ No authorization required
 # **test_body_with_binary**
 > test_body_with_binary(body)
 
-
-
 For this test, the body has to be a binary file.
 
 ### Example
@@ -1538,8 +1496,6 @@ No authorization required
 
 # **test_body_with_file_schema**
 > test_body_with_file_schema(file_schema_test_class)
-
-
 
 For this test, the body for this request must reference a schema named `File`.
 
@@ -1603,10 +1559,6 @@ No authorization required
 
 # **test_body_with_query_params**
 > test_body_with_query_params(query, user)
-
-
-
-
 
 ### Example
 
@@ -1738,10 +1690,6 @@ No authorization required
 
 # **test_date_time_query_parameter**
 > test_date_time_query_parameter(date_time_query, str_query)
-
-
-
-
 
 ### Example
 
@@ -1977,8 +1925,6 @@ void (empty response body)
 > test_error_responses_with_model()
 
 test error responses with model
-
-
 
 ### Example
 
@@ -2322,10 +2268,6 @@ No authorization required
 # **test_object_for_multipart_requests**
 > test_object_for_multipart_requests(marker)
 
-
-
-
-
 ### Example
 
 
@@ -2386,8 +2328,6 @@ No authorization required
 
 # **test_query_parameter_collection_format**
 > test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
-
-
 
 To test the collection format in query parameters
 
