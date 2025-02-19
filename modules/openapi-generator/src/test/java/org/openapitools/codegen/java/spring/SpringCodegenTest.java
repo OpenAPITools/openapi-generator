@@ -854,7 +854,7 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
-        
+
         Map<String, File> files = generator.opts(input).generate().stream()
               .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -1664,7 +1664,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-        
+
         codegen.setUseOneOfInterfaces(true);
         codegen.setLegacyDiscriminatorBehavior(false);
 
@@ -2748,7 +2748,7 @@ public class SpringCodegenTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
-        
+
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -2773,7 +2773,7 @@ public class SpringCodegenTest {
     @Test
     public void shouldGenerateConstructorWithOnlyRequiredParameters() throws IOException {
         final Map<String, File> output = generateFromContract(
-            "src/test/resources/3_0/spring/issue_9789.yml", 
+            "src/test/resources/3_0/spring/issue_9789.yml",
             SPRING_BOOT,
             Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false")
         );
@@ -4450,7 +4450,7 @@ public class SpringCodegenTest {
         assertMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable");
 
     }
-    
+
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
         assertOptionalMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
     }
@@ -4791,8 +4791,8 @@ public class SpringCodegenTest {
     @Test
     public void allOfDuplicatedProperties() throws IOException {
         Map<String, File> output = generateFromContract(
-            "src/test/resources/3_0/allOfDuplicatedProperties.yaml", 
-            SPRING_BOOT, 
+            "src/test/resources/3_0/allOfDuplicatedProperties.yaml",
+            SPRING_BOOT,
             Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true, INTERFACE_ONLY, "true")
         );
 
@@ -4848,11 +4848,11 @@ public class SpringCodegenTest {
     @Test
     void testBuilderJavaSpring_noOptional() throws IOException {
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/java/builder.yaml", 
+            "src/test/resources/3_0/java/builder.yaml",
             SPRING_BOOT,
             Map.of(
-                GENERATE_BUILDERS, true, 
-                SpringCodegen.OPENAPI_NULLABLE, false, 
+                GENERATE_BUILDERS, true,
+                SpringCodegen.OPENAPI_NULLABLE, false,
                 SpringCodegen.USE_OPTIONAL, false,
                 INTERFACE_ONLY, "true"
             )
@@ -4877,7 +4877,7 @@ public class SpringCodegenTest {
     @Test
     void testBuilderJavaSpring_useOptional() throws IOException {
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/java/builder.yaml", 
+            "src/test/resources/3_0/java/builder.yaml",
             SPRING_BOOT,
             Map.of(
                 GENERATE_BUILDERS, true,
@@ -4927,7 +4927,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        
+
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -4961,7 +4961,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        
+
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
@@ -5076,7 +5076,7 @@ public class SpringCodegenTest {
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("useWrapping", "false"))
             .toFileAssert()
 
-            // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)    
+            // ↓ test custom element name (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Change%20Element%20Names)
             .assertMethod("getStatus")
             .doesNotHaveAnnotation("XmlAttribute")
             .doesNotHaveAnnotation("XmlElementWrapper")
@@ -5084,7 +5084,7 @@ public class SpringCodegenTest {
             .doesNotHaveAnnotation("JacksonXmlElementWrapper")
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"PetStatus\""))
             .toFileAssert()
-            
+
             // ↓ test same-name wrapping element (https://swagger.io/docs/specification/data-models/representing-xml/#:~:text=Wrapping%20Arrays)
             //   maps to 3rd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays
             .assertMethod("getPhotoUrls")
@@ -5121,7 +5121,7 @@ public class SpringCodegenTest {
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"yummy-yummy\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"yummy-yummy\""))
             .toFileAssert()
-            
+
             // ↓ internal xml-array element name (4th example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getColors")
             .doesNotHaveAnnotation("XmlAttribute")
@@ -5130,7 +5130,7 @@ public class SpringCodegenTest {
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"color\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"colors\""))
             .toFileAssert()
-            
+
             // ↓ ignored external xml-array element name, non-wrapped (2nd example in https://spec.openapis.org/oas/v3.0.0#xml-arrays)
             .assertMethod("getCategories")
             .doesNotHaveAnnotation("XmlAttribute")
@@ -5150,7 +5150,7 @@ public class SpringCodegenTest {
             .hasAnnotation("JacksonXmlProperty", Map.of("localName", "\"item\""))
             .hasAnnotation("JacksonXmlElementWrapper", Map.of("localName", "\"activities-array\""));
     }
-    
+
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/12804">#12804</a>
      */
@@ -5171,6 +5171,29 @@ public class SpringCodegenTest {
             .toInnerClassAssert()
             .assertMethod("build")
             .doesNotHaveAnnotation("Deprecated");
+    }
+
+    @Test
+    public void testRequestBodyFormParamsDefaultValue() {
+        final var tempDir = TestUtils.newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_0/spring/formParams_defaultValue.yaml")
+                .setGeneratorName("spring")
+                .setOutputDir(tempDir.toString());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(tempDir.resolve("src/main/java/org/openapitools/api/SomeApi.java"))
+                .assertMethod("someDummyEndpoint", "String", "String")
+                .assertParameter("productId")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam",
+                        Map.of("value", "\"product_id\"", "required", "true"))
+                .toParameter().toMethod()
+                .assertParameter("locale")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam",
+                        Map.of("value", "\"locale\"", "required", "false", "defaultValue", "\"en_US\""));
     }
 
     @Test
