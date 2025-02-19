@@ -29,7 +29,7 @@ import com.google.gson.stream.JsonWriter;
  * Gets or Sets EnumClass
  */
 @JsonAdapter(EnumClass.Adapter.class)
-public enum EnumClass {
+public enum EnumClass implements Parcelable {
   
   _ABC("_abc"),
   

@@ -29,7 +29,7 @@ import com.google.gson.stream.JsonWriter;
  * Gets or Sets OuterEnum
  */
 @JsonAdapter(OuterEnum.Adapter.class)
-public enum OuterEnum {
+public enum OuterEnum implements Parcelable {
   
   PLACED("placed"),
   
