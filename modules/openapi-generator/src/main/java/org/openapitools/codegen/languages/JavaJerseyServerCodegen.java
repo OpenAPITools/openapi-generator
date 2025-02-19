@@ -110,9 +110,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             this.setUseJakartaEe(true);
             additionalProperties.put(USE_JAKARTA_EE, true);
             this.applyJakartaPackage();
-            // --- Set Swagger2 annotations ---------------   
+            // --- Set Swagger2 annotations and import corresponding library ----
             annotationLibrary = AnnotationLibrary.SWAGGER2;
-            
+            importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
         }
         
         convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, value -> implFolder = value);
