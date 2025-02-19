@@ -58,6 +58,7 @@ type StoreAPIRouter interface {
 // The UserAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a UserAPIServicer to perform the required actions, then write the service results to the http response.
 type UserAPIRouter interface { 
+	CreateUserNullable(http.ResponseWriter, *http.Request)
 	CreateUser(http.ResponseWriter, *http.Request)
 	CreateUsersWithArrayInput(http.ResponseWriter, *http.Request)
 	CreateUsersWithListInput(http.ResponseWriter, *http.Request)
@@ -118,6 +119,7 @@ type StoreAPIServicer interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type UserAPIServicer interface { 
+	CreateUserNullable(context.Context, *UserNullable) (ImplResponse, error)
 	CreateUser(context.Context, User) (ImplResponse, error)
 	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
