@@ -226,7 +226,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -288,7 +287,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -350,7 +348,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -412,7 +409,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -482,7 +478,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -544,7 +539,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -606,7 +600,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -701,7 +694,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -777,7 +769,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -970,7 +961,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1028,7 +1018,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -1106,7 +1095,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -1176,7 +1164,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1233,7 +1220,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1314,7 +1300,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1372,7 +1357,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -1431,7 +1415,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1497,7 +1480,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1662,7 +1644,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1777,7 +1758,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1882,7 +1862,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1955,7 +1934,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -2025,7 +2003,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2093,7 +2070,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2173,7 +2149,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2241,7 +2216,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2309,7 +2283,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2377,7 +2350,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2458,7 +2430,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2528,7 +2499,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
