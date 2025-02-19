@@ -52,7 +52,7 @@ public class {{classname}} {
     }
 
     {{#operation}}
-{{#useSingleRequestParameter}}
+{{#singleRequestParameter}}
 {{#hasParams}}
 {{^hasSingleParam}}
 
@@ -108,7 +108,7 @@ public class {{classname}} {
 
 {{/hasSingleParam}}
 {{/hasParams}}
-{{/useSingleRequestParameter}}
+{{/singleRequestParameter}}
     /**
      * {{summary}}
      * {{notes}}

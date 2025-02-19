@@ -27,5 +27,6 @@ go/model_special_info.go
 go/model_species.go
 go/model_tag.go
 go/model_user.go
+go/model_user_nullable.go
 go/routers.go
 main.go

@@ -53,8 +53,8 @@ public class {{classname}} {
         this.apiClient = apiClient;
     }
 
-    {{#operation}}{{#useSingleRequestParameter}}{{#hasParams}}{{^hasSingleParam}}
-    public class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
+    {{#operation}}{{#singleRequestParameter}}{{#hasParams}}{{^hasSingleParam}}
+    public {{#staticRequest}}static {{/staticRequest}}class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
     {{#allParams}}
         private final {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}};
     {{/allParams}}
@@ -120,7 +120,7 @@ public class {{classname}} {
          return this.{{operationId}}WithResponseSpec({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
       }
 
-          {{/hasSingleParam}}{{/hasParams}}{{/useSingleRequestParameter}}
+          {{/hasSingleParam}}{{/hasParams}}{{/singleRequestParameter}}
     /**
      * {{summary}}
      * {{notes}}
