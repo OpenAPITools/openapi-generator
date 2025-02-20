@@ -199,13 +199,13 @@
                             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}utf8JsonReader.TokenType == JsonTokenType.Null ? (float?)null : (float)utf8JsonReader.GetDouble());
                         {{/isFloat}}
                         {{#isLong}}
-                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int64());
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}utf8JsonReader.TokenType == JsonTokenType.Null ? ({{#vendorExtensions.x-unsigned}}u{{/vendorExtensions.x-unsigned}}long?)null : utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int64());
                         {{/isLong}}
                         {{^isLong}}
                         {{^isFloat}}
                         {{^isDecimal}}
                         {{^isDouble}}
-                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32());
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}utf8JsonReader.TokenType == JsonTokenType.Null ? ({{#vendorExtensions.x-unsigned}}u{{/vendorExtensions.x-unsigned}}int?)null : utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32());
                         {{/isDouble}}
                         {{/isDecimal}}
                         {{/isFloat}}
@@ -221,7 +221,7 @@
                         {{#isEnum}}
                         {{^isMap}}
                         {{#isNumeric}}
-                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}})utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32());
+                            {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}} = {{>OptionProperty}}utf8JsonReader.TokenType == JsonTokenType.Null ? ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}?)null : ({{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}})utf8JsonReader.Get{{#vendorExtensions.x-unsigned}}U{{/vendorExtensions.x-unsigned}}Int32());
                         {{/isNumeric}}
                         {{^isNumeric}}
                             string{{nrt?}} {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}RawValue = utf8JsonReader.GetString();
