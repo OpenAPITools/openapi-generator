@@ -932,6 +932,7 @@ pub enum Message {
     Hello(Box<models::Hello>),
     Greeting(Box<models::Greeting>),
     Goodbye(Box<models::Goodbye>),
+    SomethingCompletelyDifferent(Box<models::SomethingCompletelyDifferent>),
 }
 
 impl validator::Validate for Message {
@@ -940,6 +941,7 @@ impl validator::Validate for Message {
             Self::Hello(x) => x.validate(),
             Self::Greeting(x) => x.validate(),
             Self::Goodbye(x) => x.validate(),
+            Self::SomethingCompletelyDifferent(x) => x.validate(),
         }
     }
 }
@@ -953,6 +955,7 @@ impl serde::Serialize for Message {
             Self::Hello(x) => x.serialize(serializer),
             Self::Greeting(x) => x.serialize(serializer),
             Self::Goodbye(x) => x.serialize(serializer),
+            Self::SomethingCompletelyDifferent(x) => x.serialize(serializer),
         }
     }
 }
@@ -972,11 +975,55 @@ impl From<models::Goodbye> for Message {
         Self::Goodbye(Box::new(value))
     }
 }
+impl From<models::SomethingCompletelyDifferent> for Message {
+    fn from(value: models::SomethingCompletelyDifferent) -> Self {
+        Self::SomethingCompletelyDifferent(Box::new(value))
+    }
+}
 
 /// Converts Query Parameters representation (style=form, explode=false) to a Message value
 /// as specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde deserializer
 impl std::str::FromStr for Message {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum SomethingCompletelyDifferent {
+    VecOfObject(Box<Vec<crate::types::Object>>),
+    Object(Box<crate::types::Object>),
+}
+
+impl validator::Validate for SomethingCompletelyDifferent {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        match self {
+            Self::VecOfObject(_) => std::result::Result::Ok(()),
+            Self::Object(x) => x.validate(),
+        }
+    }
+}
+
+impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
+    fn from(value: Vec<crate::types::Object>) -> Self {
+        Self::VecOfObject(Box::new(value))
+    }
+}
+impl From<crate::types::Object> for SomethingCompletelyDifferent {
+    fn from(value: crate::types::Object) -> Self {
+        Self::Object(Box::new(value))
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a SomethingCompletelyDifferent value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for SomethingCompletelyDifferent {
     type Err = serde_json::Error;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {

@@ -615,8 +615,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     for (CodegenProperty model : csOneOf) {
                         // Generate a valid name for the enum variant.
                         // Mainly needed for primitive types.
-                        String[] modelParts = model.dataType.replace("<", "Of").replace(">", "").split("::");
-                        model.datatypeWithEnum = camelize(modelParts[modelParts.length - 1]);
+
+                        model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
+                                .replace("<", "Of").replace(">", ""));
 
                         // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
                         if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
