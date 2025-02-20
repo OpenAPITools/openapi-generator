@@ -204,17 +204,17 @@ public class Whale {
 
     // add `hasBaleen` to the URL query string
     if (getHasBaleen() != null) {
-      joiner.add(String.format("%shasBaleen%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasBaleen()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shasBaleen%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasBaleen()))));
     }
 
     // add `hasTeeth` to the URL query string
     if (getHasTeeth() != null) {
-      joiner.add(String.format("%shasTeeth%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getHasTeeth()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%shasTeeth%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasTeeth()))));
     }
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClassName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
     }
 
     return joiner.toString();

@@ -113,6 +113,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
+    public static final String USE_SEALED = "useSealed";
 
     @Getter public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
@@ -151,6 +152,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean performBeanValidation = false;
     @Setter protected boolean apiFirst = false;
     protected boolean useOptional = false;
+    @Setter protected boolean useSealed = false;
     @Setter protected boolean virtualService = false;
     @Setter protected boolean hateoas = false;
     @Setter protected boolean returnSuccessCode = false;
@@ -229,6 +231,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_SEALED,
+                "Whether to generate sealed model interfaces and classes"));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions
@@ -423,6 +427,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, value -> this.generatedConstructorWithRequiredArgs=value);
         convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
+        convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
         if (getDocumentationProvider().equals(DocumentationProvider.NONE)) {
             this.setUseSwaggerUI(false);
         }

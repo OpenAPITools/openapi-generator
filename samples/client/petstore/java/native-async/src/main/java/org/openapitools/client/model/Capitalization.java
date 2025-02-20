@@ -297,32 +297,32 @@ public class Capitalization {
 
     // add `smallCamel` to the URL query string
     if (getSmallCamel() != null) {
-      joiner.add(String.format("%ssmallCamel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSmallCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssmallCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallCamel()))));
     }
 
     // add `CapitalCamel` to the URL query string
     if (getCapitalCamel() != null) {
-      joiner.add(String.format("%sCapitalCamel%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCapitalCamel()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sCapitalCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalCamel()))));
     }
 
     // add `small_Snake` to the URL query string
     if (getSmallSnake() != null) {
-      joiner.add(String.format("%ssmall_Snake%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSmallSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssmall_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallSnake()))));
     }
 
     // add `Capital_Snake` to the URL query string
     if (getCapitalSnake() != null) {
-      joiner.add(String.format("%sCapital_Snake%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getCapitalSnake()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sCapital_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalSnake()))));
     }
 
     // add `SCA_ETH_Flow_Points` to the URL query string
     if (getScAETHFlowPoints() != null) {
-      joiner.add(String.format("%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getScAETHFlowPoints()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getScAETHFlowPoints()))));
     }
 
     // add `ATT_NAME` to the URL query string
     if (getATTNAME() != null) {
-      joiner.add(String.format("%sATT_NAME%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getATTNAME()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sATT_NAME%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getATTNAME()))));
     }
 
     return joiner.toString();

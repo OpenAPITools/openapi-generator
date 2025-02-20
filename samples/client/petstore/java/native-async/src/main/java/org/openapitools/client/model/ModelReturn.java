@@ -142,7 +142,7 @@ public class ModelReturn {
 
     // add `return` to the URL query string
     if (getReturn() != null) {
-      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReturn()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getReturn()))));
     }
 
     return joiner.toString();

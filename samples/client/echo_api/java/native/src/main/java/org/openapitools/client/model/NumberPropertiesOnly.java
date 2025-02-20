@@ -207,17 +207,17 @@ public class NumberPropertiesOnly {
 
     // add `number` to the URL query string
     if (getNumber() != null) {
-      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
     }
 
     // add `float` to the URL query string
     if (getFloat() != null) {
-      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFloat()))));
     }
 
     // add `double` to the URL query string
     if (getDouble() != null) {
-      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDouble()))));
     }
 
     return joiner.toString();

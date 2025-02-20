@@ -4,6 +4,7 @@ package {{package}};
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiResponse;
+import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 
 {{#imports}}
@@ -64,7 +65,7 @@ public class {{classname}} {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public {{classname}}() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public {{classname}}(ApiClient apiClient) {

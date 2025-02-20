@@ -157,7 +157,7 @@ public class ArrayOfNumberOnly {
         if (getArrayNumber().get(i) != null) {
           joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString(getArrayNumber().get(i)))));
         }
       }
     }

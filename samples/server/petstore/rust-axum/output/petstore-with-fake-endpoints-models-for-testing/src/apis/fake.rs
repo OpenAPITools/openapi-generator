@@ -119,6 +119,8 @@ pub enum TestJsonFormDataResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+    type Claims;
+
     /// Call123example - GET /v2/fake/operation-with-numeric-id
     async fn call123example(
         &self,
@@ -209,6 +211,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+        claims: &Self::Claims,
         body: &models::TestEndpointParametersRequest,
     ) -> Result<TestEndpointParametersResponse, E>;
 

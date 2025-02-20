@@ -173,12 +173,12 @@ public class Bird {
 
     // add `size` to the URL query string
     if (getSize() != null) {
-      joiner.add(String.format("%ssize%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSize()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssize%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSize()))));
     }
 
     // add `color` to the URL query string
     if (getColor() != null) {
-      joiner.add(String.format("%scolor%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getColor()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scolor%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getColor()))));
     }
 
     return joiner.toString();

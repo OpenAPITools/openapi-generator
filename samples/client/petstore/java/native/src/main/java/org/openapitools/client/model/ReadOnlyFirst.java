@@ -165,12 +165,12 @@ public class ReadOnlyFirst {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBar()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBaz()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBaz()))));
     }
 
     return joiner.toString();

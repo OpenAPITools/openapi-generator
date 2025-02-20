@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.math.BigDecimal;
@@ -72,7 +73,7 @@ public class FakeApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public FakeApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public FakeApi(ApiClient apiClient) {

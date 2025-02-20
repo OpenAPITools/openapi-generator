@@ -31,7 +31,6 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import java.text.SimpleDateFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -54,6 +53,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.regex.Matcher;
@@ -72,7 +73,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
     private static final String ARTIFACT_VERSION_DEFAULT_VALUE = "1.0.0";
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    private static final ZoneId UTC = ZoneId.of("UTC");
 
     public static final String DEFAULT_LIBRARY = "<default>";
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -1641,7 +1642,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String toExampleValue(Schema p) {
         if (p.getExample() != null) {
             if (p.getExample() instanceof Date) {
-                return DATE_FORMAT.format(p.getExample());
+                Date date = (Date)p.getExample();
+                return DateTimeFormatter.ISO_LOCAL_DATE.format(ZonedDateTime.ofInstant(date.toInstant(), UTC));
             }
             return escapeText(p.getExample().toString());
         } else {

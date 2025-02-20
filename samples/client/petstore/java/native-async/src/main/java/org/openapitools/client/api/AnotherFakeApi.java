@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
@@ -57,7 +58,7 @@ public class AnotherFakeApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public AnotherFakeApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public AnotherFakeApi(ApiClient apiClient) {

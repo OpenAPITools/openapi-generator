@@ -164,7 +164,7 @@ public class HealthCheckResult {
 
     // add `NullableMessage` to the URL query string
     if (getNullableMessage() != null) {
-      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNullableMessage()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableMessage()))));
     }
 
     return joiner.toString();

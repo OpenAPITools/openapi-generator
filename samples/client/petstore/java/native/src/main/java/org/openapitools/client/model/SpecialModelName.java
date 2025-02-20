@@ -167,12 +167,12 @@ public class SpecialModelName {
 
     // add `$special[property.name]` to the URL query string
     if (get$SpecialPropertyName() != null) {
-      joiner.add(String.format("%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(get$SpecialPropertyName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s$special[property.name]%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get$SpecialPropertyName()))));
     }
 
     // add `_special_model.name_` to the URL query string
     if (getSpecialModelName() != null) {
-      joiner.add(String.format("%s_special_model.name_%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSpecialModelName()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s_special_model.name_%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSpecialModelName()))));
     }
 
     return joiner.toString();
