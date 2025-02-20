@@ -70,6 +70,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -1038,18 +1039,19 @@ public class SpringCodegen extends AbstractJavaCodegen
                  content:
                     text/event-stream:
                         schema:
-                        type: array
-                        format: event-stream
-                        items:
-                            type: <type> or
-                            $ref: <typeRef>
+                            type: array
+                            format: event-stream
+                            items:
+                                type: <type> or
+                                $ref: <typeRef>
                  */
                 Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
+                        .filter(p -> p.getValue().getContent() != null || p.getValue().get$ref() != null)
                         .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
                         .filter(p -> p.getRight().is2xx) // consider only success
                         .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
-                        .map(MediaType::getSchema)
-                        .collect(Collectors.toList()).stream()
+                        .filter(Objects::nonNull)
+                        .map(s -> ModelUtils.unaliasSchema(openAPI, s.getSchema()))
                         .collect(Collectors.groupingBy(Schema::getType));
                 if(schemaTypes.containsKey("array")) {
                     // we have a match with SSE pattern

@@ -58,6 +58,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
@@ -4548,65 +4549,128 @@ public class SpringCodegenTest {
 
     @Test
     public void testSSEOperationSupport() throws Exception {
-
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/sse.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(SSE, "true");
-        codegen.additionalProperties().put(REACTIVE, "true");
-        codegen.additionalProperties().put(INTERFACE_ONLY, "false");
-        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGenerateMetadata(false);
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+        Map<String, Object> additionalProperties = Map.of(
+                SSE, true,
+                REACTIVE, "true",
+                INTERFACE_ONLY, "false",
+                DELEGATE_PATTERN, "true"
+        );
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/sse.yaml", "spring-boot", additionalProperties);
 
         MapAssert.assertThatMap(files).isNotEmpty();
         File api = files.get("PathApi.java");
         File delegate = files.get("PathApiDelegate.java");
 
+        // SSE Endpoints
         JavaFileAssert.assertThat(api)
-                .assertMethod("sseVariant1", "ServerWebExchange")
-                .isNotNull()
-                .hasReturnType("Flux<String>")
-                .toFileAssert()
-                .assertMethod("sseVariant2", "ServerWebExchange")
-                .isNotNull()
-                .hasReturnType("Flux<EventType>")
-                .toFileAssert()
-                .assertMethod("nonSSE", "ServerWebExchange")
-                .isNotNull()
-                .hasReturnType("Mono<ResponseEntity<String>>");
+                      .assertMethod("sse1", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .toFileAssert()
+                      .assertMethod("sse2", "ServerWebExchange")
+                      .hasReturnType("Flux<EventType>")
+                      .toFileAssert()
+                      .assertMethod("sse3", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .toFileAssert()
+                      .assertMethod("sse4", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .toFileAssert()
+                      .assertMethod("sse5", "ServerWebExchange")
+                      .hasReturnType("Flux<EventType>");
+        //Non SSE Endpoints
+        JavaFileAssert.assertThat(api)
+                      .assertMethod("notSse1", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Void>>")
+                      .toFileAssert()
+                      .assertMethod("notSse2", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Flux<String>>>")
+                      .toFileAssert()
+                      .assertMethod("notSse3", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>")
+                      .toFileAssert()
+                      .assertMethod("notSse5", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Void>>")
+                      .toFileAssert()
+                      .assertMethod("notSse7", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>")
+                      .toFileAssert()
+                      .assertMethod("notSse8", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>");
 
+        // SSE Endpoints
         JavaFileAssert.assertThat(delegate)
-                .assertMethod("sseVariant1", "ServerWebExchange")
-                .isNotNull()
-                .hasReturnType("Flux<String>")
-                .bodyContainsLines("return Flux.empty();")
-                .toFileAssert()
-                .assertMethod("sseVariant2", "ServerWebExchange")
-                .isNotNull()
-                .hasReturnType("Flux<EventType>")
-                .bodyContainsLines("return Flux.empty();")
-                .toFileAssert()
-                .assertMethod("nonSSE", "ServerWebExchange")
-                .isNotNull()
-                .hasReturnType("Mono<ResponseEntity<String>>")
-                .bodyContainsLines("return result.then(Mono.empty());")
-        ;
+                      .assertMethod("sse1", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .bodyContainsLines("return Flux.empty();")
+                      .toFileAssert()
+                      .assertMethod("sse2", "ServerWebExchange")
+                      .hasReturnType("Flux<EventType>")
+                      .bodyContainsLines("return Flux.empty();")
+                      .toFileAssert()
+                      .assertMethod("sse3", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .bodyContainsLines("return Flux.empty();")
+                      .toFileAssert()
+                      .assertMethod("sse4", "ServerWebExchange")
+                      .hasReturnType("Flux<String>")
+                      .bodyContainsLines("return Flux.empty();")
+                      .toFileAssert()
+                      .assertMethod("sse5", "ServerWebExchange")
+                      .hasReturnType("Flux<EventType>")
+                      .bodyContainsLines("return Flux.empty();");
 
+        // Non SSE Endpoints
+        JavaFileAssert.assertThat(delegate)
+                      .assertMethod("notSse1", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Void>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
+                      .assertMethod("notSse2", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Flux<String>>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
+                      .assertMethod("notSse3", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
+                      .assertMethod("notSse5", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<Void>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
+                      .assertMethod("notSse7", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>")
+                      .bodyContainsLines("return result.then(Mono.empty());")
+                      .toFileAssert()
+                      .assertMethod("notSse8", "ServerWebExchange")
+                      .hasReturnType("Mono<ResponseEntity<String>>")
+                      .bodyContainsLines("return result.then(Mono.empty());");
+    }
+
+    @DataProvider(name = "invalid sse endpoints")
+    public static Object[][] specsWithInvalidSSEEndpoints() {
+        return new Object[][] {
+            {"sse_but_missing_format.yaml", "schema format 'event-stream' is required"},
+            {"sse_but_incompatible_item_types.yaml", "only single item type is supported"}
+        };
+    }
+
+    @Test(dataProvider = "invalid sse endpoints")
+    public void testSSEOperationSupport_forInvalidSSEEndpointSpecs(String inputSpec, String expectedError) {
+        // checks the design decision, that if the specs looks like it should be an SSE endpoint, but it
+        // does not match the required format, an exception is thrown containing a descriptive error
+        // message
+        Map<String, Object> additionalProperties = Map.of(
+            SSE, true,
+            REACTIVE, "true",
+            INTERFACE_ONLY, "false",
+            DELEGATE_PATTERN, "true"
+        );
+        String input = "src/test/resources/3_0/" + inputSpec;
+        assertThatThrownBy(() -> generateFromContract(input, "spring-boot", additionalProperties))
+                .rootCause()
+                .isInstanceOf(RuntimeException.class)
+                .message()
+                .contains(expectedError);
     }
 
     @Test

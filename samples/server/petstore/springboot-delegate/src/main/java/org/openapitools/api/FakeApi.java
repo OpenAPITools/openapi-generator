@@ -15,6 +15,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Pet;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -218,6 +219,35 @@ public interface FakeApi {
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().responseObjectDifferentNames(petId);
+    }
+
+
+    /**
+     * GET /fake/sse
+     *
+     * @return an sse endpoint (status code 200)
+     */
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "sse",
+        notes = "",
+        response = Pet.class,
+        responseContainer = "List"
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "an sse endpoint", response = Pet.class, responseContainer = "List")
+    })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/fake/sse",
+        produces = { "text/event-stream" }
+    )
+    
+    default ResponseEntity<List<Pet>> sse(
+        
+    ) {
+        return getDelegate().sse();
     }
 
 
