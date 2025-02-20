@@ -81,9 +81,11 @@ export class Configuration {
         this.baseOptions = {
             ...param.baseOptions,
             headers: {
+                {{^skipDefaultUserAgent}}
                 {{#httpUserAgent}}
                 'User-Agent': "{{httpUserAgent}}",
                 {{/httpUserAgent}}
+                {{/skipDefaultUserAgent}}
                 ...param.baseOptions?.headers,
             },
         };

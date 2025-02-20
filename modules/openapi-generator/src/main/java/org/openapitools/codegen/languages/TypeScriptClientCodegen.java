@@ -75,6 +75,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
+    public static final String SKIP_DEFAULT_USER_AGENT = "skipDefaultUserAgent";
+    public static final String SKIP_DEFAULT_USER_AGENT_DESC = "Skip setting default user-agent in configuration.ts";
 
     private final Map<String, String> frameworkToHttpLibMap;
 
@@ -120,6 +122,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_INVERSIFY_SWITCH, TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, TypeScriptClientCodegen.IMPORT_FILE_EXTENSION_SWITCH_DESC));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.SKIP_DEFAULT_USER_AGENT, TypeScriptClientCodegen.SKIP_DEFAULT_USER_AGENT_DESC).defaultValue("false"));
 
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option : TypeScriptClientCodegen.FRAMEWORKS) {
