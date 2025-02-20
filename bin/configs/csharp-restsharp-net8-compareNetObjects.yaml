@@ -7,3 +7,4 @@ additionalProperties:
   targetFramework: net8.0
   useCompareNetObjects: "true"
   equatable: true
+  nullableReferenceTypes: true
