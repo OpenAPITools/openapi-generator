@@ -168,6 +168,8 @@ class Configuration:
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
     :param retries: Number of retries for API requests.
+    :param ca_cert_data: str|bytes - verify the peer using concatenated CA
+      certificate data in PEM (str) or DER (bytes) format.
 
     :Example:
 
@@ -264,6 +266,7 @@ conf = petstore_api.Configuration(
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
         retries: Optional[int] = None,
+        ca_cert_data: Optional[str | bytes] = None,
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -345,6 +348,10 @@ conf = petstore_api.Configuration(
         """
         self.ssl_ca_cert = ssl_ca_cert
         """Set this to customize the certificate file to verify the peer.
+        """
+        self.ca_cert_data = ca_cert_data
+        """Set this to verify the peer using PEM (str) or DER (bytes)
+           certificate data.
         """
         self.cert_file = None
         """client certificate file
