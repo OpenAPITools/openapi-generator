@@ -13,23 +13,12 @@ syntax = "proto3";
 package petstore;
 
 
-message User {
+message ApiResponse {
 
-  int64 id = 3355;
+  int32 code = 1;
 
-  string username = 265713450;
+  string type = 2;
 
-  string first_name = 160985414;
-
-  string last_name = 402509463;
-
-  string email = 96619420;
-
-  string password = 143243933;
-
-  string phone = 106642798;
-
-  // User Status
-  int32 user_status = 150530330;
+  string message = 3;
 
 }
