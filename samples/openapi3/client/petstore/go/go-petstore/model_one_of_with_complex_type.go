@@ -118,6 +118,20 @@ func (obj *OneOfWithComplexType) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj OneOfWithComplexType) GetActualInstanceValue() (interface{}) {
+	if obj.ArrayOfString != nil {
+		return *obj.ArrayOfString
+	}
+
+	if obj.String != nil {
+		return *obj.String
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableOneOfWithComplexType struct {
 	value *OneOfWithComplexType
 	isSet bool
