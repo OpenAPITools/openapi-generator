@@ -302,13 +302,13 @@ namespace Org.OpenAPITools.Model
                             complete = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "id":
-                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "petId":
-                            petId = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.GetInt64());
+                            petId = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "quantity":
-                            quantity = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            quantity = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "shipDate":
                             shipDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));

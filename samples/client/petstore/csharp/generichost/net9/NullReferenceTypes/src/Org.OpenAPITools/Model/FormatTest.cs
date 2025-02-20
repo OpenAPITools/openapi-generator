@@ -694,28 +694,28 @@ namespace Org.OpenAPITools.Model
                             varFloat = new Option<float?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (float?)null : (float)utf8JsonReader.GetDouble());
                             break;
                         case "int32":
-                            int32 = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            int32 = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "int32Range":
-                            int32Range = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            int32Range = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "int64":
-                            int64 = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.GetInt64());
+                            int64 = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "int64Negative":
-                            int64Negative = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            int64Negative = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "int64NegativeExclusive":
-                            int64NegativeExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            int64NegativeExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "int64Positive":
-                            int64Positive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            int64Positive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "int64PositiveExclusive":
-                            int64PositiveExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            int64PositiveExclusive = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "integer":
-                            integer = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            integer = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "pattern_with_backslash":
                             patternWithBackslash = new Option<string?>(utf8JsonReader.GetString()!);
@@ -730,10 +730,10 @@ namespace Org.OpenAPITools.Model
                             varString = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "unsigned_integer":
-                            unsignedInteger = new Option<uint?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetUInt32());
+                            unsignedInteger = new Option<uint?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (uint?)null : utf8JsonReader.GetUInt32());
                             break;
                         case "unsigned_long":
-                            unsignedLong = new Option<ulong?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.GetUInt64());
+                            unsignedLong = new Option<ulong?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (ulong?)null : utf8JsonReader.GetUInt64());
                             break;
                         case "uuid":
                             uuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());

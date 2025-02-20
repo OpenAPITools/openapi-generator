@@ -141,7 +141,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "age":
-                            age = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
+                            age = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "firstName":
                             firstName = new Option<string?>(utf8JsonReader.GetString()!);
