@@ -747,20 +747,16 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "required_not_nullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            requiredNotNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_notnullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            requiredNotnullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_notnullable_boolean_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            requiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "required_notnullable_datetime_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            requiredNotnullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_notnullable_enum_integer":
                             string requiredNotnullableEnumIntegerRawValue = utf8JsonReader.GetString();
@@ -786,40 +782,31 @@ namespace Org.OpenAPITools.Model
                             requiredNotnullableStringProp = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "required_notnullable_uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            requiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         case "required_notnullableinteger_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            requiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "not_required_notnullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNotnullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            notRequiredNotnullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "not_required_notnullableinteger_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            notRequiredNotnullableintegerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "not_required_nullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                            notRequiredNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "not_required_nullable_integer_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNullableIntegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            notRequiredNullableIntegerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "notrequired_notnullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            notrequiredNotnullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "notrequired_notnullable_boolean_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            notrequiredNotnullableBooleanProp = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "notrequired_notnullable_datetime_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                            notrequiredNotnullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "notrequired_notnullable_enum_integer":
                             string notrequiredNotnullableEnumIntegerRawValue = utf8JsonReader.GetString();
@@ -845,20 +832,16 @@ namespace Org.OpenAPITools.Model
                             notrequiredNotnullableStringProp = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "notrequired_notnullable_uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            notrequiredNotnullableUuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         case "notrequired_nullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            notrequiredNullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "notrequired_nullable_boolean_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            notrequiredNullableBooleanProp = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "notrequired_nullable_datetime_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                            notrequiredNullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "notrequired_nullable_enum_integer":
                             string notrequiredNullableEnumIntegerRawValue = utf8JsonReader.GetString();
@@ -884,24 +867,19 @@ namespace Org.OpenAPITools.Model
                             notrequiredNullableStringProp = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "notrequired_nullable_uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notrequiredNullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            notrequiredNullableUuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         case "required_nullable_array_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            requiredNullableArrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_nullable_boolean_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableBooleanProp = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            requiredNullableBooleanProp = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "required_nullable_date_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                            requiredNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_nullable_datetime_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                            requiredNullableDatetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_nullable_enum_integer":
                             string requiredNullableEnumIntegerRawValue = utf8JsonReader.GetString();
@@ -919,8 +897,7 @@ namespace Org.OpenAPITools.Model
                                 requiredNullableEnumString = new Option<RequiredClassRequiredNullableEnumString?>(RequiredClassRequiredNullableEnumStringValueConverter.FromStringOrDefault(requiredNullableEnumStringRawValue));
                             break;
                         case "required_nullable_integer_prop":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableIntegerProp = new Option<int?>(utf8JsonReader.GetInt32());
+                            requiredNullableIntegerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "required_nullable_outerEnumDefaultValue":
                             string requiredNullableOuterEnumDefaultValueRawValue = utf8JsonReader.GetString();
@@ -931,8 +908,7 @@ namespace Org.OpenAPITools.Model
                             requiredNullableStringProp = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "required_nullable_uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            requiredNullableUuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
