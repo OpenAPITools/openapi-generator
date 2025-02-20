@@ -28,4 +28,4 @@ jobs:
           pip install -r test-requirements.txt
       - name: Test with pytest
         run: |
-          pytest --cov={{packageName}}
+          pytest --cov=petstore_api
