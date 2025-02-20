@@ -37,6 +37,7 @@ import javax.annotation.Generated;
 @Tag(name = "$another-fake?", description = "the $another-fake? API")
 public interface AnotherFakeApi {
 
+    public static final String PATH_CALL123TEST_SPECIAL_TAGS = "/another-fake/dummy";
     /**
      * PATCH /another-fake/dummy : To test special tags
      * To test special tags and operation ID starting with number
@@ -57,7 +58,7 @@ public interface AnotherFakeApi {
     )
     @RequestMapping(
         method = RequestMethod.PATCH,
-        value = "/another-fake/dummy",
+        value = AnotherFakeApi.PATH_CALL123TEST_SPECIAL_TAGS,
         produces = { "application/json" },
         consumes = "application/json"
     )

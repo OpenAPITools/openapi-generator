@@ -32,6 +32,7 @@ public interface StoreApi {
         return Optional.empty();
     }
 
+    public static final String PATH_DELETE_ORDER = "/store/order/{order_id}";
     /**
      * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -52,7 +53,7 @@ public interface StoreApi {
     })
     @RequestMapping(
         method = RequestMethod.DELETE,
-        value = "/store/order/{order_id}"
+        value = StoreApi.PATH_DELETE_ORDER
     )
     
     default ResponseEntity<Void> deleteOrder(
@@ -63,6 +64,7 @@ public interface StoreApi {
     }
 
 
+    public static final String PATH_GET_INVENTORY = "/store/inventory";
     /**
      * GET /store/inventory : Returns pet inventories by status
      * Returns a map of status codes to quantities
@@ -85,7 +87,7 @@ public interface StoreApi {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/store/inventory",
+        value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
     
@@ -97,6 +99,7 @@ public interface StoreApi {
     }
 
 
+    public static final String PATH_GET_ORDER_BY_ID = "/store/order/{order_id}";
     /**
      * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -120,7 +123,7 @@ public interface StoreApi {
     })
     @RequestMapping(
         method = RequestMethod.GET,
-        value = "/store/order/{order_id}",
+        value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
     
@@ -146,6 +149,7 @@ public interface StoreApi {
     }
 
 
+    public static final String PATH_PLACE_ORDER = "/store/order";
     /**
      * POST /store/order : Place an order for a pet
      * 
@@ -167,7 +171,7 @@ public interface StoreApi {
     })
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/store/order",
+        value = StoreApi.PATH_PLACE_ORDER,
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )

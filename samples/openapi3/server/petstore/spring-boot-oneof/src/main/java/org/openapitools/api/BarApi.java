@@ -42,6 +42,7 @@ public interface BarApi {
         return Optional.empty();
     }
 
+    public static final String PATH_CREATE_BAR = "/bar";
     /**
      * POST /bar : Create a Bar
      *
@@ -60,7 +61,7 @@ public interface BarApi {
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/bar",
+        value = BarApi.PATH_CREATE_BAR,
         produces = { "application/json" },
         consumes = { "application/json" }
     )
