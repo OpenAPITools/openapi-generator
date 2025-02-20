@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Model
                             aObjVariableobject = new Option<List<Dictionary<string, Object>>>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "pkiNotificationtestID":
-                            pkiNotificationtestID = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
+                            pkiNotificationtestID = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;

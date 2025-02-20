@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "code":
-                            code = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
+                            code = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
                             break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);

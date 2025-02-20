@@ -332,7 +332,7 @@ namespace Org.OpenAPITools.Model
                             arrayNullableProp = new Option<List<Object>>(JsonSerializer.Deserialize<List<Object>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "boolean_prop":
-                            booleanProp = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetBoolean());
+                            booleanProp = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "date_prop":
                             dateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
@@ -341,10 +341,10 @@ namespace Org.OpenAPITools.Model
                             datetimeProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "integer_prop":
-                            integerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
+                            integerProp = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
                             break;
                         case "number_prop":
-                            numberProp = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetDecimal());
+                            numberProp = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (decimal?)null : utf8JsonReader.GetDecimal());
                             break;
                         case "object_and_items_nullable_prop":
                             objectAndItemsNullableProp = new Option<Dictionary<string, Object>>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions));

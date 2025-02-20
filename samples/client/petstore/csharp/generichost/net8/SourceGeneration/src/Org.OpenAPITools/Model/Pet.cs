@@ -292,7 +292,7 @@ namespace Org.OpenAPITools.Model
                             category = new Option<Category?>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "id":
-                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.GetInt64());
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();

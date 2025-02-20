@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "lengthCm":
-                            lengthCm = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetDecimal());
+                            lengthCm = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (decimal?)null : utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;

@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
                             cultivar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "mealy":
-                            mealy = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetBoolean());
+                            mealy = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;

@@ -198,10 +198,10 @@ namespace Org.OpenAPITools.Model
                             map = new Option<Dictionary<string, Animal>?>(JsonSerializer.Deserialize<Dictionary<string, Animal>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "uuid":
-                            uuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetGuid());
+                            uuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         case "uuid_with_pattern":
-                            uuidWithPattern = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetGuid());
+                            uuidWithPattern = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;

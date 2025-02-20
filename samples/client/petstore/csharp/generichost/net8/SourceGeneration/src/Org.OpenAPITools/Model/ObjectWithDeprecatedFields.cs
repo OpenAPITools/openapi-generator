@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
                             deprecatedRef = new Option<DeprecatedObject?>(JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "id":
-                            id = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetDecimal());
+                            id = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (decimal?)null : utf8JsonReader.GetDecimal());
                             break;
                         case "uuid":
                             uuid = new Option<string?>(utf8JsonReader.GetString()!);

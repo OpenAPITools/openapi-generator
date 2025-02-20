@@ -333,7 +333,7 @@ namespace Org.OpenAPITools.Model
                             firstName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "id":
-                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int64?)null : utf8JsonReader.GetInt64());
                             break;
                         case "lastName":
                             lastName = new Option<string?>(utf8JsonReader.GetString()!);
@@ -351,7 +351,7 @@ namespace Org.OpenAPITools.Model
                             phone = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "userStatus":
-                            userStatus = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
+                            userStatus = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
                             break;
                         case "username":
                             username = new Option<string?>(utf8JsonReader.GetString()!);

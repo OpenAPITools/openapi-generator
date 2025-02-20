@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "age":
-                            age = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetInt32());
+                            age = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Int32?)null : utf8JsonReader.GetInt32());
                             break;
                         case "firstName":
                             firstName = new Option<string>(utf8JsonReader.GetString());
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
                             type = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "boosterSeat":
-                            boosterSeat = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? null : utf8JsonReader.GetBoolean());
+                            boosterSeat = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
