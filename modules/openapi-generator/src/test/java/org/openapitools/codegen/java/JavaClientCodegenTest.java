@@ -537,7 +537,7 @@ public class JavaClientCodegenTest {
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        assertThat(files).hasSize(32);
+        assertThat(files).hasSize(34);
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content().contains(
                 "public class DefaultApi",
@@ -607,7 +607,7 @@ public class JavaClientCodegenTest {
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        assertThat(files).hasSize(35);
+        assertThat(files).hasSize(37);
 
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/PingApi.java")).content().contains(
@@ -1428,7 +1428,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(35);
+        assertThat(files).hasSize(37);
         TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "public static String urlEncode(String s) { return URLEncoder.encode(s,"
                         + " UTF_8).replaceAll(\"\\\\+\", \"%20\"); }"
@@ -1451,7 +1451,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(38);
+        assertThat(files).hasSize(40);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
                 .contains(
                         "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"since\", queryObject.getSince()));",
