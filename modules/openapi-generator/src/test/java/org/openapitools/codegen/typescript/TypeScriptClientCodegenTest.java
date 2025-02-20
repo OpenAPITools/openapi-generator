@@ -1,18 +1,28 @@
 package org.openapitools.codegen.typescript;
 
+import com.github.jknack.handlebars.internal.lang3.StringUtils;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.log4testng.Logger;
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -178,5 +188,30 @@ public class TypeScriptClientCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.getLicenseName(), licenseName);
+    }
+
+    @Test
+    public void testForAllSanitizedEnum() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript")
+            .setInputSpec("src/test/resources/bugs/typescript_enum_var_name_all_sanitized.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(
+            Paths.get(output + "/models/Greeting.ts"),
+            "export enum Greeting {\n" +
+            "    STRING = 'こんにちは',\n" +
+            "    STRING2 = '你好',\n" +
+            "    STRING3 = '안녕하세요'\n" +
+            "}"
+        );
     }
 }

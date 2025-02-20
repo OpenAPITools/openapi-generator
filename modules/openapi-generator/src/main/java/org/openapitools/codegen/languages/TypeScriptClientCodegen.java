@@ -311,9 +311,15 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
-        } else {
-            return enumName;
         }
+
+        if (enumName.isEmpty()) {
+            // After sanitizing *all* characters (e.g. multibyte characters), the var name becomes an empty string.
+            // An empty string would cause a syntax error, so this pads the pseudo var name to avoid that.
+            return "STRING";
+        }
+
+        return enumName;
     }
 
     private String getNameWithEnumPropertyNaming(String name) {
