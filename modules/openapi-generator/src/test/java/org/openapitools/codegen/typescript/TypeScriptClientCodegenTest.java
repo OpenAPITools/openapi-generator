@@ -1,28 +1,22 @@
 package org.openapitools.codegen.typescript;
 
-import com.github.jknack.handlebars.internal.lang3.StringUtils;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.log4testng.Logger;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
