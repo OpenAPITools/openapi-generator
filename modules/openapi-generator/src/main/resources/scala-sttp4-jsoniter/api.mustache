@@ -7,6 +7,11 @@ import {{import}}
 import {{invokerPackage}}.JsonSupport.{*, given}
 import {{invokerPackage}}.FormSerializable
 import {{invokerPackage}}.FormStyleFormat
+import {{invokerPackage}}.HeaderSerializable
+import {{invokerPackage}}.ApiKeyLocation
+import {{invokerPackage}}.PathStyleFormat
+import {{invokerPackage}}.PathSerializable
+import {{invokerPackage}}.CookieSerializable
 import {{invokerPackage}}.Helpers.*
 import sttp.client4.jsoniter.*
 import sttp.client4.*
@@ -42,6 +47,8 @@ case class {{classname}}[Auth <: {{invokerPackage}}.Authorization] private (base
 {{>javadoc}}
 {{/javadocRenderer}}
   def {{operationId}}{{>methodParameters}}: sttp.client4.Request[{{#separateErrorChannel}}Either[ResponseException[String], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+{{#pathParams}}    val {{#fnEnumLeaf}}{{paramName}}PathParam{{/fnEnumLeaf}} = PathSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, PathStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, PathStyleFormat.SIMPLE{{/style}}, {{isExplode}})
+    {{/pathParams}}
     val requestURL =
       uri"$baseUrl{{{path}}}"{{#queryParams}}
         .addParams(FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}): _*){{/queryParams}}
@@ -49,8 +56,9 @@ case class {{classname}}[Auth <: {{invokerPackage}}.Authorization] private (base
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, requestURL)
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
-      .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}
-      .auth(authConfig{{#isApiKey}}, {{invokerPackage}}.{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}}, "{{keyParamName}}"{{/isApiKey}}){{/authMethods}}{{#formParams.0}}{{^isMultipart}}
+      .headers(HeaderSerializable.serialize("{{baseName}}", {{paramName}}, {{isExplode}})){{/headerParams}}{{#authMethods}}{{#cookieParams}}
+      .cookies(CookieSerializable.serialize("{{baseName}}", {{paramName}}, {{isExplode}})){{/cookieParams}}
+      .auth(authConfig{{#isApiKey}}, {{invokerPackage}}.ApiKeyLocation.{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}}, "{{keyParamName}}"{{/isApiKey}}){{/authMethods}}{{#formParams.0}}{{^isMultipart}}
       .body({{#formParams}}
         {{>paramFormCreation}}{{^-last}} ++ {{/-last}}{{/formParams}},
         "utf-8"

@@ -85,7 +85,7 @@ object {{classname}}Enums:
         .withAdtLeafClassNameMapper { x =>
           JsonCodecMaker.simpleClassName(x) match
             {{#_enum}}
-            case "{{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}" => "{{.}}"
+            case "{{#fnEnumLeaf}}{{.}}{{/fnEnumLeaf}}" => "{{.}}"
             {{/_enum}}
         }
         .withDiscriminatorFieldName(scala.None)

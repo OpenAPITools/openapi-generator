@@ -88,8 +88,6 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
                         GlobalFeature.LinkObjects)
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism)
-                .excludeParameterFeatures(
-                        ParameterFeature.Cookie)
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent));
@@ -117,6 +115,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
         additionalProperties.put("fnCodecName", new CodecNameLambda());
         additionalProperties.put("fnHandleDownload", new HandleDownloadLambda());
+        additionalProperties.put("fnEnumLeaf", new EnumLeafLambda());
 
         // TODO: there is no specific sttp mapping. All Scala Type mappings should be in
         // AbstractScala
@@ -192,7 +191,7 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         StringBuffer buf = new StringBuffer(path.length());
         Matcher matcher = Pattern.compile("[{](.*?)[}]").matcher(path);
         while (matcher.find()) {
-            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)) + "}");
+            matcher.appendReplacement(buf, "\\${" + toParamName(matcher.group(0)).replace("`", "") + "PathParam}");
         }
         matcher.appendTail(buf);
         return buf.toString();
@@ -673,13 +672,23 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
         }
     }
 
-    private class EnumEntryLambda extends CustomLambda {
+    private static class EnumEntryLambda extends CustomLambda {
         @Override
         public String formatFragment(String fragment) {
             if (fragment.isBlank()) {
                 return "NotPresent";
             }
-            return formatIdentifier(fragment, true);
+            return "`" + fragment + "`";
+        }
+    }
+
+    private static class EnumLeafLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            if (fragment.isBlank()) {
+                return "NotPresent";
+            }
+            return fragment.replace("`", "");
         }
     }
 

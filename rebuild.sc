@@ -54,9 +54,9 @@ val projects = Map(
     projectVersion = "1.0.0-SNAPSHOT",
     generatorName = "scala-sttp4-jsoniter",
     skipValidate = false,
-    schemaMappings = "io.k8s.apimachinery.pkg.util.intstr.IntOrString=IntOrString",
-    typeMappings = "IntOrString=IntOrString",
-    importMappings = "IntOrString=ma.chinespirit.kube.ext.IntOrString"
+    schemaMappings = "",
+    typeMappings = "",
+    importMappings = ""
   ),
   "stripe" -> Project(
     project = "stripe-scala",
