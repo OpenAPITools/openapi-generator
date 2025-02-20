@@ -46,6 +46,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     tags=["pet"],
     summary="Add a new pet to the store",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def add_pet(
     pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")] = Body(None, description="Pet object that needs to be added to the store"),
@@ -67,6 +68,7 @@ async def add_pet(
     tags=["pet"],
     summary="Deletes a pet",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def delete_pet(
     petId: Annotated[StrictInt, Field(description="Pet id to delete")] = Path(..., description="Pet id to delete"),
@@ -90,6 +92,7 @@ async def delete_pet(
     tags=["pet"],
     summary="Finds Pets by status",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def find_pets_by_status(
     status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")] = Query(None, description="Status values that need to be considered for filter", alias="status"),
@@ -112,6 +115,7 @@ async def find_pets_by_status(
     tags=["pet"],
     summary="Finds Pets by tags",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def find_pets_by_tags(
     tags: Annotated[List[StrictStr], Field(description="Tags to filter by")] = Query(None, description="Tags to filter by", alias="tags"),
@@ -135,6 +139,7 @@ async def find_pets_by_tags(
     tags=["pet"],
     summary="Find pet by ID",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def get_pet_by_id(
     petId: Annotated[StrictInt, Field(description="ID of pet to return")] = Path(..., description="ID of pet to return"),
@@ -159,6 +164,7 @@ async def get_pet_by_id(
     tags=["pet"],
     summary="Update an existing pet",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def update_pet(
     pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")] = Body(None, description="Pet object that needs to be added to the store"),
@@ -180,6 +186,7 @@ async def update_pet(
     tags=["pet"],
     summary="Updates a pet in the store with form data",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def update_pet_with_form(
     petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")] = Path(..., description="ID of pet that needs to be updated"),
@@ -203,6 +210,7 @@ async def update_pet_with_form(
     tags=["pet"],
     summary="uploads an image",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def upload_file(
     petId: Annotated[StrictInt, Field(description="ID of pet to update")] = Path(..., description="ID of pet to update"),
