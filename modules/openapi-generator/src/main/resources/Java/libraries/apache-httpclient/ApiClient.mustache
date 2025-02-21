@@ -149,6 +149,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     {{#openApiNullable}}
     objectMapper.registerModule(new JsonNullableModule());
     {{/openApiNullable}}
+    objectMapper.registerModule(new RFC3339JavaTimeModule());
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
