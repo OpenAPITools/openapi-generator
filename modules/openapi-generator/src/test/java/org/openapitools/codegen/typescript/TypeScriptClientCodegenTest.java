@@ -202,9 +202,11 @@ public class TypeScriptClientCodegenTest {
         TestUtils.assertFileContains(
             Paths.get(output + "/models/Greeting.ts"),
             "export enum Greeting {\n" +
-            "    STRING = 'こんにちは',\n" +
-            "    STRING2 = '你好',\n" +
-            "    STRING3 = '안녕하세요'\n" +
+            "    _こんにちは = 'こんにちは',\n" +
+            "    _你好 = '你好',\n" +
+            "    _안녕하세요 = '안녕하세요',\n" +
+            "    STRING = '!@#%',\n" +
+            "    STRING2 = '^&*\uD83C\uDF63'",
             "}"
         );
     }

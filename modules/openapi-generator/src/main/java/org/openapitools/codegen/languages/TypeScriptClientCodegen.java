@@ -315,11 +315,21 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         if (enumName.isEmpty()) {
             // After sanitizing *all* characters (e.g. multibyte characters), the var name becomes an empty string.
-            // An empty string would cause a syntax error, so this pads the pseudo var name to avoid that.
-            return "STRING";
+            // An empty string would cause a syntax error, so this code attempts to re-sanitize the name using another sanitizer that allows a wider variety of characters.
+            // For backward compatibility, this additional sanitization is only applied if the original sanitized name is empty.
+            final String sanitized = sanitizeNameForTypeScriptSymbol(name);
+            if (sanitized.isEmpty()) {
+                // After re-sanitizing, this pads a pseudo var name ("STRING") if still the name is empty.
+                return "STRING";
+            }
+            return "_" + sanitized;
         }
 
         return enumName;
+    }
+
+    private String sanitizeNameForTypeScriptSymbol(String name) {
+        return sanitizeName(name, "[^\\p{L}\\p{Nd}\\$_]");
     }
 
     private String getNameWithEnumPropertyNaming(String name) {
