@@ -125,8 +125,8 @@ public class PetApi {
     }
 
     public class DeletePetRequest {
-        private final Long petId;
-        private final String apiKey;
+        private Long petId;
+        private String apiKey;
 
         public DeletePetRequest() {}
 
@@ -598,9 +598,9 @@ public class PetApi {
     }
 
     public class UpdatePetWithFormRequest {
-        private final Long petId;
-        private final String name;
-        private final String status;
+        private Long petId;
+        private String name;
+        private String status;
 
         public UpdatePetWithFormRequest() {}
 
@@ -764,9 +764,9 @@ public class PetApi {
     }
 
     public class UploadFileRequest {
-        private final Long petId;
-        private final String additionalMetadata;
-        private final File _file;
+        private Long petId;
+        private String additionalMetadata;
+        private File _file;
 
         public UploadFileRequest() {}
 
@@ -930,9 +930,9 @@ public class PetApi {
     }
 
     public class UploadFileWithRequiredFileRequest {
-        private final Long petId;
-        private final File requiredFile;
-        private final String additionalMetadata;
+        private Long petId;
+        private File requiredFile;
+        private String additionalMetadata;
 
         public UploadFileWithRequiredFileRequest() {}
 

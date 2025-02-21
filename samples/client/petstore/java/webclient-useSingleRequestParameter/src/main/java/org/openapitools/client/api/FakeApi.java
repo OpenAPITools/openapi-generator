@@ -192,9 +192,9 @@ public class FakeApi {
     }
 
     public class FakeHttpSignatureTestRequest {
-        private final Pet pet;
-        private final String query1;
-        private final String header1;
+        private Pet pet;
+        private String query1;
+        private String header1;
 
         public FakeHttpSignatureTestRequest() {}
 
@@ -918,8 +918,8 @@ public class FakeApi {
     }
 
     public class TestBodyWithQueryParamsRequest {
-        private final String query;
-        private final User user;
+        private String query;
+        private User user;
 
         public TestBodyWithQueryParamsRequest() {}
 
@@ -1137,20 +1137,20 @@ public class FakeApi {
     }
 
     public class TestEndpointParametersRequest {
-        private final BigDecimal number;
-        private final Double _double;
-        private final String patternWithoutDelimiter;
-        private final byte[] _byte;
-        private final Integer integer;
-        private final Integer int32;
-        private final Long int64;
-        private final Float _float;
-        private final String string;
-        private final File binary;
-        private final LocalDate date;
-        private final OffsetDateTime dateTime;
-        private final String password;
-        private final String paramCallback;
+        private BigDecimal number;
+        private Double _double;
+        private String patternWithoutDelimiter;
+        private byte[] _byte;
+        private Integer integer;
+        private Integer int32;
+        private Long int64;
+        private Float _float;
+        private String string;
+        private File binary;
+        private LocalDate date;
+        private OffsetDateTime dateTime;
+        private String password;
+        private String paramCallback;
 
         public TestEndpointParametersRequest() {}
 
@@ -1491,15 +1491,15 @@ public class FakeApi {
     }
 
     public class TestEnumParametersRequest {
-        private final List<String> enumHeaderStringArray;
-        private final String enumHeaderString;
-        private final List<String> enumQueryStringArray;
-        private final String enumQueryString;
-        private final Integer enumQueryInteger;
-        private final Double enumQueryDouble;
-        private final List<EnumClass> enumQueryModelArray;
-        private final List<String> enumFormStringArray;
-        private final String enumFormString;
+        private List<String> enumHeaderStringArray;
+        private String enumHeaderString;
+        private List<String> enumQueryStringArray;
+        private String enumQueryString;
+        private Integer enumQueryInteger;
+        private Double enumQueryDouble;
+        private List<EnumClass> enumQueryModelArray;
+        private List<String> enumFormStringArray;
+        private String enumFormString;
 
         public TestEnumParametersRequest() {}
 
@@ -1746,12 +1746,12 @@ public class FakeApi {
     }
 
     public class TestGroupParametersRequest {
-        private final Integer requiredStringGroup;
-        private final Boolean requiredBooleanGroup;
-        private final Long requiredInt64Group;
-        private final Integer stringGroup;
-        private final Boolean booleanGroup;
-        private final Long int64Group;
+        private Integer requiredStringGroup;
+        private Boolean requiredBooleanGroup;
+        private Long requiredInt64Group;
+        private Integer stringGroup;
+        private Boolean booleanGroup;
+        private Long int64Group;
 
         public TestGroupParametersRequest() {}
 
@@ -2096,8 +2096,8 @@ public class FakeApi {
     }
 
     public class TestJsonFormDataRequest {
-        private final String param;
-        private final String param2;
+        private String param;
+        private String param2;
 
         public TestJsonFormDataRequest() {}
 
@@ -2313,13 +2313,13 @@ public class FakeApi {
     }
 
     public class TestQueryParameterCollectionFormatRequest {
-        private final List<String> pipe;
-        private final List<String> ioutil;
-        private final List<String> http;
-        private final List<String> url;
-        private final List<String> context;
-        private final String allowEmpty;
-        private final Map<String, String> language;
+        private List<String> pipe;
+        private List<String> ioutil;
+        private List<String> http;
+        private List<String> url;
+        private List<String> context;
+        private String allowEmpty;
+        private Map<String, String> language;
 
         public TestQueryParameterCollectionFormatRequest() {}
 

@@ -416,8 +416,8 @@ public class UserApi {
     }
 
     public class LoginUserRequest {
-        private final String username;
-        private final String password;
+        private String username;
+        private String password;
 
         public LoginUserRequest() {}
 
@@ -633,8 +633,8 @@ public class UserApi {
     }
 
     public class UpdateUserRequest {
-        private final String username;
-        private final User user;
+        private String username;
+        private User user;
 
         public UpdateUserRequest() {}
 
