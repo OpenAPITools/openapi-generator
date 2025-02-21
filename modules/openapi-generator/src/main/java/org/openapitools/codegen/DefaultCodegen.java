@@ -2715,6 +2715,11 @@ public class DefaultCodegen implements CodegenConfig {
                             m.anyOf.add(languageType);
                         }
                     } else if (composed.getOneOf() != null) {
+                        if (ModelUtils.isStringSchema(interfaceSchema) && ModelUtils.isEnumSchema(interfaceSchema)) {
+                            // use string union literals
+                            languageType = getEnumStringLiteralUnionType(interfaceSchema);
+                        }
+
                         if (m.oneOf.contains(languageType)) {
                             LOGGER.debug("{} (oneOf schema) already has `{}` defined and therefore it's skipped.", m.name, languageType);
                         } else {
@@ -2828,6 +2833,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // end of code block for composed schema
+    }
+
+    @SuppressWarnings("unchecked")
+    private static String getEnumStringLiteralUnionType(Schema interfaceSchema) {
+        return (String) interfaceSchema.getEnum().stream()
+                .map(enumName -> "\"" + (String)enumName + "\"")
+                .collect(Collectors.joining(" | "));
     }
 
     /**
