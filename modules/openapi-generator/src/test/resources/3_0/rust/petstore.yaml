@@ -871,6 +871,7 @@ components:
         - boolean
         - uuid
         - bytes
+        - decimal
       properties:
         int32:
           type: integer
@@ -894,6 +895,9 @@ components:
         bytes:
           type: string
           format: byte
+        decimal:
+          type: string
+          format: number
     Return:
       description: Test using keywords
       type: object
