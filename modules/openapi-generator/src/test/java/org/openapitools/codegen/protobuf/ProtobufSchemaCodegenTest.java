@@ -91,6 +91,6 @@ public class ProtobufSchemaCodegenTest {
         final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
         Assert.assertEquals(simpleName.name, "$DollarModel$");
         Assert.assertEquals(simpleName.classname, "DollarModel");
-        Assert.assertEquals(simpleName.classVarName, "$DollarModel$");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
     }
 }
