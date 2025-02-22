@@ -118,6 +118,20 @@ func (obj *FruitReq) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj FruitReq) GetActualInstanceValue() (interface{}) {
+	if obj.AppleReq != nil {
+		return *obj.AppleReq
+	}
+
+	if obj.BananaReq != nil {
+		return *obj.BananaReq
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableFruitReq struct {
 	value *FruitReq
 	isSet bool

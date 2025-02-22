@@ -127,6 +127,20 @@ func (obj *Object) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj Object) GetActualInstanceValue() (interface{}) {
+	if obj.NestedObject1 != nil {
+		return *obj.NestedObject1
+	}
+
+	if obj.NestedObject2 != nil {
+		return *obj.NestedObject2
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableObject struct {
 	value *Object
 	isSet bool
