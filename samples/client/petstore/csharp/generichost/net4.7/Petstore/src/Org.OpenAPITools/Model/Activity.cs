@@ -126,8 +126,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "activity_outputs":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                activityOutputs = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions));
+                            activityOutputs = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
