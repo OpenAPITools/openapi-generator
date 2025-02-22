@@ -368,12 +368,15 @@
             <scope>provided</scope>
         </dependency>
         {{/useBeanValidation}}
+        {{#useJakartaAnnotation}}
+        <!-- Jakarta Annotation API support -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{/useJakartaAnnotation}}
         <dependency>
             <groupId>org.glassfish.jersey.connectors</groupId>
             <artifactId>jersey-apache-connector</artifactId>
@@ -408,7 +411,8 @@
         <jackson-version>2.17.1</jackson-version>
         <jackson-databind-version>2.17.1</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
-        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        {{#useJakartaAnnotation}}
+        <jakarta-annotation-version>2.1.1</jakarta-annotation-version>{{/useJakartaAnnotation}}
         <beanvalidation-version>3.0.2</beanvalidation-version>
         <junit-version>5.10.0</junit-version>
         {{#hasHttpSignatureMethods}}
