@@ -37,7 +37,7 @@ interface PetApiService {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet>
+    suspend fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet>
 
     /**
      * GET /pet/findByTags : Finds Pets by tags
@@ -49,7 +49,7 @@ interface PetApiService {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
+    suspend fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
 
     /**
      * GET /pet/{petId} : Find pet by ID

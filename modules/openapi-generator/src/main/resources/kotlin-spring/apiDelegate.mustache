@@ -32,7 +32,7 @@ interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{^-last}},
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{^-last}},
         {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}}{{^skipDefaultDelegateInterface}} {
         {{>methodBody}}
     }{{/skipDefaultDelegateInterface}}
