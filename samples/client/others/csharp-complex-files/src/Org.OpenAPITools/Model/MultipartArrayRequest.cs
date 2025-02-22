@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartArrayRequest" /> class.
         /// </summary>
         /// <param name="files">Many files.</param>
-        public MultipartArrayRequest(List<System.IO.Stream> files = default(List<System.IO.Stream>))
+        public MultipartArrayRequest(List<System.IO.Stream> files = default)
         {
             this.Files = files;
         }

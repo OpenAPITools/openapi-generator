@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">Result code.</param>
         /// <param name="uuid">Result unique identifier.</param>
         /// <param name="data">list of named parameters for current message.</param>
-        public Result(string code = default(string), string uuid = default(string), Dictionary<string, string> data = default(Dictionary<string, string>))
+        public Result(string code = default, string uuid = default, Dictionary<string, string> data = default)
         {
             this.Code = code;
             this.Uuid = uuid;

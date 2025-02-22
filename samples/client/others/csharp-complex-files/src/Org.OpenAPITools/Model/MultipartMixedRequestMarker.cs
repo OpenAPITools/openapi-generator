@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartMixedRequestMarker" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public MultipartMixedRequestMarker(string name = default(string))
+        public MultipartMixedRequestMarker(string name = default)
         {
             this.Name = name;
         }
