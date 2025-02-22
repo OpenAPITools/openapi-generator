@@ -23,7 +23,7 @@ import java.net.URI;
 @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
 @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
 {{/jsonb}}
-{{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+{{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#allowableValues}}{{#enumVars}}
     {{#enumDescription}}
   /**
