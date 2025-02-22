@@ -3,7 +3,7 @@
   "dependencies": {
     "@types/rewire": "^2.5.28",
     "form-data": "^2.5.0",
-    "rewire": "^4.0.1",
+    "rewire": "^7.0.0",
     "ts-node": "^3.3.0",
     "ts-petstore-client": "file:../../builds/default"
   },
@@ -15,11 +15,11 @@
     "@types/chai": "4.0.1 - 4.1.x",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/mocha": "^2.2.41",
-    "@types/node": "8.10.38 - 8.10.62",
+    "@types/node": "^20",
     "chai": "^4.1.0",
-    "mocha": "^5.2.0",
+    "mocha": "^11.0.1",
     "ts-loader": "^2.3.0",
-    "typescript": "^2.4.1"
+    "typescript": "^4"
   },
   "name": "typescript-test",
   "version": "1.0.0",

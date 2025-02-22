@@ -4,13 +4,25 @@ import { JQueryHttpLibrary as DefaultHttpLibrary } from "./http/jquery";
 import { BaseServerConfiguration, server1 } from "./servers";
 import { configureAuthMethods, AuthMethods, AuthMethodsConfiguration } from "./auth/auth";
 
-export interface Configuration {
-    readonly baseServer: BaseServerConfiguration;
-    readonly httpApi: HttpLibrary;
-    readonly middleware: Middleware[];
-    readonly authMethods: AuthMethods;
+export interface Configuration<M = Middleware> {
+  readonly baseServer: BaseServerConfiguration;
+  readonly httpApi: HttpLibrary;
+  readonly middleware: M[];
+  readonly authMethods: AuthMethods;
 }
 
+// Additional option specific to middleware merge strategy
+export interface MiddlewareMergeOptions {
+  // default is `'replace'` for backwards compatibility
+  middlewareMergeStrategy?: 'replace' | 'append' | 'prepend';
+}
+
+// Unify configuration options using Partial plus extra merge strategy
+export type ConfigurationOptions<M = Middleware> = Partial<Configuration<M>> & MiddlewareMergeOptions;
+
+//  aliases for convenience
+export type StandardConfigurationOptions = ConfigurationOptions<Middleware>;
+export type PromiseConfigurationOptions = ConfigurationOptions<PromiseMiddleware>;
 
 /**
  * Interface with which a configuration object can be configured.
