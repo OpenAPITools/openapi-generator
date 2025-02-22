@@ -419,8 +419,8 @@ namespace {{packageName}}.Client
             return request;
         }
 
-        partial void InterceptRequest(HttpRequestMessage req);
-        partial void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response);
+        {{#useVirtualForHooks}}public virtual{{/useVirtualForHooks}}{{^useVirtualForHooks}}partial{{/useVirtualForHooks}} void InterceptRequest(HttpRequestMessage req){{#useVirtualForHooks}} { }{{/useVirtualForHooks}}{{^useVirtualForHooks}};{{/useVirtualForHooks}}
+        {{#useVirtualForHooks}}public virtual{{/useVirtualForHooks}}{{^useVirtualForHooks}}partial{{/useVirtualForHooks}} void InterceptResponse(HttpRequestMessage req, HttpResponseMessage response){{#useVirtualForHooks}} { }{{/useVirtualForHooks}}{{^useVirtualForHooks}};{{/useVirtualForHooks}}
 
         private async Task<ApiResponse<T>> ToApiResponse<T>(HttpResponseMessage response, object responseData, Uri uri)
         {
