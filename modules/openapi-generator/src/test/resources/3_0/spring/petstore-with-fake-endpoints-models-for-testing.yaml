@@ -1142,6 +1142,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseObjectWithDifferentFieldNames"
+  /fake/sse:
+    get:
+      tags:
+        - fake
+      operationId: sse
+      responses:
+        200:
+          description: an sse endpoint
+          content:
+            text/event-stream:
+              schema:
+                type: array
+                format: event-stream
+                items:
+                  $ref: "#/components/schemas/Pet"
 servers:
   - url: http://petstore.swagger.io:80/v2
 components:

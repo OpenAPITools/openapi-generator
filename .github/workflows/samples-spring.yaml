@@ -52,6 +52,7 @@ jobs:
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-reactive
           - samples/server/petstore/springboot-reactive-noResponseEntity
+          - samples/server/petstore/springboot-reactive-serverSentEvents
           - samples/server/petstore/springboot-spring-pageable-delegatePattern-without-j8
           - samples/server/petstore/springboot-spring-pageable-delegatePattern
           - samples/server/petstore/springboot-spring-pageable-without-j8

@@ -16,6 +16,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Pet;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
@@ -229,6 +230,35 @@ public interface FakeApi {
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().responseObjectDifferentNames(petId, exchange);
+    }
+
+
+    /**
+     * GET /fake/sse
+     *
+     * @return an sse endpoint (status code 200)
+     */
+    @ApiOperation(
+        tags = { "fake" },
+        value = "",
+        nickname = "sse",
+        notes = "",
+        response = Pet.class,
+        responseContainer = "List"
+    )
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "an sse endpoint", response = Pet.class, responseContainer = "List")
+    })
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/fake/sse",
+        produces = { "text/event-stream" }
+    )
+    
+    default Mono<ResponseEntity<Flux<Pet>>> sse(
+        @ApiIgnore final ServerWebExchange exchange
+    ) {
+        return getDelegate().sse(exchange);
     }
 
 

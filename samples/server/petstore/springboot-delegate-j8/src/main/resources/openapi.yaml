@@ -1284,6 +1284,25 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /fake/sse:
+    get:
+      operationId: sse
+      responses:
+        "200":
+          content:
+            text/event-stream:
+              schema:
+                format: event-stream
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: an sse endpoint
+      tags:
+      - fake
+      x-accepts:
+      - text/event-stream
+      x-tags:
+      - tag: fake
 components:
   requestBodies:
     UserArray:
