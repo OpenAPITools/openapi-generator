@@ -206,6 +206,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
+        typeMapping.put("decimal", "String");
+
         // TODO(bcourtine): review file mapping.
         // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
         // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
