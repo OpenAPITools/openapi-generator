@@ -15,6 +15,14 @@ use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
 
+/// struct for typed successes of method [`tests_discriminator_duplicate_enums_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsDiscriminatorDuplicateEnumsGetSuccess {
+    Status200(models::TestsDiscriminatorDuplicateEnumsGet200Response),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed successes of method [`tests_file_response_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -28,6 +36,13 @@ pub enum TestsFileResponseGetSuccess {
 #[serde(untagged)]
 pub enum TestsTypeTestingGetSuccess {
     Status200(models::TypeTesting),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`tests_discriminator_duplicate_enums_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsDiscriminatorDuplicateEnumsGetError {
     UnknownValue(serde_json::Value),
 }
 
@@ -45,6 +60,31 @@ pub enum TestsTypeTestingGetError {
     UnknownValue(serde_json::Value),
 }
 
+
+pub async fn tests_discriminator_duplicate_enums_get(configuration: &configuration::Configuration) -> Result<ResponseContent<TestsDiscriminatorDuplicateEnumsGetSuccess>, Error<TestsDiscriminatorDuplicateEnumsGetError>> {
+
+    let uri_str = format!("{}/tests/discriminatorDuplicateEnums", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<TestsDiscriminatorDuplicateEnumsGetSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsDiscriminatorDuplicateEnumsGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
 
 pub async fn tests_file_response_get(configuration: &configuration::Configuration) -> Result<reqwest::Response, Error<TestsFileResponseGetError>> {
 
