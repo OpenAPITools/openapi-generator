@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// FooEnumArrayTesting : Test of enum array
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct FooEnumArrayTesting {
     #[serde(rename = "required_enums")]
     pub required_enums: Vec<RequiredEnums>,
