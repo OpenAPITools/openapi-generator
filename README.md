@@ -972,8 +972,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2024-04-04 - [Working with OpenAPI using Rust](https://www.shuttle.dev/blog/2024/04/04/using-openapi-rust) by [Joshua Mo](https://twitter.com/joshmo_dev)
 - 2024-04-08 - [Implement API first strategy with OpenAPI generator plugin](https://medium.com/javarevisited/implement-api-first-strategy-with-openapi-generator-plugin-e4bbe7f0d778) by [Rui Zhou](https://medium.com/@wirelesser)
 - 2024-05-06 - [OpenAPI Generator Custom Templates](https://www.javacodegeeks.com/openapi-generator-custom-templates.html) by [Mary Zheng](https://www.javacodegeeks.com/author/mary-zheng)
-- 2025-02-09 [Custom validation with OpenApiGenerator and Spring Boot 3](https://medium.com/@jugurtha.aitoufella/custom-validation-with-openapigenerator-and-spring-boot-3-34a656e815c8) by [Jugurtha Aitoufella](https://medium.com/@jugurtha.aitoufella)
-- 2025-02-20 [Optimizing API Integration in a Large React Application Using OpenAPI Generator](https://www.youtube.com/watch?v=-B33pQnGQUI) by Stefano Marzo
+- 2025-02-09 - [Custom validation with OpenApiGenerator and Spring Boot 3](https://medium.com/@jugurtha.aitoufella/custom-validation-with-openapigenerator-and-spring-boot-3-34a656e815c8) by [Jugurtha Aitoufella](https://medium.com/@jugurtha.aitoufella)
+- 2025-02-20 - [Optimizing API Integration in a Large React Application Using OpenAPI Generator](https://www.youtube.com/watch?v=-B33pQnGQUI) by Stefano Marzo
 
 
 ## [6 - About Us](#table-of-contents)
@@ -1142,7 +1142,7 @@ Here is a list of template creators:
    * NodeJS Express: @YishTish
    * PHP Flight: @daniel-sc
    * PHP Laravel: @renepardon
-   * PHP Laravel(refactor): @gijs-blanken 
+   * PHP Laravel (refactor in 7.12.0): @gijs-blanken
    * PHP Lumen: @abcsun
    * PHP Mezzio (with Path Handler): @Articus
    * PHP Slim: @jfastnacht
