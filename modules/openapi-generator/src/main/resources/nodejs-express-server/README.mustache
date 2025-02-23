@@ -16,7 +16,7 @@ The code was written on a mac, so assuming all should work smoothly on Linux-bas
 Assuming you have Java (1.8+), and [have the jar](https://github.com/openapitools/openapi-generator#13---download-jar) to generate the application, run:
 ```java -jar {path_to_jar_file} generate -g nodejs-express-server -i {openapi yaml/json file} -o {target_directory_where_the_app_will_be_installed} ```
 If you do not have the jar, or do not want to run Java from your local machine, follow instructions on the [OpenAPITools page](https://github.com/openapitools/openapi-generator). You can run the script online, on docker, and various other ways.
-2. Go to the generated directory you defined. There's a fully working NodeJS-ExpressJs server waiting for you. This is important - the code is yours to change and update! Look at config.js and see that the settings there are ok with you - the server will run on port 3000, and files will be uploaded to a new directory 'uploaded_files'.
+2. Go to the generated directory you defined. There's a fully working NodeJS-ExpressJs server waiting for you. This is important - the code is yours to change and update! Look at config.js and see that the settings there are ok with you - the server will run on port 8080, and files will be uploaded to a new directory 'uploaded_files'.
 3. The server will base itself on an openapi.yaml file which is located under /api/openapi.yaml. This is not exactly the same file that you used to generate the app:
 I.  If you have `application/json` contentBody that was defined inside the path object - the generate will have moved it to the components/schemas section of the openapi document.
 II. Every process has a new element added to it - `x-eov-operation-handler: controllers/PetController` which directs the call to that file.
@@ -35,8 +35,8 @@ Unfortunately, I have not written any unit-tests. Those will come in the future.
 (Assuming no changes were made to config.js)
 
 1. API documentation, and to check the available endpoints:
-http://localhost:3000/api-docs/. To
-2. Download the openapi.yaml document: http://localhost:3000/openapi.
+http://localhost:8080/api-docs/. To
+2. Download the openapi.yaml document: http://localhost:8080/openapi.
 3.  Every call to an endpoint that was defined in the openapi document will return a 200 and a list of all the parameters and objects that were sent in the request.
 4. Endpoints that require security need to have security handlers configured before they can return a successful response. At this point they will return [ a response code of 401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401).
 5. ##### At this stage the server does not support document body sent in xml format.
