@@ -1140,6 +1140,7 @@ Here is a list of template creators:
    * NodeJS Express: @YishTish
    * PHP Flight: @daniel-sc
    * PHP Laravel: @renepardon
+   * PHP Laravel(refactor): @gijs-blanken 
    * PHP Lumen: @abcsun
    * PHP Mezzio (with Path Handler): @Articus
    * PHP Slim: @jfastnacht
@@ -1150,6 +1151,7 @@ Here is a list of template creators:
    * Python AIOHTTP:
    * Ruby on Rails 5: @zlx
    * Rust (rust-server): @metaswitch
+   * Rust (rust-axum): @linxGnu
    * Scala Akka: @Bouillie
    * Scala Cask: @aaronp
    * Scala Finch: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
