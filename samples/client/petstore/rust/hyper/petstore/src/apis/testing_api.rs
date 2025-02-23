@@ -37,12 +37,21 @@ impl<C: Connect> TestingApiClient<C>
 }
 
 pub trait TestingApi: Send + Sync {
+    fn tests_discriminator_duplicate_enums_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TestsDiscriminatorDuplicateEnumsGet200Response, Error>> + Send>>;
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>> + Send>>;
     fn tests_type_testing_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TypeTesting, Error>> + Send>>;
 }
 
 impl<C: Connect>TestingApi for TestingApiClient<C>
     where C: Clone + std::marker::Send + Sync {
+    #[allow(unused_mut)]
+    fn tests_discriminator_duplicate_enums_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::TestsDiscriminatorDuplicateEnumsGet200Response, Error>> + Send>> {
+        let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/discriminatorDuplicateEnums".to_string())
+        ;
+
+        req.execute(self.configuration.borrow())
+    }
+
     #[allow(unused_mut)]
     fn tests_file_response_get(&self, ) -> Pin<Box<dyn Future<Output = Result<std::path::PathBuf, Error>> + Send>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/fileResponse".to_string())
