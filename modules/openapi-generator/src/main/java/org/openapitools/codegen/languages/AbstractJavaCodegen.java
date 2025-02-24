@@ -663,6 +663,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(removeAnnotations(fragment.execute()));
         });
+        additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
+            writer.write(sanitizeDataType(fragment.execute()));
+        });
     }
 
     /**
@@ -1838,6 +1841,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return dataType;
     }
+
+    /**
+     * Sanitize the datatype.
+     * This will remove all characters except alphanumeric ones.
+     * It will also first use {{@link #removeAnnotations(String)}} to remove the annotations added to the datatype
+     * @param dataType the data type string
+     * @return the data type string without annotations and any characters except alphanumeric ones
+     */
+    public String sanitizeDataType(String dataType) {
+        String content = removeAnnotations(dataType);
+        if (content != null && content.matches(".*\\P{Alnum}.*")) {
+            content = content.replaceAll("\\P{Alnum}", "");
+        }
+        return content;
+    }
+
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {

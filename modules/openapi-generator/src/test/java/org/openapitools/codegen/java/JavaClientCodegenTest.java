@@ -41,6 +41,7 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -3393,6 +3394,122 @@ public class JavaClientCodegenTest {
                 //reading the body into a string, then checking if it is blank.
                 "String responseBody = new String(localVarResponse.body().readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
+
+    /**
+     * This checks bug issue-20718
+     * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
+     * contains a package definition
+     * The dataType needs to be sanitized to generate compileable code
+     */
+    @Test
+    public void testClassesAreValidJavaJersey2() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY2)
+                .setSchemaMappings(Map.of(
+                        "A", "some.pkg.A",
+                        "B", "some.pkg.B"))
+                .setInputSpec("src/test/resources/bugs/issue_20718-dataType_with_schema_mapping.yml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File oneOfFile = files.get("ResultObjectOneOf.java");
+        assertNotNull(oneOfFile);
+
+        JavaFileAssert.assertThat(oneOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+        File anyOfFile = files.get("ResultObjectAnyOf.java");
+        assertNotNull(anyOfFile);
+
+        JavaFileAssert.assertThat(anyOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+    }
+
+    /**
+     * This checks bug issue-20718
+     * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
+     * contains a package definition
+     * The dataType needs to be sanitized to generate compileable code
+     */
+    @Test
+    public void testClassesAreValidJavaJersey3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY3)
+                .setSchemaMappings(Map.of(
+                        "A", "some.pkg.A",
+                        "B", "some.pkg.B"))
+                .setInputSpec("src/test/resources/bugs/issue_20718-dataType_with_schema_mapping.yml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File oneOfFile = files.get("ResultObjectOneOf.java");
+        assertNotNull(oneOfFile);
+
+        JavaFileAssert.assertThat(oneOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+        File anyOfFile = files.get("ResultObjectAnyOf.java");
+        assertNotNull(anyOfFile);
+
+        JavaFileAssert.assertThat(anyOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+    }
+
+    /**
+     * This checks bug issue-20718
+     * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
+     * contains a package definition
+     * The dataType needs to be sanitized to generate compileable code
+     */
+    @Test
+    public void testClassesAreValidJavaOkHttpGson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(OKHTTP_GSON)
+                .setSchemaMappings(Map.of(
+                        "A", "some.pkg.A",
+                        "B", "some.pkg.B"))
+                .setInputSpec("src/test/resources/bugs/issue_20718-dataType_with_schema_mapping.yml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File oneOfFile = files.get("ResultObjectOneOf.java");
+        assertNotNull(oneOfFile);
+
+        JavaFileAssert.assertThat(oneOfFile).fileContains(
+                "final TypeAdapter<some.pkg.A> adaptersomepkgA = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.A.class));",
+                        "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+
+        File anyOfFile = files.get("ResultObjectAnyOf.java");
+        assertNotNull(anyOfFile);
+
+        JavaFileAssert.assertThat(anyOfFile).fileContains(
+                "final TypeAdapter<some.pkg.A> adaptersomepkgA = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.A.class));",
+                "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
         );
     }
 }

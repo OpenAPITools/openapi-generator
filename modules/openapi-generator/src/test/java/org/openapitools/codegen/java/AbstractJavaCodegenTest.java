@@ -972,4 +972,9 @@ public class AbstractJavaCodegenTest {
         DateSchema dateSchema = (DateSchema) openAPI.getPaths().get("/thingy/{date}").getPost().getParameters().get(0).getSchema();
         assertThat(codegen.escapeQuotationMark(codegen.toExampleValue(dateSchema))).isEqualTo("2021-01-01");
     }
+
+    @Test(description = "test sanitizing name of dataType when using schemaMapping and oneOf/allOf (issue 20718)")
+    public void testSanitizedDataType() {
+        assertThat(codegen.sanitizeDataType("org.somepkg.DataType")).isEqualTo("orgsomepkgDataType");
+    }
 }
