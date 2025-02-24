@@ -90,11 +90,7 @@
       <version>${smallrye.config.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>${cxf.rt.rs.extension.providers.version}</version>
-    </dependency>
+
     <!-- JSON processing: jackson -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
