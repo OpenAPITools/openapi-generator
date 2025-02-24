@@ -676,6 +676,26 @@ paths:
                     student: '#/components/schemas/Person'
                     teacher: '#/components/schemas/Person'
                     car: '#/components/schemas/Vehicle'
+  '/tests/allOfWithOneModel':
+    get:
+      tags:
+        - testing
+      summary: 'Test for allOf with a single option. (One of the issues in #20500)'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              allOf:
+                - $ref: '#/components/schemas/Person'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

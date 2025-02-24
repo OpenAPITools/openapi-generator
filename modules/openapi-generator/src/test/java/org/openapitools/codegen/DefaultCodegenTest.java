@@ -3990,11 +3990,6 @@ public class DefaultCodegenTest {
         CodegenOperation co;
         CodegenParameter cp;
 
-        path = "/ComposedObject";
-        co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
-        cp = co.bodyParam;
-        assertTrue(cp.getIsMap());
-
         path = "/ComposedNumber";
         co = codegen.fromOperation(path, "GET", openAPI.getPaths().get(path).getGet(), null);
         cp = co.bodyParam;
