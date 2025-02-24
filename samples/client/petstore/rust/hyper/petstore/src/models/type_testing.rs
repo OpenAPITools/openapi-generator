@@ -34,6 +34,9 @@ pub struct TypeTesting {
     #[serde_as(as = "serde_with::base64::Base64")]
     #[serde(rename = "bytes")]
     pub bytes: Vec<u8>,
+    #[serde_as(as = "Option<Option<serde_with::base64::Base64>>")]
+    #[serde(rename = "nullableBytes", default, skip_serializing_if = "Option::is_none")]
+    pub nullable_bytes: Option<Option<Vec<u8>>>,
     #[serde(rename = "decimal")]
     pub decimal: String,
 }
@@ -50,6 +53,7 @@ impl TypeTesting {
             boolean,
             uuid,
             bytes,
+            nullable_bytes: None,
             decimal,
         }
     }
