@@ -1152,6 +1152,22 @@ public class ApiClient extends JavaTimeFormatter {
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     WebTarget target = httpClient.target(targetURL);
 
+    // put all headers in one place
+    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
+    allHeaderParams.putAll(headerParams);
+
+    if (authNames != null) {
+      // update different parameters (e.g. headers) for authentication
+      updateParamsForAuth(
+          authNames,
+          queryParams,
+          allHeaderParams,
+          cookieParams,
+          null,
+          method,
+          target.getUri());
+    }
+
     if (queryParams != null) {
       for (Pair queryParam : queryParams) {
         if (queryParam.getValue() != null) {
@@ -1181,22 +1197,6 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     Entity<?> entity = serialize(body, formParams, contentType, isBodyNullable);
-
-    // put all headers in one place
-    Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
-    allHeaderParams.putAll(headerParams);
-
-    if (authNames != null) {
-      // update different parameters (e.g. headers) for authentication
-      updateParamsForAuth(
-          authNames,
-          queryParams,
-          allHeaderParams,
-          cookieParams,
-          null,
-          method,
-          target.getUri());
-    }
 
     for (Entry<String, String> entry : allHeaderParams.entrySet()) {
       String value = entry.getValue();
