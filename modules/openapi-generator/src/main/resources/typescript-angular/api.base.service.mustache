@@ -8,7 +8,7 @@ export class BaseService {
     public configuration: {{configurationClassName}};
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, basePath?: string|string[], configuration?: {{configurationClassName}}) {
+    constructor(basePath?: string|string[], configuration?: {{configurationClassName}}) {
         this.configuration = configuration || new {{configurationClassName}}();
         if (typeof this.configuration.basePath !== 'string') {
             const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;

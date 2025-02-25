@@ -63,7 +63,7 @@ export class {{classname}} extends BaseService {
 {{/withInterfaces}}
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: {{configurationClassName}}) {
-        super(httpClient, basePath, configuration);
+        super(basePath, configuration);
     }
 
 {{#operation}}
