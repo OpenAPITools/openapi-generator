@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.dart;
 
-import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -29,6 +27,8 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.*;
+
+import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 
 @SuppressWarnings("static-method")
 public class DartModelTest {
@@ -327,20 +327,20 @@ public class DartModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
-        return new Object[][] {
-            {"sample", "Sample"},
-            {"sample_name", "SampleName"},
-            {"sample__name", "SampleName"},
-            {"/sample", "Sample"},
-            {"\\sample", "\\Sample"},
-            {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
-            {"sample name", "SampleName"},
-            {"List", "ModelList"},
-            {"list", "ModelList"},
-            {"File", "TestModelFile"},
-            {"Client", "TestModelClient"},
-            {"String", "ModelString"},
+        return new Object[][]{
+                {"sample", "Sample"},
+                {"sample_name", "SampleName"},
+                {"sample__name", "SampleName"},
+                {"/sample", "Sample"},
+                {"\\sample", "\\Sample"},
+                {"sample.name", "SampleName"},
+                {"_sample", "Sample"},
+                {"sample name", "SampleName"},
+                {"List", "ModelList"},
+                {"list", "ModelList"},
+                {"File", "TestModelFile"},
+                {"Client", "TestModelClient"},
+                {"String", "ModelString"},
         };
     }
 
@@ -360,7 +360,7 @@ public class DartModelTest {
 
     @DataProvider(name = "varNames")
     public static Object[][] varNames() {
-        return new Object[][] {
+        return new Object[][]{
                 {"Double", "double_"},
                 {"double", "double_"},
                 {"dynamic", "dynamic_"},
@@ -375,7 +375,7 @@ public class DartModelTest {
                 {"_double", "double_"},
                 {"_123hello", "n123hello"},
                 {"_5FOO", "n5fOO"},
-                 {"_FOO", "FOO"},
+                {"_FOO", "FOO"},
                 {"_$foo", "dollarFoo"},
                 {"_$_foo_", "dollarFoo"},
                 {"$special[property.name]", "dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket"},
@@ -403,7 +403,7 @@ public class DartModelTest {
 
     @DataProvider(name = "enumVarNames")
     public static Object[] enumVarNames() {
-        return new Object[] {
+        return new Object[]{
                 new EnumVarName("", "empty", "String"),
                 new EnumVarName("Double", "double_", "String"),
                 new EnumVarName("double", "double_", "String"),

@@ -1,12 +1,6 @@
 package org.openapitools.codegen.asciidoc;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -19,9 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import io.swagger.v3.oas.models.OpenAPI;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-/** unit test asciidoc markup generation against ping.yaml openapi spec. */
+/**
+ * unit test asciidoc markup generation against ping.yaml openapi spec.
+ */
 public class AsciidocGeneratorTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AsciidocGeneratorTest.class);

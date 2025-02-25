@@ -220,7 +220,9 @@ public class CodegenOperation {
      *
      * @return true if responses contain only 1 entry and it's a default response, false otherwise
      */
-    public boolean getHasOnlyDefaultResponse() { return responses.size() == 1 && getHasDefaultResponse(); }
+    public boolean getHasOnlyDefaultResponse() {
+        return responses.size() == 1 && getHasDefaultResponse();
+    }
 
     public boolean getAllResponsesAreErrors() {
         return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
@@ -237,7 +239,7 @@ public class CodegenOperation {
             return null;
         }
         LinkedHashMap<String, CodegenMediaType> content = bodyParam.getContent();
-        for (String contentType: content.keySet()) {
+        for (String contentType : content.keySet()) {
             contentTypeToOperation.put(contentType, this);
         }
         return contentTypeToOperation;

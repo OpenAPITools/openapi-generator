@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -294,6 +293,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         }
         return apiFileFolder() + '/' + fn + "Routes" + suffix;
     }
+
     @Override
     public String modelFilename(String templateName, String modelName) {
         final String defaultFilename = super.modelFilename(templateName, modelName);
@@ -397,7 +397,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * This class is used in pathExtractorParams.mustache.
-     *
+     * <p>
      * It exposes some methods which make it more readable
      * for that mustache snippet, and also isolates the logic needed for the path extractors
      */
@@ -424,7 +424,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * This data structure is here to manually identify and fix routes which will overlap (e.g. GET /foo/bar and GET /foo/bazz)
-     *
+     * <p>
      * If we added these as individual routes, then Cask itself will compile, but calling 'initialize' throws a route overlap exception:
      * <p>
      * {{{
@@ -751,6 +751,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * primitive or enum types don't have Data representations
+     *
      * @param p the property
      * @return if this property need to have '.asModel' or '.asData' called on it?
      */
@@ -772,11 +773,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * There's a weird edge-case where fields can be declared like this:
-     *
+     * <p>
      * {{{
-     *   someField:
-     *   format: byte
-     *   type: string
+     * someField:
+     * format: byte
+     * type: string
      * }}
      */
     private static boolean isByteArray(final CodegenProperty p) {
@@ -791,13 +792,13 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * this parameter is used to create the function:
      * {{{
      * class <Thing> {
-     *    ...
-     *    def asData = <Thing>Data(
-     *      someProp = ... <-- how do we turn this property into a model property?
-     *    )
+     * ...
+     * def asData = <Thing>Data(
+     * someProp = ... <-- how do we turn this property into a model property?
+     * )
      * }
      * }}}
-     *
+     * <p>
      * and then back again
      */
     private static String asDataCode(final CodegenProperty p, final Set<String> typesWhichDoNotNeedMapping) {
@@ -836,13 +837,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     /**
-     *
      * {{{
      * class <Thing>Data {
-     *    ...
-     *    def asModel = <Thing>(
-     *      someProp = ... <-- how do we turn this property into a model property?
-     *    )
+     * ...
+     * def asModel = <Thing>(
+     * someProp = ... <-- how do we turn this property into a model property?
+     * )
      * }
      * }}}
      *
@@ -1064,8 +1064,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * the subtypes of IJsonSchemaValidationProperties have an 'isNumeric', but that's not a method on IJsonSchemaValidationProperties.
-     *
+     * <p>
      * This helper method tries to isolate that noisy logic in a safe way so we can ask 'is this IJsonSchemaValidationProperties numeric'?
+     *
      * @param p the property
      * @return true if the property is numeric
      */
@@ -1086,11 +1087,11 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         }
 
         if (p instanceof CodegenParameter) {
-            return ((CodegenParameter)p).isNumeric;
+            return ((CodegenParameter) p).isNumeric;
         } else if (p instanceof CodegenProperty) {
-            return ((CodegenProperty)p).isNumeric;
+            return ((CodegenProperty) p).isNumeric;
         } else {
-            return p.getIsNumber() || p.getIsFloat() || p.getIsDecimal() || p.getIsDouble() || p.getIsInteger()  || p.getIsLong() || p.getIsUnboundedInteger();
+            return p.getIsNumber() || p.getIsFloat() || p.getIsDecimal() || p.getIsDouble() || p.getIsInteger() || p.getIsLong() || p.getIsUnboundedInteger();
         }
     }
 

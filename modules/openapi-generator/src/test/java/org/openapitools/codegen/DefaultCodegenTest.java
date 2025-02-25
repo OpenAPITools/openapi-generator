@@ -37,6 +37,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
@@ -49,19 +50,13 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import org.junit.jupiter.api.Assertions;
-
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.*;
@@ -733,7 +728,7 @@ public class DefaultCodegenTest {
             Future<Boolean> call1 = executor.submit(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return codegen.executePostProcessor(new String[] { "binary_does_not_exist" });
+                    return codegen.executePostProcessor(new String[]{"binary_does_not_exist"});
                 }
             });
 
@@ -742,9 +737,9 @@ public class DefaultCodegenTest {
                 public Boolean call() throws Exception {
                     String os = System.getProperty("os.name");
                     String postProcessor = os.contains("Windows")
-                        ? "cmd.exe /c echo hello"
-                        : "echo Hello";
-                    return codegen.executePostProcessor(new String[] { postProcessor });
+                            ? "cmd.exe /c echo hello"
+                            : "echo Hello";
+                    return codegen.executePostProcessor(new String[]{postProcessor});
                 }
             });
 
@@ -753,8 +748,8 @@ public class DefaultCodegenTest {
                 public Boolean call() throws Exception {
                     String os = System.getProperty("os.name");
                     String[] postProcessor = os.contains("Windows")
-                        ? new String[] { "cmd.exe", "/c", "echo", "hello" }
-                        : new String[] { "echo", "Hello" };
+                            ? new String[]{"cmd.exe", "/c", "echo", "hello"}
+                            : new String[]{"echo", "Hello"};
                     return codegen.executePostProcessor(postProcessor);
                 }
             });

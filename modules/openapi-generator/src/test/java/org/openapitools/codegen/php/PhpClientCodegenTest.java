@@ -21,8 +21,6 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
-import org.openapitools.codegen.languages.JavaMicroprofileServerCodegen;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -72,7 +70,7 @@ public class PhpClientCodegenTest {
         Assert.assertEquals(codegen.modelPackage(), "My\\Client\\Model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "My\\Client\\Model");
         Assert.assertEquals(codegen.apiPackage(), "My\\Client\\Api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),"My\\Client\\Api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "My\\Client\\Api");
         Assert.assertEquals(codegen.getInvokerPackage(), "My\\Client\\Invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "My\\Client\\Invoker");
     }

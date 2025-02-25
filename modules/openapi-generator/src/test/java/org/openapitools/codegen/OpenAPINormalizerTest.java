@@ -16,16 +16,17 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 

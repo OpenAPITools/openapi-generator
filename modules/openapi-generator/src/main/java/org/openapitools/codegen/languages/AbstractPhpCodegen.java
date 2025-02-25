@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.CamelizeOption.UPPERCASE_FIRST_CHAR;
@@ -509,7 +509,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (modelNameMapping.containsKey(name)) {
             return modelNameMapping.get(name);
         }
-        
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
@@ -650,7 +650,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
-                example = "'" +  escapeTextInSingleQuotes(p.paramName) + "_example'";
+                example = "'" + escapeTextInSingleQuotes(p.paramName) + "_example'";
             } else {
                 example = escapeText(example);
             }
@@ -887,7 +887,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with php extension
         if ("php".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {phpPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{phpPostProcessFile, file.toString()});
         }
     }
 

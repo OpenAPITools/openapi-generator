@@ -22,7 +22,6 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;

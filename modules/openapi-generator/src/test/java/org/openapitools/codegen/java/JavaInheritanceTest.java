@@ -20,12 +20,7 @@ package org.openapitools.codegen.java;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import java.util.Collections;
+import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -34,6 +29,8 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
 
 public class JavaInheritanceTest {
 
@@ -47,7 +44,7 @@ public class JavaInheritanceTest {
 
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setComponents(new Components()
-                .addSchemas(parentModel.getName(),parentModel)
+                .addSchemas(parentModel.getName(), parentModel)
                 .addSchemas(schema.getName(), schema)
         );
 

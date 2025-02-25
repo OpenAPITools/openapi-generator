@@ -31,15 +31,15 @@ import org.openapitools.codegen.model.OperationsMap;
 import java.io.File;
 import java.util.List;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     public static final String DEFAULT_PACKAGE_NAME = "QtOpenAPIClient";
     public static final String MAKE_OPERATIONS_VIRTUAL_NAME = "makeOperationsVirtual";
-    public static final String MAKE_OPERATIONS_VIRTUAL_DESC = 
-            "Make all operations methods virtual. " + 
-            "This makes it easy to mock the generated API class for testing purposes.";
+    public static final String MAKE_OPERATIONS_VIRTUAL_DESC =
+            "Make all operations methods virtual. " +
+                    "This makes it easy to mock the generated API class for testing purposes.";
     protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";

@@ -36,10 +36,10 @@ public class ObjcModelTest {
     @Test(description = "convert a model with an advanced map property")
     public void advancedMapPropertyTest() {
         final Schema model = new Schema()
-        .description("a sample model")
-        .addProperties("translations", new MapSchema()
-                  .additionalProperties(new MapSchema().additionalProperties(new StringSchema())))
-        .addRequiredItem("id");
+                .description("a sample model")
+                .addProperties("translations", new MapSchema()
+                        .additionalProperties(new MapSchema().additionalProperties(new StringSchema())))
+                .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -297,7 +297,7 @@ public class ObjcModelTest {
 
     @Test(description = "test uuid")
     public void uuidAndPasswordDataModelTest() {
-        final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("format_test");
@@ -312,12 +312,12 @@ public class ObjcModelTest {
 
     @Test(description = "test mixedProperties")
     public void mixedPropertiesDataModelTest() {
-        final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
 
-        Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
+        Schema property = ((Map<String, Schema>) definition.getProperties()).get("map");
         CodegenProperty prope = codegen.fromProperty("map", property);
         Assert.assertEquals(prope.baseType, "NSDictionary");
     }
@@ -331,13 +331,13 @@ public class ObjcModelTest {
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", definition);
 
         Assert.assertEquals(codegenModel.isArray, true);
-        Assert.assertEquals(codegenModel.arrayModelType,"OAIAnimal");
+        Assert.assertEquals(codegenModel.arrayModelType, "OAIAnimal");
     }
 
 
     @Test(description = "test binary data")
     public void binaryDataModelTest() {
-        final OpenAPI openAPI =  TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();

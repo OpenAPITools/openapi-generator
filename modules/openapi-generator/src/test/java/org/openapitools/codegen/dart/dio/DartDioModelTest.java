@@ -82,13 +82,13 @@ public class DartDioModelTest {
     @Test(description = "convert a simple dart-dit model with datelibrary")
     public void simpleModelWithTimeMachineTest() {
         final Schema model = new Schema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema())
-            .addProperties("name", new StringSchema())
-            .addProperties("createdAt", new DateTimeSchema())
-            .addProperties("birthDate", new DateSchema())
-            .addRequiredItem("id")
-            .addRequiredItem("name");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("birthDate", new DateSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
 
         final DartDioClientCodegen codegen = new DartDioClientCodegen();
         codegen.additionalProperties().put(DartDioClientCodegen.DATE_LIBRARY, DartDioClientCodegen.DATE_LIBRARY_TIME_MACHINE);
@@ -389,9 +389,9 @@ public class DartDioModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
-        return new Object[][] {
-            {"EnumClass", "TestModelEnumClass"},
-            {"JsonObject", "TestModelJsonObject"},
+        return new Object[][]{
+                {"EnumClass", "TestModelEnumClass"},
+                {"JsonObject", "TestModelJsonObject"},
         };
     }
 
@@ -415,10 +415,10 @@ public class DartDioModelTest {
 
     @DataProvider(name = "modelNamesTimemachine")
     public static Object[][] modelNamesTimemachine() {
-        return new Object[][] {
-            {"EnumClass", "TestModelEnumClass"},
-            {"JsonObject", "TestModelJsonObject"},
-            {"OffsetDate", "TestModelOffsetDate"},
+        return new Object[][]{
+                {"EnumClass", "TestModelEnumClass"},
+                {"JsonObject", "TestModelJsonObject"},
+                {"OffsetDate", "TestModelOffsetDate"},
         };
     }
 

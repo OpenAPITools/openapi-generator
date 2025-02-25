@@ -19,9 +19,11 @@ package org.openapitools.codegen;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
-@Getter @Setter
+@Getter
+@Setter
 public class CodegenComposedSchemas {
     private List<CodegenProperty> allOf;
     private List<CodegenProperty> oneOf;

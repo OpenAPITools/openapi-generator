@@ -19,7 +19,6 @@ package org.openapitools.codegen.cmd;
 
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -33,7 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings({"unused","java:S106"})
+@SuppressWarnings({"unused", "java:S106"})
 @Command(name = "validate", description = "Validate specification")
 public class Validate extends OpenApiGeneratorCommand {
 
@@ -41,7 +40,7 @@ public class Validate extends OpenApiGeneratorCommand {
             description = "location of the OpenAPI spec, as URL or file (required)")
     private String spec;
 
-    @Option(name = { "--recommend"}, title = "recommend spec improvements")
+    @Option(name = {"--recommend"}, title = "recommend spec improvements")
     private Boolean recommend;
 
     @Override

@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
@@ -170,7 +171,7 @@ public class TypeScriptFetchClientCodegenTest {
 
         // Cf. issue #4968: Array of Alias of Array
         Schema<?> parentSchema = new ArraySchema().items(
-            new Schema().$ref("#/components/schemas/Child")
+                new Schema().$ref("#/components/schemas/Child")
         );
 
         ModelUtils.setGenerateAliasAsModel(false);

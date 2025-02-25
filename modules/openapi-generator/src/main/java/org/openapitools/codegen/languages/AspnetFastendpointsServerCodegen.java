@@ -1,12 +1,14 @@
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-
-import java.io.File;
-import java.util.*;
-
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.Locale;
 
 import static java.util.UUID.randomUUID;
 
@@ -103,7 +105,7 @@ public class AspnetFastendpointsServerCodegen extends AbstractCSharpCodegen impl
         modelPackage = "Models";
         String packageFolder = sourceFolder + File.separator + packageName;
 
-        if(useAuthentication) {
+        if (useAuthentication) {
             supportingFiles.add(new SupportingFile("loginRequest.mustache", packageFolder + File.separator + apiPackage, "LoginRequest.cs"));
             supportingFiles.add(new SupportingFile("userLoginEndpoint.mustache", packageFolder + File.separator + apiPackage, "UserLoginEndpoint.cs"));
         }

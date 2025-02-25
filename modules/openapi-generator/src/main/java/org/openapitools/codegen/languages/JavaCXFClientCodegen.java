@@ -60,7 +60,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportsInheritance = true;
 
-        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
+        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
@@ -107,7 +107,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -145,7 +145,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
                     property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
                     findByName(property.name, model.readOnlyVars)
-                        .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
+                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }

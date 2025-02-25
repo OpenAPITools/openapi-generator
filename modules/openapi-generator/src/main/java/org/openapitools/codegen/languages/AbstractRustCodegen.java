@@ -332,7 +332,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return sanitizeIdentifier(operationId, CasingType.SNAKE_CASE, "call", "method", true);
     }
 
-    //// Model naming ////
+    /// / Model naming ////
 
     protected String addModelNamePrefixAndSuffix(String name) {
         if (!Strings.isNullOrEmpty(modelNamePrefix)) {
@@ -359,7 +359,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toModelName(name);
     }
 
-    //// Enum naming ////
+    /// / Enum naming ////
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (enumNameMapping.containsKey(name)) {
@@ -399,7 +399,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toEnumVarName(value, datatype);
     }
 
-    //// API naming ////
+    /// / API naming ////
 
     protected String addApiNamePrefixAndSuffix(String name) {
         if (Strings.isNullOrEmpty(name)) {

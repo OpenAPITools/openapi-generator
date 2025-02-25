@@ -76,18 +76,18 @@ public class ApacheHttpClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("java")
-            .setLibrary(JavaClientCodegen.APACHE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.APACHE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(clientOptInput).generate();
 
         TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
-            "localVarQueryParams.addAll(apiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()))"
+                "localVarQueryParams.addAll(apiClient.parameterToPairs(\"multi\", \"values\", queryObject.getValues()))"
         );
     }
 

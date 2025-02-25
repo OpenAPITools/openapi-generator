@@ -278,14 +278,14 @@ public class GoModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][] {
-            {"sample", "Sample"},
-            {"sample_name", "SampleName"},
-            {"sample__name", "SampleName"},
-            {"/sample", "Sample"},
-            {"\\sample", "Sample"},
-            {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+        return new Object[][]{
+                {"sample", "Sample"},
+                {"sample_name", "SampleName"},
+                {"sample__name", "SampleName"},
+                {"/sample", "Sample"},
+                {"\\sample", "Sample"},
+                {"sample.name", "SampleName"},
+                {"_sample", "Sample"},
         };
     }
 
@@ -303,9 +303,9 @@ public class GoModelTest {
 
     @DataProvider(name = "modelMappedNames")
     public static Object[][] mappedNames() {
-        return new Object[][] {
-            {"mapped", "Remapped", "model_remapped.go"},
-            {"mapped_underscore", "RemappedUnderscore", "model_remapped_underscore.go"},
+        return new Object[][]{
+                {"mapped", "Remapped", "model_remapped.go"},
+                {"mapped_underscore", "RemappedUnderscore", "model_remapped_underscore.go"},
         };
     }
 

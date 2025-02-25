@@ -53,6 +53,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
     public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
+
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
@@ -489,7 +490,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
                         // however, it's possible that the child model contains a recursive reference to the parent
                         // in order to support this case, we update the list of imports from properties once again
-                        for (CodegenProperty cp: cm.allVars) {
+                        for (CodegenProperty cp : cm.allVars) {
                             addImportsForPropertyType(cm, cp);
                         }
                         removeSelfReferenceImports(cm);
@@ -506,9 +507,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     private void setChildDiscriminatorValue(CodegenModel parent, CodegenModel child) {
         if (
-            child.vendorExtensions.isEmpty() ||
-            !child.vendorExtensions.containsKey("x-discriminator-value")
-            ) {
+                child.vendorExtensions.isEmpty() ||
+                        !child.vendorExtensions.containsKey("x-discriminator-value")
+        ) {
 
             for (CodegenProperty prop : child.allVars) {
                 if (prop.baseName.equals(parent.discriminator.getPropertyName())) {
@@ -725,7 +726,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      *
      * @param level the wanted level
      */
-    public void setProvidedIn (String level) {
+    public void setProvidedIn(String level) {
         try {
             providedIn = PROVIDED_IN_LEVEL.valueOf(level);
         } catch (IllegalArgumentException e) {

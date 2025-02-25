@@ -23,9 +23,9 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.meta.features.SecurityFeature;
 
 import java.io.File;
 import java.util.List;
@@ -148,7 +148,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         } else {
             convertPropertyToBooleanAndWriteBack(USE_SWAGGER_ANNOTATIONS, value -> useSwaggerAnnotations = value);
         }
-        if (KUMULUZEE_LIBRARY.equals(library)){
+        if (KUMULUZEE_LIBRARY.equals(library)) {
             super.setSourceFolder("src/main/java");
         }
 
@@ -164,9 +164,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
-        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+        } else if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
         }
 
@@ -181,25 +181,25 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
         supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
                 .doNotOverwrite());
 
         if (generatePom) {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
 
         supportingFiles.add(new SupportingFile("RestApplication.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
                 .doNotOverwrite());
 
-        if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
+        if (StringUtils.isNotEmpty(openApiSpecFileLocation)) {
             int index = openApiSpecFileLocation.lastIndexOf('/');
             String fileFolder;
             String fileName;
-            if(index >= 0) {
+            if (index >= 0) {
                 fileFolder = openApiSpecFileLocation.substring(0, index);
                 fileName = openApiSpecFileLocation.substring(index + 1);
             } else {
@@ -209,7 +209,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
         }
 
-        if(QUARKUS_LIBRARY.equals(library)) {
+        if (QUARKUS_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm")
@@ -218,7 +218,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
                     .doNotOverwrite());
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
@@ -229,7 +229,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
                     .doNotOverwrite());
-        } else if(HELIDON_LIBRARY.equals(library)) {
+        } else if (HELIDON_LIBRARY.equals(library)) {
             additionalProperties.computeIfAbsent("helidonVersion", key -> "2.4.1");
             supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
                     .doNotOverwrite());
@@ -237,7 +237,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml")
                     .doNotOverwrite());
-        } else if(KUMULUZEE_LIBRARY.equals(library)) {
+        } else if (KUMULUZEE_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
 

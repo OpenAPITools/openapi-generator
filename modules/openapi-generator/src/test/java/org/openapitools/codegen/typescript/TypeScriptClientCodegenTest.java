@@ -30,7 +30,7 @@ public class TypeScriptClientCodegenTest {
 
         // Cf. issue #4968: Array of Alias of Array
         Schema<?> parentSchema = new ArraySchema().items(
-            new Schema().$ref("#/components/schemas/Child")
+                new Schema().$ref("#/components/schemas/Child")
         );
 
         ModelUtils.setGenerateAliasAsModel(false);
@@ -66,12 +66,12 @@ public class TypeScriptClientCodegenTest {
     @Test
     public void testArrayWithUniqueItems() {
         final Schema uniqueArray = new ArraySchema()
-            .items(new StringSchema())
-            .uniqueItems(true);
+                .items(new StringSchema())
+                .uniqueItems(true);
         final Schema model = new ObjectSchema()
-            .description("an object has an array with uniqueItems")
-            .addProperty("uniqueArray", uniqueArray)
-            .addRequiredItem("uniqueArray");
+                .description("an object has an array with uniqueItems")
+                .addProperty("uniqueArray", uniqueArray)
+                .addRequiredItem("uniqueArray");
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -88,7 +88,7 @@ public class TypeScriptClientCodegenTest {
         inner.setAdditionalProperties(true);
 
         final Schema root = new ObjectSchema()
-            .addProperty("inner", inner);
+                .addProperty("inner", inner);
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
@@ -161,8 +161,8 @@ public class TypeScriptClientCodegenTest {
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         codegen.setOpenAPI(openAPI);
         final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
-            .getProperties()
-            .get("foo");
+                .getProperties()
+                .get("foo");
         Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
     }
 

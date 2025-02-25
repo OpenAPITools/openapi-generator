@@ -175,6 +175,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Boolean getStringEnums() {
         return this.stringEnums;
     }
+
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
     }

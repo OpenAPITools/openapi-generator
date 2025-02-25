@@ -178,27 +178,27 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNameSuffix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperty("child", new Schema().$ref("Child"));
+                .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperty("key", new StringSchema());
+                .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
-            .addSchemas("Root", rootSchema)
-            .addSchemas("Child", childSchema);
+                .addSchemas("Root", rootSchema)
+                .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setModelNameSuffix("Suffix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
-            codegen.fromModel("Root", rootSchema),
-            codegen.fromModel("Child", childSchema)
+                codegen.fromModel("Root", rootSchema),
+                codegen.fromModel("Child", childSchema)
         );
         final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
         final List<ModelMap> rootModelMaps = results.get("Root")
-            .getModels();
+                .getModels();
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
-            .get("tsImports");
+                .get("tsImports");
 
         Assert.assertEquals(tsImports.size(), 1);
         Assert.assertEquals(tsImports.get(0).get("filename"), "./childSuffix");
@@ -208,27 +208,27 @@ public class TypeScriptNodeClientCodegenTest {
     public void postProcessOperationsWithModelsTestWithModelNamePrefix() {
         final OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema rootSchema = new ObjectSchema()
-            .addProperty("child", new Schema().$ref("Child"));
+                .addProperty("child", new Schema().$ref("Child"));
         final Schema childSchema = new ObjectSchema()
-            .addProperty("key", new StringSchema());
+                .addProperty("key", new StringSchema());
 
         openAPI.getComponents()
-            .addSchemas("Root", rootSchema)
-            .addSchemas("Child", childSchema);
+                .addSchemas("Root", rootSchema)
+                .addSchemas("Child", childSchema);
 
         final TypeScriptNodeClientCodegen codegen = new TypeScriptNodeClientCodegen();
         codegen.setOpenAPI(openAPI);
         codegen.setModelNamePrefix("Prefix");
 
         final HashMap<String, ModelsMap> allModels = createParameterForPostProcessAllModels(
-            codegen.fromModel("Root", rootSchema),
-            codegen.fromModel("Child", childSchema)
+                codegen.fromModel("Root", rootSchema),
+                codegen.fromModel("Child", childSchema)
         );
         final Map<String, ModelsMap> results = codegen.postProcessAllModels(allModels);
         final List<ModelMap> rootModelMaps = results.get("Root")
-            .getModels();
+                .getModels();
         final List<Map<String, String>> tsImports = (List<Map<String, String>>) rootModelMaps.get(0)
-            .get("tsImports");
+                .get("tsImports");
 
         Assert.assertEquals(tsImports.size(), 1);
         Assert.assertEquals(tsImports.get(0).get("filename"), "./prefixChild");

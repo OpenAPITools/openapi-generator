@@ -1,8 +1,9 @@
 package org.openapitools.codegen.scala;
 
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -17,10 +18,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.core.models.ParseOptions;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class SttpCodegenTest {
 
@@ -37,12 +36,12 @@ public class SttpCodegenTest {
 
     @Test
     public void typeByteArray() {
-      final Schema<?> schema = new Schema<Object>()
-          .description("Schema with byte string");
-      schema.setType("string");
-      schema.setFormat("byte");
-      String type = codegen.getTypeDeclaration(schema);
-      Assert.assertEquals(type, "Array[Byte]");
+        final Schema<?> schema = new Schema<Object>()
+                .description("Schema with byte string");
+        schema.setType("string");
+        schema.setFormat("byte");
+        String type = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(type, "Array[Byte]");
     }
 
     @Test
