@@ -88,7 +88,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     // If the API does not contain any UUIDs we do not need depend on the `uuid` crate
     private boolean hasUUIDs = false;
 
-
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -182,6 +181,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
+        typeMapping.put("decimal", "String");
+
         // TODO(bcourtine): review file mapping.
         // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
         // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
@@ -314,6 +315,32 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     if (cp.baseName.equals(reserved_var_name)) {
                         cm.vars.remove(cp);
                         break;
+                    }
+                }
+
+                // Check if there are duplicate mappings in the discriminator
+                // ie.
+                // ```
+                // mappings:
+                //   student: '#/components/schemas/Person'
+                //   teacher: '#/components/schemas/Person'
+                //   car: '#/components/schemas/Vehicle'
+                // ```
+                //
+                // Should be mapped to an enum with `PersonStudent`, `PersonTeacher`, `Vehicle` to 2 `Person` enum variants. (a compiler error)
+                if (cm.discriminator.getMapping() != null) {
+                    if (hasDuplicateValues(cm.discriminator.getMapping())) {
+                        var inverted = invertMap(cm.discriminator.getMapping());
+                        for (var s : inverted.entrySet()) {
+                            if (s.getValue().size() > 1) {
+                                LOGGER.debug("Found duplicated enum model (" + s.getKey() + ") in model " + cm.name + ". Adding suffix to model names.");
+                                for (var m : cm.discriminator.getMappedModels()) {
+                                    if (s.getValue().contains(m.getMappingName())) {
+                                        m.setModelName(m.getModelName() + StringUtils.camelize(m.getMappingName()));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -763,4 +790,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .put("lifetimeName", new ReplaceAllLambda("^r#", "r_"));
     }
 
+    public static <K, V> Map<V, List<K>> invertMap(Map<K, V> map) {
+        Map<V, List<K>> invertedMap = new HashMap<>();
+
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            invertedMap.computeIfAbsent(entry.getValue(), k -> new ArrayList<>()).add(entry.getKey());
+        }
+
+        return invertedMap;
+    }
+
+    public static <K, V> boolean hasDuplicateValues(Map<K, V> map) {
+        Set<V> uniqueValues = new HashSet<>(map.values());
+        return uniqueValues.size() < map.size();
+    }
 }

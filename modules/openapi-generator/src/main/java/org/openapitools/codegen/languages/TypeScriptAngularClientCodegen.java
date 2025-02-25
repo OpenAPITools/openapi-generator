@@ -183,6 +183,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", getIndexDirectory(), "api.module.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", getIndexDirectory(), "configuration.ts"));
+        supportingFiles.add(new SupportingFile("api.base.service.mustache", getIndexDirectory(), "api.base.service.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
         supportingFiles.add(new SupportingFile("encoder.mustache", getIndexDirectory(), "encoder.ts"));
         supportingFiles.add(new SupportingFile("param.mustache", getIndexDirectory(), "param.ts"));
@@ -412,7 +413,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 hasSomeFormParams = true;
             }
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
-
+            // deduplicate auth methods by name (as they will lead to duplicate code):
+            op.authMethods =
+                op.authMethods != null ? op.authMethods.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(x -> x.name))), ArrayList::new))
+                    : null;
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();

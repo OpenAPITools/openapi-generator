@@ -39,6 +39,7 @@ Class | Method | HTTP request | Description
 *StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{orderId} | Find purchase order by ID
 *StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **POST** /store/order | Place an order for a pet
+*TestingApi* | [**tests_discriminator_duplicate_enums_get**](docs/TestingApi.md#tests_discriminator_duplicate_enums_get) | **GET** /tests/discriminatorDuplicateEnums | Test for duplicate enums when using discriminator. (One of the issues in #20500)
 *TestingApi* | [**tests_file_response_get**](docs/TestingApi.md#tests_file_response_get) | **GET** /tests/fileResponse | Returns an image file
 *TestingApi* | [**tests_type_testing_get**](docs/TestingApi.md#tests_type_testing_get) | **GET** /tests/typeTesting | Route to test the TypeTesting schema
 *UserApi* | [**create_user**](docs/UserApi.md#create_user) | **POST** /user | Create user
@@ -64,14 +65,17 @@ Class | Method | HTTP request | Description
  - [FooNumericEnumTesting](docs/FooNumericEnumTesting.md)
  - [FooOptionalTesting](docs/FooOptionalTesting.md)
  - [FooOrder](docs/FooOrder.md)
+ - [FooPerson](docs/FooPerson.md)
  - [FooPet](docs/FooPet.md)
  - [FooPropertyTest](docs/FooPropertyTest.md)
  - [FooRef](docs/FooRef.md)
  - [FooReturn](docs/FooReturn.md)
  - [FooTag](docs/FooTag.md)
+ - [FooTestsDiscriminatorDuplicateEnumsGet200Response](docs/FooTestsDiscriminatorDuplicateEnumsGet200Response.md)
  - [FooTypeTesting](docs/FooTypeTesting.md)
  - [FooUniqueItemArrayTesting](docs/FooUniqueItemArrayTesting.md)
  - [FooUser](docs/FooUser.md)
+ - [FooVehicle](docs/FooVehicle.md)
 
 
 To get access to the crate's generated documentation, use:
