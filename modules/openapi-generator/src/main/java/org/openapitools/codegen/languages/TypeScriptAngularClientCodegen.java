@@ -415,8 +415,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
             // deduplicate auth methods by name (as they will lead to duplicate code):
             op.authMethods =
-                op.authMethods != null ? op.authMethods.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(x -> x.name))), ArrayList::new))
-                    : null;
+                    op.authMethods != null ? op.authMethods.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(x -> x.name))), ArrayList::new))
+                            : null;
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();

@@ -190,9 +190,9 @@ public class TypeScriptClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("typescript")
-            .setInputSpec("src/test/resources/bugs/typescript_enum_var_name_all_sanitized.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/bugs/typescript_enum_var_name_all_sanitized.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         final DefaultGenerator generator = new DefaultGenerator();
@@ -200,14 +200,14 @@ public class TypeScriptClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(
-            Paths.get(output + "/models/Greeting.ts"),
-            "export enum Greeting {\n" +
-            "    _こんにちは = 'こんにちは',\n" +
-            "    _你好 = '你好',\n" +
-            "    _안녕하세요 = '안녕하세요',\n" +
-            "    STRING = '!@#%',\n" +
-            "    STRING2 = '^&*\uD83C\uDF63'",
-            "}"
+                Paths.get(output + "/models/Greeting.ts"),
+                "export enum Greeting {\n" +
+                        "    _こんにちは = 'こんにちは',\n" +
+                        "    _你好 = '你好',\n" +
+                        "    _안녕하세요 = '안녕하세요',\n" +
+                        "    STRING = '!@#%',\n" +
+                        "    STRING2 = '^&*\uD83C\uDF63'",
+                "}"
         );
     }
 }
