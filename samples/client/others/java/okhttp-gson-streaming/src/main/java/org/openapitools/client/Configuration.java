@@ -13,29 +13,60 @@
 
 package org.openapitools.client;
 
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
+
+/**
+ * modified version of the java-native version with planned enhancements:
+ * <ul>
+ *   <li>private ctor (Effective Java item 4)</li>
+ *   <li>thread-safe storage of ApIClient ref</li>
+ *   <li>lazy eval of ApiClient</li>
+ *   <li>configurable callback to create ApiClient on demand</li>
+ * </ul>
+ */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
 public class Configuration {
-    public static final String VERSION = "1.0";
+  public static final String VERSION = "1.0";
 
-    private static volatile ApiClient defaultApiClient = new ApiClient();
+  private static final AtomicReference<ApiClient> defaultApiClient = new AtomicReference<>();
+  private static volatile Supplier<ApiClient> apiClientFactory = ApiClient::new;
 
-    /**
-     * Get the default API client, which would be used when creating API
-     * instances without providing an API client.
-     *
-     * @return Default API client
-     */
-    public static ApiClient getDefaultApiClient() {
-        return defaultApiClient;
+  /**
+   * Get the default API client, which would be used when creating API instances without providing an API client.
+   *
+   * @return Default API client
+   */
+  public static ApiClient getDefaultApiClient() {
+    ApiClient client = defaultApiClient.get();
+    if (client == null) {
+      client = defaultApiClient.updateAndGet(val -> {
+        if (val != null) { // changed by another thread
+          return val;
+        }
+        return apiClientFactory.get();
+      });
     }
+    return client;
+  }
 
-    /**
-     * Set the default API client, which would be used when creating API
-     * instances without providing an API client.
-     *
-     * @param apiClient API client
-     */
-    public static void setDefaultApiClient(ApiClient apiClient) {
-        defaultApiClient = apiClient;
-    }
+  /**
+   * Set the default API client, which would be used when creating API instances without providing an API client.
+   *
+   * @param apiClient API client
+   */
+  public static void setDefaultApiClient(ApiClient apiClient) {
+    defaultApiClient.set(apiClient);
+  }
+
+  /**
+   * set the callback used to create new ApiClient objects
+   */
+  public static void setApiClientFactory(Supplier<ApiClient> factory) {
+    apiClientFactory = Objects.requireNonNull(factory);
+  }
+
+  private Configuration() {
+  }
 }
