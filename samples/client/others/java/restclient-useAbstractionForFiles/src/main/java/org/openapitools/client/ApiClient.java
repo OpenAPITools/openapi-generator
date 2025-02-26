@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.function.Supplier;
 
 import jakarta.annotation.Nullable;
 
@@ -215,6 +216,21 @@ public class ApiClient extends JavaTimeFormatter {
             if (auth instanceof HttpBearerAuth) {
                 ((HttpBearerAuth) auth).setBearerToken(bearerToken);
                 return;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
+    }
+
+    /**
+    * Helper method to set the supplier of access tokens for Bearer authentication.
+    *
+    * @param tokenSupplier the token supplier function
+    */
+    public void setBearerToken(Supplier<String> tokenSupplier) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
+            return;
             }
         }
         throw new RuntimeException("No Bearer authentication configured!");
