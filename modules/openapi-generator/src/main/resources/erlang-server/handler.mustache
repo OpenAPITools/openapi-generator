@@ -91,7 +91,7 @@ is_authorized(Req, State) ->
     {{#consumes.size}}
     {[
     {{#consumes}}
-      {<<"{{mediaType}}">>, handle_type_accepted}{{^-last}}{{#consumes.size}},{{/consumes.size}}{{/-last}}
+      {<<"{{{mediaType}}}">>, handle_type_accepted}{{^-last}}{{#consumes.size}},{{/consumes.size}}{{/-last}}
     {{/consumes}}
      ], Req, State};
     {{/consumes.size}}
@@ -114,7 +114,7 @@ is_authorized(Req, State) ->
     {{#produces.size}}
     {[
     {{#produces}}
-      {<<"{{mediaType}}">>, handle_type_provided}{{^-last}}{{#produces.size}},{{/produces.size}}{{/-last}}
+      {<<"{{{mediaType}}}">>, handle_type_provided}{{^-last}}{{#produces.size}},{{/produces.size}}{{/-last}}
     {{/produces}}
      ], Req, State};
     {{/produces.size}}
