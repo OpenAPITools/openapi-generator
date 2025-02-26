@@ -118,6 +118,20 @@ func (obj *Mammal) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj Mammal) GetActualInstanceValue() (interface{}) {
+	if obj.Whale != nil {
+		return *obj.Whale
+	}
+
+	if obj.Zebra != nil {
+		return *obj.Zebra
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableMammal struct {
 	value *Mammal
 	isSet bool
