@@ -30,6 +30,7 @@ components:
         - "$ref": "#/components/schemas/Hello"
         - "$ref": "#/components/schemas/Greeting"
         - "$ref": "#/components/schemas/Goodbye"
+        - "$ref": "#/components/schemas/SomethingCompletelyDifferent"
       title: Message
     Hello:
       type: object
@@ -84,3 +85,9 @@ components:
       required:
         - op
         - d
+    SomethingCompletelyDifferent:
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object
