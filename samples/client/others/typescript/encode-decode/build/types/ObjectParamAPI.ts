@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration, ConfigurationOptions } from '../configuration'
-import type { Middleware } from "../middleware";
+import type { Middleware } from '../middleware';
 
 import { ComplexObject } from '../models/ComplexObject';
 import { CompositeObject } from '../models/CompositeObject';

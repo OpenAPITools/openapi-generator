@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration, ConfigurationOptions, PromiseConfigurationOptions } from '../configuration'
-import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';

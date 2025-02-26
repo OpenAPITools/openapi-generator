@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration, ConfigurationOptions } from '../configuration'
-import type { Middleware } from "../middleware";
+import type { Middleware } from '../middleware';
 
 import { List } from '../models/List';
 import { ListPaged } from '../models/ListPaged';
