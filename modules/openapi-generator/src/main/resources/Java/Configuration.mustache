@@ -6,15 +6,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-/**
- * modified version of the java-native version with planned enhancements:
- * <ul>
- *   <li>private ctor (Effective Java item 4)</li>
- *   <li>thread-safe storage of ApIClient ref</li>
- *   <li>lazy eval of ApiClient</li>
- *   <li>configurable callback to create ApiClient on demand</li>
- * </ul>
- */
 {{>generatedAnnotation}}
 public class Configuration {
   public static final String VERSION = "{{{artifactVersion}}}";
