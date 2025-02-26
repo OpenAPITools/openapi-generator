@@ -1,7 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
 import { Configuration{{^useInversify}}, ConfigurationOptions, PromiseConfigurationOptions{{/useInversify}} } from '../configuration{{importFileExtension}}'
 {{^useInversify}}
-import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware{{importFileExtension}}';
 {{/useInversify}}
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
