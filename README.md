@@ -631,6 +631,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [act coding](https://github.com/actcoding)
 - [Adaptant Solutions AG](https://www.adaptant.io/)
 - [adesso SE](https://www.adesso.de/)
+- [adorsys GmbH & Co.KG](https://adorsys.com/)
 - [Adyen](https://www.adyen.com/)
 - [Agoda](https://www.agoda.com/)
 - [Airthings](https://www.airthings.com/)
