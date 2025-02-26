@@ -31,30 +31,34 @@ export class ObservableDefaultApi {
      * @param [filePostRequest]
      */
     public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
-	let _config = this.configuration
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
+    let _config = this.configuration;
+    let allMiddleware: Middleware[] = [];
+    if (_options && _options.middleware){
+      const middlewareMergeStrategy = _options.middlewareMergeStrategy || 'replace' // default to replace behavior
+      // call-time middleware provided
+      const calltimeMiddleware: Middleware[] = _options.middleware;
 
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+      switch(middlewareMergeStrategy){
+      case 'append':
+        allMiddleware = this.configuration.middleware.concat(calltimeMiddleware);
+        break;
+      case 'prepend':
+        allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+        break;
+      case 'replace':
+        allMiddleware = calltimeMiddleware
+        break;
+      default: 
+        throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`)
+      }
 	}
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || this.configuration.baseServer,
-		    httpApi: _options.httpApi || this.configuration.httpApi,
-		    authMethods: _options.authMethods || this.configuration.authMethods,
-		    middleware: allMiddleware || this.configuration.middleware
-		}
+    _config = {
+      baseServer: _options.baseServer || this.configuration.baseServer,
+      httpApi: _options.httpApi || this.configuration.httpApi,
+      authMethods: _options.authMethods || this.configuration.authMethods,
+      middleware: allMiddleware || this.configuration.middleware
+		};
 	}
 
         const requestContextPromise = this.requestFactory.filePost(filePostRequest, _config);
@@ -85,30 +89,34 @@ export class ObservableDefaultApi {
      * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
-	let _config = this.configuration
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
+    let _config = this.configuration;
+    let allMiddleware: Middleware[] = [];
+    if (_options && _options.middleware){
+      const middlewareMergeStrategy = _options.middlewareMergeStrategy || 'replace' // default to replace behavior
+      // call-time middleware provided
+      const calltimeMiddleware: Middleware[] = _options.middleware;
 
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+      switch(middlewareMergeStrategy){
+      case 'append':
+        allMiddleware = this.configuration.middleware.concat(calltimeMiddleware);
+        break;
+      case 'prepend':
+        allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+        break;
+      case 'replace':
+        allMiddleware = calltimeMiddleware
+        break;
+      default: 
+        throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`)
+      }
 	}
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || this.configuration.baseServer,
-		    httpApi: _options.httpApi || this.configuration.httpApi,
-		    authMethods: _options.authMethods || this.configuration.authMethods,
-		    middleware: allMiddleware || this.configuration.middleware
-		}
+    _config = {
+      baseServer: _options.baseServer || this.configuration.baseServer,
+      httpApi: _options.httpApi || this.configuration.httpApi,
+      authMethods: _options.authMethods || this.configuration.authMethods,
+      middleware: allMiddleware || this.configuration.middleware
+		};
 	}
 
         const requestContextPromise = this.requestFactory.petsFilteredPatch(petsFilteredPatchRequest, _config);
@@ -139,30 +147,34 @@ export class ObservableDefaultApi {
      * @param [petsPatchRequest]
      */
     public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
-	let _config = this.configuration
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
+    let _config = this.configuration;
+    let allMiddleware: Middleware[] = [];
+    if (_options && _options.middleware){
+      const middlewareMergeStrategy = _options.middlewareMergeStrategy || 'replace' // default to replace behavior
+      // call-time middleware provided
+      const calltimeMiddleware: Middleware[] = _options.middleware;
 
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+      switch(middlewareMergeStrategy){
+      case 'append':
+        allMiddleware = this.configuration.middleware.concat(calltimeMiddleware);
+        break;
+      case 'prepend':
+        allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+        break;
+      case 'replace':
+        allMiddleware = calltimeMiddleware
+        break;
+      default: 
+        throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`)
+      }
 	}
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || this.configuration.baseServer,
-		    httpApi: _options.httpApi || this.configuration.httpApi,
-		    authMethods: _options.authMethods || this.configuration.authMethods,
-		    middleware: allMiddleware || this.configuration.middleware
-		}
+    _config = {
+      baseServer: _options.baseServer || this.configuration.baseServer,
+      httpApi: _options.httpApi || this.configuration.httpApi,
+      authMethods: _options.authMethods || this.configuration.authMethods,
+      middleware: allMiddleware || this.configuration.middleware
+		};
 	}
 
         const requestContextPromise = this.requestFactory.petsPatch(petsPatchRequest, _config);

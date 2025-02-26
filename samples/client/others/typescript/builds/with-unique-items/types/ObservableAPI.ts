@@ -24,30 +24,34 @@ export class ObservableDefaultApi {
     /**
      */
     public uniqueItemsWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Response>> {
-	let _config = this.configuration
-	let allMiddleware: Middleware[] = []
-	if (_options && _options.middleware){
-	    // call-time middleware provided
-            let calltimeMiddleware: Middleware[] = _options.middleware
+    let _config = this.configuration;
+    let allMiddleware: Middleware[] = [];
+    if (_options && _options.middleware){
+      const middlewareMergeStrategy = _options.middlewareMergeStrategy || 'replace' // default to replace behavior
+      // call-time middleware provided
+      const calltimeMiddleware: Middleware[] = _options.middleware;
 
-	    switch(_options.middlewareMergeStrategy){
-	    	case 'append':
-                    allMiddleware = this.configuration.middleware.concat(calltimeMiddleware)
-		    break;
-	    	case 'prepend':
-		    allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
-		    break;
-		default: // replace
-		    allMiddleware = calltimeMiddleware
-	    }
+      switch(middlewareMergeStrategy){
+      case 'append':
+        allMiddleware = this.configuration.middleware.concat(calltimeMiddleware);
+        break;
+      case 'prepend':
+        allMiddleware = calltimeMiddleware.concat(this.configuration.middleware)
+        break;
+      case 'replace':
+        allMiddleware = calltimeMiddleware
+        break;
+      default: 
+        throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`)
+      }
 	}
 	if (_options){
-		_config = {
-		    baseServer: _options.baseServer || this.configuration.baseServer,
-		    httpApi: _options.httpApi || this.configuration.httpApi,
-		    authMethods: _options.authMethods || this.configuration.authMethods,
-		    middleware: allMiddleware || this.configuration.middleware
-		}
+    _config = {
+      baseServer: _options.baseServer || this.configuration.baseServer,
+      httpApi: _options.httpApi || this.configuration.httpApi,
+      authMethods: _options.authMethods || this.configuration.authMethods,
+      middleware: allMiddleware || this.configuration.middleware
+		};
 	}
 
         const requestContextPromise = this.requestFactory.uniqueItems(_config);
