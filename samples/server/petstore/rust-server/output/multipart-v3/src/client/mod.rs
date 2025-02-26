@@ -25,7 +25,7 @@ use multipart::client::lazy::Multipart;
 use hyper_0_10::header::{Headers, ContentType};
 use mime_multipart::{Node, Part, write_multipart};
 
-use crate::models;
+use super::super::models;
 use crate::header;
 
 /// https://url.spec.whatwg.org/#fragment-percent-encode-set
