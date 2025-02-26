@@ -133,5 +133,5 @@ public interface PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    Uni<ModelApiResponse> uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") Attachment _fileDetail) throws ApiException, ProcessingException;
+    Uni<ModelApiResponse> uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") File _fileDetail) throws ApiException, ProcessingException;
 }

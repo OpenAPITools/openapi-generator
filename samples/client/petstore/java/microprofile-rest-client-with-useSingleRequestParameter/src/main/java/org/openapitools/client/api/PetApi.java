@@ -273,7 +273,7 @@ public interface PetApi  {
 
         private @PathParam("petId") Long petId;
         private @FormParam("additionalMetadata")  String additionalMetadata;
-        private  @FormParam("file") Attachment _fileDetail;
+        private  @FormParam("file") File _fileDetail;
 
         private UploadFileRequest() {
         }

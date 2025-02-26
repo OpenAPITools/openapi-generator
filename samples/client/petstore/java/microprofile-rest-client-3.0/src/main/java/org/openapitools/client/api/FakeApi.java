@@ -154,7 +154,7 @@ public interface FakeApi  {
     @POST
     
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEndpointParameters(@FormParam("number")  BigDecimal number, @FormParam("double")  Double _double, @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter, @FormParam("byte")  byte[] _byte, @FormParam("integer")  Integer integer, @FormParam("int32")  Integer int32, @FormParam("int64")  Long int64, @FormParam("float")  Float _float, @FormParam("string")  String string,  @FormParam("binary") Attachment binaryDetail, @FormParam("date")  Date date, @FormParam("dateTime")  Date dateTime, @FormParam("password")  String password, @FormParam("callback")  String paramCallback) throws ApiException, ProcessingException;
+    void testEndpointParameters(@FormParam("number")  BigDecimal number, @FormParam("double")  Double _double, @FormParam("pattern_without_delimiter")  String patternWithoutDelimiter, @FormParam("byte")  byte[] _byte, @FormParam("integer")  Integer integer, @FormParam("int32")  Integer int32, @FormParam("int64")  Long int64, @FormParam("float")  Float _float, @FormParam("string")  String string,  @FormParam("binary") File binaryDetail, @FormParam("date")  Date date, @FormParam("dateTime")  Date dateTime, @FormParam("password")  String password, @FormParam("callback")  String paramCallback) throws ApiException, ProcessingException;
 
     /**
      * To test enum parameters

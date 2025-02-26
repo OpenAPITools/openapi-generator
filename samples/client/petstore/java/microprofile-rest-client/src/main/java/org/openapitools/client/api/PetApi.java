@@ -132,7 +132,7 @@ public interface PetApi  {
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") Attachment _fileDetail) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") File _fileDetail) throws ApiException, ProcessingException;
 
     /**
      * uploads an image (required)
@@ -144,5 +144,5 @@ public interface PetApi  {
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @FormParam("requiredFile") Attachment requiredFileDetail, @FormParam("additionalMetadata")  String additionalMetadata) throws ApiException, ProcessingException;
+    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @FormParam("requiredFile") File requiredFileDetail, @FormParam("additionalMetadata")  String additionalMetadata) throws ApiException, ProcessingException;
 }
