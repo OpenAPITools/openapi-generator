@@ -5325,24 +5325,45 @@ public class SpringCodegenTest {
                 );
     }
 
+    @Test
     public void shouldNotAcceptNullValues() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
         codegen.setUseSpringBoot3(true);
         codegen.setUseOptional(true);
-        codegen.setOptionalAcceptNullable(true);
+        codegen.setOptionalAcceptNullable(false);
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
         var file = files.get("Category.java");
 
         JavaFileAssert.assertThat(file)
                 .fileContains(
-                        "this.id = Optional.of(id);"
+                        "this.name = Optional.of(name);"
                 );
         JavaFileAssert.assertThat(file)
                 .fileDoesNotContain(
                         "this.name = Optional.ofNullable(name);"
                 );
+    }
 
+    @Test
+    public void shouldAcceptNullValues() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        //codegen.setOptionalAcceptNullable(true); // default to true
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("Category.java");
+
+        JavaFileAssert.assertThat(file)
+                .fileContains(
+                        "this.name = Optional.ofNullable(name);"
+                );
+        JavaFileAssert.assertThat(file)
+                .fileDoesNotContain(
+                        "this.name = Optional.of(name);"
+                );
     }
 }
