@@ -1,6 +1,6 @@
 generatorName: spring
 library: spring-cloud
-outputDir: /tmp/samples/openapi3/client/petstore/spring-cloud-3-with-optional
+outputDir: samples/openapi3/client/petstore/spring-cloud-3-with-optional
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
