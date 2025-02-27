@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http.ts';
 import { Configuration, ConfigurationOptions } from '../configuration.ts'
-import type { Middleware } from "../middleware";
+import type { Middleware } from '../middleware.ts';
 
 import { ApiResponse } from '../models/ApiResponse.ts';
 import { Category } from '../models/Category.ts';

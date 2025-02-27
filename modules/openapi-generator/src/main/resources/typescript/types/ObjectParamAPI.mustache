@@ -1,7 +1,7 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
 import { Configuration{{^useInversify}}, ConfigurationOptions{{/useInversify}} } from '../configuration{{importFileExtension}}'
 {{^useInversify}}
-import type { Middleware } from "../middleware";
+import type { Middleware } from '../middleware{{importFileExtension}}';
 {{/useInversify}}
 {{#useRxJS}}
 import { Observable } from 'rxjs';

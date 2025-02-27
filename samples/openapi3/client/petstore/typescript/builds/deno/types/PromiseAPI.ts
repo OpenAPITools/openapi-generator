@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http.ts';
 import { Configuration, ConfigurationOptions, PromiseConfigurationOptions } from '../configuration.ts'
-import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from "../middleware";
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware.ts';
 
 import { ApiResponse } from '../models/ApiResponse.ts';
 import { Category } from '../models/Category.ts';

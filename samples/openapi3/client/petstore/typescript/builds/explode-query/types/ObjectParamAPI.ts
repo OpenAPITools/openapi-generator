@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration, ConfigurationOptions } from '../configuration'
-import type { Middleware } from "../middleware";
+import type { Middleware } from '../middleware';
 
 import { AdditionalPropertiesClass } from '../models/AdditionalPropertiesClass';
 import { AllOfWithSingleRef } from '../models/AllOfWithSingleRef';

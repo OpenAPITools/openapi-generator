@@ -1,6 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http.ts';
 import { Configuration, ConfigurationOptions } from '../configuration.ts'
-import type { Middleware } from "../middleware";
+import type { Middleware } from '../middleware.ts';
 import { Observable, of, from } from '../rxjsStub.ts';
 import {mergeMap, map} from  '../rxjsStub.ts';
 import { ApiResponse } from '../models/ApiResponse.ts';
