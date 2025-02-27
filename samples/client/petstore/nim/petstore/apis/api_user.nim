@@ -70,12 +70,12 @@ proc getUserByName*(httpClient: HttpClient, username: string): (Option[User], Re
 
 proc loginUser*(httpClient: HttpClient, username: string, password: string): (Option[string], Response) =
   ## Logs user into the system
-  let query_for_api_call = encodeQuery([
+  let url_encoded_query_params = encodeQuery([
     ("username", $username), # The user name for login
     ("password", $password), # The password for login in clear text
   ])
 
-  let response = httpClient.get(basepath & "/user/login" & "?" & query_for_api_call)
+  let response = httpClient.get(basepath & "/user/login" & "?" & url_encoded_query_params)
   constructResult[string](response)
 
 
