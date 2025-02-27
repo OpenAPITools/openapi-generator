@@ -1914,6 +1914,22 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void shouldProperlyExplodeRestTemplateArrayQueryParameters_issue20127() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/exploded-query-param-array.yaml",
+                RESTTEMPLATE
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("getSomeValueWithHttpInfo")
+                .bodyContainsLines(
+                        "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap("
+                                + "ApiClient.CollectionFormat.valueOf(\"multi\".toUpperCase(Locale.ROOT)),"
+                                + " \"QueryArray\", queryArray));");
+    }
+
+    @Test
     public void shouldProperlyExplodeWebClientQueryParameters() {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/java/explode-query-parameter.yaml",
@@ -1935,6 +1951,22 @@ public class JavaClientCodegenTest {
                 .bodyContainsLines(
                         "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
                                 + " objectParam.getSomeInteger()));");
+    }
+
+    @Test
+    public void shouldProperlyExplodeWebClientArrayQueryParameters_issue20127() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/exploded-query-param-array.yaml",
+                JavaClientCodegen.WEBCLIENT
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("getSomeValueRequestCreation")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap("
+                                + "ApiClient.CollectionFormat.valueOf(\"multi\".toUpperCase(Locale.ROOT)),"
+                                + " \"QueryArray\", queryArray));");
     }
 
     private static Map<String, File> generateFromContract(final String pathToSpecification, final String library) {
