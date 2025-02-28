@@ -22,7 +22,7 @@ npm install @openapitools/openapi-generator-cli -g
 To install a specific version of the tool, pass the version during installation:
 <!-- RELEASE_VERSION -->
 ```bash
-openapi-generator-cli version-manager set 7.9.0
+openapi-generator-cli version-manager set 7.12.0
 ```
 <!-- /RELEASE_VERSION -->
 To install the tool as a dev dependency in your current project:

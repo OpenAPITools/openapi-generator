@@ -152,6 +152,24 @@ func (obj *OneOfPrimitiveType) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj OneOfPrimitiveType) GetActualInstanceValue() (interface{}) {
+	if obj.OneOfPrimitiveTypeChild != nil {
+		return *obj.OneOfPrimitiveTypeChild
+	}
+
+	if obj.ArrayOfString != nil {
+		return *obj.ArrayOfString
+	}
+
+	if obj.Int32 != nil {
+		return *obj.Int32
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableOneOfPrimitiveType struct {
 	value *OneOfPrimitiveType
 	isSet bool
