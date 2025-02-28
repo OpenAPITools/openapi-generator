@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```swift
-    open class func addPet(body: Pet, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<AddPet>
+    open func addPet(body: Pet, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<AddPet>
 ```
 
 Add a new pet to the store
@@ -30,7 +30,7 @@ import PetstoreClient
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // Add a new pet to the store
-PetAPI.addPet(body: body).whenComplete { result in
+PetAPI().addPet(body: body).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -76,7 +76,7 @@ public enum AddPet {
 
 # **deletePet**
 ```swift
-    open class func deletePet(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeletePet>
+    open func deletePet(petId: Int64, apiKey: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeletePet>
 ```
 
 Deletes a pet
@@ -90,7 +90,7 @@ let petId = 987 // Int64 | Pet id to delete
 let apiKey = "apiKey_example" // String |  (optional)
 
 // Deletes a pet
-PetAPI.deletePet(petId: petId, apiKey: apiKey).whenComplete { result in
+PetAPI().deletePet(petId: petId, apiKey: apiKey).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -137,7 +137,7 @@ public enum DeletePet {
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus>
+    open func findPetsByStatus(status: [Status_findPetsByStatus], headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByStatus>
 ```
 
 Finds Pets by status
@@ -152,7 +152,7 @@ import PetstoreClient
 let status = ["status_example"] // [String] | Status values that need to be considered for filter
 
 // Finds Pets by status
-PetAPI.findPetsByStatus(status: status).whenComplete { result in
+PetAPI().findPetsByStatus(status: status).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -198,7 +198,7 @@ public enum FindPetsByStatus {
 
 # **findPetsByTags**
 ```swift
-    open class func findPetsByTags(tags: Set<String>, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByTags>
+    open func findPetsByTags(tags: Set<String>, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FindPetsByTags>
 ```
 
 Finds Pets by tags
@@ -213,7 +213,7 @@ import PetstoreClient
 let tags = ["inner_example"] // Set<String> | Tags to filter by
 
 // Finds Pets by tags
-PetAPI.findPetsByTags(tags: tags).whenComplete { result in
+PetAPI().findPetsByTags(tags: tags).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -259,7 +259,7 @@ public enum FindPetsByTags {
 
 # **getPetById**
 ```swift
-    open class func getPetById(petId: Int64, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetPetById>
+    open func getPetById(petId: Int64, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetPetById>
 ```
 
 Find pet by ID
@@ -274,7 +274,7 @@ import PetstoreClient
 let petId = 987 // Int64 | ID of pet to return
 
 // Find pet by ID
-PetAPI.getPetById(petId: petId).whenComplete { result in
+PetAPI().getPetById(petId: petId).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -322,7 +322,7 @@ public enum GetPetById {
 
 # **updatePet**
 ```swift
-    open class func updatePet(body: Pet, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePet>
+    open func updatePet(body: Pet, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePet>
 ```
 
 Update an existing pet
@@ -335,7 +335,7 @@ import PetstoreClient
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // Update an existing pet
-PetAPI.updatePet(body: body).whenComplete { result in
+PetAPI().updatePet(body: body).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -385,7 +385,7 @@ public enum UpdatePet {
 
 # **updatePetWithForm**
 ```swift
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePetWithForm>
+    open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdatePetWithForm>
 ```
 
 Updates a pet in the store with form data
@@ -400,7 +400,7 @@ let name = "name_example" // String | Updated name of the pet (optional)
 let status = "status_example" // String | Updated status of the pet (optional)
 
 // Updates a pet in the store with form data
-PetAPI.updatePetWithForm(petId: petId, name: name, status: status).whenComplete { result in
+PetAPI().updatePetWithForm(petId: petId, name: name, status: status).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -446,7 +446,7 @@ public enum UpdatePetWithForm {
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFile>
+    open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFile>
 ```
 
 uploads an image
@@ -461,7 +461,7 @@ let additionalMetadata = "additionalMetadata_example" // String | Additional dat
 let file = Data([9, 8, 7]) // Data | file to upload (optional)
 
 // uploads an image
-PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file).whenComplete { result in
+PetAPI().uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
@@ -507,7 +507,7 @@ public enum UploadFile {
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFileWithRequiredFile>
+    open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UploadFileWithRequiredFile>
 ```
 
 uploads an image (required)
@@ -522,7 +522,7 @@ let requiredFile = Data([9, 8, 7]) // Data | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // uploads an image (required)
-PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).whenComplete { result in
+PetAPI().uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error

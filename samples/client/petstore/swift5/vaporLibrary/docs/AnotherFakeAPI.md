@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(uuidTest: UUID, body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags>
+    open func call123testSpecialTags(uuidTest: UUID, body: Client, headers: HTTPHeaders = PetstoreClientAPI.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags>
 ```
 
 To test special tags
@@ -25,7 +25,7 @@ let uuidTest = 987 // UUID | to test uuid example value
 let body = Client(client: "client_example") // Client | client model
 
 // To test special tags
-AnotherFakeAPI.call123testSpecialTags(uuidTest: uuidTest, body: body).whenComplete { result in
+AnotherFakeAPI().call123testSpecialTags(uuidTest: uuidTest, body: body).whenComplete { result in
     switch result {
     case .failure(let error):
     // process error
