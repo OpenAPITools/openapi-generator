@@ -305,7 +305,7 @@ public interface PetApi  {
          * @param _fileDetail file to upload (optional)
          * @return UploadFileRequest
          */
-        public UploadFileRequest _fileDetail( Attachment _fileDetail) {
+        public UploadFileRequest _fileDetail( File _fileDetail) {
             this._fileDetail = _fileDetail;
             return this;
         }
