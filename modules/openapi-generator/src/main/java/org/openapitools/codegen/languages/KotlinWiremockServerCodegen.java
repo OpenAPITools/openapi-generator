@@ -17,8 +17,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
+    private final Logger LOGGER = LoggerFactory.getLogger(KotlinWiremockServerCodegen.class);
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
@@ -138,13 +141,13 @@ public class KotlinWiremockServerCodegen extends AbstractKotlinCodegen {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                              #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                     #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                              #");
-        System.out.println("#                                                                                  #");
-        System.out.println("# This generator's contributed by Stefan Koppier (https://github.com/stefankoppier)#");
-        System.out.println("################################################################################");
+        LOGGER.warn("################################################################################");
+        LOGGER.warn("# Thanks for using OpenAPI Generator.                                              #");
+        LOGGER.warn("# Please consider donation to help us maintain this project \uD83D\uDE4F                     #");
+        LOGGER.warn("# https://opencollective.com/openapi_generator/donate                              #");
+        LOGGER.warn("#                                                                                  #");
+        LOGGER.warn("# This generator's contributed by Stefan Koppier (https://github.com/stefankoppier)#");
+        LOGGER.warn("################################################################################");
     }
 
 }
