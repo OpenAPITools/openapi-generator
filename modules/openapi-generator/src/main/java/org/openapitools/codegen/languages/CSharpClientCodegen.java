@@ -355,9 +355,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 "Use source generation where available (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
-        supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
-                + "(Experimental. Subject to breaking changes without notice.)");
-        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+        supportedLibraries.put(GENERICHOST, "HttpClient, Generic Host integration, and System.Text.Json (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host)");
+        supportedLibraries.put(HTTPCLIENT, "HttpClient and Newtonsoft (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(UNITY_WEB_REQUEST, "UnityWebRequest (...) "
                 + "(Experimental. Subject to breaking changes without notice.)");
@@ -365,10 +364,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        // set RESTSHARP as the default
-        libraryOption.setDefault(RESTSHARP);
+        // set GENERICHOST as the default
+        libraryOption.setDefault(GENERICHOST);
         cliOptions.add(libraryOption);
-        setLibrary(RESTSHARP);
+        setLibrary(GENERICHOST);
     }
 
     @Deprecated
@@ -889,16 +888,22 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         switch (library) {
+            case RESTSHARP:
+                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath);
+                additionalProperties.put("modelDocPath", modelDocPath);
+
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
+                    supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
+                    supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
+                }
+                break;
             case HTTPCLIENT:
                 supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
                 addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
                 additionalProperties.put("apiDocPath", apiDocPath);
                 additionalProperties.put("modelDocPath", modelDocPath);
-                break;
-            case GENERICHOST:
-                addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
-                additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
-                additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
                 break;
             case UNITY_WEB_REQUEST:
                 additionalProperties.put(CodegenConstants.VALIDATABLE, false);
@@ -914,16 +919,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
                 supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
                 break;
-            default: // restsharp
-                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
-                additionalProperties.put("apiDocPath", apiDocPath);
-                additionalProperties.put("modelDocPath", modelDocPath);
-
-                if (ProcessUtils.hasOAuthMethods(openAPI)) {
-                    supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
-                    supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
-                    supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
-                }
+            default: // generichost
+                addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
+                additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
                 break;
         }
 
