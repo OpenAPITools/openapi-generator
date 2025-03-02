@@ -24,6 +24,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.parser.OpenAPIResolver;
 import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import lombok.Setter;
 import org.apache.commons.io.FileUtils;
@@ -37,6 +38,7 @@ import org.apache.maven.plugins.annotations.*;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.config.MergedSpecBuilder;
@@ -1002,8 +1004,10 @@ public class CodeGenMojo extends AbstractMojo {
         parseOptions.setResolve(true);
         
         final URL remoteUrl = inputSpecRemoteUrl();
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
+
         return Hashing.sha256().hashBytes(
-            new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), null, parseOptions)
+            new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
                 .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
         ).toString();
     }
@@ -1089,7 +1093,9 @@ public class CodeGenMojo extends AbstractMojo {
         // Merge the OpenAPI spec file.
         final var parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
-        final var openApiMerged = new OpenAPIResolver(new OpenAPIV3Parser().readLocation(inputSpec, null, parseOptions).getOpenAPI()).resolve();
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
+
+        final var openApiMerged = new OpenAPIResolver(new OpenAPIV3Parser().readLocation(inputSpec, authorizationValues, parseOptions).getOpenAPI()).resolve();
 
         // Switch based on JSON or YAML.
         final var extension = inputSpec.toLowerCase(Locale.ROOT).endsWith(".json") ? ".json" : ".yaml";
