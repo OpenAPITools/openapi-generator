@@ -477,7 +477,7 @@ public class ApiClient extends JavaTimeFormatter {
    * @param value The header's value
    * @return API client
    */
-  public ApiClient addDefaultHeader(String key, String value) {
+  public final ApiClient addDefaultHeader(String key, String value) {
     defaultHeaderMap.put(key, value);
     return this;
   }
