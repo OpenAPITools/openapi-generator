@@ -620,7 +620,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                if (addJsonNameAnnotation && !p.baseName.equals(p.paramName)) {
+                if (addJsonNameAnnotation && !p.baseName.equals(p.paramName) && !p.isBodyParam) {
                     p.vendorExtensions.put("x-protobuf-json-name", p.baseName);
                 }
 

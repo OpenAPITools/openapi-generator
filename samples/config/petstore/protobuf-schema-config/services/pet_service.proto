@@ -37,7 +37,7 @@ service PetService {
 
 message AddPetRequest {
   // Pet object that needs to be added to the store
-  Pet pet = 1 [json_name="Pet"];
+  Pet pet = 1;
 
 }
 
@@ -76,7 +76,7 @@ message GetPetByIdRequest {
 
 message UpdatePetRequest {
   // Pet object that needs to be added to the store
-  Pet pet = 1 [json_name="Pet"];
+  Pet pet = 1;
 
 }
 
