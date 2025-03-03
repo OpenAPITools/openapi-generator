@@ -27,7 +27,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class GoServerCodegenTest {
 
@@ -74,12 +76,36 @@ public class GoServerCodegenTest {
 
     }
 
+    @Test
+    public void verifyAllowUnknownFields() throws IOException {
+        Map<String, Object> additionalProperties = Map.of("allowUnknownFields", true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = createDefaultCodegenConfigurator(output, additionalProperties)
+                .setInputSpec("src/test/resources/3_0/go-server/petstore.yaml");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/go/api_pet.go"));
+        TestUtils.assertFileNotContains(Paths.get(output + "/go/api_pet.go"),
+                "DisallowUnknownFields()");
+    }
+
     private static CodegenConfigurator createDefaultCodegenConfigurator(File output) {
+        return createDefaultCodegenConfigurator(output, Collections.emptyMap());
+    }
+
+    private static CodegenConfigurator createDefaultCodegenConfigurator(File output, Map<String, Object> additionalProperties) {
         return new CodegenConfigurator()
                 .setGeneratorName("go-server")
                 .setGitUserId("my-user")
                 .setGitRepoId("my-repo")
                 .setPackageName("mypackage")
+                .setAdditionalProperties(additionalProperties)
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
     }
 
