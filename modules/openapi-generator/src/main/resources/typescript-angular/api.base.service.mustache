@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams, HttpParameterCodec } from '@angular/common/http';
+import { HttpHeaders, HttpParams, HttpParameterCodec } from '@angular/common/http';
 import { CustomHttpParameterCodec } from './encoder';
 import { {{configurationClassName}} } from './configuration';
 
@@ -8,7 +8,7 @@ export class BaseService {
     public configuration: {{configurationClassName}};
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, basePath?: string|string[], configuration?: {{configurationClassName}}) {
+    constructor(basePath?: string|string[], configuration?: {{configurationClassName}}) {
         this.configuration = configuration || new {{configurationClassName}}();
         if (typeof this.configuration.basePath !== 'string') {
             const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;

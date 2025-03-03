@@ -27,7 +27,7 @@ import java.util.Set;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.ext.ContextResolver;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class JSON implements ContextResolver<ObjectMapper> {
   private ObjectMapper mapper;
 
@@ -43,6 +43,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
             .defaultDateFormat(new RFC3339DateFormat())
             .addModule(new JavaTimeModule())
             .addModule(new JsonNullableModule())
+            .addModule(new RFC3339JavaTimeModule())
             .build();
   }
 

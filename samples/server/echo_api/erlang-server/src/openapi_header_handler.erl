@@ -36,7 +36,7 @@ Test header parameter(s)
         {operation_id :: operation_id(),
          accept_callback :: openapi_logic_handler:accept_callback(),
          provide_callback :: openapi_logic_handler:provide_callback(),
-         api_key_handler :: openapi_logic_handler:api_key_callback(),
+         api_key_callback :: openapi_logic_handler:api_key_callback(),
          context = #{} :: openapi_logic_handler:context()}).
 
 -type state() :: #state{}.
@@ -52,7 +52,7 @@ init(Req, {Operations, Module}) ->
     State = #state{operation_id = OperationID,
                    accept_callback = fun Module:accept_callback/4,
                    provide_callback = fun Module:provide_callback/4,
-                   api_key_handler = fun Module:authorize_api_key/2},
+                   api_key_callback = fun Module:api_key_callback/2},
     {cowboy_rest, Req, State}.
 
 -spec allowed_methods(cowboy_req:req(), state()) ->

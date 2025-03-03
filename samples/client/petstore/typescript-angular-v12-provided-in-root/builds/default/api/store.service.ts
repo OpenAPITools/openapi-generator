@@ -32,7 +32,7 @@ import { BaseService } from '../api.base.service';
 export class StoreService extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
-        super(httpClient, basePath, configuration);
+        super(basePath, configuration);
     }
 
     /**

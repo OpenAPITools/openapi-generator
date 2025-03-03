@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -125,20 +125,32 @@ public class PetApi {
     }
 
     public class DeletePetRequest {
-        private final Long petId;
-        private final String apiKey;
+        private Long petId;
+        private String apiKey;
+
+        public DeletePetRequest() {}
 
         public DeletePetRequest(Long petId, String apiKey) {
-          this.petId = petId;
-          this.apiKey = apiKey;
-      }
+            this.petId = petId;
+            this.apiKey = apiKey;
+        }
 
         public Long petId() {
             return this.petId;
         }
+        public DeletePetRequest petId(Long petId) {
+            this.petId = petId;
+            return this;
+        }
+
         public String apiKey() {
             return this.apiKey;
         }
+        public DeletePetRequest apiKey(String apiKey) {
+            this.apiKey = apiKey;
+            return this;
+        }
+
     }
 
       /**
@@ -586,25 +598,42 @@ public class PetApi {
     }
 
     public class UpdatePetWithFormRequest {
-        private final Long petId;
-        private final String name;
-        private final String status;
+        private Long petId;
+        private String name;
+        private String status;
+
+        public UpdatePetWithFormRequest() {}
 
         public UpdatePetWithFormRequest(Long petId, String name, String status) {
-          this.petId = petId;
-          this.name = name;
-          this.status = status;
-      }
+            this.petId = petId;
+            this.name = name;
+            this.status = status;
+        }
 
         public Long petId() {
             return this.petId;
         }
+        public UpdatePetWithFormRequest petId(Long petId) {
+            this.petId = petId;
+            return this;
+        }
+
         public String name() {
             return this.name;
         }
+        public UpdatePetWithFormRequest name(String name) {
+            this.name = name;
+            return this;
+        }
+
         public String status() {
             return this.status;
         }
+        public UpdatePetWithFormRequest status(String status) {
+            this.status = status;
+            return this;
+        }
+
     }
 
       /**
@@ -735,25 +764,42 @@ public class PetApi {
     }
 
     public class UploadFileRequest {
-        private final Long petId;
-        private final String additionalMetadata;
-        private final File _file;
+        private Long petId;
+        private String additionalMetadata;
+        private File _file;
+
+        public UploadFileRequest() {}
 
         public UploadFileRequest(Long petId, String additionalMetadata, File _file) {
-          this.petId = petId;
-          this.additionalMetadata = additionalMetadata;
-          this._file = _file;
-      }
+            this.petId = petId;
+            this.additionalMetadata = additionalMetadata;
+            this._file = _file;
+        }
 
         public Long petId() {
             return this.petId;
         }
+        public UploadFileRequest petId(Long petId) {
+            this.petId = petId;
+            return this;
+        }
+
         public String additionalMetadata() {
             return this.additionalMetadata;
         }
+        public UploadFileRequest additionalMetadata(String additionalMetadata) {
+            this.additionalMetadata = additionalMetadata;
+            return this;
+        }
+
         public File _file() {
             return this._file;
         }
+        public UploadFileRequest _file(File _file) {
+            this._file = _file;
+            return this;
+        }
+
     }
 
       /**
@@ -884,25 +930,42 @@ public class PetApi {
     }
 
     public class UploadFileWithRequiredFileRequest {
-        private final Long petId;
-        private final File requiredFile;
-        private final String additionalMetadata;
+        private Long petId;
+        private File requiredFile;
+        private String additionalMetadata;
+
+        public UploadFileWithRequiredFileRequest() {}
 
         public UploadFileWithRequiredFileRequest(Long petId, File requiredFile, String additionalMetadata) {
-          this.petId = petId;
-          this.requiredFile = requiredFile;
-          this.additionalMetadata = additionalMetadata;
-      }
+            this.petId = petId;
+            this.requiredFile = requiredFile;
+            this.additionalMetadata = additionalMetadata;
+        }
 
         public Long petId() {
             return this.petId;
         }
+        public UploadFileWithRequiredFileRequest petId(Long petId) {
+            this.petId = petId;
+            return this;
+        }
+
         public File requiredFile() {
             return this.requiredFile;
         }
+        public UploadFileWithRequiredFileRequest requiredFile(File requiredFile) {
+            this.requiredFile = requiredFile;
+            return this;
+        }
+
         public String additionalMetadata() {
             return this.additionalMetadata;
         }
+        public UploadFileWithRequiredFileRequest additionalMetadata(String additionalMetadata) {
+            this.additionalMetadata = additionalMetadata;
+            return this;
+        }
+
     }
 
       /**

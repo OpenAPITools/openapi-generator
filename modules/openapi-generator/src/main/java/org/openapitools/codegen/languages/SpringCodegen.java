@@ -95,6 +95,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String USE_SEALED = "useSealed";
+    public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
 
     @Getter
     public enum RequestMappingMode {
@@ -149,6 +150,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
+    @Getter @Setter
+    protected boolean optionalAcceptNullable = true;
 
     public SpringCodegen() {
         super();
@@ -253,6 +256,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate constructors with required args for models",
                 generatedConstructorWithRequiredArgs));
         cliOptions.add(new CliOption(RESOURCE_FOLDER, RESOURCE_FOLDER_DESC).defaultValue(this.getResourceFolder()));
+        cliOptions.add(CliOption.newBoolean(OPTIONAL_ACCEPT_NULLABLE,
+                "Use `ofNullable` instead of just `of` to accept null values when using Optional.",
+                optionalAcceptNullable));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -416,6 +422,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(UNHANDLED_EXCEPTION_HANDLING, this::setUnhandledException);
         convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
+        convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
+
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);

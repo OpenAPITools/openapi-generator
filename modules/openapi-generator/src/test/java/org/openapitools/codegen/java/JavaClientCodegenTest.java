@@ -537,7 +537,7 @@ public class JavaClientCodegenTest {
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        assertThat(files).hasSize(32);
+        assertThat(files).hasSize(34);
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content().contains(
                 "public class DefaultApi",
@@ -607,7 +607,7 @@ public class JavaClientCodegenTest {
 
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
-        assertThat(files).hasSize(35);
+        assertThat(files).hasSize(37);
 
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/PingApi.java")).content().contains(
@@ -1428,7 +1428,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(35);
+        assertThat(files).hasSize(37);
         TestUtils.assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"),
                 "public static String urlEncode(String s) { return URLEncoder.encode(s,"
                         + " UTF_8).replaceAll(\"\\\\+\", \"%20\"); }"
@@ -1451,7 +1451,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(38);
+        assertThat(files).hasSize(40);
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
                 .contains(
                         "localVarQueryParams.addAll(ApiClient.parameterToPairs(\"since\", queryObject.getSince()));",
@@ -3208,6 +3208,40 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testRestClientWithUseSingleRequestParameter_static_issue_20668() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "static"
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public static class DeletePetRequest {",
+                "DeletePetRequest(Long petId, String apiKey)",
+                "Long petId()",
+                "DeletePetRequest petId(Long petId) {",
+                "String apiKey()",
+                "DeletePetRequest apiKey(String apiKey) {",
+                "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {",
+                "public void deletePet(Long petId, String apiKey) throws RestClientResponseException {",
+                "public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {"
+        );
+        TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public record DeletePetRequest(Long petId, String apiKey){}");
+    }
+
+    @Test
     public void testDuplicatedOperationId() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -3295,6 +3329,38 @@ public class JavaClientCodegenTest {
                 "DeletePetRequest(Long petId, String apiKey)",
                 "Long petId()",
                 "String apiKey()",
+                "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {"
+        );
+    }
+
+    @Test
+    public void testWebClientWithUseSingleRequestParameter_static_issue_20668() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "static"
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
+                "public static class DeletePetRequest {",
+                "DeletePetRequest(Long petId, String apiKey)",
+                "Long petId()",
+                "DeletePetRequest petId(Long petId) {",
+                "String apiKey()",
+                "DeletePetRequest apiKey(String apiKey) {",
                 "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
