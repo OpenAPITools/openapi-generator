@@ -1012,8 +1012,8 @@ public class CodeGenMojo extends AbstractMojo {
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
 
         return Hashing.sha256().hashBytes(
-            new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
-                .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
+                new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
+                        .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
         ).toString();
     }
 
