@@ -167,6 +167,7 @@ public class ApiClient extends JavaTimeFormatter {
     objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     objectMapper.registerModule(new JavaTimeModule());
     objectMapper.registerModule(new JsonNullableModule());
+    objectMapper.registerModule(new RFC3339JavaTimeModule());
     objectMapper.setDateFormat(ApiClient.buildDefaultDateFormat());
 
     dateFormat = ApiClient.buildDefaultDateFormat();
