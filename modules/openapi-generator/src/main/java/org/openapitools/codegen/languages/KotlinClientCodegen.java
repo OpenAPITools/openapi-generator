@@ -50,6 +50,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -548,6 +549,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             }
             writer.write(content);
         });
+        // When a path is added to a Javadoc, if it ends with a `/*` is will cause a compiler error
+        // as the parser interrupts that as a start of a multiline comment.
+        // We replace paths like `/v1/foo/*` with `/v1/foo/<*>` to avoid this
+        additionalProperties.put("sanitizePathComment", new ReplaceAllLambda("\\/\\*", "/<*>"));
     }
 
     private void processDateLibrary() {
