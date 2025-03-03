@@ -1078,7 +1078,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     cm.anyOf.remove("ModelNull");
                 }
             }
-            if (this.parcelableModel) {
+            if (this.parcelableModel && !cm.isEnum) {
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
             }
         }
