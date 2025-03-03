@@ -37,19 +37,19 @@ proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"{{/isMultipart}}{{#isMultipart}}
   httpClient.headers["Content-Type"] = "multipart/form-data"{{/isMultipart}}{{/hasFormParams}}{{#hasHeaderParams}}{{#headerParams}}
   httpClient.headers["{{{baseName}}}"] = {{{paramName}}}{{#isArray}}.join(","){{/isArray}}{{/headerParams}}{{#description}} ## {{{.}}}{{/description}}{{/hasHeaderParams}}{{#hasQueryParams}}
-  let query_for_api_call = encodeQuery([{{#queryParams}}
+  let url_encoded_query_params = encodeQuery([{{#queryParams}}
     ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/queryParams}}
   ]){{/hasQueryParams}}{{#hasFormParams}}{{^isMultipart}}
-  let query_for_api_call = encodeQuery([{{#formParams}}
+  let form_data = encodeQuery([{{#formParams}}
     ("{{{baseName}}}", ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}), # {{{description}}}{{/formParams}}
   ]){{/isMultipart}}{{#isMultipart}}
-  let query_for_api_call = newMultipartData({
+  let multipart_data = newMultipartData({
 {{#formParams}}    "{{{baseName}}}": ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}, # {{{description}}}
 {{/formParams}}
   }){{/isMultipart}}{{/hasFormParams}}{{#returnType}}
 
-  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}})
+  let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}})
   constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}
-  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & query_for_api_call{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$query_for_api_call{{/isMultipart}}{{#isMultipart}}multipart=query_for_api_call{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
+  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
 
 {{/operation}}{{/operations}}
