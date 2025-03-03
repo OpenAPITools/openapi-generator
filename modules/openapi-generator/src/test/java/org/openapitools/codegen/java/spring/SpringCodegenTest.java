@@ -5257,7 +5257,7 @@ public class SpringCodegenTest {
     public void testEnumWithImplements() {
         final Path output = newTempFolder();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum-implements.yaml");
-        JavaClientCodegen codegen = new JavaClientCodegen();
+        SpringCodegen codegen = new SpringCodegen();
         codegen.setOutputDir(output.toString());
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
