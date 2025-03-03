@@ -21,7 +21,6 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -314,7 +313,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         addCentralizedPackageManagementOption();
     }
 
-    private void addCentralizedPackageManagementOption(){
+    private void addCentralizedPackageManagementOption() {
         Map<String, String> centralizedPackageVersionManagementOptions = new HashMap<>();
         centralizedPackageVersionManagementOptions.put(DEFAULT, "Property in project won't be used");
         centralizedPackageVersionManagementOptions.put(ENABLE, "Centralized package version management will be used");

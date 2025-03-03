@@ -18,10 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -504,7 +503,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
     }
 
-    /** If the value can be parsed as a double, returns the value, otherwise returns null */
+    /**
+     * If the value can be parsed as a double, returns the value, otherwise returns null
+     */
     public static Double asDouble(String strNum) {
         if (strNum == null) {
             return null;
@@ -516,7 +517,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
     }
 
-    /** If the value can be parsed as an integer, returns the value, otherwise returns null */
+    /**
+     * If the value can be parsed as an integer, returns the value, otherwise returns null
+     */
     public static Integer asInteger(String strNum) {
         if (strNum == null) {
             return null;
@@ -751,7 +754,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         property.name = patchPropertyName(model, property.name);
 
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
 
         Arrays.stream(nestedTypes).forEach(nestedType -> {
             // fix incorrect data types for maps of maps
@@ -835,6 +838,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             httpStatusesWithReturn.add(status);
         }
     }
+
     private HashMap<String, String> duplicateOf = new HashMap<String, String>();
 
     @Override
@@ -876,7 +880,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                             }
 
                             String code = response.code.toLowerCase(Locale.ROOT);
-                            switch(code) {
+                            switch (code) {
                                 case "default":
                                 case "0":
                                     postProcessResponseCode(response, "Default", httpStatusesWithReturn);
@@ -1242,7 +1246,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     protected void processOperation(CodegenOperation operation) {
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
 
         Arrays.stream(nestedTypes).forEach(nestedType -> {
             if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
@@ -1707,8 +1711,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
      * @param name The original name
      * @return The adjusted name
      */
-    private String adjustNamingStyle(String name)
-    {
+    private String adjustNamingStyle(String name) {
         switch (getEnumPropertyNaming()) {
             case camelCase:
                 // NOTE: Removes hyphens and underscores
@@ -1765,7 +1768,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
-    protected boolean useNet60OrLater() { return false; }
+    protected boolean useNet60OrLater() {
+        return false;
+    }
 
     protected boolean useDateOnly() {
         return useNet60OrLater() && !useDateTimeForDateFlag;
@@ -1915,7 +1920,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         // only process files with .cs extension
         if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {csharpPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{csharpPostProcessFile, file.toString()});
         }
     }
 
@@ -1936,12 +1941,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
 
             int end = hasModifiers.matcher(pattern).find()
-                ? pattern.lastIndexOf('/')
-                : pattern.length() - 1;
+                    ? pattern.lastIndexOf('/')
+                    : pattern.length() - 1;
 
             int start = pattern.startsWith("/")
-                ? 1
-                : 0;
+                    ? 1
+                    : 0;
 
             Map<Character, String> optionsMap = new HashMap<Character, String>();
             optionsMap.put('i', "IgnoreCase");
@@ -1956,7 +1961,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             for (char c : pattern.substring(end).toCharArray()) {
                 if (optionsMap.containsKey(c)) {
                     modifiers.add(optionsMap.get(c));
-                } else if (c == 'l'){
+                } else if (c == 'l') {
                     modifiers.remove("CultureInvariant");
                 } else {
                     vendorExtensions.put("x-modifier-" + c, c);

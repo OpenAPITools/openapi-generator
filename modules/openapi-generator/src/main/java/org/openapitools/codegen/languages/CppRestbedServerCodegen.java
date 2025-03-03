@@ -332,7 +332,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 resourceNameCamelCase += convertPathSegmentToResourceNamePart(pathSegment);
                 String convertedPathSegment = convertPathParamPattern(pathSegment);
                 joiner.add(convertedPathSegment);
-                    }
+            }
 
             op.path = joiner.toString();
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
@@ -345,11 +345,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
             if (op1 != null) {
                 List<CodegenOperation> currentOtherMethodList = getCodegenXCodegenOtherMethodsOperations(op1);
-                        op.operationIdCamelCase = op1.operationIdCamelCase;
-                        currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
-                    }
-            else {
+                op.operationIdCamelCase = op1.operationIdCamelCase;
+                currentOtherMethodList.add(op);
+                op1.vendorExtensions.put(X_CODEGEN_OTHER_METHODS, currentOtherMethodList);
+            } else {
                 newOpList.add(op);
             }
         }
@@ -491,7 +490,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         boolean isString = parameter.isString == Boolean.TRUE;
 
         if (!isPrimitiveType && !isArray && !isString && !parameter.dataType.startsWith("std::shared_ptr")) {
-            parameter.defaultValue =  parameter.dataType + "{}";
+            parameter.defaultValue = parameter.dataType + "{}";
         }
     }
 

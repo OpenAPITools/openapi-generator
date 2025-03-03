@@ -21,11 +21,7 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import org.openapitools.codegen.languages.AspNetServerCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
@@ -52,7 +48,7 @@ public class CSharpModelTest {
         Assert.assertEquals(outerEnumVarsIsString(codegen, 3, true), true);
     }
 
-    public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){
+    public boolean outerEnumVarsIsString(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes) {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/" + openApiVersion + "_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
         codegen.setNullableReferenceTypes(nullableReferenceTypes);
         codegen.setOpenAPI(openAPI);
@@ -210,7 +206,7 @@ public class CSharpModelTest {
     public void nonNullablePropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addProperties("name", new StringSchema().nullable(true))
@@ -261,7 +257,7 @@ public class CSharpModelTest {
     public void nullablePropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addProperties("name", new StringSchema().nullable(true))
@@ -312,11 +308,11 @@ public class CSharpModelTest {
     public void nullablePropertyWithoutNullableReferenceTypesTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()).nullable(true))
                 .addProperties("name", new StringSchema().nullable(true))
-                .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
+                .addProperties("subObject", new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetServerCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -372,11 +368,11 @@ public class CSharpModelTest {
     public void nullablePropertyWithNullableReferenceTypesTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(true))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()).nullable(true))
                 .addProperties("name", new StringSchema().nullable(true))
-                .addProperties("subObject",  new Schema().addProperties("name", new StringSchema()).nullable(true))
+                .addProperties("subObject", new Schema().addProperties("name", new StringSchema()).nullable(true))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new AspNetServerCodegen();
         codegen.processOpts();
@@ -434,7 +430,7 @@ public class CSharpModelTest {
     public void listPropertyTest() {
         final Schema model = new Schema()
                 .description("a sample model")
-                .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
+                .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");

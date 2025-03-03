@@ -20,12 +20,7 @@ package org.openapitools.codegen;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
@@ -178,7 +173,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isAnyType;
     public boolean isArray;
     public boolean isMap;
-    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    /**
+     * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
+     */
     public boolean isOptional;
     public boolean isEnum; // true if the enum is defined inline
     public boolean isInnerEnum; // Enums declared inline will be located inside the generic model, changing how the enum is referenced in some cases.
@@ -243,7 +240,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private CodegenComposedSchemas composedSchemas = null;
     private boolean hasMultipleTypes = false;
-    /** true if the property's baseName != name, e.g. baseName = '_prop.value', name = 'propValue' after sanitization */
+    /**
+     * true if the property's baseName != name, e.g. baseName = '_prop.value', name = 'propValue' after sanitization
+     */
     private boolean hasSanitizedName = false;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
@@ -849,7 +848,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return hasSanitizedName;
     }
 
-    public void setHasSanitizedName(boolean hasSanitizedName) { this.hasSanitizedName = hasSanitizedName; }
+    public void setHasSanitizedName(boolean hasSanitizedName) {
+        this.hasSanitizedName = hasSanitizedName;
+    }
 
     @Override
     public boolean getIsUuid() {

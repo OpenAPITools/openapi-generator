@@ -18,8 +18,8 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
 import lombok.Setter;
@@ -128,6 +128,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         ALPHABETICAL,
         LEGACY
     }
+
     private SortingMethod operationParameterSorting = SortingMethod.DEFAULT;
     private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
@@ -504,8 +505,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
                     Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
                     Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                }
-                else {
+                } else {
                     Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
                     Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
                     Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
@@ -755,24 +755,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         final Map<String, Runnable> libraryActions = Map.of(
-            GENERICHOST, () -> {
-                setLibrary(GENERICHOST);
-                additionalProperties.put("useGenericHost", true);
-            },
-            RESTSHARP, () -> {
-                additionalProperties.put("useRestSharp", true);
-                needsCustomHttpMethod = true;
-            },
-            HTTPCLIENT, () -> {
-                setLibrary(HTTPCLIENT);
-                additionalProperties.put("useHttpClient", true);
-                needsUriBuilder = true;
-            },
-            UNITY_WEB_REQUEST, () -> {
-                setLibrary(UNITY_WEB_REQUEST);
-                additionalProperties.put("useUnityWebRequest", true);
-                needsUriBuilder = true;
-            }
+                GENERICHOST, () -> {
+                    setLibrary(GENERICHOST);
+                    additionalProperties.put("useGenericHost", true);
+                },
+                RESTSHARP, () -> {
+                    additionalProperties.put("useRestSharp", true);
+                    needsCustomHttpMethod = true;
+                },
+                HTTPCLIENT, () -> {
+                    setLibrary(HTTPCLIENT);
+                    additionalProperties.put("useHttpClient", true);
+                    needsUriBuilder = true;
+                },
+                UNITY_WEB_REQUEST, () -> {
+                    setLibrary(UNITY_WEB_REQUEST);
+                    additionalProperties.put("useUnityWebRequest", true);
+                    needsUriBuilder = true;
+                }
         );
         final Runnable action = libraryActions.get(library);
         if (action != null) {
@@ -1014,7 +1014,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
                                    final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
         final String library = getLibrary();
-        
+
         if (RESTSHARP.equals(library)) { // restsharp
             if (useIntForTimeout) { // option to fall back to int for Timeout using v7.9.0 template
                 supportingFiles.add(new SupportingFile("ApiClient.v790.mustache", clientPackageDir, "ApiClient.cs"));
@@ -1183,7 +1183,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
-    
+
     /**
      * Sets the api name. This value must be a valid class name.
      *

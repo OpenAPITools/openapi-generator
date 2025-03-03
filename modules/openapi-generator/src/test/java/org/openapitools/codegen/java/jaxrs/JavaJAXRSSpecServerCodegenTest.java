@@ -1,5 +1,6 @@
 package org.openapitools.codegen.java.jaxrs;
 
+import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -32,8 +33,6 @@ import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
 import static org.openapitools.codegen.languages.features.GzipFeatures.USE_GZIP_FEATURE;
 import static org.testng.Assert.assertTrue;
 
-import com.google.common.collect.ImmutableMap;
-
 /**
  * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.
  *
@@ -56,7 +55,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.preprocessOpenAPI(openAPI);
 
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
-        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP,codegen::isHideGenerationTimestamp, false);
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, false);
         configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "org.openapitools.model");
         configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "org.openapitools.api");
         configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "org.openapitools.api");
@@ -75,7 +74,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.processOpts();
 
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
-        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP,codegen::isHideGenerationTimestamp, true);
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, true);
         configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xx.yyyyyyyy.model");
         configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xx.yyyyyyyy.api");
         configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xx.yyyyyyyy.invoker");
@@ -99,13 +98,13 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.preprocessOpenAPI(openAPI);
 
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
-        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP,codegen::isHideGenerationTimestamp, true);
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, true);
         configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.mmmmm.model");
         configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.aaaaa.api");
         configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.iiii.invoker");
         configAssert.assertValue(AbstractJavaJAXRSServerCodegen.SERVER_PORT, "8088");
         configAssert.assertValue(JavaJAXRSSpecServerCodegen.OPEN_API_SPEC_FILE_LOCATION, codegen::getOpenApiSpecFileLocation, "openapi.yml");
-        configAssert.assertValue(SUPPORT_ASYNC,  true);
+        configAssert.assertValue(SUPPORT_ASYNC, true);
     }
 
     /**
@@ -243,10 +242,10 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("jaxrs-spec")
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/ping-array-default.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/ping-array-default.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -258,7 +257,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         Path path = Paths.get(output.toPath() + "/src/gen/java/org/openapitools/model/AnArrayOfString.java");
 
-        assertFileContains(path , "\nimport java.util.Arrays;\n");
+        assertFileContains(path, "\nimport java.util.Arrays;\n");
 
         output.deleteOnExit();
     }
@@ -799,7 +798,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
 
         final OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setLibrary(QUARKUS_LIBRARY);
@@ -807,8 +806,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(USE_TAGS, true); //And use tags to generate everything in PingApi.java
 
         final ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen); //Using JavaJAXRSSpecServerCodegen
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(input).generate(); //When generating files
@@ -819,8 +818,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated class contains CompletionStage<Response>
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
         TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
-            "CompletionStage<Response> pingGetBoolean", //Support primitive types response
-            "CompletionStage<Response> pingGetInteger" //Support primitive types response
+                "CompletionStage<Response> pingGetBoolean", //Support primitive types response
+                "CompletionStage<Response> pingGetInteger" //Support primitive types response
         );
     }
 
@@ -830,7 +829,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
 
         final OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setLibrary(QUARKUS_LIBRARY);
@@ -840,8 +839,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(USE_MUTINY, true);
 
         final ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen); //Using JavaJAXRSSpecServerCodegen
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(input).generate(); //When generating files
@@ -852,8 +851,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated class contains CompletionStage<Response>
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
         TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
-            "Uni<Boolean> pingGetBoolean", //Support primitive types response
-            "Uni<Integer> pingGetInteger" //Support primitive types response
+                "Uni<Boolean> pingGetBoolean", //Support primitive types response
+                "Uni<Integer> pingGetInteger" //Support primitive types response
         );
     }
 
@@ -864,7 +863,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
 
         final OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_4832.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setLibrary(QUARKUS_LIBRARY);
@@ -873,8 +872,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.additionalProperties().put(USE_MUTINY, true);
 
         final ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen); //Using JavaJAXRSSpecServerCodegen
+                .openAPI(openAPI)
+                .config(codegen); //Using JavaJAXRSSpecServerCodegen
 
         final DefaultGenerator generator = new DefaultGenerator();
         final List<File> files = generator.opts(input).generate(); //When generating files
@@ -885,8 +884,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         //And the generated class contains CompletionStage<Response>
         TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
         TestUtils.assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
-            "Uni<Response> pingGetBoolean", //Support primitive types response
-            "Uni<Response> pingGetInteger" //Support primitive types response
+                "Uni<Response> pingGetBoolean", //Support primitive types response
+                "Uni<Response> pingGetInteger" //Support primitive types response
         );
     }
 

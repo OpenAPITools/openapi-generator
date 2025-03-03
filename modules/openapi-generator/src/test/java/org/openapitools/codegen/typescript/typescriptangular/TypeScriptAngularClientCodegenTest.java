@@ -402,9 +402,9 @@ public class TypeScriptAngularClientCodegenTest {
 
         // WHEN
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("typescript-angular")
-            .setInputSpec(specPath)
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
 

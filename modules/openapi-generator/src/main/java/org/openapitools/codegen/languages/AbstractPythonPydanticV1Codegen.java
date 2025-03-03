@@ -308,7 +308,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {pythonPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{pythonPostProcessFile, file.toString()});
         }
     }
 
@@ -864,9 +864,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray || cp.isMap){ // if array or map
+                        if (cp.isArray || cp.isMap) { // if array or map
                             modelImports.add(cp.items.dataType);
-                        }else{ // if model
+                        } else { // if model
                             modelImports.add(cp.dataType);
                         }
                     }
@@ -984,7 +984,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
 
             // remove the items of postponedModelImports in modelImports to avoid circular imports error
-            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()) {
                 modelImports.removeAll(postponedModelImports);
             }
 

@@ -17,6 +17,26 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
+import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.aether.util.version.GenericVersionScheme;
+import org.eclipse.aether.version.InvalidVersionSpecificationException;
+import org.eclipse.aether.version.Version;
+import org.eclipse.aether.version.VersionConstraint;
+import org.eclipse.aether.version.VersionScheme;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,16 +49,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.StringJoiner;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -46,42 +57,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.servers.Server;
-import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.aether.util.version.GenericVersionScheme;
-import org.eclipse.aether.version.InvalidVersionSpecificationException;
-import org.eclipse.aether.version.Version;
-import org.eclipse.aether.version.VersionConstraint;
-import org.eclipse.aether.version.VersionScheme;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_EMAIL;
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_NAME;
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_ORGANIZATION;
-import static org.openapitools.codegen.CodegenConstants.DEVELOPER_ORGANIZATION_URL;
-import static org.openapitools.codegen.CodegenConstants.PARENT_ARTIFACT_ID;
-import static org.openapitools.codegen.CodegenConstants.PARENT_GROUP_ID;
-import static org.openapitools.codegen.CodegenConstants.PARENT_VERSION;
-import static org.openapitools.codegen.CodegenConstants.SCM_CONNECTION;
-import static org.openapitools.codegen.CodegenConstants.SCM_DEVELOPER_CONNECTION;
-import static org.openapitools.codegen.CodegenConstants.SCM_URL;
+import static org.openapitools.codegen.CodegenConstants.*;
 
 public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures {
@@ -120,8 +96,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     // for generated doc
     static final String MICROPROFILE_ROOT_PACKAGE_DEFAULT =
-        "Helidon 2.x and earlier: " + MICROPROFILE_ROOT_PACKAGE_JAVAX
-        + "; Helidon 3.x and later: " + MICROPROFILE_ROOT_PACKAGE_JAKARTA;
+            "Helidon 2.x and earlier: " + MICROPROFILE_ROOT_PACKAGE_JAVAX
+                    + "; Helidon 3.x and later: " + MICROPROFILE_ROOT_PACKAGE_JAKARTA;
 
     static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
@@ -132,8 +108,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     static final String V3_STYLE = "x-helidon-v3";
 
     static final String HELIDON_VERSION_DESC = "Helidon complete version identifier or major version number. "
-        + "The specified exact Helidon release or, if specified as a major version the latest release of that major version, "
-        + " is used in the generated code.";
+            + "The specified exact Helidon release or, if specified as a major version the latest release of that major version, "
+            + " is used in the generated code.";
 
     static final String X_HELIDON_USE_OPTIONAL = "x-helidon-useOptional";
     static final String X_HELIDON_USE_OPTIONAL_DESC = "Wrap optional parameters in an Optional (Helidon 4 and later)";
@@ -216,7 +192,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         knownHttpStatusMap = loadKnownHttpStatusMap();
     }
 
-   @Override
+    @Override
     public void processOpts() {
         super.processOpts();
 
@@ -238,7 +214,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         if (!userHelidonVersion.isEmpty()) {
             if (!userParentVersion.isEmpty() && !userHelidonVersion.equals(userParentVersion)) {
                 throw new IllegalArgumentException(
-                        String.format(Locale.ROOT, 
+                        String.format(Locale.ROOT,
                                 "Both %s and %s properties were set with different value.",
                                 CodegenConstants.PARENT_VERSION,
                                 HELIDON_VERSION));
@@ -283,7 +259,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
          By convention, the operation's baseName is assigned the name of the group (API) in which it is placed.
          */
         String pathPrefixWithoutLeadingSlash = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"),
-                                                                           "/");
+                "/");
         String groupName = (groupBy == GroupBy.TAGS)
                 ? tag
                 : sanitizeName(pathPrefixWithoutLeadingSlash);
@@ -354,10 +330,10 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         for each operation.
          */
         String commonPathPrefixForApi = commonPathPrefix(objs.getOperations().getOperation()
-                                                                  .stream()
-                                                                  .map(op -> op.path)
-                                                                  .map(path -> path.charAt(0) != '/' ? "/" + path : path )
-                                                                  .toArray(String[]::new));
+                .stream()
+                .map(op -> op.path)
+                .map(path -> path.charAt(0) != '/' ? "/" + path : path)
+                .toArray(String[]::new));
         String commonPathPrefix;
         if (commonPathPrefixForApi.equals("/")) {
             commonPathPrefix = "/";
@@ -374,19 +350,20 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         objs.getOperations().getOperation().forEach(op -> {
             if (commonPathPrefix.length() > 1) {
                 op.vendorExtensions.put(X_PATH_SUFFIX,
-                                        op.path.equals(commonPathPrefix) ? "/" : op.path.substring(commonPathPrefix.length()));
+                        op.path.equals(commonPathPrefix) ? "/" : op.path.substring(commonPathPrefix.length()));
             } else {
                 op.vendorExtensions.put(X_PATH_SUFFIX, op.path);
                 mismatchedOperations.add("operation = " + op.operationId + ", path = " + op.path);
-            }});
+            }
+        });
 
         if (!mismatchedOperations.isEmpty()) {
             LOGGER.warn(
                     "Grouping operations by tag has placed operations into API '{}' for which the generated "
-                    + "routing works inefficiently because the operation paths do not share a common path prefix. "
-                    + "Consider specifying the generator option '"
-                    + HELIDON_GROUP_BY
-                    + " {}' or changing the tag settings or path in your OpenAPI document for the following operations: {}{}",
+                            + "routing works inefficiently because the operation paths do not share a common path prefix. "
+                            + "Consider specifying the generator option '"
+                            + HELIDON_GROUP_BY
+                            + " {}' or changing the tag settings or path in your OpenAPI document for the following operations: {}{}",
                     objs.getOperations().getClassname(),
                     GroupBy.FIRST_PATH_SEGMENT.groupingName,
                     System.lineSeparator(),
@@ -422,7 +399,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
      * If property is unspecified, then check if sources are already there and avoid overwriting
      * modifiable files.
      *
-     * @param modifiable list of modifiable files to be processed
+     * @param modifiable   list of modifiable files to be processed
      * @param unmodifiable list of unmodifiable files to be processed
      */
     protected void processSupportingFiles(List<SupportingFile> modifiable, List<SupportingFile> unmodifiable) {
@@ -444,7 +421,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
      * @return outcome of test
      */
     protected boolean projectFilesExist() {
-       return Paths.get(getOutputTestFolder()).toFile().exists();
+        return Paths.get(getOutputTestFolder()).toFile().exists();
     }
 
     protected String rootJavaEEPackage() {
@@ -494,15 +471,16 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     /**
      * Prepares a map of predefined HTTP status code constants.
      * <p>
-     *     Helidon uses its own HTTP status type, and the Helidon code predefines many HTTP status code constants but also allows
-     *     ad hoc creation of other values based on the numeric status value. It's more efficient at runtime to use a constant
-     *     if it exists.
+     * Helidon uses its own HTTP status type, and the Helidon code predefines many HTTP status code constants but also allows
+     * ad hoc creation of other values based on the numeric status value. It's more efficient at runtime to use a constant
+     * if it exists.
      * <p>
-     *     This method scans a copy of the Helidon Java file which contains the predefined constants and prepares a map
-     *     from the string representation of the numeric code to the Helidon constant name. This table allows us, when we are
-     *     generating the Response records for an operation, to use the Helidon predefined constant--if it exists--for the
-     *     response code declared for an operation in the OpenAPI document.
+     * This method scans a copy of the Helidon Java file which contains the predefined constants and prepares a map
+     * from the string representation of the numeric code to the Helidon constant name. This table allows us, when we are
+     * generating the Response records for an operation, to use the Helidon predefined constant--if it exists--for the
+     * response code declared for an operation in the OpenAPI document.
      * </p>
+     *
      * @return prepared map
      */
     private HashMap<String, String> loadKnownHttpStatusMap() {
@@ -511,12 +489,12 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                 throw new RuntimeException("Unable to locate /java-helidon/common/Status.java to discover known HTTP statuses");
             }
             Pattern statusPattern = Pattern.compile("public static final Status (\\w+)\\s*=\\s*new\\s*Status\\((\\d+)",
-                                                    Pattern.MULTILINE);
+                    Pattern.MULTILINE);
             return new Scanner(is, StandardCharsets.UTF_8)
                     .findAll(statusPattern)
                     .collect(HashMap::new,
-                             (map, match) -> map.put(match.group(2), match.group(1)),
-                             Map::putAll);
+                            (map, match) -> map.put(match.group(2), match.group(1)),
+                            Map::putAll);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -538,9 +516,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         additionalProperties.put(MICROPROFILE_ROOT_DEP_PREFIX, rootJavaEEDepPrefix);
 
         additionalProperties.put(VALIDATION_ARTIFACT_PREFIX_KEY,
-            rootJavaEEDepPrefix.equals(MICROPROFILE_ROOT_PACKAGE_JAVAX)
-                ? VALIDATION_ARTIFACT_PREFIX_JAVAX
-                : VALIDATION_ARTIFACT_PREFIX_JAKARTA);
+                rootJavaEEDepPrefix.equals(MICROPROFILE_ROOT_PACKAGE_JAVAX)
+                        ? VALIDATION_ARTIFACT_PREFIX_JAVAX
+                        : VALIDATION_ARTIFACT_PREFIX_JAKARTA);
     }
 
 
@@ -558,9 +536,9 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     private void setMediaPackageInfo() {
         additionalProperties.put(X_MEDIA_SUPPORT_PACKAGE_PREFIX,
-                                 (helidonMajorVersion >= 4) ? "io.helidon.http.media" : "io.helidon.media");
+                (helidonMajorVersion >= 4) ? "io.helidon.http.media" : "io.helidon.media");
         additionalProperties.put(X_MEDIA_COMMON_MEDIA_TYPE_PACKAGE_PREFIX,
-                                 (helidonMajorVersion >= 4) ? "io.helidon.common.media.type" : "io.helidon.common.http");
+                (helidonMajorVersion >= 4) ? "io.helidon.common.media.type" : "io.helidon.common.http");
     }
 
     private void setUseReactive() {
@@ -582,19 +560,19 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     private String checkAndSelectRootEEPackage(String version) {
         String packagePrefixImpliedByVersion = usesJakartaPackages(version)
-            ? MICROPROFILE_ROOT_PACKAGE_JAKARTA
-            : MICROPROFILE_ROOT_PACKAGE_JAVAX;
+                ? MICROPROFILE_ROOT_PACKAGE_JAKARTA
+                : MICROPROFILE_ROOT_PACKAGE_JAVAX;
 
         // Make sure any user-specified root EE package is correct for the chosen Helidon version.
         if (additionalProperties.containsKey(MICROPROFILE_ROOT_PACKAGE)) {
             String userRootEEPackage = additionalProperties.get(MICROPROFILE_ROOT_PACKAGE).toString();
             if (!packagePrefixImpliedByVersion.equals(userRootEEPackage)) {
                 throw new IllegalArgumentException(
-                    String.format(Locale.ROOT,
-                        "Helidon version %s uses the %s namespace but options specified '%s'",
-                        version,
-                        packagePrefixImpliedByVersion,
-                        userRootEEPackage));
+                        String.format(Locale.ROOT,
+                                "Helidon version %s uses the %s namespace but options specified '%s'",
+                                version,
+                                packagePrefixImpliedByVersion,
+                                userRootEEPackage));
             }
             return userRootEEPackage;
         }
@@ -605,19 +583,19 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
 
     private String checkAndSelectRootEEDepPrefix(String version) {
         String mavenDepPrefixImpliedByVersion = usesJakartaPrefix(version)
-            ? MICROPROFILE_ROOT_PACKAGE_JAKARTA
-            : MICROPROFILE_ROOT_PACKAGE_JAVAX;
+                ? MICROPROFILE_ROOT_PACKAGE_JAKARTA
+                : MICROPROFILE_ROOT_PACKAGE_JAVAX;
 
         // Make sure any user-specified prefix is correct for the chosen Helidon version.
         if (additionalProperties.containsKey(MICROPROFILE_ROOT_DEP_PREFIX)) {
             String userMavenDepPrefix = additionalProperties.get(MICROPROFILE_ROOT_DEP_PREFIX).toString();
             if (!mavenDepPrefixImpliedByVersion.equals(userMavenDepPrefix)) {
                 throw new IllegalArgumentException(
-                    String.format(Locale.ROOT,
-                        "Helidon version %s uses the %s prefix for EE dependencies but options specified '%s'",
-                        version,
-                        mavenDepPrefixImpliedByVersion,
-                        userMavenDepPrefix));
+                        String.format(Locale.ROOT,
+                                "Helidon version %s uses the %s prefix for EE dependencies but options specified '%s'",
+                                version,
+                                mavenDepPrefixImpliedByVersion,
+                                userMavenDepPrefix));
             }
             return userMavenDepPrefix;
         }
@@ -665,41 +643,42 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
             return "java.util.Collections.empty" + EXAMPLE_RETURN_VALUES.get(op.returnContainer) + "()";
         }
         switch (op.returnType) {
-        case "Integer":
-            return "new Integer(0)";
+            case "Integer":
+                return "new Integer(0)";
 
-        case "byte[]":
-            return "new byte[0]";
+            case "byte[]":
+                return "new byte[0]";
 
-        case "Float":
-            return "new Float(0.0f)";
+            case "Float":
+                return "new Float(0.0f)";
 
-        case "boolean":
-            return "false";
+            case "boolean":
+                return "false";
 
-        case "Long":
-            return "new Long(0L)";
+            case "Long":
+                return "new Long(0L)";
 
-        case "Object":
-            return "new Object()";
+            case "Object":
+                return "new Object()";
 
-        case "String":
-            return "\"\"";
+            case "String":
+                return "\"\"";
 
-        case "Boolean":
-            return "new Boolean(false)";
+            case "Boolean":
+                return "new Boolean(false)";
 
-        case "Double":
-            return "new Double(0.0d)";
+            case "Double":
+                return "new Double(0.0d)";
 
-        default:
-            return "null";
+            default:
+                return "null";
         }
     }
 
     public static class GenericTypeDeclaration {
         @Getter private final String collectionType;
         @Getter private final String baseType;
+
         public GenericTypeDeclaration(String collectionType, String baseType) {
             this.collectionType = collectionType;
             this.baseType = baseType;
@@ -756,12 +735,12 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         private final System.Logger LOGGER = System.getLogger(VersionUtil.class.getName());
 
         private static final String DEFAULT_VERSIONS = "<data>\n" +
-                                                       "  <archetypes>\n" +
-                                                       "    <version>2.6.10</version>\n" +
-                                                       "    <version>3.2.11</version>\n" +
-                                                       "    <version>4.1.4</version>\n" +
-                                                       "  </archetypes>\n" +
-                                                       "</data>";
+                "  <archetypes>\n" +
+                "    <version>2.6.10</version>\n" +
+                "    <version>3.2.11</version>\n" +
+                "    <version>4.1.4</version>\n" +
+                "  </archetypes>\n" +
+                "</data>";
 
         private static VersionUtil INSTANCE = null;
         private static ReentrantLock lock = new ReentrantLock();
@@ -811,7 +790,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
         }
 
         /**
-         *  Returns either the best match version or, if there is none, the requested version itself to allow references to
+         * Returns either the best match version or, if there is none, the requested version itself to allow references to
          * unpublished releases such as snapshots.
          *
          * @param requestedVersion version to search for
@@ -825,7 +804,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
          * Returns either the best match version or, if there is none, the requested version itself to allow references to
          * unpublished releases such as snapshots.
          *
-         * @param requestedVersion version to search for
+         * @param requestedVersion  version to search for
          * @param candidateVersions releases to consider
          * @return either the best match or, if none, the requested version itself
          */
@@ -843,11 +822,11 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
          *     <li>a Maven version range</li>
          * </ul>
          *
-         * @param requestedVersion version to search for
+         * @param requestedVersion  version to search for
          * @param candidateVersions releases to consider
          * @return matching version
          */
-        String chooseVersion(String requestedVersion, List<String> candidateVersions)  {
+        String chooseVersion(String requestedVersion, List<String> candidateVersions) {
 
             VersionScheme versionScheme = new GenericVersionScheme();
 
@@ -863,8 +842,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                 try {
                     candidateVersion = versionScheme.parseVersion(candidate);
                 } catch (InvalidVersionSpecificationException ex) {
-                   LOGGER.log(System.Logger.Level.WARNING, "Error parsing candidate version '" + candidate + "'", ex);
-                   continue;
+                    LOGGER.log(System.Logger.Level.WARNING, "Error parsing candidate version '" + candidate + "'", ex);
+                    continue;
                 }
                 if (requestedConstraint.containsVersion(candidateVersion)) {
                     if (bestMatch == null || bestMatch.compareTo(candidateVersion) <= 0) {
@@ -883,23 +862,23 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                 int asSingleNumber = Integer.parseUnsignedInt(requestedVersion);
                 try {
                     return versionScheme.parseVersionConstraint(String.format(Locale.getDefault(),
-                                                                              "[%s,%d-alpha)",
-                                                                              requestedVersion,
-                                                                              asSingleNumber + 1));
+                            "[%s,%d-alpha)",
+                            requestedVersion,
+                            asSingleNumber + 1));
                 } catch (InvalidVersionSpecificationException ex) {
                     throw new RuntimeException("Error preparing constraint for version expression '"
-                                                       + requestedVersion
-                                                       + "' treated as major version " + asSingleNumber,
-                                               ex);
+                            + requestedVersion
+                            + "' treated as major version " + asSingleNumber,
+                            ex);
                 }
             } catch (NumberFormatException nfe) {
                 try {
                     return versionScheme.parseVersionConstraint(requestedVersion);
                 } catch (InvalidVersionSpecificationException ex) {
                     throw new RuntimeException("Error parsing version expression '"
-                                                       + requestedVersion
-                                                       + "' as a version constraint",
-                                               ex);
+                            + requestedVersion
+                            + "' as a version constraint",
+                            ex);
                 }
             }
         }
@@ -935,7 +914,7 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
                     LOGGER.log(System.Logger.Level.DEBUG, "Saved retrieved versions in preferences");
                 } else {
                     LOGGER.log(System.Logger.Level.INFO,
-                               "Unable to retrieve versions remotely; using local preferences or hard-wired defaults");
+                            "Unable to retrieve versions remotely; using local preferences or hard-wired defaults");
                     // Try to get versions from preferences.
                     versions = versionPrefs.get(VERSIONS_KEY, DEFAULT_VERSIONS);
                 }

@@ -3308,7 +3308,8 @@ public class JavaClientCodegenTest {
         );
     }
 
-    @Test public void testWebClientWithUseSingleRequestParameter_static() {
+    @Test
+    public void testWebClientWithUseSingleRequestParameter_static() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")

@@ -167,5 +167,7 @@ public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen im
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

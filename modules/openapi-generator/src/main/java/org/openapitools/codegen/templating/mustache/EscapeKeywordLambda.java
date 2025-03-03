@@ -26,12 +26,12 @@ import java.util.function.UnaryOperator;
 
 /**
  * Converts text in a fragment to escape_keyword.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("escape_keyword", new EscapeKeywordLambda((val) -> this.escapeKeyword(val))));
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#escape_keyword}}{{name}}{{/escape_keyword}}

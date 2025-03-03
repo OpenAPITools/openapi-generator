@@ -56,7 +56,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     static final String MEDIA_TYPE = "mediaType";
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
-  
+
     public static final String USE_RX_JAVA2 = "useRxJava2";
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String DO_NOT_USE_RX = "doNotUseRx";
@@ -137,7 +137,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     protected String authFolder;
     /**
-     *  Serialization library.
+     * Serialization library.
      */
     @Getter protected String serializationLibrary = null;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -351,7 +351,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             LOGGER.warn("You specified all RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA3, this::setUseRxJava3);
             writePropertyBack(USE_RX_JAVA2, false);
-            } else {
+        } else {
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA3, this::setUseRxJava3);
             convertPropertyToBooleanAndWriteBack(USE_RX_JAVA2, this::setUseRxJava2);
         }
@@ -377,16 +377,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY, this::setMicroprofileMutiny);
 
-        convertPropertyToStringAndWriteBack(MICROPROFILE_REST_CLIENT_VERSION, value->microprofileRestClientVersion=value);
+        convertPropertyToStringAndWriteBack(MICROPROFILE_REST_CLIENT_VERSION, value -> microprofileRestClientVersion = value);
         if (!mpRestClientVersions.containsKey(microprofileRestClientVersion)) {
-                throw new IllegalArgumentException(
-                        String.format(Locale.ROOT,
-                                "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
+            throw new IllegalArgumentException(
+                    String.format(Locale.ROOT,
+                            "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
                             microprofileRestClientVersion,
-                                String.join(", ", mpRestClientVersions.keySet())
-                        )
-                );
-            }
+                            String.join(", ", mpRestClientVersions.keySet())
+                    )
+            );
+        }
 
         if (!additionalProperties.containsKey("rootJavaEEPackage")) {
             String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
@@ -415,7 +415,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, this::setWithAWSV4Signature);
         convertPropertyToStringAndWriteBack(GRADLE_PROPERTIES, this::setGradleProperties);
         convertPropertyToStringAndWriteBack(ERROR_OBJECT_TYPE, this::setErrorObjectType);
-        convertPropertyToBooleanAndWriteBack(WEBCLIENT_BLOCKING_OPERATIONS, op -> webclientBlockingOperations=op);
+        convertPropertyToBooleanAndWriteBack(WEBCLIENT_BLOCKING_OPERATIONS, op -> webclientBlockingOperations = op);
         convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES, this::setFailOnUnknownProperties);
 
         // add URL query deepObject support to native, apache-httpclient by default

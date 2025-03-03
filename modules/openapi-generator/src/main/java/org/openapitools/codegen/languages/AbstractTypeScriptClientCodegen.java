@@ -1108,7 +1108,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
         // only process files with ts extension
         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {tsPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{tsPostProcessFile, file.toString()});
         }
     }
 

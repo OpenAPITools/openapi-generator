@@ -16,11 +16,12 @@
 
 package org.openapitools.codegen.csharpnetcore;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,15 +31,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class CSharpClientCodegenTest {
 

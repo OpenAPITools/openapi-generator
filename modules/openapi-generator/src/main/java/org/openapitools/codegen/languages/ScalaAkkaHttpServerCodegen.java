@@ -336,14 +336,14 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             "String"
     );
 
-    private static final Map<String, String> pathTypeToMatcher = ImmutableMap.<String,String>builder()
-        .put("Int", "IntNumber")
-        .put("Long", "LongNumber")
-        .put("Float", "FloatNumber")
-        .put("Double", "DoubleNumber")
-        .put("Boolean", "Boolean")
-        .put("String", "Segment")
-    .build();
+    private static final Map<String, String> pathTypeToMatcher = ImmutableMap.<String, String>builder()
+            .put("Int", "IntNumber")
+            .put("Long", "LongNumber")
+            .put("Float", "FloatNumber")
+            .put("Double", "DoubleNumber")
+            .put("Boolean", "Boolean")
+            .put("String", "Segment")
+            .build();
 
     protected void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));

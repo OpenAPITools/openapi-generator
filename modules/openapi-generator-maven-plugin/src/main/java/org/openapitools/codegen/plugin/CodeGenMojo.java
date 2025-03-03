@@ -30,11 +30,13 @@ import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.*;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.openapitools.codegen.*;
@@ -49,7 +51,10 @@ import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -156,7 +161,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
      */
-    @Parameter(name = "engine", defaultValue = "mustache", property="openapi.generator.maven.plugin.engine")
+    @Parameter(name = "engine", defaultValue = "mustache", property = "openapi.generator.maven.plugin.engine")
     private String engine;
 
     /**
@@ -541,7 +546,7 @@ public class CodeGenMojo extends AbstractMojo {
 
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
-                .buildMergedSpec();
+                    .buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
 
@@ -572,7 +577,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
 
-            if (buildContext != null && inputSpec != null ) {
+            if (buildContext != null && inputSpec != null) {
                 if (buildContext.isIncremental() &&
                         inputSpecFile.exists() &&
                         !buildContext.hasDelta(inputSpecFile)) {
@@ -664,7 +669,7 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setEnablePostProcessFile(enablePostProcessFile);
             }
 
-            if (generateAliasAsModel  != null) {
+            if (generateAliasAsModel != null) {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
             }
 
@@ -974,7 +979,7 @@ public class CodeGenMojo extends AbstractMojo {
                 File parent = new File(storedInputSpecHashFile.getParent());
                 if (!parent.mkdirs()) {
                     throw new RuntimeException("Failed to create the folder " + parent.getAbsolutePath() +
-                                               " to store the checksum of the input spec.");
+                            " to store the checksum of the input spec.");
                 }
             }
 
@@ -993,7 +998,7 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Calculate an SHA256 hash for the openapi specification. 
+     * Calculate an SHA256 hash for the openapi specification.
      * If the specification is hosted on a remote resource it is downloaded first.
      *
      * @param inputSpec - Openapi specification input file. Can denote a URL or file path.
@@ -1002,18 +1007,19 @@ public class CodeGenMojo extends AbstractMojo {
     private String calculateInputSpecHash(String inputSpec) {
         final ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
-        
+
         final URL remoteUrl = inputSpecRemoteUrl();
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
 
         return Hashing.sha256().hashBytes(
-            new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
-                .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
+                new OpenAPIParser().readLocation(remoteUrl == null ? inputSpec : remoteUrl.toString(), authorizationValues, parseOptions)
+                        .getOpenAPI().toString().getBytes(StandardCharsets.UTF_8)
         ).toString();
     }
 
     /**
      * Try to parse inputSpec setting string into URL
+     *
      * @return A valid URL or null if inputSpec is not a valid URL
      */
     private URL inputSpecRemoteUrl() {
@@ -1026,8 +1032,9 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Get specification hash file
+     *
      * @param inputSpecFile - Openapi specification input file to calculate its hash.
-     *                        Does not take into account if input spec is hosted on remote resource
+     *                      Does not take into account if input spec is hosted on remote resource
      * @return a file with previously calculated hash
      */
     private File getHashFile(File inputSpecFile) {

@@ -29,8 +29,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.*;
-
 public class CodegenConfiguratorTest {
     private void want(ConfigAssert configAssert, String key, Object expected) {
         configAssert.assertValue(key, expected);
@@ -41,17 +39,17 @@ public class CodegenConfiguratorTest {
         // This tests that properties we set on CodegenConfigurator make it down into generator properties,
         // limiting to those managed in DefaultCodegen.
         Map<String, Object> properties = new HashMap<String, Object>() {{
-           put("foo", "bar");
-           put("baz", "quux");
-           put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
-           put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true);
-           put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
-           put(CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
-           put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
-           put(CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);
-           put(CodegenConstants.DOCEXTENSION, "D");
-           put(CodegenConstants.ENABLE_POST_PROCESS_FILE, false);
-           put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+            put("foo", "bar");
+            put("baz", "quux");
+            put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
+            put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, true);
+            put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
+            put(CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
+            put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
+            put(CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);
+            put(CodegenConstants.DOCEXTENSION, "D");
+            put(CodegenConstants.ENABLE_POST_PROCESS_FILE, false);
+            put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
         }};
 
         File output = Files.createTempDirectory("test").toFile();

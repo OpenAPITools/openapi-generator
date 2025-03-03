@@ -53,6 +53,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
     public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
+
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
@@ -414,8 +415,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
             // deduplicate auth methods by name (as they will lead to duplicate code):
             op.authMethods =
-                op.authMethods != null ? op.authMethods.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(x -> x.name))), ArrayList::new))
-                    : null;
+                    op.authMethods != null ? op.authMethods.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(x -> x.name))), ArrayList::new))
+                            : null;
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
@@ -493,7 +494,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
                         // however, it's possible that the child model contains a recursive reference to the parent
                         // in order to support this case, we update the list of imports from properties once again
-                        for (CodegenProperty cp: cm.allVars) {
+                        for (CodegenProperty cp : cm.allVars) {
                             addImportsForPropertyType(cm, cp);
                         }
                         removeSelfReferenceImports(cm);
@@ -510,9 +511,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     private void setChildDiscriminatorValue(CodegenModel parent, CodegenModel child) {
         if (
-            child.vendorExtensions.isEmpty() ||
-            !child.vendorExtensions.containsKey("x-discriminator-value")
-            ) {
+                child.vendorExtensions.isEmpty() ||
+                        !child.vendorExtensions.containsKey("x-discriminator-value")
+        ) {
 
             for (CodegenProperty prop : child.allVars) {
                 if (prop.baseName.equals(parent.discriminator.getPropertyName())) {
@@ -729,7 +730,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      *
      * @param level the wanted level
      */
-    public void setProvidedIn (String level) {
+    public void setProvidedIn(String level) {
         try {
             providedIn = PROVIDED_IN_LEVEL.valueOf(level);
         } catch (IllegalArgumentException e) {

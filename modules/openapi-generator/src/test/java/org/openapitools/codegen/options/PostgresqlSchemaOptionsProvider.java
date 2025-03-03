@@ -37,11 +37,11 @@ public class PostgresqlSchemaOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(PostgresqlSchemaCodegen.DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_NAME_VALUE)
-            .put(PostgresqlSchemaCodegen.JSON_DATA_TYPE, JSON_DATA_TYPE_VALUE)
-            .put(PostgresqlSchemaCodegen.IDENTIFIER_NAMING_CONVENTION, IDENTIFIER_NAMING_CONVENTION_VALUE)
-            .put(PostgresqlSchemaCodegen.NAMED_PARAMETERS_ENABLED, NAMED_PARAMETERS_ENABLED_VALUE)
-            .put(PostgresqlSchemaCodegen.ID_AUTOINC_ENABLED, ID_AUTOINC_ENABLED_VALUE)
-            .build();
+                .put(PostgresqlSchemaCodegen.JSON_DATA_TYPE, JSON_DATA_TYPE_VALUE)
+                .put(PostgresqlSchemaCodegen.IDENTIFIER_NAMING_CONVENTION, IDENTIFIER_NAMING_CONVENTION_VALUE)
+                .put(PostgresqlSchemaCodegen.NAMED_PARAMETERS_ENABLED, NAMED_PARAMETERS_ENABLED_VALUE)
+                .put(PostgresqlSchemaCodegen.ID_AUTOINC_ENABLED, ID_AUTOINC_ENABLED_VALUE)
+                .build();
     }
 
     @Override

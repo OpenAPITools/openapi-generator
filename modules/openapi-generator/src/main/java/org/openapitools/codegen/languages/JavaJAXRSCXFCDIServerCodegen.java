@@ -17,7 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -75,17 +78,17 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         // POM
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
         // RestApplication into src/main/java
         supportingFiles.add(new SupportingFile("RestApplication.mustache",
                 (implFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
         // Make CDI work in containers with implicit archive scanning disabled
         supportingFiles.add(new SupportingFile("beans.mustache",
                 "src/main/webapp/WEB-INF", "beans.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override

@@ -106,14 +106,14 @@ public class ExampleGeneratorTest {
         List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
                 "200",
                 openAPI
-                    .getPaths()
-                    .get("/generate_from_response_schema_with_array_of_model")
-                    .getGet()
-                    .getResponses()
-                    .get("200")
-                    .getContent()
-                    .get("application/json")
-                    .getSchema(),
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_array_of_model")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
                 mediaTypeKeys
         );
 

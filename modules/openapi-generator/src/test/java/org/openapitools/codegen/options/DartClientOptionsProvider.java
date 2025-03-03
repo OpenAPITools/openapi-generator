@@ -17,12 +17,11 @@
 
 package org.openapitools.codegen.options;
 
-import java.util.Map;
-
 import com.google.common.collect.ImmutableMap;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.DartClientCodegen;
+
+import java.util.Map;
 
 public class DartClientOptionsProvider implements OptionsProvider {
     public static final String SORT_PARAMS_VALUE = "true";

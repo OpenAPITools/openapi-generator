@@ -259,7 +259,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
                         // gcc predefined macros
                         "linux"
-                        )
+                )
         );
 
         instantiationTypes.clear();
@@ -930,7 +930,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {cPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{cPostProcessFile, file.toString()});
         }
     }
 

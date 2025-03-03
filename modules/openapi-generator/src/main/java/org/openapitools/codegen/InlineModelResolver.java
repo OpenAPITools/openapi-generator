@@ -22,8 +22,6 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.annotations.Webhook;
-import io.swagger.v3.oas.annotations.Webhooks;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.callbacks.Callback;
@@ -37,7 +35,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
 import java.util.*;
 
 public class InlineModelResolver {
@@ -118,7 +115,7 @@ public class InlineModelResolver {
      * Flatten inline models in Webhooks
      */
     private void flattenWebhooks() {
-        Map<String, PathItem> webhooks  = openAPI.getWebhooks();
+        Map<String, PathItem> webhooks = openAPI.getWebhooks();
         if (webhooks == null) {
             return;
         }
@@ -536,8 +533,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in parameters
      *
-     * @param modelName model name
-     * @param parameters list of parameters
+     * @param modelName   model name
+     * @param parameters  list of parameters
      * @param operationId operation Id (optional)
      */
     private void flattenParameters(String modelName, List<Parameter> parameters, String operationId) {
@@ -619,18 +616,18 @@ public class InlineModelResolver {
      * allOf:
      * - $ref: '#/components/schemas/Animal'
      * - type: object
-     *   properties:
-     *     name:
-     *       type: string
-     *     age:
-     *       type: string
+     * properties:
+     * name:
+     * type: string
+     * age:
+     * type: string
      * - type: object
-     *   properties:
-     *     breed:
-     *       type: string
+     * properties:
+     * breed:
+     * type: string
      *
-     * @param key      a unique name for the composed schema.
-     * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
+     * @param key                    a unique name for the composed schema.
+     * @param children               the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
      * @param skipAllOfInlineSchemas true if allOf inline schemas need to be skipped.
      */
     private void flattenComposedChildren(String key, List<Schema> children, boolean skipAllOfInlineSchemas) {

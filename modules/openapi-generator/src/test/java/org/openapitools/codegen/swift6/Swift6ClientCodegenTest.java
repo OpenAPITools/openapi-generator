@@ -353,7 +353,7 @@ public class Swift6ClientCodegenTest {
                     .filter(f -> f.getName().contains("CreateCompletionRequestPrompt"))
                     .findFirst()
                     .get();
-            
+
             String content = Files.readString(modelFile.toPath());
             Assert.assertTrue(content.contains("case typeString(String)"));
             Assert.assertTrue(content.contains("case typeArrayOfInt([Int])"));

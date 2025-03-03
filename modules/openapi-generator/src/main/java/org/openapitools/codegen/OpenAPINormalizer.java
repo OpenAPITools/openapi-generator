@@ -35,7 +35,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
@@ -546,7 +545,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-           for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
             normalizeResponse(entry.getValue());
         }
     }
@@ -1011,7 +1010,6 @@ public class OpenAPINormalizer {
             operation.setOperationId(uniqueName);
         }
     }
-
 
 
     /**

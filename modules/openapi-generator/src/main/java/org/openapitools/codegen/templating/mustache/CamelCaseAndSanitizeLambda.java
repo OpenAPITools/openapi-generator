@@ -31,12 +31,12 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
  * Converts text in a fragment to camelCase.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("camelcase", new CamelCaseAndSanitizeLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#camelcase}}{{name}}{{/camelcase}}
@@ -55,7 +55,8 @@ public class CamelCaseAndSanitizeLambda implements Mustache.Lambda {
         }
     }
 
-    public CamelCaseAndSanitizeLambda() {}
+    public CamelCaseAndSanitizeLambda() {
+    }
 
     public CamelCaseAndSanitizeLambda generator(final CodegenConfig generator) {
         this.generator = generator;

@@ -16,42 +16,24 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.DataTypeFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpFlightServerCodegen extends AbstractPhpCodegen {
 
@@ -209,7 +191,7 @@ public class PhpFlightServerCodegen extends AbstractPhpCodegen {
             operation.vendorExtensions.put("x-return-type-is-void", returnType.equals("void"));
             operation.vendorExtensions.put("x-return-type-comment", defaultResponse != null ? this.getTypeHint(defaultResponse.dataType, true, false) + "|null" : "void");
             operation.vendorExtensions.put("x-default-media-type", defaultResponse != null ? (
-                defaultResponse.getContent().containsKey("application/json") ? "application/json" : defaultResponse.getContent().keySet().stream().findFirst().orElse(null)) : null);
+                    defaultResponse.getContent().containsKey("application/json") ? "application/json" : defaultResponse.getContent().keySet().stream().findFirst().orElse(null)) : null);
             operation.vendorExtensions.put("x-default-status-code", defaultResponse != null ? defaultResponse.code : operation.responses.stream().filter(r -> !r.isDefault).findFirst().map(r -> r.code).orElse("200"));
             operation.vendorExtensions.put("x-nonFormParams", operation.allParams.stream().filter(p -> !p.isFormParam).toArray());
 
