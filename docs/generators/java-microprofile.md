@@ -52,7 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |errorObjectType|Error Object type. (This option is for okhttp-gson only)| |null|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
 |generateBuilders|Whether to generate builders for models| |false|
-|generateClientAsBean|For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
+|generateClientAsBean|For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
