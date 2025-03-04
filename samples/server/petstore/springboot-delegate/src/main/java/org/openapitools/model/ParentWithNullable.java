@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -35,7 +36,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ParentWithNullable {
 
   /**
@@ -71,7 +72,7 @@ public class ParentWithNullable {
     }
   }
 
-  private TypeEnum type;
+  private @Nullable TypeEnum type;
 
   private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
@@ -82,7 +83,7 @@ public class ParentWithNullable {
   /**
    * Constructor with all args parameters
    */
-  public ParentWithNullable(TypeEnum type, String nullableProperty) {
+  public ParentWithNullable(@Nullable TypeEnum type, String nullableProperty) {
       this.type = type;
       this.nullableProperty = JsonNullable.of(nullableProperty);
   }

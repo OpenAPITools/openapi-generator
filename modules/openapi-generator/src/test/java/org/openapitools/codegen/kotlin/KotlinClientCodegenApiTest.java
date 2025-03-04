@@ -3,8 +3,6 @@ package org.openapitools.codegen.kotlin;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import lombok.Getter;
-import org.jetbrains.kotlin.com.intellij.openapi.util.text.Strings;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;

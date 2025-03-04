@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.model.ParentWithNullable;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -27,13 +28,13 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable {
 
   private Optional<String> otherProperty = Optional.empty();
 
   public ChildWithNullable otherProperty(String otherProperty) {
-    this.otherProperty = Optional.of(otherProperty);
+    this.otherProperty = Optional.ofNullable(otherProperty);
     return this;
   }
 

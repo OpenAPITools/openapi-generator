@@ -36,7 +36,7 @@ Exposes the following operation IDs:
         {operation_id :: operation_id(),
          accept_callback :: {{packageName}}_logic_handler:accept_callback(),
          provide_callback :: {{packageName}}_logic_handler:provide_callback(),
-         api_key_handler :: {{packageName}}_logic_handler:api_key_callback(),
+         api_key_callback :: {{packageName}}_logic_handler:api_key_callback(),
          context = #{} :: {{packageName}}_logic_handler:context()}).
 
 -type state() :: #state{}.
@@ -52,7 +52,7 @@ init(Req, {Operations, Module}) ->
     State = #state{operation_id = OperationID,
                    accept_callback = fun Module:accept_callback/4,
                    provide_callback = fun Module:provide_callback/4,
-                   api_key_handler = fun Module:authorize_api_key/2},
+                   api_key_callback = fun Module:api_key_callback/2},
     {cowboy_rest, Req, State}.
 
 -spec allowed_methods(cowboy_req:req(), state()) ->
@@ -69,8 +69,8 @@ init(Req, {Operations, Module}) ->
 {{#authMethods.size}}
 is_authorized(Req0,
               #state{operation_id = '{{operationIdOriginal}}' = OperationID,
-                     api_key_handler = Handler} = State) ->
-    case {{packageName}}_auth:authorize_api_key(Handler, OperationID, {{#isApiKey.isKeyInQuery}}qs_val, {{/isApiKey.isKeyInQuery}}{{^isApiKey.isKeyInQuery}}header, {{/isApiKey.isKeyInQuery}}{{#isApiKey}}"{{keyParamName}}", {{/isApiKey}}{{^isApiKey}}"authorization", {{/isApiKey}}Req0) of
+                     api_key_callback = Handler} = State) ->
+    case {{packageName}}_auth:authorize_api_key(Handler, OperationID, {{#isApiKey.isKeyInQuery}}qs_val, {{/isApiKey.isKeyInQuery}}{{^isApiKey.isKeyInQuery}}header, {{/isApiKey.isKeyInQuery}}{{#isApiKey}}"{{keyParamName}}", {{/isApiKey}}{{^isApiKey}}<<"authorization">>, {{/isApiKey}}Req0) of
         {true, Context, Req} ->
             {true, Req, State#state{context = Context}};
         {false, AuthHeader, Req} ->
@@ -91,7 +91,7 @@ is_authorized(Req, State) ->
     {{#consumes.size}}
     {[
     {{#consumes}}
-      {<<"{{mediaType}}">>, handle_type_accepted}{{^-last}}{{#consumes.size}},{{/consumes.size}}{{/-last}}
+      {<<"{{{mediaType}}}">>, handle_type_accepted}{{^-last}}{{#consumes.size}},{{/consumes.size}}{{/-last}}
     {{/consumes}}
      ], Req, State};
     {{/consumes.size}}
@@ -114,7 +114,7 @@ is_authorized(Req, State) ->
     {{#produces.size}}
     {[
     {{#produces}}
-      {<<"{{mediaType}}">>, handle_type_provided}{{^-last}}{{#produces.size}},{{/produces.size}}{{/-last}}
+      {<<"{{{mediaType}}}">>, handle_type_provided}{{^-last}}{{#produces.size}},{{/produces.size}}{{/-last}}
     {{/produces}}
      ], Req, State};
     {{/produces.size}}

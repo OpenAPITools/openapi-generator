@@ -318,7 +318,7 @@ namespace Org.OpenAPITools.Client
                 {
                     foreach (var value in headerParam.Value)
                     {
-                        request.AddHeader(headerParam.Key, value);
+                        request.AddOrUpdateHeader(headerParam.Key, value);
                     }
                 }
             }
@@ -382,6 +382,14 @@ namespace Org.OpenAPITools.Client
                         else
                             request.AddFile(fileParam.Key, bytes, "no_file_name_provided");
                     }
+                }
+            }
+
+            if (options.HeaderParameters != null)
+            {
+                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.Contains("multipart/form-data")))
+                {
+                    request.AlwaysMultipartFormData = true;
                 }
             }
 

@@ -632,5 +632,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.EIFFEL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.EIFFEL;
+    }
 }

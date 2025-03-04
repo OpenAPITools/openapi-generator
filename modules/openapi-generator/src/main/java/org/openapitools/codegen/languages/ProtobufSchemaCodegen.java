@@ -17,8 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -31,9 +31,6 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import org.apache.commons.lang3.StringUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +38,10 @@ import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import com.google.common.base.CaseFormat;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -52,7 +51,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String NUMBERED_FIELD_NUMBER_LIST = "numberedFieldNumberList";
 
-    public static final String START_ENUMS_WITH_UNKNOWN = "startEnumsWithUnknown";
+    public static final String START_ENUMS_WITH_UNSPECIFIED = "startEnumsWithUnspecified";
+
+    public static final String ADD_JSON_NAME_ANNOTATION = "addJsonNameAnnotation";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
@@ -60,11 +61,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private boolean numberedFieldNumberList = false;
 
-    private boolean startEnumsWithUnknown = false;
+    private boolean startEnumsWithUnspecified = false;
+
+    private boolean addJsonNameAnnotation = false;
 
     @Override
     public CodegenType getTag() {
         return CodegenType.SCHEMA;
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.capitalize(property.name);
     }
 
     @Override
@@ -164,7 +172,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.clear();
 
         addSwitch(NUMBERED_FIELD_NUMBER_LIST, "Field numbers in order.", numberedFieldNumberList);
-        addSwitch(START_ENUMS_WITH_UNKNOWN, "Introduces \"UNKNOWN\" as the first element of enumerations.", startEnumsWithUnknown);
+        addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
+        addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
     }
 
     @Override
@@ -195,8 +204,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             this.numberedFieldNumberList = convertPropertyToBooleanAndWriteBack(NUMBERED_FIELD_NUMBER_LIST);
         }
 
-        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNKNOWN)) {
-            this.startEnumsWithUnknown = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNKNOWN);
+        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNSPECIFIED)) {
+            this.startEnumsWithUnspecified = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNSPECIFIED);
+        }
+
+        if (additionalProperties.containsKey(this.ADD_JSON_NAME_ANNOTATION)) {
+            this.addJsonNameAnnotation = convertPropertyToBooleanAndWriteBack(ADD_JSON_NAME_ANNOTATION);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -228,11 +241,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public void addEnumValuesPrefix(Map<String, Object> allowableValues, String prefix) {
         if (allowableValues.containsKey("enumVars")) {
             List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
-
+            prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
             for (Map<String, Object> value : enumVars) {
                 String name = (String) value.get("name");
                 value.put("name", prefix + "_" + name);
                 value.put("value", "\"" + prefix + "_" + name + "\"");
+
             }
         }
 
@@ -249,22 +263,21 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
      *
      * @param allowableValues allowable values
      */
-    public void addUnknownToAllowableValues(Map<String, Object> allowableValues) {
-        if (startEnumsWithUnknown) {
+    public void addUnspecifiedToAllowableValues(Map<String, Object> allowableValues) {
+        if (startEnumsWithUnspecified) {
             if (allowableValues.containsKey("enumVars")) {
                 List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
 
-                HashMap<String, Object> unknown = new HashMap<String, Object>();
-                unknown.put("name", "UNKNOWN");
-                unknown.put("isString", "false");
-                unknown.put("value", "\"UNKNOWN\"");
-
-                enumVars.add(0, unknown);
+                HashMap<String, Object> unspecified = new HashMap<String, Object>();
+                unspecified.put("name", "UNSPECIFIED");
+                unspecified.put("isString", "false");
+                unspecified.put("value", "\"UNSPECIFIED\"");
+                enumVars.add(0, unspecified);
             }
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                values.add(0, "UNKNOWN");
+                values.add(0, "UNSPECIFIED");
             }
         }
     }
@@ -291,7 +304,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if (cm.isEnum) {
                 Map<String, Object> allowableValues = cm.getAllowableValues();
-                addUnknownToAllowableValues(allowableValues);
+                addUnspecifiedToAllowableValues(allowableValues);
                 addEnumValuesPrefix(allowableValues, cm.getClassname());
                 if (allowableValues.containsKey("enumVars")) {
                     List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
@@ -319,7 +332,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
 
                 if (var.isEnum) {
-                    addUnknownToAllowableValues(var.allowableValues);
+                    addUnspecifiedToAllowableValues(var.allowableValues);
                     addEnumValuesPrefix(var.allowableValues, var.getEnumName());
 
                     if (var.allowableValues.containsKey("enumVars")) {
@@ -339,6 +352,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         LOGGER.error("Exception when assigning a index to a protobuf field", e);
                         var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
                     }
+                }
+
+                if (addJsonNameAnnotation && !var.baseName.equals(var.name)) {
+                    var.vendorExtensions.put("x-protobuf-json-name", var.baseName);
                 }
             }
         }
@@ -495,8 +512,36 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String toVarName(final String name) {
+    public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+        // sanitize name
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // if it's all upper case, convert to lower case
+        if (name.matches("^[A-Z_]*$")) {
+            name = name.toLowerCase(Locale.ROOT);
+        }
+
+        // underscore the variable name
+        // petId => pet_id
+        name = underscore(name);
+
+        // remove leading underscore
+        name = name.replaceAll("^_*", "");
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
         return name;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        return toVarName(name);
     }
 
     @Override
@@ -571,6 +616,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     } else {
                         p.vendorExtensions.put("x-protobuf-data-type", p.dataType);
                     }
+                }
+
+                if (addJsonNameAnnotation && !p.baseName.equals(p.paramName) && !p.isBodyParam) {
+                    p.vendorExtensions.put("x-protobuf-json-name", p.baseName);
                 }
 
                 p.vendorExtensions.putIfAbsent("x-protobuf-index", index);
@@ -648,4 +697,5 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.PROTOBUF;
     }
+
 }

@@ -1,8 +1,8 @@
 package org.openapitools.codegen.scala;
 
+import org.openapitools.codegen.languages.ScalaSttpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.openapitools.codegen.languages.ScalaSttpClientCodegen;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -22,7 +22,6 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -561,7 +560,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // only process files with scala extension
         if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {scalaPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{scalaPostProcessFile, file.toString()});
         }
     }
 

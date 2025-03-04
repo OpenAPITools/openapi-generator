@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.virtualan.model.Animal;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,13 +25,13 @@ import javax.annotation.Generated;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
-  private UUID uuid;
+  private @Nullable UUID uuid;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private @Nullable OffsetDateTime dateTime;
 
   @Valid
   private Map<String, Animal> map = new HashMap<>();

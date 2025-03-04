@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for StringEnumRef
  */
-public class StringEnumRefTest {
+class StringEnumRefTest {
     /**
      * Model tests for StringEnumRef
      */
     @Test
-    public void testStringEnumRef() {
+    void testStringEnumRef() {
         // TODO: test StringEnumRef
     }
 

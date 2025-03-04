@@ -31,7 +31,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -85,6 +88,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     // Grouping (Method, Operation) by Path.
     private final Map<String, ArrayList<MethodOperation>> pathMethodOpMap = new HashMap<>();
     private boolean havingAuthMethods = false;
+    private boolean havingBasicAuthMethods = false;
 
     // Logger
     private final Logger LOGGER = LoggerFactory.getLogger(RustAxumServerCodegen.class);
@@ -98,7 +102,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         WireFormatFeature.Custom
                 ))
                 .securityFeatures(EnumSet.of(
-                        SecurityFeature.ApiKey
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken
+                ))
+                .schemaSupportFeatures(EnumSet.of(
+                        SchemaSupportFeature.Simple,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.oneOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
@@ -230,14 +241,13 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
-        supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("types.mustache", "src", "types.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
-        supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
+        supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("apis-mod.mustache", apiPackage().replace('.', File.separatorChar), "mod.rs"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
+        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 
     @Override
@@ -428,7 +438,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             for (CodegenParameter param : op.pathParams) {
                 // Replace {baseName} with {paramName} for format string
                 String paramSearch = "{" + param.baseName + "}";
-                String paramReplace = ":" + param.paramName;
+                String paramReplace = "{" + param.paramName + "}";
 
                 axumPath = axumPath.replace(paramSearch, paramReplace);
             }
@@ -594,8 +604,106 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return op;
     }
 
+    private void postProcessOneOfModels(List<ModelMap> allModels) {
+        final HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
+
+        for (ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+
+            final CodegenComposedSchemas cs = cm.getComposedSchemas();
+            if (cs != null) {
+                final List<CodegenProperty> csOneOf = cs.getOneOf();
+
+                if (csOneOf != null) {
+                    for (CodegenProperty model : csOneOf) {
+                        // Generate a valid name for the enum variant.
+                        // Mainly needed for primitive types.
+
+                        model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
+                                .replace("<", "Of").replace(">", ""));
+
+                        // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
+                        if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
+                            model.isPrimitiveType = true;
+                        }
+                    }
+
+                    cs.setOneOf(csOneOf);
+                    cm.setComposedSchemas(cs);
+                }
+            }
+
+            if (cm.discriminator != null) {
+                for (String model : cm.oneOf) {
+                    List<String> discriminators = oneOfMapDiscriminator.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator.getPropertyName());
+                    oneOfMapDiscriminator.put(model, discriminators);
+                }
+            }
+        }
+
+        for (ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+
+            for (CodegenProperty var : cm.vars) {
+                var.isDiscriminator = false;
+            }
+
+            final List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
+
+            if (discriminatorsForModel != null) {
+                for (String discriminator : discriminatorsForModel) {
+                    boolean hasDiscriminatorDefined = false;
+
+                    for (CodegenProperty var : cm.vars) {
+                        if (var.baseName.equals(discriminator)) {
+                            var.isDiscriminator = true;
+                            hasDiscriminatorDefined = true;
+                            break;
+                        }
+                    }
+
+                    // If the discriminator field is not a defined attribute in the variant structure, create it.
+                    if (!hasDiscriminatorDefined) {
+                        CodegenProperty property = new CodegenProperty();
+
+                        // Static attributes
+                        // Only strings are supported by serde for tag field types, so it's the only one we'll deal with
+                        property.openApiType = "string";
+                        property.complexType = "string";
+                        property.dataType = "String";
+                        property.datatypeWithEnum = "String";
+                        property.baseType = "string";
+                        property.required = true;
+                        property.isPrimitiveType = true;
+                        property.isString = true;
+                        property.isDiscriminator = true;
+
+                        // Attributes based on the discriminator value
+                        property.baseName = discriminator;
+                        property.name = discriminator;
+                        property.nameInCamelCase = camelize(discriminator);
+                        property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
+                        property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
+                        property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
+                        property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
+                        property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
+
+                        // Attributes based on the model name
+                        property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
+                        property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+
+                        cm.vars.add(property);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(final OperationsMap operationsMap, List<ModelMap> allModels) {
+        postProcessOneOfModels(allModels);
+
         final OperationMap operations = operationsMap.getOperations();
         operations.put("classnamePascalCase", camelize(operations.getClassname()));
 
@@ -681,6 +789,16 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     op.vendorExtensions.put("x-has-auth-methods", true);
                     hasAuthMethod = true;
+                } else if (s.isBasic) {
+                    op.vendorExtensions.put("x-has-basic-auth-methods", true);
+                    op.vendorExtensions.put("x-is-basic-bearer", s.isBasicBearer);
+                    op.vendorExtensions.put("x-api-auth-header-name", "authorization");
+
+                    op.vendorExtensions.put("x-has-auth-methods", true);
+                    hasAuthMethod = true;
+
+                    if (!this.havingBasicAuthMethods)
+                        this.havingBasicAuthMethods = true;
                 }
             }
         }
@@ -782,6 +900,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .collect(Collectors.toList());
         bundle.put("pathMethodOps", pathMethodOps);
         if (havingAuthMethods) bundle.put("havingAuthMethods", true);
+        if (havingBasicAuthMethods) bundle.put("havingBasicAuthMethods", true);
 
         return super.postProcessSupportingFileData(bundle);
     }

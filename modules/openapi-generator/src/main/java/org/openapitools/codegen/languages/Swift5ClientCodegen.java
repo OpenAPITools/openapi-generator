@@ -36,10 +36,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
-import java.time.OffsetDateTime;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoField;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -84,25 +84,43 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
     protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_PROMISE_KIT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_ASYNC_AWAIT};
-    @Setter protected String projectName = "OpenAPIClient";
-    @Setter protected boolean nonPublicApi = false;
-    @Setter protected boolean objcCompatible = false;
-    @Setter protected boolean readonlyProperties = false;
-    @Setter protected boolean swiftUseApiNamespace = false;
-    @Setter protected boolean useSPMFileStructure = false;
-    @Setter protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
-    @Setter protected boolean oneOfUnknownDefaultCase = false;
-    @Setter protected boolean useClasses = false;
-    @Setter protected boolean useBacktickEscapes = false;
-    @Setter protected boolean generateModelAdditionalProperties = true;
-    @Setter protected boolean hashableModels = true;
-    @Setter protected boolean identifiableModels = true;
-    @Setter protected boolean useJsonEncodable = true;
-    @Getter @Setter
+    @Setter
+    protected String projectName = "OpenAPIClient";
+    @Setter
+    protected boolean nonPublicApi = false;
+    @Setter
+    protected boolean objcCompatible = false;
+    @Setter
+    protected boolean readonlyProperties = false;
+    @Setter
+    protected boolean swiftUseApiNamespace = false;
+    @Setter
+    protected boolean useSPMFileStructure = false;
+    @Setter
+    protected String swiftPackagePath = "Classes" + File.separator + "OpenAPIs";
+    @Setter
+    protected boolean oneOfUnknownDefaultCase = false;
+    @Setter
+    protected boolean useClasses = false;
+    @Setter
+    protected boolean useBacktickEscapes = false;
+    @Setter
+    protected boolean generateModelAdditionalProperties = true;
+    @Setter
+    protected boolean hashableModels = true;
+    @Setter
+    protected boolean identifiableModels = true;
+    @Setter
+    protected boolean useJsonEncodable = true;
+    @Getter
+    @Setter
     protected boolean mapFileBinaryToData = false;
-    @Setter protected boolean useCustomDateWithoutTime = false;
-    @Setter protected boolean validatable = true;
-    @Setter protected String[] responseAs = new String[0];
+    @Setter
+    protected boolean useCustomDateWithoutTime = false;
+    @Setter
+    protected boolean validatable = true;
+    @Setter
+    protected String[] responseAs = new String[0];
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -322,7 +340,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(VALIDATABLE,
-                "Make validation rules and validator for model properies (default: true)")
+                "Make validation rules and validator for model properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
@@ -1189,7 +1207,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {swiftPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{swiftPostProcessFile, file.toString()});
         }
     }
 

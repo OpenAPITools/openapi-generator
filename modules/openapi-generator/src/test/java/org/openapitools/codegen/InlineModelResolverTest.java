@@ -33,8 +33,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.AssertJUnit.*;
 
@@ -869,7 +869,7 @@ public class InlineModelResolverTest {
 
         // Contact
         ComposedSchema contact = (ComposedSchema) openAPI.getComponents().getSchemas().get("Contact");
-        Schema contactAllOf = contact.getAllOf().get(1); // use the inline child scheam directly
+        Schema contactAllOf = contact.getAllOf().get(1); // use the inline child schema directly
 
         assertEquals(contact.getExtensions().get("x-discriminator-value"), "contact");
         assertEquals(contact.getAllOf().get(0).get$ref(), "#/components/schemas/Party");

@@ -14,6 +14,7 @@ on:
       - samples/client/others/java/okhttp-gson-oneOf-array/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
@@ -31,6 +32,7 @@ on:
       - samples/client/others/java/okhttp-gson-oneOf-array/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
+      - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
@@ -57,6 +59,7 @@ jobs:
           - samples/client/petstore/java/webclient
           - samples/client/petstore/java/webclient-nullable-arrays
           - samples/client/petstore/java/webclient-swagger2
+          - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/petstore/java/vertx
           - samples/client/petstore/java/jersey2-java8-localdatetime
           - samples/client/petstore/java/google-api-client

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,10 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
-import java.time.OffsetDateTime;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoField;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -86,27 +87,48 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected static final String RESPONSE_LIBRARY_COMBINE = "Combine";
     protected static final String RESPONSE_LIBRARY_ASYNC_AWAIT = "AsyncAwait";
     protected static final String RESPONSE_LIBRARY_OBJC_BLOCK = "ObjcBlock";
-    protected static final String[] RESPONSE_LIBRARIES = { RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT };
-    @Setter protected String projectName = "OpenAPIClient";
-    @Setter protected boolean nonPublicApi = false;
-    @Setter protected boolean objcCompatible = false;
-    @Setter protected boolean readonlyProperties = false;
-    @Setter protected boolean swiftUseApiNamespace = false;
-    @Setter protected boolean useSPMFileStructure = true;
-    @Setter protected String swiftPackagePath = "Sources" + File.separator + projectName;
-    @Setter protected boolean oneOfUnknownDefaultCase = false;
-    @Setter protected boolean useClasses = false;
-    @Setter protected boolean useBacktickEscapes = false;
-    @Setter protected boolean generateModelAdditionalProperties = true;
-    @Setter protected boolean hashableModels = true;
-    @Setter protected boolean identifiableModels = true;
-    @Setter protected boolean useJsonEncodable = true;
-    @Getter @Setter protected boolean mapFileBinaryToData = false;
-    @Setter protected boolean useCustomDateWithoutTime = false;
-    @Setter protected boolean validatable = true;
-    @Setter protected boolean apiStaticMethod = true;
-    @Setter protected boolean combineDeferred = true;
-    @Setter protected String[] responseAs = { RESPONSE_LIBRARY_ASYNC_AWAIT };
+    protected static final String[] RESPONSE_LIBRARIES = {RESPONSE_LIBRARY_ASYNC_AWAIT, RESPONSE_LIBRARY_COMBINE, RESPONSE_LIBRARY_RESULT, RESPONSE_LIBRARY_RX_SWIFT, RESPONSE_LIBRARY_OBJC_BLOCK, RESPONSE_LIBRARY_PROMISE_KIT};
+    @Setter
+    protected String projectName = "OpenAPIClient";
+    @Setter
+    protected boolean nonPublicApi = false;
+    @Setter
+    protected boolean objcCompatible = false;
+    @Setter
+    protected boolean readonlyProperties = false;
+    @Setter
+    protected boolean swiftUseApiNamespace = false;
+    @Setter
+    protected boolean useSPMFileStructure = true;
+    @Setter
+    protected String swiftPackagePath = "Sources" + File.separator + projectName;
+    @Setter
+    protected boolean oneOfUnknownDefaultCase = false;
+    @Setter
+    protected boolean useClasses = false;
+    @Setter
+    protected boolean useBacktickEscapes = false;
+    @Setter
+    protected boolean generateModelAdditionalProperties = true;
+    @Setter
+    protected boolean hashableModels = true;
+    @Setter
+    protected boolean identifiableModels = true;
+    @Setter
+    protected boolean useJsonEncodable = true;
+    @Getter
+    @Setter
+    protected boolean mapFileBinaryToData = false;
+    @Setter
+    protected boolean useCustomDateWithoutTime = false;
+    @Setter
+    protected boolean validatable = true;
+    @Setter
+    protected boolean apiStaticMethod = true;
+    @Setter
+    protected boolean combineDeferred = true;
+    @Setter
+    protected String[] responseAs = {RESPONSE_LIBRARY_ASYNC_AWAIT};
     protected String sourceFolder = swiftPackagePath;
     protected HashSet objcReservedWords;
     protected String apiDocPath = "docs/";
@@ -326,7 +348,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(VALIDATABLE,
-                "Make validation rules and validator for model properies (default: true)")
+                "Make validation rules and validator for model properties (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(API_STATIC_METHOD,
@@ -586,6 +608,11 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             setCombineDeferred(convertPropertyToBooleanAndWriteBack(COMBINE_DEFERRED));
         }
         additionalProperties.put(COMBINE_DEFERRED, combineDeferred);
+
+        additionalProperties.put("transformArrayType", (Mustache.Lambda) (frag, out) -> {
+            String type = frag.execute();
+            out.write(transformArrayTypeName(type));
+        });
 
         // infrastructure destination folder
         final String infrastructureFolder = sourceFolder + File.separator + "Infrastructure";
@@ -1069,6 +1096,17 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                 LOWERCASE_FIRST_LETTER);
     }
 
+    public String transformArrayTypeName(String type) {
+        if (!type.startsWith("[") || !type.endsWith("]")) {
+            return type;
+        }
+        String innerType = type.substring(1, type.length() - 1);
+        String transformed = transformArrayTypeName(innerType);
+
+        return "ArrayOf" + transformed;
+    }
+
+
     private Boolean isLanguageSpecificType(String name) {
         return languageSpecificPrimitives.contains(name);
     }
@@ -1222,7 +1260,7 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {swiftPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{swiftPostProcessFile, file.toString()});
         }
     }
 

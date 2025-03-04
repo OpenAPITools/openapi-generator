@@ -11,6 +11,7 @@ import org.openapitools.client.models.Order
 
 interface StoreApi {
     /**
+     * DELETE store/order/{orderId}
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * Responses:
@@ -24,6 +25,7 @@ interface StoreApi {
     fun deleteOrder(@Path("orderId") orderId: kotlin.String): Completable
 
     /**
+     * GET store/inventory
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * Responses:
@@ -35,6 +37,7 @@ interface StoreApi {
     fun getInventory(): Single<kotlin.collections.Map<kotlin.String, kotlin.Int>>
 
     /**
+     * GET store/order/{orderId}
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * Responses:
@@ -49,6 +52,7 @@ interface StoreApi {
     fun getOrderById(@Path("orderId") orderId: kotlin.Long): Single<Order>
 
     /**
+     * POST store/order
      * Place an order for a pet
      * 
      * Responses:

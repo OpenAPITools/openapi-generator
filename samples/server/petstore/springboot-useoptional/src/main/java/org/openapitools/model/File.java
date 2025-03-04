@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,13 +21,13 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class File {
 
   private Optional<String> sourceURI = Optional.empty();
 
   public File sourceURI(String sourceURI) {
-    this.sourceURI = Optional.of(sourceURI);
+    this.sourceURI = Optional.ofNullable(sourceURI);
     return this;
   }
 

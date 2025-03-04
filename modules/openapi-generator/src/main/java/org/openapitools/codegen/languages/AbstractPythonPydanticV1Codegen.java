@@ -308,7 +308,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {pythonPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{pythonPostProcessFile, file.toString()});
         }
     }
 
@@ -864,9 +864,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray || cp.isMap){ // if array or map
+                        if (cp.isArray || cp.isMap) { // if array or map
                             modelImports.add(cp.items.dataType);
-                        }else{ // if model
+                        } else { // if model
                             modelImports.add(cp.dataType);
                         }
                     }
@@ -984,7 +984,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
 
             // remove the items of postponedModelImports in modelImports to avoid circular imports error
-            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()) {
                 modelImports.removeAll(postponedModelImports);
             }
 
@@ -1090,7 +1090,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 pydanticImports.add("constr");
                 return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
                     pydanticImports.add("SecretStr");
                     return "SecretStr";
                 } else {
@@ -1375,7 +1375,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 pydanticImports.add("constr");
                 return String.format(Locale.ROOT, "constr(%s)", StringUtils.join(fieldCustomization, ", "));
             } else {
-                if ("password".equals(cp.getFormat())) { // TDOO avoid using format, use `is` boolean flag instead
+                if ("password".equals(cp.getFormat())) { // TODO avoid using format, use `is` boolean flag instead
                     pydanticImports.add("SecretStr");
                     return "SecretStr";
                 } else {
@@ -1687,7 +1687,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     /**
-     * Update set of imports from codegen model recursivly
+     * Update set of imports from codegen model recursively
      *
      * @param modelName model name
      * @param cm        codegen model
@@ -1896,7 +1896,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
 
-            // TOOD update the check below follow python convention
+            // TODO update the check below follow python convention
             //Must follow Perl /pattern/modifiers convention
             if (pattern.charAt(0) != '/' || i < 2) {
                 throw new IllegalArgumentException("Pattern must follow the Perl "

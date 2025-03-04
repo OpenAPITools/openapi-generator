@@ -16,22 +16,21 @@
 
 package org.openapitools.codegen.templating.mustache;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template.Fragment;
+import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
+
 import java.io.IOException;
 import java.io.Writer;
 
-import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
-
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template.Fragment;
-
 /**
  * Writes text that was previously saved.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("paste", new PasteLambda(copyContent, false));
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#paste}}{{/paste}}

@@ -22,7 +22,7 @@
   * {{{.}}}
   */
 {{/description}}
-{{>additionalModelTypeAnnotations}}
+{{>additionalModelTypeAnnotations}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
@@ -45,7 +45,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   */
 {{/description}}
   {{^withXml}}
-  {{#jsonb}}@JsonbProperty("{{baseName}}"){{/jsonb}}
+  {{#jsonb}}{{^isDiscriminator}}@JsonbProperty("{{baseName}}"){{/isDiscriminator}}{{#isDiscriminator}}{{#jsonbPolymorphism}}@JsonbTransient{{/jsonbPolymorphism}}{{^jsonbPolymorphism}}@JsonbProperty("{{baseName}}"){{/jsonbPolymorphism}}{{/isDiscriminator}}{{/jsonb}}
   {{/withXml}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{vendorExtensions.x-field-extra-annotation}}}

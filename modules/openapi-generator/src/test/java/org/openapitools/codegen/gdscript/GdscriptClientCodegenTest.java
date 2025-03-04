@@ -3,8 +3,6 @@ package org.openapitools.codegen.gdscript;
 import org.openapitools.codegen.languages.GdscriptClientCodegen;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.verify;
-
 public class GdscriptClientCodegenTest {
 
     GdscriptClientCodegen clientCodegen = new GdscriptClientCodegen();

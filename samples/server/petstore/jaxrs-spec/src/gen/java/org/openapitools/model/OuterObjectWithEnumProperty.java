@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("OuterObjectWithEnumProperty")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty  implements Serializable {
   private OuterEnumInteger value;
 
@@ -98,7 +98,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     return new OuterObjectWithEnumPropertyBuilderImpl();
   }
 
-  private static class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
+  private static final class OuterObjectWithEnumPropertyBuilderImpl extends OuterObjectWithEnumPropertyBuilder<OuterObjectWithEnumProperty, OuterObjectWithEnumPropertyBuilderImpl> {
 
     @Override
     protected OuterObjectWithEnumPropertyBuilderImpl self() {

@@ -34,14 +34,8 @@ fail:
 }
 
 openapi_petstore_preference__e preference_parseFromJSON(cJSON *preferenceJSON) {
-    openapi_petstore_preference__e *preference = NULL;
-    openapi_petstore_preference__e preferenceVariable;
-    cJSON *preferenceVar = cJSON_GetObjectItemCaseSensitive(preferenceJSON, "preference");
-    if(!cJSON_IsString(preferenceVar) || (preferenceVar->valuestring == NULL)){
-        goto end;
+    if(!cJSON_IsString(preferenceJSON) || (preferenceJSON->valuestring == NULL)) {
+        return 0;
     }
-    preferenceVariable = preference_preference_FromString(preferenceVar->valuestring);
-    return preferenceVariable;
-end:
-    return 0;
+    return preference_preference_FromString(preferenceJSON->valuestring);
 }

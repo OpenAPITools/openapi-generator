@@ -24,7 +24,7 @@ class TestPetApi(unittest.IsolatedAsyncioTestCase):
         self.api = PetApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_add_pet(self) -> None:
         """Test case for add_pet

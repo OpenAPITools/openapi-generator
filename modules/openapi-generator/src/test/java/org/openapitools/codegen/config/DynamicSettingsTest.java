@@ -9,7 +9,10 @@ import org.openapitools.codegen.api.TemplateFileType;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,9 +27,9 @@ public class DynamicSettingsTest {
 
         String spec =
                 "gemName: 'petstore'" + System.lineSeparator() +
-                "moduleName: 'Petstore'" + System.lineSeparator() +
-                "gemVersion: '1.0.0'" + System.lineSeparator() +
-                "apiPackage: 'testing'" + System.lineSeparator();
+                        "moduleName: 'Petstore'" + System.lineSeparator() +
+                        "gemVersion: '1.0.0'" + System.lineSeparator() +
+                        "apiPackage: 'testing'" + System.lineSeparator();
 
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
@@ -63,7 +66,7 @@ public class DynamicSettingsTest {
 
         String spec =
                 "generatorName: none" + System.lineSeparator() +
-                "templateDir: '" + input + "'" + System.lineSeparator();
+                        "templateDir: '" + input + "'" + System.lineSeparator();
 
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
@@ -93,8 +96,8 @@ public class DynamicSettingsTest {
         String gitUserId = "openapitools";
         String spec =
                 "supportPython2: true" + System.lineSeparator() +
-                "gitHost: '" + gitHost + "'" + System.lineSeparator() +
-                "gitUserId: '" + gitUserId + "'" + System.lineSeparator();
+                        "gitHost: '" + gitHost + "'" + System.lineSeparator() +
+                        "gitUserId: '" + gitUserId + "'" + System.lineSeparator();
 
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();

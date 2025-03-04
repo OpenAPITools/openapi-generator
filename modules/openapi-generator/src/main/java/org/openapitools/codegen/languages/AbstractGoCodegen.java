@@ -748,7 +748,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         for (ModelMap m : objs.getModels()) {
             boolean addedTimeImport = false;
             boolean addedOSImport = false;
-            boolean addedValidator = false;
             CodegenModel model = m.getModel();
 
             List<CodegenProperty> inheritedProperties = new ArrayList<>();
@@ -791,7 +790,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 // construct data tag in the template: x-go-datatag
-                // originl template
+                // original template
                 // `json:"{{{baseName}}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{{baseName}}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#withValidate}} validate:"{{validate}}"{{/withValidate}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
                 String goDataTag = "json:\"" + cp.baseName;
                 if (!cp.required) {
@@ -828,11 +827,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
-            }
-
-            if (model.oneOf != null && !model.oneOf.isEmpty() && !addedValidator && generateUnmarshalJSON) {
-                imports.add(createMapping("import", "gopkg.in/validator.v2"));
-                addedValidator = true;
             }
 
             // if oneOf contains "null" type
@@ -1011,7 +1005,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
             // e.g. "gofmt -w yourcode.go"
             // e.g. "go fmt path/to/your/package"
-            this.executePostProcessor(new String[] {goPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{goPostProcessFile, file.toString()});
         }
     }
 

@@ -11,7 +11,7 @@ version = "1.0.0"
 val kotlin_version = "2.0.21"
 val coroutines_version = "1.9.0"
 val serialization_version = "1.7.3"
-val ktor_version = "3.0.1"
+val ktor_version = "3.0.3"
 
 repositories {
     mavenCentral()

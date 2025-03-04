@@ -47,8 +47,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
-|supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and bellow. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
+|supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and below. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
+|useNonAsciiHeaders|Allow to use non-ascii headers with the okhttp library| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |useSettingsGradle|Whether the project uses settings.gradle.| |false|
 |useSpringBoot3|Whether to use the Spring Boot 3 with the jvm-spring-webclient library.| |false|

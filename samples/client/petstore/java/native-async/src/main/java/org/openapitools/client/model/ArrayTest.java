@@ -40,7 +40,7 @@ import org.openapitools.client.ApiClient;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @javax.annotation.Nullable
@@ -234,7 +234,7 @@ public class ArrayTest {
       for (int i = 0; i < getArrayOfString().size(); i++) {
         joiner.add(String.format("%sarray_of_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayOfString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayOfString().get(i)))));
       }
     }
 
@@ -243,7 +243,7 @@ public class ArrayTest {
       for (int i = 0; i < getArrayArrayOfInteger().size(); i++) {
         joiner.add(String.format("%sarray_array_of_integer%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayArrayOfInteger().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayArrayOfInteger().get(i)))));
       }
     }
 
@@ -253,7 +253,7 @@ public class ArrayTest {
         if (getArrayArrayOfModel().get(i) != null) {
           joiner.add(String.format("%sarray_array_of_model%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString(getArrayArrayOfModel().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString(getArrayArrayOfModel().get(i)))));
         }
       }
     }

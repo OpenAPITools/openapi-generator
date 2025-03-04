@@ -2764,15 +2764,31 @@ impl std::ops::DerefMut for Ok {
     }
 }
 
-/// One of:
-/// - Vec<String>
-/// - i32
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct OneOfGet200Response(Box<serde_json::value::RawValue>);
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+#[allow(non_camel_case_types)]
+pub enum OneOfGet200Response {
+    I32(Box<i32>),
+    VecOfString(Box<Vec<String>>),
+}
 
 impl validator::Validate for OneOfGet200Response {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            Self::I32(_) => std::result::Result::Ok(()),
+            Self::VecOfString(_) => std::result::Result::Ok(()),
+        }
+    }
+}
+
+impl From<i32> for OneOfGet200Response {
+    fn from(value: i32) -> Self {
+        Self::I32(Box::new(value))
+    }
+}
+impl From<Vec<String>> for OneOfGet200Response {
+    fn from(value: Vec<String>) -> Self {
+        Self::VecOfString(Box::new(value))
     }
 }
 
@@ -2784,12 +2800,6 @@ impl std::str::FromStr for OneOfGet200Response {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
-    }
-}
-
-impl PartialEq for OneOfGet200Response {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
     }
 }
 

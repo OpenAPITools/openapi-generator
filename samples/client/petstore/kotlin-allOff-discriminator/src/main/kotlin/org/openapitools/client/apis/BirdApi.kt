@@ -46,6 +46,7 @@ class BirdApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /v1/bird/{id}
      * 
      * 
      * @param id 
@@ -77,6 +78,7 @@ class BirdApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /v1/bird/{id}
      * 
      * 
      * @param id 

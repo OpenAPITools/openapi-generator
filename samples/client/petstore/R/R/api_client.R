@@ -32,7 +32,7 @@
 #' @field oauth_secret OAuth secret
 #' @field oauth_refresh_token OAuth refresh token
 #' @field oauth_flow_type OAuth flow type
-#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_authorization_url Authorization URL
 #' @field oauth_token_url Token URL
 #' @field oauth_pkce Boolean flag to enable PKCE
 #' @field bearer_token Bearer token
@@ -68,7 +68,7 @@ ApiClient <- R6::R6Class(
     # OAuth2
     # Flow type
     oauth_flow_type = "implicit",
-    # Authoriziation URL
+    # Authorization URL
     oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
     # Token URL
     oauth_token_url = "",
@@ -97,7 +97,7 @@ ApiClient <- R6::R6Class(
     #' @param bearer_token Bearer token.
     #' @param timeout Timeout.
     #' @param retry_status_codes Status codes for retry.
-    #' @param max_retry_attempts Maxmium number of retry.
+    #' @param max_retry_attempts Maximum number of retry.
     #' @export
     initialize = function(base_path = NULL, user_agent = NULL,
                           default_headers = NULL,
@@ -418,7 +418,7 @@ ApiClient <- R6::R6Class(
     #' 
     #' @param local_var_resp The API response
     #' @param return_type The target return type for the endpoint (e.g., `"object"`). If `NULL` text will be left as-is.
-    #' @return If the raw response is corecable to text, return the text. Otherwise return the raw resposne.
+    #' @return If the raw response is corecable to text, return the text. Otherwise return the raw response.
     DeserializeResponse = function(local_var_resp, return_type = NULL) {
       text <- local_var_resp$response_as_text()
       if (is.na(text)) {
@@ -435,8 +435,8 @@ ApiClient <- R6::R6Class(
     #' The function will write out data. 
     #' 
     #' 1. If binary data is detected it will use `writeBin`
-    #' 2. If the raw response is coercable to text, the text will be written to a file
-    #' 3. If the raw response is not coercable to text, the raw response will be written
+    #' 2. If the raw response is coercible to text, the text will be written to a file
+    #' 3. If the raw response is not coercible to text, the raw response will be written
     #' 
     #' @param local_var_resp The API response
     #' @param file The name of the data file to save the result

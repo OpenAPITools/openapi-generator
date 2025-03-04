@@ -19,6 +19,12 @@ import (
 
 
 
+// FakeAPIRouter defines the required methods for binding the api requests to a responses for the FakeAPI
+// The FakeAPIRouter implementation should parse necessary information from the http request,
+// pass the data to a FakeAPIServicer to perform the required actions, then write the service results to the http response.
+type FakeAPIRouter interface { 
+	FakePostTest(http.ResponseWriter, *http.Request)
+}
 // PetAPIRouter defines the required methods for binding the api requests to a responses for the PetAPI
 // The PetAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a PetAPIServicer to perform the required actions, then write the service results to the http response.
@@ -52,6 +58,7 @@ type StoreAPIRouter interface {
 // The UserAPIRouter implementation should parse necessary information from the http request,
 // pass the data to a UserAPIServicer to perform the required actions, then write the service results to the http response.
 type UserAPIRouter interface { 
+	CreateUserNullable(http.ResponseWriter, *http.Request)
 	CreateUser(http.ResponseWriter, *http.Request)
 	CreateUsersWithArrayInput(http.ResponseWriter, *http.Request)
 	CreateUsersWithListInput(http.ResponseWriter, *http.Request)
@@ -60,6 +67,15 @@ type UserAPIRouter interface {
 	GetUserByName(http.ResponseWriter, *http.Request)
 	UpdateUser(http.ResponseWriter, *http.Request)
 	DeleteUser(http.ResponseWriter, *http.Request)
+}
+
+
+// FakeAPIServicer defines the api actions for the FakeAPI service
+// This interface intended to stay up to date with the openapi yaml used to generate it,
+// while the service implementation can be ignored with the .openapi-generator-ignore file
+// and updated with the logic required for the API.
+type FakeAPIServicer interface { 
+	FakePostTest(context.Context, string) (ImplResponse, error)
 }
 
 
@@ -103,6 +119,7 @@ type StoreAPIServicer interface {
 // while the service implementation can be ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type UserAPIServicer interface { 
+	CreateUserNullable(context.Context, *UserNullable) (ImplResponse, error)
 	CreateUser(context.Context, User) (ImplResponse, error)
 	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)

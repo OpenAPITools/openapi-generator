@@ -89,16 +89,16 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         super();
 
         modifyFeatureSet(features -> features.includeSecurityFeatures(
-            SecurityFeature.OAuth2_AuthorizationCode, 
-            SecurityFeature.OAuth2_Password
+                SecurityFeature.OAuth2_AuthorizationCode,
+                SecurityFeature.OAuth2_Password
         ));
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         MAPPER.registerModule(
-            new SimpleModule()
-                .addKeySerializer(String.class, new SnakeCaseKeySerializer())
-                .addSerializer(Boolean.class, new PythonBooleanSerializer())
+                new SimpleModule()
+                        .addKeySerializer(String.class, new SnakeCaseKeySerializer())
+                        .addSerializer(Boolean.class, new PythonBooleanSerializer())
         );
 
         /*
@@ -325,7 +325,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     }
 
     @Override
-    public String generatorLanguageVersion() { return "3.7"; }
+    public String generatorLanguageVersion() {
+        return "3.7";
+    }
 
     @Override
     public String escapeReservedWord(String name) {

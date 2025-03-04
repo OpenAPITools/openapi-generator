@@ -51,6 +51,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   public {{classname}}() {
   }
 
+  {{#generateJsonCreator}}
   {{#hasRequired}}
   @JsonCreator
   public {{classname}}(
@@ -73,6 +74,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   }
 
   {{/hasRequired}}
+  {{/generateJsonCreator}}
   {{#vars}}
   /**
    {{#description}}
@@ -188,7 +190,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     return new {{classname}}BuilderImpl();
   }
 
-  private static class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
+  private static final class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
 
     @Override
     protected {{classname}}BuilderImpl self() {
@@ -203,7 +205,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   public static abstract class {{classname}}Builder<C extends {{classname}}, B extends {{classname}}Builder<C, B>> {{#parent}}extends {{{.}}}Builder<C, B>{{/parent}} {
     {{#vars}}
-    private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    private {{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
   {{^parent}}
     protected abstract B self();
@@ -212,7 +214,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/parent}}
 
     {{#vars}}
-    public B {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public B {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
       this.{{name}} = {{name}};
       return self();
     }

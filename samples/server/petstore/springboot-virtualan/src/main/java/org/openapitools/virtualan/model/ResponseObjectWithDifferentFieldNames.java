@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -18,16 +19,16 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
-  private String normalPropertyName;
+  private @Nullable String normalPropertyName;
 
-  private String UPPER_CASE_PROPERTY_SNAKE;
+  private @Nullable String UPPER_CASE_PROPERTY_SNAKE;
 
-  private String lowerCasePropertyDashes;
+  private @Nullable String lowerCasePropertyDashes;
 
-  private String propertyNameWithSpaces;
+  private @Nullable String propertyNameWithSpaces;
 
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;

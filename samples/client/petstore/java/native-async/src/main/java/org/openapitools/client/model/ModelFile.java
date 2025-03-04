@@ -35,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @javax.annotation.Nullable
@@ -142,7 +142,7 @@ public class ModelFile {
 
     // add `sourceURI` to the URL query string
     if (getSourceURI() != null) {
-      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSourceURI()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssourceURI%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSourceURI()))));
     }
 
     return joiner.toString();

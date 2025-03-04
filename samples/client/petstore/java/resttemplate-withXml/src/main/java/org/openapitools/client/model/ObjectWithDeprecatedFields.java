@@ -41,7 +41,7 @@ import io.github.threetenjaxb.core.*;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 @XmlRootElement(name = "ObjectWithDeprecatedFields")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ObjectWithDeprecatedFields")
@@ -192,6 +192,7 @@ public class ObjectWithDeprecatedFields {
   public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -53,15 +53,6 @@ class ApiClient {
         }
 
         /**
-         * The default HTTP headers to be included for all API calls.
-         * @type {Array.<String>}
-         * @default {}
-         */
-        this.defaultHeaders = {
-            'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript'
-        };
-
-        /**
          * The default HTTP timeout for all API calls.
          * @type {Number}
          * @default 60000
@@ -76,7 +67,7 @@ class ApiClient {
          */
         this.cache = true;
 
-        /**
+	/**
          * If set to true, the client will save the cookies from each server
          * response, and return them in the next request.
          * @default false

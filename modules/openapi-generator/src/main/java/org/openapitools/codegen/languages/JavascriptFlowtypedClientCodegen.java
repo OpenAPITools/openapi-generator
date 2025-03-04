@@ -34,7 +34,8 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
-@Getter @Setter
+@Getter
+@Setter
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
     public static final String NPM_REPOSITORY = "npmRepository";
 
@@ -212,5 +213,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

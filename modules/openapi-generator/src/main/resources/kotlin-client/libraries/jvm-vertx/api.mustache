@@ -88,6 +88,7 @@ import {{packageName}}.infrastructure.*
     {{/isEnum}}
     {{/allParams}}
     /**
+     * {{{httpMethod}}} {{{path}}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
@@ -122,6 +123,7 @@ import {{packageName}}.infrastructure.*
     }
 
     /**
+     * {{{httpMethod}}} {{{path}}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}

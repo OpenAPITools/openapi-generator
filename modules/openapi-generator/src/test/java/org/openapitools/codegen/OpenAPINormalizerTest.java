@@ -16,16 +16,17 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -99,7 +100,7 @@ public class OpenAPINormalizerTest {
 
     @Test
     public void testOpenAPINormalizerRemoveAnyOfOneOfAndKeepPropertiesOnly() {
-        // to test the rule REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIIES_ONLY
+        // to test the rule REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("Person");
@@ -295,6 +296,21 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSetTagsToVendorExtension() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableSetTagsToVendorExtension_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_TAGS_TO_VENDOR_EXTENSION", "x-tags");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+    }
+
+    @Test
     public void testAddUnsignedToIntegerWithInvalidMaxValue() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml");
 
@@ -478,6 +494,24 @@ public class OpenAPINormalizerTest {
 
         Map<String, String> options = new HashMap<>();
         options.put("FILTER", "operationId:delete|list");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+
+    @Test
+    public void testFilterWithTrim() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "operationId:\n\t\t\t\tdelete|\n\t\tlist");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 

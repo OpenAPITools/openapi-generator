@@ -172,6 +172,7 @@ const _returntypes_login_user_UserApi = Dict{Regex,Type}(
 )
 
 function _oacinternal_login_user(_api::UserApi, username::String, password::String; _mediaType=nothing)
+        OpenAPI.validate_param("username", "login_user", :pattern, username, r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
 
     _ctx = OpenAPI.Clients.Ctx(_api.client, "GET", _returntypes_login_user_UserApi, "/user/login", [])
     OpenAPI.Clients.set_param(_ctx.query, "username", username; style="form", is_explode=true)  # type String

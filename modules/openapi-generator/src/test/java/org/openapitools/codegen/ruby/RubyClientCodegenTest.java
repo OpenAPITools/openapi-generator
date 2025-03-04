@@ -450,7 +450,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
-        List<String> allVars  =
+        List<String> allVars =
                 child.getAllVars().stream()
                         .map(CodegenProperty::getName)
                         .collect(Collectors.toList());
@@ -467,7 +467,7 @@ public class RubyClientCodegenTest {
         Assert.assertTrue(allVars.containsAll(allVarsExpected));
 
         // to test vars (without parent's properties)
-        List<String> vars  =
+        List<String> vars =
                 child.getVars().stream()
                         .map(CodegenProperty::getName)
                         .collect(Collectors.toList());
@@ -479,14 +479,14 @@ public class RubyClientCodegenTest {
         Assert.assertTrue(vars.containsAll(varsExpected));
 
         // to test requiredVars
-        List<String> requiredVars  =
+        List<String> requiredVars =
                 child.getRequiredVars().stream()
                         .map(CodegenProperty::getName)
                         .collect(Collectors.toList());
         List<String> requiredVarsExpected = Arrays.asList(
                 "duplicated_required",
                 "person_required"
-                );
+        );
         Assert.assertEquals(vars.size(), requiredVarsExpected.size());
         Assert.assertTrue(requiredVars.containsAll(requiredVarsExpected));
     }

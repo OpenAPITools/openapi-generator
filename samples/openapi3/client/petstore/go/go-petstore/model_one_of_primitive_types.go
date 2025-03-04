@@ -13,8 +13,8 @@ package petstore
 import (
 	"encoding/json"
 	"time"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // OneOfPrimitiveTypes - struct for OneOfPrimitiveTypes
@@ -113,6 +113,20 @@ func (obj *OneOfPrimitiveTypes) GetActualInstance() (interface{}) {
 
 	if obj.TimeTime != nil {
 		return obj.TimeTime
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj OneOfPrimitiveTypes) GetActualInstanceValue() (interface{}) {
+	if obj.String != nil {
+		return *obj.String
+	}
+
+	if obj.TimeTime != nil {
+		return *obj.TimeTime
 	}
 
 	// all schemas are nil

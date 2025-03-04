@@ -20,7 +20,7 @@ public enum StringHelpers implements Helper<Object> {
      * <pre>
      * {{startsWith a text='b' [insensitive=true]}}
      * </pre>
-     *
+     * <p>
      * Render 'yes' or 'no':
      * <pre>
      *   {{#startsWith a b}}
@@ -29,12 +29,12 @@ public enum StringHelpers implements Helper<Object> {
      *     no
      *   {{/startsWith}}
      * </pre>
-     *
+     * <p>
      * Render 'true' or 'false':
      * <pre>
      *   {{startsWith a b}}
      * </pre>
-     *
+     * <p>
      * Render 'y' or 'n':
      * <pre>
      *   {{startsWith a b yes='y' no='n'}}
@@ -72,7 +72,7 @@ public enum StringHelpers implements Helper<Object> {
      * <pre>
      * {{endsWith a text='b' [insensitive=true]}}
      * </pre>
-     *
+     * <p>
      * Render 'yes' or 'no':
      * <pre>
      *   {{#endsWith a b}}
@@ -81,12 +81,12 @@ public enum StringHelpers implements Helper<Object> {
      *     no
      *   {{/endsWith}}
      * </pre>
-     *
+     * <p>
      * Render 'true' or 'false':
      * <pre>
      *   {{endsWith a b}}
      * </pre>
-     *
+     * <p>
      * Render 'y' or 'n':
      * <pre>
      *   {{endsWith a b yes='y' no='n'}}

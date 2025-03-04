@@ -43,6 +43,18 @@ build_script:
   #- dotnet build samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
 
 test_script:
+  - dotnet test samples\client\petstore\csharp\generichost\net9\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\FormModels\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # - dotnet test samples\client\petstore\csharp\generichost\net9\ManualSourceGenerationTests\ManualTests.Latest.UseSourceGeneration\ManualTests.Latest.UseSourceGeneration.csproj
+  # - dotnet test samples\client\petstore\csharp\generichost\net9\ManualPetstoreTests\OpenAPIClient-generichost-manual-tests\OpenAPIClient-generichost-manual-tests.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\NullReferenceTypes\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\OneOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\SourceGeneration\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net9\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+
   - dotnet test samples\client\petstore\csharp\generichost\net8\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
@@ -78,10 +90,10 @@ test_script:
   - dotnet test samples\client\petstore\csharp\restsharp\net4.7\MultipleFrameworks\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\restsharp\net4.7\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\restsharp\net4.8\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp\restsharp\net6\ParameterMappings\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp\restsharp\net7\EnumMappings\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp\restsharp\net7\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp\restsharp\net7\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net8\ParameterMappings\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net8\EnumMappings\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net8\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net8\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\restsharp\standard2.0\ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\restsharp\standard2.0\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 

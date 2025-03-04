@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -49,11 +50,11 @@ public class AdditionalPropertiesClass {
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
-  private Object anytype2 = null;
+  private @Nullable Object anytype2 = null;
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;

@@ -23,6 +23,7 @@ jobs:
         sample:
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
     steps:
       - uses: actions/checkout@v4

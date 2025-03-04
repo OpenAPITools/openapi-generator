@@ -52,27 +52,39 @@ public class {{classname}} {
     }
 
     {{#operation}}
-{{#useSingleRequestParameter}}
+{{#singleRequestParameter}}
 {{#hasParams}}
-{{#hasSingleParam}}
-// It has a single param!
-/*
-{{#allParams}}
-* {{paramName}}
-{{/allParams}}
-*/
-{{/hasSingleParam}}
-{{^hasSingleParam}}
-// It has NO single param!
-/*
-{{#allParams}}
-* {{paramName}}
-{{/allParams}}
-*/
-{{/hasSingleParam}}
 {{^hasSingleParam}}
 
+    {{^staticRequest}}
     public record {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){}
+    {{/staticRequest}}
+    {{#staticRequest}}
+    public static class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
+    {{#allParams}}
+        private {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}};
+    {{/allParams}}
+
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request() {}
+
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        {{#allParams}}
+            this.{{paramName}} = {{paramName}};
+        {{/allParams}}
+        }
+
+        {{#allParams}}
+        public {{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}() {
+            return this.{{paramName}};
+        }
+        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {{paramName}}({{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}) {
+            this.{{paramName}} = {{paramName}};
+            return this;
+        }
+
+        {{/allParams}}
+    }
+    {{/staticRequest}}
 
     /**
     * {{summary}}
@@ -124,7 +136,7 @@ public class {{classname}} {
 
 {{/hasSingleParam}}
 {{/hasParams}}
-{{/useSingleRequestParameter}}
+{{/singleRequestParameter}}
     /**
      * {{summary}}
      * {{notes}}

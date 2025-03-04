@@ -12,7 +12,7 @@ server, you can easily generate a server stub.
 To see how to make this your own, look here: [README]((https://openapi-generator.tech))
 
 - API version: 0.1.9
-- Generator version: 7.11.0-SNAPSHOT
+- Generator version: 7.12.0-SNAPSHOT
 
 
 
@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl rust-axum-header-uui::Api for ServerImpl {
+impl rust_axum_header_uui::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl rust_axum_header_uui::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = rust-axum-header-uui::server::new(Arc::new(ServerImpl));
+    let app = rust_axum_header_uui::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,14 +20,14 @@ import javax.annotation.Generated;
  * OuterComposite
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class OuterComposite {
 
-  private BigDecimal myNumber;
+  private @Nullable BigDecimal myNumber;
 
-  private String myString;
+  private @Nullable String myString;
 
-  private Boolean myBoolean;
+  private @Nullable Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;

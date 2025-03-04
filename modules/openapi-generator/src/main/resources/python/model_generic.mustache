@@ -18,7 +18,7 @@ from typing_extensions import Self
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 {{#mappedModels}}
-    from {{packageName}}.models.{{model.classVarName}} import {{modelName}}
+    from {{packageName}}.models.{{model.classFilename}} import {{modelName}}
 {{/mappedModels}}
 
 {{/discriminator}}
@@ -261,7 +261,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         object_type = cls.get_discriminator_value(obj)
         {{#mappedModels}}
         if object_type ==  '{{{modelName}}}':
-            return import_module("{{packageName}}.models.{{model.classVarName}}").{{modelName}}.from_dict(obj)
+            return import_module("{{packageName}}.models.{{model.classFilename}}").{{modelName}}.from_dict(obj)
         {{/mappedModels}}
 
         raise ValueError("{{{classname}}} failed to lookup discriminator value from " +
@@ -356,7 +356,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
-            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
+            "{{{baseName}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}

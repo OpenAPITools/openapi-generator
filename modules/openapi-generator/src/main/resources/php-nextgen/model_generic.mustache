@@ -190,6 +190,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         return self::$openAPIModelName;
     }
 
+{{#discriminator}}
+{{#discriminator.mappedModels}}
+    public const {{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}} = '{{mappingName}}';
+{{/discriminator.mappedModels}}
+{{/discriminator}}
+{{^discriminator}}
     {{#vars}}
     {{#isEnum}}
     {{#allowableValues}}
@@ -199,6 +205,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     {{/allowableValues}}
     {{/isEnum}}
     {{/vars}}
+{{/discriminator}}
 
     {{#vars}}
     {{#isEnum}}
@@ -210,8 +217,15 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     public function {{getter}}AllowableValues()
     {
         return [
+{{#discriminator}}
+{{#discriminator.mappedModels}}
+            self::{{#lambda.uppercase}}{{discriminator.propertyName}}_{{#lambda.snakecase}}{{mappingName}}{{/lambda.snakecase}}{{/lambda.uppercase}},{{^-last}}
+{{/-last}}{{/discriminator.mappedModels}}
+{{/discriminator}}
+{{^discriminator}}
             {{#allowableValues}}{{#enumVars}}self::{{enumName}}_{{{name}}},{{^-last}}
             {{/-last}}{{/enumVars}}{{/allowableValues}}
+{{/discriminator}}
         ];
     }
 
@@ -231,8 +245,13 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      *
      * @param array $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
+        {{#discriminator}}
+        // Initialize discriminator property with the model name.
+        $this->container['{{discriminatorName}}'] = static::$openAPIModelName;
+
+        {{/discriminator}}
         {{#parentSchema}}
         parent::__construct($data);
 
@@ -240,11 +259,6 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{#vars}}
         $this->setIfExists('{{name}}', $data ?? [], {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}});
         {{/vars}}
-        {{#discriminator}}
-
-        // Initialize discriminator property with the model name.
-        $this->container['{{discriminatorName}}'] = static::$openAPIModelName;
-        {{/discriminator}}
     }
 
     /**
@@ -405,6 +419,10 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         $allowedValues = $this->{{getter}}AllowableValues();
         {{^isContainer}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}!in_array(${{{name}}}, $allowedValues, true)) {
+        {{#enumUnknownDefaultCase}}
+            ${{name}} = {{#allowableValues}}{{#enumVars}}{{#-last}}self::{{enumName}}_{{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}
+        {{/enumUnknownDefaultCase}}
+        {{^enumUnknownDefaultCase}}
             throw new InvalidArgumentException(
                 sprintf(
                     "Invalid value '%s' for '{{name}}', must be one of '%s'",
@@ -412,6 +430,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
                     implode("', '", $allowedValues)
                 )
             );
+        {{/enumUnknownDefaultCase}}
         }
         {{/isContainer}}
         {{#isContainer}}

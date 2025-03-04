@@ -19,14 +19,9 @@ package org.openapitools.codegen.php;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.mockito.Answers;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
-import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -46,12 +41,13 @@ public class AbstractPhpCodegenTest {
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
-    @BeforeMethod void mockAbstractCodegen() {
+    @BeforeMethod
+    void mockAbstractCodegen() {
         codegen = mock(
-            AbstractPhpCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+                AbstractPhpCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );
     }
-    
+
     @Test
     public void testInitialConfigValues() throws Exception {
         codegen.processOpts();
@@ -79,7 +75,7 @@ public class AbstractPhpCodegenTest {
         Assert.assertEquals(codegen.modelPackage(), "My\\Client\\Model");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "My\\Client\\Model");
         Assert.assertEquals(codegen.apiPackage(), "My\\Client\\Api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE),"My\\Client\\Api");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "My\\Client\\Api");
         Assert.assertEquals(codegen.getInvokerPackage(), "My\\Client\\Invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "My\\Client\\Invoker");
     }
@@ -130,12 +126,12 @@ public class AbstractPhpCodegenTest {
 
     @DataProvider(name = "composerNames")
     public static Object[][] composerNames() {
-        return new Object[][] {
-            {"", "", ""},
-            {"null", "null", ""},
-            {"GIT_REPO_ID", "GIT_USER_ID", ""},
-            {"git_repo_id", "git_user_id", "git_repo_id/git_user_id"},
-            {"foo", "bar", "foo/bar"},
+        return new Object[][]{
+                {"", "", ""},
+                {"null", "null", ""},
+                {"GIT_REPO_ID", "GIT_USER_ID", ""},
+                {"git_repo_id", "git_user_id", "git_repo_id/git_user_id"},
+                {"foo", "bar", "foo/bar"},
         };
     }
 
