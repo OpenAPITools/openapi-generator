@@ -52,6 +52,14 @@ class ApiClient {
             'bearer_test': {type: 'bearer'}, // JWT
         }
 
+	/**
+         * The default HTTP headers to be included for all API calls.
+         * @type {Array.<String>}
+         * @default {}
+         */
+        this.defaultHeaders = {
+        };
+
         /**
          * The default HTTP timeout for all API calls.
          * @type {Number}
