@@ -15,7 +15,3 @@ additionalProperties:
   useBeanValidation: "true"
   performBeanValidation: "true"
   useHttpServiceProxyFactoryInterfacesConfigurator: "true"
-  # needed until updating the default parentVersion (3.1.3) to 3.2+
-  parentGroupId: "org.springframework.boot"
-  parentArtifactId: "spring-boot-starter-parent"
-  parentVersion: "3.2.0"
