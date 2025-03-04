@@ -18,7 +18,7 @@ import public "{{{modelPackage}}}/{{{import}}}.proto";
   // {{{.}}}
   {{/description}}
   {{^isEnum}}
-  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
+  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}}{{#vendorExtensions.x-protobuf-json-name}} [json_name="{{vendorExtensions.x-protobuf-json-name}}"]{{/vendorExtensions.x-protobuf-json-name}};
   {{/isEnum}}
   {{#isEnum}}
   enum {{enumName}} {

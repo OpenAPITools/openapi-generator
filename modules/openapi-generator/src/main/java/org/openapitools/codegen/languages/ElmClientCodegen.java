@@ -41,7 +41,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -169,7 +168,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-            .put("removeWhitespace", new RemoveWhitespaceLambda());
+                .put("removeWhitespace", new RemoveWhitespaceLambda());
     }
 
     @Override
@@ -295,43 +294,43 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         // put all models in one file
         final Map<String, ModelsMap> objects = new HashMap<>();
         final ModelsMap dataObj = objs.values().stream()
-            .findFirst()
-            .orElse(new ModelsMap());
+                .findFirst()
+                .orElse(new ModelsMap());
         final List<ModelMap> models = objs.values().stream()
-            .flatMap(obj -> obj.getModels().stream())
-            .flatMap(obj -> {
-                final CodegenModel model = obj.getModel();
-                // circular references
-                model.vars.forEach(var -> {
-                    var.isCircularReference = model.allVars.stream()
-                        .filter(v -> var.baseName.equals(v.baseName))
-                        .map(v -> v.isCircularReference)
-                        .findAny()
-                        .orElse(false);
-                    CodegenProperty items = var.items;
-                    while (items != null) {
-                        items.isCircularReference = var.isCircularReference;
-                        items.required = true;
-                        items = items.items;
-                    }
-                });
-                // discriminators
-                if (model.discriminator != null && model.getChildren() != null) {
-                    model.getChildren().forEach(child -> {
-                        child.allOf = child.allOf.stream()
-                            .map(v -> model.classname.equals(v) ? "Base" + v : v)
-                            .collect(Collectors.toSet());
+                .flatMap(obj -> obj.getModels().stream())
+                .flatMap(obj -> {
+                    final CodegenModel model = obj.getModel();
+                    // circular references
+                    model.vars.forEach(var -> {
+                        var.isCircularReference = model.allVars.stream()
+                                .filter(v -> var.baseName.equals(v.baseName))
+                                .map(v -> v.isCircularReference)
+                                .findAny()
+                                .orElse(false);
+                        CodegenProperty items = var.items;
+                        while (items != null) {
+                            items.isCircularReference = var.isCircularReference;
+                            items.required = true;
+                            items = items.items;
+                        }
                     });
-                }
-                // remove *AllOf
-                if (model.classname.endsWith("AllOf")) {
-                    return Stream.empty();
-                } else {
-                    model.allOf.removeIf(name -> name.endsWith("AllOf"));
-                    return Stream.of(obj);
-                }
-            })
-            .collect(Collectors.toList());
+                    // discriminators
+                    if (model.discriminator != null && model.getChildren() != null) {
+                        model.getChildren().forEach(child -> {
+                            child.allOf = child.allOf.stream()
+                                    .map(v -> model.classname.equals(v) ? "Base" + v : v)
+                                    .collect(Collectors.toSet());
+                        });
+                    }
+                    // remove *AllOf
+                    if (model.classname.endsWith("AllOf")) {
+                        return Stream.empty();
+                    } else {
+                        model.allOf.removeIf(name -> name.endsWith("AllOf"));
+                        return Stream.of(obj);
+                    }
+                })
+                .collect(Collectors.toList());
 
         final boolean includeTime = anyVarMatches(models, prop -> prop.isDate || prop.isDateTime);
         final boolean includeUuid = anyVarMatches(models, prop -> prop.isUuid);
@@ -398,7 +397,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final boolean includeUuid = anyOperationResponse(ops, response -> response.isUuid) ||
                 anyOperationParam(ops, param -> param.isUuid || itemsIncludesType(param.items, p -> p.isUuid));
         final boolean includeFile = anyOperationResponse(ops, response -> response.isFile) ||
-            anyOperationParam(ops, param -> param.isFile || itemsIncludesType(param.items, p -> p.isFile));
+                anyOperationParam(ops, param -> param.isFile || itemsIncludesType(param.items, p -> p.isFile));
 
         operations.put("includeTime", includeTime);
         operations.put("includeUuid", includeUuid);
@@ -496,5 +495,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ELM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ELM;
+    }
 }

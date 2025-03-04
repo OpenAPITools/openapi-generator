@@ -438,6 +438,7 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
         Assert.assertTrue(property.getUniqueItemsBoolean());
     }
+
     @Test(description = "convert a model with an array property with item name")
     public void arrayModelWithItemNameTest() {
         final Schema propertySchema = new ArraySchema()
@@ -1131,14 +1132,14 @@ public class JavaModelTest {
         Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
         Assert.assertEquals(cp.pattern, "^[A-Z]+$");
     }
-    
+
     @Test(description = "convert string property with password format")
     public void stringPropertyPasswordFormatTest() {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema property = new StringSchema().format("password");
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
-        
+
         final CodegenProperty cp = codegen.fromProperty("somePropertyWithPasswordFormat", property);
         Assert.assertEquals(cp.isPassword, true);
     }

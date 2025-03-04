@@ -16,20 +16,20 @@
 
 package org.openapitools.codegen.templating.mustache;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template.Fragment;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * Saves template text to be used later.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("copy", new CopyLambda(new CopyContent()));
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#copy}}{{name}}{{/copy}}
@@ -61,7 +61,7 @@ public class CopyLambda implements Mustache.Lambda {
     public void execute(Fragment fragment, Writer writer) throws IOException {
         String content = fragment.execute();
 
-        if (this.leadingWhiteSpaceStrategy == WhiteSpaceStrategy.AppendLineBreakIfMissing && !content.startsWith("\n")){
+        if (this.leadingWhiteSpaceStrategy == WhiteSpaceStrategy.AppendLineBreakIfMissing && !content.startsWith("\n")) {
             content = "\n" + content;
         }
 
@@ -73,11 +73,11 @@ public class CopyLambda implements Mustache.Lambda {
             content = content.substring(1);
         }
 
-        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.AppendLineBreakIfMissing && !content.endsWith("\n")){
+        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.AppendLineBreakIfMissing && !content.endsWith("\n")) {
             content = content + "\n";
         }
 
-        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.Strip){
+        if (this.trailingWhiteSpaceStrategy == WhiteSpaceStrategy.Strip) {
             content = content.stripTrailing();
         }
 

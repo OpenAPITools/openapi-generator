@@ -35,7 +35,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
@@ -90,6 +89,10 @@ public class OpenAPINormalizer {
     // is empty
     final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
     String setTagsToOperationId;
+
+    // when set to a string value, tags will be set to the value of the provided vendor extension
+    final String SET_TAGS_TO_VENDOR_EXTENSION = "SET_TAGS_TO_VENDOR_EXTENSION";
+    String setTagsToVendorExtension;
 
     // when set to true, tags in all operations will be set to operationId or "default" if operationId
     // is empty
@@ -158,6 +161,7 @@ public class OpenAPINormalizer {
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
         ruleNames.add(SET_TAGS_TO_OPERATIONID);
+        ruleNames.add(SET_TAGS_TO_VENDOR_EXTENSION);
         ruleNames.add(FIX_DUPLICATED_OPERATIONID);
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
@@ -222,6 +226,11 @@ public class OpenAPINormalizer {
         setTagsForAllOperations = inputRules.get(SET_TAGS_FOR_ALL_OPERATIONS);
         if (setTagsForAllOperations != null) {
             rules.put(SET_TAGS_FOR_ALL_OPERATIONS, true);
+        }
+
+        setTagsToVendorExtension = inputRules.get(SET_TAGS_TO_VENDOR_EXTENSION);
+        if (setTagsToVendorExtension != null) {
+            rules.put(SET_TAGS_TO_VENDOR_EXTENSION, true);
         }
 
         if (inputRules.get(FILTER) != null) {
@@ -374,6 +383,8 @@ public class OpenAPINormalizer {
         processSetTagsForAllOperations(operation);
 
         processSetTagsToOperationId(operation);
+
+        processSetTagsToVendorExtension(operation);
 
         processFixDuplicatedOperationId(operation);
     }
@@ -534,7 +545,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-           for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
             normalizeResponse(entry.getValue());
         }
     }
@@ -885,8 +896,7 @@ public class OpenAPINormalizer {
     }
 
     /**
-     * Keep only first tag in the operation if the operation has more than
-     * one tag.
+     * Remove/hide the x-internal in operations and model.
      *
      * @param operation Operation
      */
@@ -955,6 +965,34 @@ public class OpenAPINormalizer {
         }
     }
 
+    /**
+     * Set the tag name to the value of the provided vendor extension
+     *
+     * @param operation Operation
+     */
+    private void processSetTagsToVendorExtension(Operation operation) {
+        if (StringUtils.isEmpty(setTagsToVendorExtension)) {
+            return;
+        }
+
+        if (operation.getExtensions() == null) {
+            return;
+        }
+
+        if (operation.getExtensions().containsKey(setTagsToVendorExtension)) {
+            operation.setTags(null);
+            Object argObj = operation.getExtensions().get(setTagsToVendorExtension);
+            if (argObj instanceof List) {
+                List<String> tags = (List<String>) argObj;
+                for (String tag : tags) {
+                    operation.addTagsItem(tag);
+                }
+            } else {
+                operation.addTagsItem(String.valueOf(argObj));
+            }
+        }
+    }
+
     private void processFixDuplicatedOperationId(Operation operation) {
         if (!getRule(FIX_DUPLICATED_OPERATIONID)) {
             return;
@@ -972,7 +1010,6 @@ public class OpenAPINormalizer {
             operation.setOperationId(uniqueName);
         }
     }
-
 
 
     /**

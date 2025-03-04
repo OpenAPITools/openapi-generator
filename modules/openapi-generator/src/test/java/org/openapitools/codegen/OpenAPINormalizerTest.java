@@ -16,16 +16,17 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -292,6 +293,21 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "list");
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().get(0), "delete");
+    }
+
+    @Test
+    public void testOpenAPINormalizerSetTagsToVendorExtension() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableSetTagsToVendorExtension_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_TAGS_TO_VENDOR_EXTENSION", "x-tags");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
     }
 
     @Test

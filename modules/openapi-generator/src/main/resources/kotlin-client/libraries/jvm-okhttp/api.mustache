@@ -208,17 +208,44 @@ import {{packageName}}.infrastructure.toMultiValue
                 {{#queryParams}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
+                    {{#isModel}}
+                    {{#vars}}
+                    if ({{{paramName}}}.{{name}} != null) {
+                        put("{{#isDeepObject}}{{{paramName}}}[{{/isDeepObject}}{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}{{#isDeepObject}}]{{/isDeepObject}}", {{#isContainer}}toMultiValue({{{paramName}}}.{{name}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}.{{name}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}.{{name}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.{{name}}.value{{/isString}}{{^isString}}{{{paramName}}}.{{name}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.{{name}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    }
+                    {{/vars}}
+                    {{/isModel}}
+                    {{^isModel}}
                     put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isModel}}
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{{paramName}}} != null) {
+                    {{#isModel}}
+                    {{#vars}}
+                    if ({{{paramName}}}.{{name}} != null) {
+                        put("{{#isDeepObject}}{{{paramName}}}[{{/isDeepObject}}{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}{{#isDeepObject}}]{{/isDeepObject}}", {{#isContainer}}toMultiValue({{{paramName}}}.{{name}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}.{{name}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}.{{name}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.{{name}}.value{{/isString}}{{^isString}}{{{paramName}}}.{{name}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.{{name}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    }
+                    {{/vars}}
+                    {{/isModel}}
+                    {{^isModel}}
                     put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                    {{/isModel}}
                 }
                 {{/isNullable}}
                 {{^isNullable}}
+                {{#isModel}}
+                {{#vars}}
+                if ({{{paramName}}}.{{name}} != null) {
+                    put("{{#isDeepObject}}{{{paramName}}}[{{/isDeepObject}}{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}{{#isDeepObject}}]{{/isDeepObject}}", {{#isContainer}}toMultiValue({{{paramName}}}.{{name}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}.{{name}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}.{{name}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.{{name}}.value{{/isString}}{{^isString}}{{{paramName}}}.{{name}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.{{name}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                }
+                {{/vars}}
+                {{/isModel}}
+                {{^isModel}}
                 put("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{#isEnum}}{{#isString}}{{{paramName}}}.value{{/isString}}{{^isString}}{{{paramName}}}.toString(){{/isString}}{{/isEnum}}{{^isEnum}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}{{/isEnum}}){{/isContainer}})
+                {{/isModel}}
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}

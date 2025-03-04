@@ -17,41 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import joptsimple.internal.Strings;
+import lombok.AccessLevel;
+import lombok.Setter;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -62,17 +39,13 @@ import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Mustache.Lambda;
-import com.samskivert.mustache.Template;
-
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import joptsimple.internal.Strings;
-import lombok.AccessLevel;
-import lombok.Setter;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -114,7 +87,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     // The API has at least one UUID type.
     // If the API does not contain any UUIDs we do not need depend on the `uuid` crate
     private boolean hasUUIDs = false;
-
 
     @Override
     public CodegenType getTag() {

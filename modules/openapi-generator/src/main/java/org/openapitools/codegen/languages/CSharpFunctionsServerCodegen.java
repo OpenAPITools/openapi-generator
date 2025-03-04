@@ -260,7 +260,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+                "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -603,7 +603,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setAdditionalPropertyForFramework() {
-        if (((String)additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
+        if (((String) additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }
     }

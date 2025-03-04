@@ -172,29 +172,29 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
         supportingFiles.add(new SupportingFile("server/pom.mustache", "", "pom.xml")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
         supportingFiles.add(new SupportingFile("server/openapi-generator-ignore.mustache", "", ".openapi-generator-ignore")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
         if (this.generateSpringApplication) {
             supportingFiles.add(new SupportingFile("server/readme.md", "", "readme.md")
-                .doNotOverwrite());
+                    .doNotOverwrite());
             supportingFiles.add(new SupportingFile("server/ApplicationContext.xml.mustache",
                     ("src/main/resources"), "ApplicationContext.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
             supportingFiles.add(new SupportingFile("server/web.mustache",
                     ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
             supportingFiles.add(new SupportingFile("server/context.xml.mustache",
                     ("src/main/webapp/WEB-INF"), "context.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
 
             // Jboss
             if (generateJbossDeploymentDescriptor) {
                 supportingFiles.add(new SupportingFile("server/jboss-web.xml.mustache",
                         ("src/main/webapp/WEB-INF"), "jboss-web.xml")
-                    .doNotOverwrite());
+                        .doNotOverwrite());
 
             }
 
@@ -202,10 +202,10 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
             if (this.generateSpringBootApplication) {
                 supportingFiles.add(new SupportingFile("server/SpringBootApplication.mustache",
                         (testFolder + '/' + apiPackage).replace(".", "/"), "SpringBootApplication.java")
-                    .doNotOverwrite());
+                        .doNotOverwrite());
                 supportingFiles.add(new SupportingFile("server/application.properties.mustache",
                         (testResourcesFolder + '/'), "application.properties")
-                    .doNotOverwrite());
+                        .doNotOverwrite());
 
             }
         }
@@ -213,7 +213,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         if (this.generateNonSpringApplication) {
             supportingFiles.add(new SupportingFile("server/nonspring-web.mustache",
                     ("src/main/webapp/WEB-INF"), "web.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
     }
 

@@ -196,6 +196,7 @@ public class ApiClient {
     {{#openApiNullable}}
     mapper.registerModule(new JsonNullableModule());
     {{/openApiNullable}}
+    mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
   }
 

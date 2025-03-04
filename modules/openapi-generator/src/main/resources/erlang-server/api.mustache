@@ -179,7 +179,7 @@ populate_request_params(_, [], Req, _, Model) ->
 populate_request_params(OperationID, [ReqParamName | T], Req0, ValidatorState, Model0) ->
     case populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) of
         {ok, V, Req} ->
-            Model = maps:put(ReqParamName, V, Model0),
+            Model = Model0#{ReqParamName => V},
             populate_request_params(OperationID, T, Req, ValidatorState, Model);
         Error ->
             Error

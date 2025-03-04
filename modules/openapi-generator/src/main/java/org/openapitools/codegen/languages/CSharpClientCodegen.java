@@ -18,8 +18,8 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
 import lombok.Setter;
@@ -128,6 +128,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         ALPHABETICAL,
         LEGACY
     }
+
     private SortingMethod operationParameterSorting = SortingMethod.DEFAULT;
     private SortingMethod modelPropertySorting = SortingMethod.DEFAULT;
 
@@ -355,9 +356,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 "Use source generation where available (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
-        supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
-                + "(Experimental. Subject to breaking changes without notice.)");
-        supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
+        supportedLibraries.put(GENERICHOST, "HttpClient, Generic Host integration, and System.Text.Json (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host)");
+        supportedLibraries.put(HTTPCLIENT, "HttpClient and Newtonsoft (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(UNITY_WEB_REQUEST, "UnityWebRequest (...) "
                 + "(Experimental. Subject to breaking changes without notice.)");
@@ -365,10 +365,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
-        // set RESTSHARP as the default
-        libraryOption.setDefault(RESTSHARP);
+        // set GENERICHOST as the default
+        libraryOption.setDefault(GENERICHOST);
         cliOptions.add(libraryOption);
-        setLibrary(RESTSHARP);
+        setLibrary(GENERICHOST);
     }
 
     @Deprecated
@@ -505,8 +505,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
                     Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
                     Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefaultLegacy);
-                }
-                else {
+                } else {
                     Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
                     Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
                     Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
@@ -756,24 +755,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         final Map<String, Runnable> libraryActions = Map.of(
-            GENERICHOST, () -> {
-                setLibrary(GENERICHOST);
-                additionalProperties.put("useGenericHost", true);
-            },
-            RESTSHARP, () -> {
-                additionalProperties.put("useRestSharp", true);
-                needsCustomHttpMethod = true;
-            },
-            HTTPCLIENT, () -> {
-                setLibrary(HTTPCLIENT);
-                additionalProperties.put("useHttpClient", true);
-                needsUriBuilder = true;
-            },
-            UNITY_WEB_REQUEST, () -> {
-                setLibrary(UNITY_WEB_REQUEST);
-                additionalProperties.put("useUnityWebRequest", true);
-                needsUriBuilder = true;
-            }
+                GENERICHOST, () -> {
+                    setLibrary(GENERICHOST);
+                    additionalProperties.put("useGenericHost", true);
+                },
+                RESTSHARP, () -> {
+                    additionalProperties.put("useRestSharp", true);
+                    needsCustomHttpMethod = true;
+                },
+                HTTPCLIENT, () -> {
+                    setLibrary(HTTPCLIENT);
+                    additionalProperties.put("useHttpClient", true);
+                    needsUriBuilder = true;
+                },
+                UNITY_WEB_REQUEST, () -> {
+                    setLibrary(UNITY_WEB_REQUEST);
+                    additionalProperties.put("useUnityWebRequest", true);
+                    needsUriBuilder = true;
+                }
         );
         final Runnable action = libraryActions.get(library);
         if (action != null) {
@@ -889,16 +888,22 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         switch (library) {
+            case RESTSHARP:
+                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath);
+                additionalProperties.put("modelDocPath", modelDocPath);
+
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
+                    supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
+                    supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
+                }
+                break;
             case HTTPCLIENT:
                 supportingFiles.add(new SupportingFile("FileParameter.mustache", clientPackageDir, "FileParameter.cs"));
                 addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
                 additionalProperties.put("apiDocPath", apiDocPath);
                 additionalProperties.put("modelDocPath", modelDocPath);
-                break;
-            case GENERICHOST:
-                addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
-                additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
-                additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
                 break;
             case UNITY_WEB_REQUEST:
                 additionalProperties.put(CodegenConstants.VALIDATABLE, false);
@@ -914,16 +919,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
                 supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
                 break;
-            default: // restsharp
-                addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
-                additionalProperties.put("apiDocPath", apiDocPath);
-                additionalProperties.put("modelDocPath", modelDocPath);
-
-                if (ProcessUtils.hasOAuthMethods(openAPI)) {
-                    supportingFiles.add(new SupportingFile("auth/OAuthAuthenticator.mustache", authPackageDir, "OAuthAuthenticator.cs"));
-                    supportingFiles.add(new SupportingFile("auth/TokenResponse.mustache", authPackageDir, "TokenResponse.cs"));
-                    supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authPackageDir, "OAuthFlow.cs"));
-                }
+            default: // generichost
+                addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
+                additionalProperties.put("apiDocPath", apiDocPath + File.separatorChar + "apis");
+                additionalProperties.put("modelDocPath", modelDocPath + File.separatorChar + "models");
                 break;
         }
 
@@ -1015,7 +1014,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
                                    final AtomicReference<Boolean> excludeTests, final String testPackageFolder, final String testPackageName, final String modelPackageDir, final String authPackageDir) {
         final String library = getLibrary();
-        
+
         if (RESTSHARP.equals(library)) { // restsharp
             if (useIntForTimeout) { // option to fall back to int for Timeout using v7.9.0 template
                 supportingFiles.add(new SupportingFile("ApiClient.v790.mustache", clientPackageDir, "ApiClient.cs"));
@@ -1184,7 +1183,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
     }
-    
+
     /**
      * Sets the api name. This value must be a valid class name.
      *

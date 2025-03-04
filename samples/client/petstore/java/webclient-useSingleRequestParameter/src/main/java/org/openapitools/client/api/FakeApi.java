@@ -39,7 +39,7 @@ import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FakeApi {
     private ApiClient apiClient;
 
@@ -192,25 +192,42 @@ public class FakeApi {
     }
 
     public class FakeHttpSignatureTestRequest {
-        private final Pet pet;
-        private final String query1;
-        private final String header1;
+        private Pet pet;
+        private String query1;
+        private String header1;
+
+        public FakeHttpSignatureTestRequest() {}
 
         public FakeHttpSignatureTestRequest(Pet pet, String query1, String header1) {
-          this.pet = pet;
-          this.query1 = query1;
-          this.header1 = header1;
-      }
+            this.pet = pet;
+            this.query1 = query1;
+            this.header1 = header1;
+        }
 
         public Pet pet() {
             return this.pet;
         }
+        public FakeHttpSignatureTestRequest pet(Pet pet) {
+            this.pet = pet;
+            return this;
+        }
+
         public String query1() {
             return this.query1;
         }
+        public FakeHttpSignatureTestRequest query1(String query1) {
+            this.query1 = query1;
+            return this;
+        }
+
         public String header1() {
             return this.header1;
         }
+        public FakeHttpSignatureTestRequest header1(String header1) {
+            this.header1 = header1;
+            return this;
+        }
+
     }
 
       /**
@@ -901,20 +918,32 @@ public class FakeApi {
     }
 
     public class TestBodyWithQueryParamsRequest {
-        private final String query;
-        private final User user;
+        private String query;
+        private User user;
+
+        public TestBodyWithQueryParamsRequest() {}
 
         public TestBodyWithQueryParamsRequest(String query, User user) {
-          this.query = query;
-          this.user = user;
-      }
+            this.query = query;
+            this.user = user;
+        }
 
         public String query() {
             return this.query;
         }
+        public TestBodyWithQueryParamsRequest query(String query) {
+            this.query = query;
+            return this;
+        }
+
         public User user() {
             return this.user;
         }
+        public TestBodyWithQueryParamsRequest user(User user) {
+            this.user = user;
+            return this;
+        }
+
     }
 
       /**
@@ -1108,80 +1137,152 @@ public class FakeApi {
     }
 
     public class TestEndpointParametersRequest {
-        private final BigDecimal number;
-        private final Double _double;
-        private final String patternWithoutDelimiter;
-        private final byte[] _byte;
-        private final Integer integer;
-        private final Integer int32;
-        private final Long int64;
-        private final Float _float;
-        private final String string;
-        private final File binary;
-        private final LocalDate date;
-        private final OffsetDateTime dateTime;
-        private final String password;
-        private final String paramCallback;
+        private BigDecimal number;
+        private Double _double;
+        private String patternWithoutDelimiter;
+        private byte[] _byte;
+        private Integer integer;
+        private Integer int32;
+        private Long int64;
+        private Float _float;
+        private String string;
+        private File binary;
+        private LocalDate date;
+        private OffsetDateTime dateTime;
+        private String password;
+        private String paramCallback;
+
+        public TestEndpointParametersRequest() {}
 
         public TestEndpointParametersRequest(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) {
-          this.number = number;
-          this._double = _double;
-          this.patternWithoutDelimiter = patternWithoutDelimiter;
-          this._byte = _byte;
-          this.integer = integer;
-          this.int32 = int32;
-          this.int64 = int64;
-          this._float = _float;
-          this.string = string;
-          this.binary = binary;
-          this.date = date;
-          this.dateTime = dateTime;
-          this.password = password;
-          this.paramCallback = paramCallback;
-      }
+            this.number = number;
+            this._double = _double;
+            this.patternWithoutDelimiter = patternWithoutDelimiter;
+            this._byte = _byte;
+            this.integer = integer;
+            this.int32 = int32;
+            this.int64 = int64;
+            this._float = _float;
+            this.string = string;
+            this.binary = binary;
+            this.date = date;
+            this.dateTime = dateTime;
+            this.password = password;
+            this.paramCallback = paramCallback;
+        }
 
         public BigDecimal number() {
             return this.number;
         }
+        public TestEndpointParametersRequest number(BigDecimal number) {
+            this.number = number;
+            return this;
+        }
+
         public Double _double() {
             return this._double;
         }
+        public TestEndpointParametersRequest _double(Double _double) {
+            this._double = _double;
+            return this;
+        }
+
         public String patternWithoutDelimiter() {
             return this.patternWithoutDelimiter;
         }
+        public TestEndpointParametersRequest patternWithoutDelimiter(String patternWithoutDelimiter) {
+            this.patternWithoutDelimiter = patternWithoutDelimiter;
+            return this;
+        }
+
         public byte[] _byte() {
             return this._byte;
         }
+        public TestEndpointParametersRequest _byte(byte[] _byte) {
+            this._byte = _byte;
+            return this;
+        }
+
         public Integer integer() {
             return this.integer;
         }
+        public TestEndpointParametersRequest integer(Integer integer) {
+            this.integer = integer;
+            return this;
+        }
+
         public Integer int32() {
             return this.int32;
         }
+        public TestEndpointParametersRequest int32(Integer int32) {
+            this.int32 = int32;
+            return this;
+        }
+
         public Long int64() {
             return this.int64;
         }
+        public TestEndpointParametersRequest int64(Long int64) {
+            this.int64 = int64;
+            return this;
+        }
+
         public Float _float() {
             return this._float;
         }
+        public TestEndpointParametersRequest _float(Float _float) {
+            this._float = _float;
+            return this;
+        }
+
         public String string() {
             return this.string;
         }
+        public TestEndpointParametersRequest string(String string) {
+            this.string = string;
+            return this;
+        }
+
         public File binary() {
             return this.binary;
         }
+        public TestEndpointParametersRequest binary(File binary) {
+            this.binary = binary;
+            return this;
+        }
+
         public LocalDate date() {
             return this.date;
         }
+        public TestEndpointParametersRequest date(LocalDate date) {
+            this.date = date;
+            return this;
+        }
+
         public OffsetDateTime dateTime() {
             return this.dateTime;
         }
+        public TestEndpointParametersRequest dateTime(OffsetDateTime dateTime) {
+            this.dateTime = dateTime;
+            return this;
+        }
+
         public String password() {
             return this.password;
         }
+        public TestEndpointParametersRequest password(String password) {
+            this.password = password;
+            return this;
+        }
+
         public String paramCallback() {
             return this.paramCallback;
         }
+        public TestEndpointParametersRequest paramCallback(String paramCallback) {
+            this.paramCallback = paramCallback;
+            return this;
+        }
+
     }
 
       /**
@@ -1390,55 +1491,102 @@ public class FakeApi {
     }
 
     public class TestEnumParametersRequest {
-        private final List<String> enumHeaderStringArray;
-        private final String enumHeaderString;
-        private final List<String> enumQueryStringArray;
-        private final String enumQueryString;
-        private final Integer enumQueryInteger;
-        private final Double enumQueryDouble;
-        private final List<EnumClass> enumQueryModelArray;
-        private final List<String> enumFormStringArray;
-        private final String enumFormString;
+        private List<String> enumHeaderStringArray;
+        private String enumHeaderString;
+        private List<String> enumQueryStringArray;
+        private String enumQueryString;
+        private Integer enumQueryInteger;
+        private Double enumQueryDouble;
+        private List<EnumClass> enumQueryModelArray;
+        private List<String> enumFormStringArray;
+        private String enumFormString;
+
+        public TestEnumParametersRequest() {}
 
         public TestEnumParametersRequest(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) {
-          this.enumHeaderStringArray = enumHeaderStringArray;
-          this.enumHeaderString = enumHeaderString;
-          this.enumQueryStringArray = enumQueryStringArray;
-          this.enumQueryString = enumQueryString;
-          this.enumQueryInteger = enumQueryInteger;
-          this.enumQueryDouble = enumQueryDouble;
-          this.enumQueryModelArray = enumQueryModelArray;
-          this.enumFormStringArray = enumFormStringArray;
-          this.enumFormString = enumFormString;
-      }
+            this.enumHeaderStringArray = enumHeaderStringArray;
+            this.enumHeaderString = enumHeaderString;
+            this.enumQueryStringArray = enumQueryStringArray;
+            this.enumQueryString = enumQueryString;
+            this.enumQueryInteger = enumQueryInteger;
+            this.enumQueryDouble = enumQueryDouble;
+            this.enumQueryModelArray = enumQueryModelArray;
+            this.enumFormStringArray = enumFormStringArray;
+            this.enumFormString = enumFormString;
+        }
 
         public List<String> enumHeaderStringArray() {
             return this.enumHeaderStringArray;
         }
+        public TestEnumParametersRequest enumHeaderStringArray(List<String> enumHeaderStringArray) {
+            this.enumHeaderStringArray = enumHeaderStringArray;
+            return this;
+        }
+
         public String enumHeaderString() {
             return this.enumHeaderString;
         }
+        public TestEnumParametersRequest enumHeaderString(String enumHeaderString) {
+            this.enumHeaderString = enumHeaderString;
+            return this;
+        }
+
         public List<String> enumQueryStringArray() {
             return this.enumQueryStringArray;
         }
+        public TestEnumParametersRequest enumQueryStringArray(List<String> enumQueryStringArray) {
+            this.enumQueryStringArray = enumQueryStringArray;
+            return this;
+        }
+
         public String enumQueryString() {
             return this.enumQueryString;
         }
+        public TestEnumParametersRequest enumQueryString(String enumQueryString) {
+            this.enumQueryString = enumQueryString;
+            return this;
+        }
+
         public Integer enumQueryInteger() {
             return this.enumQueryInteger;
         }
+        public TestEnumParametersRequest enumQueryInteger(Integer enumQueryInteger) {
+            this.enumQueryInteger = enumQueryInteger;
+            return this;
+        }
+
         public Double enumQueryDouble() {
             return this.enumQueryDouble;
         }
+        public TestEnumParametersRequest enumQueryDouble(Double enumQueryDouble) {
+            this.enumQueryDouble = enumQueryDouble;
+            return this;
+        }
+
         public List<EnumClass> enumQueryModelArray() {
             return this.enumQueryModelArray;
         }
+        public TestEnumParametersRequest enumQueryModelArray(List<EnumClass> enumQueryModelArray) {
+            this.enumQueryModelArray = enumQueryModelArray;
+            return this;
+        }
+
         public List<String> enumFormStringArray() {
             return this.enumFormStringArray;
         }
+        public TestEnumParametersRequest enumFormStringArray(List<String> enumFormStringArray) {
+            this.enumFormStringArray = enumFormStringArray;
+            return this;
+        }
+
         public String enumFormString() {
             return this.enumFormString;
         }
+        public TestEnumParametersRequest enumFormString(String enumFormString) {
+            this.enumFormString = enumFormString;
+            return this;
+        }
+
     }
 
       /**
@@ -1598,40 +1746,72 @@ public class FakeApi {
     }
 
     public class TestGroupParametersRequest {
-        private final Integer requiredStringGroup;
-        private final Boolean requiredBooleanGroup;
-        private final Long requiredInt64Group;
-        private final Integer stringGroup;
-        private final Boolean booleanGroup;
-        private final Long int64Group;
+        private Integer requiredStringGroup;
+        private Boolean requiredBooleanGroup;
+        private Long requiredInt64Group;
+        private Integer stringGroup;
+        private Boolean booleanGroup;
+        private Long int64Group;
+
+        public TestGroupParametersRequest() {}
 
         public TestGroupParametersRequest(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) {
-          this.requiredStringGroup = requiredStringGroup;
-          this.requiredBooleanGroup = requiredBooleanGroup;
-          this.requiredInt64Group = requiredInt64Group;
-          this.stringGroup = stringGroup;
-          this.booleanGroup = booleanGroup;
-          this.int64Group = int64Group;
-      }
+            this.requiredStringGroup = requiredStringGroup;
+            this.requiredBooleanGroup = requiredBooleanGroup;
+            this.requiredInt64Group = requiredInt64Group;
+            this.stringGroup = stringGroup;
+            this.booleanGroup = booleanGroup;
+            this.int64Group = int64Group;
+        }
 
         public Integer requiredStringGroup() {
             return this.requiredStringGroup;
         }
+        public TestGroupParametersRequest requiredStringGroup(Integer requiredStringGroup) {
+            this.requiredStringGroup = requiredStringGroup;
+            return this;
+        }
+
         public Boolean requiredBooleanGroup() {
             return this.requiredBooleanGroup;
         }
+        public TestGroupParametersRequest requiredBooleanGroup(Boolean requiredBooleanGroup) {
+            this.requiredBooleanGroup = requiredBooleanGroup;
+            return this;
+        }
+
         public Long requiredInt64Group() {
             return this.requiredInt64Group;
         }
+        public TestGroupParametersRequest requiredInt64Group(Long requiredInt64Group) {
+            this.requiredInt64Group = requiredInt64Group;
+            return this;
+        }
+
         public Integer stringGroup() {
             return this.stringGroup;
         }
+        public TestGroupParametersRequest stringGroup(Integer stringGroup) {
+            this.stringGroup = stringGroup;
+            return this;
+        }
+
         public Boolean booleanGroup() {
             return this.booleanGroup;
         }
+        public TestGroupParametersRequest booleanGroup(Boolean booleanGroup) {
+            this.booleanGroup = booleanGroup;
+            return this;
+        }
+
         public Long int64Group() {
             return this.int64Group;
         }
+        public TestGroupParametersRequest int64Group(Long int64Group) {
+            this.int64Group = int64Group;
+            return this;
+        }
+
     }
 
       /**
@@ -1916,20 +2096,32 @@ public class FakeApi {
     }
 
     public class TestJsonFormDataRequest {
-        private final String param;
-        private final String param2;
+        private String param;
+        private String param2;
+
+        public TestJsonFormDataRequest() {}
 
         public TestJsonFormDataRequest(String param, String param2) {
-          this.param = param;
-          this.param2 = param2;
-      }
+            this.param = param;
+            this.param2 = param2;
+        }
 
         public String param() {
             return this.param;
         }
+        public TestJsonFormDataRequest param(String param) {
+            this.param = param;
+            return this;
+        }
+
         public String param2() {
             return this.param2;
         }
+        public TestJsonFormDataRequest param2(String param2) {
+            this.param2 = param2;
+            return this;
+        }
+
     }
 
       /**
@@ -2121,45 +2313,82 @@ public class FakeApi {
     }
 
     public class TestQueryParameterCollectionFormatRequest {
-        private final List<String> pipe;
-        private final List<String> ioutil;
-        private final List<String> http;
-        private final List<String> url;
-        private final List<String> context;
-        private final String allowEmpty;
-        private final Map<String, String> language;
+        private List<String> pipe;
+        private List<String> ioutil;
+        private List<String> http;
+        private List<String> url;
+        private List<String> context;
+        private String allowEmpty;
+        private Map<String, String> language;
+
+        public TestQueryParameterCollectionFormatRequest() {}
 
         public TestQueryParameterCollectionFormatRequest(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
-          this.pipe = pipe;
-          this.ioutil = ioutil;
-          this.http = http;
-          this.url = url;
-          this.context = context;
-          this.allowEmpty = allowEmpty;
-          this.language = language;
-      }
+            this.pipe = pipe;
+            this.ioutil = ioutil;
+            this.http = http;
+            this.url = url;
+            this.context = context;
+            this.allowEmpty = allowEmpty;
+            this.language = language;
+        }
 
         public List<String> pipe() {
             return this.pipe;
         }
+        public TestQueryParameterCollectionFormatRequest pipe(List<String> pipe) {
+            this.pipe = pipe;
+            return this;
+        }
+
         public List<String> ioutil() {
             return this.ioutil;
         }
+        public TestQueryParameterCollectionFormatRequest ioutil(List<String> ioutil) {
+            this.ioutil = ioutil;
+            return this;
+        }
+
         public List<String> http() {
             return this.http;
         }
+        public TestQueryParameterCollectionFormatRequest http(List<String> http) {
+            this.http = http;
+            return this;
+        }
+
         public List<String> url() {
             return this.url;
         }
+        public TestQueryParameterCollectionFormatRequest url(List<String> url) {
+            this.url = url;
+            return this;
+        }
+
         public List<String> context() {
             return this.context;
         }
+        public TestQueryParameterCollectionFormatRequest context(List<String> context) {
+            this.context = context;
+            return this;
+        }
+
         public String allowEmpty() {
             return this.allowEmpty;
         }
+        public TestQueryParameterCollectionFormatRequest allowEmpty(String allowEmpty) {
+            this.allowEmpty = allowEmpty;
+            return this;
+        }
+
         public Map<String, String> language() {
             return this.language;
         }
+        public TestQueryParameterCollectionFormatRequest language(Map<String, String> language) {
+            this.language = language;
+            return this;
+        }
+
     }
 
       /**

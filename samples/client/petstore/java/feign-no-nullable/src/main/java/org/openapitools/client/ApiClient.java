@@ -44,7 +44,7 @@ import org.openapitools.client.auth.OauthPasswordGrant;
 import org.openapitools.client.auth.OauthClientCredentialsGrant;
 import feign.Retryer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ApiClient {
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
@@ -142,6 +142,7 @@ public class ApiClient {
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.setDateFormat(new RFC3339DateFormat());
     objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.registerModule(new RFC3339JavaTimeModule());
     return objectMapper;
   }
 

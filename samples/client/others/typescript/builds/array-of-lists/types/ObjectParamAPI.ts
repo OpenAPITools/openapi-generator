@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
+import type { Middleware } from '../middleware';
 
 import { List } from '../models/List';
 import { ListPaged } from '../models/ListPaged';
@@ -20,14 +21,14 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
-    public listWithHttpInfo(param: DefaultApiListRequest = {}, options?: Configuration): Promise<HttpInfo<ListPaged>> {
+    public listWithHttpInfo(param: DefaultApiListRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<ListPaged>> {
         return this.api.listWithHttpInfo( options).toPromise();
     }
 
     /**
      * @param param the request object
      */
-    public list(param: DefaultApiListRequest = {}, options?: Configuration): Promise<ListPaged> {
+    public list(param: DefaultApiListRequest = {}, options?: ConfigurationOptions): Promise<ListPaged> {
         return this.api.list( options).toPromise();
     }
 

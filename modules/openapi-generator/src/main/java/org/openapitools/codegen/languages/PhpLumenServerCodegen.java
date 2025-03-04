@@ -26,7 +26,10 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
-import java.util.*;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
 
 public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
