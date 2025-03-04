@@ -1,18 +1,20 @@
+{{^usePromise}}
 {{^useRxJS6}}
 import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
 import { Observable, from } from 'rxjs';
 {{/useRxJS6}}
+{{/usePromise}}
 import HttpResponse from './HttpResponse';
 import { Headers } from './Headers';
 
 interface IHttpClient {
-    get(url:string, headers?: Headers):Observable<HttpResponse>
-    post(url:string, body?:{}|FormData, headers?: Headers):Observable<HttpResponse>
-    put(url:string, body?:{}, headers?: Headers):Observable<HttpResponse>
-    patch(url:string, body?:{}, headers?: Headers):Observable<HttpResponse>
-    delete(url:string, headers?: Headers):Observable<HttpResponse>
+    get(url:string, headers?: Headers):{{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse>
+    post(url:string, body?:{}|FormData, headers?: Headers):{{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse>
+    put(url:string, body?:{}, headers?: Headers):{{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse>
+    patch(url:string, body?:{}, headers?: Headers):{{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse>
+    delete(url:string, headers?: Headers):{{#usePromise}}Promise{{/usePromise}}{{^usePromise}}Observable{{/usePromise}}<HttpResponse>
 }
 
 export default IHttpClient
