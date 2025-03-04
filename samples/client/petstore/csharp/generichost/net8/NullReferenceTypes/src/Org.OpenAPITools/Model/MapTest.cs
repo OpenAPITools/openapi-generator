@@ -245,20 +245,16 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "direct_map":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                directMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            directMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "indirect_map":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                indirectMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            indirectMap = new Option<Dictionary<string, bool>?>(JsonSerializer.Deserialize<Dictionary<string, bool>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "map_map_of_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapMapOfString = new Option<Dictionary<string, Dictionary<string, string>>?>(JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            mapMapOfString = new Option<Dictionary<string, Dictionary<string, string>>?>(JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, string>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "map_of_enum_string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mapOfEnumString = new Option<Dictionary<string, MapTest.InnerEnum>?>(JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            mapOfEnumString = new Option<Dictionary<string, MapTest.InnerEnum>?>(JsonSerializer.Deserialize<Dictionary<string, MapTest.InnerEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

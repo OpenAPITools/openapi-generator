@@ -277,8 +277,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "array_enum":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>?>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            arrayEnum = new Option<List<EnumArrays.ArrayEnumEnum>?>(JsonSerializer.Deserialize<List<EnumArrays.ArrayEnumEnum>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "just_symbol":
                             string? justSymbolRawValue = utf8JsonReader.GetString();
