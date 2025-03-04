@@ -15,21 +15,21 @@ package petstore;
 
 message User {
 
-  int64 id = 3355;
+  int64 id = 1;
 
-  string username = 265713450;
+  string username = 2;
 
-  string first_name = 160985414;
+  string first_name = 3 [json_name="firstName"];
 
-  string last_name = 402509463;
+  string last_name = 4 [json_name="lastName"];
 
-  string email = 96619420;
+  string email = 5;
 
-  string password = 143243933;
+  string password = 6;
 
-  string phone = 106642798;
+  string phone = 7;
 
   // User Status
-  int32 user_status = 150530330;
+  int32 user_status = 8 [json_name="userStatus"];
 
 }

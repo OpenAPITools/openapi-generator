@@ -15,23 +15,24 @@ package petstore;
 
 message Order {
 
-  int64 id = 3355;
+  int64 id = 1;
 
-  int64 pet_id = 454805446;
+  int64 pet_id = 2 [json_name="petId"];
 
-  int32 quantity = 211262327;
+  int32 quantity = 3;
 
-  string ship_date = 86954963;
+  string ship_date = 4 [json_name="shipDate"];
 
   // Order Status
   enum Status {
-    STATUS_PLACED = 0;
-    STATUS_APPROVED = 1;
-    STATUS_DELIVERED = 2;
+    STATUS_UNSPECIFIED = 0;
+    STATUS_PLACED = 1;
+    STATUS_APPROVED = 2;
+    STATUS_DELIVERED = 3;
   }
 
-  Status status = 355610639;
+  Status status = 5;
 
-  bool complete = 62574280;
+  bool complete = 6;
 
 }
