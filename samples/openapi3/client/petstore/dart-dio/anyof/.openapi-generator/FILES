@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 analysis_options.yaml
 doc/Apple.md
@@ -23,7 +22,3 @@ lib/src/model/fruit.dart
 lib/src/serializers.dart
 lib/src/serializers_util.dart
 pubspec.yaml
-test/apple_test.dart
-test/banana_test.dart
-test/default_api_test.dart
-test/fruit_test.dart
