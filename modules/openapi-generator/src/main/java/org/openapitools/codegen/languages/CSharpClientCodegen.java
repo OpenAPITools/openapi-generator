@@ -108,6 +108,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     protected boolean supportsRetry = Boolean.TRUE;
     protected boolean supportsAsync = Boolean.TRUE;
+    protected boolean useVirtualForHooks = Boolean.FALSE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
     protected boolean supportsDateOnly = Boolean.FALSE;
@@ -853,6 +854,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.EQUATABLE, this::setEquatable, this.equatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
+        syncBooleanProperty(additionalProperties, CodegenConstants.USE_VIRTUAL_FOR_HOOKS, this::setUseVirtualForHooks, this.useVirtualForHooks);
         syncBooleanProperty(additionalProperties, SUPPORTS_RETRY, this::setSupportsRetry, this.supportsRetry);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
@@ -1214,6 +1216,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsAsync(Boolean supportsAsync) {
         this.supportsAsync = supportsAsync;
+    }
+
+    public void setUseVirtualForHooks(Boolean useVirtualForHooks) {
+        this.useVirtualForHooks = useVirtualForHooks;
     }
 
     public void setSupportsFileParameters(Boolean supportsFileParameters) {
