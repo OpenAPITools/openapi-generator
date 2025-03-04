@@ -28,7 +28,7 @@ part 'bar_ref_or_value.g.dart';
 @BuiltValue()
 abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilder> {
   /// One Of [Bar], [BarRef]
-  OneOf get oneOf;
+  OneOf2<Bar, BarRef> get oneOf;
 
   static const String discriminatorFieldName = r'@type';
 

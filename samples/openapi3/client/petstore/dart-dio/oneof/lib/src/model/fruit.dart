@@ -23,7 +23,7 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
   String? get color;
 
   /// One Of [Apple], [Banana]
-  OneOf get oneOf;
+  OneOf2<Apple, Banana> get oneOf;
 
   Fruit._();
 

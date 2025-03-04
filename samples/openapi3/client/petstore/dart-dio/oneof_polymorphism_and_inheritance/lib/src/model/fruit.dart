@@ -25,7 +25,7 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
   // enum fruitTypeEnum {  APPLE,  BANANA,  };
 
   /// One Of [Apple], [Banana]
-  OneOf get oneOf;
+  OneOf2<Apple, Banana> get oneOf;
 
   static const String discriminatorFieldName = r'fruitType';
 

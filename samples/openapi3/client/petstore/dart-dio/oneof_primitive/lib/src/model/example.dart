@@ -18,7 +18,7 @@ part 'example.g.dart';
 @BuiltValue()
 abstract class Example implements Built<Example, ExampleBuilder> {
   /// One Of [Child], [int]
-  OneOf get oneOf;
+  OneOf2<Child, int> get oneOf;
 
   Example._();
 
