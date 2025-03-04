@@ -20,4 +20,5 @@ lib/src/model/banana.dart
 lib/src/model/date.dart
 lib/src/model/fruit.dart
 lib/src/serializers.dart
+lib/src/serializers_util.dart
 pubspec.yaml

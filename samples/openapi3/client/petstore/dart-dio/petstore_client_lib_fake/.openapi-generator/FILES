@@ -126,4 +126,5 @@ lib/src/model/tag.dart
 lib/src/model/test_inline_freeform_additional_properties_request.dart
 lib/src/model/user.dart
 lib/src/serializers.dart
+lib/src/serializers_util.dart
 pubspec.yaml

@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/child.dart';
+import 'package:openapi/src/serializers_util.dart';
 import 'dart:core';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -65,7 +66,7 @@ class _$ExampleSerializer implements PrimitiveSerializer<Example> {
     Object? oneOfDataSrc;
     final targetType = const FullType(OneOf, [FullType(Child), FullType(int), ]);
     oneOfDataSrc = serialized;
-    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
+    result.oneOf = oneOfFactory(serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOfDynamic)<Child, int>();
     return result.build();
   }
 }

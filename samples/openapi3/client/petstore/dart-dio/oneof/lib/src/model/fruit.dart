@@ -5,6 +5,7 @@
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/apple.dart';
 import 'package:openapi/src/model/banana.dart';
+import 'package:openapi/src/serializers_util.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/one_of.dart';
@@ -116,7 +117,7 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
       result: result,
     );
     oneOfDataSrc = unhandled;
-    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
+    result.oneOf = oneOfFactory(serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOfDynamic)<Apple, Banana>();
     return result.build();
   }
 }
