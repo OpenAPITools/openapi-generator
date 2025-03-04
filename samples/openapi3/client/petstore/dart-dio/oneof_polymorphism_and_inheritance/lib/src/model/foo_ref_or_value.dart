@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/foo.dart';
+import 'package:openapi/src/serializers_util.dart';
 import 'package:openapi/src/model/foo_ref.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -27,7 +28,7 @@ part 'foo_ref_or_value.g.dart';
 @BuiltValue()
 abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilder> {
   /// One Of [Foo], [FooRef]
-  OneOf get oneOf;
+  OneOf2<Foo, FooRef> get oneOf;
 
   static const String discriminatorFieldName = r'@type';
 
@@ -127,7 +128,9 @@ class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
       default:
         throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
+    result.oneOf = oneOfFactory(
+      OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult)
+    )<Foo, FooRef>();
     return result.build();
   }
 }
