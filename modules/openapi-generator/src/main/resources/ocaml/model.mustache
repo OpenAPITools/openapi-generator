@@ -39,6 +39,7 @@ type t = {
           {{#required}}{{#isNullable}} option{{/isNullable}}{{/required}}
           {{^required}} option [@default None]{{/required}}
         {{/isContainer}}
+        {{#isArray}}{{^required}} [@default []]{{/required}}{{/isArray}}
         ; [@key "{{{baseName}}}"]
     {{/isEnum}}
 {{/vars}}

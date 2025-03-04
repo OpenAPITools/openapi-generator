@@ -10,10 +10,12 @@ type t = {
       id: int64
           
            option [@default None]
+        
         ; [@key "id"]
       name: string
           
            option [@default None]
+        
         ; [@key "name"]
 } [@@deriving yojson { strict = false }, show ];;
 
