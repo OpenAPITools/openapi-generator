@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.MapAssert;
 import org.openapitools.codegen.*;
@@ -5396,6 +5397,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         generator.opts(input).generate();
+        System.out.println(FileUtils.readFileToString(new File(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"), "UTF-8"));
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) Optional<String> additionalMetadata",

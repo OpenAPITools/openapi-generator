@@ -166,8 +166,8 @@ public interface PetApi {
     
     ResponseEntity<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "name", required = false) String name,
-         @Valid @RequestParam(value = "status", required = false) String status
+         @Valid @RequestParam(value = "name", required = false) Optional<String> name,
+         @Valid @RequestParam(value = "status", required = false) Optional<String> status
     );
 
 
@@ -189,7 +189,7 @@ public interface PetApi {
     
     ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+         @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     );
 
