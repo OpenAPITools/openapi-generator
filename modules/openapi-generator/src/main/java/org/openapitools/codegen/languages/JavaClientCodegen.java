@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
+import org.openapitools.codegen.languages.features.JakartaAnnotationFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -51,7 +52,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures, JakartaAnnotationFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
 
@@ -148,6 +149,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean generateClientAsBean = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
 
+    /**
+     * useJakartaAnnotation to include Jakarta Annotation API
+     */
+    @Getter @Setter
+    protected boolean useJakartaAnnotation = true;
+
     @Setter protected int maxAttemptsForRetry = 1;
     @Setter protected long waitTimeMillis = 10l;
 
@@ -218,6 +225,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(CliOption.newBoolean(USE_JAKARTAANNOTATION, "Use Jakarta Annotation API"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception. Only jersey2, jersey3, okhttp-gson, vertx, microprofile support this option."));
@@ -433,6 +441,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToTypeAndWriteBack(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY, Integer::parseInt, this::setMaxAttemptsForRetry);
         convertPropertyToTypeAndWriteBack(CodegenConstants.WAIT_TIME_OF_THREAD, Long::parseLong, this::setWaitTimeMillis);
 
+        if (JERSEY3.equals(getLibrary())) {
+            convertPropertyToBooleanAndWriteBack(JakartaAnnotationFeatures.USE_JAKARTAANNOTATION, this::setUseJakartaAnnotation);
+        }
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         final String modelsFolder = (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
