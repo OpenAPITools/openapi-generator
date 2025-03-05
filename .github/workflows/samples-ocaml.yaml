@@ -26,9 +26,6 @@ jobs:
       - name: Install
         run: opam install . --deps-only --with-test
         working-directory: ${{ matrix.sample }}
-      - name: Install Misc
-        run: opam install dune ppx_deriving_yojson conf-libev lwt cohttp-lwt-unix.5.3.0 cohttp-async.5.3.0
-        working-directory: ${{ matrix.sample }}
       - name: Build
         run: opam exec -- dune build
         working-directory: ${{ matrix.sample }}
