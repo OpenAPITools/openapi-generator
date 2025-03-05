@@ -1,4 +1,3 @@
-name: Samples OCaml
 
 on:
   push:
@@ -26,11 +25,8 @@ jobs:
       - name: Install
         run: opam install . --deps-only --with-test
         working-directory: ${{ matrix.sample }}
-      - name: Install dune
-        run: opam install dune
-        working-directory: ${{ matrix.sample }}
-      - name: Install ppx_deriving_yojson
-        run: opam install ppx_deriving_yojson
+      - name: Install Misc
+        run: opam install dune ppx_deriving_yojson conf-libev lwt
         working-directory: ${{ matrix.sample }}
       - name: Build
         run: opam exec -- dune build
