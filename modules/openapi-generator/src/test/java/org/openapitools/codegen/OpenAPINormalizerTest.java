@@ -485,7 +485,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testFilter() {
+    public void testOperationIdFilter() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
@@ -503,7 +503,7 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
-    public void testFilterWithTrim() {
+    public void testOperationIdFilterWithTrim() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
@@ -517,6 +517,76 @@ public class OpenAPINormalizerTest {
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+
+    @Test
+    public void testFilterWithMethod() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "method:get");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+    @Test
+    public void testFilterWithMethodWithTrim() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "method:\n\t\t\t\tget");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+
+    @Test
+    public void testFilterWithTag() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "tag:basic");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+    @Test
+    public void testFilterWithTagWithTrim() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "tag:basic");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
     }
 
