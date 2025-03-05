@@ -363,6 +363,8 @@ public class OpenAPINormalizer {
                     "trace", PathItem::getTrace
             );
 
+            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
+            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
             methodMap.forEach((method, getter) -> {
                 Operation operation = getter.apply(path);
                 if (operation != null && !methodFilters.isEmpty()) {
