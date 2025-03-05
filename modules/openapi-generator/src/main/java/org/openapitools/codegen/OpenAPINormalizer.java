@@ -242,7 +242,7 @@ public class OpenAPINormalizer {
 
             String[] filterStrs = inputRules.get(FILTER).split(":");
             if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put`: {}", inputRules.get(FILTER));
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
             } else {
                 if ("operationId".equals(filterStrs[0])) {
                     operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
@@ -260,7 +260,7 @@ public class OpenAPINormalizer {
                             .map(String::trim)
                             .collect(Collectors.toCollection(HashSet::new));
                 } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put`: {}", inputRules.get(FILTER));
+                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
                 }
             }
         }
