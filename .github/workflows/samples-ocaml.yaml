@@ -29,6 +29,9 @@ jobs:
       - name: Install dune
         run: opam install dune
         working-directory: ${{ matrix.sample }}
+      - name: Install ppx_deriving_yojson
+        run: opam install ppx_deriving_yojson
+        working-directory: ${{ matrix.sample }}
       - name: Build
         run: opam exec -- dune build
         working-directory: ${{ matrix.sample }}
