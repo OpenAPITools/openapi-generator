@@ -12,21 +12,21 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -416,20 +416,32 @@ public class UserApi {
     }
 
     public class LoginUserRequest {
-        private final String username;
-        private final String password;
+        private String username;
+        private String password;
+
+        public LoginUserRequest() {}
 
         public LoginUserRequest(String username, String password) {
-          this.username = username;
-          this.password = password;
-      }
+            this.username = username;
+            this.password = password;
+        }
 
         public String username() {
             return this.username;
         }
+        public LoginUserRequest username(String username) {
+            this.username = username;
+            return this;
+        }
+
         public String password() {
             return this.password;
         }
+        public LoginUserRequest password(String password) {
+            this.password = password;
+            return this;
+        }
+
     }
 
       /**
@@ -621,20 +633,32 @@ public class UserApi {
     }
 
     public class UpdateUserRequest {
-        private final String username;
-        private final User user;
+        private String username;
+        private User user;
+
+        public UpdateUserRequest() {}
 
         public UpdateUserRequest(String username, User user) {
-          this.username = username;
-          this.user = user;
-      }
+            this.username = username;
+            this.user = user;
+        }
 
         public String username() {
             return this.username;
         }
+        public UpdateUserRequest username(String username) {
+            this.username = username;
+            return this;
+        }
+
         public User user() {
             return this.user;
         }
+        public UpdateUserRequest user(User user) {
+            this.user = user;
+            return this;
+        }
+
     }
 
       /**

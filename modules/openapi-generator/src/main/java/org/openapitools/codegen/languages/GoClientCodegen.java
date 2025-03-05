@@ -310,7 +310,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
         supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
-        if ((boolean)additionalProperties.get(WITH_GO_MOD)) {
+        if ((boolean) additionalProperties.get(WITH_GO_MOD)) {
             supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
             supportingFiles.add(new SupportingFile("go.sum.mustache", "", "go.sum"));
         }
@@ -342,14 +342,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public String modelFileFolder() {
         String modelFileFolderPath = outputFolder + File.separator;
 
-        if(modelFileFolder != null) {
+        if (modelFileFolder != null) {
             modelFileFolderPath = modelFileFolderPath + modelFileFolder + File.separator;
         }
         return modelFileFolderPath.replace("/", File.separator);
     }
 
     @Override
-    public String apiTestFileFolder()  {
+    public String apiTestFileFolder() {
         return outputFolder + File.separator + "test" + File.separator;
     }
 
@@ -473,7 +473,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
                 param.vendorExtensions.put("x-go-base-type", param.dataType);
                 if (!param.isNullable || param.isContainer || param.isFreeFormObject
-                    || (param.isAnyType && !param.isModel)) {
+                        || (param.isAnyType && !param.isModel)) {
                     continue;
                 }
                 if (param.isDateTime) {
@@ -484,7 +484,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                     param.dataType = "NullableTime";
                 } else {
                     param.dataType = "Nullable" + Character.toUpperCase(param.dataType.charAt(0))
-                        + param.dataType.substring(1);
+                            + param.dataType.substring(1);
                 }
             }
 
@@ -510,8 +510,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
             if (model.hasRequired) {
                 if (!model.isAdditionalPropertiesTrue &&
-                    (model.oneOf == null || model.oneOf.isEmpty()) &&
-                    (model.anyOf == null || model.anyOf.isEmpty())) {
+                        (model.oneOf == null || model.oneOf.isEmpty()) &&
+                        (model.anyOf == null || model.anyOf.isEmpty())) {
                     imports.add(createMapping("import", "bytes"));
                 }
 
@@ -637,7 +637,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 // We can't easily generate a pointer inline, so just use nil in that case
                 return prefix + "{nil}";
             }
-            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, depth+1) + "}";
+            return prefix + "{" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, depth + 1) + "}";
         } else if (codegenProperty.isMap) { // map
             String prefix = codegenProperty.dataType;
             String dataType = StringUtils.removeStart(codegenProperty.dataType, "map[string][]");
@@ -647,7 +647,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
             if (codegenProperty.items == null) {
                 return prefix + "{ ... }";
             }
-            return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, depth+1) + "}";
+            return prefix + "{\"key\": " + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap, depth + 1) + "}";
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
@@ -681,7 +681,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap, depth+1);
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap, depth + 1);
             } else if (codegenProperty.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                     return "\"" + codegenProperty.example + "\"";
@@ -740,7 +740,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
-            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap, depth+1));
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap, depth + 1));
         }
         return "*" + goImportAlias + ".New" + toModelName(model) + "(" + StringUtils.join(propertyExamples, ", ") + ")";
     }

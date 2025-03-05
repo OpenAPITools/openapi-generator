@@ -119,6 +119,20 @@ func (obj *OneOfPrimitiveTypes) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj OneOfPrimitiveTypes) GetActualInstanceValue() (interface{}) {
+	if obj.String != nil {
+		return *obj.String
+	}
+
+	if obj.TimeTime != nil {
+		return *obj.TimeTime
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableOneOfPrimitiveTypes struct {
 	value *OneOfPrimitiveTypes
 	isSet bool

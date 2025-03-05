@@ -4,10 +4,39 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**tests_all_of_with_one_model_get**](TestingApi.md#tests_all_of_with_one_model_get) | **Get** /tests/allOfWithOneModel | Test for allOf with a single option. (One of the issues in #20500)
 [**tests_discriminator_duplicate_enums_get**](TestingApi.md#tests_discriminator_duplicate_enums_get) | **Get** /tests/discriminatorDuplicateEnums | Test for duplicate enums when using discriminator. (One of the issues in #20500)
 [**tests_file_response_get**](TestingApi.md#tests_file_response_get) | **Get** /tests/fileResponse | Returns an image file
 [**tests_type_testing_get**](TestingApi.md#tests_type_testing_get) | **Get** /tests/typeTesting | Route to test the TypeTesting schema
 
+
+
+## tests_all_of_with_one_model_get
+
+> String tests_all_of_with_one_model_get(person)
+Test for allOf with a single option. (One of the issues in #20500)
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**person** | [**Person**](Person.md) |  | [required] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
 ## tests_discriminator_duplicate_enums_get

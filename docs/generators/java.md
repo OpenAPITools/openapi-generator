@@ -52,7 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |errorObjectType|Error Object type. (This option is for okhttp-gson only)| |null|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
 |generateBuilders|Whether to generate builders for models| |false|
-|generateClientAsBean|For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
+|generateClientAsBean|For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).| |false|
 |generateConstructorWithAllArgs|whether to generate a constructor for all arguments| |false|
 |gradleProperties|Append additional Gradle properties to the gradle.properties file| |null|
 |groupId|groupId in generated pom.xml| |org.openapitools|
@@ -100,7 +100,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRuntimeException|Use RuntimeException instead of Exception. Only jersey2, jersey3, okhttp-gson, vertx, microprofile support this option.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
-|useSingleRequestParameter|Setting this property to &quot;true&quot; will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to &quot;static&quot; does the same as &quot;true&quot;, but also makes the generated arguments class static. Only WebClient supports this option.| |false|
+|useSingleRequestParameter|Setting this property to &quot;true&quot; will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to &quot;static&quot; does the same as &quot;true&quot;, but also makes the generated arguments class static with single parameter instantiation.| |false|
 |webclientBlockingOperations|Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support (only available for okhttp-gson library)| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|

@@ -115,7 +115,7 @@ public class JavaCXFClientCodegenTest {
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "false");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"org.openapitools.client.xyz.invoker");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "org.openapitools.client.xyz.invoker");
         codegen.processOpts();
 
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());

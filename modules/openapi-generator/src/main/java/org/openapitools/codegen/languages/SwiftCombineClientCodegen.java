@@ -34,14 +34,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoField;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.time.OffsetDateTime;
-import java.time.Instant;
-import java.time.temporal.ChronoField;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -705,7 +705,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {swiftPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{swiftPostProcessFile, file.toString()});
         }
     }
 

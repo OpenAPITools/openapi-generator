@@ -28,8 +28,6 @@ import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,6 +35,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class ProtobufSchemaCodegenTest {
 
@@ -75,9 +75,9 @@ public class ProtobufSchemaCodegenTest {
 
     private void assertFileEquals(Path generatedFilePath, Path expectedFilePath) throws IOException {
         String generatedFile = new String(Files.readAllBytes(generatedFilePath), StandardCharsets.UTF_8)
-            .replace("\n", "").replace("\r", "");
+                .replace("\n", "").replace("\r", "");
         String expectedFile = new String(Files.readAllBytes(expectedFilePath), StandardCharsets.UTF_8)
-            .replace("\n", "").replace("\r", "");
+                .replace("\n", "").replace("\r", "");
 
         assertEquals(generatedFile, expectedFile);
     }
@@ -91,6 +91,6 @@ public class ProtobufSchemaCodegenTest {
         final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
         Assert.assertEquals(simpleName.name, "$DollarModel$");
         Assert.assertEquals(simpleName.classname, "DollarModel");
-        Assert.assertEquals(simpleName.classVarName, "$DollarModel$");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
     }
 }

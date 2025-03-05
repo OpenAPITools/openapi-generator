@@ -1005,7 +1005,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
             // e.g. "gofmt -w yourcode.go"
             // e.g. "go fmt path/to/your/package"
-            this.executePostProcessor(new String[] {goPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{goPostProcessFile, file.toString()});
         }
     }
 

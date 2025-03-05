@@ -36,12 +36,12 @@ public class RootedFileRule extends Rule {
         definedExtension = getExtensionPart(definition, separatorIndex);
     }
 
-    private String getFilenamePart(final String input, int stopIndex){
+    private String getFilenamePart(final String input, int stopIndex) {
         return input.substring('/' == input.charAt(0) ? 1 : 0, stopIndex > 0 ? stopIndex : input.length());
     }
 
     private String getExtensionPart(final String input, int stopIndex) {
-        return input.substring(stopIndex > 0 ? stopIndex+1: input.length());
+        return input.substring(stopIndex > 0 ? stopIndex + 1 : input.length());
     }
 
     @Override
@@ -51,13 +51,13 @@ public class RootedFileRule extends Rule {
         //       relativePath will be passed by CodegenIgnoreProcessor and is relative to .codegen-ignore.
         boolean isSingleFile = relativePath.lastIndexOf("/") <= 0;
 
-        if(isSingleFile) {
+        if (isSingleFile) {
             int separatorIndex = relativePath.lastIndexOf(".");
             final String filename = getFilenamePart(relativePath, separatorIndex);
             final String extension = getExtensionPart(relativePath, separatorIndex);
             boolean extensionMatches = definedExtension.equals(extension) || definedExtension.equals(IgnoreLineParser.Token.MATCH_ANY.getPattern());
 
-            if(extensionMatches && definedFilename.contains(IgnoreLineParser.Token.MATCH_ANY.getPattern())) {
+            if (extensionMatches && definedFilename.contains(IgnoreLineParser.Token.MATCH_ANY.getPattern())) {
                 // TODO: Evaluate any other escape requirements here.
                 Pattern regex = Pattern.compile(
                         definedFilename

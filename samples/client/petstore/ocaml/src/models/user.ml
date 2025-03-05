@@ -7,15 +7,47 @@
  *)
 
 type t = {
-    id: int64 option [@default None];
-    username: string option [@default None];
-    first_name: string option [@default None];
-    last_name: string option [@default None];
-    email: string option [@default None];
-    password: string option [@default None];
-    phone: string option [@default None];
+      id: int64
+          
+           option [@default None]
+        
+        ; [@key "id"]
+      username: string
+          
+           option [@default None]
+        
+        ; [@key "username"]
+      first_name: string
+          
+           option [@default None]
+        
+        ; [@key "firstName"]
+      last_name: string
+          
+           option [@default None]
+        
+        ; [@key "lastName"]
+      email: string
+          
+           option [@default None]
+        
+        ; [@key "email"]
+      password: string
+          
+           option [@default None]
+        
+        ; [@key "password"]
+      phone: string
+          
+           option [@default None]
+        
+        ; [@key "phone"]
     (* User Status *)
-    user_status: int32 option [@default None];
+      user_status: int32
+          
+           option [@default None]
+        
+        ; [@key "userStatus"]
 } [@@deriving yojson { strict = false }, show ];;
 
 (** A User who is purchasing from the pet store *)

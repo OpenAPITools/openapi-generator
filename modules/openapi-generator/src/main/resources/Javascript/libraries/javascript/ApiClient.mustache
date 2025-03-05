@@ -56,7 +56,6 @@ class ApiClient {
         }
 
         <={{ }}=>
-	{{^skipDefaultUserAgent}}
 	{{#emitJSDoc}}
 	/**
          * The default HTTP headers to be included for all API calls.
@@ -65,10 +64,11 @@ class ApiClient {
          */
 	{{/emitJSDoc}}
         this.defaultHeaders = {
+            {{^skipDefaultUserAgent}}
             'User-Agent': '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{projectVersion}}/Javascript{{/httpUserAgent}}'
+            {{/skipDefaultUserAgent}}
         };
 
-	{{/skipDefaultUserAgent}}
         /**
          * The default HTTP timeout for all API calls.
          * @type {Number}

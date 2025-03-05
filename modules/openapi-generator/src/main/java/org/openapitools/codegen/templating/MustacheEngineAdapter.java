@@ -54,7 +54,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     /**
      * Compiles a template into a string
      *
-     * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
+     * @param executor     From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
      * @param bundle       The map of values to pass to the template
      * @param templateFile The name of the template (e.g. model.mustache )
      * @return the processed template result

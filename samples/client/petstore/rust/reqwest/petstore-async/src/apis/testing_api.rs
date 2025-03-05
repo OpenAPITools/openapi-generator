@@ -14,6 +14,20 @@ use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
 
+/// struct for passing parameters to the method [`tests_all_of_with_one_model_get`]
+#[derive(Clone, Debug)]
+pub struct TestsAllOfWithOneModelGetParams {
+    pub person: models::Person
+}
+
+
+/// struct for typed successes of method [`tests_all_of_with_one_model_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsAllOfWithOneModelGetSuccess {
+    Status200(String),
+    UnknownValue(serde_json::Value),
+}
 
 /// struct for typed successes of method [`tests_discriminator_duplicate_enums_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -39,6 +53,13 @@ pub enum TestsTypeTestingGetSuccess {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`tests_all_of_with_one_model_get`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TestsAllOfWithOneModelGetError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`tests_discriminator_duplicate_enums_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -60,6 +81,32 @@ pub enum TestsTypeTestingGetError {
     UnknownValue(serde_json::Value),
 }
 
+
+pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Configuration, params: TestsAllOfWithOneModelGetParams) -> Result<ResponseContent<TestsAllOfWithOneModelGetSuccess>, Error<TestsAllOfWithOneModelGetError>> {
+
+    let uri_str = format!("{}/tests/allOfWithOneModel", configuration.base_path);
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
+
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    }
+    req_builder = req_builder.json(&params.person);
+
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req).await?;
+
+    let status = resp.status();
+
+    if !status.is_client_error() && !status.is_server_error() {
+        let content = resp.text().await?;
+        let entity: Option<TestsAllOfWithOneModelGetSuccess> = serde_json::from_str(&content).ok();
+        Ok(ResponseContent { status, content, entity })
+    } else {
+        let content = resp.text().await?;
+        let entity: Option<TestsAllOfWithOneModelGetError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
+    }
+}
 
 pub async fn tests_discriminator_duplicate_enums_get(configuration: &configuration::Configuration) -> Result<ResponseContent<TestsDiscriminatorDuplicateEnumsGetSuccess>, Error<TestsDiscriminatorDuplicateEnumsGetError>> {
 

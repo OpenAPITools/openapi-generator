@@ -49,7 +49,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected static final String X_MICROPROFILE_OPEN_API_RETURN_UNIQUE_ITEMS = "x-microprofile-open-api-return-unique-items";
     protected static final String X_MICROPROFILE_OPEN_API_SCHEMA_TYPE = "x-microprofile-open-api-schema-type";
     protected static final String SCHEMA_TYPE_ARRAY = "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.ARRAY";
-    protected static final Map<String,String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES;
+    protected static final Map<String, String> ARRAY_OF_MICROPROFILE_OPEN_API_SCHEMA_TYPES;
+
     static {
         final Map<String, String> schemaTypes = new HashMap<>();
         schemaTypes.put("integer", "org.eclipse.microprofile.openapi.annotations.enums.SchemaType.INTEGER");
@@ -96,7 +97,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
     }

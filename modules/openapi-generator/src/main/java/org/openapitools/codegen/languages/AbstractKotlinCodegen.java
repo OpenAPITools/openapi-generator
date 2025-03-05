@@ -363,7 +363,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = ModelUtils.getSchemaItems( schema);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
             return getSchemaType(target) + "<" + getItemsTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -977,7 +977,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         // only process files with kt extension
         if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {kotlinPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{kotlinPostProcessFile, file.toString()});
         }
     }
 
@@ -1012,18 +1012,15 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             if (schema.getDefault() != null) {
                 return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        }
-        else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getDefault() != null) {
                 return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        }
-        else if (ModelUtils.isURISchema(schema)) {
+        } else if (ModelUtils.isURISchema(schema)) {
             if (schema.getDefault() != null) {
                 return importMapping.get("URI") + ".create(\"" + schema.getDefault() + "\")";
             }
-        }
-        else if (ModelUtils.isArraySchema(schema)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return toArrayDefaultValue(cp, schema);
         } else if (ModelUtils.isStringSchema(schema)) {
             if (schema.getDefault() != null) {

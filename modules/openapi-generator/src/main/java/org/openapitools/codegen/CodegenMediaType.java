@@ -8,7 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Getter public class CodegenMediaType {
+@Getter
+public class CodegenMediaType {
     private CodegenProperty schema;
     private LinkedHashMap<String, CodegenEncoding> encoding;
     private HashMap<String, SchemaTestCase> testCases = new HashMap<>();
@@ -47,7 +48,7 @@ import java.util.Objects;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenMediaType that = (CodegenMediaType) o;
-        return Objects.equals(schema,that.getSchema()) &&
+        return Objects.equals(schema, that.getSchema()) &&
                 Objects.equals(encoding, that.getEncoding()) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions);
     }

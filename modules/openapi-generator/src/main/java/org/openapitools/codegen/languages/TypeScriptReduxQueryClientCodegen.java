@@ -59,7 +59,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         outputFolder = "generated-code/typescript-redux-query";
         embeddedTemplateDir = templateDir = "typescript-redux-query";
 
-        this.apiPackage = "src" + File.separator +"apis";
+        this.apiPackage = "src" + File.separator + "apis";
         this.modelPackage = "src" + File.separator + "models";
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelTemplateFiles.put("models.mustache", ".ts");
@@ -240,7 +240,7 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
         // The api template uses this information to know when to return a text
         // response for a given simple response operation.
         for (CodegenOperation op : operations.getOperations().getOperation()) {
-            if("object".equals(op.returnType)) {
+            if ("object".equals(op.returnType)) {
                 op.isMap = true;
                 op.returnSimpleType = false;
             }

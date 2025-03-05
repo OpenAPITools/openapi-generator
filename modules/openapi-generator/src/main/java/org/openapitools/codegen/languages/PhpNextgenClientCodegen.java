@@ -132,7 +132,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".phplint.mustache", "", ".phplint.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
-        if(this.supportStreaming) {
+        if (this.supportStreaming) {
             typeMapping.put("file", "\\Psr\\\\Http\\\\Message\\\\StreamInterface");
         }
     }

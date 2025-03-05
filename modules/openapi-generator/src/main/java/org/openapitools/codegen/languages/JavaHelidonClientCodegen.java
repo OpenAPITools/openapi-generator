@@ -17,19 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -37,16 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.VendorExtension;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -56,6 +34,11 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 
@@ -223,8 +206,7 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             unmodifiable.add(new SupportingFile("ResponseType.mustache", apiFolder.toString(), "ResponseType.java"));
 
             processSupportingFiles(modifiable, unmodifiable);
-        }
-        else {
+        } else {
             LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
         }
 
@@ -282,15 +264,15 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
 
             Set<String> missingImportClassNames = new TreeSet<>(requiredImplImportClassNames);
             imports.stream()
-                .map(m -> m.get("classname"))
-                .forEach(missingImportClassNames::remove);
+                    .map(m -> m.get("classname"))
+                    .forEach(missingImportClassNames::remove);
 
             missingImportClassNames.forEach(c -> {
-                    Map<String, String> singleImportMap = new HashMap<>();
-                    singleImportMap.put("classname", c);
-                    singleImportMap.put("import", Objects.requireNonNull(importMapping.get(c), "no mapping for " + c));
-                    implImports.add(singleImportMap);
-                });
+                Map<String, String> singleImportMap = new HashMap<>();
+                singleImportMap.put("classname", c);
+                singleImportMap.put("import", Objects.requireNonNull(importMapping.get(c), "no mapping for " + c));
+                implImports.add(singleImportMap);
+            });
 
             objs.put(X_HELIDON_IMPL_IMPORTS, implImports);
             return objs;
@@ -329,14 +311,14 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
             requiredImplImports.add("StringJoiner");
         }
         if (op.bodyParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
-            || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
-            || op.responses.stream().anyMatch(CodegenResponse::getIsArray)) {
+                || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsArray)
+                || op.responses.stream().anyMatch(CodegenResponse::getIsArray)) {
             requiredImplImports.add("List");
             op.imports.add("List");
         }
         if (op.bodyParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
-            || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
-            || op.responses.stream().anyMatch(CodegenResponse::getIsMap)) {
+                || op.allParams.stream().anyMatch(JavaHelidonClientCodegen::checkIsMap)
+                || op.responses.stream().anyMatch(CodegenResponse::getIsMap)) {
             requiredImplImports.add("Map");
             op.imports.add("Map");
         }

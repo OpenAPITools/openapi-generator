@@ -7,13 +7,34 @@
  *)
 
 type t = {
-    id: int64 option [@default None];
-    category: Category.t option [@default None];
-    name: string;
-    photo_urls: string list;
-    tags: Tag.t list;
+      id: int64
+          
+           option [@default None]
+        
+        ; [@key "id"]
+      category: Category.t
+          
+           option [@default None]
+        
+        ; [@key "category"]
+      name: string
+          
+          
+        
+        ; [@key "name"]
+      photo_urls: string list
+        
+        ; [@key "photoUrls"]
+      tags: Tag.t list
+         [@default []]
+        ; [@key "tags"]
     (* pet status in the store *)
-    status: Enums.pet_status option [@default None];
+      status: Enums.pet_status
+           option [@default
+            
+            None
+          ]
+        ; [@key "status"]
 } [@@deriving yojson { strict = false }, show ];;
 
 (** A pet for sale in the pet store *)

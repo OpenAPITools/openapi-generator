@@ -206,7 +206,7 @@ public class GoClientCodegenTest {
 
         Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
     }
-    
+
     @Test
     public void verifyTestFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();

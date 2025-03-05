@@ -28,7 +28,7 @@ service StoreService {
 
 message DeleteOrderRequest {
   // ID of the order that needs to be deleted
-  string orderId = 1;
+  string order_id = 1;
 
 }
 
@@ -38,7 +38,7 @@ message GetInventoryResponse {
 
 message GetOrderByIdRequest {
   // ID of pet that needs to be fetched
-  int64 orderId = 1;
+  int64 order_id = 1;
 
 }
 

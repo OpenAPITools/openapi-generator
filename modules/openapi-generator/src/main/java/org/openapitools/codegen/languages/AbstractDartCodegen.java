@@ -806,7 +806,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         // process all files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently supported is "dartfmt -w" and "dart format"
-            this.executePostProcessor(new String[] {dartPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{dartPostProcessFile, file.toString()});
         }
     }
 
