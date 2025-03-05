@@ -22,9 +22,12 @@ jobs:
       - name: Set-up OCaml
         uses: ocaml/setup-ocaml@v3
         with:
-          ocaml-compiler: 5
+          ocaml-compiler: 4
       - name: Install
         run: opam install . --deps-only --with-test
+        working-directory: ${{ matrix.sample }}
+      - name: Install dune
+        run: opam install dune
         working-directory: ${{ matrix.sample }}
       - name: Build
         run: opam exec -- dune build
