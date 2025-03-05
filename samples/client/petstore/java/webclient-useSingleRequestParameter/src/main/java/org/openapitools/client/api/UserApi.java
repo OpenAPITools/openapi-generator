@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -442,11 +444,28 @@ public class UserApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            LoginUserRequest request = (LoginUserRequest) o;
+            return Objects.equals(this.username, request.username()) &&
+                Objects.equals(this.password, request.password());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(username, password);
+        }
     }
 
     /**
      * Logs user into the system
-     * 
+     *
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
@@ -459,7 +478,7 @@ public class UserApi {
 
     /**
      * Logs user into the system
-     * 
+     *
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
@@ -472,7 +491,7 @@ public class UserApi {
 
     /**
      * Logs user into the system
-     * 
+     *
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
@@ -659,6 +678,23 @@ public class UserApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UpdateUserRequest request = (UpdateUserRequest) o;
+            return Objects.equals(this.username, request.username()) &&
+                Objects.equals(this.user, request.user());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(username, user);
+        }
     }
 
     /**

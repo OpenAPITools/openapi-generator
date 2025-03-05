@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -228,11 +230,29 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            FakeHttpSignatureTestRequest request = (FakeHttpSignatureTestRequest) o;
+            return Objects.equals(this.pet, request.pet()) &&
+                Objects.equals(this.query1, request.query1()) &&
+                Objects.equals(this.header1, request.header1());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(pet, query1, header1);
+        }
     }
 
     /**
      * test http signature authentication
-     * 
+     *
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -243,7 +263,7 @@ public class FakeApi {
 
     /**
      * test http signature authentication
-     * 
+     *
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -254,7 +274,7 @@ public class FakeApi {
 
     /**
      * test http signature authentication
-     * 
+     *
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @return ResponseSpec
@@ -944,11 +964,28 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestBodyWithQueryParamsRequest request = (TestBodyWithQueryParamsRequest) o;
+            return Objects.equals(this.query, request.query()) &&
+                Objects.equals(this.user, request.user());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(query, user);
+        }
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -958,8 +995,8 @@ public class FakeApi {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -969,8 +1006,8 @@ public class FakeApi {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @return ResponseSpec
@@ -1283,11 +1320,40 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestEndpointParametersRequest request = (TestEndpointParametersRequest) o;
+            return Objects.equals(this.number, request.number()) &&
+                Objects.equals(this._double, request._double()) &&
+                Objects.equals(this.patternWithoutDelimiter, request.patternWithoutDelimiter()) &&
+                Arrays.equals(this._byte, request._byte()) &&
+                Objects.equals(this.integer, request.integer()) &&
+                Objects.equals(this.int32, request.int32()) &&
+                Objects.equals(this.int64, request.int64()) &&
+                Objects.equals(this._float, request._float()) &&
+                Objects.equals(this.string, request.string()) &&
+                Objects.equals(this.binary, request.binary()) &&
+                Objects.equals(this.date, request.date()) &&
+                Objects.equals(this.dateTime, request.dateTime()) &&
+                Objects.equals(this.password, request.password()) &&
+                Objects.equals(this.paramCallback, request.paramCallback());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(number, _double, patternWithoutDelimiter, Arrays.hashCode(_byte), integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+        }
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
@@ -1298,8 +1364,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
@@ -1310,8 +1376,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
@@ -1587,6 +1653,30 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestEnumParametersRequest request = (TestEnumParametersRequest) o;
+            return Objects.equals(this.enumHeaderStringArray, request.enumHeaderStringArray()) &&
+                Objects.equals(this.enumHeaderString, request.enumHeaderString()) &&
+                Objects.equals(this.enumQueryStringArray, request.enumQueryStringArray()) &&
+                Objects.equals(this.enumQueryString, request.enumQueryString()) &&
+                Objects.equals(this.enumQueryInteger, request.enumQueryInteger()) &&
+                Objects.equals(this.enumQueryDouble, request.enumQueryDouble()) &&
+                Objects.equals(this.enumQueryModelArray, request.enumQueryModelArray()) &&
+                Objects.equals(this.enumFormStringArray, request.enumFormStringArray()) &&
+                Objects.equals(this.enumFormString, request.enumFormString());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
+        }
     }
 
     /**
@@ -1812,6 +1902,27 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestGroupParametersRequest request = (TestGroupParametersRequest) o;
+            return Objects.equals(this.requiredStringGroup, request.requiredStringGroup()) &&
+                Objects.equals(this.requiredBooleanGroup, request.requiredBooleanGroup()) &&
+                Objects.equals(this.requiredInt64Group, request.requiredInt64Group()) &&
+                Objects.equals(this.stringGroup, request.stringGroup()) &&
+                Objects.equals(this.booleanGroup, request.booleanGroup()) &&
+                Objects.equals(this.int64Group, request.int64Group());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        }
     }
 
     /**
@@ -2122,11 +2233,28 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestJsonFormDataRequest request = (TestJsonFormDataRequest) o;
+            return Objects.equals(this.param, request.param()) &&
+                Objects.equals(this.param2, request.param2());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(param, param2);
+        }
     }
 
     /**
      * test json serialization of form data
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -2137,7 +2265,7 @@ public class FakeApi {
 
     /**
      * test json serialization of form data
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -2148,7 +2276,7 @@ public class FakeApi {
 
     /**
      * test json serialization of form data
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @return ResponseSpec
@@ -2389,10 +2517,32 @@ public class FakeApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TestQueryParameterCollectionFormatRequest request = (TestQueryParameterCollectionFormatRequest) o;
+            return Objects.equals(this.pipe, request.pipe()) &&
+                Objects.equals(this.ioutil, request.ioutil()) &&
+                Objects.equals(this.http, request.http()) &&
+                Objects.equals(this.url, request.url()) &&
+                Objects.equals(this.context, request.context()) &&
+                Objects.equals(this.allowEmpty, request.allowEmpty()) &&
+                Objects.equals(this.language, request.language());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(pipe, ioutil, http, url, context, allowEmpty, language);
+        }
     }
 
     /**
-     * 
+     *
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
@@ -2403,7 +2553,7 @@ public class FakeApi {
     }
 
     /**
-     * 
+     *
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
@@ -2414,7 +2564,7 @@ public class FakeApi {
     }
 
     /**
-     * 
+     *
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object

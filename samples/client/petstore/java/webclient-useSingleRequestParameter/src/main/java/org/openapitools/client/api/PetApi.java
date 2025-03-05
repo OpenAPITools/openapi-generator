@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,11 +153,28 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            DeletePetRequest request = (DeletePetRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.apiKey, request.apiKey());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, apiKey);
+        }
     }
 
     /**
      * Deletes a pet
-     * 
+     *
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
@@ -167,7 +186,7 @@ public class PetApi {
 
     /**
      * Deletes a pet
-     * 
+     *
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
@@ -179,7 +198,7 @@ public class PetApi {
 
     /**
      * Deletes a pet
-     * 
+     *
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
@@ -634,11 +653,29 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UpdatePetWithFormRequest request = (UpdatePetWithFormRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.name, request.name()) &&
+                Objects.equals(this.status, request.status());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, name, status);
+        }
     }
 
     /**
      * Updates a pet in the store with form data
-     * 
+     *
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
@@ -650,7 +687,7 @@ public class PetApi {
 
     /**
      * Updates a pet in the store with form data
-     * 
+     *
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
@@ -662,7 +699,7 @@ public class PetApi {
 
     /**
      * Updates a pet in the store with form data
-     * 
+     *
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
@@ -800,11 +837,29 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UploadFileRequest request = (UploadFileRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.additionalMetadata, request.additionalMetadata()) &&
+                Objects.equals(this._file, request._file());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, additionalMetadata, _file);
+        }
     }
 
     /**
      * uploads an image
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ModelApiResponse
@@ -816,7 +871,7 @@ public class PetApi {
 
     /**
      * uploads an image
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ResponseEntity&lt;ModelApiResponse&gt;
@@ -828,7 +883,7 @@ public class PetApi {
 
     /**
      * uploads an image
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ResponseSpec
@@ -966,11 +1021,29 @@ public class PetApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UploadFileWithRequiredFileRequest request = (UploadFileWithRequiredFileRequest) o;
+            return Objects.equals(this.petId, request.petId()) &&
+                Objects.equals(this.requiredFile, request.requiredFile()) &&
+                Objects.equals(this.additionalMetadata, request.additionalMetadata());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(petId, requiredFile, additionalMetadata);
+        }
     }
 
     /**
      * uploads an image (required)
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ModelApiResponse
@@ -982,7 +1055,7 @@ public class PetApi {
 
     /**
      * uploads an image (required)
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ResponseEntity&lt;ModelApiResponse&gt;
@@ -994,7 +1067,7 @@ public class PetApi {
 
     /**
      * uploads an image (required)
-     * 
+     *
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ResponseSpec
