@@ -22,7 +22,7 @@ jobs:
       - name: Set-up OCaml
         uses: ocaml/setup-ocaml@v3
         with:
-          ocaml-compiler: 4
+          ocaml-compiler: 5
       - name: Install
         run: opam install . --deps-only --with-test
         working-directory: ${{ matrix.sample }}
