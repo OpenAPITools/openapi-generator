@@ -396,16 +396,16 @@ public interface FakeApi {
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
         @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) String string,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "integer", required = false) Optional<Integer> integer,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "int32", required = false) Optional<Integer> int32,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Optional<Long> int64,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "float", required = false) Optional<Float> _float,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "string", required = false) Optional<String> string,
         @ApiParam(value = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) String password,
-        @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
+        @ApiParam(value = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> date,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<OffsetDateTime> dateTime,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "password", required = false) Optional<String> password,
+        @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) Optional<String> paramCallback
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -450,8 +450,8 @@ public interface FakeApi {
         @ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") Optional<String> enumQueryString,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Optional<Integer> enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Optional<Double> enumQueryDouble,
-        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString
+        @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) Optional<List<String>> enumFormStringArray,
+        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) Optional<String> enumFormString
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -698,7 +698,7 @@ public interface FakeApi {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
