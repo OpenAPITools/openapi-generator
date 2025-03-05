@@ -86,7 +86,7 @@ public class DefaultApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeWebhooksSourcesDeletedPostCall(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call fakeWebhooksSourcesDeletedPostCall(@javax.annotation.Nullable FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -131,7 +131,7 @@ public class DefaultApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fakeWebhooksSourcesDeletedPostValidateBeforeCall(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fakeWebhooksSourcesDeletedPostValidateBeforeCall(@javax.annotation.Nullable FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback _callback) throws ApiException {
         return fakeWebhooksSourcesDeletedPostCall(fakeWebhooksSourcesDeletedPostRequest, _callback);
 
     }
@@ -149,7 +149,7 @@ public class DefaultApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public void fakeWebhooksSourcesDeletedPost(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest) throws ApiException {
+    public void fakeWebhooksSourcesDeletedPost(@javax.annotation.Nullable FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest) throws ApiException {
         fakeWebhooksSourcesDeletedPostWithHttpInfo(fakeWebhooksSourcesDeletedPostRequest);
     }
 
@@ -167,7 +167,7 @@ public class DefaultApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> fakeWebhooksSourcesDeletedPostWithHttpInfo(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest) throws ApiException {
+    public ApiResponse<Void> fakeWebhooksSourcesDeletedPostWithHttpInfo(@javax.annotation.Nullable FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest) throws ApiException {
         okhttp3.Call localVarCall = fakeWebhooksSourcesDeletedPostValidateBeforeCall(fakeWebhooksSourcesDeletedPostRequest, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -187,7 +187,7 @@ public class DefaultApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeWebhooksSourcesDeletedPostAsync(FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call fakeWebhooksSourcesDeletedPostAsync(@javax.annotation.Nullable FakeWebhooksSourcesDeletedPostRequest fakeWebhooksSourcesDeletedPostRequest, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fakeWebhooksSourcesDeletedPostValidateBeforeCall(fakeWebhooksSourcesDeletedPostRequest, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

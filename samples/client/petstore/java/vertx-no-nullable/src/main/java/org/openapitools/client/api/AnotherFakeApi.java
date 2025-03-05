@@ -11,8 +11,8 @@ import java.util.*;
 
 public interface AnotherFakeApi {
 
-    void call123testSpecialTags(UUID uuidTest, Client body, Handler<AsyncResult<Client>> handler);
+    void call123testSpecialTags(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body, Handler<AsyncResult<Client>> handler);
 
-    void call123testSpecialTags(UUID uuidTest, Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
+    void call123testSpecialTags(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> handler);
 
 }

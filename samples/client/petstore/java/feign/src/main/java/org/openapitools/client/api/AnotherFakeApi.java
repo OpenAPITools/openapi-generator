@@ -27,7 +27,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client call123testSpecialTags(Client client);
+  Client call123testSpecialTags(@javax.annotation.Nonnull Client client);
 
   /**
    * To test special tags
@@ -41,7 +41,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client);
+  ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client);
 
 
 }
