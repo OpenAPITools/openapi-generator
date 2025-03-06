@@ -3,7 +3,7 @@ import { CustomHttpParameterCodec } from './encoder';
 import { {{configurationClassName}} } from './configuration';
 
 export class BaseService {
-    protected basePath = '';
+    protected basePath = '{{{basePath}}}';
     public defaultHeaders = new HttpHeaders();
     public configuration: {{configurationClassName}};
     public encoder: HttpParameterCodec;
