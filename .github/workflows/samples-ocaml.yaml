@@ -1,0 +1,31 @@
+name: Samples OCaml
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/ocaml/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/ocaml/**'
+
+jobs:
+  build:
+    name: Build OCaml
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - 'samples/client/petstore/ocaml/'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set-up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5
+      - name: Install
+        run: opam install . --deps-only --with-test
+        working-directory: ${{ matrix.sample }}
+      - name: Build
+        run: opam exec -- dune build
+        working-directory: ${{ matrix.sample }}
