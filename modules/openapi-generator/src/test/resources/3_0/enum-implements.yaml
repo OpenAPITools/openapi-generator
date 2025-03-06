@@ -26,7 +26,7 @@ components:
           $ref: '#/components/schemas/Type'
     Type:
       type: string
-      x-implements: org.openapitools.java.EnumInterface
+      x-implements: java.io.Serializable
       enum:
         - Earth
         - Pegasi
