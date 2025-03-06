@@ -23,7 +23,7 @@ use mime::Mime;
 use std::io::Cursor;
 use multipart::client::lazy::Multipart;
 
-use crate::models;
+use super::super::models;
 use crate::header;
 
 /// https://url.spec.whatwg.org/#fragment-percent-encode-set
