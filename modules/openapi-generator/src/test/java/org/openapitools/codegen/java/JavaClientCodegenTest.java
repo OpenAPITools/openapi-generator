@@ -41,7 +41,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -3463,6 +3462,19 @@ public class JavaClientCodegenTest {
                 "String responseBody = new String(localVarResponse.body().readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
+    }
+
+    @Test
+    public void testEnumWithImplements() {
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum-implements.yaml");
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+
+        Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements org.openapitools.java.EnumInterface {");
     }
 
     /**
