@@ -264,7 +264,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 optionalAcceptNullable));
 
         cliOptions.add(CliOption.newString(USE_HTTP_SERVICE_PROXY_FACTORY_INTERFACES_CONFIGURATOR,
-            "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces. Requires spring-web 6.1+.")
+            "Generate HttpInterfacesAbstractConfigurator based on an HttpServiceProxyFactory instance (as opposed to a WebClient instance, when disabled) for generating Spring HTTP interfaces.")
             .defaultValue("false")
         );
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
