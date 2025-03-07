@@ -250,6 +250,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     private void configureSerializationLibraryBuiltValue(String srcFolder) {
         supportingFiles.add(new SupportingFile("serialization/built_value/serializers.mustache", srcFolder, "serializers.dart"));
         supportingFiles.add(new SupportingFile("serialization/built_value/api_util.mustache", srcFolder, "api_util.dart"));
+        supportingFiles.add(new SupportingFile("serialization/built_value/serializers_util.mustache", srcFolder, "serializers_util.dart"));
 
         typeMapping.put("Array", "BuiltList");
         typeMapping.put("array", "BuiltList");
@@ -557,6 +558,9 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             interfaceImports.addAll(cm.allOf);
             interfaceImports.addAll(cm.oneOf);
             interfaceImports.addAll(cm.anyOf);
+            if(!cm.oneOf.isEmpty() || !cm.anyOf.isEmpty()) {
+                interfaceImports.add("package:" + pubName + "/" + sourceFolder + "/serializers_util.dart");
+            }
             cm.imports.addAll(rewriteImports(interfaceImports, true));
         }
     }

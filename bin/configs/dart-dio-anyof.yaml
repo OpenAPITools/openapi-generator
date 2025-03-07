@@ -1,0 +1,11 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/anyof
+inputSpec: modules/openapi-generator/src/test/resources/3_0/anyOf.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
