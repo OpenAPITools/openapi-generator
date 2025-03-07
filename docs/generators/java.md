@@ -47,7 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |documentationProvider|Select the OpenAPI documentation provider.|<dl><dt>**none**</dt><dd>Do not publish an OpenAPI specification.</dd><dt>**source**</dt><dd>Publish the original input OpenAPI specification.</dd></dl>|source|
 |dynamicOperations|Generate operations dynamically at runtime from an OAS| |false|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumPropertyNaming|Naming convention for enum properties: 'MACRO_CASE' and 'legacy'| |MACRO_CASE|
+|enumPropertyNaming|Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'| |MACRO_CASE|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |errorObjectType|Error Object type. (This option is for okhttp-gson only)| |null|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
