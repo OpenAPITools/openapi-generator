@@ -958,11 +958,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("static-method")
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("################################################################################");
+        LOGGER.warn("################################################################################");
+        LOGGER.warn("# Thanks for using OpenAPI Generator.                                          #");
+        LOGGER.warn("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        LOGGER.warn("# https://opencollective.com/openapi_generator/donate                          #");
+        LOGGER.warn("################################################################################");
     }
 
     // override with any special post-processing

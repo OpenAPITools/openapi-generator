@@ -233,6 +233,33 @@ class GenerateTaskDslTest : TestBase() {
     }
 
     @Test
+    fun `promo banner should not be shown when run as quiet`() {
+        // Arrange
+        val projectFiles = mapOf(
+            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(defaultBuildGradle, projectFiles)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--quiet")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertFalse (
+            result.output.contains("# Thanks for using OpenAPI Generator."),
+            "Promo banner is shown even when run with --quiet."
+        )
+
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
+            "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
+        )
+    }
+
+    @Test
     fun `openApiGenerate should cleanup outputDir`() {
         // Arrange
         val projectFiles = mapOf(
