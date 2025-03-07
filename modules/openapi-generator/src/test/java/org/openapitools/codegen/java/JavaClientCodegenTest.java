@@ -3665,4 +3665,48 @@ public class JavaClientCodegenTest {
         assertTrue(defaultFields.get("testNullableEmptyReference").getVariable(0).getInitializer().get().isObjectCreationExpr());
         assertTrue(defaultFields.get("testNullableComplexReference").getVariable(0).getInitializer().get().isMethodCallExpr());
     }
+
+    @DataProvider(name = "allJavaClients")
+    public Object[][] allJavaClients() {
+        return new Object[][] {
+                { JavaClientCodegen.FEIGN },
+                { JavaClientCodegen.GOOGLE_API_CLIENT },
+                { JavaClientCodegen.JERSEY2 },
+                { JavaClientCodegen.JERSEY3 },
+                { JavaClientCodegen.NATIVE },
+                { JavaClientCodegen.OKHTTP_GSON },
+                { JavaClientCodegen.RESTEASY },
+                { JavaClientCodegen.RESTTEMPLATE },
+                { JavaClientCodegen.WEBCLIENT },
+                { JavaClientCodegen.RESTCLIENT },
+                { JavaClientCodegen.REST_ASSURED },
+                { JavaClientCodegen.RETROFIT_2 },
+                { JavaClientCodegen.VERTX },
+                { JavaClientCodegen.MICROPROFILE },
+                { JavaClientCodegen.APACHE }
+        };
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithAnyOfCausedCompileError(String client) {
+        if(JavaClientCodegen.MICROPROFILE.equals(client))
+        {
+            // MikroProfile currently does not support anyOf
+            return;
+        }
+
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/java/petstore.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setLibrary(client);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        validateJavaSourceFiles(files);
+    }
 }
