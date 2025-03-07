@@ -253,7 +253,7 @@ class MapTest implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public function getMapOfEnumStringAllowableValues()
+    public static function getMapOfEnumStringAllowableValues()
     {
         return [
             self::MAP_OF_ENUM_STRING_UPPER,

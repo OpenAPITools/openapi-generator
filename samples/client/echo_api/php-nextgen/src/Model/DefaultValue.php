@@ -280,7 +280,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public function getArrayStringEnumDefaultAllowableValues()
+    public static function getArrayStringEnumDefaultAllowableValues()
     {
         return [
             self::ARRAY_STRING_ENUM_DEFAULT_SUCCESS,
