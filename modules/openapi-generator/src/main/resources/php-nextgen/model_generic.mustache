@@ -214,7 +214,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      *
      * @return string[]
      */
-    public function {{getter}}AllowableValues()
+    public static function {{getter}}AllowableValues()
     {
         return [
 {{#discriminator}}

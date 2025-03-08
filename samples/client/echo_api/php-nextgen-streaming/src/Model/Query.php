@@ -243,7 +243,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public function getOutcomesAllowableValues()
+    public static function getOutcomesAllowableValues()
     {
         return [
             self::OUTCOMES_SUCCESS,

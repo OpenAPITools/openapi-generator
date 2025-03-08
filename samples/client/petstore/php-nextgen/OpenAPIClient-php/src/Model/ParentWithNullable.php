@@ -240,7 +240,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
      *
      * @return string[]
      */
-    public function getTypeAllowableValues()
+    public static function getTypeAllowableValues()
     {
         return [
             self::TYPE_CHILD_WITH_NULLABLE,
