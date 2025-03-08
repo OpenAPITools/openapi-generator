@@ -465,7 +465,7 @@ public class UserApi {
 
     /**
      * Logs user into the system
-     *
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
@@ -478,7 +478,7 @@ public class UserApi {
 
     /**
      * Logs user into the system
-     *
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object
@@ -491,7 +491,7 @@ public class UserApi {
 
     /**
      * Logs user into the system
-     *
+     * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid username/password supplied
      * @param requestParameters The loginUser request parameters as object

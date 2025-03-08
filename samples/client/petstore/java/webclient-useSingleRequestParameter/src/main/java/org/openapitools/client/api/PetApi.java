@@ -174,7 +174,7 @@ public class PetApi {
 
     /**
      * Deletes a pet
-     *
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
@@ -186,7 +186,7 @@ public class PetApi {
 
     /**
      * Deletes a pet
-     *
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
@@ -198,7 +198,7 @@ public class PetApi {
 
     /**
      * Deletes a pet
-     *
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>400</b> - Invalid pet value
      * @param requestParameters The deletePet request parameters as object
@@ -675,7 +675,7 @@ public class PetApi {
 
     /**
      * Updates a pet in the store with form data
-     *
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
@@ -687,7 +687,7 @@ public class PetApi {
 
     /**
      * Updates a pet in the store with form data
-     *
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
@@ -699,7 +699,7 @@ public class PetApi {
 
     /**
      * Updates a pet in the store with form data
-     *
+     * 
      * <p><b>200</b> - Successful operation
      * <p><b>405</b> - Invalid input
      * @param requestParameters The updatePetWithForm request parameters as object
@@ -859,7 +859,7 @@ public class PetApi {
 
     /**
      * uploads an image
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ModelApiResponse
@@ -871,7 +871,7 @@ public class PetApi {
 
     /**
      * uploads an image
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ResponseEntity&lt;ModelApiResponse&gt;
@@ -883,7 +883,7 @@ public class PetApi {
 
     /**
      * uploads an image
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFile request parameters as object
      * @return ResponseSpec
@@ -1043,7 +1043,7 @@ public class PetApi {
 
     /**
      * uploads an image (required)
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ModelApiResponse
@@ -1055,7 +1055,7 @@ public class PetApi {
 
     /**
      * uploads an image (required)
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ResponseEntity&lt;ModelApiResponse&gt;
@@ -1067,7 +1067,7 @@ public class PetApi {
 
     /**
      * uploads an image (required)
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The uploadFileWithRequiredFile request parameters as object
      * @return ResponseSpec
