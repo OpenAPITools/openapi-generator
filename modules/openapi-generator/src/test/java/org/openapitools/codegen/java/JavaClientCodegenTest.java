@@ -40,7 +40,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
