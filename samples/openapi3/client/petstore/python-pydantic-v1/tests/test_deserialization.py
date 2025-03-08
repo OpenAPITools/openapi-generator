@@ -293,3 +293,4 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized.class_name, "Cat")
         self.assertEqual(deserialized.declawed, True)
         self.assertEqual(deserialized.to_json(), '{"className": "Cat", "color": "red", "declawed": true}')
+
