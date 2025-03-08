@@ -5383,4 +5383,19 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
+
+    @Test
+    public void testAdditionalPropertiesWithGnerateAliasAsModelGenerateCorrectHashCode() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setGenerateAliasAsModel(true)
+                .setInputSpec("src/test/resources/3_0/additionalProperties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SampleObject.java")).fileContains(" return Objects.hash(additionalProperties)");
+    }
 }

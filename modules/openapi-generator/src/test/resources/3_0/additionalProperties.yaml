@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: "test for additionalProperties"
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        "200":
+          description: test
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleObject'
+components:
+  schemas:
+    SampleObject:
+      type: object
+      additionalProperties:
+        type: object
