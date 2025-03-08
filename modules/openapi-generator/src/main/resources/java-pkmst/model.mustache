@@ -32,7 +32,12 @@ import {{javaxPackage}}.xml.bind.annotation.*;
 {{>enumOuterClass}}
 {{/isEnum}}
 {{^isEnum}}
+{{#vendorExtensions.x-is-one-of-interface}}
+{{>oneof_interface}}
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{>pojo}}
+{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}
 {{/models}}
