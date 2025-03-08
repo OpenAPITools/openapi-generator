@@ -1,16 +1,17 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-import org.openapitools.codegen.*;
-
-import java.io.File;
-import java.util.*;
-import java.util.regex.Matcher;
-
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.regex.Matcher;
 
 public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements CodegenConfig {
 

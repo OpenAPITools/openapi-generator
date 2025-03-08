@@ -20,7 +20,8 @@ package org.openapitools.codegen.online.model;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter 
+@Getter
+@Setter
 public class Generated {
     private String filename;
     private String friendlyName;

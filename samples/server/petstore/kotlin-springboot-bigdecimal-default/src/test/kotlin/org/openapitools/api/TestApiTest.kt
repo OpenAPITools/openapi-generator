@@ -16,8 +16,9 @@ class TestApiTest {
      */
     @Test
     fun testPostTest() {
-        // val apa: Apa = TODO()
-        // val response: ResponseEntity<Unit> = api.testPost(apa)
+        val apa: Apa = TODO()
+        val response: ResponseEntity<Unit> = api.testPost(apa)
+
         // TODO: test validations
     }
 }

@@ -391,7 +391,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         }
         fullPath.append(paramString);
         {{/isPrimitiveType}}{{#isPrimitiveType}}
-        fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding({{paramName}}{{^required}}.stringValue(){{/required}}));
+        fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.stringValue(){{/required}})));
 {{/isPrimitiveType}}
 {{/collectionFormat}}
 {{#collectionFormat}}

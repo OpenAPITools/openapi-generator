@@ -12,17 +12,17 @@ public typealias User = PetstoreClientAPI.User
 
 extension PetstoreClientAPI {
 
-public final class User: Codable, JSONEncodable, Hashable {
+public final class User: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var id: Int64?
-    public var username: String?
-    public var firstName: String?
-    public var lastName: String?
-    public var email: String?
-    public var password: String?
-    public var phone: String?
+    public private(set) var id: Int64?
+    public private(set) var username: String?
+    public private(set) var firstName: String?
+    public private(set) var lastName: String?
+    public private(set) var email: String?
+    public private(set) var password: String?
+    public private(set) var phone: String?
     /** User Status */
-    public var userStatus: Int?
+    public private(set) var userStatus: Int?
 
     public init(id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self.id = id
@@ -86,3 +86,6 @@ public final class User: Codable, JSONEncodable, Hashable {
 }
 
 }
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension PetstoreClientAPI.User: Identifiable {}

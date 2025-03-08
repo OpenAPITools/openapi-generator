@@ -294,3 +294,8 @@ class ApiClientTests(unittest.TestCase):
         params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
                                                          collection_formats={'list': 'multi'})
         self.assertEqual(params, "list=1&list=2&list=3")
+
+    def test_parameters_to_url_query_list_value_encoded(self):
+        params = self.api_client.parameters_to_url_query(params=[('list', [" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", "2023-01-01T00:00:00+01:00"])],
+                                                         collection_formats={'list': 'multi'})
+        self.assertEqual(params, "list=%20%21%22%23%24%25%26%27%28%29%2A%2B%2C-./%3A%3B%3C%3D%3E%3F%40%5B%5C%5D%5E_%60%7B%7C%7D~&list=2023-01-01T00%3A00%3A00%2B01%3A00")

@@ -58,13 +58,6 @@ namespace Org.OpenAPITools.Model
         public List<Child> Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new Option<List<Child>>(value); } }
 
         /// <summary>
-        /// The discriminator
-        /// </summary>
-        [JsonIgnore]
-        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public new string Type { get; } = "Adult";
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>

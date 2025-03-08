@@ -13,10 +13,10 @@ public typealias Model200Response = PetstoreClientAPI.Model200Response
 extension PetstoreClientAPI {
 
 /** Model for testing model name starting with number */
-public final class Model200Response: Codable, JSONEncodable, Hashable {
+public final class Model200Response: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var name: Int?
-    public var _class: String?
+    public private(set) var name: Int?
+    public private(set) var _class: String?
 
     public init(name: Int? = nil, _class: String? = nil) {
         self.name = name

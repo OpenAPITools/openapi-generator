@@ -19,7 +19,6 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
-
 import lombok.Getter;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.auth.AuthParser;
@@ -84,8 +83,8 @@ public class ClientOptInput {
     /**
      * Sets the generator/config instance
      *
-     * @deprecated use {@link #config(CodegenConfig)} instead
      * @param config codegen config
+     * @deprecated use {@link #config(CodegenConfig)} instead
      */
     @Deprecated
     public void setConfig(CodegenConfig config) {
@@ -118,8 +117,8 @@ public class ClientOptInput {
     /**
      * Sets the OpenAPI document
      *
-     * @deprecated use {@link #openAPI(OpenAPI)} instead
      * @param openAPI the specification
+     * @deprecated use {@link #openAPI(OpenAPI)} instead
      */
     @Deprecated
     public void setOpenAPI(OpenAPI openAPI) {

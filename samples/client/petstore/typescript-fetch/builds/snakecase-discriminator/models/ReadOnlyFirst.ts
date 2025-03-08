@@ -55,11 +55,11 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-  export function ReadOnlyFirstToJSON(json: any): ReadOnlyFirst {
-      return ReadOnlyFirstToJSONTyped(json, false);
-  }
+export function ReadOnlyFirstToJSON(json: any): ReadOnlyFirst {
+    return ReadOnlyFirstToJSONTyped(json, false);
+}
 
-  export function ReadOnlyFirstToJSONTyped(value?: Omit<ReadOnlyFirst, 'bar'> | null, ignoreDiscriminator: boolean = false): any {
+export function ReadOnlyFirstToJSONTyped(value?: Omit<ReadOnlyFirst, 'bar'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

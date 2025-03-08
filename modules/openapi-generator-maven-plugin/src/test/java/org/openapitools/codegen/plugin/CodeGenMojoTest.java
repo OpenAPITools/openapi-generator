@@ -94,13 +94,13 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         assertTrue(Files.exists(tempDir.resolve(
-            "target/generated-sources/common-maven/remote-openapi/.openapi-generator/petstore.yaml-executionId.sha256"
+                "target/generated-sources/common-maven/remote-openapi/.openapi-generator/petstore.yaml-executionId.sha256"
         )));
     }
 
     /**
      * For a Pom file which refers to an input file which will be on the classpath, as opposed to a file path,
-     * test that the spec is not regenerated when the hash has not changed. 
+     * test that the spec is not regenerated when the hash has not changed.
      */
     public void testSkipRegenerationForClasspathSpecFileNoChange() throws Exception {
         //GIVEN
@@ -114,7 +114,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         /* Check the hash file was created */
         final Path generatedDir = tempDir.resolve("target/generated-sources/common-maven/remote-openapi");
         assertTrue(Files.exists(
-            generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256")
+                generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256")
         ));
 
         /* Remove the generated source */
@@ -134,7 +134,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
     /**
      * For a Pom file which refers to an input file which will be on the classpath, as opposed to a file path,
-     * test that the generated source is regenerated when the hash has changed. 
+     * test that the generated source is regenerated when the hash has changed.
      */
     public void testSkipRegenerationForClasspathSpecFileWithChange() throws Exception {
         //GIVEN
@@ -151,12 +151,12 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         /* Update the hash contents to be a different value, simulating a spec change */
         Files.write(
-            generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256"),
-            List.of("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
+                generatedDir.resolve(".openapi-generator/petstore-on-classpath.yaml-executionId.sha256"),
+                List.of("bd1bf4a953c858f9d47b67ed6029daacf1707e5cbd3d2e4b01383ba30363366f")
         );
 
         /* Remove the generated source */
-        try(Stream<Path> files = Files.walk(generatedDir.resolve("src"))) {
+        try (Stream<Path> files = Files.walk(generatedDir.resolve("src"))) {
             //noinspection ResultOfMethodCallIgnored
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
         }
@@ -181,7 +181,7 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         assertTrue(Files.exists(
-            tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml")
+                tempDir.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml")
         ));
     }
 
@@ -194,8 +194,8 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         List<Artifact> matchingArtifacts = mojo.mavenProject.getAttachedArtifacts().stream()
-            .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
-            .collect(Collectors.toList());
+                .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
+                .collect(Collectors.toList());
         assertEquals(1, matchingArtifacts.size());
     }
 
@@ -242,7 +242,7 @@ public class CodeGenMojoTest extends BaseTestCase {
         var currentHash = Files.readString(hashFile);   // read hash
         FileUtils.deleteDirectory(generatedDir.resolve("src").toFile());    // Remove the generated source
         Files.writeString(  // change schema definition in external file
-            tempDir.resolve("schemas/Pet.yaml"),"\n  wrapped: true", StandardOpenOption.APPEND
+                tempDir.resolve("schemas/Pet.yaml"), "\n  wrapped: true", StandardOpenOption.APPEND
         );
 
         // WHEN
@@ -250,8 +250,8 @@ public class CodeGenMojoTest extends BaseTestCase {
 
         // THEN
         assertNotEquals(
-            Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
-        );         
+                Files.readString(hashFile), currentHash, "Checksum should not be the same after external file change"
+        );
         assertTrue("Src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
     }
 
@@ -269,7 +269,7 @@ public class CodeGenMojoTest extends BaseTestCase {
     }
 
     private MojoExecution copyWithExecutionId(String executionId, MojoExecution execution) {
-        MojoExecution executionWithId  = new MojoExecution(execution.getMojoDescriptor(), executionId);
+        MojoExecution executionWithId = new MojoExecution(execution.getMojoDescriptor(), executionId);
         executionWithId.setConfiguration(execution.getConfiguration());
         return executionWithId;
     }
@@ -278,18 +278,18 @@ public class CodeGenMojoTest extends BaseTestCase {
         LocalRepository localRepo = new LocalRepository(basedir.resolve("local-repo").toFile());
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
         session.setLocalRepositoryManager(
-            new SimpleLocalRepositoryManagerFactory(new DefaultLocalPathComposer()).newInstance(session, localRepo)
+                new SimpleLocalRepositoryManagerFactory(new DefaultLocalPathComposer()).newInstance(session, localRepo)
         );
         MavenExecutionRequest request = new DefaultMavenExecutionRequest().setBaseDirectory(basedir.toFile());
         if (profile != null) {
             request.addActiveProfile(profile);
         }
         ProjectBuildingRequest configuration = request.getProjectBuildingRequest()
-            .setRepositorySession(session)
-            .setResolveDependencies(true);
+                .setRepositorySession(session)
+                .setResolveDependencies(true);
         MavenProject project = lookup(ProjectBuilder.class)
-            .build(basedir.resolve("pom.xml").toFile(), configuration)
-            .getProject();
+                .build(basedir.resolve("pom.xml").toFile(), configuration)
+                .getProject();
         assertNotNull(project);
         return project;
     }

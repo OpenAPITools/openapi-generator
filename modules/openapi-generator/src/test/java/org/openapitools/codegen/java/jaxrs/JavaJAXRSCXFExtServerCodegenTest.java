@@ -4,9 +4,10 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.assertj.core.api.Assertions;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
@@ -21,7 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
     private static class JavaCXFExtServerCodegenTester extends JavaCXFExtServerCodegen {
@@ -340,24 +342,24 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
-            .assertMethod("getPetById")
-            .bodyContainsLines(
-                "Pet response = new Pet();",
-                "return response;"
-            );
+                .assertMethod("getPetById")
+                .bodyContainsLines(
+                        "Pet response = new Pet();",
+                        "return response;"
+                );
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
-            .assertMethod("findPetsByStatusTest")
-            .bodyContainsLines(
-                "List<String> status = new ArrayList<>();",
-                "// List<Pet> response = api.findPetsByStatus(status);",
-                "// validate(response);"
-            );
+                .assertMethod("findPetsByStatusTest")
+                .bodyContainsLines(
+                        "List<String> status = new ArrayList<>();",
+                        "// List<Pet> response = api.findPetsByStatus(status);",
+                        "// validate(response);"
+                );
 
         Assertions.assertThat(Paths.get(outputPath + "/src/main/resources/test-data.json"))
-            .doesNotExist();
+                .doesNotExist();
         Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
-            .doesNotExist();
+                .doesNotExist();
     }
 
     @Test
@@ -381,33 +383,33 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         generator.opts(input).generate();
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java"))
-            .fileContains(
-                "File cacheFile = new File(System.getProperty(\"jaxrs.test.server.json\"",
-                "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");"
-            )
-            .assertMethod("getPetById")
-            .bodyContainsLines(
-                "Pet response = cache.getObject(\"/getPetById/response\", Pet.class);"
-            );
+                .fileContains(
+                        "File cacheFile = new File(System.getProperty(\"jaxrs.test.server.json\"",
+                        "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");"
+                )
+                .assertMethod("getPetById")
+                .bodyContainsLines(
+                        "Pet response = cache.getObject(\"/getPetById/response\", Pet.class);"
+                );
 
 
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/test/java/org/openapitools/api/PetApiTest.java"))
-            .assertMethod("beforeClass")
+                .assertMethod("beforeClass")
                 .bodyContainsLines(
-                    "File cacheFile = new File(System.getProperty(\"jaxrs.test.client.json\",",
-                    "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");",
-                    "validator = Validation.buildDefaultValidatorFactory().getValidator();"
+                        "File cacheFile = new File(System.getProperty(\"jaxrs.test.client.json\",",
+                        "cache = JsonCache.Factory.instance.get(\"test-data\").load(cacheFile).child(\"/org.openapitools.api/PetApi\");",
+                        "validator = Validation.buildDefaultValidatorFactory().getValidator();"
                 )
-            .toFileAssert()
-            .assertMethod("addPetTest")
+                .toFileAssert()
+                .assertMethod("addPetTest")
                 .bodyContainsLines(
-                    "Pet pet = cache.getObject(\"/addPet/pet\", Pet.class);"
+                        "Pet pet = cache.getObject(\"/addPet/pet\", Pet.class);"
                 );
 
         Assertions.assertThat(Paths.get(outputPath + "/src/main/resources/test-data.json"))
-            .exists();
+                .exists();
         Assertions.assertThat(Paths.get(outputPath + "/test-data-control.json"))
-            .exists();
+                .exists();
     }
 
     @Test
@@ -499,7 +501,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.processOpts();
 
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
-        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP,codegen::isHideGenerationTimestamp, false);
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, false);
         configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xx.yyyyyyyy.model");
         configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xx.yyyyyyyy.api");
         configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xx.yyyyyyyy.invoker");

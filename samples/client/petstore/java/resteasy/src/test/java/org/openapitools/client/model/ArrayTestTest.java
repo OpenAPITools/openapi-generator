@@ -29,14 +29,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ArrayTest
  */
-public class ArrayTestTest {
+class ArrayTestTest {
     private final ArrayTest model = new ArrayTest();
 
     /**
      * Model tests for ArrayTest
      */
     @Test
-    public void testArrayTest() {
+    void testArrayTest() {
         // TODO: test ArrayTest
     }
 
@@ -44,7 +44,7 @@ public class ArrayTestTest {
      * Test the property 'arrayOfString'
      */
     @Test
-    public void arrayOfStringTest() {
+    void arrayOfStringTest() {
         // TODO: test arrayOfString
     }
 
@@ -52,7 +52,7 @@ public class ArrayTestTest {
      * Test the property 'arrayArrayOfInteger'
      */
     @Test
-    public void arrayArrayOfIntegerTest() {
+    void arrayArrayOfIntegerTest() {
         // TODO: test arrayArrayOfInteger
     }
 
@@ -60,7 +60,7 @@ public class ArrayTestTest {
      * Test the property 'arrayArrayOfModel'
      */
     @Test
-    public void arrayArrayOfModelTest() {
+    void arrayArrayOfModelTest() {
         // TODO: test arrayArrayOfModel
     }
 

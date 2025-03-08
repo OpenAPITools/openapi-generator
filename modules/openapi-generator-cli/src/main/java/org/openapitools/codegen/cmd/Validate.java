@@ -19,12 +19,13 @@ package org.openapitools.codegen.cmd;
 
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.text.WordUtils;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.validation.ValidationResult;
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator;
 import org.openapitools.codegen.validations.oas.RuleConfiguration;
@@ -33,7 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings({"unused","java:S106"})
+@SuppressWarnings({"unused", "java:S106"})
 @Command(name = "validate", description = "Validate specification")
 public class Validate extends OpenApiGeneratorCommand {
 
@@ -41,15 +42,23 @@ public class Validate extends OpenApiGeneratorCommand {
             description = "location of the OpenAPI spec, as URL or file (required)")
     private String spec;
 
-    @Option(name = { "--recommend"}, title = "recommend spec improvements")
+    @Option(name = {"--recommend"}, title = "recommend spec improvements")
     private Boolean recommend;
+
+    @Option(
+            name = {"-a", "--auth"},
+            title = "authorization",
+            description = "adds authorization headers when fetching the OpenAPI definitions remotely. "
+                    + "Pass in a URL-encoded string of name:header with a comma separating multiple values")
+    private String auth;
 
     @Override
     public void execute() {
         System.out.println("Validating spec (" + spec + ")");
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, options);
+        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(spec, authorizationValues, options);
         List<String> messageList = result.getMessages();
         Set<String> errors = new HashSet<>(messageList);
         Set<String> warnings = new HashSet<>();

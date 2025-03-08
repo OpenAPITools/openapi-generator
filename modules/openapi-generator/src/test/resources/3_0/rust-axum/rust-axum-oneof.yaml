@@ -1,0 +1,93 @@
+openapi: "3.0.4"
+info:
+  title: "test"
+  version: "0.0.1"
+paths:
+  "/":
+    post:
+      operationId: foo
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              "$ref": "#/components/schemas/Message"
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
+components:
+  schemas:
+    Message:
+      type: object
+      additionalProperties: false
+      discriminator:
+        propertyName: op
+      oneOf:
+        - "$ref": "#/components/schemas/Hello"
+        - "$ref": "#/components/schemas/Greeting"
+        - "$ref": "#/components/schemas/Goodbye"
+        - "$ref": "#/components/schemas/SomethingCompletelyDifferent"
+      title: Message
+    Hello:
+      type: object
+      additionalProperties: false
+      title: Hello
+      properties:
+        op:
+          type: string
+          enum:
+            - Hello
+          default: Hello
+        d:
+          type: object
+          properties:
+            welcome_message:
+              type: string
+          required:
+            - welcome_message
+      required:
+        - op
+        - d
+    Greeting:
+      type: object
+      additionalProperties: false
+      title: Greeting
+      properties:
+        d:
+          type: object
+          properties:
+            greet_message:
+              type: string
+          required:
+            - greet_message
+      required:
+        - d
+    Goodbye:
+      type: object
+      additionalProperties: false
+      title: Goodbye
+      properties:
+        op:
+          type: string
+          enum:
+            - Goodbye
+        d:
+          type: object
+          properties:
+            goodbye_message:
+              type: string
+          required:
+            - goodbye_message
+      required:
+        - op
+        - d
+    SomethingCompletelyDifferent:
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object

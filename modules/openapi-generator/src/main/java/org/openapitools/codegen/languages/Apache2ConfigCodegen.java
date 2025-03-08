@@ -25,7 +25,9 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 
 
 public class Apache2ConfigCodegen extends DefaultCodegen implements CodegenConfig {

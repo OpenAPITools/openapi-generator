@@ -203,10 +203,35 @@
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return {{{classname}}} in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return {{{classname}}} as a base R list.
+    #' @examples
+    #' # convert array of {{{classname}}} (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert {{{classname}}} to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       {{classname}}Object <- list()
       {{#vars}}
       if (!is.null(self$`{{name}}`)) {
@@ -217,7 +242,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          lapply(self$`{{name}}`, function(x) x$toJSON())
+          lapply(self$`{{name}}`, function(x) x$toSimpleType())
           {{/isPrimitiveType}}
           {{/isArray}}
           {{#isMap}}
@@ -225,7 +250,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          lapply(self$`{{name}}`, function(x) x$toJSON())
+          lapply(self$`{{name}}`, function(x) x$toSimpleType())
           {{/isPrimitiveType}}
           {{/isMap}}
           {{/isContainer}}
@@ -234,7 +259,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          self$`{{name}}`$toJSON()
+          self$`{{name}}`$toSimpleType()
           {{/isPrimitiveType}}
           {{/isContainer}}
       }
@@ -245,7 +270,7 @@
       }
 
       {{/isAdditionalPropertiesTrue}}
-      {{classname}}Object
+      return({{classname}}Object)
     },
 
     #' @description
@@ -304,76 +329,18 @@
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return {{{classname}}} in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-      {{#vars}}
-        if (!is.null(self$`{{name}}`)) {
-          sprintf(
-          '"{{baseName}}":
-          {{#isContainer}}
-          {{#isArray}}
-          {{#isPrimitiveType}}
-             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}[%s]
-          {{/isPrimitiveType}}
-          {{/isArray}}
-          {{#isMap}}
-          {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}{{/isBoolean}}%s{{^isBoolean}}{{/isBoolean}}{{/isNumeric}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}%s
-          {{/isPrimitiveType}}
-          {{/isMap}}
-          {{/isContainer}}
-          {{^isContainer}}
-          {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}%s
-          {{/isPrimitiveType}}
-          {{/isContainer}}',
-          {{#isContainer}}
-          {{#isArray}}
-          {{#isPrimitiveType}}
-          paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse = ",")
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-          paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
-          {{/isPrimitiveType}}
-          {{/isArray}}
-          {{#isMap}}
-          {{#isPrimitiveType}}
-          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits = NA)
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits = NA)
-          {{/isPrimitiveType}}
-          {{/isMap}}
-          {{/isContainer}}
-          {{^isContainer}}
-          {{#isPrimitiveType}}
-          {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-          jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox = TRUE, digits = NA)
-          {{/isPrimitiveType}}
-          {{/isContainer}}
-          )
-        }{{^-last}},{{/-last}}
-      {{/vars}}
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       {{#isAdditionalPropertiesTrue}}
-      json_obj <- jsonlite::fromJSON(json_string)
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
       {{/isAdditionalPropertiesTrue}}
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

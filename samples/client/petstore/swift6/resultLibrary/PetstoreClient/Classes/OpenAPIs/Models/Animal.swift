@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Animal: Codable, JSONEncodable {
+internal struct Animal: Sendable, Codable, JSONEncodable {
 
     internal private(set) var className: String
     internal private(set) var color: String? = "red"

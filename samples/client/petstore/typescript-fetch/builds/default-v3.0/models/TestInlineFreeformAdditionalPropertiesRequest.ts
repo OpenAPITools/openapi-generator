@@ -50,11 +50,11 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json:
     };
 }
 
-  export function TestInlineFreeformAdditionalPropertiesRequestToJSON(json: any): TestInlineFreeformAdditionalPropertiesRequest {
-      return TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(json, false);
-  }
+export function TestInlineFreeformAdditionalPropertiesRequestToJSON(json: any): TestInlineFreeformAdditionalPropertiesRequest {
+    return TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(json, false);
+}
 
-  export function TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(value?: TestInlineFreeformAdditionalPropertiesRequest | null, ignoreDiscriminator: boolean = false): any {
+export function TestInlineFreeformAdditionalPropertiesRequestToJSONTyped(value?: TestInlineFreeformAdditionalPropertiesRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

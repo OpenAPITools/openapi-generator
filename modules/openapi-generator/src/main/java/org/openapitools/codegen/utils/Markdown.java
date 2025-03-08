@@ -35,6 +35,7 @@ public class Markdown {
     /**
      * Convert input markdown text to HTML.
      * Simple text is not wrapped in <p>...</p>.
+     *
      * @param markdown text with Markdown styles. If <code>null</code>, <code>""</code> is returned.
      * @return HTML rendering from the Markdown
      */
@@ -53,6 +54,7 @@ public class Markdown {
     // do that Markdown can be used in non-block contexts such as operation summary etc.
     private static final String P_END = "</p>\n";
     private static final String P_START = "<p>";
+
     private String unwrapped(String html) {
         if (html.startsWith(P_START) && html.endsWith(P_END)
                 && html.lastIndexOf(P_START) == 0)

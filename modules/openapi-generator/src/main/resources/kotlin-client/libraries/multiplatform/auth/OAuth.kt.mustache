@@ -1,7 +1,7 @@
 package {{packageName}}.auth
 
-class OAuth : Authentication {
-    var accessToken: String? = null
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class OAuth : Authentication {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var accessToken: String? = null
 
     override fun apply(query: MutableMap<String, List<String>>, headers: MutableMap<String, String>) {
         val token: String = accessToken ?: return

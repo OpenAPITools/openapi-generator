@@ -7,7 +7,7 @@
 
 import Foundation
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum JSONValue: Codable, Hashable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum JSONValue: Sendable, Codable, Hashable {
     case string(String)
     case int(Int)
     case double(Double)

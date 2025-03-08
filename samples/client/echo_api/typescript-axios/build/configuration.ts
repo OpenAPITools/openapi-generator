@@ -89,7 +89,13 @@ export class Configuration {
         this.accessToken = param.accessToken;
         this.basePath = param.basePath;
         this.serverIndex = param.serverIndex;
-        this.baseOptions = param.baseOptions;
+        this.baseOptions = {
+            ...param.baseOptions,
+            headers: {
+                'User-Agent': "EchoApi/1.0.0",
+                ...param.baseOptions?.headers,
+            },
+        };
         this.formDataCtor = param.formDataCtor;
     }
 

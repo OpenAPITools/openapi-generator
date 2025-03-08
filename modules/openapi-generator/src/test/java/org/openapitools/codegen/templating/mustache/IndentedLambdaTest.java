@@ -1,12 +1,11 @@
 package org.openapitools.codegen.templating.mustache;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.samskivert.mustache.Mustache;
+import org.testng.annotations.Test;
 
 import java.util.Map;
 
-import org.testng.annotations.Test;
-
-import com.samskivert.mustache.Mustache;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IndentedLambdaTest extends LambdaTest {
 

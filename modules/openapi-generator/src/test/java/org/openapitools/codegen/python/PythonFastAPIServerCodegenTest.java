@@ -1,14 +1,11 @@
 package org.openapitools.codegen.python;
 
-import com.google.common.collect.Sets;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.PythonFastAPIServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;

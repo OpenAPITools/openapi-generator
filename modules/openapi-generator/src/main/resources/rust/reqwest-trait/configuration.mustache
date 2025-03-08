@@ -1,0 +1,120 @@
+{{>partial_header}}
+
+{{#withAWSV4Signature}}
+use std::time::SystemTime;
+use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
+use http;
+use secrecy::{SecretString, ExposeSecret};
+{{/withAWSV4Signature}}
+{{#supportTokenSource}}
+use std::sync::Arc;
+use google_cloud_token::TokenSource;
+use async_trait::async_trait;
+{{/supportTokenSource}}
+
+#[derive(Debug, Clone)]
+pub struct Configuration {
+    pub base_path: String,
+    pub user_agent: Option<String>,
+    pub client: {{#supportMiddleware}}reqwest_middleware::ClientWithMiddleware{{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client{{/supportMiddleware}},
+    {{^supportTokenSource}}
+    pub basic_auth: Option<BasicAuth>,
+    pub oauth_access_token: Option<String>,
+    pub bearer_access_token: Option<String>,
+    pub api_key: Option<ApiKey>,
+    {{/supportTokenSource}}
+    {{#withAWSV4Signature}}
+    pub aws_v4_key: Option<AWSv4Key>,
+    {{/withAWSV4Signature}}
+    {{#supportTokenSource}}
+    pub token_source: Arc<dyn TokenSource>,
+    {{/supportTokenSource}}
+}
+{{^supportTokenSource}}
+
+pub type BasicAuth = (String, Option<String>);
+
+#[derive(Debug, Clone)]
+pub struct ApiKey {
+    pub prefix: Option<String>,
+    pub key: String,
+}
+{{/supportTokenSource}}
+
+{{#withAWSV4Signature}}
+#[derive(Debug, Clone)]
+pub struct AWSv4Key {
+    pub access_key: String,
+    pub secret_key: SecretString,
+    pub region: String,
+    pub service: String,
+}
+
+impl AWSv4Key {
+    pub fn sign(&self, uri: &str, method: &str, body: &str) -> Result<Vec::<(String, String)>, aws_sigv4::http_request::Error> {
+	let request = http::Request::builder()
+	    .uri(uri)
+	    .method(method)
+	    .body(body).unwrap();
+	let signing_settings = SigningSettings::default();
+	let signing_params = SigningParams::builder()
+	    .access_key(self.access_key.as_str())
+	    .secret_key(self.secret_key.expose_secret().as_str())
+	    .region(self.region.as_str())
+	    .service_name(self.service.as_str())
+	    .time(SystemTime::now())
+	    .settings(signing_settings)
+	    .build()
+	    .unwrap();
+	let signable_request = SignableRequest::from(&request);
+	let (mut signing_instructions, _signature) = sign(signable_request, &signing_params)?.into_parts();
+	let mut additional_headers = Vec::<(String, String)>::new();
+	if let Some(new_headers) = signing_instructions.take_headers() {
+            for (name, value) in new_headers.into_iter() {
+		additional_headers.push((name.expect("header should have name").to_string(),
+		                         value.to_str().expect("header value should be a string").to_string()));
+            }
+        }
+	Ok(additional_headers)
+    }
+}
+{{/withAWSV4Signature}}
+
+impl Configuration {
+    pub fn new() -> Configuration {
+        Configuration::default()
+    }
+}
+
+impl Default for Configuration {
+    fn default() -> Self {
+        Configuration {
+            base_path: "{{{basePath}}}".to_owned(),
+            user_agent: {{#httpUserAgent}}Some("{{{.}}}".to_owned()){{/httpUserAgent}}{{^httpUserAgent}}Some("OpenAPI-Generator/{{{version}}}/rust".to_owned()){{/httpUserAgent}},
+            client: {{#supportMiddleware}}reqwest_middleware::ClientBuilder::new(reqwest::Client::new()).build(){{/supportMiddleware}}{{^supportMiddleware}}reqwest::Client::new(){{/supportMiddleware}},
+            {{^supportTokenSource}}
+            basic_auth: None,
+            oauth_access_token: None,
+            bearer_access_token: None,
+            api_key: None,
+            {{/supportTokenSource}}
+            {{#withAWSV4Signature}}
+            aws_v4_key: None,
+            {{/withAWSV4Signature}}
+            {{#supportTokenSource}}
+            token_source: Arc::new(NoopTokenSource{}),
+            {{/supportTokenSource}}
+        }
+    }
+}
+{{#supportTokenSource}}
+#[derive(Debug)]
+struct NoopTokenSource{}
+
+#[async_trait]
+impl TokenSource for NoopTokenSource {
+    async fn token(&self) -> Result<String, Box<dyn std::error::Error + Send + Sync>> {
+        panic!("This is dummy token source. You can use TokenSourceProvider from 'google_cloud_auth' crate, or any other compatible crate.")
+    }
+}
+{{/supportTokenSource}}

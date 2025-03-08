@@ -46,21 +46,20 @@ public abstract class Validated {
     /**
      * Creates an instance of an {@link Invalid} validation state.
      *
-     * @param rule The rule which was evaluated.
+     * @param rule    The rule which was evaluated.
      * @param message The message to display to a user.
-     *
      * @return A {@link Validated} instance representing an invalid state according to the rule.
      */
     public static Validated invalid(ValidationRule rule, String message) {
         return new Invalid(rule, message);
     }
+
     /**
      * Creates an instance of an {@link Invalid} validation state.
      *
-     * @param rule The rule which was evaluated.
+     * @param rule    The rule which was evaluated.
      * @param message The message to display to a user.
      * @param details Additional contextual details related to the invalid state.
-     *
      * @return A {@link Validated} instance representing an invalid state according to the rule.
      */
     public static Validated invalid(ValidationRule rule, String message, String details) {
@@ -71,7 +70,6 @@ public abstract class Validated {
      * Creates an instance of an {@link Valid} validation state.
      *
      * @param rule The rule which was evaluated.
-     *
      * @return A {@link Validated} instance representing a valid state according to the rule.
      */
     public static Validated valid(ValidationRule rule) {

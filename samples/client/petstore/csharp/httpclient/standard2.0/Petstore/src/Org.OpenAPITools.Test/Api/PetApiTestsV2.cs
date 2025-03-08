@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Test.Api
 	        _petApi = new PetApi(_httpClient, new Configuration
 	        {
 		        BasePath = BasePath,
-		        Timeout = 10000,
+		        Timeout = TimeSpan.FromSeconds(10),
 		        UserAgent = "TEST_USER_AGENT"
 	        });
 

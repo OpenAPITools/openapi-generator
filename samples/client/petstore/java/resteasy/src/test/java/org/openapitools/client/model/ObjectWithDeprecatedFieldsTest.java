@@ -30,14 +30,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ObjectWithDeprecatedFields
  */
-public class ObjectWithDeprecatedFieldsTest {
+class ObjectWithDeprecatedFieldsTest {
     private final ObjectWithDeprecatedFields model = new ObjectWithDeprecatedFields();
 
     /**
      * Model tests for ObjectWithDeprecatedFields
      */
     @Test
-    public void testObjectWithDeprecatedFields() {
+    void testObjectWithDeprecatedFields() {
         // TODO: test ObjectWithDeprecatedFields
     }
 
@@ -45,7 +45,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'uuid'
      */
     @Test
-    public void uuidTest() {
+    void uuidTest() {
         // TODO: test uuid
     }
 
@@ -53,7 +53,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -61,7 +61,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'deprecatedRef'
      */
     @Test
-    public void deprecatedRefTest() {
+    void deprecatedRefTest() {
         // TODO: test deprecatedRef
     }
 
@@ -69,7 +69,7 @@ public class ObjectWithDeprecatedFieldsTest {
      * Test the property 'bars'
      */
     @Test
-    public void barsTest() {
+    void barsTest() {
         // TODO: test bars
     }
 

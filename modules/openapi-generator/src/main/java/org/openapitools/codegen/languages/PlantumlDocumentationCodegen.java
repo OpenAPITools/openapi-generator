@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class PlantumlDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String ALL_OF_SUFFIX = "AllOf";
 
-     final Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(PlantumlDocumentationCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -219,5 +219,7 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

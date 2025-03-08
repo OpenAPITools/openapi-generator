@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ApiResponse: Codable, JSONEncodable, Hashable {
+public struct ApiResponse: Sendable, Codable, JSONEncodable, Hashable {
 
     public var code: Int?
     public var type: String?

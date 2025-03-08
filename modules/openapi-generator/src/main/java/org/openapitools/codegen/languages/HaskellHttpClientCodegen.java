@@ -1483,7 +1483,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {haskellPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{haskellPostProcessFile, file.toString()});
         }
     }
 

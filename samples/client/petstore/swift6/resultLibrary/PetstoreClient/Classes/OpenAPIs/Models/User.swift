@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct User: Codable, JSONEncodable {
+internal struct User: Sendable, Codable, JSONEncodable {
 
     internal private(set) var id: Int64?
     internal private(set) var username: String?
@@ -56,3 +56,6 @@ internal struct User: Codable, JSONEncodable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension User: Identifiable {}

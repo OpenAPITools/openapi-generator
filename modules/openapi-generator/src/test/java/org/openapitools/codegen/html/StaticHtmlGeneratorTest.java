@@ -59,8 +59,8 @@ public class StaticHtmlGeneratorTest {
     @Test(description = "ensure that snake_case property names wont be converted to snakeUnderscorecase")
     public void testFromPropertyWithUnderscores() {
         final Schema schema = new Schema()
-            .description("a sample model with property containing an underscore")
-            .addProperties("favorite_food", new StringSchema());
+                .description("a sample model with property containing an underscore")
+                .addProperties("favorite_food", new StringSchema());
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("UnderscoreTest", schema);
         final DefaultCodegen codegen = new StaticHtmlGenerator();
         codegen.setOpenAPI(openAPI);

@@ -27,19 +27,20 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonPydanticV1ClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileExists;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonPydanticV1ClientCodegenTest {
 
@@ -402,7 +403,8 @@ public class PythonPydanticV1ClientCodegenTest {
         Assert.assertEquals(cm.parent, null);
         Assert.assertEquals(cm.imports.size(), 0);
     }
-    @Test(description ="check API example has input param(configuration) when it creates api_client")
+
+    @Test(description = "check API example has input param(configuration) when it creates api_client")
     public void apiExampleDocTest() throws Exception {
         final DefaultCodegen codegen = new PythonPydanticV1ClientCodegen();
         final String outputPath = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");

@@ -9,7 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-open class OpenAPIClient: @unchecked Sendable {
+open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public var basePath: String
     public var customHeaders: [String: String]
     public var credential: URLCredential?
@@ -44,7 +44,7 @@ open class OpenAPIClient: @unchecked Sendable {
         self.interceptor = interceptor
     }
 
-    public static let shared = OpenAPIClient()
+    public static let shared = PetstoreClientAPIConfiguration()
 }
 
 open class RequestBuilder<T>: @unchecked Sendable {
@@ -55,20 +55,20 @@ open class RequestBuilder<T>: @unchecked Sendable {
     public let URLString: String
     public let requestTask: RequestTask = RequestTask()
     public let requiresAuthentication: Bool
-    public let openAPIClient: OpenAPIClient
+    public let apiConfiguration: PetstoreClientAPIConfiguration
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     public var onProgressReady: ((Progress) -> Void)?
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
-        self.openAPIClient = openAPIClient
+        self.apiConfiguration = apiConfiguration
 
-        addHeaders(openAPIClient.customHeaders)
+        addHeaders(apiConfiguration.customHeaders)
         addCredential()
     }
 
@@ -91,7 +91,7 @@ open class RequestBuilder<T>: @unchecked Sendable {
     }
 
     open func addCredential() {
-        credential = openAPIClient.credential
+        credential = apiConfiguration.credential
     }
 }
 

@@ -435,10 +435,12 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {jsPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{jsPostProcessFile, file.toString()});
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

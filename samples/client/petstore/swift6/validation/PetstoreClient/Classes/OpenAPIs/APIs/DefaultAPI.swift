@@ -11,22 +11,22 @@ open class DefaultAPI {
 
     /**
 
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Banana
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func rootGet(openAPIClient: OpenAPIClient = OpenAPIClient.shared) async throws(ErrorResponse) -> Banana {
-        return try await rootGetWithRequestBuilder(openAPIClient: openAPIClient).execute().body
+    open class func rootGet(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Banana {
+        return try await rootGetWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      - GET /
-     - parameter openAPIClient: The OpenAPIClient that contains the configuration for the http request.
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Banana> 
      */
-    open class func rootGetWithRequestBuilder(openAPIClient: OpenAPIClient = OpenAPIClient.shared) -> RequestBuilder<Banana> {
+    open class func rootGetWithRequestBuilder(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<Banana> {
         let localVariablePath = "/"
-        let localVariableURLString = openAPIClient.basePath + localVariablePath
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -37,8 +37,8 @@ open class DefaultAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Banana>.Type = openAPIClient.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Banana>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, openAPIClient: openAPIClient)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false, apiConfiguration: apiConfiguration)
     }
 }

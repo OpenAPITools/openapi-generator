@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class DynamicSettings {
     /**
      * -- GETTER --
-     *  Gets all "custom" properties included in the config object.
+     * Gets all "custom" properties included in the config object.
      *
      * @return All user-specified custom properties.
      */
@@ -96,9 +96,10 @@ public class DynamicSettings {
      * <p>Constructor for DynamicSettings.</p>
      */
     @JsonCreator
-    public DynamicSettings() { }
+    public DynamicSettings() {
+    }
 
-    private void excludeSettingsFromDynamicProperties(){
+    private void excludeSettingsFromDynamicProperties() {
         Set<String> fieldNames = new HashSet<>();
         for (Field field : GeneratorSettings.class.getDeclaredFields()) {
             fieldNames.add(field.getName());

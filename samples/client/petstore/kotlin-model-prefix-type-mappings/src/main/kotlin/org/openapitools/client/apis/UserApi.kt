@@ -10,6 +10,7 @@ import org.openapitools.client.models.ApiUser
 
 interface UserApi {
     /**
+     * POST user
      * Create user
      * This can only be done by the logged in user.
      * Responses:
@@ -22,6 +23,7 @@ interface UserApi {
     suspend fun createUser(@Body apiUser: ApiUser): Response<Unit>
 
     /**
+     * POST user/createWithArray
      * Creates list of users with given input array
      * 
      * Responses:
@@ -34,6 +36,7 @@ interface UserApi {
     suspend fun createUsersWithArrayInput(@Body apiUser: kotlin.collections.List<ApiUser>): Response<Unit>
 
     /**
+     * POST user/createWithList
      * Creates list of users with given input array
      * 
      * Responses:
@@ -46,6 +49,7 @@ interface UserApi {
     suspend fun createUsersWithListInput(@Body apiUser: kotlin.collections.List<ApiUser>): Response<Unit>
 
     /**
+     * DELETE user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * Responses:
@@ -59,6 +63,7 @@ interface UserApi {
     suspend fun deleteUser(@Path("username") username: kotlin.String): Response<Unit>
 
     /**
+     * GET user/{username}
      * Get user by user name
      * 
      * Responses:
@@ -73,6 +78,7 @@ interface UserApi {
     suspend fun getUserByName(@Path("username") username: kotlin.String): Response<ApiUser>
 
     /**
+     * GET user/login
      * Logs user into the system
      * 
      * Responses:
@@ -87,6 +93,7 @@ interface UserApi {
     suspend fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Response<kotlin.String>
 
     /**
+     * GET user/logout
      * Logs out current logged in user session
      * 
      * Responses:
@@ -98,6 +105,7 @@ interface UserApi {
     suspend fun logoutUser(): Response<Unit>
 
     /**
+     * PUT user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * Responses:

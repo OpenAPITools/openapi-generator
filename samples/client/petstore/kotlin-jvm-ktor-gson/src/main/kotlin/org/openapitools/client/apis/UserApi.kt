@@ -39,6 +39,7 @@ import java.text.DateFormat
     ) {
 
         /**
+        * POST /user
         * Create user
         * This can only be done by the logged in user.
          * @param body Created user object 
@@ -70,6 +71,7 @@ import java.text.DateFormat
             }
 
         /**
+        * POST /user/createWithArray
         * Creates list of users with given input array
         * 
          * @param body List of user object 
@@ -101,6 +103,7 @@ import java.text.DateFormat
             }
 
         /**
+        * POST /user/createWithList
         * Creates list of users with given input array
         * 
          * @param body List of user object 
@@ -132,6 +135,7 @@ import java.text.DateFormat
             }
 
         /**
+        * DELETE /user/{username}
         * Delete user
         * This can only be done by the logged in user.
          * @param username The name that needs to be deleted 
@@ -164,6 +168,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /user/{username}
         * Get user by user name
         * 
          * @param username The name that needs to be fetched. Use user1 for testing. 
@@ -197,6 +202,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /user/login
         * Logs user into the system
         * 
          * @param username The user name for login 
@@ -233,6 +239,7 @@ import java.text.DateFormat
             }
 
         /**
+        * GET /user/logout
         * Logs out current logged in user session
         * 
          * @return void
@@ -264,6 +271,7 @@ import java.text.DateFormat
             }
 
         /**
+        * PUT /user/{username}
         * Updated user
         * This can only be done by the logged in user.
          * @param username name that need to be deleted 

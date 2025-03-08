@@ -47,6 +47,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
@@ -77,6 +78,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /user
      * Create user
      * This can only be done by the logged in user.
      * @param body Created user object
@@ -115,6 +117,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -145,6 +148,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /user/createWithArray
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -183,6 +187,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -213,6 +218,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /user/createWithList
      * Creates list of users with given input array
      * 
      * @param body List of user object
@@ -251,6 +257,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -281,6 +288,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * DELETE /user/{username}
      * Delete user
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted
@@ -319,6 +327,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -350,6 +359,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /user/{username}
      * Get user by user name
      * 
      * @param username The name that needs to be fetched. Use user1 for testing.
@@ -390,6 +400,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -422,6 +433,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /user/login
      * Logs user into the system
      * 
      * @param username The user name for login
@@ -468,6 +480,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return void
@@ -497,6 +510,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /user/logout
      * Logs out current logged in user session
      * 
      * @return ApiResponse<Unit?>
@@ -533,6 +547,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted
@@ -564,6 +579,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * PUT /user/{username}
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted

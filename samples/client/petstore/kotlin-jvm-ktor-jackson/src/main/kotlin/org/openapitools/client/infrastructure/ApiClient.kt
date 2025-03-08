@@ -58,7 +58,7 @@ open class ApiClient(
     }
 
     companion object {
-          const val BASE_URL = "http://petstore.swagger.io/v2"
+          const val BASE_URL: String = "http://petstore.swagger.io/v2"
           val JSON_DEFAULT: ObjectMapper.() -> Unit = {
             configure(SerializationFeature.INDENT_OUTPUT, true)
             setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
@@ -67,7 +67,7 @@ open class ApiClient(
             })
             registerModule(JavaTimeModule())
           }
-          protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
+          protected val UNSAFE_HEADERS: List<String> = listOf(HttpHeaders.ContentType)
     }
 
     /**

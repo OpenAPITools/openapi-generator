@@ -13,7 +13,7 @@ import org.openapitools.model.OuterEnum;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString

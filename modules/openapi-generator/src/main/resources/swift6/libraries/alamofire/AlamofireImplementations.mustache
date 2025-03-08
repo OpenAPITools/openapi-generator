@@ -28,8 +28,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -40,7 +40,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
         return Alamofire.Session(configuration: configuration,
-                                 interceptor: openAPIClient.interceptor)
+                                 interceptor: apiConfiguration.interceptor)
     }
 
     /**
@@ -172,12 +172,12 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: apiConfiguration.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -266,12 +266,12 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: apiConfiguration.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.stringResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.stringResponseSerializer,
                           completionHandler: { stringResponse in
                 cleanupRequest()
 
@@ -284,8 +284,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -332,8 +332,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
                 return
             })
         case is Void.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -346,8 +346,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
             })
         case is Data.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -360,8 +360,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
             })
         default:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -384,7 +384,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
                     return
                 }
 
-                let decodeResult = self.openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
+                let decodeResult = self.apiConfiguration.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):

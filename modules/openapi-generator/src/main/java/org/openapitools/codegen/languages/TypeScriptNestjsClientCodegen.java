@@ -73,8 +73,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         super();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.EXPERIMENTAL)
-            .build();
+                .stability(Stability.EXPERIMENTAL)
+                .build();
 
         this.outputFolder = "generated-code/typescript-nestjs";
 
@@ -88,6 +88,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         apiPackage = "api";
         modelPackage = "model";
 
+        reservedWords.addAll(Arrays.asList("from", "headers"));
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
@@ -96,7 +98,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0","Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0","Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
+        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0", "Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0", "Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
@@ -327,6 +329,10 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
             // Overwrite path to TypeScript template string, after applying everything we just did.
             op.path = pathBuffer.toString();
+
+            for (CodegenParameter param : op.allParams) {
+                param.vendorExtensions.putIfAbsent("x-param-has-sanitized-name", !param.baseName.equals(param.paramName));
+            }
         }
 
         operations.put("hasSomeFormParams", hasSomeFormParams);

@@ -63,7 +63,9 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean simpleType;
     public boolean primitiveType;
     public boolean isMap;
-    /** datatype is the generic inner parameter of a std::optional for C++, or Optional (Java) */
+    /**
+     * datatype is the generic inner parameter of a std::optional for C++, or Optional (Java)
+     */
     public boolean isOptional;
     public boolean isArray;
     public boolean isBinary = false;
@@ -212,7 +214,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     // use content.mediaType.schema.setContains instead of this
     @Override
-    public void setContains(CodegenProperty contains) {}
+    public void setContains(CodegenProperty contains) {
+    }
 
     // use content.mediaType.schema.getDependentRequired instead of this
     @Override
@@ -222,7 +225,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     // use content.mediaType.schema.setDependentRequired instead of this
     @Override
-    public void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired) {}
+    public void setDependentRequired(LinkedHashMap<String, List<String>> dependentRequired) {
+    }
 
     // use content.mediaType.schema.getIsBooleanSchemaTrue instead of this
     @Override
@@ -232,7 +236,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     // use content.mediaType.schema.setIsBooleanSchemaTrue instead of this
     @Override
-    public void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue) {}
+    public void setIsBooleanSchemaTrue(boolean isBooleanSchemaTrue) {
+    }
 
     // use content.mediaType.schema.getIsBooleanSchemaFalse instead of this
     @Override
@@ -242,7 +247,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     // use content.mediaType.schema.setIsBooleanSchemaFalse instead of this
     @Override
-    public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {}
+    public void setIsBooleanSchemaFalse(boolean isBooleanSchemaFalse) {
+    }
 
     // use content.mediaType.schema.getFormat instead of this
     @Override
@@ -252,7 +258,8 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     // use content.mediaType.schema.setFormat instead of this
     @Override
-    public void setFormat(String format) {}
+    public void setFormat(String format) {
+    }
 
     @Override
     public String getPattern() {
@@ -782,16 +789,24 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public Map<String, CodegenProperty> getRequiredVarsMap() { return requiredVarsMap; }
+    public Map<String, CodegenProperty> getRequiredVarsMap() {
+        return requiredVarsMap;
+    }
 
     @Override
-    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) { this.requiredVarsMap=requiredVarsMap; }
+    public void setRequiredVarsMap(Map<String, CodegenProperty> requiredVarsMap) {
+        this.requiredVarsMap = requiredVarsMap;
+    }
 
     @Override
-    public String getRef() { return ref; }
+    public String getRef() {
+        return ref;
+    }
 
     @Override
-    public void setRef(String ref) { this.ref=ref; }
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
     @Override
     public boolean getSchemaIsFromAdditionalProperties() {
@@ -889,5 +904,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     }
 
     @Override
-    public void setIsEnum(boolean isEnum) {}
+    public void setIsEnum(boolean isEnum) {
+    }
 }

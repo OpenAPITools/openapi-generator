@@ -14,10 +14,10 @@
  * https://openapi-generator.tech
  */
 
-
 // this file was generated from app.mustache
 package cask.groupId.server
 
+import scala.util.Try
 import _root_.sample.cask.model.*
 import _root_.sample.cask.api.*
 
@@ -30,21 +30,28 @@ import _root_.sample.cask.api.*
  * If you wanted fine-grained control over the routes and services, you could
  * extend the cask.MainRoutes and mix in this trait by using this:
  *
- * \{\{\{
+ * ```
  *   override def allRoutes = appRoutes
- * \}\}\}
+ * ```
  *
  * More typically, however, you would extend the 'BaseApp' class
  */
 trait AppRoutes {
-  def appPetService : PetService = PetService()
+  def appComplexRouteService : ComplexRouteService[Try] = ComplexRouteService()
+  def routeForComplexRoute : ComplexRouteRoutes = ComplexRouteRoutes(appComplexRouteService)
+
+  def appPetService : PetService[Try] = PetService()
   def routeForPet : PetRoutes = PetRoutes(appPetService)
-  def appStoreService : StoreService = StoreService()
+
+  def appStoreService : StoreService[Try] = StoreService()
   def routeForStore : StoreRoutes = StoreRoutes(appStoreService)
-  def appUserService : UserService = UserService()
+
+  def appUserService : UserService[Try] = UserService()
   def routeForUser : UserRoutes = UserRoutes(appUserService)
 
+
    def appRoutes = Seq(
+      routeForComplexRoute ,
       routeForPet ,
       routeForStore ,
       routeForUser 

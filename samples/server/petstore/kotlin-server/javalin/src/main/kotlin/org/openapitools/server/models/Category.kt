@@ -20,5 +20,5 @@ package org.openapitools.server.models
 data class Category(
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
-) 
+)
 

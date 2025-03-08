@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -17,7 +18,7 @@ import jakarta.annotation.Generated;
  * A category for a pet
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Category {
 
   private Optional<Long> id = Optional.empty();
@@ -25,7 +26,7 @@ public class Category {
   private Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name = Optional.empty();
 
   public Category id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -44,7 +45,7 @@ public class Category {
   }
 
   public Category name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 

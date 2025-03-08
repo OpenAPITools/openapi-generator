@@ -31,7 +31,10 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -230,7 +233,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             withoutPrefixEnums = Boolean.parseBoolean(additionalProperties.get(WITHOUT_PREFIX_ENUMS).toString());
         }
 
-        for (ModelMap mo  : models) {
+        for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
             // Type is already any
@@ -242,7 +245,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
 
             //processed enum names
-            if(!withoutPrefixEnums) {
+            if (!withoutPrefixEnums) {
                 cm.imports = new TreeSet<>(cm.imports);
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 for (CodegenProperty var : cm.vars) {

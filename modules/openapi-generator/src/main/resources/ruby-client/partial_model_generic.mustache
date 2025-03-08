@@ -42,14 +42,19 @@
       }
     end
 
-    # Returns all the JSON keys this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
-    def self.acceptable_attributes
+    # Returns attribute mapping this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    def self.acceptable_attribute_map
       {{^parent}}
-      attribute_map.values
+      attribute_map
       {{/parent}}
       {{#parent}}
-      attribute_map.values.concat(superclass.acceptable_attributes)
+      superclass.acceptable_attribute_map.merge(attribute_map)
       {{/parent}}
+    end
+
+    # Returns all the JSON keys this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    def self.acceptable_attributes
+      acceptable_attribute_map.values
     end
 
     # Attribute type mapping.
@@ -115,9 +120,10 @@
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
+      acceptable_attribute_map = self.class.acceptable_attribute_map
       attributes = attributes.each_with_object({}) { |(k, v), h|
-        if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `{{{moduleName}}}::{{{classname}}}`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        if (!acceptable_attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `{{{moduleName}}}::{{{classname}}}`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
@@ -350,6 +356,22 @@
       @{{{name}}} = {{{name}}}
     end
 
+    {{/hasValidation}}
+    {{^hasValidation}}
+    {{^isNullable}}
+    {{#required}}
+    # Custom attribute writer method with validation
+    # @param [Object] {{{name}}} Value to be assigned
+    def {{{name}}}=({{{name}}})
+      if {{{name}}}.nil?
+        fail ArgumentError, '{{{name}}} cannot be nil'
+      end
+
+      @{{{name}}} = {{{name}}}
+    end
+
+    {{/required}}
+    {{/isNullable}}
     {{/hasValidation}}
     {{/isEnum}}
     {{/vars}}

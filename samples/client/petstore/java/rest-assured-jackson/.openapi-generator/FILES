@@ -69,6 +69,8 @@ src/main/java/org/openapitools/client/ApiClient.java
 src/main/java/org/openapitools/client/BeanValidationException.java
 src/main/java/org/openapitools/client/JacksonObjectMapper.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
+src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
+src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
 src/main/java/org/openapitools/client/ResponseSpecBuilders.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java

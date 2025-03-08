@@ -29,6 +29,8 @@ jobs:
           - samples/client/petstore/java/okhttp-gson
           - samples/client/petstore/java/okhttp-gson-group-parameter
           - samples/client/petstore/java/webclient-swagger2
+          - samples/client/petstore/java/native
+          - samples/client/petstore/java/native-jakarta
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

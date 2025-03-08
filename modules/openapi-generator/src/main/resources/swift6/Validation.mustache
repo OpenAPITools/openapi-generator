@@ -6,21 +6,22 @@
 
 import Foundation
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct StringRule: @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct StringRule: Sendable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var minLength: Int?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var maxLength: Int?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var pattern: String?
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct NumericRule<T: Comparable & Numeric>: @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct NumericRule<T: Comparable & Numeric> {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var minimum: T?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var exclusiveMinimum = false
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var maximum: T?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var exclusiveMaximum = false
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var multipleOf: T?
 }
+extension NumericRule: Sendable where T: Sendable {}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct ArrayRule: @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct ArrayRule: Sendable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var minItems: Int?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var maxItems: Int?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var uniqueItems: Bool
@@ -77,11 +78,11 @@ import Foundation
     /// - Throws: `ValidationError<NumericValidationErrorKind>` if the numeric is invalid against the rule.
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & BinaryInteger>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
-        if let minium = rule.minimum {
-            if !rule.exclusiveMinimum, minium > numeric {
+        if let minimum = rule.minimum {
+            if !rule.exclusiveMinimum, minimum > numeric {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum, minium >= numeric {
+            if rule.exclusiveMinimum, minimum >= numeric {
                 error.kinds.insert(.minimum)
             }
         }
@@ -109,11 +110,11 @@ import Foundation
     /// - Throws: `ValidationError<NumericValidationErrorKind>` if the numeric is invalid against the rule.
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func validate<T: Comparable & FloatingPoint>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
-        if let minium = rule.minimum {
-            if !rule.exclusiveMinimum, minium > numeric {
+        if let minimum = rule.minimum {
+            if !rule.exclusiveMinimum, minimum > numeric {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum, minium >= numeric {
+            if rule.exclusiveMinimum, minimum >= numeric {
                 error.kinds.insert(.minimum)
             }
         }

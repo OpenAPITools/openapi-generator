@@ -47,6 +47,7 @@ public class CSharpClientDeepObjectTest {
                 .readLocation("src/test/resources/3_0/deepobject.yaml", null, new ParseOptions()).getOpenAPI();
 
         CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("restsharp");
         codegen.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput();
@@ -66,7 +67,7 @@ public class CSharpClientDeepObjectTest {
                 "options[status]", "options[photoUrls]",
                 "inputOptions[a]", "inputOptions[b]", "inputOptions[c]");
         String content = new String(Files.readAllBytes(Paths.get(outputPath + "/src/Org.OpenAPITools/Api/DefaultApi.cs")), StandardCharsets.UTF_8);
-        int counter = StringUtils.countMatches(content,"inputOptions[a]");
+        int counter = StringUtils.countMatches(content, "inputOptions[a]");
         assertEquals(2, counter);
     }
 }

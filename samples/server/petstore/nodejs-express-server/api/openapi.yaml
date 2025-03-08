@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  description: This is a sample server Petstore server. For this sample, you can use
-    the api key `special-key` to test the authorization filters.
+  description: "This is a sample server Petstore server. For this sample, you can\
+    \ use the api key `special-key` to test the authorization filters."
   license:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -122,8 +122,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use
-        tag1, tag2, tag3 for testing.
+      description: "Multiple tags can be provided with comma separated strings. Use\
+        \ tag1, tag2, tag3 for testing."
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -235,13 +235,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
+              $ref: '#/components/schemas/updatePetWithForm_request'
       responses:
         "405":
           content: {}
@@ -269,14 +263,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
+              $ref: '#/components/schemas/uploadFile_request'
       responses:
         "200":
           content:
@@ -767,6 +754,25 @@ components:
           type: string
       title: An uploaded response
       type: object
+    updatePetWithForm_request:
+      properties:
+        name:
+          description: Updated name of the pet
+          type: string
+        status:
+          description: Updated status of the pet
+          type: string
+      type: object
+    uploadFile_request:
+      properties:
+        additionalMetadata:
+          description: Additional data to pass to server
+          type: string
+        file:
+          description: file to upload
+          format: binary
+          type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -780,3 +786,4 @@ components:
       in: header
       name: api_key
       type: apiKey
+x-original-swagger-version: "2.0"

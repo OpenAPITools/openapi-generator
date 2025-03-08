@@ -19,6 +19,7 @@
     </parent>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
+        
     </build>
 
     <dependencyManagement>

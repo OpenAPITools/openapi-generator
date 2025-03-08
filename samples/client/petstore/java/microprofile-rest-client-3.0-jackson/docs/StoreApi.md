@@ -1,12 +1,12 @@
 # StoreApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID |
+| [**deleteOrder**](StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID |
 | [**getInventory**](StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status |
-| [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID |
+| [**getOrderById**](StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID |
 | [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet |
 
 
@@ -32,7 +32,7 @@ import org.openapitools.client.api.StoreApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
         String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
@@ -100,7 +100,7 @@ import org.openapitools.client.api.StoreApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
         
         // Configure API key authorization: api_key
         ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
@@ -168,7 +168,7 @@ import org.openapitools.client.api.StoreApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
         Long orderId = 56L; // Long | ID of pet that needs to be fetched
@@ -236,7 +236,7 @@ import org.openapitools.client.api.StoreApi;
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         StoreApi apiInstance = new StoreApi(defaultClient);
         Order order = new Order(); // Order | order placed for purchasing the pet

@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
+	"strings"
 	"testing"
 
 	sw "go-petstore"
@@ -62,4 +64,20 @@ func TestRequiredFieldsAreValidated(t *testing.T) {
 	expected := "no value given for required property"
 
 	assert.ErrorContains(err, expected, "Pet should return error when missing required fields")
+}
+
+func TestRequiredAnyOfMarshalling(t *testing.T) {
+	// Given
+	bodyBuf := &bytes.Buffer{}
+	bananaLengthCm := float32(23.4)
+	req := &sw.FruitJuice{Fruit: sw.GmFruit{
+		Banana: &sw.Banana{LengthCm: &bananaLengthCm},
+	}}
+
+	// When
+	err := json.NewEncoder(bodyBuf).Encode(req)
+
+	// Then
+	assert.Nil(t, err)
+	assert.Equal(t, strings.TrimSpace(bodyBuf.String()), "{\"fruit\":{\"lengthCm\":23.4}}")
 }

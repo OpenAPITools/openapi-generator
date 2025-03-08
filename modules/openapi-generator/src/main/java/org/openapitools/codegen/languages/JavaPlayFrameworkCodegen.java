@@ -341,7 +341,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         @Override
         public CodegenSecurity filterByScopeNames(List<String> filterScopes) {
             CodegenSecurity codegenSecurity = super.filterByScopeNames(filterScopes);
-            ExtendedCodegenSecurity extendedCodegenSecurity =  new ExtendedCodegenSecurity(codegenSecurity);
+            ExtendedCodegenSecurity extendedCodegenSecurity = new ExtendedCodegenSecurity(codegenSecurity);
             extendedCodegenSecurity.jwksUrl = this.jwksUrl;
             extendedCodegenSecurity.tokenIntrospectUrl = this.tokenIntrospectUrl;
             return extendedCodegenSecurity;

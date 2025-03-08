@@ -21,7 +21,7 @@ public class OpenApiSchemaTypeTest {
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
-                .filter(invalid -> "Schema uses the 'null' type but OAS document is version 3.0." .equals(invalid.getRule().getDescription()))
+                .filter(invalid -> "Schema uses the 'null' type but OAS document is version 3.0.".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
         Assert.assertNotNull(warnings);
@@ -35,7 +35,7 @@ public class OpenApiSchemaTypeTest {
     @DataProvider(name = "oas31RecommendationExpectations")
     public Object[][] oas31RecommendationExpectations() {
         return new Object[][]{
-            {TestUtils.parseFlattenSpec("src/test/resources/3_1/null-types.yaml"), true}
+                {TestUtils.parseFlattenSpec("src/test/resources/3_1/null-types.yaml"), true}
         };
     }
 }

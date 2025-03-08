@@ -408,6 +408,8 @@ extension JSONDataEncoding: ParameterEncoding {
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let urlRequest = try urlRequest.asURLRequest()
 
-        return encode(urlRequest, with: parameters)
+        // Alamofire 5.10 changed type of Parameters so that it is no longer equivalent to [String: Any]
+        // cast this type so that the call to encode is not recursive
+        return encode(urlRequest, with: parameters as [String: Any]?)
     }
 }

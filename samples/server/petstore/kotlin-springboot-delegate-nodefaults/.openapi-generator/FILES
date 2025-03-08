@@ -1,5 +1,9 @@
 README.md
 build.gradle.kts
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 pom.xml
 settings.gradle
 src/main/kotlin/org/openapitools/Application.kt

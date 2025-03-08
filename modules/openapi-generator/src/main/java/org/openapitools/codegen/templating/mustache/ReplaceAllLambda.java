@@ -24,12 +24,12 @@ import java.io.Writer;
 
 /**
  * Replaces all regex captures with the provided string.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("regex", new ReplaceAllLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#regex}}{{summary}}{{/regex}}

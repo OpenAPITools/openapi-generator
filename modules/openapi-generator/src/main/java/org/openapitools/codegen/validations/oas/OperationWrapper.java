@@ -1,8 +1,8 @@
 package org.openapitools.codegen.validations.oas;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.OpenAPI;
 import lombok.Getter;
 
 /**
@@ -13,14 +13,14 @@ public class OperationWrapper {
     OpenAPI specification;
     /**
      * -- GETTER --
-     *  Gets the operation associated with the http method
+     * Gets the operation associated with the http method
      *
      * @return An operation instance
      */
     @Getter private Operation operation;
     /**
      * -- GETTER --
-     *  Gets the http method associated with the operation
+     * Gets the http method associated with the operation
      *
      * @return The http method
      */
@@ -29,7 +29,7 @@ public class OperationWrapper {
     /**
      * Constructs a new instance of {@link OperationWrapper}
      *
-     * @param operation The operation instances to wrap
+     * @param operation  The operation instances to wrap
      * @param httpMethod The http method to wrap
      */
     OperationWrapper(OpenAPI specification, Operation operation, PathItem.HttpMethod httpMethod) {

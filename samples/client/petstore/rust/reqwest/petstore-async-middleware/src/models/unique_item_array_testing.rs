@@ -31,16 +31,16 @@ impl UniqueItemArrayTesting {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum UniqueItemArray {
     #[serde(rename = "unique_item_1")]
-    Variant1,
+    UniqueItem1,
     #[serde(rename = "unique_item_2")]
-    Variant2,
+    UniqueItem2,
     #[serde(rename = "unique_item_3")]
-    Variant3,
+    UniqueItem3,
 }
 
 impl Default for UniqueItemArray {
     fn default() -> UniqueItemArray {
-        Self::Variant1
+        Self::UniqueItem1
     }
 }
 

@@ -2,6 +2,11 @@
 export enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
+{{#enumDescription}}
+
+    /**
+     * {{.}}
+     */{{/enumDescription}}
     {{name}} = {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
@@ -13,6 +18,11 @@ export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last
 export const {{classname}} = {
 {{#allowableValues}}
 {{#enumVars}}
+{{#enumDescription}}
+
+    /**
+     * {{.}}
+     */{{/enumDescription}}
     {{name}}: {{{value}}} as {{classname}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}

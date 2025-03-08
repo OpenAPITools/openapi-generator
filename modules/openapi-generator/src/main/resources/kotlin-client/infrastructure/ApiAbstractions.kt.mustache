@@ -1,8 +1,8 @@
 package {{packageName}}.infrastructure
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}typealias MultiValueMap = MutableMap<String,List<String>>
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}typealias MultiValueMap = MutableMap<String,List<String>>
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun collectionDelimiter(collectionFormat: String): String = when(collectionFormat) {
     "csv" -> ","
     "tsv" -> "\t"
     "pipe" -> "|"
@@ -10,12 +10,12 @@ package {{packageName}}.infrastructure
     else -> ""
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}val defaultMultiValueConverter: (item: Any?) -> String = { item -> "$item" }
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultMultiValueConverter: (item: Any?) -> String = { item -> "$item" }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}fun <T : Any?> toMultiValue(items: Array<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter)
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun <T : Any?> toMultiValue(items: Array<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter): List<String>
         = toMultiValue(items.asIterable(), collectionFormat, map)
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}fun <T : Any?> toMultiValue(items: Iterable<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter): List<String> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun <T : Any?> toMultiValue(items: Iterable<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter): List<String> {
     return when(collectionFormat) {
         "multi" -> items.map(map)
         else -> listOf(items.joinToString(separator = collectionDelimiter(collectionFormat), transform = map))

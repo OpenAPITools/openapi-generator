@@ -12,10 +12,10 @@ public typealias AdditionalPropertiesClass = PetstoreClientAPI.AdditionalPropert
 
 extension PetstoreClientAPI {
 
-public final class AdditionalPropertiesClass: Codable, JSONEncodable, Hashable {
+public final class AdditionalPropertiesClass: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var mapString: [String: String]?
-    public var mapMapString: [String: [String: String]]?
+    public private(set) var mapString: [String: String]?
+    public private(set) var mapMapString: [String: [String: String]]?
 
     public init(mapString: [String: String]? = nil, mapMapString: [String: [String: String]]? = nil) {
         self.mapString = mapString

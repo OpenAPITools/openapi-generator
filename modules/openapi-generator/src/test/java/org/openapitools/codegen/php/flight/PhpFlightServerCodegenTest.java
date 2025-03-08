@@ -1,15 +1,16 @@
 package org.openapitools.codegen.php.flight;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PhpFlightServerCodegenTest {
 
@@ -20,10 +21,10 @@ public class PhpFlightServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("php-flight")
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/petstore-php-flight.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("php-flight")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore-php-flight.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -59,7 +60,7 @@ public class PhpFlightServerCodegenTest {
         java.nio.file.Path registerRoutesFile = files.stream().filter(f -> f.getName().contains("RegisterRoutes.php")).findFirst().orElseThrow().toPath();
         TestUtils.assertFileContains(registerRoutesFile, "function registerRoutes(\\OpenAPIServer\\Api\\AbstractPetApi|\\OpenAPIServer\\Api\\AbstractUserApi $handler): void");
         TestUtils.assertFileContains(registerRoutesFile,
-            "Flight::route('POST /user/createWithArray/@pathParamInt/@pathParamString', function (string $pathParamInt, string $pathParamString) use ($handler) {");
+                "Flight::route('POST /user/createWithArray/@pathParamInt/@pathParamString', function (string $pathParamInt, string $pathParamString) use ($handler) {");
         TestUtils.assertFileContains(registerRoutesFile, "parseParam($pathParamInt, 'int')");
         TestUtils.assertFileContains(registerRoutesFile, "parseParam($pathParamString, 'string')");
         TestUtils.assertFileContains(registerRoutesFile, "parseParam(json_decode($r->getBody(), true), '\\\\OpenAPIServer\\\\Model\\\\User[]')");

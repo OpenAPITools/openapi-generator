@@ -12,13 +12,13 @@ public typealias TypeHolderDefault = PetstoreClientAPI.TypeHolderDefault
 
 extension PetstoreClientAPI {
 
-public final class TypeHolderDefault: Codable, JSONEncodable, Hashable {
+public final class TypeHolderDefault: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var stringItem: String = "what"
-    public var numberItem: Double
-    public var integerItem: Int
-    public var boolItem: Bool = true
-    public var arrayItem: [Int]
+    public private(set) var stringItem: String = "what"
+    public private(set) var numberItem: Double
+    public private(set) var integerItem: Int
+    public private(set) var boolItem: Bool = true
+    public private(set) var arrayItem: [Int]
 
     public init(stringItem: String = "what", numberItem: Double, integerItem: Int, boolItem: Bool = true, arrayItem: [Int]) {
         self.stringItem = stringItem

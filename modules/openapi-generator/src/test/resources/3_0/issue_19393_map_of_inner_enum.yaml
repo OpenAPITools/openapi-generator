@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: OpenAPI Test API
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /status:
+    get:
+      responses:
+        '200':
+          description: desc
+components:
+  schemas:
+    EmployeeWithMapOfEnum:
+      type: object
+      properties:
+        projectRole:
+          type: object
+          additionalProperties:
+            type: string
+            enum:
+              - DEVELOPER
+              - TESTER
+              - OWNER
+    EmployeeWithMultiMapOfEnum:
+      type: object
+      properties:
+        projectRoles:
+          type: object
+          additionalProperties:
+            uniqueItems: true
+            type: array
+            items:
+              type: string
+              enum:
+                - DEVELOPER
+                - TESTER
+                - OWNER

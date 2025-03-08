@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName
 
 interface AuthApi {
     /**
+     * POST auth/http/basic
      * To test HTTP basic authentication
      * To test HTTP basic authentication
      * Responses:
@@ -20,6 +21,7 @@ interface AuthApi {
     suspend fun testAuthHttpBasic(): Response<kotlin.String>
 
     /**
+     * POST auth/http/bearer
      * To test HTTP bearer authentication
      * To test HTTP bearer authentication
      * Responses:

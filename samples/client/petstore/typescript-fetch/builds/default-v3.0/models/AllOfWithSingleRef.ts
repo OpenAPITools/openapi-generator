@@ -65,11 +65,11 @@ export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-  export function AllOfWithSingleRefToJSON(json: any): AllOfWithSingleRef {
-      return AllOfWithSingleRefToJSONTyped(json, false);
-  }
+export function AllOfWithSingleRefToJSON(json: any): AllOfWithSingleRef {
+    return AllOfWithSingleRefToJSONTyped(json, false);
+}
 
-  export function AllOfWithSingleRefToJSONTyped(value?: AllOfWithSingleRef | null, ignoreDiscriminator: boolean = false): any {
+export function AllOfWithSingleRefToJSONTyped(value?: AllOfWithSingleRef | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

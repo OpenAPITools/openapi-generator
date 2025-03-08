@@ -27,7 +27,7 @@ package body {{package}}.Skeletons is
          new {{openApiPackageName}}.Servers.Operation
             (Handler => {{operationId}},
              Method  => {{openApiPackageName}}.Servers.{{httpMethod}},
-             URI     => URI_Prefix & "{{path}}",
+             URI     => URI_Prefix & "{{{path}}}",
 {{#vendorExtensions.x-produces-media-index}}
              Mimes   => Media_List_{{vendorExtensions.x-produces-media-index}}'Access);
 {{/vendorExtensions.x-produces-media-index}}
@@ -259,7 +259,7 @@ package body {{package}}.Skeletons is
          new {{openApiPackageName}}.Servers.Operation
             (Handler => {{operationId}},
              Method  => {{openApiPackageName}}.Servers.{{httpMethod}},
-             URI     => URI_Prefix & "{{path}}",
+             URI     => URI_Prefix & "{{{path}}}",
 {{#vendorExtensions.x-produces-media-index}}
              Mimes   => Media_List_{{vendorExtensions.x-produces-media-index}}'Access);
 {{/vendorExtensions.x-produces-media-index}}

@@ -152,3 +152,4 @@ class PetTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

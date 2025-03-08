@@ -20,14 +20,12 @@ package org.openapitools.codegen.java.play;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaPlayFrameworkCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -74,10 +72,10 @@ public class JavaPlayFrameworkCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.iiii.invoker");
-        codegen.additionalProperties().put(JavaPlayFrameworkCodegen.BASE_PACKAGE,"xyz.yyyyy.bbbb.base");
-        codegen.additionalProperties().put(JavaPlayFrameworkCodegen.CONFIG_PACKAGE,"xyz.yyyyy.cccc.config");
-        codegen.additionalProperties().put("serverPort","8088");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.iiii.invoker");
+        codegen.additionalProperties().put(JavaPlayFrameworkCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
+        codegen.additionalProperties().put(JavaPlayFrameworkCodegen.CONFIG_PACKAGE, "xyz.yyyyy.cccc.config");
+        codegen.additionalProperties().put("serverPort", "8088");
         codegen.processOpts();
         ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
         configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.TRUE);

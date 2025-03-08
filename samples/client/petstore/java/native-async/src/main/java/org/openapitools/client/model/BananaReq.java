@@ -37,7 +37,7 @@ import org.openapitools.client.ApiClient;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   @javax.annotation.Nonnull
@@ -174,12 +174,12 @@ public class BananaReq {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
     }
 
     // add `sweet` to the URL query string
     if (getSweet() != null) {
-      joiner.add(String.format("%ssweet%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSweet()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssweet%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSweet()))));
     }
 
     return joiner.toString();

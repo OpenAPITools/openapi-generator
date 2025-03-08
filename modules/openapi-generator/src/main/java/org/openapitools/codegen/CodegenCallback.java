@@ -38,6 +38,7 @@ public class CodegenCallback {
             return Objects.equals(that.expression, expression) &&
                     Objects.equals(that.requests, requests) && Objects.equals(that.vendorExtensions, vendorExtensions);
         }
+
         @Override
         public int hashCode() {
             return Objects.hash(expression, requests, vendorExtensions);

@@ -5,14 +5,14 @@ import io.ktor.http.isSuccess
 import io.ktor.util.reflect.TypeInfo
 import io.ktor.util.reflect.typeInfo
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class HttpResponse<T : Any>(val response: io.ktor.client.statement.HttpResponse, val provider: BodyProvider<T>) {
-    val status: Int = response.status.value
-    val success: Boolean = response.status.isSuccess()
-    val headers: Map<String, List<String>> = response.headers.mapEntries()
-    suspend fun body(): T = provider.body(response)
-    suspend fun <V : Any> typedBody(type: TypeInfo): V = provider.typedBody(response, type)
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class HttpResponse<T : Any>({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val response: io.ktor.client.statement.HttpResponse, {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val provider: BodyProvider<T>) {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val status: Int = response.status.value
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val success: Boolean = response.status.isSuccess()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val headers: Map<String, List<String>> = response.headers.mapEntries()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}suspend fun body(): T = provider.body(response)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}suspend fun <V : Any> typedBody(type: TypeInfo): V = provider.typedBody(response, type)
 
-    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         private fun Headers.mapEntries(): Map<String, List<String>> {
             val result = mutableMapOf<String, List<String>>()
             entries().forEach { result[it.key] = it.value }
@@ -21,12 +21,12 @@ import io.ktor.util.reflect.typeInfo
     }
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}interface BodyProvider<T : Any> {
-    suspend fun body(response: io.ktor.client.statement.HttpResponse): T
-    suspend fun <V : Any> typedBody(response: io.ktor.client.statement.HttpResponse, type: TypeInfo): V
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface BodyProvider<T : Any> {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}suspend fun body(response: io.ktor.client.statement.HttpResponse): T
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}suspend fun <V : Any> typedBody(response: io.ktor.client.statement.HttpResponse, type: TypeInfo): V
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class TypedBodyProvider<T : Any>(private val type: TypeInfo) : BodyProvider<T> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class TypedBodyProvider<T : Any>(private val type: TypeInfo) : BodyProvider<T> {
     @Suppress("UNCHECKED_CAST")
     override suspend fun body(response: io.ktor.client.statement.HttpResponse): T =
             response.call.body(type) as T
@@ -36,7 +36,7 @@ import io.ktor.util.reflect.typeInfo
             response.call.body(type) as V
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class MappedBodyProvider<S : Any, T : Any>(private val provider: BodyProvider<S>, private val block: S.() -> T) : BodyProvider<T> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class MappedBodyProvider<S : Any, T : Any>(private val provider: BodyProvider<S>, private val block: S.() -> T) : BodyProvider<T> {
     override suspend fun body(response: io.ktor.client.statement.HttpResponse): T =
             block(provider.body(response))
 
@@ -44,8 +44,8 @@ import io.ktor.util.reflect.typeInfo
             provider.typedBody(response, type)
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}inline fun <reified T : Any> io.ktor.client.statement.HttpResponse.wrap(): HttpResponse<T> =
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}inline fun <reified T : Any> io.ktor.client.statement.HttpResponse.wrap(): HttpResponse<T> =
         HttpResponse(this, TypedBodyProvider(typeInfo<T>()))
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}fun <T : Any, V : Any> HttpResponse<T>.map(block: T.() -> V): HttpResponse<V> =
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun <T : Any, V : Any> HttpResponse<T>.map(block: T.() -> V): HttpResponse<V> =
         HttpResponse(response, MappedBodyProvider(provider, block))

@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
 
 /**
  * Split text by the delimiter and then write only the unique entries
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("unique", new UniqueLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#unique}}{{name}}{{/unique}}
@@ -42,8 +42,7 @@ public class UniqueLambda implements Mustache.Lambda {
     private final String delimiter;
     private final boolean withNewLine;
 
-    public UniqueLambda(String delimiter, boolean withNewLine)
-    {
+    public UniqueLambda(String delimiter, boolean withNewLine) {
         this.delimiter = delimiter;
         this.withNewLine = withNewLine;
     }

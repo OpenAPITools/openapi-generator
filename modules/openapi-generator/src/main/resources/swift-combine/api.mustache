@@ -74,7 +74,7 @@ open class {{classname}} {
     /// - defaultResponse: {{.}}{{/defaultResponse}}
     {{#authMethods}}
     /// - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isOAuth}}OAuth{{/isOAuth}}{{#isApiKey}}API Key{{/isApiKey}}:
-    /// - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
+    /// - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeader}}(HEADER){{/isKeyInHeader}}{{/keyParamName}}
     /// - name: {{name}}
     {{/authMethods}}
     {{#hasResponseHeaders}}
@@ -102,7 +102,7 @@ open class {{classname}} {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                {{#pathParams}}{{#-last}}var{{/-last}}{{/pathParams}}{{^pathParams}}let{{/pathParams}} localVarPath = "{{path}}"
+                {{#pathParams}}{{#-last}}var{{/-last}}{{/pathParams}}{{^pathParams}}let{{/pathParams}} localVarPath = "{{{path}}}"
                 {{#pathParams}}
                 {{#required}}localVarPath = localVarPath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{> toString}}){{/required}}{{^required}}if let {{paramName}} = {{paramName}} { localVarPath = localVarPath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{> toString}}) } {{/required}}
                 {{/pathParams}}

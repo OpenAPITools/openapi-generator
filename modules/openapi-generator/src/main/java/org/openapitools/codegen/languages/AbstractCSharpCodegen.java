@@ -18,10 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +32,8 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
+import org.openapitools.codegen.templating.mustache.CopyLambda.WhiteSpaceStrategy;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -427,7 +428,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
-        CopyLambda copyLambda = new CopyLambda();
+        final CopyContent copyContent = new CopyContent();
 
         return super.addMustacheLambdas()
                 .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
@@ -443,12 +444,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
                 .put("indent1", new IndentedLambda(4, " ", false, true))
+                .put("indentAll1", new IndentedLambda(4, " ", true, true))
                 .put("indent3", new IndentedLambda(12, " ", false, true))
                 .put("indent4", new IndentedLambda(16, " ", false, true))
-                .put("copy", copyLambda)
-                .put("paste", new PasteLambda(copyLambda, true, true, true, false))
-                .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
-                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
+                .put("copy", new CopyLambda(copyContent, WhiteSpaceStrategy.None, WhiteSpaceStrategy.None))
+                .put("copyText", new CopyLambda(copyContent, WhiteSpaceStrategy.Strip, WhiteSpaceStrategy.StripLineBreakIfPresent))
+                .put("paste", new PasteLambda(copyContent, false))
+                .put("pasteOnce", new PasteLambda(copyContent, true))
                 .put("uniqueLines", new UniqueLambda("\n", false))
                 .put("unique", new UniqueLambda("\n", true))
                 .put("camel_case", new CamelCaseLambda())
@@ -501,7 +503,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
     }
 
-    /** If the value can be parsed as a double, returns the value, otherwise returns null */
+    /**
+     * If the value can be parsed as a double, returns the value, otherwise returns null
+     */
     public static Double asDouble(String strNum) {
         if (strNum == null) {
             return null;
@@ -513,7 +517,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
     }
 
-    /** If the value can be parsed as an integer, returns the value, otherwise returns null */
+    /**
+     * If the value can be parsed as an integer, returns the value, otherwise returns null
+     */
     public static Integer asInteger(String strNum) {
         if (strNum == null) {
             return null;
@@ -676,6 +682,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             for (CodegenProperty property : model.nonNullableVars) {
                 patchProperty(enumRefs, model, property);
             }
+
+            List<CodegenProperty> overriddenProperties = model.vars.stream().filter(v -> model.allVars.stream().anyMatch(a -> a.baseName.equals(v.baseName) && a.dataType != v.dataType)).collect(Collectors.toList());
+            for (CodegenProperty overridden : overriddenProperties) {
+                // if the current model overrides an allOf property, use the overridden property
+                model.allVars.set(model.allVars.indexOf(model.allVars.stream().filter(a -> a.baseName.equals(overridden.baseName)).findFirst().get()), overridden);
+            }
         }
         return processed;
     }
@@ -717,6 +729,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
         property.vendorExtensions.put("x-is-nullable-type", this.getNullableReferencesTypes() || isValueType);
+        property.vendorExtensions.put("x-is-base-or-new-discriminator", (property.isDiscriminator && !property.isInherited) || (property.isDiscriminator && property.isNew));
+    }
+
+    protected void patchPropertyIsInherited(CodegenModel model, CodegenProperty property) {
     }
 
     protected void patchProperty(Map<String, CodegenModel> enumRefs, CodegenModel model, CodegenProperty property) {
@@ -732,11 +748,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isPrimitiveType = true;
         }
 
+        this.patchPropertyIsInherited(model, property);
+
         patchPropertyVendorExtensions(property);
 
         property.name = patchPropertyName(model, property.name);
 
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
 
         Arrays.stream(nestedTypes).forEach(nestedType -> {
             // fix incorrect data types for maps of maps
@@ -821,6 +839,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
     }
 
+    private HashMap<String, String> duplicateOf = new HashMap<String, String>();
+
     @Override
     @SuppressWarnings("unchecked")
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
@@ -839,6 +859,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+                    String duplicates = duplicateOf.get(operation.operationId);
+                    if (duplicates != null) {
+                        operation.vendorExtensions.put("x-duplicates", duplicates);
+                    } else {
+                        duplicateOf.put(operation.operationId, operations.getClassname());
+                    }
                     if (operation.responses != null) {
                         for (CodegenResponse response : operation.responses) {
 
@@ -854,7 +880,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                             }
 
                             String code = response.code.toLowerCase(Locale.ROOT);
-                            switch(code) {
+                            switch (code) {
                                 case "default":
                                 case "0":
                                     postProcessResponseCode(response, "Default", httpStatusesWithReturn);
@@ -1220,7 +1246,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     protected void processOperation(CodegenOperation operation) {
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
 
         Arrays.stream(nestedTypes).forEach(nestedType -> {
             if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
@@ -1685,8 +1711,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
      * @param name The original name
      * @return The adjusted name
      */
-    private String adjustNamingStyle(String name)
-    {
+    private String adjustNamingStyle(String name) {
         switch (getEnumPropertyNaming()) {
             case camelCase:
                 // NOTE: Removes hyphens and underscores
@@ -1743,7 +1768,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
-    protected boolean useNet60OrLater() { return false; }
+    protected boolean useNet60OrLater() {
+        return false;
+    }
 
     protected boolean useDateOnly() {
         return useNet60OrLater() && !useDateTimeForDateFlag;
@@ -1893,7 +1920,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         // only process files with .cs extension
         if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {csharpPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{csharpPostProcessFile, file.toString()});
         }
     }
 
@@ -1914,12 +1941,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
 
             int end = hasModifiers.matcher(pattern).find()
-                ? pattern.lastIndexOf('/')
-                : pattern.length() - 1;
+                    ? pattern.lastIndexOf('/')
+                    : pattern.length() - 1;
 
             int start = pattern.startsWith("/")
-                ? 1
-                : 0;
+                    ? 1
+                    : 0;
 
             Map<Character, String> optionsMap = new HashMap<Character, String>();
             optionsMap.put('i', "IgnoreCase");
@@ -1934,7 +1961,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             for (char c : pattern.substring(end).toCharArray()) {
                 if (optionsMap.containsKey(c)) {
                     modifiers.add(optionsMap.get(c));
-                } else if (c == 'l'){
+                } else if (c == 'l') {
                     modifiers.remove("CultureInvariant");
                 } else {
                     vendorExtensions.put("x-modifier-" + c, c);

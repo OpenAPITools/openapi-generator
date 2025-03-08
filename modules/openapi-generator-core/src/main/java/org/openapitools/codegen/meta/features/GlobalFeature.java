@@ -129,7 +129,7 @@ public enum GlobalFeature {
      *
      * <p>
      * NOTE: This option is more relevant for documentation generators which support HTML stylesheets, but may be used
-     *       to determine structural characteristics of a property (as with OAS 3.x lack of collectionFormat).
+     * to determine structural characteristics of a property (as with OAS 3.x lack of collectionFormat).
      * </p>
      */
     @OAS3

@@ -59,7 +59,7 @@ export class Api {
    */
   protected ensureParamIsSet<T>(context: string, params: T, paramName: keyof T): void {
     if (null === params[paramName]) {
-      throw new Error(`Missing required parameter ${paramName} when calling ${context}`);
+      throw new Error(`Missing required parameter ${String(paramName)} when calling ${context}`);
     }
   }
 }

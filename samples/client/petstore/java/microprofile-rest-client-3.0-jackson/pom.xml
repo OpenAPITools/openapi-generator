@@ -4,7 +4,7 @@
   <artifactId>microprofile-rest-client-3-jackson</artifactId>
   <packaging>jar</packaging>
   <name>microprofile-rest-client-3-jackson</name>
-  <description>This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</description>
+  <description>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\</description>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -127,6 +127,12 @@
         <version>${jakarta.annotation.version}</version>
         <scope>provided</scope>
     </dependency>
+    <!-- For equals and hashCode using reflection -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons.lang3.version}</version>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -141,16 +147,18 @@
     <java.version>11</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
     <junit.version>5.10.2</junit.version>
-    <logback.version>1.4.14</logback.version>
+    <logback.version>1.5.13</logback.version>
     <cxf.version>3.2.7</cxf.version>
     <jackson.jaxrs.version>2.17.1</jackson.jaxrs.version>
     <jackson.version>2.17.1</jackson.version>
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
-    <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>
+    <jakarta.json.bind.version>3.0.0</jakarta.json.bind.version>
     <jakarta.json.version>2.0.1</jakarta.json.version>
     <jakarta.ws.rs.version>3.0.0</jakarta.ws.rs.version>
     <jakarta.xml.bind.version>3.0.1</jakarta.xml.bind.version>
@@ -164,6 +172,6 @@
     <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <commons.lang3.version>3.17.0</commons.lang3.version>
   </properties>
 </project>

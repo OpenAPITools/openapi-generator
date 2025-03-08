@@ -8,15 +8,18 @@ interface PetApiService {
 
     /**
      * POST /pet : Add a new pet to the store
+     * 
      *
-     * @param body Pet object that needs to be added to the store (required)
-     * @return Invalid input (status code 405)
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return successful operation (status code 200)
+     *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    suspend fun addPet(body: Pet): Unit
+    suspend fun addPet(pet: Pet): Pet
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
+     * 
      *
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
@@ -62,17 +65,22 @@ interface PetApiService {
 
     /**
      * PUT /pet : Update an existing pet
+     * 
      *
-     * @param body Pet object that needs to be added to the store (required)
-     * @return Invalid ID supplied (status code 400)
+     * @param pet Pet object that needs to be added to the store (required)
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
+     * API documentation for the updatePet operation
+     * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      * @see PetApi#updatePet
      */
-    suspend fun updatePet(body: Pet): Unit
+    suspend fun updatePet(pet: Pet): Pet
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
+     * 
      *
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
@@ -84,6 +92,7 @@ interface PetApiService {
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
+     * 
      *
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
@@ -91,5 +100,5 @@ interface PetApiService {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.core.io.Resource?): ModelApiResponse
+    suspend fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: org.springframework.web.multipart.MultipartFile?): ModelApiResponse
 }

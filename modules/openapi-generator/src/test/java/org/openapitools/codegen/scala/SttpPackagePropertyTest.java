@@ -1,16 +1,16 @@
 package org.openapitools.codegen.scala;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.ScalaSttpClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SttpPackagePropertyTest {
     @Test
-    public void shouldUseDefaultPackageNameIfAdditionalPropertiesAreEmpty(){
+    public void shouldUseDefaultPackageNameIfAdditionalPropertiesAreEmpty() {
         ScalaSttpClientCodegen.PackageProperty property = new ScalaSttpClientCodegen.PackageProperty();
         Map<String, Object> additionalProperties = new HashMap<>();
         property.updateAdditionalProperties(additionalProperties);
@@ -24,7 +24,7 @@ public class SttpPackagePropertyTest {
     }
 
     @Test
-    public void shouldUseCustomMainPackageNameIfProvided(){
+    public void shouldUseCustomMainPackageNameIfProvided() {
         ScalaSttpClientCodegen.PackageProperty property = new ScalaSttpClientCodegen.PackageProperty();
         Map<String, Object> additionalProperties = new HashMap<>();
         String customPackageName = "my.custom.pkg.name";
@@ -40,7 +40,7 @@ public class SttpPackagePropertyTest {
     }
 
     @Test
-    public void shouldAllowToMixCustomPackages(){
+    public void shouldAllowToMixCustomPackages() {
         ScalaSttpClientCodegen.PackageProperty property = new ScalaSttpClientCodegen.PackageProperty();
         Map<String, Object> additionalProperties = new HashMap<>();
         String customPackageName = "my.custom.pkg.name";

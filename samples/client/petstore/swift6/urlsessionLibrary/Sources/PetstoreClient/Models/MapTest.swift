@@ -12,16 +12,16 @@ public typealias MapTest = PetstoreClientAPI.MapTest
 
 extension PetstoreClientAPI {
 
-public final class MapTest: Codable, JSONEncodable, Hashable {
+public final class MapTest: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public enum MapOfEnumString: String, Codable, CaseIterable {
+    public enum MapOfEnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
     }
-    public var mapMapOfString: [String: [String: String]]?
-    public var mapOfEnumString: [String: String]?
-    public var directMap: [String: Bool]?
-    public var indirectMap: StringBooleanMap?
+    public private(set) var mapMapOfString: [String: [String: String]]?
+    public private(set) var mapOfEnumString: [String: String]?
+    public private(set) var directMap: [String: Bool]?
+    public private(set) var indirectMap: StringBooleanMap?
 
     public init(mapMapOfString: [String: [String: String]]? = nil, mapOfEnumString: [String: String]? = nil, directMap: [String: Bool]? = nil, indirectMap: StringBooleanMap? = nil) {
         self.mapMapOfString = mapMapOfString

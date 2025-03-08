@@ -22,9 +22,6 @@ import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.ElmClientCodegen;
 import org.openapitools.codegen.model.OperationMap;
@@ -32,6 +29,10 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("static-method")
 public class ElmClientCodegenTest {

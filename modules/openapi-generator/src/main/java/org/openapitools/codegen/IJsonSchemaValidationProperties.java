@@ -1,20 +1,13 @@
 package org.openapitools.codegen;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
+import java.util.stream.Stream;
 
 public interface IJsonSchemaValidationProperties {
     CodegenProperty getContains();
@@ -108,14 +101,15 @@ public interface IJsonSchemaValidationProperties {
 
     /**
      * Tells if the datatype is a generic inner parameter of a <code>std::optional</code> for C++, or <code>Optional</code> (Java)<br>
-     *  to resolve cases (detected in issue #6726) where :<br>
-     *     - <code>categoryOneOf</code> is a parameter of class <code>GetAccountVideos_categoryOneOf_parameter</code>, a model parameter that correctly prefixed by its namespace: <code>org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter</code><br>
-     *     - but that <code>GetAccountVideos_categoryOneOf_parameter</code> class is inside an <code>std::optional</code><br>
-     *     <br>
-     *   Then a correct generation of that parameter can be (for C++) <code>const std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code><br>
-         *   but using #isModel alone without #isOptional in mustache might produce <code>const org::openapitools::server::model::std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code> instead, that do not compile.
+     * to resolve cases (detected in issue #6726) where :<br>
+     * - <code>categoryOneOf</code> is a parameter of class <code>GetAccountVideos_categoryOneOf_parameter</code>, a model parameter that correctly prefixed by its namespace: <code>org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter</code><br>
+     * - but that <code>GetAccountVideos_categoryOneOf_parameter</code> class is inside an <code>std::optional</code><br>
+     * <br>
+     * Then a correct generation of that parameter can be (for C++) <code>const std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code><br>
+     * but using #isModel alone without #isOptional in mustache might produce <code>const org::openapitools::server::model::std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code> instead, that do not compile.
      */
     boolean getIsOptional();
+
     void setIsOptional(boolean isOptional);
 
     boolean getIsArray();

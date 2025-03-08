@@ -22,7 +22,7 @@ orjson==3.9.15
 promise==2.3
 pydantic>=2
 python-dotenv==0.17.1
-python-multipart==0.0.7
+python-multipart==0.0.18
 PyYAML>=5.4.1,<6.1.0
 requests==2.32.0
 Rx==1.6.1

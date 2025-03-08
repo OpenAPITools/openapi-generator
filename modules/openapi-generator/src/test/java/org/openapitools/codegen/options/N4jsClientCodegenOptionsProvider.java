@@ -1,11 +1,10 @@
 package org.openapitools.codegen.options;
 
-import java.util.Map;
-
+import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.N4jsClientCodegen;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 public class N4jsClientCodegenOptionsProvider implements OptionsProvider {
     public static final String PROJECT_NAME_VALUE = "OpenAPI";

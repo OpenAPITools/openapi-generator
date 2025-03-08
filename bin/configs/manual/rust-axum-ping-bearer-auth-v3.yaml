@@ -6,4 +6,6 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: ping-bearer-auth
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

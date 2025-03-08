@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import org.openapitools.model.User;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class UserController  {
   /**
    * Uncomment and implement as you see fit.  These operations will map

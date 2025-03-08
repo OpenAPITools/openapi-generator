@@ -109,7 +109,7 @@ namespace {{packageName}}.Client
                 if (response.Headers != null)
                 {
                     var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
-                        ? Path.GetTempPath()
+                        ? global::System.IO.Path.GetTempPath()
                         : _configuration.TempFolderPath;
                     var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
                     foreach (var header in response.Headers)
@@ -191,14 +191,14 @@ namespace {{packageName}}.Client
         /// Allows for extending request processing for <see cref="ApiClient"/> generated code.
         /// </summary>
         /// <param name="request">The RestSharp request object</param>
-        partial void InterceptRequest(RestRequest request);
+        {{#useVirtualForHooks}}public virtual{{/useVirtualForHooks}}{{^useVirtualForHooks}}partial{{/useVirtualForHooks}} void InterceptRequest(RestRequest request){{#useVirtualForHooks}} { }{{/useVirtualForHooks}}{{^useVirtualForHooks}};{{/useVirtualForHooks}}
 
         /// <summary>
         /// Allows for extending response processing for <see cref="ApiClient"/> generated code.
         /// </summary>
         /// <param name="request">The RestSharp request object</param>
         /// <param name="response">The RestSharp response object</param>
-        partial void InterceptResponse(RestRequest request, RestResponse response);
+        {{#useVirtualForHooks}}public virtual{{/useVirtualForHooks}}{{^useVirtualForHooks}}partial{{/useVirtualForHooks}} void InterceptResponse(RestRequest request, RestResponse response){{#useVirtualForHooks}} { }{{/useVirtualForHooks}}{{^useVirtualForHooks}};{{/useVirtualForHooks}}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
@@ -317,7 +317,7 @@ namespace {{packageName}}.Client
                 {
                     foreach (var value in headerParam.Value)
                     {
-                        request.AddHeader(headerParam.Key, value);
+                        request.AddOrUpdateHeader(headerParam.Key, value);
                     }
                 }
             }
@@ -377,10 +377,18 @@ namespace {{packageName}}.Client
                         var bytes = ClientUtils.ReadAsBytes(file);
                         var fileStream = file as FileStream;
                         if (fileStream != null)
-                            request.AddFile(fileParam.Key, bytes, Path.GetFileName(fileStream.Name));
+                            request.AddFile(fileParam.Key, bytes, global::System.IO.Path.GetFileName(fileStream.Name));
                         else
                             request.AddFile(fileParam.Key, bytes, "no_file_name_provided");
                     }
+                }
+            }
+
+            if (options.HeaderParameters != null)
+            {
+                if (options.HeaderParameters.TryGetValue("Content-Type", out var contentTypes) && contentTypes.Any(header => header.Contains("multipart/form-data")))
+                {
+                    request.AlwaysMultipartFormData = true;
                 }
             }
 
@@ -455,7 +463,7 @@ namespace {{packageName}}.Client
             var clientOptions = new RestClientOptions(baseUrl)
             {
                 ClientCertificates = configuration.ClientCertificates,
-                MaxTimeout = configuration.Timeout,
+                Timeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
                 UseDefaultCredentials = configuration.UseDefaultCredentials,

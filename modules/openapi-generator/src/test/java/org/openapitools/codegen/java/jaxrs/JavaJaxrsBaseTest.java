@@ -14,9 +14,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.nio.file.Paths;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -83,7 +83,7 @@ public abstract class JavaJaxrsBaseTest {
                 "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
                 "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
                 "})";
-        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/Animal.java"),  jsonTypeInfo, jsonSubType);
+        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/model/Animal.java"), jsonTypeInfo, jsonSubType);
     }
 
 
@@ -106,7 +106,7 @@ public abstract class JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"),  "DefaultValue");
+        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"), "DefaultValue");
     }
 
     @Test
@@ -124,13 +124,13 @@ public abstract class JavaJaxrsBaseTest {
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput()
-        .openAPI(openAPI)
-        .config(codegen);
+                .openAPI(openAPI)
+                .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"),  "DefaultValue");
+        assertFileContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java"), "DefaultValue");
     }
 
     @Test
@@ -215,7 +215,7 @@ public abstract class JavaJaxrsBaseTest {
         Assert.assertEquals(tag0.size(), 2);
         assertOperation(tag0.get(0), "default", "/", false);
         assertOperation(tag0.get(1), "default", "/{id}", true);
-        
+
         final var group1ApiTemplateData = dryRunTMan.getCapturedTemplateData(output.toPath().resolve("src/gen/java/org/openapitools/api/Group1Api.java"));
         Assert.assertEquals(group1ApiTemplateData.get("baseName"), "group1");
         Assert.assertEquals(group1ApiTemplateData.get("commonPath"), "/group1");

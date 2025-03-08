@@ -9,10 +9,9 @@
 
 package org.openapitools.codegen.java;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
@@ -20,9 +19,9 @@ import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.parameters.Parameter;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class JavaIsMatrixParameterTest {
 

@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+  title: Foo API
+  version: 1.0.0
+  description: A validation-focused OpenAPI schema for the Foo object, including file uploads.
+paths:
+  /foos:
+    get:
+      summary: Get a list of Foo objects
+      description: Retrieves a paginated list of Foo objects based on query parameters.
+      parameters:
+        - name: page
+          in: query
+          description: The page number to retrieve.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - name: filter
+          in: query
+          description: Filter results based on a specific field.
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: A list of Foo objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Foo'
+        429:
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message.
+                  retryAfter:
+                    type: integer
+                    description: Number of seconds to wait before retrying.
+      tags:
+        - FooIndex
+    post:
+      summary: Create a new Foo object
+      description: Adds a new Foo object to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Foo'
+      responses:
+        201:
+          description: Foo object created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+      tags:
+        - FooCreate
+  /foos/upload:
+    post:
+      summary: Upload a file
+      description: Uploads a file to associate it with a Foo object.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to upload.
+                description:
+                  type: string
+                  description: A description of the uploaded file.
+                  maxLength: 255
+              required:
+                - file
+      tags:
+        - FooFileUpload
+      responses:
+        200:
+          description: File uploaded successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message.
+                  fileName:
+                    type: string
+                    description: Name of the uploaded file.
+                  size:
+                    type: integer
+                    description: Size of the uploaded file in bytes.
+  /foos/{id}:
+    get:
+      summary: Get a single Foo object
+      description: Retrieves the details of a Foo object by its ID.
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Foo object to retrieve.
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: Details of the Foo object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+      tags:
+        - FooGet
+    put:
+      summary: Update an existing Foo object
+      description: Updates the details of an existing Foo object.
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Foo object to update.
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Foo'
+      responses:
+        200:
+          description: Foo object updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Foo'
+      tags:
+        - FooUpdate
+    delete:
+      summary: Delete a Foo object
+      description: Deletes a Foo object by its ID.
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the Foo object to delete.
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        204:
+          description: Foo object deleted successfully.
+      tags:
+        - FooDelete
+
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Unique identifier for the Foo object.
+          minimum: 1
+        name:
+          type: string
+          description: The name of the Foo object.
+          minLength: 1
+          maxLength: 255
+        isActive:
+          type: boolean
+          description: Indicates if the Foo object is active.
+        price:
+          type: number
+          format: float
+          description: The price of the Foo object.
+          minimum: 0.0
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the Foo object was created.
+        metadata:
+          type: object
+          description: Additional metadata for the Foo object.
+          additionalProperties:
+            type: string
+        tags:
+          type: array
+          description: Tags associated with the Foo object.
+          items:
+            type: string
+            minLength: 1
+        category:
+          type: string
+          description: The category of the Foo object.
+          enum:
+            - basic
+            - premium
+            - enterprise
+      required:
+        - id
+        - name
+        - isActive

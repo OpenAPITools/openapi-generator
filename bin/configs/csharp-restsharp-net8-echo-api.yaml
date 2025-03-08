@@ -1,0 +1,11 @@
+generatorName: csharp
+library: restsharp
+outputDir: samples/client/echo_api/csharp/restsharp/net8/EchoApi
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{322C8CAF-0156-40C1-AE42-D59761FB9B6C}'
+  targetFramework: net8.0
+  setCompareNetObjects: "true"
+  hideGenerationTimestamp: "true"
+  equatable: true

@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Provides calling code a way to log important messages only once, regardless of how many times the invocation has occurred.
  * This can be used, for instance, to log a warning like "One or more schemas aren't declared" without logging that message
  * for every time the schema is mentioned in a document.
- *
+ * <p>
  * This implementation currently only supports single-argument string literal log methods (e.g. {@link Logger#debug(String)}).
  */
 @SuppressWarnings("FieldCanBeLocal")
@@ -158,7 +158,7 @@ public class OnceLogger extends LoggerWrapper {
 
     /**
      * Delegate to the appropriate method of the underlying logger.
-     *
+     * <p>
      * Use this method sparingly. If you're limiting error messages, ask yourself
      * whether your log fits better as a warning.
      *

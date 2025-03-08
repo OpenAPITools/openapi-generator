@@ -2,24 +2,29 @@ name: Samples Kotlin server (jdk21)
 
 on:
   push:
-    branches:
-      - 'samples/server/petstore/kotlin-server/javalin-6/**'
+    paths:
+      - 'samples/server/petstore/kotlin-server/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
   pull_request:
     paths:
-      - 'samples/server/petstore/kotlin-server/javalin-6/**'
+      - 'samples/server/petstore/kotlin-server/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
 
 env:
-  GRADLE_VERSION: 8.8
+  GRADLE_VERSION: '8.10'
 
 jobs:
   build:
-    name: Build Kotlin server
+    name: Build Kotlin server (jdk21)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
           - samples/server/petstore/kotlin-server/javalin-6
+          - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-server/ktor2
+          - samples/server/petstore/kotlin-server-required-and-nullable-properties
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

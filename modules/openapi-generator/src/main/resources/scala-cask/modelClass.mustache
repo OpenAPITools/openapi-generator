@@ -1,0 +1,47 @@
+
+case class {{classname}}(
+{{#vars}}
+    {{#description}}
+        /* {{{description}}} */
+    {{/description}}
+    {{name}}: {{#isEnum}}{{#vendorExtensions.x-model-needs-option}}Option[{{/vendorExtensions.x-model-needs-option}}{{classname}}.{{datatypeWithEnum}}{{#vendorExtensions.x-model-needs-option}}]{{/vendorExtensions.x-model-needs-option}}{{/isEnum}}{{^isEnum}}{{{vendorExtensions.x-datatype-model}}}{{/isEnum}}{{^required}} = {{{vendorExtensions.x-defaultValue-model}}} {{/required}}{{^-last}},{{/-last}}
+{{/vars}}
+
+{{#isAdditionalPropertiesTrue}}, additionalProperties : ujson.Value =  ujson.Null{{/isAdditionalPropertiesTrue}}
+) {
+
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
+
+def asData : {{classname}}Data = {
+{{classname}}Data(
+{{#vars}}
+    {{name}} = {{{vendorExtensions.x-asData}}}{{^-last}},{{/-last}}
+{{/vars}}
+{{#isAdditionalPropertiesTrue}}, additionalProperties{{/isAdditionalPropertiesTrue}}
+)
+}
+}
+
+object {{classname}} {
+given RW[{{classname}}] = summon[RW[ujson.Value]].bimap[{{classname}}](_.asJson, json => read[{{classname}}Data](json).asModel)
+
+enum Fields(val fieldName : String) extends Field(fieldName) {
+{{#vars}}
+    case {{name}} extends Fields("{{name}}")
+{{/vars}}
+}
+
+{{#vars}}
+    {{#isEnum}}
+        // baseName={{{baseName}}}
+        // nameInCamelCase = {{{nameInCamelCase}}}
+        enum {{datatypeWithEnum}} derives ReadWriter {
+        {{#_enum}}
+            case {{.}}
+        {{/_enum}}
+        }
+    {{/isEnum}}
+{{/vars}}
+
+}

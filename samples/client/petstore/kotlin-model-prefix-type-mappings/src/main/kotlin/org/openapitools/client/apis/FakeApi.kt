@@ -10,6 +10,7 @@ import org.openapitools.client.models.ApiAnnotation
 
 interface FakeApi {
     /**
+     * POST fake/annotations
      * annotate
      * 
      * Responses:

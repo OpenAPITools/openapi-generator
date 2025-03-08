@@ -25,12 +25,12 @@ import java.io.Writer;
 
 /**
  * Replaces duplicate whitespace characters in a fragment with single space.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#lambdaPrefixWithHash}}{{name}}{{/lambdaPrefixWithHash}}

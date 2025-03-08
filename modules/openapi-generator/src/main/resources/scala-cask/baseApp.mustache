@@ -6,6 +6,7 @@
 // this file was generated from app.mustache
 package {{packageName}}
 
+import scala.util.Try
 {{#imports}}import {{import}}
 {{/imports}}
 import _root_.{{modelPackage}}.*
@@ -16,7 +17,7 @@ import _root_.{{apiPackage}}.*
  * passing in the custom business logic services
  */
 class BaseApp({{#operations}}
-    override val app{{classname}}Service : {{classname}}Service = {{classname}}Service(),
+    override val app{{classname}}Service : {{classname}}Service[Try] = {{classname}}Service(),
 {{/operations}}
     override val port : Int = sys.env.get("PORT").map(_.toInt).getOrElse(8080)) extends cask.MainRoutes with AppRoutes {
 

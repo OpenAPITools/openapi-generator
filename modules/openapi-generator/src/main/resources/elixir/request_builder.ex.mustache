@@ -104,7 +104,7 @@ defmodule {{moduleName}}.RequestBuilder do
     headers =
       request
       |> Map.get(:headers, [])
-      |> List.keystore(key, 0, {key, value})
+      |> List.keystore(to_string(key), 0, {to_string(key), to_string(value)})
 
     Map.put(request, :headers, headers)
   end
@@ -160,10 +160,11 @@ defmodule {{moduleName}}.RequestBuilder do
 
   ### Returns
 
-  - `{:ok, struct}` or `{:ok, Tesla.Env.t()}` on success
+  - `{:ok, struct}`, {:ok, [struct]} or `{:ok, Tesla.Env.t()}` on success
   - `{:error, term}` on failure
   """
-  @spec evaluate_response(Tesla.Env.result(), response_mapping) :: {:ok, struct()} | Tesla.Env.result()
+  @spec evaluate_response(Tesla.Env.result(), response_mapping) ::
+          {:ok, struct() | [struct()] | Tesla.Env.t()} | {:error, Tesla.Env.t() | any()}
   def evaluate_response({:ok, %Tesla.Env{} = env}, mapping) do
     resolve_mapping(env, mapping, nil)
   end

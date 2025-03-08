@@ -23,9 +23,9 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.meta.features.SecurityFeature;
 
 import java.io.File;
 import java.util.List;
@@ -42,6 +42,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
+    public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
 
     public static final String QUARKUS_LIBRARY = "quarkus";
     public static final String THORNTAIL_LIBRARY = "thorntail";
@@ -55,6 +56,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean useSwaggerAnnotations = true;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
+
+    @Getter @Setter
+    protected boolean generateJsonCreator = true;
 
     @Setter
     protected boolean useGzipFeature = false;
@@ -129,6 +133,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
         cliOptions.add(CliOption.newBoolean(USE_MUTINY, "Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.", useMutiny));
+        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate @JsonCreator constructor for required properties.", generateJsonCreator));
     }
 
     @Override
@@ -143,7 +148,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         } else {
             convertPropertyToBooleanAndWriteBack(USE_SWAGGER_ANNOTATIONS, value -> useSwaggerAnnotations = value);
         }
-        if (KUMULUZEE_LIBRARY.equals(library)){
+        if (KUMULUZEE_LIBRARY.equals(library)) {
             super.setSourceFolder("src/main/java");
         }
 
@@ -155,11 +160,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             convertPropertyToBooleanAndWriteBack(USE_MUTINY, value -> useMutiny = value);
         }
 
+        convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
+
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
-        } else if(QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+        } else if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/resources/META-INF/openapi.yaml";
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             openApiSpecFileLocation = "src/main/webapp/META-INF/openapi.yaml";
         }
 
@@ -174,25 +181,25 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
         supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
                 .doNotOverwrite());
 
         if (generatePom) {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
-                .doNotOverwrite());
+                    .doNotOverwrite());
         }
 
         supportingFiles.add(new SupportingFile("RestApplication.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
                 .doNotOverwrite());
 
-        if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
+        if (StringUtils.isNotEmpty(openApiSpecFileLocation)) {
             int index = openApiSpecFileLocation.lastIndexOf('/');
             String fileFolder;
             String fileName;
-            if(index >= 0) {
+            if (index >= 0) {
                 fileFolder = openApiSpecFileLocation.substring(0, index);
                 fileName = openApiSpecFileLocation.substring(index + 1);
             } else {
@@ -202,7 +209,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("openapi.mustache", fileFolder, fileName));
         }
 
-        if(QUARKUS_LIBRARY.equals(library)) {
+        if (QUARKUS_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("application.properties.mustache", "src/main/resources", "application.properties")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("Dockerfile.jvm.mustache", "src/main/docker", "Dockerfile.jvm")
@@ -211,7 +218,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore")
                     .doNotOverwrite());
-        } else if(OPEN_LIBERTY_LIBRARY.equals(library)) {
+        } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("server.xml.mustache", "src/main/liberty/config", "server.xml")
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
@@ -222,7 +229,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("ibm-web-ext.xml.mustache", "src/main/webapp/WEB-INF", "ibm-web-ext.xml")
                     .doNotOverwrite());
-        } else if(HELIDON_LIBRARY.equals(library)) {
+        } else if (HELIDON_LIBRARY.equals(library)) {
             additionalProperties.computeIfAbsent("helidonVersion", key -> "2.4.1");
             supportingFiles.add(new SupportingFile("logging.properties.mustache", "src/main/resources", "logging.properties")
                     .doNotOverwrite());
@@ -230,7 +237,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                     .doNotOverwrite());
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/resources/META-INF", "beans.xml")
                     .doNotOverwrite());
-        } else if(KUMULUZEE_LIBRARY.equals(library)) {
+        } else if (KUMULUZEE_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
 

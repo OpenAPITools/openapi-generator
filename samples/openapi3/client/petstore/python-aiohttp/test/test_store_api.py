@@ -24,7 +24,7 @@ class TestStoreApi(unittest.IsolatedAsyncioTestCase):
         self.api = StoreApi()
 
     async def asyncTearDown(self) -> None:
-        pass
+        await self.api.api_client.close()
 
     async def test_delete_order(self) -> None:
         """Test case for delete_order

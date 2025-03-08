@@ -40,8 +40,8 @@ conversion = [
 
 [dependencies]
 async-trait = "0.1"
-axum = { version = "0.7" }
-axum-extra = { version = "0.9", features = ["cookie", "multipart"] }
+axum = { version = "0.8", features = ["multipart"] }
+axum-extra = { version = "0.10", features = ["cookie"] }
 base64 = "0.22"
 bytes = "1"
 chrono = { version = "0.4", features = ["serde"] }
@@ -62,7 +62,7 @@ tokio = { version = "1", default-features = false, features = [
 ] }
 tracing = { version = "0.1", features = ["attributes"] }
 uuid = { version = "1", features = ["serde"] }
-validator = { version = "0.18", features = ["derive"] }
+validator = { version = "0.20", features = ["derive"] }
 
 [dev-dependencies]
 tracing-subscriber = "0.3"

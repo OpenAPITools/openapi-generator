@@ -582,6 +582,24 @@ paths:
               $ref: '#/components/schemas/User'
         description: Created user object
         required: true
+    put:
+      tags:
+        - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUserNullable
+      responses:
+        default:
+          description: successful operation
+      security:
+        - api_key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNullable'
+        description: Created user object, with a nullable bodyParam
+        required: true
   /user/createWithArray:
     post:
       tags:
@@ -849,11 +867,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /fake/collection/test:
+    post:
+      summary: POST a test batch
+      operationId: fakePostTest
+      tags:
+        - fake
+      requestBody:
+        $ref: '#/components/requestBodies/TestBody'
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessfulOp'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
+  responses:
+    SuccessfulOp:
+      description: Successful Operation
+      content:
+        application/json:
+          schema:
+            type: bool
   requestBodies:
+    TestBody:
+      description: Test body
+      required: true
+      content:
+        text/plain:
+          schema:
+            type: string
+            format: byte
     UserArray:
       content:
         application/json:
@@ -971,6 +1015,66 @@ components:
       title: a User
       description: A User who is purchasing from the pet store
       type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+          nullable: true
+        userStatus:
+          type: integer
+          format: int32
+          description: User Status
+        deepSliceModel:
+          nullable: true
+          type: array
+          description: An array 1-deep.
+          items:
+            type: array
+            description: An array 2-deep.
+            items:
+              type: array
+              description: An array 3-deep.
+              items:
+                $ref: '#/components/schemas/Tag'
+        deepSliceMap:
+          type: array
+          description: An array 1-deep.
+          items:
+            type: array
+            description: An array 2-deep.
+            items:
+              title: an Object
+              type: object
+              description: An array 3-deep.
+              properties:
+                tag:
+                  $ref: '#/components/schemas/Tag'
+                Pet:
+                  type: array
+                  description: An array of pet.
+                  items:
+                    $ref: '#/components/schemas/Pet'
+      xml:
+        name: User
+      required:
+        - deepSliceModel
+    UserNullable:
+      title: a User
+      description: A User who is purchasing from the pet store
+      type: object
+      nullable: true
       properties:
         id:
           type: integer

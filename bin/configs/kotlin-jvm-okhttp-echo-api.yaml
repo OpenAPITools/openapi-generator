@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/echo_api/kotlin-jvm-okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+modelNamePrefix: Api
+additionalProperties:
+  library: jvm-okhttp4
+  artifactId: kotlin-jvm-okhttp-echo-api

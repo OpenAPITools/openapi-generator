@@ -15,8 +15,11 @@ docs/CircularReference1.md
 docs/CircularReference2.md
 docs/CircularReference3.md
 docs/CodesEnum.md
+docs/DefaultApi.md
 docs/Dog.md
 docs/FakeApi.md
+docs/FakeWebhooksSourcesDeletedPostRequest.md
+docs/FakeWebhooksSourcesDeletedPostRequestEvent.md
 docs/ModelApiResponse.md
 docs/OneOfStringOrInt.md
 docs/Order.md
@@ -55,6 +58,7 @@ src/main/java/org/openapitools/client/ProgressResponseBody.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/StringUtil.java
+src/main/java/org/openapitools/client/api/DefaultApi.java
 src/main/java/org/openapitools/client/api/FakeApi.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
@@ -79,6 +83,8 @@ src/main/java/org/openapitools/client/model/CircularReference2.java
 src/main/java/org/openapitools/client/model/CircularReference3.java
 src/main/java/org/openapitools/client/model/CodesEnum.java
 src/main/java/org/openapitools/client/model/Dog.java
+src/main/java/org/openapitools/client/model/FakeWebhooksSourcesDeletedPostRequest.java
+src/main/java/org/openapitools/client/model/FakeWebhooksSourcesDeletedPostRequestEvent.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/OneOfStringOrInt.java
 src/main/java/org/openapitools/client/model/Order.java

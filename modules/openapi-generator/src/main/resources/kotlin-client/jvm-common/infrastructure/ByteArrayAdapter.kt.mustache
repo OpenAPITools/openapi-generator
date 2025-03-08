@@ -13,16 +13,16 @@ import java.io.IOException
 {{/gson}}
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class ByteArrayAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ByteArrayAdapter {
     @ToJson
-    fun toJson(data: ByteArray): String = String(data)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(data: ByteArray): String = String(data)
 
     @FromJson
-    fun fromJson(data: String): ByteArray = data.toByteArray()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(data: String): ByteArray = data.toByteArray()
 }
 {{/moshi}}
 {{#gson}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class ByteArrayAdapter : TypeAdapter<ByteArray>() {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ByteArrayAdapter : TypeAdapter<ByteArray>() {
     @Throws(IOException::class)
     override fun write(out: JsonWriter?, value: ByteArray?) {
         if (value == null) {

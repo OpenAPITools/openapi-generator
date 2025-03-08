@@ -48,7 +48,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 /**
  * A class which manages the contextual configuration for code generation.
  * This includes configuring the generator, templating, and the workflow which orchestrates these.
- *
+ * <p>
  * This helper also enables the deserialization of {@link GeneratorSettings} via application-specific Jackson JSON usage
  * (see {@link DynamicSettings}.
  */
@@ -109,55 +109,55 @@ public class CodegenConfigurator {
             if (workflowSettings.getGlobalProperties() != null) {
                 configurator.globalProperties.putAll(workflowSettings.getGlobalProperties());
             }
-            if(generatorSettings.getInstantiationTypes() != null) {
+            if (generatorSettings.getInstantiationTypes() != null) {
                 configurator.instantiationTypes.putAll(generatorSettings.getInstantiationTypes());
             }
-            if(generatorSettings.getTypeMappings() != null) {
+            if (generatorSettings.getTypeMappings() != null) {
                 configurator.typeMappings.putAll(generatorSettings.getTypeMappings());
             }
-            if(generatorSettings.getAdditionalProperties() != null) {
+            if (generatorSettings.getAdditionalProperties() != null) {
                 configurator.additionalProperties.putAll(generatorSettings.getAdditionalProperties());
             }
-            if(generatorSettings.getImportMappings() != null) {
+            if (generatorSettings.getImportMappings() != null) {
                 configurator.importMappings.putAll(generatorSettings.getImportMappings());
             }
-            if(generatorSettings.getSchemaMappings() != null) {
+            if (generatorSettings.getSchemaMappings() != null) {
                 configurator.schemaMappings.putAll(generatorSettings.getSchemaMappings());
             }
-            if(generatorSettings.getInlineSchemaNameMappings() != null) {
+            if (generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
             }
-            if(generatorSettings.getInlineSchemaOptions() != null) {
+            if (generatorSettings.getInlineSchemaOptions() != null) {
                 configurator.inlineSchemaOptions.putAll(generatorSettings.getInlineSchemaOptions());
             }
-            if(generatorSettings.getNameMappings() != null) {
+            if (generatorSettings.getNameMappings() != null) {
                 configurator.nameMappings.putAll(generatorSettings.getNameMappings());
             }
-            if(generatorSettings.getParameterNameMappings() != null) {
+            if (generatorSettings.getParameterNameMappings() != null) {
                 configurator.parameterNameMappings.putAll(generatorSettings.getParameterNameMappings());
             }
-            if(generatorSettings.getModelNameMappings() != null) {
+            if (generatorSettings.getModelNameMappings() != null) {
                 configurator.modelNameMappings.putAll(generatorSettings.getModelNameMappings());
             }
-            if(generatorSettings.getEnumNameMappings() != null) {
+            if (generatorSettings.getEnumNameMappings() != null) {
                 configurator.enumNameMappings.putAll(generatorSettings.getEnumNameMappings());
             }
-            if(generatorSettings.getOperationIdNameMappings() != null) {
+            if (generatorSettings.getOperationIdNameMappings() != null) {
                 configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
             }
-            if(generatorSettings.getOpenapiNormalizer() != null) {
+            if (generatorSettings.getOpenapiNormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenapiNormalizer());
             }
-            if(generatorSettings.getLanguageSpecificPrimitives() != null) {
+            if (generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
             }
-            if(generatorSettings.getOpenapiGeneratorIgnoreList() != null) {
+            if (generatorSettings.getOpenapiGeneratorIgnoreList() != null) {
                 configurator.openapiGeneratorIgnoreList.addAll(generatorSettings.getOpenapiGeneratorIgnoreList());
             }
-            if(generatorSettings.getReservedWordsMappings() != null) {
+            if (generatorSettings.getReservedWordsMappings() != null) {
                 configurator.reservedWordsMappings.putAll(generatorSettings.getReservedWordsMappings());
             }
-            if(generatorSettings.getServerVariables() != null) {
+            if (generatorSettings.getServerVariables() != null) {
                 configurator.serverVariables.putAll(generatorSettings.getServerVariables());
             }
 
@@ -700,12 +700,12 @@ public class CodegenConfigurator {
 
                 // Wrap the getUnusedSchemas() in try catch block so it catches the NPE
                 // when the input spec file is not correct
-                try{
+                try {
                     List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
                     if (unusedModels != null) {
                         unusedModels.forEach(name -> warnings.add("Unused model: " + name));
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.err.println("[error] There is an error with OpenAPI specification parsed from the input spec file: " + inputSpec);
                     System.err.println("[error] Please make sure the spec file has correct format and all required fields are populated with valid value.");
                 }
@@ -808,6 +808,6 @@ public class CodegenConfigurator {
                 .generatorSettings(generatorSettings)
                 .userDefinedTemplates(userDefinedTemplates);
 
-        return input.openAPI((OpenAPI)context.getSpecDocument());
+        return input.openAPI((OpenAPI) context.getSpecDocument());
     }
 }

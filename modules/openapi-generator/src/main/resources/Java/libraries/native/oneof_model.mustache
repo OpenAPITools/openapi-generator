@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
@@ -274,7 +275,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           for ({{{items.dataType}}} _item : ({{{dataType}}})getActualInstance()) {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                 "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                ApiClient.urlEncode(String.valueOf(_item))));
           }
           i++;
         }
@@ -284,7 +285,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           for (int i = 0; i < (({{{dataType}}})getActualInstance()).size(); i++) {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                 "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                URLEncoder.encode(String.valueOf(getActualInstance().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                ApiClient.urlEncode(String.valueOf(getActualInstance().get(i)))));
           }
         }
         {{/uniqueItems}}
@@ -322,7 +323,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             if (_item != null) {
               joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                   "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                  URLEncoder.encode(String.valueOf(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                  ApiClient.urlEncode(String.valueOf(_item))));
             }
             i++;
           }
@@ -334,7 +335,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             if (getActualInstance().get(i) != null) {
               joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                   "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-                  URLEncoder.encode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                  ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(i)))));
             }
           }
         }
@@ -349,7 +350,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
           for (String _key : (({{{dataType}}})getActualInstance()).keySet()) {
             joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
                 "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-                getActualInstance().get(_key), URLEncoder.encode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+                getActualInstance().get(_key), ApiClient.urlEncode(String.valueOf((({{{dataType}}})getActualInstance()).get(_key)))));
           }
         }
         {{/items.isPrimitiveType}}
@@ -367,7 +368,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{^isMap}}
         {{#isPrimitiveType}}
         if (getActualInstance() != null) {
-          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getActualInstance()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
@@ -378,7 +379,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isModel}}
         {{^isModel}}
         if (getActualInstance() != null) {
-          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getActualInstance()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+          joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         {{/isModel}}
         {{/isPrimitiveType}}

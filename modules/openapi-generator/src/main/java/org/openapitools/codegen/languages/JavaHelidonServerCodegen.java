@@ -17,33 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import com.google.common.collect.Streams;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -52,6 +31,11 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -214,12 +198,12 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                     (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator),
                     "Main.java"));
             unmodifiable.add(new SupportingFile("validatorUtils.mustache",
-                                                apiFolder(),
-                                                "ValidatorUtils.java"));
+                    apiFolder(),
+                    "ValidatorUtils.java"));
             if (helidonMajorVersion > 3 && useAbstractClass) {
                 unmodifiable.add(new SupportingFile("partsUtils.mustache",
-                                                    apiFolder(),
-                                                    "PartsUtils.java"));
+                        apiFolder(),
+                        "PartsUtils.java"));
             }
             if (useAbstractClass) {
                 importMapping.put("HashMap", "java.util.HashMap");
@@ -232,9 +216,9 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
             }
             importMapping.put("Map", "java.util.Map");
             importMapping.put("ReadableBodyPart",  // use the old ReadableBodyPart name for backward compatibility
-                              (helidonMajorVersion <= 3)
-                                      ? "io.helidon.media.multipart.ReadableBodyPart"
-                                      : "io.helidon.http.media.multipart.ReadablePart");
+                    (helidonMajorVersion <= 3)
+                            ? "io.helidon.media.multipart.ReadableBodyPart"
+                            : "io.helidon.http.media.multipart.ReadablePart");
             importMapping.put("Handler", "io.helidon.webserver." + (helidonMajorVersion != 3 ? "http." : "") + "Handler");
             importMapping.put("GenericType", "io.helidon.common.GenericType");
             importMapping.put("GenericTypes", modelPackage + ".GenericTypes");

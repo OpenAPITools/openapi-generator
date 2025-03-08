@@ -1,20 +1,19 @@
 package org.openapitools.codegen.java.assertions;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.assertj.core.api.ListAssert;
-import org.assertj.core.util.CanIgnoreReturnValue;
-
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import com.google.common.collect.ImmutableMap;
+import org.assertj.core.api.ListAssert;
+import org.assertj.core.util.CanIgnoreReturnValue;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @CanIgnoreReturnValue
 public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotationsAssert<ACTUAL>> extends ListAssert<AnnotationExpr> {
@@ -31,22 +30,22 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
 
     public ACTUAL containsWithName(final String name) {
         super
-            .withFailMessage("Should have annotation with name: " + name)
-            .anyMatch(annotation -> annotation.getNameAsString().equals(name));
+                .withFailMessage("Should have annotation with name: " + name)
+                .anyMatch(annotation -> annotation.getNameAsString().equals(name));
         return myself();
     }
 
     public ACTUAL doesNotContainWithName(final String name) {
         super
-            .withFailMessage("Shouldn't have annotation with name: " + name)
-            .noneMatch(annotation -> annotation.getNameAsString().equals(name));
+                .withFailMessage("Shouldn't have annotation with name: " + name)
+                .noneMatch(annotation -> annotation.getNameAsString().equals(name));
         return myself();
     }
 
     public ACTUAL containsWithNameAndAttributes(final String name, final Map<String, String> attributes) {
         super
-            .withFailMessage("Should have annotation with name: " + name + " and attributes: " + attributes + ", but was: " + actual)
-            .anyMatch(annotation -> annotation.getNameAsString().equals(name) && hasAttributes(annotation, attributes));
+                .withFailMessage("Should have annotation with name: " + name + " and attributes: " + attributes + ", but was: " + actual)
+                .anyMatch(annotation -> annotation.getNameAsString().equals(name) && hasAttributes(annotation, attributes));
         return myself();
     }
 
@@ -54,11 +53,11 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
         final Map<String, String> actualAttributes;
         if (annotation instanceof SingleMemberAnnotationExpr) {
             actualAttributes = ImmutableMap.of(
-                "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
+                    "value", ((SingleMemberAnnotationExpr) annotation).getMemberValue().toString()
             );
         } else if (annotation instanceof NormalAnnotationExpr) {
             actualAttributes = ((NormalAnnotationExpr) annotation).getPairs().stream()
-                .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
+                    .collect(Collectors.toMap(NodeWithSimpleName::getNameAsString, pair -> pair.getValue().toString()));
         } else if (annotation instanceof MarkerAnnotationExpr) {
             actualAttributes = new HashMap<>();
         } else {
@@ -66,7 +65,7 @@ public abstract class AbstractAnnotationsAssert<ACTUAL extends AbstractAnnotatio
         }
 
         return expectedAttributesToContains.entrySet().stream()
-            .allMatch(expected -> Objects.equals(actualAttributes.get(expected.getKey()), expected.getValue()));
+                .allMatch(expected -> Objects.equals(actualAttributes.get(expected.getKey()), expected.getValue()));
     }
 
     @SuppressWarnings("unchecked")

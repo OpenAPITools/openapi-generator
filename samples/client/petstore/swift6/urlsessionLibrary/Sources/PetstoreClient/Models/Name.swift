@@ -13,12 +13,12 @@ public typealias Name = PetstoreClientAPI.Name
 extension PetstoreClientAPI {
 
 /** Model for testing model name same as property name */
-public final class Name: Codable, JSONEncodable, Hashable {
+public final class Name: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var name: Int
-    public var snakeCase: NullEncodable<Int> = .encodeValue(11033)
-    public var property: String?
-    public var _123number: Int?
+    public private(set) var name: Int
+    public private(set) var snakeCase: NullEncodable<Int> = .encodeValue(11033)
+    public private(set) var property: String?
+    public private(set) var _123number: Int?
 
     public init(name: Int, snakeCase: NullEncodable<Int> = .encodeValue(11033), property: String? = nil, _123number: Int? = nil) {
         self.name = name

@@ -13,8 +13,10 @@
 
 package org.openapitools.client.api;
 
-import org.junit.Test;
-import org.junit.Ignore;
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -26,8 +28,8 @@ import java.util.Map;
 /**
  * API tests for FormApi
  */
-@Ignore
-public class FormApiTest {
+@Disabled
+class FormApiTest {
 
     private final FormApi api = new FormApi();
 
@@ -37,11 +39,11 @@ public class FormApiTest {
      *
      * Test form parameter(s)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testFormIntegerBooleanStringTest() {
+    void testFormIntegerBooleanStringTest() {
         Integer integerForm = null;
         Boolean booleanForm = null;
         String stringForm = null;
@@ -52,15 +54,32 @@ public class FormApiTest {
     }
     
     /**
-     * Test form parameter(s) for oneOf schema
+     * Test form parameter(s) for multipart schema
      *
-     * Test form parameter(s) for oneOf schema
+     * Test form parameter(s) for multipart schema
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testFormOneofTest() {
+    void testFormObjectMultipartTest() {
+        TestFormObjectMultipartRequestMarker marker = null;
+
+        String response = api.testFormObjectMultipart(marker);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * Test form parameter(s) for oneOf schema
+     *
+     * Test form parameter(s) for oneOf schema
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testFormOneofTest() {
         String form1 = null;
         Integer form2 = null;
         String form3 = null;

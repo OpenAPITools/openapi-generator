@@ -16,61 +16,47 @@
 
 package org.openapitools.codegen.templating.mustache;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template.Fragment;
+import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
+
 import java.io.IOException;
 import java.io.Writer;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template.Fragment;
-
 /**
  * Writes text that was previously saved.
- *
+ * <p>
  * Register:
  * <pre>
- * additionalProperties.put("paste", new PasteLambda(copyLambda, true, true, true, false));
+ * additionalProperties.put("paste", new PasteLambda(copyContent, false));
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#paste}}{{/paste}}
  * </pre>
  */
 public class PasteLambda implements Mustache.Lambda {
-    private final CopyLambda copyLambda;
-    private final Boolean stripLeading;
-    private final Boolean stripTrailing;
-    private final Boolean endWithLineBreak;
+    private final CopyContent copyContent;
     private final Boolean clear;
 
-    public PasteLambda(CopyLambda copyLambda, Boolean stripLeading, Boolean stripTrailing, Boolean endWithLineBreak, boolean clear) {
-        this.copyLambda = copyLambda;
-        this.stripLeading = stripLeading;
-        this.stripTrailing = stripTrailing;
-        this.endWithLineBreak = endWithLineBreak;
+    public PasteLambda(CopyContent copyContent, boolean clear) {
+        this.copyContent = copyContent;
         this.clear = clear;
     }
 
     @Override
     public void execute(Fragment fragment, Writer writer) throws IOException {
-        String content = this.copyLambda.savedContent;
+        String content = this.copyContent.content;
 
         if (content == null) {
             return;
         }
 
-        if (this.stripTrailing){
-            content = content.stripTrailing();
-        }
-        if (this.stripLeading) {
-            content = content.stripLeading();
-        }
-        if (this.endWithLineBreak && !content.endsWith("\n")){
-            content = content + "\n";
-        }
-        writer.write(content);
-
         if (this.clear) {
-            this.copyLambda.savedContent = null;
+            this.copyContent.content = null;
         }
+
+        writer.write(content);
     }
 }

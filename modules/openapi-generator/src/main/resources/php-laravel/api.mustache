@@ -1,131 +1,64 @@
-<?php
+{{>php_file_header}}
 
-{{>licenseInfo}}
+namespace {{apiPackage}};
 
-namespace App\Http\Controllers;
+{{#vendorExtensions.x-autowire}}
+use Attributes\Autowire;
+{{/vendorExtensions.x-autowire}}
 
-use Illuminate\Support\Facades\Request;
+{{#operations}}
+{{#vendorExtensions.x-autowire}}
+#[Autowire]
+{{/vendorExtensions.x-autowire}}
+interface {{classname}} {
 
-{{#operations}}class {{classname}} extends Controller
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
+{{#operation}}
 
-    {{#operation}}
     /**
      * Operation {{{operationId}}}
+    {{#summary}}
      *
-     * {{{summary}}}.
+     * {{{.}}}
+    {{/summary}}
+    {{#description}}
      *
-  {{#pathParams}}   * @param {{dataType}} ${{paramName}} {{description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}
-  {{/pathParams}}   *
-     * @return Http response
-  {{#isDeprecated}}
+     * {{.}}
+    {{/description}}
+    {{#allParams}}
+     * @param {{^required}}null | {{/required}}{{{dataType}}} ${{paramName}}
+    {{/allParams}}
+     * @return {{#responses}}{{{dataType}}}{{^-last}} | {{/-last}}{{/responses}}
+    {{#isDeprecated}}
      * @deprecated
-  {{/isDeprecated}}
+    {{/isDeprecated}}
      */
-    public function {{operationId}}({{#pathParams}}${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}})
-    {
-        $input = Request::all();
-
-        //path params validation
-        {{#pathParams}}
-        {{#hasValidation}}
-        {{#maxLength}}
-        if (strlen(${{paramName}}) > {{maxLength}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
-        }
-        {{/maxLength}}
-        {{#minLength}}
-        if (strlen(${{paramName}}) < {{minLength}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
-        }
-        {{/minLength}}
-        {{#maximum}}
-        if (${{paramName}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
-        }
-        {{/maximum}}
-        {{#minimum}}
-        if (${{paramName}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
-        }
-        {{/minimum}}
-        {{#pattern}}
-        if (!preg_match("{{{pattern}}}", ${{paramName}})) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
-        }
-        {{/pattern}}
-        {{#maxItems}}
-        if (count(${{paramName}}) > {{maxItems}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
-        }
-        {{/maxItems}}
-        {{#minItems}}
-        if (count(${{paramName}}) < {{minItems}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
-        }
-        {{/minItems}}
-        {{/hasValidation}}
-        {{/pathParams}}
-
-
-        //not path params validation
+    public function {{operationId}}(
         {{#allParams}}
-        {{^pathParams}}
-        {{#required}}
-        if (!isset($input['{{paramName}}'])) {
-            throw new \InvalidArgumentException('Missing the required parameter ${{paramName}} when calling {{operationId}}');
-        }
-        {{/required}}
-        {{#hasValidation}}
-        {{#maxLength}}
-        if (strlen($input['{{paramName}}']) > {{maxLength}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than or equal to {{maxLength}}.');
-        }
-        {{/maxLength}}
-        {{#minLength}}
-        if (strlen($input['{{paramName}}']) < {{minLength}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than or equal to {{minLength}}.');
-        }
-        {{/minLength}}
-        {{#maximum}}
-        if ($input['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.');
-        }
-        {{/maximum}}
-        {{#minimum}}
-        if ($input['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must be bigger than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.');
-        }
-        {{/minimum}}
-        {{#pattern}}
-        if (!preg_match("{{{pattern}}}", $input['{{paramName}}'])) {
-            throw new \InvalidArgumentException('invalid value for ${{paramName}} when calling {{classname}}.{{operationId}}, must conform to the pattern {{{pattern}}}.');
-        }
-        {{/pattern}}
-        {{#maxItems}}
-        if (count($input['{{paramName}}']) > {{maxItems}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be less than or equal to {{maxItems}}.');
-        }
-        {{/maxItems}}
-        {{#minItems}}
-        if (count($input['{{paramName}}']) < {{minItems}}) {
-            throw new \InvalidArgumentException('invalid length for ${{paramName}} when calling {{classname}}.{{operationId}}, number of items must be greater than or equal to {{minItems}}.');
-        }
-        {{/minItems}}
-        {{/hasValidation}}
-        ${{paramName}} = $input['{{paramName}}'];
-
-        {{/pathParams}}
+            {{#isContainer}}
+            {{^required}}?{{/required}}array ${{paramName}},
+            {{/isContainer}}
+            {{^isContainer}}
+            {{^required}}?{{/required}}{{dataType}} ${{paramName}},
+            {{/isContainer}}
         {{/allParams}}
+    ):
+    {{#responses}}
+    {{#isArray}}
+        array{{^-last}} | {{/-last}}
+    {{/isArray}}
+    {{#isMap}}
+        array{{^-last}} | {{/-last}}
+    {{/isMap}}
+    {{^isArray}}
+    {{^isMap}}
+    {{#dataType}}
+        {{dataType}}{{^-last}} | {{/-last}}
+    {{/dataType}}
+    {{/isMap}}
+    {{/isArray}}
+    {{/responses}}
+    ;
 
-        return response('How about implementing {{nickname}} as a {{httpMethod}} method ?');
-    }
-    {{/operation}}
+{{/operation}}
 }
 {{/operations}}

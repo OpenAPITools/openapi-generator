@@ -47,7 +47,7 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setModelPropertyNaming(TypeScriptFetchClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
         verify(clientCodegen).setParamNaming(TypeScriptFetchClientOptionsProvider.PARAM_NAMING_VALUE);
-        verify(clientCodegen).setSupportsES6(TypeScriptFetchClientOptionsProvider.SUPPORTS_ES6_VALUE);
+        verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.SUPPORTS_ES6_VALUE));
         verify(clientCodegen).setImportFileExtension(TypeScriptFetchClientOptionsProvider.IMPORT_FILE_EXTENSION_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setWithoutRuntimeChecks(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.WITHOUT_RUNTIME_CHECKS));

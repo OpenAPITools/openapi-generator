@@ -19,13 +19,12 @@ package org.openapitools.codegen.languages;
 
 import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -183,7 +182,7 @@ public class ErlangServerDeprecatedCodegen extends DefaultCodegen implements Cod
         supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -333,5 +332,7 @@ public class ErlangServerDeprecatedCodegen extends DefaultCodegen implements Cod
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

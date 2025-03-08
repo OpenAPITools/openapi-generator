@@ -1,6 +1,7 @@
 generatorName: java-micronaut-server
 outputDir: samples/server/petstore/java-micronaut-server/
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/java-micronaut/
 additionalProperties:
   artifactId: petstore-micronaut-server
   hideGenerationTimestamp: "true"

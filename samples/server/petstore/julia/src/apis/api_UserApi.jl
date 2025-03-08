@@ -155,6 +155,7 @@ function login_user_validate(handler)
     function login_user_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
         
+        OpenAPI.validate_param("username", "login_user", :pattern, openapi_params["username"], r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
         
         return handler(req)
     end

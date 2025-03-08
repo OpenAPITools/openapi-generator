@@ -52,28 +52,44 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected final String PREFIX = "";
     protected String helpersPackage = "";
 
-    /** OpenApi types that shouldn't have a namespace added with getTypeDeclaration() at generation time (for nlohmann::json) */
+    /**
+     * OpenApi types that shouldn't have a namespace added with getTypeDeclaration() at generation time (for nlohmann::json)
+     */
     private final Set<String> openAPITypesWithoutModelNamespace = new HashSet<>();
 
-    /** int32_t (for integer) */
+    /**
+     * int32_t (for integer)
+     */
     private static final String INT32_T = "int32_t";
 
-    /** int64_t (for long) */
+    /**
+     * int64_t (for long)
+     */
     private static final String INT64_T = "int64_t";
 
-    /** nlohmann::json (for object, AnyType) */
+    /**
+     * nlohmann::json (for object, AnyType)
+     */
     private static final String NLOHMANN_JSON = "nlohmann::json";
 
-    /** std:string (for date, DateTime, string, file, binary, UUID, URI, ByteArray) */
+    /**
+     * std:string (for date, DateTime, string, file, binary, UUID, URI, ByteArray)
+     */
     private static final String STD_STRING = "std::string";
 
-    /** std:map (for map) */
+    /**
+     * std:map (for map)
+     */
     private static final String STD_MAP = "std::map";
 
-    /** std:set (for set) */
+    /**
+     * std:set (for set)
+     */
     private static final String STD_SET = "std::set";
 
-    /** std:vector (for array) */
+    /**
+     * std:vector (for array)
+     */
     private static final String STD_VECTOR = "std::vector";
 
     @Override
@@ -235,7 +251,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String toModelImport(String name) {
         // Do not reattempt to add #include on an already solved #include
         if (name.startsWith("#include")) {
-           return null;
+            return null;
         }
 
         if (importMapping.containsKey(name)) {
@@ -262,13 +278,13 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
         }
 
-        if(!codegenModel.isEnum
-                && codegenModel.anyOf.size()>1
+        if (!codegenModel.isEnum
+                && codegenModel.anyOf.size() > 1
                 && codegenModel.anyOf.contains(STD_STRING)
                 && !codegenModel.anyOf.contains("AnyType")
-                && codegenModel.interfaces.size()==1
-        ){
-            codegenModel.vendorExtensions.put("x-is-string-enum-container",true);
+                && codegenModel.interfaces.size() == 1
+        ) {
+            codegenModel.vendorExtensions.put("x-is-string-enum-container", true);
         }
         return codegenModel;
     }
@@ -328,8 +344,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         boolean consumeJson = false;
         if (op.consumes != null) {
-            Predicate<Map<String,String>> isMediaTypeJson =  consume -> (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json"));
-            consumeJson =  op.consumes.stream().anyMatch(isMediaTypeJson);
+            Predicate<Map<String, String>> isMediaTypeJson = consume -> (consume.get("mediaType") != null && consume.get("mediaType").equals("application/json"));
+            consumeJson = op.consumes.stream().anyMatch(isMediaTypeJson);
         }
         op.vendorExtensions.put("x-codegen-pistache-consumes-json", consumeJson);
 
@@ -337,7 +353,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         boolean isParsingSupported = true;
         for (CodegenParameter param : op.allParams) {
-            boolean paramSupportsParsing =  (!param.isFormParam && !param.isFile && !param.isCookieParam);
+            boolean paramSupportsParsing = (!param.isFormParam && !param.isFile && !param.isCookieParam);
             isParsingSupported = isParsingSupported && paramSupportsParsing;
 
             postProcessSingleParam(param);
@@ -354,6 +370,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     /**
      * postProcessSingleParam - Modifies a single parameter, adjusting generated
      * data types for Header and Query parameters.
+     *
      * @param param CodegenParameter to be modified.
      */
     private void postProcessSingleParam(CodegenParameter param) {
@@ -395,7 +412,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * suffix and replace "api" with "impl" directory prefix.
      *
      * @param filename Filename of the api-file to be modified
-     * @param suffix Suffix of the file (usually ".cpp" or ".h")
+     * @param suffix   Suffix of the file (usually ".cpp" or ".h")
      * @return a filename string of impl file.
      */
     private String implFilenameFromApiFilename(String filename, String suffix) {
@@ -443,6 +460,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     /**
      * Prefix an open API type with a namespace or not, depending of its current type and if it is on a list to avoid it.
+     *
      * @param openAPIType Open API Type.
      * @return type prefixed with the namespace or not.
      */
@@ -450,8 +468,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         // Some types might not support namespace
         if (this.openAPITypesWithoutModelNamespace.contains(openAPIType) || openAPIType.startsWith("std::")) {
             return openAPIType;
-        }
-        else {
+        } else {
             String namespace = (String) additionalProperties.get("modelNamespace");
             return namespace + "::" + openAPIType;
         }

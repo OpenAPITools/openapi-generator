@@ -1,6 +1,6 @@
 generatorName: scala-cask
 outputDir: samples/server/petstore/scala-cask
-inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/scala-cask/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/scala-cask
 additionalProperties:
   hideGenerationTimestamp: "true"

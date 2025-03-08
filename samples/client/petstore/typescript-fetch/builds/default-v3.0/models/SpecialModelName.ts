@@ -48,11 +48,11 @@ export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-  export function SpecialModelNameToJSON(json: any): SpecialModelName {
-      return SpecialModelNameToJSONTyped(json, false);
-  }
+export function SpecialModelNameToJSON(json: any): SpecialModelName {
+    return SpecialModelNameToJSONTyped(json, false);
+}
 
-  export function SpecialModelNameToJSONTyped(value?: SpecialModelName | null, ignoreDiscriminator: boolean = false): any {
+export function SpecialModelNameToJSONTyped(value?: SpecialModelName | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IgnoreLineParser {
-    @Getter enum Token {
+    @Getter
+    enum Token {
         MATCH_ALL("**"),
         MATCH_ANY("*"),
         ESCAPED_EXCLAMATION("\\!"),
@@ -84,8 +85,8 @@ public class IgnoreLineParser {
 
                 if (Token.MATCH_ANY.pattern.equals(next)) {
                     // peek ahead for invalid pattern. Slightly inefficient, but acceptable.
-                    if ((i+2 < totalLength - 1) &&
-                            String.valueOf(characters[i+2]).equals(Token.MATCH_ANY.pattern)) {
+                    if ((i + 2 < totalLength - 1) &&
+                            String.valueOf(characters[i + 2]).equals(Token.MATCH_ANY.pattern)) {
                         // It doesn't matter where we are in the pattern, *** is invalid.
                         throw new ParserException("The pattern *** is invalid.");
                     }
@@ -129,7 +130,7 @@ public class IgnoreLineParser {
                     }
 
                     parts.add(new Part(Token.PATH_DELIM));
-                    if(Token.PATH_DELIM.pattern.equals(next)) {
+                    if (Token.PATH_DELIM.pattern.equals(next)) {
                         // ignore doubled path delims. NOTE: doesn't do full lookahead, so /// will result in //
                         i++;
                     }

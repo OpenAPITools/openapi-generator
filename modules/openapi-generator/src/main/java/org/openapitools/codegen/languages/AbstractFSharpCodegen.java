@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
@@ -30,7 +29,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1050,7 +1049,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // only process files with .fs extension
         if ("fs".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {fsharpPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{fsharpPostProcessFile, file.toString()});
         }
     }
 

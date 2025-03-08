@@ -41,9 +41,9 @@ public class AuthParser {
                 String[] kvPair = part.split(":");
                 if (kvPair.length == 2) {
                     auths.add(new AuthorizationValue(
-                        URLDecoder.decode(kvPair[0], StandardCharsets.UTF_8), 
-                        URLDecoder.decode(kvPair[1], StandardCharsets.UTF_8), 
-                        "header"
+                            URLDecoder.decode(kvPair[0], StandardCharsets.UTF_8),
+                            URLDecoder.decode(kvPair[1], StandardCharsets.UTF_8),
+                            "header"
                     ));
                 }
             }
@@ -59,7 +59,7 @@ public class AuthParser {
                     b.append(",");
                 }
                 b.append(URLEncoder.encode(v.getKeyName(), StandardCharsets.UTF_8))
-                    .append(":").append(URLEncoder.encode(v.getValue(), StandardCharsets.UTF_8));
+                        .append(":").append(URLEncoder.encode(v.getValue(), StandardCharsets.UTF_8));
             }
             return b.toString();
         } else {

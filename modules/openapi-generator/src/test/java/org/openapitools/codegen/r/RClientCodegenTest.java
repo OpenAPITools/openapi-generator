@@ -79,14 +79,14 @@ public class RClientCodegenTest {
         defaultGenerator.opts(clientOptInput);
 
         var petsApi = defaultGenerator.generate().stream()
-                          .filter(file -> "pets_api.R".equals(file.getName())).findFirst();
+                .filter(file -> "pets_api.R".equals(file.getName())).findFirst();
         if (petsApi.isEmpty()) {
             Assert.fail("`pets_api.R` have not been generated");
         }
         var isIfCondition = Pattern.compile("^\\s*(?!<#)\\s*if.*\\s%in%\\s.*").asPredicate();
         var containsNullCheck = Pattern.compile("![(\\s]*is\\.null").asPredicate();
         var hit = false;
-        for (var line: Files.readAllLines(Paths.get(petsApi.get().getAbsolutePath()))) {
+        for (var line : Files.readAllLines(Paths.get(petsApi.get().getAbsolutePath()))) {
             if (isIfCondition.test(line)) {
                 hit = true;
                 Assert.assertTrue(containsNullCheck.test(line), "Null check is missing in line: " + line);

@@ -85,10 +85,35 @@ Pet <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return Pet in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return Pet as a base R list.
+    #' @examples
+    #' # convert array of Pet (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert Pet to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       PetObject <- list()
       if (!is.null(self$`id`)) {
         PetObject[["id"]] <-
@@ -96,7 +121,7 @@ Pet <- R6::R6Class(
       }
       if (!is.null(self$`category`)) {
         PetObject[["category"]] <-
-          self$`category`$toJSON()
+          self$`category`$toSimpleType()
       }
       if (!is.null(self$`name`)) {
         PetObject[["name"]] <-
@@ -108,7 +133,7 @@ Pet <- R6::R6Class(
       }
       if (!is.null(self$`tags`)) {
         PetObject[["tags"]] <-
-          lapply(self$`tags`, function(x) x$toJSON())
+          lapply(self$`tags`, function(x) x$toSimpleType())
       }
       if (!is.null(self$`status`)) {
         PetObject[["status"]] <-
@@ -118,7 +143,7 @@ Pet <- R6::R6Class(
         PetObject[[key]] <- self$additional_properties[[key]]
       }
 
-      PetObject
+      return(PetObject)
     },
 
     #' @description
@@ -163,66 +188,16 @@ Pet <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return Pet in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`id`)) {
-          sprintf(
-          '"id":
-            %d
-                    ',
-          self$`id`
-          )
-        },
-        if (!is.null(self$`category`)) {
-          sprintf(
-          '"category":
-          %s
-          ',
-          jsonlite::toJSON(self$`category`$toJSON(), auto_unbox = TRUE, digits = NA)
-          )
-        },
-        if (!is.null(self$`name`)) {
-          sprintf(
-          '"name":
-            "%s"
-                    ',
-          self$`name`
-          )
-        },
-        if (!is.null(self$`photoUrls`)) {
-          sprintf(
-          '"photoUrls":
-             [%s]
-          ',
-          paste(unlist(lapply(self$`photoUrls`, function(x) paste0('"', x, '"'))), collapse = ",")
-          )
-        },
-        if (!is.null(self$`tags`)) {
-          sprintf(
-          '"tags":
-          [%s]
-',
-          paste(sapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
-          )
-        },
-        if (!is.null(self$`status`)) {
-          sprintf(
-          '"status":
-            "%s"
-                    ',
-          self$`status`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

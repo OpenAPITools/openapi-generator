@@ -1,7 +1,7 @@
 package org.openapitools.codegen.validations.oas;
 
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 
 /**
@@ -11,7 +11,7 @@ public class SchemaWrapper {
     OpenAPI specification;
     /**
      * -- GETTER --
-     *  Return the OAS schema
+     * Return the OAS schema
      *
      * @return the OAS schema
      */
@@ -21,7 +21,7 @@ public class SchemaWrapper {
      * Constructs a new instance of {@link SchemaWrapper}
      *
      * @param specification The OAS specification
-     * @param schema The OAS schema
+     * @param schema        The OAS schema
      */
     SchemaWrapper(OpenAPI specification, Schema schema) {
         this.specification = specification;

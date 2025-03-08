@@ -105,7 +105,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
-    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
+    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
     }
 }

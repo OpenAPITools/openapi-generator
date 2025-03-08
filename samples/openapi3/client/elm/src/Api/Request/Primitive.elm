@@ -24,6 +24,7 @@ import Http
 import Json.Decode
 import Json.Encode
 
+
 update : Api.Data.Primitive -> Api.Request Api.Data.Primitive
 update primitive_body =
     Api.request

@@ -48,16 +48,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl {{{packageName}}}::Api for ServerImpl {
+impl {{{externCrateName}}}::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl {{{externCrateName}}}::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = {{{packageName}}}::server::new(Arc::new(ServerImpl));
+    let app = {{{externCrateName}}}::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

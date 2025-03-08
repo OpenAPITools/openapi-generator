@@ -33,14 +33,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for DefaultValue
  */
-public class DefaultValueTest {
+class DefaultValueTest {
     private final DefaultValue model = new DefaultValue();
 
     /**
      * Model tests for DefaultValue
      */
     @Test
-    public void testDefaultValue() {
+    void testDefaultValue() {
         // TODO: test DefaultValue
     }
 
@@ -48,7 +48,7 @@ public class DefaultValueTest {
      * Test the property 'arrayStringEnumRefDefault'
      */
     @Test
-    public void arrayStringEnumRefDefaultTest() {
+    void arrayStringEnumRefDefaultTest() {
         // TODO: test arrayStringEnumRefDefault
     }
 
@@ -56,7 +56,7 @@ public class DefaultValueTest {
      * Test the property 'arrayStringEnumDefault'
      */
     @Test
-    public void arrayStringEnumDefaultTest() {
+    void arrayStringEnumDefaultTest() {
         // TODO: test arrayStringEnumDefault
     }
 
@@ -64,7 +64,7 @@ public class DefaultValueTest {
      * Test the property 'arrayStringDefault'
      */
     @Test
-    public void arrayStringDefaultTest() {
+    void arrayStringDefaultTest() {
         // TODO: test arrayStringDefault
     }
 
@@ -72,7 +72,7 @@ public class DefaultValueTest {
      * Test the property 'arrayIntegerDefault'
      */
     @Test
-    public void arrayIntegerDefaultTest() {
+    void arrayIntegerDefaultTest() {
         // TODO: test arrayIntegerDefault
     }
 
@@ -80,7 +80,7 @@ public class DefaultValueTest {
      * Test the property 'arrayString'
      */
     @Test
-    public void arrayStringTest() {
+    void arrayStringTest() {
         // TODO: test arrayString
     }
 
@@ -88,7 +88,7 @@ public class DefaultValueTest {
      * Test the property 'arrayStringNullable'
      */
     @Test
-    public void arrayStringNullableTest() {
+    void arrayStringNullableTest() {
         // TODO: test arrayStringNullable
     }
 
@@ -96,7 +96,7 @@ public class DefaultValueTest {
      * Test the property 'arrayStringExtensionNullable'
      */
     @Test
-    public void arrayStringExtensionNullableTest() {
+    void arrayStringExtensionNullableTest() {
         // TODO: test arrayStringExtensionNullable
     }
 
@@ -104,7 +104,7 @@ public class DefaultValueTest {
      * Test the property 'stringNullable'
      */
     @Test
-    public void stringNullableTest() {
+    void stringNullableTest() {
         // TODO: test stringNullable
     }
 

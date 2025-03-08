@@ -26,6 +26,7 @@ The following generators are available:
 * [elm](generators/elm.md)  
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
+* [gdscript](generators/gdscript.md)  
 * [go](generators/go.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
@@ -84,6 +85,7 @@ The following generators are available:
 
 ## SERVER generators
 * [ada-server](generators/ada-server.md)  
+* [aspnet-fastendpoints](generators/aspnet-fastendpoints.md)  
 * [aspnetcore](generators/aspnetcore.md)  
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
@@ -166,6 +168,7 @@ The following generators are available:
 * [graphql-schema](generators/graphql-schema.md)  
 * [ktorm-schema (beta)](generators/ktorm-schema.md)  
 * [mysql-schema](generators/mysql-schema.md)  
+* [postgresql-schema (beta)](generators/postgresql-schema.md)  
 * [postman-collection (beta)](generators/postman-collection.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 * [wsdl-schema (beta)](generators/wsdl-schema.md)  

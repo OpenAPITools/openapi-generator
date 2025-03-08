@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct OuterComposite: Codable, JSONEncodable {
+internal struct OuterComposite: Sendable, Codable, JSONEncodable {
 
     internal private(set) var myNumber: Double?
     internal private(set) var myString: String?

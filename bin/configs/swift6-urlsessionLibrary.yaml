@@ -13,4 +13,5 @@ additionalProperties:
   useSPMFileStructure: true
   mapFileBinaryToData: true
   useClasses: true
+  readonlyProperties: true
   swiftUseApiNamespace: true

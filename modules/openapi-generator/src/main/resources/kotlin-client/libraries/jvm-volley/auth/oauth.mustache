@@ -1,4 +1,4 @@
-val basicAuthHeaderFactoryBuilder = { username: String?, password: String? ->
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val basicAuthHeaderFactoryBuilder = { username: String?, password: String? ->
 {
     throw NotImplementedError("OAuth security scheme header factory not implemented yet - see open api generator auth/oauth.mustache")
     mapOf("" to "")}

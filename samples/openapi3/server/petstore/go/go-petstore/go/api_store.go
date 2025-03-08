@@ -88,7 +88,7 @@ func (c *StoreAPIController) GetInventory(w http.ResponseWriter, r *http.Request
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
-	orderParam := Order{}
+	var orderParam Order
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err := d.Decode(&orderParam); err != nil {

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -26,14 +27,14 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("Bar_Create")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class BarCreate extends Entity {
 
-  private String barPropA;
+  private @Nullable String barPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Nullable FooRefOrValue foo;
 
   public BarCreate() {
     super();

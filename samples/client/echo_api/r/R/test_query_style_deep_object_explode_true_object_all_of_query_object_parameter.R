@@ -58,10 +58,35 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter as a base R list.
+    #' @examples
+    #' # convert array of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject <- list()
       if (!is.null(self$`size`)) {
         TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject[["size"]] <-
@@ -79,7 +104,7 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
         TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject[["name"]] <-
           self$`name`
       }
-      TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject
+      return(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject)
     },
 
     #' @description
@@ -106,45 +131,13 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`size`)) {
-          sprintf(
-          '"size":
-            "%s"
-                    ',
-          self$`size`
-          )
-        },
-        if (!is.null(self$`color`)) {
-          sprintf(
-          '"color":
-            "%s"
-                    ',
-          self$`color`
-          )
-        },
-        if (!is.null(self$`id`)) {
-          sprintf(
-          '"id":
-            %d
-                    ',
-          self$`id`
-          )
-        },
-        if (!is.null(self$`name`)) {
-          sprintf(
-          '"name":
-            "%s"
-                    ',
-          self$`name`
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

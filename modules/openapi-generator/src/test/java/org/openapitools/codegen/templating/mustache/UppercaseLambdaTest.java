@@ -1,8 +1,8 @@
 package org.openapitools.codegen.templating.mustache;
 
-import java.util.Map;
-
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 public class UppercaseLambdaTest extends LambdaTest {
 

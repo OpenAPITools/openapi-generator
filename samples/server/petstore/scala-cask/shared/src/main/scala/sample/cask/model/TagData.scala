@@ -20,7 +20,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** TagData a data transfer object, primarily for simple json serialisation.
+
+        /** TagData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class TagData(
@@ -38,7 +39,7 @@ case class TagData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== id validation ==================
         
         
@@ -51,9 +52,12 @@ case class TagData(
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[Tag] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -64,20 +68,16 @@ case class TagData(
   /** use 'validated' to check validation */
   def asModel : Tag = {
     Tag(
-        id = Option(
-        id
-        )
-        ,
-        name = Option(
-        name
-        )
-        
+        id = Option(id) /* 1 */,
+        name = Option(name) /* 1 */
     
     )
   }
 }
 
 object TagData {
+
+  def validated(d8a : TagData, failFast : Boolean) : scala.util.Try[Tag] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : TagData = try {
         val data = read[TagData](jason)

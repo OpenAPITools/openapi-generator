@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AdditionalPropertiesClass: Codable, JSONEncodable, Hashable {
+public struct AdditionalPropertiesClass: Sendable, Codable, JSONEncodable, Hashable {
 
     public var mapString: [String: String]?
     public var mapNumber: [String: Double]?

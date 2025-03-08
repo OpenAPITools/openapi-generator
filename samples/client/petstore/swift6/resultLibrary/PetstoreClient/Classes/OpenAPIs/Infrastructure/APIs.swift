@@ -9,7 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-internal class OpenAPIClient: @unchecked Sendable {
+internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
     internal var basePath: String
     internal var customHeaders: [String: String]
     internal var credential: URLCredential?
@@ -44,7 +44,7 @@ internal class OpenAPIClient: @unchecked Sendable {
         self.interceptor = interceptor
     }
 
-    internal static let shared = OpenAPIClient()
+    internal static let shared = PetstoreClientAPIConfiguration()
 }
 
 internal class RequestBuilder<T>: @unchecked Sendable {
@@ -55,20 +55,20 @@ internal class RequestBuilder<T>: @unchecked Sendable {
     internal let URLString: String
     internal let requestTask: RequestTask = RequestTask()
     internal let requiresAuthentication: Bool
-    internal let openAPIClient: OpenAPIClient
+    internal let apiConfiguration: PetstoreClientAPIConfiguration
 
     /// Optional block to obtain a reference to the request's progress instance when available.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
+    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
         self.headers = headers
         self.requiresAuthentication = requiresAuthentication
-        self.openAPIClient = openAPIClient
+        self.apiConfiguration = apiConfiguration
 
-        addHeaders(openAPIClient.customHeaders)
+        addHeaders(apiConfiguration.customHeaders)
         addCredential()
     }
 
@@ -91,7 +91,7 @@ internal class RequestBuilder<T>: @unchecked Sendable {
     }
 
     internal func addCredential() {
-        credential = openAPIClient.credential
+        credential = apiConfiguration.credential
     }
 }
 

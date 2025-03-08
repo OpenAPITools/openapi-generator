@@ -80,7 +80,7 @@ module.exports = {
                 {{/allParams}}
                 {{/isMultipart}}
                 const options = {
-                    url: utils.replacePathParameters('{{basePath}}{{path}}'),
+                    url: utils.replacePathParameters('{{{basePath}}}{{{path}}}'),
                     method: '{{httpMethod}}',
                     removeMissingValuesFrom: { params: true, body: true },
                     headers: {

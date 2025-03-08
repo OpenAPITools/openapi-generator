@@ -1,5 +1,5 @@
 {
-    "name": "{{path}}{{#isDeprecated}} (DEPRECATED){{/isDeprecated}}",
+    "name": "{{{path}}}{{#isDeprecated}} (DEPRECATED){{/isDeprecated}}",
                 "description": "{{{notes}}}",
                  "item": [
                         {{#vendorExtensions.postmanRequests}}
@@ -27,7 +27,7 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>{{path}}",
+                                        "raw": "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>{{{path}}}",
                                         "host": [
                                             "{{=<% %>=}}{{baseUrl}}<%={{ }}=%>"
                                         ],

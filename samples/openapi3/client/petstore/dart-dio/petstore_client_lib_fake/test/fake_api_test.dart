@@ -7,6 +7,13 @@ void main() {
   final instance = Openapi().getFakeApi();
 
   group(FakeApi, () {
+    // for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+    //
+    //Future<FakeBigDecimalMap200Response> fakeBigDecimalMap() async
+    test('test fakeBigDecimalMap', () async {
+      // TODO
+    });
+
     // Health check endpoint
     //
     //Future<HealthCheckResult> fakeHealthGet() async
@@ -53,6 +60,15 @@ void main() {
     //
     //Future<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) async
     test('test fakePropertyEnumIntegerSerialize', () async {
+      // TODO
+    });
+
+    // test referenced additionalProperties
+    //
+    // 
+    //
+    //Future testAdditionalPropertiesReference(BuiltMap<String, JsonObject> requestBody) async
+    test('test testAdditionalPropertiesReference', () async {
       // TODO
     });
 
@@ -120,6 +136,15 @@ void main() {
       // TODO
     });
 
+    // test inline free-form additionalProperties
+    //
+    // 
+    //
+    //Future testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) async
+    test('test testInlineFreeformAdditionalProperties', () async {
+      // TODO
+    });
+
     // test json serialization of form data
     //
     // 
@@ -129,10 +154,28 @@ void main() {
       // TODO
     });
 
+    // test nullable parent property
+    //
+    // 
+    //
+    //Future testNullable(ChildWithNullable childWithNullable) async
+    test('test testNullable', () async {
+      // TODO
+    });
+
     // To test the collection format in query parameters
     //
     //Future testQueryParameterCollectionFormat(BuiltList<String> pipe, BuiltList<String> ioutil, BuiltList<String> http, BuiltList<String> url, BuiltList<String> context, String allowEmpty, { BuiltMap<String, String> language }) async
     test('test testQueryParameterCollectionFormat', () async {
+      // TODO
+    });
+
+    // test referenced string map
+    //
+    // 
+    //
+    //Future testStringMapReference(BuiltMap<String, String> requestBody) async
+    test('test testStringMapReference', () async {
       // TODO
     });
 

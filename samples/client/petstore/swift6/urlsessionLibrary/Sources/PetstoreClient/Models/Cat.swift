@@ -12,11 +12,11 @@ public typealias Cat = PetstoreClientAPI.Cat
 
 extension PetstoreClientAPI {
 
-public final class Cat: Codable, JSONEncodable, Hashable {
+public final class Cat: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var className: String
-    public var color: String? = "red"
-    public var declawed: Bool?
+    public private(set) var className: String
+    public private(set) var color: String? = "red"
+    public private(set) var declawed: Bool?
 
     public init(className: String, color: String? = "red", declawed: Bool? = nil) {
         self.className = className

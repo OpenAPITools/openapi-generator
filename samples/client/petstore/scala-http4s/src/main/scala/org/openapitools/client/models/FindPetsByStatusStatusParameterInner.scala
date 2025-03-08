@@ -24,12 +24,13 @@ enum FindPetsByStatusStatusParameterInner(val value: String) {
 }
 
 object FindPetsByStatusStatusParameterInner {
-  given decoderFindPetsByStatusStatusParameterInner: Decoder[FindPetsByStatusStatusParameterInner] =
-    Decoder.decodeString.map(str => FindPetsByStatusStatusParameterInner.values.find(_.value == str)
-      .getOrElse(throw java.lang.IllegalArgumentException(s"FindPetsByStatusStatusParameterInner enum case not found: $str"))
-    )
 
-  given encoderFindPetsByStatusStatusParameterInner: Encoder[FindPetsByStatusStatusParameterInner] =
-    Encoder.encodeString.contramap[FindPetsByStatusStatusParameterInner](_.value)
+  def withValueOpt(value: String): Option[FindPetsByStatusStatusParameterInner] = FindPetsByStatusStatusParameterInner.values.find(_.value == value)
+  def withValue(value: String): FindPetsByStatusStatusParameterInner =
+    withValueOpt(value).getOrElse(throw java.lang.IllegalArgumentException(s"FindPetsByStatusStatusParameterInner enum case not found: $value"))
+
+  given decoderFindPetsByStatusStatusParameterInner: Decoder[FindPetsByStatusStatusParameterInner] = Decoder.decodeString.map(withValue)
+  given encoderFindPetsByStatusStatusParameterInner: Encoder[FindPetsByStatusStatusParameterInner] = Encoder.encodeString.contramap[FindPetsByStatusStatusParameterInner](_.value)
+
 }
 

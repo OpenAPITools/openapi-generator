@@ -138,7 +138,7 @@ public class JavascriptClientCodegenTest {
         Operation textOperation = openAPI.getPaths().get("/pet").getPost();
         CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
 
-        for (Map<String, String> consume: coText.consumes) {
+        for (Map<String, String> consume : coText.consumes) {
             if ("application/json".equals(consume.get("mediaType"))) {
                 Assert.assertEquals(consume.get("isJson"), "true");
             }
@@ -158,7 +158,7 @@ public class JavascriptClientCodegenTest {
         Operation textOperation = openAPI.getPaths().get("/pet/{petId}").getGet();
         CodegenOperation coText = codegen.fromOperation("/user", "get", textOperation, null);
 
-        for (Map<String, String> consume: coText.produces) {
+        for (Map<String, String> consume : coText.produces) {
             if ("application/json".equals(consume.get("mediaType"))) {
                 Assert.assertEquals(consume.get("isJson"), "true");
             }

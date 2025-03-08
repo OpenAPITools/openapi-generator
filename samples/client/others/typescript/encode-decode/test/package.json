@@ -8,7 +8,7 @@
     "chai": "^4.3.0",
     "mocha": "^10.2.0",
     "ts-node": "^10.9.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.6.3"
   },
   "scripts": {
     "preinstall": "npm --prefix ../build install",

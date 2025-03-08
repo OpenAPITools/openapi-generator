@@ -26,8 +26,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -37,7 +37,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(BashClientCodegen.class);
@@ -499,7 +500,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
          */
         result = escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(result).replace("\\/", "/"))
+                                StringEscapeUtils.escapeJava(result).replace("\\/", "/"))
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
 
@@ -795,5 +796,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.BASH; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.BASH;
+    }
 }

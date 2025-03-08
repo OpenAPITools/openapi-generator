@@ -4,11 +4,11 @@ package org.openapitools.codegen.typescript;
  * TestNG supports grouping using <a href="https://testng.org/doc/documentation-main.html#test-groups">Test Groups</a>.
  * <br>
  * <p>
- *     Using groups also enables running only a subset of tests, e.g. only for the generator you are currently working on.
+ * Using groups also enables running only a subset of tests, e.g. only for the generator you are currently working on.
  * </p>
  * <p>
- *     This speeds up development <strong>a lot</strong>, especially if run from an IDE with support for TestNG groups
- *     (e.g. IntelliJ IDEA and derivatives, VS Code, and lots of others)
+ * This speeds up development <strong>a lot</strong>, especially if run from an IDE with support for TestNG groups
+ * (e.g. IntelliJ IDEA and derivatives, VS Code, and lots of others)
  * </p>
  * <br>
  * <p>Suggested groups/group-names are:</p>

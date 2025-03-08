@@ -18,8 +18,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|addJsonNameAnnotation|Append &quot;json_name&quot; annotation to message field when the specification name differs from the protobuf field name| |false|
 |numberedFieldNumberList|Field numbers in order.| |false|
-|startEnumsWithUnknown|Introduces &quot;UNKNOWN&quot; as the first element of enumerations.| |false|
+|startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
 
 ## IMPORT MAPPING
 

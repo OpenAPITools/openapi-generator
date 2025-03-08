@@ -10,7 +10,7 @@ import FoundationNetworking
 #endif
 import Vapor
 
-open class OpenAPIClient: @unchecked Sendable {
+open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public var basePath: String
     public var customHeaders: HTTPHeaders
     public var apiClient: Vapor.Client?
@@ -31,5 +31,5 @@ open class OpenAPIClient: @unchecked Sendable {
         contentConfiguration = contentConfiguration
     }
 
-    public static let shared = OpenAPIClient()
+    public static let shared = PetstoreClientAPIConfiguration()
 }

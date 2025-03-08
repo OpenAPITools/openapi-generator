@@ -4,8 +4,8 @@ import java.io.StringReader;
 import java.util.Map;
 
 /**
-* Evaluate a mustache variable using the same mustache context as MustacheEngineAdapter.
-*/
+ * Evaluate a mustache variable using the same mustache context as MustacheEngineAdapter.
+ */
 public class MustacheEvaluator {
     private final Template template;
     private final Template.Context context;

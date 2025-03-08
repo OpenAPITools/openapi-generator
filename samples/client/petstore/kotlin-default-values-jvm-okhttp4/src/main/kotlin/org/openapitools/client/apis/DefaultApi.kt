@@ -45,6 +45,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * POST /test
      * Tests default values
      * Tests default values of different parameters
      * @param pi0  (default to 10)
@@ -103,6 +104,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * POST /test
      * Tests default values
      * Tests default values of different parameters
      * @param pi0  (default to 10)

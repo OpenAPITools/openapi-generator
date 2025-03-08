@@ -49,7 +49,7 @@ public final class ValidationResult {
      * @return All validated results.
      */
     public List<Validated> getAll() {
-        return  validations;
+        return validations;
     }
 
     /**
@@ -57,8 +57,8 @@ public final class ValidationResult {
      *
      * @return A list containing only {@link Valid} states.
      */
-    public List<Valid> getValid(){
-        return validations.stream().filter(Validated::isValid).map(it -> (Valid)it).collect(Collectors.toList());
+    public List<Valid> getValid() {
+        return validations.stream().filter(Validated::isValid).map(it -> (Valid) it).collect(Collectors.toList());
     }
 
     /**
@@ -66,10 +66,10 @@ public final class ValidationResult {
      *
      * @return A list of all validation errors.
      */
-    public List<Invalid> getErrors(){
+    public List<Invalid> getErrors() {
         return validations.stream()
                 .filter(it -> !it.isValid())
-                .map(it -> (Invalid)it)
+                .map(it -> (Invalid) it)
                 .filter(it -> it.getSeverity().equals(Severity.ERROR))
                 .collect(Collectors.toList());
     }
@@ -79,10 +79,10 @@ public final class ValidationResult {
      *
      * @return A list of all validation warnings.
      */
-    public List<Invalid> getWarnings(){
+    public List<Invalid> getWarnings() {
         return validations.stream()
                 .filter(it -> !it.isValid())
-                .map(it -> (Invalid)it)
+                .map(it -> (Invalid) it)
                 .filter(it -> it.getSeverity().equals(Severity.WARNING))
                 .collect(Collectors.toList());
     }

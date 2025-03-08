@@ -61,8 +61,8 @@ public class HandlebarsEngineAdapterTest {
         TemplatingExecutor executorMock = Mockito.mock(TemplatingExecutor.class);
         Mockito.when(executorMock.getFullTemplateContents("outerTemplate.hbs")).thenReturn(
                 "Contents: {{#propertyObj}}\n" +
-                        "  public getter: {{valueMethodAndBean}}\n" + 
-                        "  public method: {{valueAndMethod}}\n" + 
+                        "  public getter: {{valueMethodAndBean}}\n" +
+                        "  public method: {{valueAndMethod}}\n" +
                         "  private property: {{valueOnly}}{{/propertyObj}}");
 
         Map<String, Object> bundle = Map.of("propertyObj", new PropertyObject());

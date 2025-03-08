@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  '/user':
+    get:
+      responses:
+        200:
+          description: "success"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredProperties'
+
+components:
+  schemas:
+    RequiredProperties:
+      type: object
+      required:
+        - a
+        - b
+      properties:
+        a:
+          type: string
+        b:
+          type: string
+        c:
+          type: string

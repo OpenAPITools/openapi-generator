@@ -17,16 +17,22 @@ public enum TemplateFileType {
 
     private final String templateType;
 
-    TemplateFileType(String templateType) { this.templateType = templateType; }
+    TemplateFileType(String templateType) {
+        this.templateType = templateType;
+    }
 
     /**
      * Returns the value for this template file type
      *
      * @return The template type of this enum.
      */
-    public String value() { return this.templateType; }
+    public String value() {
+        return this.templateType;
+    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new StringJoiner(", ", TemplateFileType.class.getSimpleName() + "[", "]")

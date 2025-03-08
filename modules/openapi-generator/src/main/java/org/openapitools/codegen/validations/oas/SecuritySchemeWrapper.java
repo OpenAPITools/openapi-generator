@@ -11,7 +11,7 @@ public class SecuritySchemeWrapper {
     OpenAPI specification;
     /**
      * -- GETTER --
-     *  Return the OAS securityScheme
+     * Return the OAS securityScheme
      *
      * @return the OAS securityScheme
      */
@@ -20,7 +20,7 @@ public class SecuritySchemeWrapper {
     /**
      * Constructs a new instance of {@link SecuritySchemeWrapper}
      *
-     * @param specification The OAS specification
+     * @param specification  The OAS specification
      * @param securityScheme The OAS securityScheme
      */
     SecuritySchemeWrapper(OpenAPI specification, SecurityScheme securityScheme) {

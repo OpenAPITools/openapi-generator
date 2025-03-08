@@ -12,8 +12,8 @@ package petstore
 
 import (
 	"encoding/json"
-	"gopkg.in/validator.v2"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // Fruit - struct for Fruit
@@ -112,6 +112,20 @@ func (obj *Fruit) GetActualInstance() (interface{}) {
 
 	if obj.Banana != nil {
 		return obj.Banana
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj Fruit) GetActualInstanceValue() (interface{}) {
+	if obj.Apple != nil {
+		return *obj.Apple
+	}
+
+	if obj.Banana != nil {
+		return *obj.Banana
 	}
 
 	// all schemas are nil

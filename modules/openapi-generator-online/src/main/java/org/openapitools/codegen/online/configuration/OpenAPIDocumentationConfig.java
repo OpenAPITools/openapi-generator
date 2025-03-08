@@ -18,6 +18,9 @@
 package org.openapitools.codegen.online.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -28,17 +31,14 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-import java.util.HashSet;
 
 
 @Configuration
@@ -59,22 +59,22 @@ public class OpenAPIDocumentationConfig {
         String version = properties.getProperty("version", "unknown");
 
         return new ApiInfoBuilder()
-            .title("OpenAPI Generator Online")
-            .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
-            .license("Apache 2.0")
-            .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
-            .termsOfServiceUrl("")
-            .version(version)
-            .contact(new Contact("","", ""))
-            .build();
+                .title("OpenAPI Generator Online")
+                .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
+                .license("Apache 2.0")
+                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
+                .termsOfServiceUrl("")
+                .version(version)
+                .contact(new Contact("", "", ""))
+                .build();
     }
 
     @Bean
-    public Docket customImplementation(){
+    public Docket customImplementation() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                    .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
-                    .build()
+                .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
+                .build()
                 .forCodeGeneration(true)
                 .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
@@ -99,7 +99,7 @@ public class OpenAPIDocumentationConfig {
                     docket.host(authority);
                 }
                 docket.pathMapping(hostURI.getPath());
-            } catch(URISyntaxException e) {
+            } catch (URISyntaxException e) {
                 LOGGER.warn("Could not parse configured GENERATOR_HOST '" + hostString + "': " + e.getMessage());
             }
         }

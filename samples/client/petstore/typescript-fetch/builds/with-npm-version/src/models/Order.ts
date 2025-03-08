@@ -95,11 +95,11 @@ export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ord
     };
 }
 
-  export function OrderToJSON(json: any): Order {
-      return OrderToJSONTyped(json, false);
-  }
+export function OrderToJSON(json: any): Order {
+    return OrderToJSONTyped(json, false);
+}
 
-  export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: boolean = false): any {
+export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

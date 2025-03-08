@@ -25,7 +25,10 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -113,15 +116,15 @@ public class CodegenIgnoreProcessor {
             // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore
             // see: https://github.com/git/git/blob/90f7b16b3adc78d4bbabbd426fb69aa78c714f71/Documentation/gitignore.txt
             while ((line = reader.readLine()) != null) {
-                if(
+                if (
                     //: A blank line matches no files, so it can serve as a separator for readability.
-                    line.length() == 0
+                        line.length() == 0
                 ) continue;
 
                 Rule rule = Rule.create(line);
 
                 // rule could be null here if it's a COMMENT, for example
-                if(rule != null) {
+                if (rule != null) {
                     if (Boolean.TRUE.equals(rule.getNegated())) {
                         inclusionRules.add(rule);
                     } else {
@@ -140,12 +143,12 @@ public class CodegenIgnoreProcessor {
      * @return {@code false} if file matches any pattern in the ignore file (disallowed), otherwise {@code true} (allowed).
      */
     public boolean allowsFile(final File targetFile) {
-        if(this.ignoreFile == null) return true;
+        if (this.ignoreFile == null) return true;
 
         File file = new File(this.ignoreFile.getAbsoluteFile().getParentFile().toURI().relativize(targetFile.toURI()).getPath());
         boolean directoryExcluded = false;
         boolean exclude = false;
-        if(exclusionRules.size() == 0 && inclusionRules.size() == 0) {
+        if (exclusionRules.size() == 0 && inclusionRules.size() == 0) {
             return true;
         }
 
@@ -154,12 +157,12 @@ public class CodegenIgnoreProcessor {
             Rule current = exclusionRules.get(i);
             Rule.Operation op = current.evaluate(file.getPath());
 
-            switch (op){
+            switch (op) {
                 case EXCLUDE:
                     exclude = true;
 
                     // Include rule can't override rules that exclude a file by some parent directory.
-                    if(current instanceof DirectoryRule) {
+                    if (current instanceof DirectoryRule) {
                         directoryExcluded = true;
                     }
                     break;
@@ -174,7 +177,7 @@ public class CodegenIgnoreProcessor {
             }
         }
 
-        if(exclude) {
+        if (exclude) {
             // Only need to process inclusion rules if we've been excluded
             for (int i = 0; exclude && i < inclusionRules.size(); i++) {
                 Rule current = inclusionRules.get(i);
@@ -182,8 +185,8 @@ public class CodegenIgnoreProcessor {
 
                 // At this point exclude=true means the file should be ignored.
                 // op == INCLUDE means we have to flip that flag.
-                if(op.equals(Rule.Operation.INCLUDE)) {
-                    if(current instanceof DirectoryRule && directoryExcluded) {
+                if (op.equals(Rule.Operation.INCLUDE)) {
+                    if (current instanceof DirectoryRule && directoryExcluded) {
                         // e.g
                         // baz/
                         // !foo/bar/baz/
@@ -216,7 +219,7 @@ public class CodegenIgnoreProcessor {
     /**
      * Allows a consumer to manually inspect all "exclusion rules". That is, patterns in the ignore file which represent
      * files and directories to be excluded, unless explicitly overridden by {@link CodegenIgnoreProcessor#getInclusionRules()} rules.
-     *
+     * <p>
      * NOTE: Existence in this list doesn't mean a file is excluded. The rule can be overridden by {@link CodegenIgnoreProcessor#getInclusionRules()} rules.
      *
      * @return A {@link Collections#unmodifiableList(List)} of rules which define exclusions by patterns in the ignore file.

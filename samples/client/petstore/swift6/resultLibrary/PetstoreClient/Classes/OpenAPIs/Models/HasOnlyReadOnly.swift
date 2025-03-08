@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct HasOnlyReadOnly: Codable, JSONEncodable {
+internal struct HasOnlyReadOnly: Sendable, Codable, JSONEncodable {
 
     internal private(set) var bar: String?
     internal private(set) var foo: String?

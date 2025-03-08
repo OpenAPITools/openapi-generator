@@ -22,7 +22,7 @@ module {{classname}}Handlers =
     /// </summary>
    [<FunctionName("{{operationId}}")>]
     let {{operationId}}
-        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{contextPath}}{{path}}")>]
+        ([<HttpTrigger(Extensions.Http.AuthorizationLevel.Anonymous, "{{httpMethod}}", Route = "{{{contextPath}}}{{{path}}}")>]
         req:HttpRequest ) =
 
       {{#hasBodyParam}}

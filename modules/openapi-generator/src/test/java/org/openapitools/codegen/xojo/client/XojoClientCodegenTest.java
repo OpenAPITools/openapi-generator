@@ -1,9 +1,11 @@
 package org.openapitools.codegen.xojo.client;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.XojoClientCodegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.XojoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

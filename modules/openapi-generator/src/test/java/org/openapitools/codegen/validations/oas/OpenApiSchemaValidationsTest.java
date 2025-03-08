@@ -22,7 +22,7 @@ public class OpenApiSchemaValidationsTest {
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
-                .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
+                .filter(invalid -> "Schema defines properties alongside oneOf.".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
         Assert.assertNotNull(warnings);
@@ -43,7 +43,7 @@ public class OpenApiSchemaValidationsTest {
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
-                .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
+                .filter(invalid -> "Schema defines properties alongside oneOf.".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
         Assert.assertNotNull(warnings);
@@ -60,7 +60,7 @@ public class OpenApiSchemaValidationsTest {
         Assert.assertNotNull(result.getWarnings());
 
         List<Invalid> warnings = result.getWarnings().stream()
-                .filter(invalid -> "Schema defines properties alongside oneOf." .equals(invalid.getRule().getDescription()))
+                .filter(invalid -> "Schema defines properties alongside oneOf.".equals(invalid.getRule().getDescription()))
                 .collect(Collectors.toList());
 
         Assert.assertNotNull(warnings);

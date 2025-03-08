@@ -8,6 +8,8 @@ on:
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
       - samples/client/petstore/spring-http-interface/**
+      - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-noResponseEntity/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
@@ -23,6 +25,8 @@ on:
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
       - samples/client/petstore/spring-http-interface/**
+      - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
+      - samples/client/petstore/spring-http-interface-noResponseEntity/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
@@ -44,6 +48,8 @@ jobs:
           - samples/client/petstore/java-helidon-client/v3/se
           - samples/client/petstore/spring-http-interface-reactive
           - samples/client/petstore/spring-http-interface
+          - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
+          - samples/client/petstore/spring-http-interface-noResponseEntity
           - samples/client/petstore/java/webclient-jakarta
           - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers
@@ -51,8 +57,6 @@ jobs:
           - samples/server/petstore/java-camel/
           - samples/server/petstore/java-helidon-server/v3/mp/
           - samples/server/petstore/java-helidon-server/v3/se
-          - samples/client/petstore/spring-http-interface-reactive
-          - samples/client/petstore/spring-http-interface
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

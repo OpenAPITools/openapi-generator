@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Pet>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Id'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Id'
         }
+
         /// <summary>
         /// Test the property 'Category'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Category'
         }
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -80,6 +80,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Name'
         }
+
         /// <summary>
         /// Test the property 'PhotoUrls'
         /// </summary>
@@ -88,6 +89,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'PhotoUrls'
         }
+
         /// <summary>
         /// Test the property 'Tags'
         /// </summary>
@@ -96,6 +98,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Tags'
         }
+
         /// <summary>
         /// Test the property 'Status'
         /// </summary>
@@ -104,7 +107,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Status'
         }
-
     }
-
 }

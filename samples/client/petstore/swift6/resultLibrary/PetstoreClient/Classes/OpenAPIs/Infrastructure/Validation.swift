@@ -6,21 +6,22 @@
 
 import Foundation
 
-internal struct StringRule: @unchecked Sendable {
+internal struct StringRule: Sendable {
     internal var minLength: Int?
     internal var maxLength: Int?
     internal var pattern: String?
 }
 
-internal struct NumericRule<T: Comparable & Numeric>: @unchecked Sendable {
+internal struct NumericRule<T: Comparable & Numeric> {
     internal var minimum: T?
     internal var exclusiveMinimum = false
     internal var maximum: T?
     internal var exclusiveMaximum = false
     internal var multipleOf: T?
 }
+extension NumericRule: Sendable where T: Sendable {}
 
-internal struct ArrayRule: @unchecked Sendable {
+internal struct ArrayRule: Sendable {
     internal var minItems: Int?
     internal var maxItems: Int?
     internal var uniqueItems: Bool
@@ -77,11 +78,11 @@ internal struct Validator {
     /// - Throws: `ValidationError<NumericValidationErrorKind>` if the numeric is invalid against the rule.
     internal static func validate<T: Comparable & BinaryInteger>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
-        if let minium = rule.minimum {
-            if !rule.exclusiveMinimum, minium > numeric {
+        if let minimum = rule.minimum {
+            if !rule.exclusiveMinimum, minimum > numeric {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum, minium >= numeric {
+            if rule.exclusiveMinimum, minimum >= numeric {
                 error.kinds.insert(.minimum)
             }
         }
@@ -109,11 +110,11 @@ internal struct Validator {
     /// - Throws: `ValidationError<NumericValidationErrorKind>` if the numeric is invalid against the rule.
     internal static func validate<T: Comparable & FloatingPoint>(_ numeric: T, against rule: NumericRule<T>) throws -> T {
         var error = ValidationError<NumericValidationErrorKind>(kinds: [])
-        if let minium = rule.minimum {
-            if !rule.exclusiveMinimum, minium > numeric {
+        if let minimum = rule.minimum {
+            if !rule.exclusiveMinimum, minimum > numeric {
                 error.kinds.insert(.minimum)
             }
-            if rule.exclusiveMinimum, minium >= numeric {
+            if rule.exclusiveMinimum, minimum >= numeric {
                 error.kinds.insert(.minimum)
             }
         }

@@ -2034,15 +2034,6 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['enum_query_double'] = enumQueryDouble;
             }
 
-            if (enumHeaderStringArray) {
-                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
-                localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
-            }
-
-            if (enumHeaderString != null) {
-                localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
-            }
-
             if (enumFormStringArray) {
                 localVarFormParams.set('enum_form_string_array', enumFormStringArray.join(COLLECTION_FORMATS.csv));
             }
@@ -2055,6 +2046,13 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
     
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
     
+            if (enumHeaderStringArray) {
+                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
+            }
+            if (enumHeaderString != null) {
+                localVarHeaderParameter['enum_header_string'] = String(enumHeaderString);
+            }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2116,20 +2114,18 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['int64_group'] = int64Group;
             }
 
+
+    
             if (requiredBooleanGroup != null) {
                 localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
                     ? requiredBooleanGroup
                     : JSON.stringify(requiredBooleanGroup);
             }
-
             if (booleanGroup != null) {
                 localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
                     ? booleanGroup
                     : JSON.stringify(booleanGroup);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -2387,13 +2383,12 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarQueryParameter['queryUnique'] = Array.from(queryUnique);
             }
 
+
+    
             if (headerUnique) {
                 let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
                 localVarHeaderParameter['headerUnique'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
@@ -3391,12 +3386,11 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             // oauth required
             await setOAuthToObject(localVarHeaderParameter, "petstore_auth", ["write:pets", "read:pets"], configuration)
 
+
+    
             if (apiKey != null) {
                 localVarHeaderParameter['api_key'] = String(apiKey);
             }
-
-
-    
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};

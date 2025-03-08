@@ -18,15 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.templating.mustache.OnChangeLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.samskivert.mustache.Mustache.Lambda;
-
-import io.swagger.v3.oas.models.Operation;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -121,5 +119,7 @@ public class OpenAPIYamlGenerator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 }

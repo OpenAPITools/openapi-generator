@@ -22,7 +22,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter @NoArgsConstructor @AllArgsConstructor
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseCode {
     private String code;
     private String link;

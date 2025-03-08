@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -31,7 +31,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 /**
  * OpenAPI Petstore
  *
- * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  */
 
@@ -47,8 +47,8 @@ public interface StoreApi  {
      *
      */
     @DELETE
-    @Path("/order/{orderId}")
-    void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
+    @Path("/order/{order_id}")
+    void deleteOrder(@PathParam("order_id") String orderId) throws ApiException, ProcessingException;
 
     /**
      * Returns pet inventories by status
@@ -68,9 +68,9 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/order/{orderId}")
+    @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
+    Order getOrderById(@PathParam("order_id") Long orderId) throws ApiException, ProcessingException;
 
     /**
      * Place an order for a pet

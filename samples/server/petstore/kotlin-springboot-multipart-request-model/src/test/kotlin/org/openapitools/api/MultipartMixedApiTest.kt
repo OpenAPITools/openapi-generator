@@ -18,7 +18,7 @@ class MultipartMixedApiTest {
     @Test
     fun multipartMixedTest() {
         val status: MultipartMixedStatus = TODO()
-        val file: org.springframework.core.io.Resource = TODO()
+        val file: org.springframework.web.multipart.MultipartFile = TODO()
         val marker: MultipartMixedRequestMarker? = TODO()
         val response: ResponseEntity<Unit> = api.multipartMixed(status, file, marker)
 

@@ -2836,105 +2836,89 @@ components:
       properties:
         id:
           type: string
-    # this class ensures that the CodegenProperties are sorted correctly
-    # https://github.com/OpenAPITools/openapi-generator/issues/18607
-    MixLog:
+    Descendant1:
+      allOf:
+      - $ref: "#/components/schemas/TestDescendants"
+      - required:
+        - "descendantName"
+        type: "object"
+        properties:
+          descendantName:
+            type: "string"
+    Descendant2:
+      allOf:
+      - $ref: "#/components/schemas/TestDescendants"
+      - required:
+        - "confidentiality"
+        type: "object"
+        properties:
+          confidentiality:
+            type: "string"
+    TestDescendants:
+      required:
+      - "alternativeName"
+      - "objectType"
+      type: "object"
+      properties:
+        alternativeName:
+          type: "string"
+        objectType:
+          type: "string"
+          enum:
+          - "Descendant1"
+          - "Descendant2"
+      description: ""
+      discriminator:
+        propertyName: "objectType"
+    CopyActivity:
+      type: object
+      required:
+        - $schema
+        - copyActivitytt
+      properties:
+        $schema:
+          type: string
+          enum:
+            - ScopeActivity
+        copyActivitytt:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityBase'
+    EntityBase:
+      type: object
+      required:
+        - $schema
+      properties:
+        $schema:
+          type: string
+      discriminator:
+        propertyName: $schema
+        mapping:
+          ScopeActivity: '#/components/schemas/CopyActivity'
+    Result:
       type: object
       properties:
-        id:
-          $ref: '#/components/schemas/uuid'
-        description:
+        code:
           type: string
-        mixDate:
+          description: Result code
+        uuid:
           type: string
-          format: date-time
-        shopId:
-          $ref: '#/components/schemas/uuid'
-        totalPrice:
-          type: number
-          format: float
-          nullable: true
-        totalRecalculations:
-          type: integer
-          format: int32
-        totalOverPoors:
-          type: integer
-          format: int32
-        totalSkips:
-          type: integer
-          format: int32
-        totalUnderPours:
-          type: integer
-          format: int32
-        formulaVersionDate:
-          type: string
-          format: date-time
-        someCode:
-          type: string
-          nullable: true
-          description: SomeCode is only required for color mixes
-        batchNumber:
-          type: string
-        brandCode:
-          type: string
-          description: BrandCode is only required for non-color mixes
-        brandId:
-          type: string
-          description: BrandId is only required for color mixes
-        brandName:
-          type: string
-          description: BrandName is only required for color mixes
-        categoryCode:
-          type: string
-          description: CategoryCode is not used anymore
-        color:
-          type: string
-          description: Color is only required for color mixes
-        colorDescription:
-          type: string
-        comment:
-          type: string
-        commercialProductCode:
-          type: string
-        productLineCode:
-          type: string
-          description: ProductLineCode is only required for color mixes
-        country:
-          type: string
-        createdBy:
-          type: string
-        createdByFirstName:
-          type: string
-        createdByLastName:
-          type: string
-        deltaECalculationRepaired:
-          type: string
-        deltaECalculationSprayout:
-          type: string
-        ownColorVariantNumber:
-          nullable: true
-          type: integer
-          format: int32
-        primerProductId:
-          type: string
-        productId:
-          type: string
-          description: ProductId is only required for color mixes
-        productName:
-          type: string
-          description: ProductName is only required for color mixes
-        selectedVersionIndex:
-          type: integer
-          format: int32
-      required:
-        - id
-        - description
-        - mixDate
-        - totalRecalculations
-        - totalOverPoors
-        - totalSkips
-        - totalUnderPours
-        - formulaVersionDate
-    uuid:
+          description: Result unique identifier
+        data:
+          type: object
+          description: list of named parameters for current message
+          additionalProperties:
+            type: string
+    TestResult:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Result'
+      properties:
+        code:
+          $ref: "#/components/schemas/TestResultCode"
+    TestResultCode:
       type: string
-      format: uuid
+      description: Result code
+      enum:
+        - APPROVED
+        - MANUAL_APPROVAL_REQUIRED

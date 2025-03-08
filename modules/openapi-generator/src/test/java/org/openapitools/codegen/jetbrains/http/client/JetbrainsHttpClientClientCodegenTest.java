@@ -1,10 +1,12 @@
 package org.openapitools.codegen.jetbrains.http.client;
 
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JetbrainsHttpClientClientCodegen;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;

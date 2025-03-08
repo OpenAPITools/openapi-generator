@@ -12,13 +12,13 @@ import AnyCodable
 
 internal struct FormatTest: Codable, JSONEncodable {
 
-    static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
-    static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
-    static let numberRule = NumericRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
-    static let floatRule = NumericRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
-    static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
-    static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
-    static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
+    internal static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
+    internal static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
+    internal static let numberRule = NumericRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
+    internal static let floatRule = NumericRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
+    internal static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
+    internal static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
+    internal static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
     internal private(set) var integer: Int?
     internal private(set) var int32: Int?
     internal private(set) var int64: Int64?

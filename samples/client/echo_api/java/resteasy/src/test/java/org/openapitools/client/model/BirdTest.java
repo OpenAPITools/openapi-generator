@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Bird
  */
-public class BirdTest {
+class BirdTest {
     private final Bird model = new Bird();
 
     /**
      * Model tests for Bird
      */
     @Test
-    public void testBird() {
+    void testBird() {
         // TODO: test Bird
     }
 
@@ -40,7 +40,7 @@ public class BirdTest {
      * Test the property 'size'
      */
     @Test
-    public void sizeTest() {
+    void sizeTest() {
         // TODO: test size
     }
 
@@ -48,7 +48,7 @@ public class BirdTest {
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
     }
 

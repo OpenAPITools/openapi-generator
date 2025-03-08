@@ -11,5 +11,14 @@ license: ""
 homepage: ""
 bug-reports: ""
 dev-repo: ""
-depends: [ "ocaml" "ocamlfind" ]
+depends: [
+  "ocaml"
+  "ocamlfind"
+  "dune"
+  "ppx_deriving_yojson"
+  "conf-libev"
+  "lwt"
+  "cohttp-lwt-unix" {< "6.0.0"}
+  "cohttp-async" {< "6.0.0"}
+]
 build: ["dune" "build" "-p" name]

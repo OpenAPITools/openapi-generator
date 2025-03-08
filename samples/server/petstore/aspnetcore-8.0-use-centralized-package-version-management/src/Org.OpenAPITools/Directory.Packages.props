@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Packages should be ordered alphabetically -->
+<Project>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="9.0.1" />
+    <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Newtonsoft" Version="7.2.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="7.2.0" />
+    <PackageVersion Include="JsonSubTypes" Version="2.0.1" />
+  </ItemGroup>
+</Project>

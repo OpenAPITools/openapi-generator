@@ -8,7 +8,7 @@ import org.springframework.web.client.RestClient
 import org.springframework.http.ResponseEntity
 import org.springframework.util.LinkedMultiValueMap
 
-open class ApiClient(protected val client: RestClient) {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient(protected val client: RestClient) {
 
     protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
         return prepare(defaults(requestConfig))
@@ -46,11 +46,26 @@ open class ApiClient(protected val client: RestClient) {
     private fun <I> RestClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }
 
-    private fun <I : Any> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>) =
-        apply { if (requestConfig.body != null) body(requestConfig.body) }
+    private fun <I : Any> RestClient.RequestBodySpec.nullableBody(requestConfig: RequestConfig<I>): RestClient.RequestBodySpec {
+        when {
+            requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
+                val parts = LinkedMultiValueMap<String, Any>()
+                (requestConfig.body as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                    if (part.body != null) {
+                        parts.add(name, part.body)
+                    }
+                }
+                return apply { body(parts) }
+            }
+
+            else -> {
+                return apply { if (requestConfig.body != null) body(requestConfig.body) }
+            }
+        }
+    }
 }
 
-inline fun <reified T: Any> parseDateToQueryString(value : T): String {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}inline fun <reified T: Any> parseDateToQueryString(value : T): String {
         {{#toJson}}
         /*
         .replace("\"", "") converts the json object string to an actual string for the query parameter.

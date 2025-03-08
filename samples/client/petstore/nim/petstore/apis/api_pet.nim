@@ -55,21 +55,21 @@ proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response 
 
 proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq[Pet]], Response) =
   ## Finds Pets by status
-  let query_for_api_call = encodeQuery([
+  let url_encoded_query_params = encodeQuery([
     ("status", $status.join(",")), # Status values that need to be considered for filter
   ])
 
-  let response = httpClient.get(basepath & "/pet/findByStatus" & "?" & query_for_api_call)
+  let response = httpClient.get(basepath & "/pet/findByStatus" & "?" & url_encoded_query_params)
   constructResult[seq[Pet]](response)
 
 
 proc findPetsByTags*(httpClient: HttpClient, tags: seq[string]): (Option[seq[Pet]], Response) {.deprecated.} =
   ## Finds Pets by tags
-  let query_for_api_call = encodeQuery([
+  let url_encoded_query_params = encodeQuery([
     ("tags", $tags.join(",")), # Tags to filter by
   ])
 
-  let response = httpClient.get(basepath & "/pet/findByTags" & "?" & query_for_api_call)
+  let response = httpClient.get(basepath & "/pet/findByTags" & "?" & url_encoded_query_params)
   constructResult[seq[Pet]](response)
 
 
@@ -91,21 +91,21 @@ proc updatePet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
 proc updatePetWithForm*(httpClient: HttpClient, petId: int64, name: string, status: string): Response =
   ## Updates a pet in the store with form data
   httpClient.headers["Content-Type"] = "application/x-www-form-urlencoded"
-  let query_for_api_call = encodeQuery([
+  let form_data = encodeQuery([
     ("name", $name), # Updated name of the pet
     ("status", $status), # Updated status of the pet
   ])
-  httpClient.post(basepath & fmt"/pet/{petId}", $query_for_api_call)
+  httpClient.post(basepath & fmt"/pet/{petId}", $form_data)
 
 
 proc uploadFile*(httpClient: HttpClient, petId: int64, additionalMetadata: string, file: string): (Option[ApiResponse], Response) =
   ## uploads an image
   httpClient.headers["Content-Type"] = "multipart/form-data"
-  let query_for_api_call = newMultipartData({
+  let multipart_data = newMultipartData({
     "additionalMetadata": $additionalMetadata, # Additional data to pass to server
     "file": $file, # file to upload
   })
 
-  let response = httpClient.post(basepath & fmt"/pet/{petId}/uploadImage", multipart=query_for_api_call)
+  let response = httpClient.post(basepath & fmt"/pet/{petId}/uploadImage", multipart=multipart_data)
   constructResult[ApiResponse](response)
 

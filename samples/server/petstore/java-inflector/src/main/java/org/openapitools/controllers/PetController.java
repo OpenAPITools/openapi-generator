@@ -11,11 +11,12 @@ import java.util.List;
 import org.openapitools.model.*;
 
 import java.io.File;
+import java.util.List;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
 public class PetController  {
   /**
    * Uncomment and implement as you see fit.  These operations will map

@@ -3,14 +3,14 @@
 
 context("Test UserApi")
 
-api.instance <- UserApi$new()
+api_instance <- UserApi$new()
 
 test_that("CreateUser", {
   # tests for CreateUser
   # base path: http://petstore.swagger.io/v2
   # Create user
   # This can only be done by the logged in user.
-  # @param body User Created user object
+  # @param user User Created user object
   # @return [Void]
 
   # uncomment below to test the operation
@@ -21,7 +21,8 @@ test_that("CreateUsersWithArrayInput", {
   # tests for CreateUsersWithArrayInput
   # base path: http://petstore.swagger.io/v2
   # Creates list of users with given input array
-  # @param body array[User] List of user object
+  # 
+  # @param user array[User] List of user object
   # @return [Void]
 
   # uncomment below to test the operation
@@ -32,7 +33,8 @@ test_that("CreateUsersWithListInput", {
   # tests for CreateUsersWithListInput
   # base path: http://petstore.swagger.io/v2
   # Creates list of users with given input array
-  # @param body array[User] List of user object
+  # 
+  # @param user array[User] List of user object
   # @return [Void]
 
   # uncomment below to test the operation
@@ -55,6 +57,7 @@ test_that("GetUserByName", {
   # tests for GetUserByName
   # base path: http://petstore.swagger.io/v2
   # Get user by user name
+  # 
   # @param username character The name that needs to be fetched. Use user1 for testing.
   # @return [User]
 
@@ -66,6 +69,7 @@ test_that("LoginUser", {
   # tests for LoginUser
   # base path: http://petstore.swagger.io/v2
   # Logs user into the system
+  # 
   # @param username character The user name for login
   # @param password character The password for login in clear text
   # @return [character]
@@ -78,6 +82,7 @@ test_that("LogoutUser", {
   # tests for LogoutUser
   # base path: http://petstore.swagger.io/v2
   # Logs out current logged in user session
+  # 
   # @return [Void]
 
   # uncomment below to test the operation
@@ -90,10 +95,9 @@ test_that("UpdateUser", {
   # Updated user
   # This can only be done by the logged in user.
   # @param username character name that need to be deleted
-  # @param body User Updated user object
+  # @param user User Updated user object
   # @return [Void]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
 })
-

@@ -3,26 +3,25 @@
 
 context("Test ModelApiResponse")
 
-model.instance <- ModelApiResponse$new()
+model_instance <- ModelApiResponse$new()
 
 test_that("code", {
   # tests for the property `code` (integer)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`code`, "EXPECTED_RESULT")
 })
 
 test_that("type", {
   # tests for the property `type` (character)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`type`, "EXPECTED_RESULT")
 })
 
 test_that("message", {
   # tests for the property `message` (character)
 
-  # uncomment below to test the property 
+  # uncomment below to test the property
   #expect_equal(model.instance$`message`, "EXPECTED_RESULT")
 })
-

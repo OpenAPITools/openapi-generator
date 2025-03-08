@@ -56,11 +56,11 @@ export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club
     };
 }
 
-  export function ClubToJSON(json: any): Club {
-      return ClubToJSONTyped(json, false);
-  }
+export function ClubToJSON(json: any): Club {
+    return ClubToJSONTyped(json, false);
+}
 
-  export function ClubToJSONTyped(value?: Omit<Club, 'owner'> | null, ignoreDiscriminator: boolean = false): any {
+export function ClubToJSONTyped(value?: Omit<Club, 'owner'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

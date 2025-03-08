@@ -60,7 +60,7 @@ public class CliOption {
     }
 
     public void setOptValue(String optValue) {
-        if (this.enumValues!=null && this.enumValues.containsKey(optValue)) {
+        if (this.enumValues != null && this.enumValues.containsKey(optValue)) {
             this.optValue = optValue;
         } else {
             this.optValue = null;
@@ -88,7 +88,7 @@ public class CliOption {
     /**
      * Create new boolean command line option with a default of false
      *
-     * @param opt Option name
+     * @param opt         Option name
      * @param description Option description
      * @return the CliOption created
      */
@@ -99,8 +99,8 @@ public class CliOption {
     /**
      * Create new boolean command line option with the provided value as default
      *
-     * @param opt Option name
-     * @param description Option description
+     * @param opt          Option name
+     * @param description  Option description
      * @param defaultValue the default value to use if option not specified
      * @return the CliOption created
      */
@@ -115,7 +115,7 @@ public class CliOption {
     @JsonIgnore
     public String getOptionHelp() {
         StringBuilder sb = new StringBuilder(description);
-        if(defaultValue != null) {
+        if (defaultValue != null) {
             sb.append(" (Default: ").append(defaultValue).append(")");
         }
         if (enumValues != null) {

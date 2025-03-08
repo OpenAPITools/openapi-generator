@@ -73,11 +73,11 @@ export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-  export function GetPetPartTypeResponseToJSON(json: any): GetPetPartTypeResponse {
-      return GetPetPartTypeResponseToJSONTyped(json, false);
-  }
+export function GetPetPartTypeResponseToJSON(json: any): GetPetPartTypeResponse {
+    return GetPetPartTypeResponseToJSONTyped(json, false);
+}
 
-  export function GetPetPartTypeResponseToJSONTyped(value?: GetPetPartTypeResponse | null, ignoreDiscriminator: boolean = false): any {
+export function GetPetPartTypeResponseToJSONTyped(value?: GetPetPartTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

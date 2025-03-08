@@ -20,16 +20,17 @@ import scala.util.*
 
 class UserTest extends AnyWordSpec with Matchers {
 
+
     "User.fromJson" should {
         """not parse invalid json""" in {
            val Failure(err) = Try(UserData.fromJsonString("invalid jason"))
            err.getMessage should startWith ("Error parsing json 'invalid jason'")
         }
         """parse """ ignore {
-           val Failure(err : ValidationErrors) = UserData.fromJsonString("""""").validated()
+           val d8a = UserData.fromJsonString("""""")
+           val Failure(err : ValidationErrors) = UserData.validated(d8a, true)
 
            sys.error("TODO")
         }
     }
-
 }

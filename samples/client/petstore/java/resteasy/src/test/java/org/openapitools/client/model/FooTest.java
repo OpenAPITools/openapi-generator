@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for Foo
  */
-public class FooTest {
+class FooTest {
     private final Foo model = new Foo();
 
     /**
      * Model tests for Foo
      */
     @Test
-    public void testFoo() {
+    void testFoo() {
         // TODO: test Foo
     }
 
@@ -40,7 +40,7 @@ public class FooTest {
      * Test the property 'bar'
      */
     @Test
-    public void barTest() {
+    void barTest() {
         // TODO: test bar
     }
 

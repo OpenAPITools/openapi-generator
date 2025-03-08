@@ -47,6 +47,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /enum
      * Get enums
      * 
      * @return PetEnum
@@ -77,6 +78,7 @@ class EnumApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /enum
      * Get enums
      * 
      * @return ApiResponse<PetEnum?>

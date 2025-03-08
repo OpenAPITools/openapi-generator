@@ -197,7 +197,7 @@ for this project used jakarta.validation-api -->
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.2</junit-version>
-    <logback-version>1.4.14</logback-version>
+    <logback-version>1.5.13</logback-version>
     <cxf-version>3.5.9</cxf-version>
     <jackson-jaxrs-version>2.17.1</jackson-jaxrs-version>
     <jakarta-annotation-version>1.3.5</jakarta-annotation-version>

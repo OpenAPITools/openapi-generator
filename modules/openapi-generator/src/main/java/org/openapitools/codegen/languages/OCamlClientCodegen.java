@@ -18,7 +18,9 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Setter;
@@ -345,7 +347,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             if (operation.getResponses() != null) {
                 for (Map.Entry<String, ApiResponse> operationGetResponsesEntry : operation.getResponses().entrySet()) {
                     String s = operationGetResponsesEntry.getKey();
-                    ApiResponse apiResponse = operationGetResponsesEntry.getValue();
+                    ApiResponse apiResponse = ModelUtils.getReferencedApiResponse(openAPI, operationGetResponsesEntry.getValue());
                     if (apiResponse.getContent() != null) {
                         Content content = apiResponse.getContent();
                         for (String p : content.keySet()) {
@@ -805,10 +807,12 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
         // only process files with ml or mli extension
         if ("ml".equals(FilenameUtils.getExtension(file.toString())) || "mli".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {ocamlPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{ocamlPostProcessFile, file.toString()});
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.OCAML; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.OCAML;
+    }
 }

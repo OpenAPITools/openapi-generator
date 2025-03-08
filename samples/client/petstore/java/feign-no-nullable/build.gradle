@@ -109,6 +109,7 @@ ext {
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
+    commons_lang3_version = "3.17.0"
 }
 
 dependencies {
@@ -127,6 +128,7 @@ dependencies {
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"
     implementation "com.brsanthu:migbase64:2.2"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"

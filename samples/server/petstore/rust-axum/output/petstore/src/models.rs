@@ -69,7 +69,7 @@ pub struct DeleteOrderPathParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetOrderByIdPathParams {
     /// ID of pet that needs to be fetched
-    #[validate(range(min = 1, max = 5))]
+    #[validate(range(min = 1i64, max = 5i64))]
     pub order_id: i64,
 }
 
@@ -113,7 +113,6 @@ pub struct UpdateUserPathParams {
 }
 
 /// Describes the result of uploading an image resource
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
@@ -280,7 +279,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<ApiResponse>
 }
 
 /// A category for a pet
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Category {
@@ -440,7 +438,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Category> {
 }
 
 /// An order for a pets from the pet store
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Order {
@@ -648,7 +645,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Order> {
 }
 
 /// A pet for sale in the pet store
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Pet {
@@ -862,7 +858,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<Pet> {
 }
 
 /// A tag for a pet
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Tag {
@@ -1320,7 +1315,6 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<UploadFileRe
 }
 
 /// A User who is purchasing from the pet store
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct User {

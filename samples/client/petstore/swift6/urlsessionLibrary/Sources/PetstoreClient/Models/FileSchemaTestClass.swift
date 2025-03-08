@@ -12,10 +12,10 @@ public typealias FileSchemaTestClass = PetstoreClientAPI.FileSchemaTestClass
 
 extension PetstoreClientAPI {
 
-public final class FileSchemaTestClass: Codable, JSONEncodable, Hashable {
+public final class FileSchemaTestClass: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var file: File?
-    public var files: [File]?
+    public private(set) var file: File?
+    public private(set) var files: [File]?
 
     public init(file: File? = nil, files: [File]? = nil) {
         self.file = file

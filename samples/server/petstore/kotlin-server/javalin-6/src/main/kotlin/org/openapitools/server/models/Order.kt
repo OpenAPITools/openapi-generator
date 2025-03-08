@@ -29,7 +29,7 @@ data class Order(
     /* Order Status */
     val status: Order.Status? = null,
     val complete: kotlin.Boolean? = false
-) 
+)
 {
     /**
     * Order Status

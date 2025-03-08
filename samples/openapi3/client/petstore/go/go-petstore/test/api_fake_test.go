@@ -82,6 +82,28 @@ func Test_petstore_FakeAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FakeAPIService GetParameterNameMapping", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.FakeAPI.GetParameterNameMapping(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FakeAPIService TestAdditionalPropertiesReference", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.FakeAPI.TestAdditionalPropertiesReference(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FakeAPIService TestBodyWithFileSchema", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -160,6 +182,17 @@ func Test_petstore_FakeAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FakeAPIService TestInlineFreeformAdditionalProperties", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.FakeAPI.TestInlineFreeformAdditionalProperties(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FakeAPIService TestJsonFormData", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -182,11 +215,33 @@ func Test_petstore_FakeAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test FakeAPIService TestQueryDeepObjectAnyof", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.FakeAPI.TestQueryDeepObjectAnyof(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test FakeAPIService TestQueryParameterCollectionFormat", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		httpRes, err := apiClient.FakeAPI.TestQueryParameterCollectionFormat(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test FakeAPIService TestStringMapReference", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.FakeAPI.TestStringMapReference(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

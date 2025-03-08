@@ -176,7 +176,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -326,5 +326,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

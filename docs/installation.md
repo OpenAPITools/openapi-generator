@@ -22,7 +22,7 @@ npm install @openapitools/openapi-generator-cli -g
 To install a specific version of the tool, pass the version during installation:
 <!-- RELEASE_VERSION -->
 ```bash
-openapi-generator-cli version-manager set 7.9.0
+openapi-generator-cli version-manager set 7.12.0
 ```
 <!-- /RELEASE_VERSION -->
 To install the tool as a dev dependency in your current project:
@@ -75,6 +75,22 @@ Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.github
 
 ```
 openapi-generator-cli generate -i petstore.yaml -g ruby
+```
+
+## PyPI
+
+> **Platform(s)**: Linux, macOS, Windows
+
+**Install** via [PyPI](https://pypi.org/) (`java` executable is needed to run):
+
+```
+pip install openapi-generator-cli
+```
+
+You can also install with [jdk4py](https://github.com/activeviam/jdk4py) instead of java binary. (python>=3.10 is required)
+
+```
+pip install openapi-generator-cli[jdk4py]
 ```
 
 ## Docker

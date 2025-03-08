@@ -27,7 +27,7 @@ trait PetApiEndpoints[F[*]] {
   def deletePet(petId: Long, apiKey: Option[String] = None): F[Unit]
   def findPetsByStatus(status: Seq[FindPetsByStatusStatusParameterInner]): F[Seq[Pet]]
   def findPetsByTags(tags: Seq[String]): F[Seq[Pet]]
-  def getPetById(petId: Long)(implicit auth: _Authorization.ApiKey): F[Pet]
+  def getPetById(petId: Long)(using auth: _Authorization.ApiKey): F[Pet]
   def updatePet(pet: Pet): F[Pet]
   def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None): F[Unit]
   def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): F[ApiResponse]
@@ -126,7 +126,7 @@ class PetApiEndpointsImpl[F[*]: Concurrent](
     }
   }
 
-  override def getPetById(petId: Long)(implicit auth: _Authorization.ApiKey): F[Pet] = {
+  override def getPetById(petId: Long)(using auth: _Authorization.ApiKey): F[Pet] = {
     val requestHeaders = Seq(
       Some("Content-Type" -> "application/json")
     ).flatten

@@ -22,7 +22,8 @@ import lombok.Getter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Getter public class IntegrationTestPathsConfig {
+@Getter
+public class IntegrationTestPathsConfig {
     private static final Path INTEGRATION_TEST_PATH = Paths.get("target/test-classes/integrationtests").toAbsolutePath();
     private final Path outputPath;
     private final Path specPath;

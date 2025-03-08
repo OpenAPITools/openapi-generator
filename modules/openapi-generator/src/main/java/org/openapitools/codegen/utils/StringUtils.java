@@ -7,12 +7,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.config.GlobalSettings;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -125,7 +120,7 @@ public class StringUtils {
     /**
      * Camelize name (parameter, property, method, etc)
      *
-     * @param inputWord string to be camelize
+     * @param inputWord      string to be camelize
      * @param camelizeOption option for the camelize result
      * @return camelized string
      */
@@ -256,9 +251,9 @@ public class StringUtils {
     /**
      * Return the name with escaped characters.
      *
-     * @param name the name to be escaped
-     * @param replacementMap map of replacement characters for non-allowed characters
-     * @param charactersToAllow characters that are not escaped
+     * @param name                the name to be escaped
+     * @param replacementMap      map of replacement characters for non-allowed characters
+     * @param charactersToAllow   characters that are not escaped
      * @param appendToReplacement String to append to replaced characters.
      * @return the escaped word
      * <p>
@@ -273,14 +268,42 @@ public class StringUtils {
                 if (charactersToAllow != null && charactersToAllow.contains(character)) {
                     return character;
                 } else if (replacementMap.containsKey(character)) {
-                    return replacementMap.get(character) + (appendToReplacement != null ? appendToReplacement: "");
+                    return replacementMap.get(character) + (appendToReplacement != null ? appendToReplacement : "");
                 } else {
                     return character;
                 }
-            }).reduce( (c1, c2) -> c1 + c2).orElse(null);
+            }).reduce((c1, c2) -> c1 + c2).orElse(null);
 
             if (result != null) return result;
             throw new RuntimeException("Word '" + name + "' could not be escaped.");
         });
+    }
+
+    /**
+     * Return a unique string based on a set of processed strings.
+     *
+     * @param processedStrings a set of strings that have been processed
+     * @param input            input to be checked for uniqueness
+     * @return a unique string
+     */
+    public static String getUniqueString(Set<String> processedStrings, String input) {
+        if (input == null) {
+            return null;
+        }
+
+        String uniqueName = input;
+        // check for input uniqueness
+        int counter = 0;
+
+        if (processedStrings.contains(uniqueName)) {
+            // look for next unique next, e.g. getName_7
+            while (processedStrings.contains(uniqueName)) {
+                uniqueName = uniqueName + "_" + counter;
+                counter++;
+            }
+        }
+
+        processedStrings.add(uniqueName);
+        return uniqueName;
     }
 }

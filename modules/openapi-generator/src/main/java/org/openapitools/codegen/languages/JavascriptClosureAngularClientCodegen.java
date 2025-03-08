@@ -48,15 +48,15 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     public JavascriptClosureAngularClientCodegen() {
         super();
-        
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.BETA)
-            .featureSet(
-                FeatureSet.newBuilder(generatorMetadata.getFeatureSet())
-                    .excludeWireFormatFeatures(WireFormatFeature.XML).build()
-            )
-            .build();
-        
+                .stability(Stability.BETA)
+                .featureSet(
+                        FeatureSet.newBuilder(generatorMetadata.getFeatureSet())
+                                .excludeWireFormatFeatures(WireFormatFeature.XML).build()
+                )
+                .build();
+
         outputFolder = "generated-code/javascript-closure-angular";
 
         // default HIDE_GENERATION_TIMESTAMP to true
@@ -64,13 +64,13 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         supportsInheritance = false;
         setReservedWordsLowerCase(Arrays.asList("abstract",
-            "continue", "for", "new", "switch", "assert", "default", "if",
-            "package", "synchronized", "do", "goto", "private",
-            "this", "break", "double", "implements", "protected", "throw",
-            "byte", "else", "import", "public", "throws", "case", "enum",
-            "instanceof", "return", "transient", "catch", "extends", "int",
-            "short", "try", "char", "final", "interface", "static", "void",
-            "class", "finally", "const", "super", "while"));
+                "continue", "for", "new", "switch", "assert", "default", "if",
+                "package", "synchronized", "do", "goto", "private",
+                "this", "break", "double", "implements", "protected", "throw",
+                "byte", "else", "import", "public", "throws", "case", "enum",
+                "instanceof", "return", "transient", "catch", "extends", "int",
+                "short", "try", "char", "final", "interface", "static", "void",
+                "class", "finally", "const", "super", "while"));
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -154,7 +154,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     @Override
     public String getHelp() {
         return "Generates a Javascript AngularJS client library annotated with Google Closure Compiler annotations" +
-            "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
+                "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
     }
 
     @Override
@@ -164,7 +164,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -243,7 +243,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return "Object<!string, "+ getTypeDeclaration(inner) + ">";
+            return "Object<!string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
         }
@@ -253,7 +253,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
                 type.equals("number") ||
                 type.equals("string")) {
             return type;
-                }
+        }
         return apiPackage + "." + type;
     }
 
@@ -325,5 +325,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

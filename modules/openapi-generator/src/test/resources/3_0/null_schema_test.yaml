@@ -56,9 +56,9 @@ components:
       properties:
         dummy:
           $ref: '#/components/schemas/IntegerRef'
-        number:
+        string_ref:
           anyOf:
-            - $ref: '#/components/schemas/Number'
+            - $ref: '#/components/schemas/StringRef'
     AnyOfStringArrayOfString:
       anyOf:
         - type: string
@@ -85,6 +85,8 @@ components:
         - $ref: '#/components/schemas/IntegerRef'
     IntegerRef:
       type: integer
+    StringRef:
+      type: string
     OneOfAnyType:
       oneOf:
         - type: object
@@ -94,3 +96,12 @@ components:
         - type: integer
         - type: array
           items: {}
+    OneOfRef:
+      oneOf:
+        - $ref: '#/components/schemas/IntegerRef'
+    OneOfMultiRef:
+      oneOf:
+        - $ref: '#/components/schemas/IntegerRef'
+        - $ref: '#/components/schemas/StringRef'
+    JustDescription:
+      description: A schema with just description

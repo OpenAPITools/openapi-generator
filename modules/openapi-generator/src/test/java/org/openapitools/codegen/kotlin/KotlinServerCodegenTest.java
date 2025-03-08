@@ -14,11 +14,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.openapitools.codegen.CodegenConstants.LIBRARY;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKARTA_EE;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.INTERFACE_ONLY;
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
 
 public class KotlinServerCodegenTest {

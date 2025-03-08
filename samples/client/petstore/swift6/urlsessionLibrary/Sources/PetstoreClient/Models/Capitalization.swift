@@ -12,15 +12,15 @@ public typealias Capitalization = PetstoreClientAPI.Capitalization
 
 extension PetstoreClientAPI {
 
-public final class Capitalization: Codable, JSONEncodable, Hashable {
+public final class Capitalization: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var smallCamel: String?
-    public var capitalCamel: String?
-    public var smallSnake: String?
-    public var capitalSnake: String?
-    public var sCAETHFlowPoints: String?
+    public private(set) var smallCamel: String?
+    public private(set) var capitalCamel: String?
+    public private(set) var smallSnake: String?
+    public private(set) var capitalSnake: String?
+    public private(set) var sCAETHFlowPoints: String?
     /** Name of the pet  */
-    public var ATT_NAME: String?
+    public private(set) var ATT_NAME: String?
 
     public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel

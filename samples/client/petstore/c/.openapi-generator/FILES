@@ -1,3 +1,5 @@
+CMakeLists.txt
+Config.cmake.in
 Packing.cmake
 README.md
 api/PetAPI.c
@@ -11,10 +13,12 @@ docs/PetAPI.md
 docs/StoreAPI.md
 docs/UserAPI.md
 docs/api_response.md
+docs/bit.md
 docs/category.md
 docs/model_with_set_propertes.md
 docs/order.md
 docs/pet.md
+docs/preference.md
 docs/tag.md
 docs/user.md
 external/cJSON.c
@@ -25,8 +29,11 @@ include/binary.h
 include/keyValuePair.h
 include/list.h
 libcurl.licence
+model/any_type.h
 model/api_response.c
 model/api_response.h
+model/bit.c
+model/bit.h
 model/category.c
 model/category.h
 model/mapped_model.c
@@ -39,6 +46,8 @@ model/order.c
 model/order.h
 model/pet.c
 model/pet.h
+model/preference.c
+model/preference.h
 model/tag.c
 model/tag.h
 model/user.c

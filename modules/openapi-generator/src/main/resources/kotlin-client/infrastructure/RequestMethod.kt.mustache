@@ -3,6 +3,6 @@ package {{packageName}}.infrastructure
 /**
  * Provides enumerated HTTP verbs
  */
-{{#nonPublicApi}}internal {{/nonPublicApi}}enum class RequestMethod {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class RequestMethod {
     GET, DELETE, HEAD, OPTIONS, PATCH, POST, PUT
 }

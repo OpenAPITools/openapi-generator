@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/petstore/java/microprofile-rest-client-mutiny
+library: microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: microprofile-rest-client-mutiny
+  configKeyFromClassName: true
+  microprofileMutiny: true

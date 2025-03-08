@@ -259,7 +259,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
                         // gcc predefined macros
                         "linux"
-                        )
+                )
         );
 
         instantiationTypes.clear();
@@ -347,6 +347,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -368,6 +369,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // Object files in model folder
         supportingFiles.add(new SupportingFile("object-body.mustache", "model", "object.c"));
         supportingFiles.add(new SupportingFile("object-header.mustache", "model", "object.h"));
+        supportingFiles.add(new SupportingFile("any_type-header.mustache", "model", "any_type.h"));
     }
 
     @Override
@@ -928,7 +930,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {cPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{cPostProcessFile, file.toString()});
         }
     }
 

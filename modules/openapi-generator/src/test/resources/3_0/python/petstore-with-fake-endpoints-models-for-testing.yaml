@@ -1950,6 +1950,13 @@ components:
       properties:
         _class:
           type: string
+    Hunting__Dog:
+      allOf:
+        - $ref: '#/components/schemas/Creature'
+        - type: object
+          properties:
+            isTrained:
+              type: boolean
     Dog:
       allOf:
         - $ref: '#/components/schemas/Animal'
@@ -2124,6 +2131,15 @@ components:
             - FOOVar
             - BarVar
             - bazVar
+        enum_string_single_member:
+          type: string
+          enum:
+            - 'abc'
+        enum_integer_single_member:
+          type: integer
+          format: int32
+          enum:
+            - 100
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
         outerEnumInteger:

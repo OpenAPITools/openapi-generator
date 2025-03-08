@@ -71,10 +71,10 @@ public interface {{classname}}  {
 {{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
-{{^useSingleRequestParameter}}
-    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileServer}}{{> server_operation}}{{/microprofileServer}}{{^microprofileServer}}{{> client_operation}}{{/microprofileServer}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
-{{/useSingleRequestParameter}}
-{{#useSingleRequestParameter}}
+{{^singleRequestParameter}}
+    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileServer}}{{> server_operation}}{{/microprofileServer}}{{^microprofileServer}}{{> client_operation}}{{/microprofileServer}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+{{/singleRequestParameter}}
+{{#singleRequestParameter}}
     {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#hasNonBodyParams}}@BeanParam {{operationIdCamelCase}}Request request{{/hasNonBodyParams}}{{#bodyParams}}{{#hasNonBodyParams}}, {{/hasNonBodyParams}}{{>bodyParams}}{{/bodyParams}}) throws ApiException, ProcessingException;
     {{#hasNonBodyParams}}
     public class {{operationIdCamelCase}}Request {
@@ -91,6 +91,9 @@ public interface {{classname}}  {
         {{#formParams}}
         private {{>formParams}};
         {{/formParams}}
+        {{#cookieParams}}
+        private {{>cookieParams}};
+        {{/cookieParams}}
 
         private {{operationIdCamelCase}}Request() {
         }
@@ -106,7 +109,7 @@ public interface {{classname}}  {
          * @param {{paramName}}{{>formParamsNameSuffix}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
          * @return {{operationIdCamelCase}}Request
          */
-        public {{operationIdCamelCase}}Request {{paramName}}{{>formParamsNameSuffix}}({{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>formParamsImpl}}) {
+        public {{operationIdCamelCase}}Request {{paramName}}{{>formParamsNameSuffix}}({{>queryParamsImpl}}{{>pathParamsImpl}}{{>headerParamsImpl}}{{>formParamsImpl}}{{>cookieParamsImpl}}) {
             this.{{paramName}}{{>formParamsNameSuffix}} = {{paramName}}{{>formParamsNameSuffix}};
             return this;
         }
@@ -114,7 +117,7 @@ public interface {{classname}}  {
         {{/allParams}}
     }
     {{/hasNonBodyParams}}
-{{/useSingleRequestParameter}}
+{{/singleRequestParameter}}
 {{/operation}}
 }
 {{/operations}}

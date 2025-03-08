@@ -36,17 +36,17 @@ public class TypeScriptClientModelTest {
     @Test(description = "convert an any of with array oneof model")
     public void objectPropertyAnyOfWithArrayOneOfModelTest() {
         final Schema schema = new ObjectSchema().addProperty("value",
-                new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
-                        .items(new ComposedSchema()
-                                .addOneOfItem(new StringSchema())
-                                .addOneOfItem(new IntegerSchema().format("int64")))))
+                        new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
+                                .items(new ComposedSchema()
+                                        .addOneOfItem(new StringSchema())
+                                        .addOneOfItem(new IntegerSchema().format("int64")))))
                 .description("an any of with array oneof model");
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
+        String s = codegen.getSchemaType((Schema) schema.getProperties().get("value"));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

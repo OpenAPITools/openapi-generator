@@ -25,7 +25,7 @@ import static org.testng.Assert.*;
 
 public class WorkflowSettingsTest {
     @Test
-    public void defaultValuesNotOverriddenByNulls(){
+    public void defaultValuesNotOverriddenByNulls() {
         WorkflowSettings settings = WorkflowSettings.newBuilder()
                 .withOutputDir(null)
                 .withVerbose(null)
@@ -50,7 +50,7 @@ public class WorkflowSettingsTest {
     }
 
     @Test
-    public void newBuilderFromCopyShouldMutateGlobalProperties(){
+    public void newBuilderFromCopyShouldMutateGlobalProperties() {
         WorkflowSettings original = WorkflowSettings.newBuilder()
                 .withOutputDir("output")
                 .withVerbose(true)
@@ -110,16 +110,17 @@ public class WorkflowSettingsTest {
     }
 
     @Test
-    public void defaultValuesCanBeChangedClassConstructor(){
+    public void defaultValuesCanBeChangedClassConstructor() {
         WorkflowSettings defaults = new WorkflowSettings();
         assertOnChangesToDefaults(defaults);
     }
 
     @Test
-    public void defaultValuesCanBeChangedBuilder(){
+    public void defaultValuesCanBeChangedBuilder() {
         WorkflowSettings defaults = WorkflowSettings.newBuilder().build();
         assertOnChangesToDefaults(defaults);
     }
+
     @Test
     public void customOutputDirIsSet() {
         WorkflowSettings settings = WorkflowSettings.newBuilder()

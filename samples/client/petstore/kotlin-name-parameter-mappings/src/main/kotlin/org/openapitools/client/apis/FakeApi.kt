@@ -46,6 +46,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /fake/parameter-name-mapping
      * parameter name mapping test
      * 
      * @param underscoreType _type
@@ -80,6 +81,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * GET /fake/parameter-name-mapping
      * parameter name mapping test
      * 
      * @param underscoreType _type

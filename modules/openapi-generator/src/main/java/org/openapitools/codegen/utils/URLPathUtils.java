@@ -85,7 +85,7 @@ public class URLPathUtils {
                     String defaultValue = variable.getDefault();
                     List<String> enumValues = variable.getEnum() == null ? new ArrayList<>() : variable.getEnum();
                     if (defaultValue == null && !enumValues.isEmpty()) {
-                       defaultValue = enumValues.get(0);
+                        defaultValue = enumValues.get(0);
                     } else if (defaultValue == null) {
                         defaultValue = "";
                     }
@@ -190,7 +190,7 @@ public class URLPathUtils {
     /**
      * Return the first complete URL from the OpenAPI specification
      *
-     * @param openAPI current OpenAPI specification
+     * @param openAPI              current OpenAPI specification
      * @param userDefinedVariables User overrides for server variable templating
      * @return host
      */

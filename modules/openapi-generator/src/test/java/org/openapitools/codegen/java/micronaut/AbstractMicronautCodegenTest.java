@@ -7,6 +7,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.JavaMicronautAbstractCodegen;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -27,9 +28,8 @@ public abstract class AbstractMicronautCodegenTest {
     protected final String PETSTORE_PATH = "src/test/resources/petstore.json";
 
     /**
-     *
-     * @param codegen - the code generator
-     * @param configPath - the path to the config starting from src/test/resources
+     * @param codegen         - the code generator
+     * @param configPath      - the path to the config starting from src/test/resources
      * @param filesToGenerate - which files to generate - can be CodegenConstants.MODELS, APIS, SUPPORTING_FILES, ...
      * @return - the path to the generated folder
      */
@@ -66,7 +66,7 @@ public abstract class AbstractMicronautCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         // set all the files user wants to generate
-        for (String files: filesToGenerate) {
+        for (String files : filesToGenerate) {
             generator.setGeneratorPropertyDefault(files, "true");
         }
 
@@ -77,13 +77,13 @@ public abstract class AbstractMicronautCodegenTest {
 
     public static void assertFileContainsRegex(String path, String... regex) {
         String file = readFile(path);
-        for (String line: regex)
+        for (String line : regex)
             assertTrue(Pattern.compile(line.replace(" ", "\\s+")).matcher(file).find());
     }
 
     public static void assertFileNotContainsRegex(String path, String... regex) {
         String file = readFile(path);
-        for (String line: regex)
+        for (String line : regex)
             assertFalse(Pattern.compile(line.replace(" ", "\\s+")).matcher(file).find());
     }
 

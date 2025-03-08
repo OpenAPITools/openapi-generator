@@ -5,7 +5,7 @@
 
 
 
-MappedModel_t *MappedModel_create(
+static MappedModel_t *MappedModel_create_internal(
     int another_property,
     char *uuid_property
     ) {
@@ -16,12 +16,26 @@ MappedModel_t *MappedModel_create(
     MappedModel_local_var->another_property = another_property;
     MappedModel_local_var->uuid_property = uuid_property;
 
+    MappedModel_local_var->_library_owned = 1;
     return MappedModel_local_var;
 }
 
+__attribute__((deprecated)) MappedModel_t *MappedModel_create(
+    int another_property,
+    char *uuid_property
+    ) {
+    return MappedModel_create_internal (
+        another_property,
+        uuid_property
+        );
+}
 
 void MappedModel_free(MappedModel_t *MappedModel) {
     if(NULL == MappedModel){
+        return ;
+    }
+    if(MappedModel->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "MappedModel_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -64,6 +78,9 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
 
     // MappedModel->another_property
     cJSON *another_property = cJSON_GetObjectItemCaseSensitive(MappedModelJSON, "another_property");
+    if (cJSON_IsNull(another_property)) {
+        another_property = NULL;
+    }
     if (another_property) { 
     if(!cJSON_IsNumber(another_property))
     {
@@ -73,6 +90,9 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
 
     // MappedModel->uuid_property
     cJSON *uuid_property = cJSON_GetObjectItemCaseSensitive(MappedModelJSON, "uuid_property");
+    if (cJSON_IsNull(uuid_property)) {
+        uuid_property = NULL;
+    }
     if (uuid_property) { 
     if(!cJSON_IsString(uuid_property) && !cJSON_IsNull(uuid_property))
     {
@@ -81,7 +101,7 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
     }
 
 
-    MappedModel_local_var = MappedModel_create (
+    MappedModel_local_var = MappedModel_create_internal (
         another_property ? another_property->valuedouble : 0,
         uuid_property && !cJSON_IsNull(uuid_property) ? strdup(uuid_property->valuestring) : NULL
         );

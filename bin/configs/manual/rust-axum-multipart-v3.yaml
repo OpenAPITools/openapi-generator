@@ -7,4 +7,6 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   allowBlockingResponseSerialize: "true"
   packageName: multipart-v3
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

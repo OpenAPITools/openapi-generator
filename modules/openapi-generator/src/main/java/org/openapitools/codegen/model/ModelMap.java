@@ -1,10 +1,10 @@
 package org.openapitools.codegen.model;
 
+import org.openapitools.codegen.CodegenModel;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.openapitools.codegen.CodegenModel;
 
 public class ModelMap extends HashMap<String, Object> {
 
@@ -27,8 +27,8 @@ public class ModelMap extends HashMap<String, Object> {
     /**
      * Convert a list of ModelMap to map of CodegenModel.
      *
-     * @param  allModels list of model map
-     * @return           map of Codegen Model
+     * @param allModels list of model map
+     * @return map of Codegen Model
      */
     static public HashMap<String, CodegenModel> toCodegenModelMap(List<ModelMap> allModels) {
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();

@@ -19,7 +19,7 @@ test uuid default value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **req** | **HTTP.Request** | The HTTP Request object | 
-**uuid_parameter** | **String**| test uuid default value | [default to nothing]
+**uuid_parameter** | **String**| test uuid default value |
 
 ### Return type
 

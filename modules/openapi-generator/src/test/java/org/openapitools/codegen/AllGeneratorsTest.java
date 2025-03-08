@@ -31,10 +31,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AllGeneratorsTest {
 
-    @DataProvider(name = "generators") Iterator<CodegenConfig> generators() {
+    @DataProvider(name = "generators")
+    Iterator<CodegenConfig> generators() {
         return CodegenConfigLoader.getAll().iterator();
     }
-    
+
     @Test(dataProvider = "generators")
     public void testEachWithPetstore(CodegenConfig codegenConfig) {
         try {
@@ -47,17 +48,17 @@ public class AllGeneratorsTest {
                     .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
             List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-            
+
             // Main intention of this test is to check that nothing crashes. Besides, we check here that
             // at least 1 file is generated, besides the common ".openapi-generator-ignore", "FILES" and "VERSION" files.
             assertThat(files).hasSizeGreaterThanOrEqualTo(4);
         } catch (Exception e) {
             throw new RuntimeException(
-                String.format(
-                    Locale.ROOT,
-                    "Generator %s threw an exception (generating %s): %s",
-                    codegenConfig.getName(), codegenConfig.getInputSpec(), e.getMessage()
-                ), e
+                    String.format(
+                            Locale.ROOT,
+                            "Generator %s threw an exception (generating %s): %s",
+                            codegenConfig.getName(), codegenConfig.getInputSpec(), e.getMessage()
+                    ), e
             );
         }
     }
@@ -65,45 +66,49 @@ public class AllGeneratorsTest {
     /**
      * Regression test for <a href="https://github.com/OpenAPITools/openapi-generator/issues/18810">#18810</a>
      */
-    @Test(dataProvider = "generators") void noDuplicateCliOptions(CodegenConfig codegenConfig) {
+    @Test(dataProvider = "generators")
+    void noDuplicateCliOptions(CodegenConfig codegenConfig) {
         final List<String> cliOptionKeys = codegenConfig.cliOptions()
-            .stream().map(CliOption::getOpt).collect(Collectors.toList()); 
-        
+                .stream().map(CliOption::getOpt).collect(Collectors.toList());
+
         assertThat(cliOptionKeys).allSatisfy(
-            opt -> assertThat(cliOptionKeys)
-                .as("Generator '%s' defines CliOption '%s' more than once!", codegenConfig.getName(), opt)
-                .containsOnlyOnce(opt)
+                opt -> assertThat(cliOptionKeys)
+                        .as("Generator '%s' defines CliOption '%s' more than once!", codegenConfig.getName(), opt)
+                        .containsOnlyOnce(opt)
         );
     }
-    
-    @Test(dataProvider = "generators") void noDuplicateSupportedLibraries(CodegenConfig codegenConfig) {
+
+    @Test(dataProvider = "generators")
+    void noDuplicateSupportedLibraries(CodegenConfig codegenConfig) {
         final var supportedLibraries = codegenConfig.supportedLibraries().keySet();
 
         assertThat(supportedLibraries).allSatisfy(
-            lib -> assertThat(supportedLibraries)
-                .as("Generator '%s' defines '%s' more than once in supportedLibraries!", codegenConfig.getName(), lib)
-                .containsOnlyOnce(lib)
+                lib -> assertThat(supportedLibraries)
+                        .as("Generator '%s' defines '%s' more than once in supportedLibraries!", codegenConfig.getName(), lib)
+                        .containsOnlyOnce(lib)
         );
     }
-    
-    @Test(dataProvider = "generators") void noDuplicateSupportingFiles(CodegenConfig codegenConfig) {
+
+    @Test(dataProvider = "generators")
+    void noDuplicateSupportingFiles(CodegenConfig codegenConfig) {
         final List<String> supportingFiles = codegenConfig.supportingFiles()
-            .stream().map(SupportingFile::toString).collect(Collectors.toList());
+                .stream().map(SupportingFile::toString).collect(Collectors.toList());
 
         assertThat(supportingFiles).allSatisfy(
-            file -> assertThat(supportingFiles)
-                .as("Generator '%s' defines '%s' more than once in supportingFiles!", codegenConfig.getName(), file)
-                .containsOnlyOnce(file)
+                file -> assertThat(supportingFiles)
+                        .as("Generator '%s' defines '%s' more than once in supportingFiles!", codegenConfig.getName(), file)
+                        .containsOnlyOnce(file)
         );
     }
-    
-    @Test(dataProvider = "generators") void noDuplicateSupportedVendorExtensions(CodegenConfig codegenConfig) {
+
+    @Test(dataProvider = "generators")
+    void noDuplicateSupportedVendorExtensions(CodegenConfig codegenConfig) {
         final List<VendorExtension> supportedVendorExtensions = codegenConfig.getSupportedVendorExtensions();
 
         assertThat(supportedVendorExtensions).allSatisfy(
-            extension -> assertThat(supportedVendorExtensions)
-                .as("Generator '%s' defines '%s' more than once in supportedVendorExtensions!", codegenConfig.getName(), extension)
-                .containsOnlyOnce(extension)
+                extension -> assertThat(supportedVendorExtensions)
+                        .as("Generator '%s' defines '%s' more than once in supportedVendorExtensions!", codegenConfig.getName(), extension)
+                        .containsOnlyOnce(extension)
         );
     }
 }

@@ -74,7 +74,7 @@ public class {{classname}} {
     {{/formParams}}
 
         {{#returnType}}return ({{{.}}}) {{/returnType}}client.invoke(
-            '{{httpMethod}}', '{{path}}',{{#bodyParam}}
+            '{{httpMethod}}', '{{{path}}}',{{#bodyParam}}
             ({{{dataType}}}) params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}} ''{{/bodyParam}},
             query, form,
             new Map<String, Object>{{#hasPathParams}}{

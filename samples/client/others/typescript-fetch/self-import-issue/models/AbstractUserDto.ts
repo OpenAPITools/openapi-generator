@@ -80,11 +80,11 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-  export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
-      return AbstractUserDtoToJSONTyped(json, false);
-  }
+export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
+    return AbstractUserDtoToJSONTyped(json, false);
+}
 
-  export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
+export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

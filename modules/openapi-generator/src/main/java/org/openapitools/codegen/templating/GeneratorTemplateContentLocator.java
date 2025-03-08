@@ -31,7 +31,6 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
      * Determines whether an embedded file with the specified name exists.
      *
      * @param name The name of the file (i.e. relative to resource root)
-     *
      * @return true if file is an embedded resource, false if it does not exist
      */
     public boolean embeddedTemplateExists(String name) {
@@ -44,13 +43,13 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
 
     /**
      * Get the template file path with template dir prepended, and use the library template if exists.
-     *
+     * <p>
      * Precedence:
      * 1) (template dir)/libraries/(library)
      * 2) (template dir)
      * 3) (embedded template dir)/libraries/(library)
      * 4) (embedded template dir)
-     *
+     * <p>
      * Where "template dir" may be user defined and "embedded template dir" are the built-in templates for the given generator.
      *
      * @param relativeTemplateFile Template file

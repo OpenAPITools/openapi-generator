@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -55,7 +57,7 @@ import org.openapitools.client.ApiClient;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @javax.annotation.Nullable
@@ -523,34 +525,12 @@ public class FormatTest {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(this.integer, formatTest.integer) &&
-        Objects.equals(this.int32, formatTest.int32) &&
-        Objects.equals(this.int64, formatTest.int64) &&
-        Objects.equals(this.number, formatTest.number) &&
-        Objects.equals(this._float, formatTest._float) &&
-        Objects.equals(this._double, formatTest._double) &&
-        Objects.equals(this.decimal, formatTest.decimal) &&
-        Objects.equals(this.string, formatTest.string) &&
-        Arrays.equals(this._byte, formatTest._byte) &&
-        Objects.equals(this.binary, formatTest.binary) &&
-        Objects.equals(this.date, formatTest.date) &&
-        Objects.equals(this.dateTime, formatTest.dateTime) &&
-        Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
-        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, decimal, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -622,82 +602,82 @@ public class FormatTest {
 
     // add `integer` to the URL query string
     if (getInteger() != null) {
-      joiner.add(String.format("%sinteger%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInteger()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sinteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInteger()))));
     }
 
     // add `int32` to the URL query string
     if (getInt32() != null) {
-      joiner.add(String.format("%sint32%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInt32()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sint32%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt32()))));
     }
 
     // add `int64` to the URL query string
     if (getInt64() != null) {
-      joiner.add(String.format("%sint64%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getInt64()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sint64%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt64()))));
     }
 
     // add `number` to the URL query string
     if (getNumber() != null) {
-      joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getNumber()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
     }
 
     // add `float` to the URL query string
     if (getFloat() != null) {
-      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getFloat()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sfloat%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFloat()))));
     }
 
     // add `double` to the URL query string
     if (getDouble() != null) {
-      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDouble()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdouble%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDouble()))));
     }
 
     // add `decimal` to the URL query string
     if (getDecimal() != null) {
-      joiner.add(String.format("%sdecimal%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDecimal()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdecimal%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDecimal()))));
     }
 
     // add `string` to the URL query string
     if (getString() != null) {
-      joiner.add(String.format("%sstring%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getString()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstring%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getString()))));
     }
 
     // add `byte` to the URL query string
     if (getByte() != null) {
-      joiner.add(String.format("%sbyte%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getByte()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbyte%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getByte()))));
     }
 
     // add `binary` to the URL query string
     if (getBinary() != null) {
-      joiner.add(String.format("%sbinary%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getBinary()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sbinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBinary()))));
     }
 
     // add `date` to the URL query string
     if (getDate() != null) {
-      joiner.add(String.format("%sdate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDate()))));
     }
 
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
-      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getDateTime()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
     }
 
     // add `uuid` to the URL query string
     if (getUuid() != null) {
-      joiner.add(String.format("%suuid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getUuid()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format("%spassword%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPassword()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
     }
 
     // add `pattern_with_digits` to the URL query string
     if (getPatternWithDigits() != null) {
-      joiner.add(String.format("%spattern_with_digits%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPatternWithDigits()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spattern_with_digits%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigits()))));
     }
 
     // add `pattern_with_digits_and_delimiter` to the URL query string
     if (getPatternWithDigitsAndDelimiter() != null) {
-      joiner.add(String.format("%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPatternWithDigitsAndDelimiter()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigitsAndDelimiter()))));
     }
 
     return joiner.toString();

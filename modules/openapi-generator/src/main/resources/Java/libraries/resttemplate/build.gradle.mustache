@@ -147,7 +147,12 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    {{^useJakartaEe}}
     implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    {{/useJakartaEe}}
+    {{#useJakartaEe}}
+    implementation "com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$jackson_version"
+    {{/useJakartaEe}}
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}

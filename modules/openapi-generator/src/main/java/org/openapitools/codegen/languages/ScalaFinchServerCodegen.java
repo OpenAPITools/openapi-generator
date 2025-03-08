@@ -482,5 +482,7 @@ public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.SCALA; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.SCALA;
+    }
 }

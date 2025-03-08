@@ -12,9 +12,9 @@ public typealias List = PetstoreClientAPI.List
 
 extension PetstoreClientAPI {
 
-public final class List: Codable, JSONEncodable, Hashable {
+public final class List: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var _123list: String?
+    public private(set) var _123list: String?
 
     public init(_123list: String? = nil) {
         self._123list = _123list

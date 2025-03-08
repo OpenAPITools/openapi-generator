@@ -23,7 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_api** | **StoreApi** | API context | 
-**order_id** | **String**| ID of the order that needs to be deleted | [default to nothing]
+**order_id** | **String** | ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -79,7 +79,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_api** | **StoreApi** | API context | 
-**order_id** | **Int64**| ID of pet that needs to be fetched | [default to nothing]
+**order_id** | **Int64** | ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -109,7 +109,7 @@ Place an order for a pet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_api** | **StoreApi** | API context | 
-**order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+**order** | [**Order**](Order.md) | order placed for purchasing the pet |
 
 ### Return type
 

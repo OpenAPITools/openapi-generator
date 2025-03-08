@@ -25,12 +25,12 @@ import java.io.Writer;
 
 /**
  * Strips trailing ? from a text fragment
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("required", new RequiredParameterLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#lambda.required}}{{name}}{{/lambda.required}}
@@ -38,14 +38,15 @@ import java.io.Writer;
  */
 public class RequiredParameterLambda implements Mustache.Lambda {
 
-    public RequiredParameterLambda() {}
+    public RequiredParameterLambda() {
+    }
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = fragment.execute();
         text = text.endsWith("?")
-            ? text.substring(0, text.length() - 1)
-            : text;
+                ? text.substring(0, text.length() - 1)
+                : text;
 
         writer.write(text);
     }

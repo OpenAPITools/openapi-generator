@@ -49,10 +49,12 @@ public enum Stability {
      *
      * @return The descriptive value of this enum.
      */
-    public String value() { return description; }
+    public String value() {
+        return description;
+    }
 
     public static Stability forDescription(String description) {
-        for (Stability value: values()) {
+        for (Stability value : values()) {
             if (value.description.equals(description)) {
                 return value;
             }

@@ -7,7 +7,7 @@ import java.net.URISyntaxException
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class ApiKeyAuth(
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class ApiKeyAuth(
         private val location: String = "",
         private val paramName: String = "",
         private var apiKey: String = ""

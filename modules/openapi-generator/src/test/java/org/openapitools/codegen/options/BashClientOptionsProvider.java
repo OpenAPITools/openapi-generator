@@ -31,13 +31,13 @@ public class BashClientOptionsProvider implements OptionsProvider {
     public static final String GENERATE_BASH_COMPLETION = "true";
     public static final String GENERATE_ZSH_COMPLETION = "false";
     public static final String HOST_ENVIRONMENT_VARIABLE_NAME
-                                = "PETSTORE_HOSTNAME";
+            = "PETSTORE_HOSTNAME";
     public static final String BASIC_AUTH_ENVIRONMENT_VARIABLE_NAME
-                                = "PETSTORE_BASIC_AUTH";
+            = "PETSTORE_BASIC_AUTH";
     public static final String APIKEY_AUTH_ENVIRONMENT_VARIABLE_NAME
-                                = "PETSTORE_APIKEY";
+            = "PETSTORE_APIKEY";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE
-                                = "false";
+            = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
 
@@ -50,7 +50,7 @@ public class BashClientOptionsProvider implements OptionsProvider {
     public Map<String, String> createOptions() {
 
         ImmutableMap.Builder<String, String> builder
-            = new ImmutableMap.Builder<String, String>();
+                = new ImmutableMap.Builder<String, String>();
 
         return builder
                 .put(BashClientCodegen.CURL_OPTIONS, CURL_OPTIONS)

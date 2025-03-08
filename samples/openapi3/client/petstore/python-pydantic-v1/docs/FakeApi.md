@@ -48,6 +48,8 @@ Method | HTTP request | Description
 
 test any type request body
 
+
+
 ### Example
 
 ```python
@@ -109,6 +111,8 @@ No authorization required
 > fake_enum_ref_query_parameter(enum_ref=enum_ref)
 
 test enum reference query parameter
+
+
 
 ### Example
 
@@ -173,6 +177,8 @@ No authorization required
 
 Health check endpoint
 
+
+
 ### Example
 
 ```python
@@ -233,6 +239,8 @@ No authorization required
 > fake_http_signature_test(pet, query_1=query_1, header_1=header_1)
 
 test http signature authentication
+
+
 
 ### Example
 
@@ -698,6 +706,8 @@ No authorization required
 
 test ref to enum string
 
+
+
 ### Example
 
 ```python
@@ -759,6 +769,8 @@ No authorization required
 
 test returning boolean
 
+
+
 ### Example
 
 ```python
@@ -818,6 +830,8 @@ No authorization required
 > bytearray fake_return_byte_like_json()
 
 test byte like json
+
+
 
 ### Example
 
@@ -879,6 +893,8 @@ No authorization required
 
 test returning enum
 
+
+
 ### Example
 
 ```python
@@ -938,6 +954,8 @@ No authorization required
 > str fake_return_enum_like_json()
 
 test enum like json
+
+
 
 ### Example
 
@@ -999,6 +1017,8 @@ No authorization required
 
 test returning float
 
+
+
 ### Example
 
 ```python
@@ -1059,6 +1079,8 @@ No authorization required
 
 test returning int
 
+
+
 ### Example
 
 ```python
@@ -1118,6 +1140,8 @@ No authorization required
 > List[List[Tag]] fake_return_list_of_objects()
 
 test returning list of objects
+
+
 
 ### Example
 
@@ -1180,6 +1204,8 @@ No authorization required
 
 test str like json
 
+
+
 ### Example
 
 ```python
@@ -1240,6 +1266,8 @@ No authorization required
 
 test returning string
 
+
+
 ### Example
 
 ```python
@@ -1299,6 +1327,8 @@ No authorization required
 > fake_uuid_example(uuid_example)
 
 test uuid example
+
+
 
 ### Example
 
@@ -1553,6 +1583,8 @@ No authorization required
 
 
 
+
+
 ### Example
 
 ```python
@@ -1617,7 +1649,7 @@ No authorization required
 
 To test \"client\" model
 
-To test \"client\" model
+To test "client" model
 
 ### Example
 
@@ -1681,6 +1713,8 @@ No authorization required
 
 # **test_date_time_query_parameter**
 > test_date_time_query_parameter(date_time_query, str_query)
+
+
 
 
 
@@ -1808,7 +1842,11 @@ No authorization required
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
 
 ### Example
 
@@ -1911,6 +1949,8 @@ void (empty response body)
 > test_error_responses_with_model()
 
 test error responses with model
+
+
 
 ### Example
 
@@ -2248,6 +2288,8 @@ No authorization required
 
 # **test_object_for_multipart_requests**
 > test_object_for_multipart_requests(marker)
+
+
 
 
 

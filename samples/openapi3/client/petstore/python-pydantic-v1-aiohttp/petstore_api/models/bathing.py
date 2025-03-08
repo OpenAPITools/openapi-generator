@@ -33,14 +33,14 @@ class Bathing(BaseModel):
     @validator('task_name')
     def task_name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('cleaning_deep'):
+        if value not in ('cleaning_deep',):
             raise ValueError("must be one of enum values ('cleaning_deep')")
         return value
 
     @validator('function_name')
     def function_name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('care_nourish'):
+        if value not in ('care_nourish',):
             raise ValueError("must be one of enum values ('care_nourish')")
         return value
 

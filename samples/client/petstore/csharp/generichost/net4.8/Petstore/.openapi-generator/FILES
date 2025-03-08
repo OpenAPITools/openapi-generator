@@ -29,11 +29,15 @@ docs/models/Category.md
 docs/models/ChildCat.md
 docs/models/ClassModel.md
 docs/models/ComplexQuadrilateral.md
+docs/models/CopyActivity.md
 docs/models/DanishPig.md
 docs/models/DateOnlyClass.md
 docs/models/DeprecatedObject.md
+docs/models/Descendant1.md
+docs/models/Descendant2.md
 docs/models/Dog.md
 docs/models/Drawing.md
+docs/models/EntityBase.md
 docs/models/EnumArrays.md
 docs/models/EnumClass.md
 docs/models/EnumTest.md
@@ -54,7 +58,6 @@ docs/models/List.md
 docs/models/LiteralStringClass.md
 docs/models/Mammal.md
 docs/models/MapTest.md
-docs/models/MixLog.md
 docs/models/MixedAnyOf.md
 docs/models/MixedAnyOfContent.md
 docs/models/MixedOneOf.md
@@ -86,6 +89,7 @@ docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
 docs/models/RequiredClass.md
+docs/models/Result.md
 docs/models/Return.md
 docs/models/RolesReportsHash.md
 docs/models/RolesReportsHashRole.md
@@ -98,7 +102,10 @@ docs/models/SpecialModelName.md
 docs/models/Tag.md
 docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
+docs/models/TestDescendants.md
 docs/models/TestInlineFreeformAdditionalPropertiesRequest.md
+docs/models/TestResult.md
+docs/models/TestResultCode.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
 docs/models/User.md
@@ -163,11 +170,15 @@ src/Org.OpenAPITools/Model/Category.cs
 src/Org.OpenAPITools/Model/ChildCat.cs
 src/Org.OpenAPITools/Model/ClassModel.cs
 src/Org.OpenAPITools/Model/ComplexQuadrilateral.cs
+src/Org.OpenAPITools/Model/CopyActivity.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
+src/Org.OpenAPITools/Model/Descendant1.cs
+src/Org.OpenAPITools/Model/Descendant2.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Drawing.cs
+src/Org.OpenAPITools/Model/EntityBase.cs
 src/Org.OpenAPITools/Model/EnumArrays.cs
 src/Org.OpenAPITools/Model/EnumClass.cs
 src/Org.OpenAPITools/Model/EnumTest.cs
@@ -188,7 +199,6 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
-src/Org.OpenAPITools/Model/MixLog.cs
 src/Org.OpenAPITools/Model/MixedAnyOf.cs
 src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
 src/Org.OpenAPITools/Model/MixedOneOf.cs
@@ -220,6 +230,7 @@ src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/RequiredClass.cs
+src/Org.OpenAPITools/Model/Result.cs
 src/Org.OpenAPITools/Model/Return.cs
 src/Org.OpenAPITools/Model/RolesReportsHash.cs
 src/Org.OpenAPITools/Model/RolesReportsHashRole.cs
@@ -232,7 +243,10 @@ src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
+src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
+src/Org.OpenAPITools/Model/TestResult.cs
+src/Org.OpenAPITools/Model/TestResultCode.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs

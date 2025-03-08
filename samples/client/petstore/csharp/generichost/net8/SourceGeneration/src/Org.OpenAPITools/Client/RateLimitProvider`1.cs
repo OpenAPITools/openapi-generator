@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Channels;
 
 namespace Org.OpenAPITools.Client
 {
@@ -23,7 +22,7 @@ namespace Org.OpenAPITools.Client
     /// <typeparam name="TTokenBase"></typeparam>
     public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        internal Dictionary<string, Channel<TTokenBase>> AvailableTokens { get; } = new();
+        internal Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new();
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
@@ -40,32 +39,32 @@ namespace Org.OpenAPITools.Client
 
                 foreach (string header in headers)
                 {
-                    BoundedChannelOptions options = new BoundedChannelOptions(apiKeyTokenContainer.Tokens.Count(t => ClientUtils.ApiKeyHeaderToString(t.Header).Equals(header)))
+                    global::System.Threading.Channels.BoundedChannelOptions options = new global::System.Threading.Channels.BoundedChannelOptions(apiKeyTokenContainer.Tokens.Count(t => ClientUtils.ApiKeyHeaderToString(t.Header).Equals(header)))
                     {
-                        FullMode = BoundedChannelFullMode.DropWrite
+                        FullMode = global::System.Threading.Channels.BoundedChannelFullMode.DropWrite
                     };
 
-                    AvailableTokens.Add(header, Channel.CreateBounded<TTokenBase>(options));
+                    AvailableTokens.Add(header, global::System.Threading.Channels.Channel.CreateBounded<TTokenBase>(options));
                 }
             }
             else
             {
-                BoundedChannelOptions options = new BoundedChannelOptions(_tokens.Length)
+                global::System.Threading.Channels.BoundedChannelOptions options = new global::System.Threading.Channels.BoundedChannelOptions(_tokens.Length)
                 {
-                    FullMode = BoundedChannelFullMode.DropWrite
+                    FullMode = global::System.Threading.Channels.BoundedChannelFullMode.DropWrite
                 };
 
-                AvailableTokens.Add(string.Empty, Channel.CreateBounded<TTokenBase>(options));
+                AvailableTokens.Add(string.Empty, global::System.Threading.Channels.Channel.CreateBounded<TTokenBase>(options));
             }
 
-            foreach(Channel<TTokenBase> tokens in AvailableTokens.Values)
+            foreach(global::System.Threading.Channels.Channel<TTokenBase> tokens in AvailableTokens.Values)
                 for (int i = 0; i < _tokens.Length; i++)
                     _tokens[i].TokenBecameAvailable += ((sender) => tokens.Writer.TryWrite((TTokenBase) sender));
         }
 
         internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
         {
-            if (!AvailableTokens.TryGetValue(header, out Channel<TTokenBase>? tokens))
+            if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase>? tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
 
             return await tokens.Reader.ReadAsync(cancellation).ConfigureAwait(false);

@@ -58,10 +58,10 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicLong
 {{/kotlinx_serialization}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object Serializer {
 {{#moshi}}
     @JvmStatic
-    val moshiBuilder: Moshi.Builder = Moshi.Builder()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val moshiBuilder: Moshi.Builder = Moshi.Builder()
         .add(OffsetDateTimeAdapter())
         {{#kotlinx-datetime}}
         .add(InstantAdapter())
@@ -79,7 +79,7 @@ import java.util.concurrent.atomic.AtomicLong
         .add(BigIntegerAdapter())
 
     @JvmStatic
-    val moshi: Moshi by lazy {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val moshi: Moshi by lazy {
 {{#enumUnknownDefaultCase}}
         SerializerHelper.addEnumUnknownDefaultCase(moshiBuilder)
 {{/enumUnknownDefaultCase}}
@@ -97,6 +97,17 @@ import java.util.concurrent.atomic.AtomicLong
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
+        {{#generateOneOfAnyOfWrappers}}
+        {{#models}}
+        {{#model}}
+        {{^isEnum}}
+        {{^hasChildren}}
+        .registerTypeAdapterFactory({{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory())
+        {{/hasChildren}}
+        {{/isEnum}}
+        {{/model}}
+        {{/models}}
+        {{/generateOneOfAnyOfWrappers}}
 
     @JvmStatic
     val gson: Gson by lazy {

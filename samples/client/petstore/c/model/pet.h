@@ -36,9 +36,10 @@ typedef struct pet_t {
     list_t *tags; //nonprimitive container
     openapi_petstore_pet_STATUS_e status; //enum
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } pet_t;
 
-pet_t *pet_create(
+__attribute__((deprecated)) pet_t *pet_create(
     long id,
     category_t *category,
     char *name,

@@ -1,4 +1,9 @@
+{{#useAxiosHttpModule}}
 import type { HttpService } from '@nestjs/axios';
+{{/useAxiosHttpModule}}
+{{^useAxiosHttpModule}}
+import type { HttpService } from '@nestjs/common';
+{{/useAxiosHttpModule}}
 import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
 
 export interface ConfigurationParameters {

@@ -24,12 +24,12 @@ import java.io.Writer;
 
 /**
  * Double quote the text if it's not already the case.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("doublequote", new DoubleQuoteLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#doublequote}}{{summary}}{{/doublequote}}

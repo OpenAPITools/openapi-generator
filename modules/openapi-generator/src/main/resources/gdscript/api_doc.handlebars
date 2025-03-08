@@ -1,0 +1,64 @@
+<a name="__pageTop"></a>
+# {{{classname}}}   { #{{classname}} }
+{{#if description}}{{description}}{{/if}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#with operations}}
+{{#each operation}}
+[**{{operationIdSnakeCase}}**](#{{operationIdSnakeCase}}) | **{{httpMethod}}** `{{path}}` | {{#if summary}}{{summary}}{{/if}}
+{{/each}}
+{{/with}}
+
+{{#with operations}}
+{{#each operation}}
+# **{{{operationIdSnakeCase}}}**   { #{{{operationIdSnakeCase}}} }
+<a name="{{{operationIdSnakeCase}}}"></a>
+
+> `{{operationIdSnakeCase}}({{#each allParams}}{{paramName}}{{#if required}}{{#if dataType}}: {{{dataType}}}{{/if}}{{/if}}{{#unless required}} = {{#if defaultValue}}{{{defaultValue}}}{{/if}}{{#unless defaultValue}}null{{/unless}}{{/unless}},{{/each}} on_success: Callable, on_failure: Callable)`
+
+{{#if summary}}{{{summary}}}{{/if}}
+
+{{#if notes}}{{{notes}}}{{/if}}
+
+### Example
+
+{{#if hasAuthMethods}}
+{{#each authMethods}}
+{{#if isBasic}}
+{{#if isBasicBasic}}
+* Basic Authentication (`{{name}}`)
+{{/if}}
+{{#if isBasicBearer}}
+* Bearer{{#if bearerFormat}} ({{{bearerFormat}}}){{/if}} Authentication (`{{name}}`)
+{{/if}}
+{{/if}}
+{{#if isApiKey}}
+* Api Key Authentication (`{{name}}`)
+{{/if}}
+{{#if isOAuth}}
+* OAuth Authentication (`{{name}}`)
+{{/if}}
+{{/each}}
+{{/if}}
+
+{{> api_doc_example }}
+
+{{/each}}
+
+### Authorization
+
+{{#each authMethods}}
+[{{{name}}}](../README.md#{{name}}){{#unless @last}}, {{/unless}}
+{{else}}
+No authorization required.
+{{/each}}
+
+[[Back to top]](#__pageTop) \
+[[Back to API list]](../README.md#documentation-for-api-endpoints) \
+[[Back to Model list]](../README.md#documentation-for-models) \
+[[Back to README]](../README.md) \
+
+{{/with}}

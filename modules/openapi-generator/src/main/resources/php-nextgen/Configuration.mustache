@@ -498,7 +498,7 @@ class Configuration
     * @param array|null $variables    hash of variable and the corresponding value (optional)
     * @return string URL based on host settings
     */
-    public static function getHostString(array $hostSettings, int $hostIndex, array $variables = null): string
+    public static function getHostString(array $hostSettings, int $hostIndex, ?array $variables = null): string
     {
         if (null === $variables) {
             $variables = [];

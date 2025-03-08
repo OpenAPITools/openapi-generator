@@ -19,9 +19,9 @@ import org.openapitools.client.models.*
 
 object JsonSupports {
 
-  implicit def circeJsonEncoder[F[*]: Concurrent, A](implicit encoder: Encoder[A]): EntityEncoder[F, A] =
+  implicit def circeJsonEncoder[F[*]: Concurrent, A](using Encoder[A]): EntityEncoder[F, A] =
     http4sCirce.jsonEncoderOf[F, A]
-  implicit def circeJsonDecoder[F[*]: Concurrent, A](implicit decoder: Decoder[A]): EntityDecoder[F, A] =
+  implicit def circeJsonDecoder[F[*]: Concurrent, A](using Decoder[A]): EntityDecoder[F, A] =
     http4sCirce.jsonOf[F, A]
 
   def parseJson[F[*]: Concurrent, T](

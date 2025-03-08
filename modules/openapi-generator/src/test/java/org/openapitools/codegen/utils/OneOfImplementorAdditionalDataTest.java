@@ -34,7 +34,9 @@ public class OneOfImplementorAdditionalDataTest {
         oneOfModel.interfaceModels.add(interfaceModel);
 
         List<Map<String, String>> interfaceModelImports = new ArrayList<>();
-        interfaceModelImports.add(new HashMap<String, String>(){{ put("import", "foo"); }});
+        interfaceModelImports.add(new HashMap<String, String>() {{
+            put("import", "foo");
+        }});
 
         o.addFromInterfaceModel(oneOfModel, interfaceModelImports);
 
@@ -51,8 +53,13 @@ public class OneOfImplementorAdditionalDataTest {
         o.addToImplementor(cc, implModel, implModelImports, false);
 
         // make sure all the additions were done correctly
-        Assert.assertEquals(implModel.getVendorExtensions().get("x-implements"), new ArrayList<String>(){{add(oneOfModel.classname);}});
+        Assert.assertEquals(implModel.getVendorExtensions().get("x-implements"), new ArrayList<String>() {{
+            add(oneOfModel.classname);
+        }});
         Assert.assertEquals(implModelImports, interfaceModelImports);
-        Assert.assertEquals(implModel.vars, new ArrayList<CodegenProperty>(){{add(cp3); add(cp1);}});
+        Assert.assertEquals(implModel.vars, new ArrayList<CodegenProperty>() {{
+            add(cp3);
+            add(cp1);
+        }});
     }
 }

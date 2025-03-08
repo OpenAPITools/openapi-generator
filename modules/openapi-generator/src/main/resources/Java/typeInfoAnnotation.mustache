@@ -15,3 +15,9 @@
 {{/-last}}
 {{/discriminator.mappedModels}}
 {{/jackson}}
+{{#jsonbPolymorphism}}
+@JsonbTypeInfo(key = "{{{discriminator.propertyBaseName}}}"{{#discriminator.mappedModels}}{{#-first}}, value = {
+{{/-first}}
+  @JsonbSubtype(alias = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}", type = {{modelName}}.class),
+{{#-last}}
+}{{/-last}}{{/discriminator.mappedModels}}){{/jsonbPolymorphism}}

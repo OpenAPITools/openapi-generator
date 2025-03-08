@@ -121,7 +121,7 @@ class PetApiTest {
     fun uploadFileTest() {
         val petId: kotlin.Long = TODO()
         val additionalMetadata: kotlin.String? = TODO()
-        val file: org.springframework.core.io.Resource? = TODO()
+        val file: org.springframework.web.multipart.MultipartFile? = TODO()
         val response: ResponseEntity<ModelApiResponse> = api.uploadFile(petId, additionalMetadata, file)
 
         // TODO: test validations

@@ -16,9 +16,16 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,15 +36,6 @@ import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import org.openapitools.codegen.meta.features.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-
-import io.swagger.v3.oas.models.OpenAPI;
 
 /**
  * basic asciidoc markup generator.
@@ -100,7 +98,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         }
 
         private String escapeCurlyBrackets(String relativeFileName) {
-            return relativeFileName.replaceAll("\\{","\\\\{").replaceAll("\\}","\\\\}");
+            return relativeFileName.replaceAll("\\{", "\\\\{").replaceAll("\\}", "\\\\}");
         }
     }
 
@@ -297,7 +295,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             LOGGER.warn("base part for include markup lambda not found: {} as {}", specDir, Paths.get(specDir).toAbsolutePath());
         }
 
-        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
+        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR, specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
         String snippetDir = String.valueOf(this.additionalProperties.get(SNIPPET_DIR));
@@ -305,7 +303,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             LOGGER.warn("base part for include markup lambda not found: {} as {}", snippetDir, Paths.get(snippetDir).toAbsolutePath());
         }
 
-        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR,snippetDir);
+        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR, snippetDir);
         additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);
@@ -324,6 +322,27 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         } else {
             additionalProperties.put(flag, value);
         }
+    }
+
+    // override to avoid printing of string "null"
+    // when no example exists
+    @Override
+    public String toExampleValue(Schema schema) {
+        if (schema.getExample() != null) {
+            return schema.getExample().toString();
+        }
+        return null;
+    }
+
+    // Avoid additional escapes of \ -> \\, " -> \"
+    // in regular expressions that are
+    // introduced by the `escapeText` method.
+    // Note: We don't need this here since we want to print
+    // the plain regular expression
+    // Therefore, override  this method to skip `escapeText`.
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override

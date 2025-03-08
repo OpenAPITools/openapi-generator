@@ -51,7 +51,7 @@
 
             {{/-first}}
             if (discriminator != null && discriminator.Equals("{{name}}"))
-                return JsonSerializer.Deserialize<{{{name}}}>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
+                return JsonSerializer.Deserialize<{{{classname}}}>(ref utf8JsonReader, jsonSerializerOptions) ?? throw new JsonException("The result was an unexpected value.");
 
             {{/children}}
             {{/discriminator}}
@@ -342,13 +342,13 @@
         public override void Write(Utf8JsonWriter writer, {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions jsonSerializerOptions)
         {
             {{#lambda.trimLineBreaks}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#discriminator}}
             {{#children}}
-            if ({{#lambda.pasteLine}}{{/lambda.pasteLine}} is {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}){
-                JsonSerializer.Serialize<{{{name}}}>(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
+            if ({{#lambda.paste}}{{/lambda.paste}} is {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}){
+                JsonSerializer.Serialize<{{{classname}}}>(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
                 return;
             }
 
@@ -439,7 +439,7 @@
             {{#isDiscriminator}}
             {{^model.composedSchemas.anyOf}}
             {{^model.composedSchemas.oneOf}}
-            writer.WriteString("{{baseName}}", {{^isEnum}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{/isEnum}}{{#isNew}}{{#isEnum}}{{#isInnerEnum}}{{classname}}.{{{datatypeWithEnum}}}ToJsonValue{{/isInnerEnum}}{{^isInnerEnum}}{{{datatypeWithEnum}}}ValueConverter.ToJsonValue{{/isInnerEnum}}({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}.Value{{/required}}){{/isEnum}}{{/isNew}});
+            writer.WriteString("{{baseName}}", {{^isEnum}}{{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{/isEnum}}{{#isEnum}}{{#isInnerEnum}}{{classname}}.{{{datatypeWithEnum}}}ToJsonValue{{/isInnerEnum}}{{^isInnerEnum}}{{{datatypeWithEnum}}}ValueConverter.ToJsonValue{{/isInnerEnum}}({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}.Value{{/required}}){{/isEnum}});
 
             {{/model.composedSchemas.oneOf}}
             {{/model.composedSchemas.anyOf}}
@@ -449,9 +449,9 @@
             {{^isMap}}
             {{^isEnum}}
             {{^isUuid}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}});
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}
@@ -460,44 +460,44 @@
             {{/isMap}}
             {{/isString}}
             {{#isBoolean}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteBoolean("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}});
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}
             {{/isBoolean}}
             {{^isEnum}}
             {{#isNumeric}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}});
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}
             {{/isNumeric}}
             {{/isEnum}}
             {{#isDate}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format));
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}
             {{/isDate}}
             {{#isDateTime}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format));
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}
             {{/isDateTime}}
             {{#isEnum}}
             {{#isNumeric}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteNumber("{{baseName}}", {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}));
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}
@@ -519,9 +519,9 @@
             {{/isNullable}}
             {{/isInnerEnum}}
             {{^isInnerEnum}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             {{#lambda.camelcase_sanitize_param}}{{name}}{{/lambda.camelcase_sanitize_param}}
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#required}}
             {{#isNullable}}
             if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} == null)
@@ -533,7 +533,7 @@
                 {{#enumVars}}
                 {{#-first}}
                 {{#isString}}
-                if ({{#lambda.pasteLine}}{{/lambda.pasteLine}}RawValue != null){{! we cant use name here because enumVar also has a name property, so use the paste lambda instead }}
+                if ({{#lambda.paste}}{{/lambda.paste}}RawValue != null){{! we cant use name here because enumVar also has a name property, so use the paste lambda instead }}
                     writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{nameInPascalCase}}{{/lambda.camelcase_sanitize_param}}RawValue);
                 else
                     writer.WriteNull("{{baseName}}");
@@ -552,10 +552,10 @@
             {{#enumVars}}
             {{#-first}}
             {{^isNumeric}}
-            writer.WriteString("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}}RawValue);
+            writer.WriteString("{{baseName}}", {{#lambda.paste}}{{/lambda.paste}}RawValue);
             {{/isNumeric}}
             {{#isNumeric}}
-            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{#lambda.pasteLine}}{{/lambda.pasteLine}}{{/lambda.camelcase_sanitize_param}}RawValue);
+            writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{#lambda.paste}}{{/lambda.paste}}{{/lambda.camelcase_sanitize_param}}RawValue);
             {{/isNumeric}}
             {{/-first}}
             {{/enumVars}}
@@ -568,16 +568,16 @@
                 {{#isNullable}}
                 if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option{{nrt!}}.Value != null)
                 {
-                    var {{#lambda.pasteLine}}{{/lambda.pasteLine}}RawValue = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value{{nrt!}}.Value);
-                    writer.{{#lambda.first}}{{#allowableValues}}{{#enumVars}}{{^isNumeric}}WriteString  {{/isNumeric}}{{#isNumeric}}WriteNumber  {{/isNumeric}}{{/enumVars}}{{/allowableValues}}{{/lambda.first}}("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}}RawValue);
+                    var {{#lambda.paste}}{{/lambda.paste}}RawValue = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value{{nrt!}}.Value);
+                    writer.{{#lambda.first}}{{#allowableValues}}{{#enumVars}}{{^isNumeric}}WriteString  {{/isNumeric}}{{#isNumeric}}WriteNumber  {{/isNumeric}}{{/enumVars}}{{/allowableValues}}{{/lambda.first}}("{{baseName}}", {{#lambda.paste}}{{/lambda.paste}}RawValue);
                 }
                 else
                     writer.WriteNull("{{baseName}}");
                 {{/isNullable}}
                 {{^isNullable}}
             {
-                var {{#lambda.pasteLine}}{{/lambda.pasteLine}}RawValue = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{nrt!}}.Value);
-                writer.{{#lambda.first}}{{#allowableValues}}{{#enumVars}}{{^isNumeric}}WriteString  {{/isNumeric}}{{#isNumeric}}WriteNumber  {{/isNumeric}}{{/enumVars}}{{/allowableValues}}{{/lambda.first}}("{{baseName}}", {{#lambda.pasteLine}}{{/lambda.pasteLine}}RawValue);
+                var {{#lambda.paste}}{{/lambda.paste}}RawValue = {{{datatypeWithEnum}}}ValueConverter.ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{nrt!}}.Value);
+                writer.{{#lambda.first}}{{#allowableValues}}{{#enumVars}}{{^isNumeric}}WriteString  {{/isNumeric}}{{#isNumeric}}WriteNumber  {{/isNumeric}}{{/enumVars}}{{/allowableValues}}{{/lambda.first}}("{{baseName}}", {{#lambda.paste}}{{/lambda.paste}}RawValue);
             }
                 {{/isNullable}}
             {{/required}}
@@ -586,9 +586,9 @@
             {{/isMap}}
             {{/isEnum}}
             {{#isUuid}}
-            {{#lambda.copy}}
+            {{#lambda.copyText}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}});
-            {{/lambda.copy}}
+            {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}
             {{/lambda.indent3}}

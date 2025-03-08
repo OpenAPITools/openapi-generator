@@ -8,7 +8,7 @@ from openapi_server.models.pet import Pet  # noqa: E501
 from openapi_server import util
 
 
-def add_pet(pet):  # noqa: E501
+def add_pet(body):  # noqa: E501
     """Add a new pet to the store
 
      # noqa: E501
@@ -18,6 +18,7 @@ def add_pet(pet):  # noqa: E501
 
     :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
     """
+    pet = body
     if connexion.request.is_json:
         pet = Pet.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
@@ -77,7 +78,7 @@ def get_pet_by_id(pet_id):  # noqa: E501
     return 'do some magic!'
 
 
-def update_pet(pet):  # noqa: E501
+def update_pet(body):  # noqa: E501
     """Update an existing pet
 
      # noqa: E501
@@ -87,6 +88,7 @@ def update_pet(pet):  # noqa: E501
 
     :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
     """
+    pet = body
     if connexion.request.is_json:
         pet = Pet.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

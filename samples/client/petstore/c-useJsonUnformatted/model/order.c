@@ -22,7 +22,7 @@ openapi_petstore_order_STATUS_e order_status_FromString(char* status){
     return 0;
 }
 
-order_t *order_create(
+static order_t *order_create_internal(
     long id,
     long pet_id,
     int quantity,
@@ -41,12 +41,34 @@ order_t *order_create(
     order_local_var->status = status;
     order_local_var->complete = complete;
 
+    order_local_var->_library_owned = 1;
     return order_local_var;
 }
 
+__attribute__((deprecated)) order_t *order_create(
+    long id,
+    long pet_id,
+    int quantity,
+    char *ship_date,
+    openapi_petstore_order_STATUS_e status,
+    int complete
+    ) {
+    return order_create_internal (
+        id,
+        pet_id,
+        quantity,
+        ship_date,
+        status,
+        complete
+        );
+}
 
 void order_free(order_t *order) {
     if(NULL == order){
+        return ;
+    }
+    if(order->_library_owned != 1){
+        fprintf(stderr, "WARNING: %s() does NOT free objects allocated by the user\n", "order_free");
         return ;
     }
     listEntry_t *listEntry;
@@ -94,7 +116,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->status
     if(order->status != openapi_petstore_order_STATUS_NULL) {
-    if(cJSON_AddStringToObject(item, "status", statusorder_ToString(order->status)) == NULL)
+    if(cJSON_AddStringToObject(item, "status", order_status_ToString(order->status)) == NULL)
     {
     goto fail; //Enum
     }
@@ -122,6 +144,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(orderJSON, "id");
+    if (cJSON_IsNull(id)) {
+        id = NULL;
+    }
     if (id) { 
     if(!cJSON_IsNumber(id))
     {
@@ -131,6 +156,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->pet_id
     cJSON *pet_id = cJSON_GetObjectItemCaseSensitive(orderJSON, "petId");
+    if (cJSON_IsNull(pet_id)) {
+        pet_id = NULL;
+    }
     if (pet_id) { 
     if(!cJSON_IsNumber(pet_id))
     {
@@ -140,6 +168,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->quantity
     cJSON *quantity = cJSON_GetObjectItemCaseSensitive(orderJSON, "quantity");
+    if (cJSON_IsNull(quantity)) {
+        quantity = NULL;
+    }
     if (quantity) { 
     if(!cJSON_IsNumber(quantity))
     {
@@ -149,6 +180,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->ship_date
     cJSON *ship_date = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
+    if (cJSON_IsNull(ship_date)) {
+        ship_date = NULL;
+    }
     if (ship_date) { 
     if(!cJSON_IsString(ship_date) && !cJSON_IsNull(ship_date))
     {
@@ -158,6 +192,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->status
     cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
+    if (cJSON_IsNull(status)) {
+        status = NULL;
+    }
     openapi_petstore_order_STATUS_e statusVariable;
     if (status) { 
     if(!cJSON_IsString(status))
@@ -169,6 +206,9 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     // order->complete
     cJSON *complete = cJSON_GetObjectItemCaseSensitive(orderJSON, "complete");
+    if (cJSON_IsNull(complete)) {
+        complete = NULL;
+    }
     if (complete) { 
     if(!cJSON_IsBool(complete))
     {
@@ -177,7 +217,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     }
 
 
-    order_local_var = order_create (
+    order_local_var = order_create_internal (
         id ? id->valuedouble : 0,
         pet_id ? pet_id->valuedouble : 0,
         quantity ? quantity->valuedouble : 0,

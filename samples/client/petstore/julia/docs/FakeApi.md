@@ -20,7 +20,7 @@ test uuid default value
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_api** | **FakeApi** | API context | 
-**uuid_parameter** | **String**| test uuid default value | [default to nothing]
+**uuid_parameter** | **String** | test uuid default value |
 
 ### Return type
 

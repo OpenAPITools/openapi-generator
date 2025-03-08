@@ -12,19 +12,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -45,10 +45,6 @@ public class UserApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* user
-*/
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -118,10 +114,6 @@ public class UserApi {
     public ResponseSpec createUserWithResponseSpec(User user) throws RestClientResponseException {
         return createUserRequestCreation(user);
     }
-// It has a single param!
-/*
-* user
-*/
     /**
      * Creates list of users with given input array
      * 
@@ -191,10 +183,6 @@ public class UserApi {
     public ResponseSpec createUsersWithArrayInputWithResponseSpec(List<User> user) throws RestClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
-// It has a single param!
-/*
-* user
-*/
     /**
      * Creates list of users with given input array
      * 
@@ -264,10 +252,6 @@ public class UserApi {
     public ResponseSpec createUsersWithListInputWithResponseSpec(List<User> user) throws RestClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
-// It has a single param!
-/*
-* username
-*/
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -341,10 +325,6 @@ public class UserApi {
     public ResponseSpec deleteUserWithResponseSpec(String username) throws RestClientResponseException {
         return deleteUserRequestCreation(username);
     }
-// It has a single param!
-/*
-* username
-*/
     /**
      * Get user by user name
      * 
@@ -427,11 +407,6 @@ public class UserApi {
     public ResponseSpec getUserByNameWithResponseSpec(String username) throws RestClientResponseException {
         return getUserByNameRequestCreation(username);
     }
-// It has NO single param!
-/*
-* username
-* password
-*/
 
     public record LoginUserRequest(String username, String password){}
 
@@ -620,11 +595,6 @@ public class UserApi {
     public ResponseSpec logoutUserWithResponseSpec() throws RestClientResponseException {
         return logoutUserRequestCreation();
     }
-// It has NO single param!
-/*
-* username
-* user
-*/
 
     public record UpdateUserRequest(String username, User user){}
 

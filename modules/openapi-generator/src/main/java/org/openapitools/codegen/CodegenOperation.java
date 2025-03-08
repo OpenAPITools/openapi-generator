@@ -220,7 +220,9 @@ public class CodegenOperation {
      *
      * @return true if responses contain only 1 entry and it's a default response, false otherwise
      */
-    public boolean getHasOnlyDefaultResponse() { return responses.size() == 1 && getHasDefaultResponse(); }
+    public boolean getHasOnlyDefaultResponse() {
+        return responses.size() == 1 && getHasDefaultResponse();
+    }
 
     public boolean getAllResponsesAreErrors() {
         return responses.stream().allMatch(response -> response.is4xx || response.is5xx);
@@ -237,7 +239,7 @@ public class CodegenOperation {
             return null;
         }
         LinkedHashMap<String, CodegenMediaType> content = bodyParam.getContent();
-        for (String contentType: content.keySet()) {
+        for (String contentType : content.keySet()) {
             contentTypeToOperation.put(contentType, this);
         }
         return contentTypeToOperation;
@@ -313,6 +315,24 @@ public class CodegenOperation {
      */
     public boolean isRestful() {
         return isRestfulIndex() || isRestfulShow() || isRestfulCreate() || isRestfulUpdate() || isRestfulDestroy();
+    }
+
+    /**
+     * Check if operation produces text/plain responses.
+     * NOTE: This does not mean it _only_ produces text/plain, just that it is one of the produces types.
+     *
+     * @return true if at least one produces is text/plain
+     */
+    public boolean producesTextPlain() {
+        if (produces != null) {
+            for (Map<String, String> produce : produces) {
+                if ("text/plain".equalsIgnoreCase(produce.get("mediaType").split(";")[0].trim())
+                        && "String".equals(returnType)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

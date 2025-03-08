@@ -11,7 +11,6 @@ import org.openapitools.codegen.languages.PostmanCollectionCodegen;
 import org.testng.annotations.Test;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -673,7 +672,7 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
-    public void testAddToList()  {
+    public void testAddToList() {
 
         PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
 

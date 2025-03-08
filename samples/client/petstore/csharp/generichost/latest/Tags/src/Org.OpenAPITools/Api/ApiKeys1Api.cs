@@ -60,18 +60,6 @@ namespace Org.OpenAPITools.Api
     }
 
     /// <summary>
-    /// The <see cref="IGetApiKeysIdApiResponse"/>
-    /// </summary>
-    public interface IGetApiKeysIdApiResponse : Org.OpenAPITools.Client.IApiResponse
-    {
-        /// <summary>
-        /// Returns true if the response is 400 BadRequest
-        /// </summary>
-        /// <returns></returns>
-        bool IsBadRequest { get; }
-    }
-
-    /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public class ApiKeysApiEvents
@@ -86,7 +74,7 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         public event EventHandler<ExceptionEventArgs>? OnErrorGetApiKeysId;
 
-        internal void ExecuteOnGetApiKeysId(ApiKeysApi.GetApiKeysIdApiResponse apiResponse)
+        internal void ExecuteOnGetApiKeysId(APIKEYSApi.GetApiKeysIdApiResponse apiResponse)
         {
             OnGetApiKeysId?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
@@ -243,9 +231,9 @@ namespace Org.OpenAPITools.Api
                     {
                         string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        ILogger<GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetApiKeysIdApiResponse>();
+                        ILogger<APIKEYSApi.GetApiKeysIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<APIKEYSApi.GetApiKeysIdApiResponse>();
 
-                        GetApiKeysIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
+                        APIKEYSApi.GetApiKeysIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/api_keys/{id}", requestedAtLocalVar, _jsonSerializerOptions);
 
                         AfterGetApiKeysIdDefaultImplementation(apiResponseLocalVar, id);
 
@@ -261,51 +249,6 @@ namespace Org.OpenAPITools.Api
                 Events.ExecuteOnErrorGetApiKeysId(e);
                 throw;
             }
-        }
-
-        /// <summary>
-        /// The <see cref="GetApiKeysIdApiResponse"/>
-        /// </summary>
-        public partial class GetApiKeysIdApiResponse : Org.OpenAPITools.Client.ApiResponse, IGetApiKeysIdApiResponse
-        {
-            /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<GetApiKeysIdApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="GetApiKeysIdApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public GetApiKeysIdApiResponse(ILogger<GetApiKeysIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 400 BadRequest
-            /// </summary>
-            /// <returns></returns>
-            public bool IsBadRequest => 400 == (int)StatusCode;
-
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
     }
 }

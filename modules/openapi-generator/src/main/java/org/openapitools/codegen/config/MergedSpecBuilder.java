@@ -1,31 +1,23 @@
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.google.common.collect.ImmutableMap;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class MergedSpecBuilder {
 
@@ -59,8 +51,8 @@ public class MergedSpecBuilder {
                 LOGGER.info("Reading spec: {}", specPath);
 
                 OpenAPI result = new OpenAPIParser()
-                    .readLocation(specPath, new ArrayList<>(), options)
-                    .getOpenAPI();
+                        .readLocation(specPath, new ArrayList<>(), options)
+                        .getOpenAPI();
 
                 if (openapiVersion == null) {
                     openapiVersion = result.getOpenapi();
@@ -93,11 +85,11 @@ public class MergedSpecBuilder {
         Map<String, Object> paths = new HashMap<>();
         spec.put("paths", paths);
 
-        for(SpecWithPaths specWithPaths : allPaths) {
+        for (SpecWithPaths specWithPaths : allPaths) {
             for (String path : specWithPaths.paths) {
                 String specRelatedPath = "./" + specWithPaths.specRelatedPath + "#/paths/" + path.replace("/", "~1");
                 paths.put(path, ImmutableMap.of(
-                    "$ref", specRelatedPath
+                        "$ref", specRelatedPath
                 ));
             }
         }
@@ -109,12 +101,12 @@ public class MergedSpecBuilder {
         Map<String, Object> map = new HashMap<>();
         map.put("openapi", openapiVersion);
         map.put("info", ImmutableMap.of(
-            "title", "merged spec",
-            "description", "merged spec",
-            "version", "1.0.0"
+                "title", "merged spec",
+                "description", "merged spec",
+                "version", "1.0.0"
         ));
         map.put("servers", Collections.singleton(
-            ImmutableMap.of("url", "http://localhost:8080")
+                ImmutableMap.of("url", "http://localhost:8080")
         ));
         return map;
     }
@@ -123,9 +115,9 @@ public class MergedSpecBuilder {
         Path rootDirectory = new File(inputSpecRootDirectory).toPath();
         try (Stream<Path> pathStream = Files.walk(rootDirectory)) {
             return pathStream
-                .filter(path -> !Files.isDirectory(path))
-                .map(path -> rootDirectory.relativize(path).toString())
-                .collect(Collectors.toList());
+                    .filter(path -> !Files.isDirectory(path))
+                    .map(path -> rootDirectory.relativize(path).toString())
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Exception while listing files in spec root directory: " + inputSpecRootDirectory, e);
         }
@@ -134,10 +126,12 @@ public class MergedSpecBuilder {
     private void deleteMergedFileFromPreviousRun() {
         try {
             Files.deleteIfExists(Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".json"));
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
         try {
             Files.deleteIfExists(Paths.get(inputSpecRootDirectory + File.separator + mergeFileName + ".yaml"));
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
     }
 
     private static class SpecWithPaths {

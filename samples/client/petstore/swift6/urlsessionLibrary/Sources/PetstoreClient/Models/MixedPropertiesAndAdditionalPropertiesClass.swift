@@ -12,11 +12,11 @@ public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClientAPI
 
 extension PetstoreClientAPI {
 
-public final class MixedPropertiesAndAdditionalPropertiesClass: Codable, JSONEncodable, Hashable {
+public final class MixedPropertiesAndAdditionalPropertiesClass: @unchecked Sendable, Codable, JSONEncodable, Hashable {
 
-    public var uuid: UUID?
-    public var dateTime: Date?
-    public var map: [String: Animal]?
+    public private(set) var uuid: UUID?
+    public private(set) var dateTime: Date?
+    public private(set) var map: [String: Animal]?
 
     public init(uuid: UUID? = nil, dateTime: Date? = nil, map: [String: Animal]? = nil) {
         self.uuid = uuid

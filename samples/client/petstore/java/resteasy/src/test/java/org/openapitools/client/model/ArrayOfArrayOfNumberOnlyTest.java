@@ -29,14 +29,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ArrayOfArrayOfNumberOnly
  */
-public class ArrayOfArrayOfNumberOnlyTest {
+class ArrayOfArrayOfNumberOnlyTest {
     private final ArrayOfArrayOfNumberOnly model = new ArrayOfArrayOfNumberOnly();
 
     /**
      * Model tests for ArrayOfArrayOfNumberOnly
      */
     @Test
-    public void testArrayOfArrayOfNumberOnly() {
+    void testArrayOfArrayOfNumberOnly() {
         // TODO: test ArrayOfArrayOfNumberOnly
     }
 
@@ -44,7 +44,7 @@ public class ArrayOfArrayOfNumberOnlyTest {
      * Test the property 'arrayArrayNumber'
      */
     @Test
-    public void arrayArrayNumberTest() {
+    void arrayArrayNumberTest() {
         // TODO: test arrayArrayNumber
     }
 

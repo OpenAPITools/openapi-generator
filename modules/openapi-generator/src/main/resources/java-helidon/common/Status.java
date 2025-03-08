@@ -324,7 +324,7 @@ public class Status {
      * 508 Loop Detected, see
      * <a href="https://www.rfc-editor.org/rfc/rfc5842#section-7.2">RFC 5842 - Bindings for the Constrained Application Protocol (CoAP)</a>.
      *
-     *  @since 4.0.6
+     * @since 4.0.6
      */
     public static final Status LOOP_DETECTED_508 = new Status(508, "Loop Detected", true);
 
@@ -332,7 +332,7 @@ public class Status {
      * 510 Not Extended, see
      * <a href="https://www.rfc-editor.org/rfc/rfc2774#section-7">RFC 2774 - An HTTP Extension Framework</a>.
      *
-     *  @since 4.0.6
+     * @since 4.0.6
      */
     public static final Status NOT_EXTENDED_510 = new Status(510, "Not Extended", true);
 
@@ -464,7 +464,7 @@ public class Status {
      * Get the response status as string.
      *
      * @return the response status string in the form of a partial HTTP response status line,
-     *         i.e. {@code "Status-Code SP Reason-Phrase"}.
+     * i.e. {@code "Status-Code SP Reason-Phrase"}.
      */
     public String toString() {
         return stringValue;

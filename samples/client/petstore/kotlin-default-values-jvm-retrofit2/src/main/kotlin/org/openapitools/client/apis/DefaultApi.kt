@@ -9,6 +9,7 @@ import com.squareup.moshi.Json
 
 interface DefaultApi {
     /**
+     * POST test
      * Tests default values
      * Tests default values of different parameters
      * Responses:

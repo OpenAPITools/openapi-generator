@@ -248,7 +248,7 @@ public class ExampleGenerator {
         } else if (ModelUtils.isArraySchema(property)) {
             Schema innerType = ModelUtils.getSchemaItems(property);
             if (innerType != null) {
-                int arrayLength = null == property.getMaxItems() ? 2 :  property.getMaxItems();
+                int arrayLength = null == property.getMaxItems() ? 2 : property.getMaxItems();
                 // avoid memory issues by limiting to max. 5 items
                 arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
@@ -398,10 +398,11 @@ public class ExampleGenerator {
 
     /**
      * Transverse and resolves all property examples for `allOf` composed schemas into `values` map object
-     * @param mediaType MIME type
-     * @param schema OAS schema
+     *
+     * @param mediaType       MIME type
+     * @param schema          OAS schema
      * @param processedModels Set containing all processed models
-     * @param values Example value map
+     * @param values          Example value map
      */
     private void resolveAllOfSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
         List<Schema> interfaces = schema.getAllOf();

@@ -85,6 +85,7 @@ from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.hunting_dog import HuntingDog
 from petstore_api.models.info import Info
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from petstore_api.models.input_all_of import InputAllOf

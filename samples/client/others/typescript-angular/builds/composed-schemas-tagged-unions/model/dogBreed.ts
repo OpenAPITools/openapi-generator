@@ -10,7 +10,15 @@
 
 
 export enum DogBreedModel {
+
+    /**
+     * Canis lupus dingo
+     */
     Dingo = 'Dingo',
+
+    /**
+     * Siberian Husky
+     */
     Husky = 'Husky'
 }
 

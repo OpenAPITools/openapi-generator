@@ -15,28 +15,28 @@ public class OpenAPISerializer extends JsonSerializer<OpenAPI> {
         if (value != null) {
             gen.writeStartObject();
             gen.writeStringField("openapi", value.getOpenapi());
-            if(value.getInfo() != null) {
+            if (value.getInfo() != null) {
                 gen.writeObjectField("info", value.getInfo());
             }
-            if(value.getExternalDocs() != null) {
+            if (value.getExternalDocs() != null) {
                 gen.writeObjectField("externalDocs", value.getExternalDocs());
             }
-            if(value.getServers() != null) {
+            if (value.getServers() != null) {
                 gen.writeObjectField("servers", value.getServers());
             }
-            if(value.getSecurity() != null) {
+            if (value.getSecurity() != null) {
                 gen.writeObjectField("security", value.getSecurity());
             }
-            if(value.getTags() != null) {
+            if (value.getTags() != null) {
                 gen.writeObjectField("tags", value.getTags());
             }
-            if(value.getPaths() != null) {
+            if (value.getPaths() != null) {
                 gen.writeObjectField("paths", value.getPaths());
             }
-            if(value.getComponents() != null) {
+            if (value.getComponents() != null) {
                 gen.writeObjectField("components", value.getComponents());
             }
-            if(value.getExtensions() != null) {
+            if (value.getExtensions() != null) {
                 for (Entry<String, Object> e : value.getExtensions().entrySet()) {
                     gen.writeObjectField(e.getKey(), e.getValue());
                 }

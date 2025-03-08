@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for SpecialModelName
  */
-public class SpecialModelNameTest {
+class SpecialModelNameTest {
     private final SpecialModelName model = new SpecialModelName();
 
     /**
      * Model tests for SpecialModelName
      */
     @Test
-    public void testSpecialModelName() {
+    void testSpecialModelName() {
         // TODO: test SpecialModelName
     }
 
@@ -40,7 +40,7 @@ public class SpecialModelNameTest {
      * Test the property '$specialPropertyName'
      */
     @Test
-    public void $specialPropertyNameTest() {
+    void $specialPropertyNameTest() {
         // TODO: test $specialPropertyName
     }
 

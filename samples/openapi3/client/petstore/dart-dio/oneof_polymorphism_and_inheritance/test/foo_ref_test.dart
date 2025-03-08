@@ -12,6 +12,18 @@ void main() {
       // TODO
     });
 
+    // Name of the related entity.
+    // String name
+    test('to test the property `name`', () async {
+      // TODO
+    });
+
+    // The actual type of the target instance when needed for disambiguation.
+    // String atReferredType
+    test('to test the property `atReferredType`', () async {
+      // TODO
+    });
+
     // Hyperlink reference
     // String href
     test('to test the property `href`', () async {

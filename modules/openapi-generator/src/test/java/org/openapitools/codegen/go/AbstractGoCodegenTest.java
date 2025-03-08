@@ -19,11 +19,7 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.*;
 import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractGoCodegen;
@@ -43,9 +39,10 @@ public class AbstractGoCodegenTest {
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
-    @BeforeMethod void mockAbstractCodegen() {
+    @BeforeMethod
+    void mockAbstractCodegen() {
         codegen = mock(
-            AbstractGoCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+                AbstractGoCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );
     }
 

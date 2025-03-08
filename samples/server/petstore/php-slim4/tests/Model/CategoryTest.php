@@ -112,3 +112,4 @@ class CategoryTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

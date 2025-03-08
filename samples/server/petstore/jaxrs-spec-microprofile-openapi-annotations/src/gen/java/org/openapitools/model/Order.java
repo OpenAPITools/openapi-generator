@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("Order")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Order  implements Serializable {
   private Long id;
   private Long petId;
@@ -252,7 +252,7 @@ public class Order  implements Serializable {
     return new OrderBuilderImpl();
   }
 
-  private static class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
+  private static final class OrderBuilderImpl extends OrderBuilder<Order, OrderBuilderImpl> {
 
     @Override
     protected OrderBuilderImpl self() {

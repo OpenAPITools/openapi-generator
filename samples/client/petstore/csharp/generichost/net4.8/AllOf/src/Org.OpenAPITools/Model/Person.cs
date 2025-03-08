@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         {
             FirstNameOption = firstName;
             LastNameOption = lastName;
+            Type = this.GetType().Name;
             OnCreated();
         }
 
@@ -75,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public string Type { get; } = "Person";
+        public string Type { get; }
 
         /// <summary>
         /// Gets or Sets additional properties

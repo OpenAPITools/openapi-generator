@@ -19,15 +19,14 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.servers.ServerVariables;
 import io.swagger.v3.oas.models.servers.ServerVariable;
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.servers.ServerVariables;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
@@ -38,11 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -348,7 +343,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         // only process files with cpp extension
         if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {cppPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{cppPostProcessFile, file.toString()});
         }
     }
 

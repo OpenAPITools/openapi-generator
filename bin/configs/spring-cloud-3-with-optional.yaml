@@ -12,3 +12,4 @@ additionalProperties:
   useSwaggerUI: "false"
   hideGenerationTimestamp: "true"
   documentationProvider: none
+  #optionalAcceptNullable: "false" # default to true

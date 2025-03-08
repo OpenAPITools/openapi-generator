@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Model tests for ModelReturn
  */
-public class ModelReturnTest {
+class ModelReturnTest {
     private final ModelReturn model = new ModelReturn();
 
     /**
      * Model tests for ModelReturn
      */
     @Test
-    public void testModelReturn() {
+    void testModelReturn() {
         // TODO: test ModelReturn
     }
 
@@ -40,7 +40,7 @@ public class ModelReturnTest {
      * Test the property '_return'
      */
     @Test
-    public void _returnTest() {
+    void _returnTest() {
         // TODO: test _return
     }
 

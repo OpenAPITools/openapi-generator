@@ -14,7 +14,6 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -55,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<NullableClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'IntegerProp'
         /// </summary>
@@ -64,6 +62,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'IntegerProp'
         }
+
         /// <summary>
         /// Test the property 'NumberProp'
         /// </summary>
@@ -72,6 +71,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'NumberProp'
         }
+
         /// <summary>
         /// Test the property 'BooleanProp'
         /// </summary>
@@ -80,6 +80,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'BooleanProp'
         }
+
         /// <summary>
         /// Test the property 'StringProp'
         /// </summary>
@@ -88,6 +89,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'StringProp'
         }
+
         /// <summary>
         /// Test the property 'DateProp'
         /// </summary>
@@ -96,6 +98,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'DateProp'
         }
+
         /// <summary>
         /// Test the property 'DatetimeProp'
         /// </summary>
@@ -104,6 +107,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'DatetimeProp'
         }
+
         /// <summary>
         /// Test the property 'ArrayNullableProp'
         /// </summary>
@@ -112,6 +116,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayNullableProp'
         }
+
         /// <summary>
         /// Test the property 'ArrayAndItemsNullableProp'
         /// </summary>
@@ -120,6 +125,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayAndItemsNullableProp'
         }
+
         /// <summary>
         /// Test the property 'ArrayItemsNullable'
         /// </summary>
@@ -128,6 +134,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ArrayItemsNullable'
         }
+
         /// <summary>
         /// Test the property 'ObjectNullableProp'
         /// </summary>
@@ -136,6 +143,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ObjectNullableProp'
         }
+
         /// <summary>
         /// Test the property 'ObjectAndItemsNullableProp'
         /// </summary>
@@ -144,6 +152,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ObjectAndItemsNullableProp'
         }
+
         /// <summary>
         /// Test the property 'ObjectItemsNullable'
         /// </summary>
@@ -152,7 +161,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'ObjectItemsNullable'
         }
-
     }
-
 }

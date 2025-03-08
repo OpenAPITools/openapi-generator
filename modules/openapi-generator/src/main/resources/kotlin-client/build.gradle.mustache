@@ -99,6 +99,11 @@ idea {
     }
 }
 {{/idea}}
+{{#explicitApi}}
+kotlin {
+    explicitApi()
+}
+{{/explicitApi}}
 {{#jvm-spring-webclient}}{{#useSpringBoot3}}
 kotlin {
     jvmToolchain {

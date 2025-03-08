@@ -34,9 +34,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{/vendorExtensions.x-field-extra-annotation}}
   private {{#isContainer}}{{#useBeanValidation}}@Valid {{/useBeanValidation}}{{/isContainer}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/vars}}
+
   {{#generateBuilders}}
   {{^additionalProperties}}
-
   protected {{classname}}({{classname}}Builder<?, ?> b) {
     {{#parent}}
     super(b);
@@ -46,11 +46,35 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/vars}}
   }
 
-  public {{classname}}() {
-  }
   {{/additionalProperties}}
   {{/generateBuilders}}
+  public {{classname}}() {
+  }
 
+  {{#generateJsonCreator}}
+  {{#hasRequired}}
+  @JsonCreator
+  public {{classname}}(
+    {{#requiredVars}}
+    @JsonProperty(required = {{required}}, value = "{{baseName}}") {{>beanValidatedType}} {{name}}{{^-last}},{{/-last}}
+    {{/requiredVars}}
+  ) {
+    {{#parent}}
+    super(
+    {{#parentRequiredVars}}
+      {{name}}{{^-last}},{{/-last}}
+    {{/parentRequiredVars}}
+    );
+    {{/parent}}
+    {{#vars}}
+    {{#required}}
+    this.{{name}} = {{name}};
+    {{/required}}
+    {{/vars}}
+  }
+
+  {{/hasRequired}}
+  {{/generateJsonCreator}}
   {{#vars}}
   /**
    {{#description}}
@@ -71,12 +95,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
   @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useMicroProfileOpenAPIAnnotations}}
-  @JsonProperty("{{baseName}}")
+  @JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}")
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}public {{>beanValidatedType}} {{getter}}() {
     return {{name}};
   }
 
-  @JsonProperty("{{baseName}}")
+  @JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}")
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
@@ -166,7 +190,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     return new {{classname}}BuilderImpl();
   }
 
-  private static class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
+  private static final class {{classname}}BuilderImpl extends {{classname}}Builder<{{classname}}, {{classname}}BuilderImpl> {
 
     @Override
     protected {{classname}}BuilderImpl self() {
@@ -181,7 +205,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   public static abstract class {{classname}}Builder<C extends {{classname}}, B extends {{classname}}Builder<C, B>> {{#parent}}extends {{{.}}}Builder<C, B>{{/parent}} {
     {{#vars}}
-    private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    private {{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
   {{^parent}}
     protected abstract B self();
@@ -190,7 +214,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     {{/parent}}
 
     {{#vars}}
-    public B {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    public B {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
       this.{{name}} = {{name}};
       return self();
     }

@@ -44,15 +44,15 @@ use crate::{models, types::*};
                 {{/pattern}}
                 {{#maximum}}
                     {{#minimum}}
-                    range(min = {{minimum}}, max = {{maximum}}),
+                    range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
                     {{/minimum}}
                     {{^minimum}}
-                    range(max = {{maximum}}),
+                    range(max = {{maximum}}{{{dataType}}}),
                     {{/minimum}}
                 {{/maximum}}
                 {{#minimum}}
                     {{^maximum}}
-                    range(min = {{minimum}}),
+                    range(min = {{minimum}}{{{dataType}}}),
                     {{/maximum}}
                 {{/minimum}}
                 {{#maxItems}}
@@ -136,15 +136,15 @@ use crate::{models, types::*};
                     {{/pattern}}
                     {{#maximum}}
                         {{#minimum}}
-                        range(min = {{minimum}}, max = {{maximum}}),
+                        range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                         {{^minimum}}
-                        range(max = {{maximum}}),
+                        range(max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                     {{/maximum}}
                     {{#minimum}}
                         {{^maximum}}
-                        range(min = {{minimum}}),
+                        range(min = {{minimum}}{{{dataType}}}),
                         {{/maximum}}
                     {{/minimum}}
                     {{#maxItems}}
@@ -240,15 +240,15 @@ use crate::{models, types::*};
                     {{/pattern}}
                     {{#maximum}}
                         {{#minimum}}
-                        range(min = {{minimum}}, max = {{maximum}}),
+                        range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                         {{^minimum}}
-                        range(max = {{maximum}}),
+                        range(max = {{maximum}}{{{dataType}}}),
                         {{/minimum}}
                     {{/maximum}}
                     {{#minimum}}
                         {{^maximum}}
-                        range(min = {{minimum}}),
+                        range(min = {{minimum}}{{{dataType}}}),
                         {{/maximum}}
                     {{/minimum}}
                     {{#maxItems}}
@@ -542,7 +542,6 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-
 {{#anyOf.size}}
 /// Any of:
 {{#anyOf}}
@@ -574,22 +573,70 @@ impl PartialEq for {{{classname}}} {
         self.0.get() == other.0.get()
     }
 }
-{{/anyOf.size}}
 
+{{/anyOf.size}}
 {{#oneOf.size}}
-/// One of:
-{{#oneOf}}
-/// - {{{.}}}
-{{/oneOf}}
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct {{{classname}}}(Box<serde_json::value::RawValue>);
+{{#discriminator}}
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
+#[serde(tag = "{{{propertyBaseName}}}")]
+{{/discriminator}}
+{{^discriminator}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+{{/discriminator}}
+#[allow(non_camel_case_types)]
+pub enum {{{classname}}} {
+    {{#composedSchemas}}
+    {{#oneOf}}
+    {{{datatypeWithEnum}}}(Box<{{{dataType}}}>),
+    {{/oneOf}}
+    {{/composedSchemas}}
+}
 
 impl validator::Validate for {{{classname}}}
 {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
-        std::result::Result::Ok(())
+        match self {
+            {{#composedSchemas}}
+            {{#oneOf}}
+            {{#isPrimitiveType}}
+            Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            Self::{{{datatypeWithEnum}}}(x) => x.validate(),
+            {{/isPrimitiveType}}
+            {{/oneOf}}
+            {{/composedSchemas}}
+        }
     }
 }
+
+{{#discriminator}}
+impl serde::Serialize for {{{classname}}} {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: serde::Serializer {
+            match self {
+                {{#composedSchemas}}
+                {{#oneOf}}
+                Self::{{{datatypeWithEnum}}}(x) => x.serialize(serializer),
+                {{/oneOf}}
+                {{/composedSchemas}}
+            }
+    }
+}
+{{/discriminator}}
+
+
+
+{{#composedSchemas}}
+{{#oneOf}}
+impl From<{{{dataType}}}> for {{{classname}}} {
+    fn from(value: {{{dataType}}}) -> Self {
+        Self::{{{datatypeWithEnum}}}(Box::new(value))
+    }
+}
+{{/oneOf}}
+{{/composedSchemas}}
 
 /// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
 /// as specified in https://swagger.io/docs/specification/serialization/
@@ -602,13 +649,7 @@ impl std::str::FromStr for {{{classname}}} {
     }
 }
 
-impl PartialEq for {{{classname}}} {
-    fn eq(&self, other: &Self) -> bool {
-        self.0.get() == other.0.get()
-    }
-}
 {{/oneOf.size}}
-
 {{^anyOf.size}}
 {{^oneOf.size}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -616,11 +657,15 @@ impl PartialEq for {{{classname}}} {
 pub struct {{{classname}}} {
 {{#vars}}
 {{#description}}    
-/// {{{.}}}
+    /// {{{.}}}
 {{/description}}
 {{#isEnum}}
-/// Note: inline enums are not fully supported by openapi-generator
+    /// Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
+{{#isDiscriminator}}
+    #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
+    #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
+{{/isDiscriminator}}
     #[serde(rename = "{{{baseName}}}")]
 {{#hasValidation}}
     #[validate(
@@ -647,15 +692,15 @@ pub struct {{{classname}}} {
         {{/pattern}}
         {{#maximum}}
             {{#minimum}}
-            range(min = {{minimum}}, max = {{maximum}}),
+            range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
             {{/minimum}}
             {{^minimum}}
-            range(max = {{maximum}}),
+            range(max = {{maximum}}{{{dataType}}}),
             {{/minimum}}
         {{/maximum}}
         {{#minimum}}
             {{^maximum}}
-            range(min = {{minimum}}),
+            range(min = {{minimum}}{{{dataType}}}),
             {{/maximum}}
         {{/minimum}}
         {{#maxItems}}
@@ -687,6 +732,25 @@ pub struct {{{classname}}} {
 
 {{/vars}}
 }
+
+
+{{#vars}}
+{{#isDiscriminator}}
+impl {{{classname}}} {
+    fn _name_for_{{{name}}}() -> String {
+        String::from("{{{classname}}}")
+    }
+
+    fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str(&Self::_name_for_{{{name}}}())
+    }
+}
+{{/isDiscriminator}}
+{{/vars}}
+
 
 {{#vars}}
 {{#hasValidation}}

@@ -165,8 +165,8 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         if ((result != null) && (!useModernSyntax)) {
             //Doctrine Annotations have different string escape rules compared to PHP code
             result = result
-                .replace("\\\\", "\\")
-                .replace("\\\"", "\"\"")
+                    .replace("\\\\", "\\")
+                    .replace("\\\"", "\"\"")
             ;
         }
         return result;
@@ -394,9 +394,9 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
     /**
      * Generate additional model definitions for containers in specified schema
      *
-     * @param openAPI OpenAPI object
+     * @param openAPI        OpenAPI object
      * @param visitedSchemas Set of Schemas that have been processed already
-     * @param schema  OAS schema to process
+     * @param schema         OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Set<Schema> visitedSchemas, Schema schema) {
         if (visitedSchemas.contains(schema)) {

@@ -13,9 +13,12 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 
 public class JavaMicroprofileServerCodegenTest {
 
@@ -71,5 +74,57 @@ public class JavaMicroprofileServerCodegenTest {
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + text + \"'\");");
 
+    }
+
+    @Test
+    public void testMicroprofileCanHandleCookieParams() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("DefaultApi.java"))
+                .assertMethod("getCustomer").assertParameter("cookieParameter");
+    }
+
+    @Test
+    public void testMicroprofileCanHandleCookieParamsSingleRequest() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        Map<String, File> filesMap = files.stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        validateJavaSourceFiles(files);
+
+        JavaFileAssert.assertThat(filesMap.get("DefaultApi.java"))
+                .assertInnerClass("GetCustomerRequest")
+                .assertMethod("cookieParameter");
     }
 }

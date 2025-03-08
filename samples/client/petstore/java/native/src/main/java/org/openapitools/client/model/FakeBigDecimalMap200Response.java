@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -39,7 +41,7 @@ import org.openapitools.client.ApiClient;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response {
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   @javax.annotation.Nullable
@@ -113,20 +115,12 @@ public class FakeBigDecimalMap200Response {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    FakeBigDecimalMap200Response fakeBigDecimalMap200Response = (FakeBigDecimalMap200Response) o;
-    return Objects.equals(this.someId, fakeBigDecimalMap200Response.someId) &&
-        Objects.equals(this.someMap, fakeBigDecimalMap200Response.someMap);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(someId, someMap);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -184,7 +178,7 @@ public class FakeBigDecimalMap200Response {
 
     // add `someId` to the URL query string
     if (getSomeId() != null) {
-      joiner.add(String.format("%ssomeId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeId%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSomeId()))));
     }
 
     // add `someMap` to the URL query string
@@ -192,7 +186,7 @@ public class FakeBigDecimalMap200Response {
       for (String _key : getSomeMap().keySet()) {
         joiner.add(String.format("%ssomeMap%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getSomeMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getSomeMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getSomeMap().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getSomeMap().get(_key)))));
       }
     }
 

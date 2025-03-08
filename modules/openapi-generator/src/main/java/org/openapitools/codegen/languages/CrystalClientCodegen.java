@@ -405,7 +405,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         String[] parts = modelName.split("::");
         ArrayList<String> new_parts = new ArrayList<String>();
         for (String part : parts) {
-            new_parts.add(sanitizeName(part));
+            new_parts.add(sanitizeName(part, "\\W", new ArrayList<>(List.of(":"))));
         }
         return String.join("::", new_parts);
     }
@@ -592,7 +592,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps,
-            HashMap<String, Integer> processedModelMap) {
+                                        HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isArray) { // array
             if (codegenParameter.items == null) {
                 return "[]";
@@ -660,7 +660,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps,
-            HashMap<String, Integer> processedModelMap) {
+                                        HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
@@ -728,7 +728,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps,
-            HashMap<String, Integer> processedModelMap) {
+                                        HashMap<String, Integer> processedModelMap) {
         // break infinite recursion. Return, in case a model is already processed in the
         // current context.
         String model = codegenModel.name;
@@ -898,7 +898,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // only process files with cr extension
         if ("cr".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {crystalPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{crystalPostProcessFile, file.toString()});
         }
     }
 

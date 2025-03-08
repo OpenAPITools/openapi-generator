@@ -244,7 +244,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         }
 
         if (this.onlyInterfaces) {
-          apiTemplateFiles.remove("service.mustache");
+            apiTemplateFiles.remove("service.mustache");
         }
 
         if (additionalProperties.containsKey("outputAsLibrary")) {
@@ -278,9 +278,9 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
         if (!outputAsLibrary) {
-          supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
-          supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
-          supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+            supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
+            supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+            supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         }
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));

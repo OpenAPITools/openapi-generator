@@ -20,7 +20,7 @@ Method | HTTP request | Description
 > models::Pet add_pet(pet)
 Add a new pet to the store
 
-
+This is the description for the addPet operation
 
 ### Parameters
 
@@ -78,10 +78,10 @@ Name | Type | Description  | Required | Notes
 
 ## find_pets_by_status
 
-> Vec<models::Pet> find_pets_by_status(status)
+> Vec<models::Pet> find_pets_by_status(status, r#type)
 Finds Pets by status
 
-Multiple status values can be provided with comma separated strings
+Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 
 ### Parameters
 
@@ -89,6 +89,7 @@ Multiple status values can be provided with comma separated strings
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **status** | [**Vec<String>**](String.md) | Status values that need to be considered for filter | [required] |
+**r#type** | Option<[**Vec<String>**](String.md)> | Make sure that Rust keywords like type work as query params |  |
 
 ### Return type
 

@@ -54,7 +54,7 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
     protected String appDirName = "App";
     protected String appPackage = "";
     /**
-     *  Returns PSR-7 implementation package.
+     * Returns PSR-7 implementation package.
      */
     @Getter protected String psr7Implementation = "slim-psr7";
     protected String interfacesDirName = "Interfaces";
@@ -280,9 +280,9 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
             // Sort operations to avoid static routes shadowing
             // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
             operationList.sort((one, another) -> {
-                    if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
-                    if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
-                    return 0;
+                if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
+                if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
+                return 0;
             });
         }
 
@@ -335,8 +335,8 @@ public class PhpSlim4ServerCodegen extends AbstractPhpCodegen {
         // finally escalate characters avoiding code injection
         input = super.escapeUnsafeCharacters(
                 StringEscapeUtils.unescapeJava(
-                        StringEscapeUtils.escapeJava(input)
-                                .replace("\\/", "/"))
+                                StringEscapeUtils.escapeJava(input)
+                                        .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\"));
         // .replace("\"", "\\\""));

@@ -1170,7 +1170,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {jsPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{jsPostProcessFile, file.toString()});
         }
     }
 
@@ -1187,10 +1187,12 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 
     @Override
-    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName ) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

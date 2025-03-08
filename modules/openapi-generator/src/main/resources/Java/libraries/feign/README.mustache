@@ -32,7 +32,7 @@ After the client library is installed/deployed, you can use it in your Maven pro
 
 ```
 
-And to use the api you can follow the examples bellow:
+And to use the api you can follow the examples below:
 
 ```java
 

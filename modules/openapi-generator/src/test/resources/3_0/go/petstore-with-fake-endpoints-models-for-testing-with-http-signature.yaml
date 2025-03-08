@@ -1394,11 +1394,6 @@ components:
     FilterTypeRegex:
       type: object
       properties:
-        type:
-          enum:
-          - set
-          - range
-          type: string
         regex:
           type: string
       required:
@@ -1406,11 +1401,6 @@ components:
     FilterTypeRange:
       type: object
       properties:
-        type:
-          enum:
-          - set
-          - range
-          type: string
         data:
           type: array
           items:
@@ -1425,7 +1415,16 @@ components:
         mapping:
           set: '#/components/schemas/FilterTypeRegex'
           range: '#/components/schemas/FilterTypeRange'
-        propertyName: type  
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        date:
+          type: string
+          format: date-time
     MapWithDateTime:
       type: object
       additionalProperties:
@@ -2119,6 +2118,13 @@ components:
           type: string
       required:
         - className
+    fruitJuice:
+      type: object
+      required:
+        - fruit
+      properties:
+        fruit:
+          $ref: '#/components/schemas/gmFruit'
     gmFruit:
        properties:
           color:

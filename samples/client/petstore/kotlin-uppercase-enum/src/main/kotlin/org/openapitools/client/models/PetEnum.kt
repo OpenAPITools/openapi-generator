@@ -68,7 +68,6 @@ enum class PetEnum(val value: kotlin.String) {
     }
 }
 
-@Serializer(forClass = PetEnum::class)
 internal object PetEnumSerializer : KSerializer<PetEnum> {
     override val descriptor = kotlin.String.serializer().descriptor
 

@@ -6,4 +6,7 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: rust-server-test
+  modelNamePrefix: "Foo"
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

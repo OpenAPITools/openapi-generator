@@ -18,7 +18,7 @@ import java.util.Map;
 public class DryRunTemplateManager implements TemplateProcessor {
     private final TemplateManagerOptions options;
     private final Map<String, DryRunStatus> dryRunStatusMap = new HashMap<>();
-    
+
     private final Map<String, Map<String, Object>> capturedTemplateData = new HashMap<>();
     private boolean recordTemplateData = false;
 
@@ -65,9 +65,9 @@ public class DryRunTemplateManager implements TemplateProcessor {
         if (outputFile.exists()) {
             if (this.options.isSkipOverwrite()) {
                 status = new DryRunStatus(
-                    path,
-                    DryRunStatus.State.SkippedOverwrite,
-                    "File exists and skip overwrite option is enabled."
+                        path,
+                        DryRunStatus.State.SkippedOverwrite,
+                        "File exists and skip overwrite option is enabled."
                 );
             } else if (this.options.isMinimalUpdate()) {
                 status.setState(DryRunStatus.State.WriteIfNewer);
@@ -118,10 +118,11 @@ public class DryRunTemplateManager implements TemplateProcessor {
     }
 
     /**
-     * Retrieve the captured template data for a specific file. Capturing must have  
+     * Retrieve the captured template data for a specific file. Capturing must have
      * been enabled via {@link #enableTemplateDataCapturing()} prior to generation.<br>
      * Note: Not all files have template data (e.g. Metadata files) – in such case an empty
      * map is returned.
+     *
      * @param generatedFile An absolute path to the generated file
      * @return Typically one of the *Map types found in {@link org.openapitools.codegen.model}
      */

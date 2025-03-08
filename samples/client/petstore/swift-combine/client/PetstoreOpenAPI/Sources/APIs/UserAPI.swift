@@ -32,7 +32,7 @@ open class UserAPI {
     /// - POST /user
     /// - This can only be done by the logged in user.
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter user: (body) Created user object 
     /// - returns: AnyPublisher<Void, Error> 
@@ -68,7 +68,7 @@ open class UserAPI {
     /// - POST /user/createWithArray
     /// - 
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter user: (body) List of user object 
     /// - returns: AnyPublisher<Void, Error> 
@@ -104,7 +104,7 @@ open class UserAPI {
     /// - POST /user/createWithList
     /// - 
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter user: (body) List of user object 
     /// - returns: AnyPublisher<Void, Error> 
@@ -155,7 +155,7 @@ open class UserAPI {
     /// - DELETE /user/{username}
     /// - This can only be done by the logged in user.
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter username: (path) The name that needs to be deleted 
     /// - returns: AnyPublisher<Void, Error> 
@@ -309,7 +309,7 @@ open class UserAPI {
     /// - GET /user/logout
     /// - 
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - returns: AnyPublisher<Void, Error> 
     open func logoutUser() -> AnyPublisher<Void, Error> {
@@ -357,7 +357,7 @@ open class UserAPI {
     /// - PUT /user/{username}
     /// - This can only be done by the logged in user.
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter username: (path) name that need to be deleted 
     /// - parameter user: (body) Updated user object 

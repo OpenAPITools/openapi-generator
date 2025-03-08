@@ -1,13 +1,6 @@
 package org.openapitools.codegen.asciidoc;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-
 import org.apache.commons.io.FileUtils;
-
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
@@ -16,7 +9,15 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-/** several asciidoc content checks with sample openapi v3. */
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+/**
+ * several asciidoc content checks with sample openapi v3.
+ */
 public class AsciidocSampleGeneratorTest {
 
     public String markupContent = null;

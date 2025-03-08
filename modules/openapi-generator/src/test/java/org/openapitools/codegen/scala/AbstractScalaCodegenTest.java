@@ -2,12 +2,7 @@ package org.openapitools.codegen.scala;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-
+import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractScalaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;

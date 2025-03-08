@@ -27,8 +27,9 @@
  * Please update the test case below to test the model.
  */
 
-namespace OpenAPI\Server\Model;
+namespace OpenAPI\Server\Tests\Model;
 
+use OpenAPI\Server\Model\Pet;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -58,7 +59,7 @@ class PetTest extends TestCase
      */
     public function setUp(): void
     {
-         $this->object = $this->getMockBuilder(Pet::class)->getMockForAbstractClass();
+        $this->object = $this->getMockBuilder(Pet::class)->getMockForAbstractClass();
     }
 
     /**

@@ -18,13 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -530,7 +524,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         String camelCaseName = camelize(name);
 
         //Avoid empty variable name at all costs
-        if(!camelCaseName.isEmpty()) {
+        if (!camelCaseName.isEmpty()) {
             name = camelCaseName;
         }
 

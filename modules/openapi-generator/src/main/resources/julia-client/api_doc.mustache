@@ -23,13 +23,13 @@ Method | HTTP request | Description
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **_api** | **{{classname}}** | API context | {{/-last}}{{/allParams}}{{#allParams}}{{#required}}
-**{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{.}}]{{/defaultValue}}{{/required}}{{/allParams}}{{#hasOptionalParams}}
+**{{paramName}}** | {{#isPrimitiveType}}**{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{#isFile}}**{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}**{{/isFile}}{{/isPrimitiveType}} | {{description}} |{{/required}}{{/allParams}}{{#hasOptionalParams}}
 
 ### Optional Parameters
 {{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}{{^required}}
- **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{.}}]{{/defaultValue}}{{/required}}{{/allParams}}{{/hasOptionalParams}}
+ **{{paramName}}** | {{#isPrimitiveType}}**{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{#isFile}}**{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}**{{/isFile}}{{/isPrimitiveType}} | {{description}} | {{^isBinary}}{{#defaultValue}}[default to {{.}}]{{/defaultValue}}{{/isBinary}}{{/required}}{{/allParams}}{{/hasOptionalParams}}
 
 ### Return type
 

@@ -5,6 +5,7 @@
       "target": "ES5",
       "noImplicitAny": true,
       "sourceMap": false,
+      "esModuleInterop": true,
       "outDir": "dist",
       "types": [
           "mocha"

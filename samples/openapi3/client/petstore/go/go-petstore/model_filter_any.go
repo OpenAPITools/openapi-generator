@@ -128,7 +128,7 @@ func (dst *FilterAny) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *FilterAny) MarshalJSON() ([]byte, error) {
+func (src FilterAny) MarshalJSON() ([]byte, error) {
 	if src.FilterTypeRange != nil {
 		return json.Marshal(&src.FilterTypeRange)
 	}

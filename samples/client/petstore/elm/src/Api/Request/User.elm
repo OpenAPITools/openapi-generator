@@ -31,7 +31,11 @@ import Http
 import Json.Decode
 import Json.Encode
 
-{-| This can only be done by the logged in user.
+
+{-| Create user
+
+This can only be done by the logged in user.
+
 -}
 createUser : Api.Data.User -> Api.Request ()
 createUser user_body =
@@ -45,6 +49,8 @@ createUser user_body =
         (Json.Decode.succeed ())
 
 
+{-| Creates list of users with given input array
+-}
 createUsersWithArrayInput : List Api.Data.User -> Api.Request ()
 createUsersWithArrayInput user_body =
     Api.request
@@ -57,6 +63,8 @@ createUsersWithArrayInput user_body =
         (Json.Decode.succeed ())
 
 
+{-| Creates list of users with given input array
+-}
 createUsersWithListInput : List Api.Data.User -> Api.Request ()
 createUsersWithListInput user_body =
     Api.request
@@ -69,7 +77,10 @@ createUsersWithListInput user_body =
         (Json.Decode.succeed ())
 
 
-{-| This can only be done by the logged in user.
+{-| Delete user
+
+This can only be done by the logged in user.
+
 -}
 deleteUser : String -> Api.Request ()
 deleteUser username_path =
@@ -83,6 +94,8 @@ deleteUser username_path =
         (Json.Decode.succeed ())
 
 
+{-| Get user by user name
+-}
 getUserByName : String -> Api.Request Api.Data.User
 getUserByName username_path =
     Api.request
@@ -95,6 +108,8 @@ getUserByName username_path =
         Api.Data.userDecoder
 
 
+{-| Logs user into the system
+-}
 loginUser : String -> String -> Api.Request String
 loginUser username_query password_query =
     Api.request
@@ -107,6 +122,8 @@ loginUser username_query password_query =
         Json.Decode.string
 
 
+{-| Logs out current logged in user session
+-}
 logoutUser : Api.Request ()
 logoutUser =
     Api.request
@@ -119,7 +136,10 @@ logoutUser =
         (Json.Decode.succeed ())
 
 
-{-| This can only be done by the logged in user.
+{-| Updated user
+
+This can only be done by the logged in user.
+
 -}
 updateUser : String -> Api.Data.User -> Api.Request ()
 updateUser username_path user_body =

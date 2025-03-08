@@ -97,8 +97,8 @@ $apiInstance = new OpenAPI\Client\Api\QueryApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$datetime_query = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime
-$date_query = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime
+$datetime_query = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
+$date_query = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime
 $string_query = 'string_query_example'; // string
 
 try {

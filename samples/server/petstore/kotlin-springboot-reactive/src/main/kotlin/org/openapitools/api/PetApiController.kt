@@ -40,16 +40,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         operationId = "addPet",
         description = """""",
         responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
             ApiResponse(responseCode = "405", description = "Invalid input") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/pet"],
+        produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
-    suspend fun addPet(@Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody body: Pet): ResponseEntity<Unit> {
-        return ResponseEntity(service.addPet(body), HttpStatus.valueOf(405))
+    suspend fun addPet(@Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet): ResponseEntity<Pet> {
+        return ResponseEntity(service.addPet(pet), HttpStatus.valueOf(200))
     }
 
     @Operation(
@@ -75,7 +77,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid status value") ],
-        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
     @RequestMapping(
         method = [RequestMethod.GET],
@@ -93,7 +95,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
-        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
     @RequestMapping(
         method = [RequestMethod.GET],
@@ -128,6 +130,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         operationId = "updatePet",
         description = """""",
         responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
             ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             ApiResponse(responseCode = "404", description = "Pet not found"),
             ApiResponse(responseCode = "405", description = "Validation exception") ],
@@ -136,10 +139,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
         method = [RequestMethod.PUT],
         value = ["/pet"],
+        produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
-    suspend fun updatePet(@Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody body: Pet): ResponseEntity<Unit> {
-        return ResponseEntity(service.updatePet(body), HttpStatus.valueOf(400))
+    suspend fun updatePet(@Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet): ResponseEntity<Pet> {
+        return ResponseEntity(service.updatePet(pet), HttpStatus.valueOf(200))
     }
 
     @Operation(
@@ -173,7 +177,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
-    suspend fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.core.io.Resource?): ResponseEntity<ModelApiResponse> {
+    suspend fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
     }
 }

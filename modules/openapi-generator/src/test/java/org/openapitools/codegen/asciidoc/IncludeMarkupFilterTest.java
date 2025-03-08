@@ -1,17 +1,16 @@
 package org.openapitools.codegen.asciidoc;
 
+import org.mockito.MockitoAnnotations;
+import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
+import org.openapitools.codegen.templating.mustache.LambdaTest;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
-
-import org.mockito.MockitoAnnotations;
-import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
-import org.openapitools.codegen.templating.mustache.LambdaTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import org.testng.Assert;
 
 public class IncludeMarkupFilterTest extends LambdaTest {
 
@@ -24,7 +23,7 @@ public class IncludeMarkupFilterTest extends LambdaTest {
     public void testIncludeMarkupFilterDoesNotIncludeMissingFile() {
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
-        final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("specDir","DOES_NOT_EXIST"));
+        final Map<String, Object> ctx = context("specinclude", generator.new IncludeMarkupLambda("specDir", "DOES_NOT_EXIST"));
 
         final String result = execute("{{#specinclude}}not.an.existing.file.adoc{{/specinclude}}", ctx);
         Assert.assertTrue(result.contains("// markup not found, no include::{specDir}not.an.existing.file.adoc[opts=optional]"),
@@ -39,10 +38,10 @@ public class IncludeMarkupFilterTest extends LambdaTest {
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
         final Map<String, Object> ctx = context("snippetinclude",
-                generator.new IncludeMarkupLambda("specDir",tempFile.getParent()));
+                generator.new IncludeMarkupLambda("specDir", tempFile.getParent()));
 
         final String result = execute("{{#snippetinclude}}" + tempFile.getName() + "{{/snippetinclude}}", ctx);
-        Assert.assertTrue(result.contains("include::{specDir}"+tempFile.getName()+"[opts=optional]"), "unexpected filtered: " + result);
+        Assert.assertTrue(result.contains("include::{specDir}" + tempFile.getName() + "[opts=optional]"), "unexpected filtered: " + result);
     }
 
     @Test
@@ -52,15 +51,15 @@ public class IncludeMarkupFilterTest extends LambdaTest {
         File folderWithCurlyBrackets = new File(pathWithCurlyBrackets);
         folderWithCurlyBrackets.mkdirs();
 
-        File tempFile =  File.createTempFile("curly", "-adoc", folderWithCurlyBrackets);
+        File tempFile = File.createTempFile("curly", "-adoc", folderWithCurlyBrackets);
         tempFile.deleteOnExit();
 
         final AsciidocDocumentationCodegen generator = new AsciidocDocumentationCodegen();
         final Map<String, Object> ctx = context("snippetinclude",
-                generator.new IncludeMarkupLambda("specDir",temporaryPath));
+                generator.new IncludeMarkupLambda("specDir", temporaryPath));
 
-        final String result = execute("{{#snippetinclude}}" + "/{parameter1}/{parameter2}/"+tempFile.getName() + "{{/snippetinclude}}", ctx);
-        Assert.assertEquals(result,"\ninclude::{specDir}"+ "\\{parameter1\\}/\\{parameter2\\}/" + tempFile.getName()+"[opts=optional]\n");
+        final String result = execute("{{#snippetinclude}}" + "/{parameter1}/{parameter2}/" + tempFile.getName() + "{{/snippetinclude}}", ctx);
+        Assert.assertEquals(result, "\ninclude::{specDir}" + "\\{parameter1\\}/\\{parameter2\\}/" + tempFile.getName() + "[opts=optional]\n");
     }
 
 }

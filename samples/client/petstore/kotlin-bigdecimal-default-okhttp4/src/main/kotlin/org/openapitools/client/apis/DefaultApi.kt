@@ -46,6 +46,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * POST /test
      * 
      * 
      * @param apa 
@@ -76,6 +77,7 @@ class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     }
 
     /**
+     * POST /test
      * 
      * 
      * @param apa 

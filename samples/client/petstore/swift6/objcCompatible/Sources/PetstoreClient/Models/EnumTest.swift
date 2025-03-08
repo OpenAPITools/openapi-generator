@@ -9,21 +9,21 @@ import Foundation
 
 @objcMembers public class EnumTest: NSObject, Codable, JSONEncodable {
 
-    public enum EnumString: String, Codable, CaseIterable {
+    public enum EnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumStringRequired: String, Codable, CaseIterable {
+    public enum EnumStringRequired: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumInteger: Int, Codable, CaseIterable {
+    public enum EnumInteger: Int, Sendable, Codable, CaseIterable {
         case _1 = 1
         case number1 = -1
     }
-    public enum EnumNumber: Double, Codable, CaseIterable {
+    public enum EnumNumber: Double, Sendable, Codable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }

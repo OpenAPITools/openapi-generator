@@ -22,13 +22,15 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.openapitools.codegen.OpenAPINormalizer;
 import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -497,8 +499,43 @@ public class ModelUtilsTest {
 
         schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
         assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // first element (getAnyOf().get(0)) is a string. no need to test
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(1)));
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
         assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfMultiRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
+
+        schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+    }
+
+    @Test
+    public void isUnsupportedSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("Dummy");
+        Schema property1 = (Schema) schema.getProperties().get("property1");
+        Schema property2 = (Schema) schema.getProperties().get("property2");
+
+        // a test of string type with allOf (2 patterns)
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property1.getAllOf().get(1)));
+
+        // if, then test
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(0)));
+        assertTrue(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getAllOf().get(1)));
+
+        // typical schemas, e.g. boolean, string, array of string (enum)
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("aBooleanCheck")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("condition")));
+        assertFalse(ModelUtils.isUnsupportedSchema(openAPI, (Schema) property2.getProperties().get("purpose")));
     }
 }

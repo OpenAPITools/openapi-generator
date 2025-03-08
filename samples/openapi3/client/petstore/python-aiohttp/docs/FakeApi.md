@@ -370,8 +370,6 @@ void (empty response body)
 # **fake_outer_boolean_serialize**
 > bool fake_outer_boolean_serialize(body=body)
 
-
-
 Test serialization of outer boolean types
 
 ### Example
@@ -435,8 +433,6 @@ No authorization required
 
 # **fake_outer_composite_serialize**
 > OuterComposite fake_outer_composite_serialize(outer_composite=outer_composite)
-
-
 
 Test serialization of object with outer number type
 
@@ -503,8 +499,6 @@ No authorization required
 # **fake_outer_number_serialize**
 > float fake_outer_number_serialize(body=body)
 
-
-
 Test serialization of outer number types
 
 ### Example
@@ -569,8 +563,6 @@ No authorization required
 # **fake_outer_string_serialize**
 > str fake_outer_string_serialize(body=body)
 
-
-
 Test serialization of outer string types
 
 ### Example
@@ -634,8 +626,6 @@ No authorization required
 
 # **fake_property_enum_integer_serialize**
 > OuterObjectWithEnumProperty fake_property_enum_integer_serialize(outer_object_with_enum_property, param=param)
-
-
 
 Test serialization of enum (int) properties with examples
 
@@ -1445,8 +1435,6 @@ No authorization required
 # **test_body_with_binary**
 > test_body_with_binary(body)
 
-
-
 For this test, the body has to be a binary file.
 
 ### Example
@@ -1508,8 +1496,6 @@ No authorization required
 
 # **test_body_with_file_schema**
 > test_body_with_file_schema(file_schema_test_class)
-
-
 
 For this test, the body for this request must reference a schema named `File`.
 
@@ -1573,8 +1559,6 @@ No authorization required
 
 # **test_body_with_query_params**
 > test_body_with_query_params(query, user)
-
-
 
 ### Example
 
@@ -1641,7 +1625,7 @@ No authorization required
 
 To test \"client\" model
 
-To test \"client\" model
+To test "client" model
 
 ### Example
 
@@ -1706,8 +1690,6 @@ No authorization required
 
 # **test_date_time_query_parameter**
 > test_date_time_query_parameter(date_time_query, str_query)
-
-
 
 ### Example
 
@@ -1835,7 +1817,11 @@ No authorization required
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
 
 ### Example
 
@@ -2282,8 +2268,6 @@ No authorization required
 # **test_object_for_multipart_requests**
 > test_object_for_multipart_requests(marker)
 
-
-
 ### Example
 
 
@@ -2344,8 +2328,6 @@ No authorization required
 
 # **test_query_parameter_collection_format**
 > test_query_parameter_collection_format(pipe, ioutil, http, url, context, allow_empty, language=language)
-
-
 
 To test the collection format in query parameters
 

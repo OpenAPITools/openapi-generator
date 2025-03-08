@@ -386,7 +386,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for ({{{items.dataType}}} _item : {{getter}}()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(_item))));
       }
       i++;
     }
@@ -396,7 +396,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (int i = 0; i < {{getter}}().size(); i++) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString({{getter}}().get(i)))));
       }
     }
     {{/uniqueItems}}
@@ -434,7 +434,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if (_item != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString(_item), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString(_item))));
         }
         i++;
       }
@@ -446,7 +446,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if ({{getter}}().get(i) != null) {
           joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString({{getter}}().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString({{getter}}().get(i)))));
         }
       }
     }
@@ -461,7 +461,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       for (String _key : {{getter}}().keySet()) {
         joiner.add(String.format("%s{{baseName}}%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            {{getter}}().get(_key), URLEncoder.encode(ApiClient.valueToString({{getter}}().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            {{getter}}().get(_key), ApiClient.urlEncode(ApiClient.valueToString({{getter}}().get(_key)))));
       }
     }
     {{/items.isModel}}
@@ -479,7 +479,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{^isMap}}
     {{#isPrimitiveType}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString({{{getter}}}()))));
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -490,7 +490,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/isModel}}
     {{^isModel}}
     if ({{getter}}() != null) {
-      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString({{{getter}}}()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s{{{baseName}}}%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString({{{getter}}}()))));
     }
     {{/isModel}}
     {{/isPrimitiveType}}

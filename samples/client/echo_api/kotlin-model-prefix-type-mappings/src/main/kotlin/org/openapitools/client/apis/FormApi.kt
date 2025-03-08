@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName
 
 interface FormApi {
     /**
+     * POST form/integer/boolean/string
      * Test form parameter(s)
      * Test form parameter(s)
      * Responses:
@@ -24,6 +25,7 @@ interface FormApi {
     suspend fun testFormIntegerBooleanString(@Field("integer_form") integerForm: kotlin.Int? = null, @Field("boolean_form") booleanForm: kotlin.Boolean? = null, @Field("string_form") stringForm: kotlin.String? = null): Response<kotlin.String>
 
     /**
+     * POST form/oneof
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
      * Responses:

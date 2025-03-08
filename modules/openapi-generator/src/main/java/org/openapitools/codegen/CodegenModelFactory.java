@@ -24,7 +24,8 @@ public final class CodegenModelFactory {
     public static <T> T newInstance(CodegenModelType type) {
         try {
             return (T) type.getDefaultImplementation().getDeclaredConstructor().newInstance();
-        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException |
+                 InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
