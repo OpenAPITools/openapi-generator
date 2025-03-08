@@ -31,8 +31,8 @@ func Test_Routers(t *testing.T) {
 		lines := utils.ReadLines(filepath)
 		expected := "type Routes map[string]Route"
 
-		if lines[34] != expected {
-			t.Errorf("Expected '%s', but got '%s'", expected, lines[34])
+		if lines[25] != expected {
+			t.Errorf("Expected '%s', but got '%s'", expected, lines[25])
 		}
 	})
 }

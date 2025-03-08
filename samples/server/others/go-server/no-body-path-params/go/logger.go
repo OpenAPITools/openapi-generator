@@ -11,8 +11,8 @@
 package petstoreserver
 
 import (
-	"log"
 	"net/http"
+	"log"
 	"time"
 )
 
