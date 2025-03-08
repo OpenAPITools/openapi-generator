@@ -11,9 +11,7 @@
 package petstoreserver
 
 import (
-	"log"
 	"net/http"
-	"time"
 	"github.com/go-chi/chi/v5/middleware"
 )
 

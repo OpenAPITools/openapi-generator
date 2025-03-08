@@ -13,7 +13,6 @@ package petstoreserver
 import (
 	"net/http"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 )
 
 // A Route defines the parameters for an api endpoint

@@ -2,10 +2,12 @@
 package {{packageName}}
 
 import (
-	"log"
 	"net/http"
-	"time"
 {{#routers}}
+	{{#mux}}
+	"log"
+	"time"
+	{{/mux}}
 	{{#chi}}
 	"github.com/go-chi/chi/v5/middleware"
 	{{/chi}}
