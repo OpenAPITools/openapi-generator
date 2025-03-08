@@ -73,7 +73,7 @@ public class PingApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
-    private okhttp3.Call getPingCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPingCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -131,7 +131,7 @@ public class PingApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPingValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPingValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling getPing(Async)");
@@ -142,13 +142,13 @@ public class PingApi {
     }
 
 
-    private InputStream getPingWithHttpInfo(Long petId, String name, String status) throws ApiException {
+    private InputStream getPingWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
         okhttp3.Call localVarCall = getPingValidateBeforeCall(petId, name, status, null);
         Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
         return localVarApiClient.executeStream(localVarCall, localVarReturnType);
     }
     
-    private okhttp3.Call getPingAsync(Long petId, String name, String status, final ApiCallback<SomeObj> _callback) throws ApiException {
+    private okhttp3.Call getPingAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback<SomeObj> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getPingValidateBeforeCall(petId, name, status, _callback);
         Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
@@ -157,11 +157,14 @@ public class PingApi {
     }
 
     public class APIgetPingRequest {
+        @javax.annotation.Nonnull
         private final Long petId;
+        @javax.annotation.Nullable
         private String name;
+        @javax.annotation.Nullable
         private String status;
 
-        private APIgetPingRequest(Long petId) {
+        private APIgetPingRequest(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
         }
 
@@ -170,7 +173,7 @@ public class PingApi {
          * @param name Updated name of the pet (optional)
          * @return APIgetPingRequest
          */
-        public APIgetPingRequest name(String name) {
+        public APIgetPingRequest name(@javax.annotation.Nullable String name) {
             this.name = name;
             return this;
         }
@@ -180,7 +183,7 @@ public class PingApi {
          * @param status Updated status of the pet (optional)
          * @return APIgetPingRequest
          */
-        public APIgetPingRequest status(String status) {
+        public APIgetPingRequest status(@javax.annotation.Nullable String status) {
             this.status = status;
             return this;
         }
@@ -260,7 +263,7 @@ public class PingApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public APIgetPingRequest getPing(Long petId) {
+    public APIgetPingRequest getPing(@javax.annotation.Nonnull Long petId) {
         return new APIgetPingRequest(petId);
     }
     /**
@@ -276,7 +279,7 @@ public class PingApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call postPingCall(SomeObj someObj, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call postPingCall(@javax.annotation.Nullable SomeObj someObj, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -322,7 +325,7 @@ public class PingApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postPingValidateBeforeCall(SomeObj someObj, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call postPingValidateBeforeCall(@javax.annotation.Nullable SomeObj someObj, final ApiCallback _callback) throws ApiException {
         return postPingCall(someObj, _callback);
 
     }
@@ -340,7 +343,7 @@ public class PingApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public InputStream postPing(SomeObj someObj) throws ApiException {
+    public InputStream postPing(@javax.annotation.Nullable SomeObj someObj) throws ApiException {
         InputStream localVarResp = postPingWithHttpInfo(someObj);
         return localVarResp;
     }
@@ -358,7 +361,7 @@ public class PingApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public InputStream postPingWithHttpInfo(SomeObj someObj) throws ApiException {
+    public InputStream postPingWithHttpInfo(@javax.annotation.Nullable SomeObj someObj) throws ApiException {
         okhttp3.Call localVarCall = postPingValidateBeforeCall(someObj, null);
         Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();
         return localVarApiClient.executeStream(localVarCall, localVarReturnType);
@@ -378,7 +381,7 @@ public class PingApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call postPingAsync(SomeObj someObj, final ApiCallback<SomeObj> _callback) throws ApiException {
+    public okhttp3.Call postPingAsync(@javax.annotation.Nullable SomeObj someObj, final ApiCallback<SomeObj> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = postPingValidateBeforeCall(someObj, _callback);
         Type localVarReturnType = new TypeToken<SomeObj>(){}.getType();

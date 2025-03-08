@@ -89,7 +89,7 @@ public class AnotherFakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client client) throws ApiException {
+  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
     ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(client);
     return localVarResponse.getData();
   }
@@ -101,7 +101,7 @@ public class AnotherFakeApi {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -141,7 +141,7 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client client) throws ApiException {
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");

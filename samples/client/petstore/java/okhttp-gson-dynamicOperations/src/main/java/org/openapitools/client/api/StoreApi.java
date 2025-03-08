@@ -89,7 +89,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteOrderCall(String orderId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteOrderCall(@javax.annotation.Nonnull String orderId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -142,7 +142,7 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteOrderValidateBeforeCall(String orderId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteOrderValidateBeforeCall(@javax.annotation.Nonnull String orderId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling deleteOrder(Async)");
@@ -165,7 +165,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public void deleteOrder(String orderId) throws ApiException {
+    public void deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
         deleteOrderWithHttpInfo(orderId);
     }
 
@@ -183,7 +183,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+    public ApiResponse<Void> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws ApiException {
         okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -203,7 +203,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteOrderAsync(String orderId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteOrderAsync(@javax.annotation.Nonnull String orderId, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -349,7 +349,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getOrderByIdCall(Long orderId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getOrderByIdCall(@javax.annotation.Nonnull Long orderId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -404,7 +404,7 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getOrderByIdValidateBeforeCall(Long orderId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getOrderByIdValidateBeforeCall(@javax.annotation.Nonnull Long orderId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
@@ -429,7 +429,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public Order getOrderById(Long orderId) throws ApiException {
+    public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
         ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId);
         return localVarResp.getData();
     }
@@ -449,7 +449,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+    public ApiResponse<Order> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws ApiException {
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -471,7 +471,7 @@ public class StoreApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getOrderByIdAsync(Long orderId, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call getOrderByIdAsync(@javax.annotation.Nonnull Long orderId, final ApiCallback<Order> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
@@ -492,7 +492,7 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderCall(Order body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call placeOrderCall(@javax.annotation.Nonnull Order body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -546,7 +546,7 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call placeOrderValidateBeforeCall(Order body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call placeOrderValidateBeforeCall(@javax.annotation.Nonnull Order body, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new ApiException("Missing the required parameter 'body' when calling placeOrder(Async)");
@@ -570,7 +570,7 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public Order placeOrder(Order body) throws ApiException {
+    public Order placeOrder(@javax.annotation.Nonnull Order body) throws ApiException {
         ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body);
         return localVarResp.getData();
     }
@@ -589,7 +589,7 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
+    public ApiResponse<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order body) throws ApiException {
         okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -610,7 +610,7 @@ public class StoreApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderAsync(Order body, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call placeOrderAsync(@javax.annotation.Nonnull Order body, final ApiCallback<Order> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();

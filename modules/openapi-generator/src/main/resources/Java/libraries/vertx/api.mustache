@@ -16,12 +16,12 @@ public interface {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+    void {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
 
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    void {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
+    void {{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/allParams}}ApiClient.AuthInfo authInfo, Handler<AsyncResult<{{{returnType}}}{{^returnType}}Void{{/returnType}}>> handler);
 
     {{/operation}}
     {{/operations}}

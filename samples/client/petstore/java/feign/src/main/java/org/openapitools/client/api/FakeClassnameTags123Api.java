@@ -27,7 +27,7 @@ public interface FakeClassnameTags123Api extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client testClassname(Client client);
+  Client testClassname(@javax.annotation.Nonnull Client client);
 
   /**
    * To test class name in snake case
@@ -41,7 +41,7 @@ public interface FakeClassnameTags123Api extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  ApiResponse<Client> testClassnameWithHttpInfo(Client client);
+  ApiResponse<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client);
 
 
 }

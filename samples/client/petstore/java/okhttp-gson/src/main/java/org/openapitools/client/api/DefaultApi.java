@@ -205,7 +205,7 @@ public class DefaultApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeFreeFormQueryParametersGetCall(String fixed, Object freeForm, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call fakeFreeFormQueryParametersGetCall(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -257,7 +257,7 @@ public class DefaultApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fakeFreeFormQueryParametersGetValidateBeforeCall(String fixed, Object freeForm, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fakeFreeFormQueryParametersGetValidateBeforeCall(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm, final ApiCallback _callback) throws ApiException {
         return fakeFreeFormQueryParametersGetCall(fixed, freeForm, _callback);
 
     }
@@ -275,7 +275,7 @@ public class DefaultApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public void fakeFreeFormQueryParametersGet(String fixed, Object freeForm) throws ApiException {
+    public void fakeFreeFormQueryParametersGet(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm) throws ApiException {
         fakeFreeFormQueryParametersGetWithHttpInfo(fixed, freeForm);
     }
 
@@ -293,7 +293,7 @@ public class DefaultApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> fakeFreeFormQueryParametersGetWithHttpInfo(String fixed, Object freeForm) throws ApiException {
+    public ApiResponse<Void> fakeFreeFormQueryParametersGetWithHttpInfo(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm) throws ApiException {
         okhttp3.Call localVarCall = fakeFreeFormQueryParametersGetValidateBeforeCall(fixed, freeForm, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -313,7 +313,7 @@ public class DefaultApi {
         <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeFreeFormQueryParametersGetAsync(String fixed, Object freeForm, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call fakeFreeFormQueryParametersGetAsync(@javax.annotation.Nullable String fixed, @javax.annotation.Nullable Object freeForm, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fakeFreeFormQueryParametersGetValidateBeforeCall(fixed, freeForm, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

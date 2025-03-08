@@ -157,7 +157,7 @@ public class PetApi {
          * @param body (Pet) Pet object that needs to be added to the store (required)
          * @return operation
          */
-        public AddPetOper body(Pet body) {
+        public AddPetOper body(@javax.annotation.Nonnull Pet body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -513,7 +513,7 @@ public class PetApi {
          * @param body (Pet) Pet object that needs to be added to the store (required)
          * @return operation
          */
-        public UpdatePetOper body(Pet body) {
+        public UpdatePetOper body(@javax.annotation.Nonnull Pet body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -698,7 +698,7 @@ public class PetApi {
          * @param _file (File) file to upload (optional)
          * @return operation
          */
-         public UploadFileOper _fileMultiPart(File _file) {
+         public UploadFileOper _fileMultiPart(@javax.annotation.Nullable File _file) {
             reqSpec.addMultiPart(_file);
             return this;
          }
@@ -796,7 +796,7 @@ public class PetApi {
          * @param requiredFile (File) file to upload (required)
          * @return operation
          */
-         public UploadFileWithRequiredFileOper requiredFileMultiPart(File requiredFile) {
+         public UploadFileWithRequiredFileOper requiredFileMultiPart(@javax.annotation.Nonnull File requiredFile) {
             reqSpec.addMultiPart(requiredFile);
             return this;
          }

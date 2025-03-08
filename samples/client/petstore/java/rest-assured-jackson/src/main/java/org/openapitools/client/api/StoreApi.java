@@ -335,7 +335,7 @@ public class StoreApi {
          * @param body (Order) order placed for purchasing the pet (required)
          * @return operation
          */
-        public PlaceOrderOper body(Order body) {
+        public PlaceOrderOper body(@javax.annotation.Nonnull Order body) {
             reqSpec.setBody(body);
             return this;
         }
