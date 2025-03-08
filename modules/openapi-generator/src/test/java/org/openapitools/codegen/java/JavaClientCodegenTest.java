@@ -40,6 +40,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -3709,4 +3710,40 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
     }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterface_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_17419.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLibrary(client);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Details.java"),
+                "public interface Details {"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/InlineDetails.java"),
+                "implements Details"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/ReferencedDetails.java"),
+                "implements Details"
+        );
+
+    }
+
 }
