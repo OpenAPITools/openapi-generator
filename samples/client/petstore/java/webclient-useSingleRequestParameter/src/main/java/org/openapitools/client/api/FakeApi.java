@@ -252,7 +252,7 @@ public class FakeApi {
 
     /**
      * test http signature authentication
-     *
+     * 
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -263,7 +263,7 @@ public class FakeApi {
 
     /**
      * test http signature authentication
-     *
+     * 
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -274,7 +274,7 @@ public class FakeApi {
 
     /**
      * test http signature authentication
-     *
+     * 
      * <p><b>200</b> - The instance started successfully
      * @param requestParameters The fakeHttpSignatureTest request parameters as object
      * @return ResponseSpec
@@ -984,8 +984,8 @@ public class FakeApi {
     }
 
     /**
-     *
-     *
+     * 
+     * 
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -995,8 +995,8 @@ public class FakeApi {
     }
 
     /**
-     *
-     *
+     * 
+     * 
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -1006,8 +1006,8 @@ public class FakeApi {
     }
 
     /**
-     *
-     *
+     * 
+     * 
      * <p><b>200</b> - Success
      * @param requestParameters The testBodyWithQueryParams request parameters as object
      * @return ResponseSpec
@@ -1352,8 +1352,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
@@ -1364,8 +1364,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
@@ -1376,8 +1376,8 @@ public class FakeApi {
     }
 
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
      * <p><b>404</b> - User not found
      * @param requestParameters The testEndpointParameters request parameters as object
@@ -2254,7 +2254,7 @@ public class FakeApi {
 
     /**
      * test json serialization of form data
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -2265,7 +2265,7 @@ public class FakeApi {
 
     /**
      * test json serialization of form data
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
@@ -2276,7 +2276,7 @@ public class FakeApi {
 
     /**
      * test json serialization of form data
-     *
+     * 
      * <p><b>200</b> - successful operation
      * @param requestParameters The testJsonFormData request parameters as object
      * @return ResponseSpec
@@ -2542,7 +2542,7 @@ public class FakeApi {
     }
 
     /**
-     *
+     * 
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
@@ -2553,7 +2553,7 @@ public class FakeApi {
     }
 
     /**
-     *
+     * 
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
@@ -2564,7 +2564,7 @@ public class FakeApi {
     }
 
     /**
-     *
+     * 
      * To test the collection format in query parameters
      * <p><b>200</b> - Success
      * @param requestParameters The testQueryParameterCollectionFormat request parameters as object
