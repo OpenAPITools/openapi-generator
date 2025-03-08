@@ -128,8 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "content":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                content = new Option<MixedAnyOfContent?>(JsonSerializer.Deserialize<MixedAnyOfContent>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            content = new Option<MixedAnyOfContent?>(JsonSerializer.Deserialize<MixedAnyOfContent>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
