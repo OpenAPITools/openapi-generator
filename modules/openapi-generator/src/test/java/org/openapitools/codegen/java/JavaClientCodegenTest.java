@@ -41,6 +41,7 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -3475,5 +3476,34 @@ public class JavaClientCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
+    }
+
+    @DataProvider(name = "javaClientLibrariesForHashCodeTest")
+    public Object[][] javaClientLibraries() {
+        return new Object[][] {
+                {JavaClientCodegen.RESTTEMPLATE, "Objects.hash(additionalProperties)" },
+                {JavaClientCodegen.NATIVE, "Objects.hash(super.hashCode(), additionalProperties)"},
+                {JavaClientCodegen.OKHTTP_GSON, "Objects.hash(additionalProperties)" },
+                {JavaClientCodegen.MICROPROFILE, "Objects.hash(super.hashCode(), additionalProperties)" },
+                {JavaClientCodegen.JERSEY2, "Objects.hash(additionalProperties)" },
+                {JavaClientCodegen.JERSEY3, "Objects.hash(additionalProperties)" },
+                {JavaClientCodegen.FEIGN, "Objects.hash(additionalProperties)" },
+        };
+    }
+
+    @Test(dataProvider = "javaClientLibrariesForHashCodeTest")
+    public void testAdditionalPropertiesWithGnerateAliasAsModelGenerateCorrectHashCode(String library, String hashCode) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setGenerateAliasAsModel(true)
+                .setLibrary(library)
+                .setInputSpec("src/test/resources/3_0/additionalProperties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SampleObject.java")).fileContains(hashCode);
     }
 }
