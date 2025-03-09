@@ -130,8 +130,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "uuid":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                            uuid = new Option<Guid?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (Guid?)null : utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;

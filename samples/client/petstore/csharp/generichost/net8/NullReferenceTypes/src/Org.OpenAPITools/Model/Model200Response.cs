@@ -148,8 +148,7 @@ namespace Org.OpenAPITools.Model
                             varClass = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "name":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                name = new Option<int?>(utf8JsonReader.GetInt32());
+                            name = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;

@@ -117,8 +117,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "children":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                children = new Option<List<Child>?>(JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            children = new Option<List<Child>?>(JsonSerializer.Deserialize<List<Child>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "firstName":
                             firstName = new Option<string?>(utf8JsonReader.GetString()!);

@@ -128,8 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "TestCollectionEndingWithWordList":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                testCollectionEndingWithWordList = new Option<List<TestCollectionEndingWithWordList>?>(JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            testCollectionEndingWithWordList = new Option<List<TestCollectionEndingWithWordList>?>(JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

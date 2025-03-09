@@ -213,19 +213,16 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varName = new Option<int?>(utf8JsonReader.GetInt32());
+                            varName = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "property":
                             property = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "snake_case":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                snakeCase = new Option<int?>(utf8JsonReader.GetInt32());
+                            snakeCase = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "123Number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                var123Number = new Option<int?>(utf8JsonReader.GetInt32());
+                            var123Number = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
