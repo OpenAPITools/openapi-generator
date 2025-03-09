@@ -2,11 +2,20 @@
 package {{packageName}}
 
 import (
-	"log"
 	"net/http"
+{{#routers}}
+	{{#mux}}
+	"log"
 	"time"
+	{{/mux}}
+	{{#chi}}
+	"github.com/go-chi/chi/v5/middleware"
+	{{/chi}}
+{{/routers}}
 )
 
+{{#routers}}
+{{#mux}}
 func Logger(inner http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
@@ -22,3 +31,10 @@ func Logger(inner http.Handler, name string) http.Handler {
 		)
 	})
 }
+{{/mux}}
+{{#chi}}
+func Logger(inner http.Handler) http.Handler {
+	return middleware.Logger(inner)
+}
+{{/chi}}
+{{/routers}}
