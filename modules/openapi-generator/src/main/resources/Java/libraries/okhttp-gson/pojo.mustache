@@ -203,8 +203,10 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     return {{#vars}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{^-last}} &&
         {{/-last}}{{/vars}}{{#isAdditionalPropertiesTrue}}&&
         Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/isAdditionalPropertiesTrue}}{{#parent}} &&
-        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}{{#additionalPropertiesType}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{#parent}} && super.equals(o){{/parent}};{{/additionalPropertiesType}}{{^additionalPropertiesType}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/additionalPropertiesType}}{{/hasVars}}
   {{/useReflectionEqualsHashCode}}
   }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 

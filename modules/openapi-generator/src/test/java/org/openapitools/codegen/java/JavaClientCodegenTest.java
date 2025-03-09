@@ -3481,18 +3481,18 @@ public class JavaClientCodegenTest {
     @DataProvider(name = "javaClientLibrariesForHashCodeTest")
     public Object[][] javaClientLibraries() {
         return new Object[][] {
-                {JavaClientCodegen.RESTTEMPLATE, "Objects.hash(additionalProperties)" },
-                {JavaClientCodegen.NATIVE, "Objects.hash(super.hashCode(), additionalProperties)"},
-                {JavaClientCodegen.OKHTTP_GSON, "Objects.hash(additionalProperties)" },
-                {JavaClientCodegen.MICROPROFILE, "Objects.hash(super.hashCode(), additionalProperties)" },
-                {JavaClientCodegen.JERSEY2, "Objects.hash(additionalProperties)" },
-                {JavaClientCodegen.JERSEY3, "Objects.hash(additionalProperties)" },
-                {JavaClientCodegen.FEIGN, "Objects.hash(additionalProperties)" },
+                {JavaClientCodegen.RESTTEMPLATE, "Objects.hash(additionalProperties)", "Objects.hash(name, additionalProperties)" },
+                {JavaClientCodegen.NATIVE, "Objects.hash(super.hashCode(), additionalProperties)", "Objects.hash(name, super.hashCode(), additionalProperties)" },
+                {JavaClientCodegen.OKHTTP_GSON, "Objects.hash(additionalProperties)", "Objects.hash(name, additionalProperties)" },
+                {JavaClientCodegen.JERSEY2, "Objects.hash(additionalProperties)", "Objects.hash(name, additionalProperties)" },
+                {JavaClientCodegen.JERSEY3, "Objects.hash(additionalProperties)", "Objects.hash(name, additionalProperties)" },
+                {JavaClientCodegen.FEIGN, "Objects.hash(additionalProperties)", "Objects.hash(name, additionalProperties)" },
+                {JavaClientCodegen.WEBCLIENT, "Objects.hash(additionalProperties)", "Objects.hash(name, additionalProperties)" },
         };
     }
 
     @Test(dataProvider = "javaClientLibrariesForHashCodeTest")
-    public void testAdditionalPropertiesWithGnerateAliasAsModelGenerateCorrectHashCode(String library, String hashCode) {
+    public void testAdditionalPropertiesWithGenerateAliasAsModelGeneratesCorrectHashCode(String library, String hashCode, String hashCodeWithName) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
@@ -3504,6 +3504,15 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
                 .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("SampleObject.java")).fileContains(hashCode);
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeObject.java")).fileContains(hashCode);
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(hashCode);
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTrue.java")).fileContains(hashCode);
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeObject.java")).fileContains(hashCodeWithName);
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeString.java")).fileContains(hashCodeWithName);
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTrue.java")).fileContains(hashCodeWithName);
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(
+                "AdditionalPropertiesOnlyTypeString additionalPropertiesOnlyTypeString = (AdditionalPropertiesOnlyTypeString) o;",
+                "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties)");
     }
 }
