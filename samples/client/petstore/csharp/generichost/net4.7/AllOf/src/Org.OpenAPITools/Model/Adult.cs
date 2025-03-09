@@ -192,7 +192,4 @@ namespace Org.OpenAPITools.Model
             if (adult.LastNameOption.IsSet)
                 writer.WriteString("lastName", adult.LastName);
 
-            writer.WriteString("$_type", adult.Type);
-        }
-    }
-}
+            writer.WriteStr
