@@ -1,5 +1,5 @@
 # for .net Unity
-generatorName: csharp
+generatorName: csharp-restsharp
 outputDir: samples/client/petstore/csharp/unityWebRequest/net9/Petstore
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp

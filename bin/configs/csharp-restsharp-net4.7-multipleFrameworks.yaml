@@ -1,4 +1,4 @@
-generatorName: csharp
+generatorName: csharp-restsharp
 library: restsharp
 outputDir: samples/client/petstore/csharp/restsharp/net4.7/MultipleFrameworks
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
