@@ -108,7 +108,8 @@ public class ParentPet extends GrandparentAnimal {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return super.equals(o);
+    ParentPet parentPet = (ParentPet) o;
+    return Objects.equals(this.additionalProperties, parentPet.additionalProperties) && super.equals(o);
   }
 
   @Override

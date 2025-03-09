@@ -5385,7 +5385,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testAdditionalPropertiesWithGnerateAliasAsModelGenerateCorrectHashCode() {
+    public void testAdditionalPropertiesWithGenerateAliasAsModelGeneratesCorrectHashCodeAndEquals() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("spring")
@@ -5396,6 +5396,16 @@ public class SpringCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
                 .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("SampleObject.java")).fileContains(" return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeObject.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTrue.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeObject.java")).fileContains("return Objects.hash(name, additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeString.java")).fileContains("return Objects.hash(name, additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTrue.java")).fileContains("return Objects.hash(name, additionalProperties)");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(
+                "AdditionalPropertiesOnlyTypeString additionalPropertiesOnlyTypeString = (AdditionalPropertiesOnlyTypeString) o;",
+                "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties);");
     }
 }

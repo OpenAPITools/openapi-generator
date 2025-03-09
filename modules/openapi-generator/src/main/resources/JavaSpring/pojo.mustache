@@ -318,8 +318,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
     return {{#vars}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{name}}, {{classVarName}}.{{name}}){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
         {{/-last}}{{/vars}}{{#additionalPropertiesType}} &&
     Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{/additionalPropertiesType}}{{#parent}} &&
-        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}
-    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/hasVars}}
+        super.equals(o){{/parent}};{{/hasVars}}{{^hasVars}}{{#additionalPropertiesType}}
+    {{classname}} {{classVarName}} = ({{classname}}) o;
+    return Objects.equals(this.additionalProperties, {{classVarName}}.additionalProperties){{#parent}} && super.equals(o){{/parent}};{{/additionalPropertiesType}}{{^additionalPropertiesType}}
+    return {{#parent}}super.equals(o){{/parent}}{{^parent}}true{{/parent}};{{/additionalPropertiesType}}{{/hasVars}}
   }{{#vendorExtensions.x-jackson-optional-nullable-helpers}}
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
