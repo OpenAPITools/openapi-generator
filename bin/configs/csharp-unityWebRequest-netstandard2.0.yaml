@@ -2,7 +2,7 @@
 generatorName: csharp-restsharp
 outputDir: samples/client/petstore/csharp/unityWebRequest/standard2.0/Petstore
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
-templateDir: modules/openapi-generator/src/main/resources/csharp
+templateDir: modules/openapi-generator/src/main/resources/csharp-restsharp
 library: unityWebRequest
 additionalProperties:
   targetFramework: netstandard2.0
