@@ -2609,7 +2609,6 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
-                "multipartArray(@jakarta.annotation.N",
                 "multipartArray(@jakarta.annotation.Nullable List<File> files)",
                 "formParams.addAll(\"files\","
                         + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
