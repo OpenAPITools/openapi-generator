@@ -3514,5 +3514,47 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(
                 "AdditionalPropertiesOnlyTypeString additionalPropertiesOnlyTypeString = (AdditionalPropertiesOnlyTypeString) o;",
                 "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties)");
+
+        JavaFileAssert.assertThat(files.get("Response.java")).fileContains("AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
+    }
+
+    @Test
+    public void testAdditionalPropertiesWithGenerateAliasForMicroProfile() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setGenerateAliasAsModel(true)
+                .setLibrary(MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/additionalProperties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeObject.java")).fileContains(
+                "extends HashMap<String, Object>",
+                "return Objects.hash(super.hashCode())",
+                "return super.equals(o)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(
+                "extends HashMap<String, String>",
+                "return Objects.hash(super.hashCode())",
+                "return super.equals(o)");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTrue.java")).fileContains(
+                "extends HashMap<String, Object>",
+                "return Objects.hash(super.hashCode())",
+                "return super.equals(o)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeObject.java")).fileContains(
+                "HashMap<String, Object>",
+                "return Objects.hash(name, super.hashCode())");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeString.java")).fileContains(
+                "HashMap<String, String>",
+                "return Objects.hash(name, super.hashCode())");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTrue.java")).fileContains(
+                "HashMap<String, Object>",
+                "return Objects.hash(name, super.hashCode())");
+
+        JavaFileAssert.assertThat(files.get("Response.java")).fileContains("AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
     }
 }

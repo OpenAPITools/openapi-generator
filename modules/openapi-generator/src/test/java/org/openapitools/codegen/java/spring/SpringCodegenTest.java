@@ -5407,5 +5407,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(
                 "AdditionalPropertiesOnlyTypeString additionalPropertiesOnlyTypeString = (AdditionalPropertiesOnlyTypeString) o;",
                 "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties);");
+
+        JavaFileAssert.assertThat(files.get("Response.java")).fileContains("AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
     }
 }
