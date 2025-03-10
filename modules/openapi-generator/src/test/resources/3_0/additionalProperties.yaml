@@ -17,6 +17,10 @@ components:
     Response:
       type: object
       properties:
+        inlineMap:
+          type: object
+          additionalProperties:
+            type: string
         additionalPropertiesOnlyTypeObject:
           $ref: '#/components/schemas/AdditionalPropertiesOnlyTypeObject'
         additionalPropertiesOnlyTypeString:

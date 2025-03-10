@@ -3515,7 +3515,9 @@ public class JavaClientCodegenTest {
                 "AdditionalPropertiesOnlyTypeString additionalPropertiesOnlyTypeString = (AdditionalPropertiesOnlyTypeString) o;",
                 "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties)");
 
-        JavaFileAssert.assertThat(files.get("Response.java")).fileContains("AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
+        JavaFileAssert.assertThat(files.get("Response.java")).fileContains(
+
+                "AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
     }
 
     @Test
@@ -3555,6 +3557,8 @@ public class JavaClientCodegenTest {
                 "HashMap<String, Object>",
                 "return Objects.hash(name, super.hashCode())");
 
-        JavaFileAssert.assertThat(files.get("Response.java")).fileContains("AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
+        JavaFileAssert.assertThat(files.get("Response.java")).fileContains(
+                "Map<String, String> inlineMap = new HashMap<>();",
+                "AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
     }
 }

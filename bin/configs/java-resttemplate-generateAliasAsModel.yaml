@@ -1,0 +1,12 @@
+generatorName: java
+outputDir: samples/client/petstore/java/resttemplate-generateAliasAsModel
+library: resttemplate
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/generateAliasAsModel.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+generateAliasAsModel: true
+additionalProperties:
+  java8: true
+  useJakartaEe: true
+  artifactId: petstore-resttemplate-generateAliasAsModel
+  hideGenerationTimestamp: "true"
+  generateConstructorWithAllArgs: true

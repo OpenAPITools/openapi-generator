@@ -1,0 +1,332 @@
+openapi: 3.0.0
+info:
+  description: This spec is mainly for testing generateAliasAsModel and
+  title: generateAliasAsModel
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalProperties'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: fake
+components:
+  schemas:
+    AdditionalProperties:
+      example:
+        additionalPropertiesClass:
+          map_map_string:
+            key:
+              key: map_map_string
+          map_integer:
+            key: 6
+          map_number:
+            key: 0.8008281904610115
+          map_array_anytype:
+            key:
+            - "{}"
+            - "{}"
+          map_string:
+            key: map_string
+          anytype_2: ""
+          anytype_1: "{}"
+          map_boolean:
+            key: true
+          map_array_integer:
+            key:
+            - 1
+            - 1
+          map_map_anytype:
+            key:
+              key: "{}"
+          anytype_3: "{}"
+        mixed:
+          dateTime: 2000-01-23T04:56:07.000+00:00
+          uuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          map:
+            key:
+              className: className
+        additionalPropertiesClassRef:
+          map_integer:
+            name: name
+          map_number:
+            name: name
+          map_string:
+            name: name
+          anytype_1: "{}"
+          map_boolean:
+            name: name
+      properties:
+        additionalPropertiesClassRef:
+          $ref: '#/components/schemas/AdditionalPropertiesClassRef'
+        additionalPropertiesClass:
+          $ref: '#/components/schemas/AdditionalPropertiesClass'
+        mixed:
+          $ref: '#/components/schemas/MixedPropertiesAndAdditionalPropertiesClass'
+      type: object
+    AdditionalPropertiesClassRef:
+      example:
+        map_integer:
+          name: name
+        map_number:
+          name: name
+        map_string:
+          name: name
+        anytype_1: "{}"
+        map_boolean:
+          name: name
+      properties:
+        map_string:
+          $ref: '#/components/schemas/AdditionalPropertiesString'
+        map_number:
+          $ref: '#/components/schemas/AdditionalPropertiesNumber'
+        map_integer:
+          $ref: '#/components/schemas/AdditionalPropertiesInteger'
+        map_boolean:
+          $ref: '#/components/schemas/AdditionalPropertiesBoolean'
+        anytype_1:
+          type: object
+      type: object
+    AdditionalPropertyClassRef:
+      properties:
+        map_string:
+          $ref: '#/components/schemas/AdditionalPropertyString'
+        map_number:
+          $ref: '#/components/schemas/AdditionalPropertyNumber'
+        map_integer:
+          $ref: '#/components/schemas/AdditionalPropertyInteger'
+        map_boolean:
+          $ref: '#/components/schemas/AdditionalPropertyBoolean'
+        map_array_integer:
+          $ref: '#/components/schemas/AdditionalPropertyArrayInteger'
+        map_array_anytype:
+          $ref: '#/components/schemas/AdditionalPropertyArrayAnyType'
+        map_map_string:
+          $ref: '#/components/schemas/AdditionalPropertyMapString'
+        map_map_anytype:
+          $ref: '#/components/schemas/AdditionalPropertyMapAnyType'
+        anytype_1:
+          type: object
+      type: object
+    AdditionalPropertyString:
+      additionalProperties:
+        type: string
+      type: object
+    AdditionalPropertyNumber:
+      additionalProperties:
+        type: number
+      type: object
+    AdditionalPropertyInteger:
+      additionalProperties:
+        type: integer
+      type: object
+    AdditionalPropertyBoolean:
+      additionalProperties:
+        type: boolean
+      type: object
+    AdditionalPropertyArrayInteger:
+      additionalProperties:
+        items:
+          type: integer
+        type: array
+      type: object
+    AdditionalPropertyArrayAnyType:
+      additionalProperties:
+        items:
+          type: object
+        type: array
+      type: object
+    AdditionalPropertyMapString:
+      additionalProperties:
+        additionalProperties:
+          type: string
+        type: object
+      type: object
+    AdditionalPropertyMapAnyType:
+      additionalProperties:
+        additionalProperties:
+          type: object
+        type: object
+      type: object
+    AnyType1:
+      type: object
+    AdditionalPropertiesClass:
+      example:
+        map_map_string:
+          key:
+            key: map_map_string
+        map_integer:
+          key: 6
+        map_number:
+          key: 0.8008281904610115
+        map_array_anytype:
+          key:
+          - "{}"
+          - "{}"
+        map_string:
+          key: map_string
+        anytype_2: ""
+        anytype_1: "{}"
+        map_boolean:
+          key: true
+        map_array_integer:
+          key:
+          - 1
+          - 1
+        map_map_anytype:
+          key:
+            key: "{}"
+        anytype_3: "{}"
+      properties:
+        map_string:
+          additionalProperties:
+            type: string
+          type: object
+        map_number:
+          additionalProperties:
+            type: number
+          type: object
+        map_integer:
+          additionalProperties:
+            type: integer
+          type: object
+        map_boolean:
+          additionalProperties:
+            type: boolean
+          type: object
+        map_array_integer:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type: object
+        map_array_anytype:
+          additionalProperties:
+            items:
+              type: object
+            type: array
+          type: object
+        map_map_string:
+          additionalProperties:
+            additionalProperties:
+              type: string
+            type: object
+          type: object
+        map_map_anytype:
+          additionalProperties:
+            additionalProperties:
+              type: object
+            type: object
+          type: object
+        anytype_1:
+          type: object
+        anytype_2: {}
+        anytype_3:
+          properties: {}
+          type: object
+      type: object
+    AdditionalPropertiesString:
+      additionalProperties:
+        type: string
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesInteger:
+      additionalProperties:
+        type: integer
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesNumber:
+      additionalProperties:
+        type: number
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesBoolean:
+      additionalProperties:
+        type: boolean
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesArray:
+      additionalProperties:
+        items:
+          type: object
+        type: array
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesObject:
+      additionalProperties:
+        additionalProperties:
+          type: object
+        type: object
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesAnyType:
+      additionalProperties:
+        type: object
+      properties:
+        name:
+          type: string
+      type: object
+    MixedPropertiesAndAdditionalPropertiesClass:
+      example:
+        dateTime: 2000-01-23T04:56:07.000+00:00
+        uuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        map:
+          key:
+            className: className
+      properties:
+        uuid:
+          format: uuid
+          type: string
+        dateTime:
+          format: date-time
+          type: string
+        map:
+          additionalProperties:
+            $ref: '#/components/schemas/Animal'
+          type: object
+      type: object
+    Animal:
+      example:
+        className: className
+      properties:
+        className:
+          type: string
+      type: object
