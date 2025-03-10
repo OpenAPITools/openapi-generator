@@ -1,0 +1,10 @@
+# for .net standard
+generatorName: csharp
+library: restsharp
+outputDir: samples/client/petstore/csharp/restsharp/net8/useVirtualForHooks
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-addpet-only.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{D0A67E81-4061-48EB-B4B8-C73BDF8B2D95}'
+  targetFramework: net8.0
+  useVirtualForHooks: true
