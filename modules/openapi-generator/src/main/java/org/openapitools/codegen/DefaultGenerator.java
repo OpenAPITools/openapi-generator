@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
@@ -42,6 +43,7 @@ import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.openapitools.codegen.templating.GeneratorTemplateContentLocator;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1571,28 +1573,40 @@ public class DefaultGenerator implements Generator {
                     LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
                             httpMethod, resourcePath, operation.getOperationId());
                 } else {
-                    CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
-                    codegenOperation.tags = new ArrayList<>(tags);
-                    config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
-                    List<SecurityRequirement> securities = operation.getSecurity();
-                    if (securities != null && securities.isEmpty()) {
-                        continue;
+                    ///
+                    List<String> contentTypes = new ArrayList<>(List.of("dummy"));
+                    RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
+                    if (requestBody != null) {
+                        contentTypes = new ArrayList<>(requestBody.getContent().keySet());
                     }
 
-                    Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+                    for (int contentTypeIndex = 0; contentTypeIndex < contentTypes.size(); contentTypeIndex++) {
+                    
+                    ///                     
+                        CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, contentTypeIndex, operation, path.getServers());
+                        codegenOperation.tags = new ArrayList<>(tags);
+                        config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
-                    if (authMethods != null && !authMethods.isEmpty()) {
-                        List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
-                        codegenOperation.hasAuthMethods = true;
-                    } else {
-                        authMethods = getAuthMethods(globalSecurities, securitySchemes);
+                        List<SecurityRequirement> securities = operation.getSecurity();
+                        if (securities != null && securities.isEmpty()) {
+                            continue;
+                        }
+
+                        Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
 
                         if (authMethods != null && !authMethods.isEmpty()) {
                             List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                            codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                            codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
                             codegenOperation.hasAuthMethods = true;
+                        } else {
+                            authMethods = getAuthMethods(globalSecurities, securitySchemes);
+
+                            if (authMethods != null && !authMethods.isEmpty()) {
+                                List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                                codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                                codegenOperation.hasAuthMethods = true;
+                            }
                         }
                     }
                 }
