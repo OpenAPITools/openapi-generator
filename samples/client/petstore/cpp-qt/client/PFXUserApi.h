@@ -59,42 +59,42 @@ public:
     /**
     * @param[in]  pfx_user PFXUser [required]
     */
-    void createUser(const PFXUser &pfx_user);
+    virtual void createUser(const PFXUser &pfx_user);
 
     /**
     * @param[in]  pfx_user QList<PFXUser> [required]
     */
-    void createUsersWithArrayInput(const QList<PFXUser> &pfx_user);
+    virtual void createUsersWithArrayInput(const QList<PFXUser> &pfx_user);
 
     /**
     * @param[in]  pfx_user QList<PFXUser> [required]
     */
-    void createUsersWithListInput(const QList<PFXUser> &pfx_user);
+    virtual void createUsersWithListInput(const QList<PFXUser> &pfx_user);
 
     /**
     * @param[in]  username QString [required]
     */
-    void deleteUser(const QString &username);
+    virtual void deleteUser(const QString &username);
 
     /**
     * @param[in]  username QString [required]
     */
-    void getUserByName(const QString &username);
+    virtual void getUserByName(const QString &username);
 
     /**
     * @param[in]  username QString [required]
     * @param[in]  password QString [required]
     */
-    void loginUser(const QString &username, const QString &password);
+    virtual void loginUser(const QString &username, const QString &password);
 
 
-    void logoutUser();
+    virtual void logoutUser();
 
     /**
     * @param[in]  username QString [required]
     * @param[in]  pfx_user PFXUser [required]
     */
-    void updateUser(const QString &username, const PFXUser &pfx_user);
+    virtual void updateUser(const QString &username, const PFXUser &pfx_user);
 
 
 private:
@@ -128,7 +128,7 @@ private:
     void logoutUserCallback(PFXHttpRequestWorker *worker);
     void updateUserCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void createUserSignal();
     void createUsersWithArrayInputSignal();
@@ -138,6 +138,7 @@ signals:
     void loginUserSignal(QString summary);
     void logoutUserSignal();
     void updateUserSignal();
+
 
     void createUserSignalFull(PFXHttpRequestWorker *worker);
     void createUsersWithArrayInputSignalFull(PFXHttpRequestWorker *worker);
@@ -201,7 +202,7 @@ signals:
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
 };
 

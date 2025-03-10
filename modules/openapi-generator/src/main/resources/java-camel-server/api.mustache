@@ -46,7 +46,7 @@ public class {{classname}} extends RouteBuilder {
             .endSecurityDefinition(){{/-last}}{{/isApiKey}}{{#isBasic}}{{#isBasicBasic}}
                 .basicAuth("{{name}}"){{#-last}}.end(){{/-last}}{{/isBasicBasic}}{{#isBasicBearer}}
                 .bearerToken("{{name}}"{{#bearerFormat}}, "{{bearerFormat}}"{{/bearerFormat}}){{#-last}}.end(){{/-last}}{{/isBasicBearer}}{{/isBasic}}{{/authMethods}}{{/hasAuthMethods}}{{/camelSecurityDefinitions}}
-            .{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{path}}")
+            .{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{{path}}}")
                 .description("{{#summary}}{{{.}}}{{/summary}}")
                 .id("{{operationId}}Api"){{#vendorExtensions}}{{#camelRestBindingMode}}
                 .clientRequestValidation(false)

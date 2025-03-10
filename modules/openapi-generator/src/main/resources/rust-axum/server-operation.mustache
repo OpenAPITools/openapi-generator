@@ -1,0 +1,365 @@
+/// {{{operationId}}} - {{{httpMethod}}} {{{basePathWithoutHost}}}{{{path}}}
+#[tracing::instrument(skip_all)]
+async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{{#havingAuthMethod}}, C{{/havingAuthMethod}}>(
+  method: Method,
+  host: Host,
+  cookies: CookieJar,
+{{#headerParams.size}}
+  headers: HeaderMap,
+{{/headerParams.size}}
+{{^headerParams.size}}
+{{#vendorExtensions}}
+{{#x-has-header-auth-methods}}
+  headers: HeaderMap,
+{{/x-has-header-auth-methods}}
+{{^x-has-header-auth-methods}}
+  {{#x-has-basic-auth-methods}}
+  headers: HeaderMap,
+  {{/x-has-basic-auth-methods}}
+{{/x-has-header-auth-methods}}
+{{/vendorExtensions}}
+{{/headerParams.size}}
+{{#pathParams.size}}
+  Path(path_params): Path<models::{{{operationIdCamelCase}}}PathParams>,
+{{/pathParams.size}}
+{{#queryParams.size}}
+  Query(query_params): Query<models::{{{operationIdCamelCase}}}QueryParams>,
+{{/queryParams.size}}
+ State(api_impl): State<I>,
+{{#vendorExtensions}}
+{{^x-consumes-multipart-related}}
+{{^x-consumes-multipart}}
+  {{#bodyParam}}
+    {{#vendorExtensions}}
+      {{#x-consumes-json}}
+          Json(body): Json<{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}>,
+      {{/x-consumes-json}}
+      {{#x-consumes-form-urlencoded}}
+          Form(body): Form<{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}>,
+      {{/x-consumes-form-urlencoded}}
+      {{#x-consumes-plain-text}}
+        {{#isString}}
+          body: String,
+        {{/isString}}
+        {{^isString}}
+          body: Bytes,
+        {{/isString}}
+      {{/x-consumes-plain-text}}
+    {{/vendorExtensions}}
+  {{/bodyParam}}
+{{/x-consumes-multipart}}
+{{/x-consumes-multipart-related}}
+{{#x-consumes-multipart}}
+  body: Multipart,
+{{/x-consumes-multipart}}
+{{#x-consumes-multipart-related}}
+  body: axum::body::Body,
+{{/x-consumes-multipart-related}}
+{{/vendorExtensions}}
+) -> Result<Response, StatusCode>
+where
+    I: AsRef<A> + Send + Sync,
+    A: apis::{{classFilename}}::{{classnamePascalCase}}<E{{#havingAuthMethod}}, Claims = C{{/havingAuthMethod}}>{{#vendorExtensions}}{{#x-has-cookie-auth-methods}}+ apis::CookieAuthentication<Claims = C>{{/x-has-cookie-auth-methods}}{{#x-has-header-auth-methods}}+ apis::ApiKeyAuthHeader<Claims = C>{{/x-has-header-auth-methods}}{{#x-has-basic-auth-methods}}+ apis::ApiAuthBasic<Claims = C>{{/x-has-basic-auth-methods}}{{/vendorExtensions}} + Send + Sync,
+    E: std::fmt::Debug + Send + Sync + 'static,
+        {
+{{#vendorExtensions}}
+{{#x-has-auth-methods}}
+    // Authentication
+{{/x-has-auth-methods}}
+{{#x-has-cookie-auth-methods}}
+    let claims_in_cookie = api_impl.as_ref().extract_claims_from_cookie(&cookies, "{{x-api-key-cookie-name}}").await;
+{{/x-has-cookie-auth-methods}}
+{{#x-has-header-auth-methods}}
+    let claims_in_header = api_impl.as_ref().extract_claims_from_header(&headers, "{{x-api-key-header-name}}").await;
+{{/x-has-header-auth-methods}}
+{{#x-has-basic-auth-methods}}
+    let claims_in_auth_header = api_impl.as_ref().extract_claims_from_auth_header(apis::BasicAuthKind::{{#x-is-basic-bearer}}Bearer{{/x-is-basic-bearer}}{{^x-is-basic-bearer}}Basic{{/x-is-basic-bearer}}, &headers, "{{x-api-auth-header-name}}").await;
+{{/x-has-basic-auth-methods}}
+{{#x-has-auth-methods}}
+    let claims = None
+          {{#x-has-cookie-auth-methods}}
+             .or(claims_in_cookie)
+          {{/x-has-cookie-auth-methods}}
+          {{#x-has-header-auth-methods}}
+              .or(claims_in_header)
+          {{/x-has-header-auth-methods}}
+          {{#x-has-basic-auth-methods}}
+             .or(claims_in_auth_header)
+          {{/x-has-basic-auth-methods}}
+          ;
+    let Some(claims) = claims else {
+        return Response::builder()
+                        .status(StatusCode::UNAUTHORIZED)
+                        .body(Body::empty())
+                        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
+    };
+{{/x-has-auth-methods}}
+{{/vendorExtensions}}
+
+{{#headerParams}}
+  {{#-first}}
+    // Header parameters
+    let header_params = {
+  {{/-first}}
+                let header_{{{paramName}}} = headers.get(HeaderName::from_static("{{{nameInLowerCase}}}"));
+
+                let header_{{{paramName}}} = match header_{{{paramName}}} {
+                    Some(v) => match header::IntoHeaderValue::<{{{dataType}}}>::try_from((*v).clone()) {
+                        Ok(result) =>
+{{#required}}
+                            result.0,
+{{/required}}
+{{^required}}
+                            Some(result.0),
+{{/required}}
+                        Err(err) => {
+                            return Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Invalid header {{{baseName}}} - {}", err))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+
+                        },
+                    },
+                    None => {
+{{#required}}
+                        return Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from("Missing required header {{{baseName}}}")).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+{{/required}}
+{{^required}}
+                        None
+{{/required}}
+                    }
+                };
+{{/headerParams}}
+{{#headerParams}}
+  {{#-first}}
+
+       models::{{{operationIdCamelCase}}}HeaderParams {
+  {{/-first}}
+          {{{paramName}}}: header_{{{paramName}}},
+  {{#-last}}
+       }
+  };
+
+  {{/-last}}
+{{/headerParams}}
+
+  {{^disableValidator}}
+    {{^allowBlockingValidator}}
+      #[allow(clippy::redundant_closure)]
+      let validation = tokio::task::spawn_blocking(move ||
+    {{/allowBlockingValidator}}
+    {{#allowBlockingValidator}}
+      let validation =
+    {{/allowBlockingValidator}}
+    {{#vendorExtensions}}{{{x-operation-id}}}_validation{{/vendorExtensions}}(
+      {{#headerParams.size}}
+        header_params,
+      {{/headerParams.size}}
+      {{#pathParams.size}}
+        path_params,
+      {{/pathParams.size}}
+      {{#queryParams.size}}
+        query_params,
+      {{/queryParams.size}}
+      {{^x-consumes-multipart-related}}
+      {{^x-consumes-multipart}}
+        {{#bodyParam}}
+          body,
+        {{/bodyParam}}
+      {{/x-consumes-multipart}}
+      {{/x-consumes-multipart-related}}
+    )
+  {{^allowBlockingValidator}}).await.unwrap(){{/allowBlockingValidator}};
+
+  let Ok((
+  {{#headerParams.size}}
+    header_params,
+  {{/headerParams.size}}
+  {{#pathParams.size}}
+    path_params,
+  {{/pathParams.size}}
+  {{#queryParams.size}}
+    query_params,
+  {{/queryParams.size}}
+  {{^x-consumes-multipart-related}}
+  {{^x-consumes-multipart}}
+    {{#bodyParam}}
+      body,
+    {{/bodyParam}}
+  {{/x-consumes-multipart}}
+  {{/x-consumes-multipart-related}}
+  )) = validation else {
+    return Response::builder()
+            .status(StatusCode::BAD_REQUEST)
+            .body(Body::from(validation.unwrap_err().to_string()))
+            .map_err(|_| StatusCode::BAD_REQUEST);
+  };
+  {{/disableValidator}}
+
+  let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+      &method,
+      &host,
+      &cookies,
+      {{#vendorExtensions}}
+        {{#x-has-auth-methods}}
+        &claims,
+        {{/x-has-auth-methods}}
+      {{/vendorExtensions}}
+      {{#headerParams.size}}
+        &header_params,
+      {{/headerParams.size}}
+      {{#pathParams.size}}
+        &path_params,
+      {{/pathParams.size}}
+      {{#queryParams.size}}
+        &query_params,
+      {{/queryParams.size}}
+      {{#vendorExtensions}}
+        {{^x-consumes-multipart-related}}
+        {{^x-consumes-multipart}}
+          {{#bodyParams}}
+            {{#-first}}
+              &body,
+            {{/-first}}
+          {{/bodyParams}}
+        {{/x-consumes-multipart}}
+        {{/x-consumes-multipart-related}}
+        {{#x-consumes-multipart}}
+          &body,
+        {{/x-consumes-multipart}}
+        {{#x-consumes-multipart-related}}
+          &body,
+        {{/x-consumes-multipart-related}}
+      {{/vendorExtensions}}
+  ).await;
+
+  let mut response = Response::builder();
+
+  let resp = match result {
+                                            Ok(rsp) => match rsp {
+{{#responses}}
+                                                apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+{{#dataType}}
+{{^headers}}
+                                                    (body)
+{{/headers}}
+{{#headers}}
+{{#-first}}
+                                                    {
+                                                        body,
+{{/-first}}
+                                                        {{{name}}}{{^-last}},{{/-last}}
+{{#-last}}
+                                                    }
+{{/-last}}
+{{/headers}}
+{{/dataType}}
+{{^dataType}}
+{{#headers}}
+{{#-first}}
+                                                    {
+{{/-first}}
+                                                        {{{name}}}{{^-last}},{{/-last}}
+{{#-last}}
+                                                    }
+{{/-last}}
+{{/headers}}
+{{/dataType}}
+                                                => {
+{{#headers}}
+  {{^required}}
+                                                    if let Some({{{name}}}) = {{{name}}} {
+  {{/required}}
+                                                    let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {}", e))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                        }
+                                                    };
+
+
+                                                    {
+                                                      let mut response_headers = response.headers_mut().unwrap();
+                                                      response_headers.insert(
+                                                          HeaderName::from_static("{{{nameInLowerCase}}}"),
+                                                          {{name}}
+                                                      );
+                                                    }
+  {{^required}}
+                                                    }
+  {{/required}}
+{{/headers}}
+{{#range}}
+                                                  response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
+{{/range}}
+{{^range}}
+                                                  let mut response = response.status({{{code}}});
+{{/range}}
+{{#produces}}
+{{#-first}}
+{{#dataType}}
+{{#vendorExtensions}}
+                                                  {
+                                                    let mut response_headers = response.headers_mut().unwrap();
+                                                    response_headers.insert(
+                                                        CONTENT_TYPE,
+                                                        HeaderValue::from_str("{{{x-mime-type}}}").map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR })?);
+                                                  }
+
+{{/vendorExtensions}}
+{{/dataType}}
+{{/-first}}
+{{/produces}}
+{{#dataType}}
+{{#vendorExtensions}}
+{{#x-produces-json}}
+  {{^allowBlockingResponseSerialize}}
+                                                  let body_content =  tokio::task::spawn_blocking(move ||
+  {{/allowBlockingResponseSerialize}}
+  {{#allowBlockingResponseSerialize}}
+                                                  let body_content =
+  {{/allowBlockingResponseSerialize}}
+                                                      serde_json::to_vec(&body).map_err(|e| {
+                                                        error!(error = ?e);
+                                                        StatusCode::INTERNAL_SERVER_ERROR
+                                                      }){{^allowBlockingResponseSerialize}}).await.unwrap(){{/allowBlockingResponseSerialize}}?;
+{{/x-produces-json}}
+{{#x-produces-form-urlencoded}}
+  {{^allowBlockingResponseSerialize}}
+                                                  let body_content =  tokio::task::spawn_blocking(move ||
+  {{/allowBlockingResponseSerialize}}
+  {{#allowBlockingResponseSerialize}}
+                                                  let body_content =
+  {{/allowBlockingResponseSerialize}}
+                                                      serde_urlencoded::to_string(body).map_err(|e| {
+                                                        error!(error = ?e);
+                                                        StatusCode::INTERNAL_SERVER_ERROR
+                                                      }){{^allowBlockingResponseSerialize}}).await.unwrap(){{/allowBlockingResponseSerialize}}?;
+{{/x-produces-form-urlencoded}}
+{{#x-produces-bytes}}
+                                                  let body_content = body.0;
+{{/x-produces-bytes}}
+{{#x-produces-plain-text}}
+                                                  let body_content = body;
+{{/x-produces-plain-text}}
+{{/vendorExtensions}}
+                                                  response.body(Body::from(body_content))
+{{/dataType}}
+{{^dataType}}
+                                                  response.body(Body::empty())
+{{/dataType}}
+                                                },
+{{/responses}}
+                                            },
+                                            Err(why) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
+                                            },
+                                        };
+
+                                        resp.map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR })
+}

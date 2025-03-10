@@ -21,7 +21,7 @@ print FooGetDefaultResponse.to_json()
 # convert the object into a dict
 foo_get_default_response_dict = foo_get_default_response_instance.to_dict()
 # create an instance of FooGetDefaultResponse from a dict
-foo_get_default_response_form_dict = foo_get_default_response.from_dict(foo_get_default_response_dict)
+foo_get_default_response_from_dict = FooGetDefaultResponse.from_dict(foo_get_default_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

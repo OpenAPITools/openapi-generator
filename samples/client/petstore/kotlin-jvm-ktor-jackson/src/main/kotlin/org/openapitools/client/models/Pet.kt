@@ -35,23 +35,23 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Pet (
 
-    @field:JsonProperty("name")
+    @get:JsonProperty("name")
     val name: kotlin.String,
 
-    @field:JsonProperty("photoUrls")
+    @get:JsonProperty("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @field:JsonProperty("id")
+    @get:JsonProperty("id")
     val id: kotlin.Long? = null,
 
-    @field:JsonProperty("category")
+    @get:JsonProperty("category")
     val category: Category? = null,
 
-    @field:JsonProperty("tags")
+    @get:JsonProperty("tags")
     val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
-    @field:JsonProperty("status")
+    @get:JsonProperty("status")
     val status: Pet.Status? = null
 
 ) {
@@ -59,13 +59,14 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold,unknownDefaultOpenApi
+     * Values: available,pending,sold,unknown_default_open_api
      */
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "available") available("available"),
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold"),
-        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknownDefaultOpenApi("unknown_default_open_api");
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknown_default_open_api("unknown_default_open_api");
     }
+
 }
 

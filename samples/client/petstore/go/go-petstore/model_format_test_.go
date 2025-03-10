@@ -29,8 +29,8 @@ type FormatTest struct {
 	Number float32 `json:"number"`
 	Float *float32 `json:"float,omitempty"`
 	Double *float64 `json:"double,omitempty"`
-	String *string `json:"string,omitempty"`
-	Byte string `json:"byte"`
+	String *string `json:"string,omitempty" validate:"regexp=[a-z]/i"`
+	Byte string `json:"byte" validate:"regexp=^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=)?$"`
 	Binary **os.File `json:"binary,omitempty"`
 	Date string `json:"date"`
 	DateTime *time.Time `json:"dateTime,omitempty"`

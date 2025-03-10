@@ -22,11 +22,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.online.model.GeneratorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +31,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class Generator {
     private static Logger LOGGER = LoggerFactory.getLogger(Generator.class);
@@ -49,7 +41,7 @@ public class Generator {
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(Locale.ROOT,"Unsupported target %s supplied. %s",
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(Locale.ROOT, "Unsupported target %s supplied. %s",
                     language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<>();
@@ -82,7 +74,7 @@ public class Generator {
     }
 
     private static String generate(String language, GeneratorInput opts, Type type) {
-        LOGGER.debug(String.format(Locale.ROOT,"generate %s for %s", type.getTypeName(), language));
+        LOGGER.debug(String.format(Locale.ROOT, "generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No options were supplied");
         }
@@ -118,14 +110,10 @@ public class Generator {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The OpenAPI specification supplied was not valid");
         }
 
-        String destPath = null;
 
-        if (opts.getOptions() != null) {
-            destPath = opts.getOptions().get("outputFolder");
-        }
-        if (destPath == null) {
-            destPath = language + "-" + type.getTypeName();
-        }
+        // do not use opts.getOptions().get("outputFolder") as the input can contain ../../
+        // to access other folders in the server
+        String destPath = language + "-" + type.getTypeName();
 
         ClientOptInput clientOptInput = new ClientOptInput();
         String outputFolder = getTmpFolder().getAbsolutePath() + File.separator + destPath;
@@ -143,6 +131,16 @@ public class Generator {
         if (opts.getOptions() != null) {
             codegenConfig.additionalProperties().putAll(opts.getOptions());
             codegenConfig.additionalProperties().put("openAPI", openapi);
+        }
+
+        if (opts.getOpenapiNormalizer() != null && !opts.getOpenapiNormalizer().isEmpty()) {
+            for (String rule : opts.getOpenapiNormalizer()) {
+                String[] ruleOperands = rule.split("=");
+                if (ruleOperands.length != 2) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "In rule: " + rule + "the operands were not provided in the form of <Rule>=<Value>");
+                }
+                codegenConfig.openapiNormalizer().put(ruleOperands[0], ruleOperands[1]);
+            }
         }
 
         codegenConfig.setOutputDir(outputFolder);

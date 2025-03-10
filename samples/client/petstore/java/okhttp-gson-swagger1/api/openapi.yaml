@@ -44,9 +44,11 @@ paths:
         - read:pets
       summary: Add a new pet to the store
       tags:
-      - pet
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: ""
       externalDocs:
@@ -77,9 +79,11 @@ paths:
         - read:pets
       summary: Update an existing pet
       tags:
-      - pet
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -122,8 +126,10 @@ paths:
         - read:pets
       summary: Finds Pets by status
       tags:
-      - pet
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
@@ -162,8 +168,10 @@ paths:
         - read:pets
       summary: Finds Pets by tags
       tags:
-      - pet
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
       description: ""
@@ -194,8 +202,9 @@ paths:
         - read:pets
       summary: Deletes a pet
       tags:
-      - pet
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -227,8 +236,10 @@ paths:
       - api_key: []
       summary: Find pet by ID
       tags:
-      - pet
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
+      - application/xml
     post:
       description: ""
       operationId: updatePetWithForm
@@ -256,9 +267,10 @@ paths:
         - read:pets
       summary: Updates a pet in the store with form data
       tags:
-      - pet
+      - common
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -291,9 +303,10 @@ paths:
         - read:pets
       summary: uploads an image
       tags:
-      - pet
+      - common
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -312,8 +325,9 @@ paths:
       - api_key: []
       summary: Returns pet inventories by status
       tags:
-      - store
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
   /store/order:
     post:
       description: ""
@@ -339,9 +353,11 @@ paths:
           description: Invalid Order
       summary: Place an order for a pet
       tags:
-      - store
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -363,8 +379,9 @@ paths:
           description: Order not found
       summary: Delete purchase order by ID
       tags:
-      - store
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generate exceptions
@@ -397,8 +414,10 @@ paths:
           description: Order not found
       summary: Find purchase order by ID
       tags:
-      - store
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
+      - application/xml
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -417,9 +436,10 @@ paths:
       - api_key: []
       summary: Create user
       tags:
-      - user
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithArray:
     post:
       description: ""
@@ -433,9 +453,10 @@ paths:
       - api_key: []
       summary: Creates list of users with given input array
       tags:
-      - user
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithList:
     post:
       description: ""
@@ -449,9 +470,10 @@ paths:
       - api_key: []
       summary: Creates list of users with given input array
       tags:
-      - user
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/login:
     get:
       description: ""
@@ -511,8 +533,10 @@ paths:
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
-      - user
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
+      - application/xml
   /user/logout:
     get:
       description: ""
@@ -524,8 +548,9 @@ paths:
       - api_key: []
       summary: Logs out current logged in user session
       tags:
-      - user
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -548,8 +573,9 @@ paths:
       - api_key: []
       summary: Delete user
       tags:
-      - user
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
     get:
       description: ""
       operationId: getUserByName
@@ -578,8 +604,10 @@ paths:
           description: User not found
       summary: Get user by user name
       tags:
-      - user
-      x-accepts: application/json
+      - common
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -608,9 +636,10 @@ paths:
       - api_key: []
       summary: Updated user
       tags:
-      - user
+      - common
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   requestBodies:
     UserArray:

@@ -71,5 +71,6 @@ data class Pet (
         @Json(name = "pending") pending("pending"),
         @Json(name = "sold") sold("sold");
     }
+
 }
 

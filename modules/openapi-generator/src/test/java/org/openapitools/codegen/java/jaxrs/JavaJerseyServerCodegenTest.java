@@ -3,28 +3,20 @@ package org.openapitools.codegen.java.jaxrs;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
-import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +27,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
@@ -58,15 +52,12 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "org.openapitools.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "org.openapitools.model");
-        Assert.assertEquals(codegen.apiPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.api");
-        Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8082");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, Boolean.FALSE);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, "org.openapitools.api");
+        configAssert.assertValue(JavaJerseyServerCodegen.SERVER_PORT, "8082");
     }
 
     @Test
@@ -78,14 +69,12 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setDateLibrary("java8");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xx.yyyyyyyy.model");
-        Assert.assertEquals(codegen.apiPackage(), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xx.yyyyyyyy.invoker");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, true);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, "xx.yyyyyyyy.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, "xx.yyyyyyyy.api");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, "xx.yyyyyyyy.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, "xx.yyyyyyyy.invoker");
         Assert.assertEquals(codegen.getDateLibrary(), "java8");
     }
 
@@ -102,14 +91,11 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         codegen.preprocessOpenAPI(openAPI);
 
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), true);
-        Assert.assertEquals(codegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "xyz.yyyyy.mmmmm.model");
-        Assert.assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "xyz.yyyyy.aaaaa.api");
-        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        configAssert.assertValue(CodegenConstants.HIDE_GENERATION_TIMESTAMP, codegen::isHideGenerationTimestamp, true);
+        configAssert.assertValue(CodegenConstants.MODEL_PACKAGE, codegen::modelPackage, "xyz.yyyyy.mmmmm.model");
+        configAssert.assertValue(CodegenConstants.API_PACKAGE, codegen::apiPackage, "xyz.yyyyy.aaaaa.api");
+        configAssert.assertValue(CodegenConstants.INVOKER_PACKAGE, codegen::getInvokerPackage, "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8088");
     }
 
@@ -142,7 +128,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         codegen.setLibrary("jersey2");
         codegen.setDateLibrary("java8");
         codegen.setUseJakartaEe(false);
-        
+
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
 
         files.values()
@@ -154,13 +140,13 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
                     TestUtils.assertFileNotContains(file.toPath(), "jakarta.ws");
                 });
     }
-    
+
     @Test
     public void testJersey2Jakarta() throws Exception {
         codegen.setLibrary("jersey2");
         codegen.setDateLibrary("java8");
         codegen.setUseJakartaEe(true);
-        
+
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
 
         files.values()
@@ -181,22 +167,22 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
 
         files.values()
-            .stream()
-            .filter(file -> file.getName().endsWith(".java"))
-            .forEach(file -> {
-                // Jersey3 uses "jakarta.ws.rs"
-                // Let's confirm that "javax.ws" is not present
-                TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
-        });
+                .stream()
+                .filter(file -> file.getName().endsWith(".java"))
+                .forEach(file -> {
+                    // Jersey3 uses "jakarta.ws.rs"
+                    // Let's confirm that "javax.ws" is not present
+                    TestUtils.assertFileNotContains(file.toPath(), "javax.ws");
+                });
     }
-    
+
     @DataProvider(name = "codegenParameterMatrix")
     public Object[][] codegenParameterMatrix() {
         final Set<String> libraries = new JavaJerseyServerCodegen().supportedLibraries().keySet();
         final List<Object[]> rows = new ArrayList<Object[]>();
-        for (final String jerseyLibrary: ImmutableList.of("jersey2")) {
-            for (final String dateLibrary: ImmutableList.of("joda", "java8")) {
-                rows.add(new Object[] { jerseyLibrary, dateLibrary });
+        for (final String jerseyLibrary : ImmutableList.of("jersey2")) {
+            for (final String dateLibrary : ImmutableList.of("joda", "java8")) {
+                rows.add(new Object[]{jerseyLibrary, dateLibrary});
             }
         }
         return rows.toArray(new Object[0][0]);
@@ -212,8 +198,8 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
         // Check files for Single, Mixed
         String[] fileS = {
-                               "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
-                               "MultipartMixedApi.java",  "MultipartMixedApiService.java",  "MultipartMixedApiServiceImpl.java"    };
+                "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
+                "MultipartMixedApi.java", "MultipartMixedApiService.java", "MultipartMixedApiServiceImpl.java"};
 
         // UPDATE: the following test has been ignored due to https://github.com/OpenAPITools/openapi-generator/pull/11081/
         // We will contact the contributor of the following test to see if the fix will break their use cases and
@@ -223,9 +209,9 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         //}
 
         // Check files for Array
-        final String[] fileA = { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
+        final String[] fileA = {"MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
         for (String f : fileA) {
-            assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
+            assertFileContains(files.get(f).toPath(), "List<FormDataBodyPart> files");
         }
     }
 
@@ -235,70 +221,70 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_8535.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen);
+                .openAPI(openAPI)
+                .config(codegen);
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
-            .assertMethod("headersTest")
-                .hasParameter("headerNumber").withType("BigDecimal")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"11.2\""))
+                .assertMethod("headersTest")
+                .assertParameter("headerNumber").hasType("BigDecimal")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"11.2\""))
                 .toParameter().toMethod()
-                .hasParameter("headerString").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
+                .assertParameter("headerString").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("headerStringWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
+                .assertParameter("headerStringWrapped").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("headerStringQuotes").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameter("headerStringQuotes").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("headerStringQuotesWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameter("headerStringQuotesWrapped").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("headerBoolean").withType("Boolean")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
+                .assertParameter("headerBoolean").hasType("Boolean")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
 
         JavaFileAssert.assertThat(files.get("TestQueryParamsApi.java"))
-            .assertMethod("queryParamsTest")
-                .hasParameter("queryNumber").withType("BigDecimal")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"11.2\""))
+                .assertMethod("queryParamsTest")
+                .assertParameter("queryNumber").hasType("BigDecimal")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"11.2\""))
                 .toParameter().toMethod()
-                .hasParameter("queryString").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
+                .assertParameter("queryString").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("queryStringWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
+                .assertParameter("queryStringWrapped").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\""))
                 .toParameter().toMethod()
-                .hasParameter("queryStringQuotes").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameter("queryStringQuotes").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("queryStringQuotesWrapped").withType("String")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
+                .assertParameter("queryStringQuotesWrapped").hasType("String")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"qwerty\\\"with quotes\\\" test\""))
                 .toParameter().toMethod()
-                .hasParameter("queryBoolean").withType("Boolean")
-                    .assertParameterAnnotations()
-                    .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
+                .assertParameter("queryBoolean").hasType("Boolean")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("defaultValue", "\"true\""));
     }
 
 }

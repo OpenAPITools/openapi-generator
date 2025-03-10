@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import StrictBool
+from pydantic import ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.animal import Animal
 from typing import Optional, Set
@@ -30,11 +30,11 @@ class Cat(Animal):
     declawed: Optional[StrictBool] = None
     __properties: ClassVar[List[str]] = ["className", "color", "declawed"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -72,7 +72,7 @@ class Cat(Animal):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Cat from a dict"""
         if obj is None:
             return None

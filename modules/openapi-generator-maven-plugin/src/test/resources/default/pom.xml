@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+  ~ Copyright 2020, 2021 OpenAPI-Generator Contributors (https://openapi-generator.tech)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -22,6 +22,40 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>OpenAPI Generator Configuration Test</name>
     <url>https://openapi-generator.tech/</url>
+    <profiles>
+        <profile>
+            <id>file</id>
+            <properties>
+                <inputSpec>${basedir}/src/main/resources/petstore.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>resource</id>
+            <properties>
+                <inputSpec>petstore-on-classpath.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>resource-external-ref</id>
+            <properties>
+                <!-- Directory schemas inside schema-external-ref to not shadow JARs schema directory   -->
+                <inputSpec>schema-external-ref/petstore-on-classpath.yaml</inputSpec>
+            </properties>
+        </profile>
+        <profile>
+            <id>jar</id>
+            <properties>
+                <inputSpec>jar:file:${basedir}/local-repo/petstore/schema/1/schema-1.jar!/petstore.yaml</inputSpec>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>petstore</groupId>
+                    <artifactId>schema</artifactId>
+                    <version>1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
     <build>
         <finalName>common-maven</finalName>
         <plugins>
@@ -29,7 +63,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <configuration>
-                    <inputSpec>${basedir}/petstore.yaml</inputSpec>
+                    <inputSpec>${inputSpec}</inputSpec>
                     <generatorName>java</generatorName>
                     <configOptions>
                         <dateLibrary>joda</dateLibrary>
@@ -40,6 +74,8 @@
                     <apiPackage>remote.org.openapitools.client.api</apiPackage>
                     <modelPackage>remote.org.openapitools.client.model</modelPackage>
                     <invokerPackage>remote.org.openapitools.client</invokerPackage>
+                    <collapsedSpec>petstore-full-spec</collapsedSpec>
+                    <includeCollapsedSpecInArtifacts>true</includeCollapsedSpecInArtifacts>
                 </configuration>
                 <executions>
                     <execution>

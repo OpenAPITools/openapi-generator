@@ -1,0 +1,12 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/openapi-v3
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-server/openapi-v3.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  allowBlockingValidator: "true"
+  packageName: openapi-v3
+globalProperties:
+  skipFormModel: false
+enablePostProcessFile: true

@@ -2,6 +2,9 @@
     {{#oneOf}}
     case type{{.}}({{.}})
     {{/oneOf}}
+    {{#oneOfUnknownDefaultCase}}
+    case unknownDefaultOpenApi
+    {{/oneOfUnknownDefaultCase}}
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -10,6 +13,10 @@
         case .type{{.}}(let value):
             try container.encode(value)
         {{/oneOf}}
+        {{#oneOfUnknownDefaultCase}}
+        case unknownDefaultOpenApi(let type):
+            try container.encodeNil()
+        {{/oneOfUnknownDefaultCase}}
         }
     }
 
@@ -25,7 +32,12 @@
             self = .type{{.}}(value)
         {{/oneOf}}
         } else {
+            {{#oneOfUnknownDefaultCase}}
+            self = .unknownDefaultOpenApi
+            {{/oneOfUnknownDefaultCase}}
+            {{^oneOfUnknownDefaultCase}}
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of {{classname}}"))
+            {{/oneOfUnknownDefaultCase}}
         }
     }
 }

@@ -22,16 +22,14 @@ import com.samskivert.mustache.Template;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 /**
  * Replaces backslash with forward slash in the text.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("forwardslash", new ForwardSlashLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#forwardslash}}{{summary}}{{/forwardslash}}

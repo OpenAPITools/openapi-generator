@@ -69,7 +69,7 @@ export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehavi
 
         yield put(getBehaviorPermissionsRequest(_action_.payload));
 
-        const response: Required<GetBehaviorPermissionsResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorPermissions,
+        const response: Required<GetBehaviorPermissionsResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi['getBehaviorPermissions'],
             parseFloat(behaviorId),
         );
 
@@ -78,7 +78,7 @@ export function *getBehaviorPermissionsSagaImp(_action_: Action<PayloadGetBehavi
             yield put(getBehaviorPermissionsSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getBehaviorPermissionsFailure({error, requestPayload: _action_.payload}));
         return error;
@@ -113,7 +113,7 @@ export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>
 
         yield put(getBehaviorTypeRequest(_action_.payload));
 
-        const response: Required<GetBehaviorTypeResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi.getBehaviorType,
+        const response: Required<GetBehaviorTypeResponse> = yield apiCall(Api.behaviorApi, Api.behaviorApi['getBehaviorType'],
             parseFloat(behaviorId),
         );
 
@@ -122,7 +122,7 @@ export function *getBehaviorTypeSagaImp(_action_: Action<PayloadGetBehaviorType>
             yield put(getBehaviorTypeSuccess(successReturnValue));
 
         return successReturnValue;
-    } catch (error) {
+    } catch (error: any) {
         if (markErrorsAsHandled) {error.wasHandled = true; }
         yield put(getBehaviorTypeFailure({error, requestPayload: _action_.payload}));
         return error;

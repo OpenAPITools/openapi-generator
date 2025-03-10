@@ -10,30 +10,30 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct FormatTest: Codable, JSONEncodable, Hashable {
+internal struct FormatTest: Codable, JSONEncodable {
 
-    static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
-    static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
-    static let numberRule = NumericRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
-    static let floatRule = NumericRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
-    static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
-    static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
-    static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
-    public var integer: Int?
-    public var int32: Int?
-    public var int64: Int64?
-    public var number: Double
-    public var float: Float?
-    public var double: Double?
-    public var string: String?
-    public var byte: Data
-    public var binary: URL?
-    public var date: Date
-    public var dateTime: Date?
-    public var uuid: UUID?
-    public var password: String
+    internal static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
+    internal static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
+    internal static let numberRule = NumericRule<Double>(minimum: 32.1, exclusiveMinimum: false, maximum: 543.2, exclusiveMaximum: false, multipleOf: nil)
+    internal static let floatRule = NumericRule<Float>(minimum: 54.3, exclusiveMinimum: false, maximum: 987.6, exclusiveMaximum: false, multipleOf: nil)
+    internal static let doubleRule = NumericRule<Double>(minimum: 67.8, exclusiveMinimum: false, maximum: 123.4, exclusiveMaximum: false, multipleOf: nil)
+    internal static let stringRule = StringRule(minLength: nil, maxLength: nil, pattern: "/[a-z]/i")
+    internal static let passwordRule = StringRule(minLength: 10, maxLength: 64, pattern: nil)
+    internal private(set) var integer: Int?
+    internal private(set) var int32: Int?
+    internal private(set) var int64: Int64?
+    internal private(set) var number: Double
+    internal private(set) var float: Float?
+    internal private(set) var double: Double?
+    internal private(set) var string: String?
+    internal private(set) var byte: Data
+    internal private(set) var binary: URL?
+    internal private(set) var date: Date
+    internal private(set) var dateTime: Date?
+    internal private(set) var uuid: UUID?
+    internal private(set) var password: String
 
-    public init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
+    internal init(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double? = nil, string: String? = nil, byte: Data, binary: URL? = nil, date: Date, dateTime: Date? = nil, uuid: UUID? = nil, password: String) {
         self.integer = integer
         self.int32 = int32
         self.int64 = int64
@@ -49,7 +49,7 @@ public struct FormatTest: Codable, JSONEncodable, Hashable {
         self.password = password
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case integer
         case int32
         case int64
@@ -67,7 +67,7 @@ public struct FormatTest: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(integer, forKey: .integer)
         try container.encodeIfPresent(int32, forKey: .int32)

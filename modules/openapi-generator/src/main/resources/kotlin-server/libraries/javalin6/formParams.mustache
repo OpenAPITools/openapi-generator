@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}ctx.formParam("{{baseName}}"){{/isFile}}{{#isFile}}ctx.uploadedFile("{{baseName}}"){{/isFile}}{{/isFormParam}}

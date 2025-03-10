@@ -2,6 +2,7 @@ module {{gitHost}}/{{gitUserId}}/{{gitRepoId}}
 
 go 1.18
 
+{{#hasPathParams}}
 {{#routers}}
 	{{#mux}}
 require github.com/gorilla/mux v1.8.0
@@ -16,3 +17,4 @@ require github.com/go-chi/cors v1.2.1
 		{{/featureCORS}}
 	{{/chi}}
 {{/routers}}
+{{/hasPathParams}}

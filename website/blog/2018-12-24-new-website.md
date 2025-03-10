@@ -10,4 +10,4 @@ That's why we're proud to announce that we've adopted a new website and design f
 
 <!--truncate-->
 
-We will still continue to maintain the documentation on our GitHub repository. In fact, our website will be generated with [Docusaurus](https://docusaurus.io/en), so our docs on GitHub will still be incorporated into this site!
+We will still continue to maintain the documentation on our GitHub repository. In fact, our website will be generated with [Docusaurus](https://docusaurus.io), so our docs on GitHub will still be incorporated into this site!

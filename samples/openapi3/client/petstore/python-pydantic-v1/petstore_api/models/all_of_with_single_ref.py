@@ -27,7 +27,7 @@ class AllOfWithSingleRef(BaseModel):
     AllOfWithSingleRef
     """
     username: Optional[StrictStr] = None
-    single_ref_type: Optional[SingleRefType] = Field(None, alias="SingleRefType")
+    single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     additional_properties: Dict[str, Any] = {}
     __properties = ["username", "SingleRefType"]
 

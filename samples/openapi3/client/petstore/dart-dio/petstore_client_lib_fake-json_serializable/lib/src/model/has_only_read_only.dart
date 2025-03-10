@@ -27,7 +27,7 @@ class HasOnlyReadOnly {
     
     name: r'bar',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +39,7 @@ class HasOnlyReadOnly {
     
     name: r'foo',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +47,17 @@ class HasOnlyReadOnly {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
-     other.bar == bar &&
-     other.foo == foo;
 
-  @override
-  int get hashCode =>
-    bar.hashCode +
-    foo.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is HasOnlyReadOnly &&
+      other.bar == bar &&
+      other.foo == foo;
+
+    @override
+    int get hashCode =>
+        bar.hashCode +
+        foo.hashCode;
 
   factory HasOnlyReadOnly.fromJson(Map<String, dynamic> json) => _$HasOnlyReadOnlyFromJson(json);
 

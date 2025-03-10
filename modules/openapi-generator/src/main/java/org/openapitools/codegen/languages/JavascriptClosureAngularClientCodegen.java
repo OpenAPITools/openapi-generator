@@ -18,10 +18,14 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -40,10 +44,19 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     public static final String USE_ES6 = "useEs6";
 
-    protected boolean useEs6;
+    @Setter protected boolean useEs6;
 
     public JavascriptClosureAngularClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .featureSet(
+                        FeatureSet.newBuilder(generatorMetadata.getFeatureSet())
+                                .excludeWireFormatFeatures(WireFormatFeature.XML).build()
+                )
+                .build();
+
         outputFolder = "generated-code/javascript-closure-angular";
 
         // default HIDE_GENERATION_TIMESTAMP to true
@@ -51,13 +64,13 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         supportsInheritance = false;
         setReservedWordsLowerCase(Arrays.asList("abstract",
-            "continue", "for", "new", "switch", "assert", "default", "if",
-            "package", "synchronized", "do", "goto", "private",
-            "this", "break", "double", "implements", "protected", "throw",
-            "byte", "else", "import", "public", "throws", "case", "enum",
-            "instanceof", "return", "transient", "catch", "extends", "int",
-            "short", "try", "char", "final", "interface", "static", "void",
-            "class", "finally", "const", "super", "while"));
+                "continue", "for", "new", "switch", "assert", "default", "if",
+                "package", "synchronized", "do", "goto", "private",
+                "this", "break", "double", "implements", "protected", "throw",
+                "byte", "else", "import", "public", "throws", "case", "enum",
+                "instanceof", "return", "transient", "catch", "extends", "int",
+                "short", "try", "char", "final", "interface", "static", "void",
+                "class", "finally", "const", "super", "while"));
 
         languageSpecificPrimitives = new HashSet<>(Arrays.asList(
                 "string",
@@ -140,8 +153,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations" +
-            "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
+        return "Generates a Javascript AngularJS client library annotated with Google Closure Compiler annotations" +
+                "(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en)";
     }
 
     @Override
@@ -151,7 +164,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -162,6 +175,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
+    @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
@@ -225,12 +239,11 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return "Object<!string, "+ getTypeDeclaration(inner) + ">";
+            return "Object<!string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
         }
@@ -240,7 +253,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
                 type.equals("number") ||
                 type.equals("string")) {
             return type;
-                }
+        }
         return apiPackage + "." + type;
     }
 
@@ -311,10 +324,8 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-    public void setUseEs6(boolean useEs6) {
-        this.useEs6 = useEs6;
-    }
-
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

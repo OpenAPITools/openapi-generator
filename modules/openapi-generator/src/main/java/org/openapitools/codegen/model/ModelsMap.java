@@ -7,7 +7,8 @@ import java.util.Map;
 
 public class ModelsMap extends HashMap<String, Object> {
 
-    public ModelsMap() {}
+    public ModelsMap() {
+    }
 
     public void setModels(List<ModelMap> modelMaps) {
         put("models", modelMaps);

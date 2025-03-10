@@ -5,7 +5,7 @@ description: OpenAPI API Dart DIO client tests for petstore_client_lib_fake
 publish_to: none
 
 environment:
-  sdk: '>=2.15.0 <3.0.0'
+  sdk: '>=2.15.0 <4.0.0'
 
 dev_dependencies:
   built_collection: 5.1.1

@@ -1,30 +1,47 @@
-name: Samples Kotlin server
+name: Samples Kotlin server (jdk17)
 
 on:
   push:
-    branches:
+    paths:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
+      - 'samples/server/petstore/kotlin-server/**'
+      - 'samples/server/petstore/kotlin-server-modelMutable/**'
+      - 'samples/server/petstore/kotlin-springboot-*/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
+      - 'samples/server/petstore/kotlin-server/**'
+      - 'samples/server/petstore/kotlin-server-modelMutable/**'
+      - 'samples/server/petstore/kotlin-springboot-*/**'
+      - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
 env:
-  GRADLE_VERSION: 7.4
+  GRADLE_VERSION: '8.10'
 
 jobs:
   build:
-    name: Build Kotlin server
+    name: Build Kotlin server (jdk17)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
           # server
+          - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
+          - samples/server/petstore/kotlin-springboot-delegate-nodefaults
+          - samples/server/petstore/kotlin-springboot-request-cookie
+          - samples/server/petstore/kotlin-server/jaxrs-spec
+          - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
+          - samples/server/petstore/kotlin-server/javalin
+          - samples/server/petstore/kotlin-server/javalin-6
+          - samples/server/petstore/kotlin-server/ktor
+          - samples/server/petstore/kotlin-server/ktor2
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:
@@ -34,7 +51,7 @@ jobs:
           distribution: 'temurin'
           java-version: 17
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: maven-repository
         with:
@@ -42,7 +59,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v2
+        uses: eskatos/gradle-command-action@v3
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}

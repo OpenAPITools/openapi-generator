@@ -1,0 +1,8 @@
+enum {{classname}}: {{dataType}}
+{
+{{#allowableValues}}
+    {{#enumVars}}
+        case {{{name}}} = {{{value}}};
+    {{/enumVars}}
+{{/allowableValues}}
+}

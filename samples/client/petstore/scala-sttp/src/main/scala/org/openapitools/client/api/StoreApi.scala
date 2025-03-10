@@ -17,8 +17,7 @@ import sttp.client3._
 import sttp.model.Method
 
 object StoreApi {
-
-def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new StoreApi(baseUrl)
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new StoreApi(baseUrl)
 }
 
 class StoreApi(baseUrl: String) {
@@ -37,7 +36,7 @@ class StoreApi(baseUrl: String) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * Returns a map of status codes to quantities

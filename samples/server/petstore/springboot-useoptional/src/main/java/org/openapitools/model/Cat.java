@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -32,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Cat extends Animal {
 
   private Optional<Boolean> declawed = Optional.empty();
@@ -49,14 +50,14 @@ public class Cat extends Animal {
   }
 
   public Cat declawed(Boolean declawed) {
-    this.declawed = Optional.of(declawed);
+    this.declawed = Optional.ofNullable(declawed);
     return this;
   }
 
   /**
    * Get declawed
    * @return declawed
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
@@ -116,5 +117,78 @@ public class Cat extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Animal.Builder {
+
+    private Cat instance;
+
+    public Builder() {
+      this(new Cat());
+    }
+
+    protected Builder(Cat instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Cat value) { 
+      super.copyOf(value);
+      this.instance.setDeclawed(value.declawed);
+      return this;
+    }
+
+    public Cat.Builder declawed(Boolean declawed) {
+      this.instance.declawed(declawed);
+      return this;
+    }
+    
+    @Override
+    public Cat.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+    
+    @Override
+    public Cat.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    
+    /**
+    * returns a built Cat instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Cat build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Cat.Builder builder() {
+    return new Cat.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Cat.Builder toBuilder() {
+    Cat.Builder builder = new Cat.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -1,2 +1,1 @@
-{{#required}}{{^isReadOnly}}  @NotNull
-{{/isReadOnly}}{{/required}}{{>beanValidationCore}}
+{{#required}}{{^isReadOnly}}@NotNull {{/isReadOnly}}{{/required}}{{#isContainer}}{{^items.isPrimitiveType}}{{^items.isDate}}{{^items.isDateTime}}{{^items.isString}}{{^items.isFile}}{{^items.isEnumOrRef}}@Valid {{/items.isEnumOrRef}}{{/items.isFile}}{{/items.isString}}{{/items.isDateTime}}{{/items.isDate}}{{/items.isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{^isEnumOrRef}}@Valid {{/isEnumOrRef}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/isContainer}}{{>beanValidationCore}}

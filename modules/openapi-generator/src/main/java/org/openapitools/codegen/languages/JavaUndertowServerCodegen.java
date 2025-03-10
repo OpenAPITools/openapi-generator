@@ -66,13 +66,13 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if(GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
+        if (GlobalSettings.getProperty("swagger.codegen.undertow.apipackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.apipackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'openapi.codegen.undertow.apipackage'");
             apiPackage = GlobalSettings.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
             apiPackage = GlobalSettings.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
         }
-        if(GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+        if (GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage") != null && GlobalSettings.getProperty("openapi.codegen.undertow.modelpackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
             modelPackage = GlobalSettings.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
         } else {
@@ -190,6 +190,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         return objs;
     }
 
+    @Override
     public String apiFilename(String templateName, String tag) {
         String result = super.apiFilename(templateName, tag);
 

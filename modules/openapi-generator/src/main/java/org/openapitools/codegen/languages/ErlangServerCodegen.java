@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -40,8 +41,8 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
-    protected String packageName = "openapi";
-    protected String openApiSpecName = "openapi";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String openApiSpecName = "openapi";
 
     public ErlangServerCodegen() {
         super();
@@ -98,9 +99,9 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
          */
         setReservedWordsLowerCase(
                 Arrays.asList(
-                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor", "case",
-                        "catch", "cond", "div", "end", "fun", "if", "let", "not", "of", "or", "orelse", "receive",
-                        "rem", "try", "when", "xor"
+                        "after", "and", "andalso", "band", "begin", "bnot", "bor", "bsl", "bsr", "bxor",
+                        "case", "catch", "cond", "div", "end", "fun", "if", "let", "maybe", "not",
+                        "of", "or", "orelse", "receive", "rem", "try", "when", "xor"
                 )
         );
 
@@ -171,13 +172,11 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("router.mustache", "", toSourceFilePath("router", "erl")));
         supportingFiles.add(new SupportingFile("api.mustache", "", toSourceFilePath("api", "erl")));
         supportingFiles.add(new SupportingFile("server.mustache", "", toSourceFilePath("server", "erl")));
-        supportingFiles.add(new SupportingFile("utils.mustache", "", toSourceFilePath("utils", "erl")));
         supportingFiles.add(new SupportingFile("auth.mustache", "", toSourceFilePath("auth", "erl")));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
-        supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
     }
 
     @Override
@@ -222,7 +221,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
-            return this.packageName + "_default_handler";
+            return this.packageName + "_handler";
         }
         return this.packageName + "_" + underscore(name) + "_handler";
     }
@@ -289,14 +288,6 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         return super.postProcessSupportingFileData(objs);
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setOpenApiSpecName(String openApiSpecName) {
-        this.openApiSpecName = openApiSpecName;
-    }
-
     protected String toHandlerName(String name) {
         return toModuleName(name) + "_handler";
     }
@@ -335,5 +326,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

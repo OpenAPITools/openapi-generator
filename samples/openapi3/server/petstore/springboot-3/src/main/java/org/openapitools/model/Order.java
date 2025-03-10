@@ -7,12 +7,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -22,17 +27,20 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "Order")
+@XmlRootElement(name = "Order")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Order {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private Long petId;
+  private @Nullable Long petId;
 
-  private Integer quantity;
+  private @Nullable Integer quantity;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private @Nullable OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -71,9 +79,25 @@ public class Order {
     }
   }
 
-  private StatusEnum status;
+  private @Nullable StatusEnum status;
 
   private Boolean complete = false;
+
+  public Order() {
+    super();
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public Order(@Nullable Long id, @Nullable Long petId, @Nullable Integer quantity, @Nullable OffsetDateTime shipDate, @Nullable StatusEnum status, Boolean complete) {
+      this.id = id;
+      this.petId = petId;
+      this.quantity = quantity;
+      this.shipDate = shipDate;
+      this.status = status;
+      this.complete = complete;
+  }
 
   public Order id(Long id) {
     this.id = id;
@@ -83,10 +107,12 @@ public class Order {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -103,10 +129,12 @@ public class Order {
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @Schema(name = "petId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("petId")
+  @JacksonXmlProperty(localName = "petId")
+  @XmlElement(name = "petId")
   public Long getPetId() {
     return petId;
   }
@@ -123,10 +151,12 @@ public class Order {
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @Schema(name = "quantity", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("quantity")
+  @JacksonXmlProperty(localName = "quantity")
+  @XmlElement(name = "quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -143,10 +173,12 @@ public class Order {
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @Schema(name = "shipDate", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("shipDate")
+  @JacksonXmlProperty(localName = "shipDate")
+  @XmlElement(name = "shipDate")
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -163,10 +195,12 @@ public class Order {
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @Schema(name = "status", description = "Order Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
+  @XmlElement(name = "status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -183,10 +217,12 @@ public class Order {
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @Schema(name = "complete", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("complete")
+  @JacksonXmlProperty(localName = "complete")
+  @XmlElement(name = "complete")
   public Boolean getComplete() {
     return complete;
   }
@@ -241,5 +277,93 @@ public class Order {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Order instance;
+
+    public Builder() {
+      this(new Order());
+    }
+
+    protected Builder(Order instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Order value) { 
+      this.instance.setId(value.id);
+      this.instance.setPetId(value.petId);
+      this.instance.setQuantity(value.quantity);
+      this.instance.setShipDate(value.shipDate);
+      this.instance.setStatus(value.status);
+      this.instance.setComplete(value.complete);
+      return this;
+    }
+
+    public Order.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Order.Builder petId(Long petId) {
+      this.instance.petId(petId);
+      return this;
+    }
+    
+    public Order.Builder quantity(Integer quantity) {
+      this.instance.quantity(quantity);
+      return this;
+    }
+    
+    public Order.Builder shipDate(OffsetDateTime shipDate) {
+      this.instance.shipDate(shipDate);
+      return this;
+    }
+    
+    public Order.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    
+    public Order.Builder complete(Boolean complete) {
+      this.instance.complete(complete);
+      return this;
+    }
+    
+    /**
+    * returns a built Order instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Order build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Order.Builder builder() {
+    return new Order.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Order.Builder toBuilder() {
+    Order.Builder builder = new Order.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -74,7 +74,7 @@ public class {{classname}} {
     {{/formParams}}
 
         {{#returnType}}return ({{{.}}}) {{/returnType}}client.invoke(
-            '{{httpMethod}}', '{{path}}',{{#bodyParam}}
+            '{{httpMethod}}', '{{{path}}}',{{#bodyParam}}
             ({{{dataType}}}) params.get('{{paramName}}'){{/bodyParam}}{{^bodyParam}} ''{{/bodyParam}},
             query, form,
             new Map<String, Object>{{#hasPathParams}}{
@@ -88,13 +88,13 @@ public class {{classname}} {
               {{/headerParams}}
             }{{/hasHeaderParams}}{{^hasHeaderParams}}(){{/hasHeaderParams}},
           {{#hasProduces}}
-            new List<String>{ {{#produces}}'{{mediaType}}'{{^-last}}, {{/-last}}{{/produces}} },
+            new List<String>{ {{#produces}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/produces}} },
           {{/hasProduces}}
           {{^hasProduces}}
             new List<String>(),
           {{/hasProduces}}
           {{#hasConsumes}}
-            new List<String>{ {{#consumes}}'{{mediaType}}'{{^-last}}, {{/-last}}{{/consumes}} },
+            new List<String>{ {{#consumes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/consumes}} },
           {{/hasConsumes}}
           {{^hasConsumes}}
             new List<String>(),

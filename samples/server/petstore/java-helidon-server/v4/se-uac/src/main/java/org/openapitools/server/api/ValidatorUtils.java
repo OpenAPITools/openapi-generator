@@ -1,0 +1,414 @@
+package org.openapitools.server.api;
+
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
+import io.helidon.common.Errors;
+import io.helidon.common.mapper.OptionalValue;
+import io.helidon.webserver.http.ServerRequest;
+import io.helidon.webserver.http.ServerResponse;
+
+import jakarta.validation.ValidationException;
+
+/**
+* Validation utility methods.
+*/
+public final class ValidatorUtils {
+
+    public static boolean validateMin(Integer value, Integer min) {
+        checkNonNull(value);
+        if (value < min) {
+            throw new ValidationException(String.format("%s is less than %s", value, min));
+        }
+        return true;
+    }
+
+    public static boolean validateMax(Integer value, Integer max) {
+        checkNonNull(value);
+        if (value > max) {
+            throw new ValidationException(String.format("%s is more than %s", value, max));
+        }
+        return true;
+    }
+
+    public static boolean validateSize(Object value, Integer min, Integer max) {
+        checkNonNull(value);
+        Integer size = -1;
+        if (value instanceof Map) {
+            size = ((Map<?, ?>) value).size();
+        }
+        if (value instanceof CharSequence) {
+            size = ((CharSequence) value).length();
+        }
+        if (value instanceof Collection) {
+            size = ((Collection<?>) value).size();
+        }
+        if (value.getClass().isArray()) {
+            size = Array.getLength(value);
+        }
+        if (size == -1) {
+            throw new ValidationException("Value has incorrect type");
+        }
+        if (min != null) {
+            validateMin(size, min);
+        }
+        if (max != null) {
+            validateMax(size, max);
+        }
+        return true;
+    }
+
+    public static boolean validatePattern(String value, String pattern) {
+        checkNonNull(value, pattern);
+        if (value.matches(pattern)) {
+            return true;
+        }
+        throw new ValidationException(String.format("'%s' does not match the pattern '%s'", value, pattern));
+    }
+
+    public static boolean validateMin(BigDecimal value, String stringMinValue, boolean inclusive) {
+        checkNonNull(value);
+        BigDecimal minValue = new BigDecimal(stringMinValue);
+        int result = value.compareTo(minValue);
+        if (inclusive) {
+            if (result >= 0) {
+                return true;
+            }
+        } else {
+            if (result > 0) {
+                return true;
+            }
+        }
+        throw new ValidationException(
+            String.format("%s is not valid value. Min value '%s'. Inclusive - %s.", value, stringMinValue, inclusive)
+        );
+    }
+
+    public static boolean validateMax(BigDecimal value, String stringMaxValue, boolean inclusive) {
+        checkNonNull(value);
+        BigDecimal maxValue = new BigDecimal(stringMaxValue);
+        int result = value.compareTo(maxValue);
+        if (inclusive) {
+            if (result <= 0) {
+                return true;
+            }
+        } else {
+            if (result < 0) {
+                return true;
+            }
+        }
+        throw new ValidationException(
+            String.format("%s is not valid value. Max value '%s'. Inclusive - %s.", value, stringMaxValue, inclusive)
+        );
+    }
+
+    public static void checkNonNull(Object... args) {
+        try {
+            for (Object o : args) {
+                Objects.requireNonNull(o);
+            }
+        } catch (Exception e) {
+            throw new ValidationException(e);
+        }
+    }
+
+    public static <T> T nonEmpty(T arg) {
+        try {
+            return Objects.requireNonNull(arg, "Required value is missing");
+        } catch (NullPointerException npe) {
+            throw new ValidationException(npe);
+        }
+    }
+
+    public static <T> T nonEmpty(Optional<T> opt) {
+        if (opt.isEmpty()) {
+            throw new ValidationException("Required value is missing");
+        }
+        return opt.get();
+    }
+
+    public static <T> T nonEmpty(OptionalValue<T> ov) {
+        if (ov.isEmpty()) {
+            throw new ValidationException("Required value is missing");
+        }
+        return ov.get();
+    }
+
+    public static <M extends Map<?, ?>> M nonEmpty(M map) {
+        if (map.isEmpty()) {
+            throw new ValidationException("Required value is missing");
+        }
+        return map;
+    }
+
+    public static <C extends Collection<?>> C nonEmpty(C coll) {
+        if (coll.isEmpty()) {
+            throw new ValidationException("Required value is missing");
+        }
+        return coll;
+    }
+
+    static Validator validator() {
+        return new Validator();
+    }
+
+    public static class Validator {
+
+        private final Errors.Collector errorsCollector = Errors.collector();
+
+        <T> T check(String paramName, T paramValue, List<T> validValues) {
+            if (!validValues.contains(paramValue)) {
+                errorsCollector.fatal(String.format("Invalid value %s = '%s' not among %s",
+                                                    paramName,
+                                                    paramValue,
+                                                    validValues));
+            }
+            return paramValue;
+        }
+
+        <T> T require(String paramName, T paramValue) {
+            if (paramValue == null || ((paramValue instanceof Optional opt) && opt.isEmpty())) {
+                errorsCollector.fatal(String.format("Missing required param: %s", paramName));
+            }
+            return paramValue;
+        }
+
+        <T> List<T> require(String paramName, List<T> paramValues) {
+            if (paramValues.isEmpty()) {
+                errorsCollector.fatal(String.format("Empty required parameter: %s", paramName));
+            }
+            return paramValues;
+        }
+
+        <T> T require(String paramName, Optional<T> optionalValue) {
+            if (optionalValue.isEmpty()) {
+                errorsCollector.fatal(String.format("Empty required parameter: %s", paramName));
+            }
+            return optionalValue.orElse(null);
+        }
+
+        boolean validateMin(String paramName, Long value, Long min, boolean isExclusive) {
+            boolean result = value == null || value > min || !isExclusive && value.equals(min);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s %d violates %sminimum %d",
+                                                    paramName,
+                                                    value,
+                                                    isExclusive ? "exclusive " : "",
+                                                    min));
+            }
+            return result;
+        }
+
+        boolean validateMin(String paramName, Optional<Long> value, Long min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMin(String paramName, Integer value, Integer min, boolean isExclusive) {
+            return validateMin(paramName, Long.valueOf(value), Long.valueOf(min), isExclusive);
+        }
+
+        boolean validateMin(String paramName, Optional<Integer> value, Integer min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMin(String paramName, Short value, Short min, boolean isExclusive) {
+            return validateMin(paramName, value.intValue(), min.intValue(), isExclusive);
+        }
+
+        boolean validateMin(String paramName, Optional<Short> value, Short min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMin(String paramName, Byte value, Byte min, boolean isExclusive) {
+            return validateMin(paramName, value.intValue(), min.intValue(), isExclusive);
+        }
+
+        boolean validateMin(String paramName, Optional<Byte> value, Byte min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMin(String paramName, Double value, Double min, boolean isExclusive) {
+            return validateMin(paramName, new BigDecimal(value), new BigDecimal(min), isExclusive);
+        }
+
+        boolean validateMin(String paramName, Optional<Double> value, Double min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMin(String paramName, Float value, Float min, boolean isExclusive) {
+            boolean result = value == null || value.compareTo(min) > 0 || isExclusive && value.equals(min);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s %f violates %sminimum %f",
+                                                    paramName,
+                                                    value,
+                                                    isExclusive ? "exclusive " : "",
+                                                    min));
+            }
+            return result;
+        }
+
+        boolean validateMin(String paramName, Optional<Float> value, Float min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMin(String paramName, BigDecimal value, String min, boolean isExclusive) {
+            return validateMin(paramName, value, new BigDecimal(min), isExclusive);
+        }
+
+        boolean validateMin(String paramName, BigDecimal value, BigDecimal min, boolean isExclusive) {
+            boolean result = value == null || value.compareTo(min) > 0 || !isExclusive && value.equals(min);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s %f violates %sminimum %f",
+                                                    paramName,
+                                                    value,
+                                                    isExclusive ? "exclusive " : "",
+                                                    min));
+            }
+            return result;
+        }
+
+        boolean validateMin(String paramName, Optional<BigDecimal> value, String min, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), min, isExclusive);
+        }
+
+        boolean validateMax(String paramName, Long value, Long max, boolean isExclusive) {
+            boolean result = value == null || value < max || !isExclusive && value.equals(max);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s %d violates %smaximum %d",
+                                                    paramName,
+                                                    value,
+                                                    isExclusive ? "exclusive " : "",
+                                                    max));
+            }
+            return result;
+        }
+
+        boolean validateMax(String paramName, Optional<Long> value, Long max, boolean isExclusive) {
+            return value.isEmpty() || validateMax(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validateMax(String paramName, Integer value, Integer max, boolean isExclusive) {
+            return validateMax(paramName, Long.valueOf(value), Long.valueOf(max), isExclusive);
+        }
+
+        boolean validateMax(String paramName, Optional<Integer> value, Integer max, boolean isExclusive) {
+            return value.isEmpty() || validateMax(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validateMax(String paramName, Short value, Short max, boolean isExclusive) {
+            return validateMax(paramName, value.intValue(), max.intValue(), isExclusive);
+        }
+
+        boolean validateMax(String paramName, Optional<Short> value, Short max, boolean isExclusive) {
+            return value.isEmpty() || validateMax(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validateMax(String paramName, Byte value, Byte max, boolean isExclusive) {
+            return validateMax(paramName, value.intValue(), max.intValue(), isExclusive);
+        }
+
+        boolean validateMax(String paramName, Optional<Byte> value, Byte max, boolean isExclusive) {
+            return value.isEmpty() || validateMax(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validateMax(String paramName, Double value, Double max, boolean isExclusive) {
+            return validateMax(paramName, new BigDecimal(value), new BigDecimal(max), isExclusive);
+        }
+
+        boolean validateMax(String paramName, Optional<Double> value, Double max, boolean isExclusive) {
+            return value.isEmpty() || validateMin(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validateMax(String paramName, Float value, Float max, boolean isExclusive) {
+            boolean result = value == null || value.compareTo(max) < 0 || isExclusive && value.equals(max);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s %f violates %smaximum %f",
+                                                    paramName,
+                                                    value,
+                                                    isExclusive ? "exclusive " : "",
+                                                    max));
+            }
+            return result;
+        }
+
+        boolean validateMax(String paramName, Optional<Float> value, Float max, boolean isExclusive) {
+            return value.isEmpty() || validateMax(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validateMax(String paramName, BigDecimal value, String max, boolean isExclusive) {
+            return validateMax(paramName, value, new BigDecimal(max), isExclusive);
+        }
+
+        boolean validateMax(String paramName, BigDecimal value, BigDecimal max, boolean isExclusive) {
+            boolean result = value == null || value.compareTo(max) < 0 || !isExclusive && value.equals(max);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s %f violates %smaximum %f",
+                                                    paramName,
+                                                    value,
+                                                    isExclusive ? "exclusive " : "",
+                                                    max));
+            }
+            return result;
+        }
+
+        boolean validateMax(String paramName, Optional<BigDecimal> value, String max, boolean isExclusive) {
+            return value.isEmpty() || validateMax(paramName, value.get(), max, isExclusive);
+        }
+
+        boolean validatePattern(String paramName, String value, String pattern) {
+            boolean result = value == null || value.matches(pattern);
+            if (!result) {
+                errorsCollector.fatal(String.format("Parameter %s '%s' does not match pattern '%s'",
+                                                    paramName,
+                                                    value,
+                                                    pattern));
+            }
+            return result;
+        }
+
+        boolean validatePattern(String paramName, Optional<String> value, String pattern) {
+            return value.isEmpty() || validatePattern(pattern, value.get(), pattern);
+        }
+
+        boolean validateSize(String paramName, Object value, Integer min, Integer max) {
+            if (value == null) {
+                return true;
+            }
+            int size = switch (value) {
+                case Map<?, ?> map -> map.size();
+                case CharSequence cs -> cs.length();
+                case Collection<?> coll -> coll.size();
+                default -> value.getClass().isArray() ? Array.getLength(value) : -1;
+            };
+            if (size == -1) {
+                errorsCollector.fatal(String.format("Parameter %s with type %s unrecognized for validating size",
+                                                    paramName,
+                                                    value.getClass().getName()));
+                return false;
+            }
+            if (min != null) {
+                validateMin(paramName, size, min, false);
+            }
+            if (max != null) {
+                validateMax(paramName, size, max, false);
+            }
+            return true;
+        }
+
+        boolean validateSize(String paramName, Optional<Object> value, Integer min, Integer max) {
+            return value.isEmpty() || validateSize(paramName, value.get(), min, max);
+        }
+
+        void execute() {
+            Errors errors = errorsCollector.collect();
+            if (errors.hasFatal()) {
+                throw new ValidationException("Validation errors: " + errors);
+            }
+        }
+    }
+}

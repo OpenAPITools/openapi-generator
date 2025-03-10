@@ -18,10 +18,12 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +32,7 @@ import java.util.Map;
 /**
  * API tests for PetApi
  */
-@Ignore
+@Disabled
 public class PetApiTest {
 
     private final PetApi api = new PetApi();
@@ -38,18 +40,22 @@ public class PetApiTest {
     /**
      * Add a new pet to the store
      *
+     * 
+     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void addPetTest() throws ApiException {
-        Pet body = null;
-        api.addPet(body);
+        Pet pet = null;
+        api.addPet(pet);
 
         // TODO: test validations
     }
     /**
      * Deletes a pet
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -110,18 +116,22 @@ public class PetApiTest {
     /**
      * Update an existing pet
      *
+     * 
+     *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void updatePetTest() throws ApiException {
-        Pet body = null;
-        api.updatePet(body);
+        Pet pet = null;
+        api.updatePet(pet);
 
         // TODO: test validations
     }
     /**
      * Updates a pet in the store with form data
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -138,6 +148,8 @@ public class PetApiTest {
     /**
      * uploads an image
      *
+     * 
+     *
      * @throws ApiException
      *          if the Api call fails
      */
@@ -145,13 +157,15 @@ public class PetApiTest {
     public void uploadFileTest() throws ApiException {
         Long petId = null;
         String additionalMetadata = null;
-        File file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
+        File _file = null;
+        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
 
         // TODO: test validations
     }
     /**
      * uploads an image (required)
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails

@@ -4,6 +4,11 @@
 */
 enum class {{classname}}(val value: {{dataType}}) {
 {{#allowableValues}}{{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
     {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
 {{/enumVars}}{{/allowableValues}}
 }

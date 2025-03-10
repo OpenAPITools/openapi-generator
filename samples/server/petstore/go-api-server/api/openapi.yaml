@@ -105,6 +105,30 @@ paths:
           - OPTION_3
           type: string
         style: form
+      - explode: true
+        in: query
+        name: defaultInt
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: defaultNum
+        required: false
+        schema:
+          default: 1.5
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: defaultStr
+        required: false
+        schema:
+          default: default
+          type: string
+        style: form
       - deprecated: true
         description: Status values that need to be considered for filter
         explode: false
@@ -581,6 +605,24 @@ paths:
       summary: Create user
       tags:
       - user
+    put:
+      description: This can only be done by the logged in user.
+      operationId: createUserNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserNullable'
+        description: "Created user object, with a nullable bodyParam"
+        required: true
+      responses:
+        default:
+          description: successful operation
+      security:
+      - api_key: []
+      summary: Create user
+      tags:
+      - user
   /user/createWithArray:
     post:
       description: ""
@@ -631,10 +673,10 @@ paths:
         schema:
           type: string
         style: form
-      - description: The password for login in clear text
+      - description: Remember Me
         explode: true
         in: query
-        name: boolean_test
+        name: remember_me
         required: false
         schema:
           type: boolean
@@ -702,10 +744,10 @@ paths:
         schema:
           type: string
         style: simple
-      - description: boolean query parameter
+      - description: Confirm the deletion
         explode: true
         in: query
-        name: boolean_test
+        name: confirmation
         required: false
         schema:
           type: boolean
@@ -869,8 +911,31 @@ paths:
       summary: Get the pets by time
       tags:
       - pet
+  /fake/collection/test:
+    post:
+      operationId: fakePostTest
+      requestBody:
+        $ref: '#/components/requestBodies/TestBody'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: bool
+          description: Successful Operation
+      summary: POST a test batch
+      tags:
+      - fake
 components:
   requestBodies:
+    TestBody:
+      content:
+        text/plain:
+          schema:
+            format: byte
+            type: string
+      description: Test body
+      required: true
     UserArray:
       content:
         application/json:
@@ -890,6 +955,13 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+  responses:
+    SuccessfulOp:
+      content:
+        application/json:
+          schema:
+            type: bool
+      description: Successful Operation
   schemas:
     OrderInfo:
       description: An order info for a pets from the pet store
@@ -1139,6 +1211,211 @@ components:
               status: available
         email: email
         username: username
+      properties:
+        id:
+          format: int64
+          type: integer
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          nullable: true
+          type: string
+        userStatus:
+          description: User Status
+          format: int32
+          type: integer
+        deepSliceModel:
+          description: An array 1-deep.
+          items:
+            description: An array 2-deep.
+            items:
+              description: An array 3-deep.
+              items:
+                $ref: '#/components/schemas/Tag'
+              type: array
+            type: array
+          nullable: true
+          type: array
+        deepSliceMap:
+          description: An array 1-deep.
+          items:
+            description: An array 2-deep.
+            items:
+              $ref: '#/components/schemas/an_Object'
+            type: array
+          type: array
+      required:
+      - deepSliceModel
+      title: a User
+      type: object
+      xml:
+        name: User
+    UserNullable:
+      description: A User who is purchasing from the pet store
+      example:
+        firstName: firstName
+        lastName: lastName
+        password: password
+        userStatus: 6
+        phone: phone
+        deepSliceModel:
+        - - - name: name
+              id: 1
+            - name: name
+              id: 1
+          - - name: name
+              id: 1
+            - name: name
+              id: 1
+        - - - name: name
+              id: 1
+            - name: name
+              id: 1
+          - - name: name
+              id: 1
+            - name: name
+              id: 1
+        id: 0
+        deepSliceMap:
+        - - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+          - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+        - - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+          - tag:
+              name: name
+              id: 1
+            Pet:
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+            - photoUrls:
+              - photoUrls
+              - photoUrls
+              name: doggie
+              id: 0
+              category:
+                name: name
+                id: 6
+              tags:
+              - name: name
+                id: 1
+              - name: name
+                id: 1
+              status: available
+        email: email
+        username: username
+      nullable: true
       properties:
         id:
           format: int64

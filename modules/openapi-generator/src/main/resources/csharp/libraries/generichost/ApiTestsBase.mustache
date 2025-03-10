@@ -31,7 +31,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
                 string apiKeyTokenValue{{-index}} = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}(apiKeyTokenValue{{-index}}, ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}(apiKeyTokenValue{{-index}}, ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}

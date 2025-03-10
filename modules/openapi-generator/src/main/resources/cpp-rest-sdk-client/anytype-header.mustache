@@ -1,0 +1,46 @@
+{{>licenseInfo}}
+/*
+ * AnyType.h
+ *
+ * This is the implementation of an any JSON type.
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_AnyType_H_
+#define {{modelHeaderGuardPrefix}}_AnyType_H_
+
+{{{defaultInclude}}}
+#include "{{packageName}}/Object.h"
+
+#include <cpprest/details/basic_types.h>
+#include <cpprest/json.h>
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+class {{declspec}} AnyType : public Object {
+public:
+  AnyType();
+  virtual ~AnyType();
+
+  /////////////////////////////////////////////
+  /// ModelBase overrides
+  void validate() override;
+
+  web::json::value toJson() const override;
+  bool fromJson(const web::json::value &json) override;
+
+  void toMultipart(std::shared_ptr<MultipartFormData> multipart,
+                   const utility::string_t &namePrefix) const override;
+  bool fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
+                     const utility::string_t &namePrefix) override;
+
+private:
+  web::json::value m_value;
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_AnyType_H_ */

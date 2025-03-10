@@ -24,6 +24,7 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
@@ -43,7 +44,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun createUser(user: User): Mono<Unit> {
         return createUserWithHttpInfo(user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -60,9 +61,13 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -74,7 +79,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Mono<Unit> {
         return createUsersWithArrayInputWithHttpInfo(user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -91,9 +96,13 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -105,7 +114,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun createUsersWithListInput(user: kotlin.collections.List<User>): Mono<Unit> {
         return createUsersWithListInputWithHttpInfo(user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -122,9 +131,13 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -136,7 +149,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun deleteUser(username: kotlin.String): Mono<Unit> {
         return deleteUserWithHttpInfo(username = username)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -152,9 +165,14 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+        val params = mutableMapOf<String, Any>(
+            "username" to username,
+        )
+
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -183,9 +201,14 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+            "username" to username,
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -218,9 +241,13 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/login",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -232,7 +259,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun logoutUser(): Mono<Unit> {
         return logoutUserWithHttpInfo()
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -248,9 +275,13 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/logout",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -262,7 +293,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun updateUser(username: kotlin.String, user: User): Mono<Unit> {
         return updateUserWithHttpInfo(username = username, user = user)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -279,9 +310,14 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+            "username" to username,
+        )
+
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

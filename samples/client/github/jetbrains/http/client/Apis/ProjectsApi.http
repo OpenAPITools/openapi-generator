@@ -1,0 +1,198 @@
+## ProjectsApi
+
+### Add project collaborator
+## Add project collaborator
+PUT https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "permission" : "write"
+}
+
+
+### Create a project card
+## Create a project card
+POST https://api.github.com/projects/columns/{{column_id}}/cards
+Content-Type: application/json
+Accept: application/json
+
+{
+  "note" : "Add payload for delete Project column"
+}
+
+
+### Create a project column
+## Create a project column
+POST https://api.github.com/projects/{{project_id}}/columns
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Remaining tasks"
+}
+
+
+### Create a user project
+## Create a user project
+POST https://api.github.com/user/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "My Projects",
+  "body" : "A board to manage my personal projects."
+}
+
+
+### Create an organization project
+## Create an organization project
+POST https://api.github.com/orgs/{{org}}/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Organization Roadmap",
+  "body" : "High-level roadmap for the upcoming year."
+}
+
+
+### Create a repository project
+## Create a repository project
+POST https://api.github.com/repos/{{owner}}/{{repo}}/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Projects Documentation",
+  "body" : "Developer documentation project for the developer site."
+}
+
+
+### Delete a project
+## Delete a project
+DELETE https://api.github.com/projects/{{project_id}}
+Accept: application/json
+
+### Delete a project card
+## Delete a project card
+DELETE https://api.github.com/projects/columns/cards/{{card_id}}
+Accept: application/json
+
+### Delete a project column
+## Delete a project column
+DELETE https://api.github.com/projects/columns/{{column_id}}
+Accept: application/json
+
+### Get a project
+## Get a project
+GET https://api.github.com/projects/{{project_id}}
+Accept: application/json
+
+### Get a project card
+## Get a project card
+GET https://api.github.com/projects/columns/cards/{{card_id}}
+Accept: application/json
+
+### Get a project column
+## Get a project column
+GET https://api.github.com/projects/columns/{{column_id}}
+Accept: application/json
+
+### Get project permission for a user
+## Get project permission for a user
+GET https://api.github.com/projects/{{project_id}}/collaborators/{{username}}/permission
+Accept: application/json
+
+### List project cards
+## List project cards
+GET https://api.github.com/projects/columns/{{column_id}}/cards?archivedState={{archivedState}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List project collaborators
+## List project collaborators
+GET https://api.github.com/projects/{{project_id}}/collaborators?affiliation={{affiliation}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List project columns
+## List project columns
+GET https://api.github.com/projects/{{project_id}}/columns?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization projects
+## List organization projects
+GET https://api.github.com/orgs/{{org}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository projects
+## List repository projects
+GET https://api.github.com/repos/{{owner}}/{{repo}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List user projects
+## List user projects
+GET https://api.github.com/users/{{username}}/projects?state={{state}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Move a project card
+## Move a project card
+POST https://api.github.com/projects/columns/cards/{{card_id}}/moves
+Content-Type: application/json
+Accept: application/json
+
+{
+  "column_id" : 42,
+  "position" : "bottom"
+}
+
+
+### Move a project column
+## Move a project column
+POST https://api.github.com/projects/columns/{{column_id}}/moves
+Content-Type: application/json
+Accept: application/json
+
+{
+  "position" : "last"
+}
+
+
+### Remove user as a collaborator
+## Remove user as a collaborator
+DELETE https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
+Accept: application/json
+
+### Update a project
+## Update a project
+PATCH https://api.github.com/projects/{{project_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Week One Sprint",
+  "state" : "open",
+  "organization_permission" : "write"
+}
+
+
+### Update an existing project card
+## Update an existing project card
+PATCH https://api.github.com/projects/columns/cards/{{card_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "note" : "Add payload for delete Project column"
+}
+
+
+### Update an existing project column
+## Update an existing project column
+PATCH https://api.github.com/projects/columns/{{column_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "To Do"
+}
+

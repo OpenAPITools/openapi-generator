@@ -367,7 +367,7 @@ func (o *User) GetArbitraryNullableObjectOk() (map[string]interface{}, bool) {
 
 // HasArbitraryNullableObject returns a boolean if a field has been set.
 func (o *User) HasArbitraryNullableObject() bool {
-	if o != nil && IsNil(o.ArbitraryNullableObject) {
+	if o != nil && !IsNil(o.ArbitraryNullableObject) {
 		return true
 	}
 
@@ -400,7 +400,7 @@ func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool) {
 
 // HasArbitraryTypeValue returns a boolean if a field has been set.
 func (o *User) HasArbitraryTypeValue() bool {
-	if o != nil && IsNil(o.ArbitraryTypeValue) {
+	if o != nil && !IsNil(o.ArbitraryTypeValue) {
 		return true
 	}
 
@@ -433,7 +433,7 @@ func (o *User) GetArbitraryNullableTypeValueOk() (*interface{}, bool) {
 
 // HasArbitraryNullableTypeValue returns a boolean if a field has been set.
 func (o *User) HasArbitraryNullableTypeValue() bool {
-	if o != nil && IsNil(o.ArbitraryNullableTypeValue) {
+	if o != nil && !IsNil(o.ArbitraryNullableTypeValue) {
 		return true
 	}
 

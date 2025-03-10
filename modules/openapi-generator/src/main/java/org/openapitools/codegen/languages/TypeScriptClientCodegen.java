@@ -20,16 +20,20 @@ package org.openapitools.codegen.languages;
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.google.common.collect.Sets;
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -48,10 +52,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-import static org.openapitools.codegen.utils.OnceLogger.once;
 
 
 public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen implements CodegenConfig {
@@ -81,6 +84,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     private static final String NPM_REPOSITORY = "npmRepository";
 
     // NPM Option Values
+    @Getter @Setter
     protected String npmRepository = null;
     protected String snapshot = null;
     protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.PascalCase;
@@ -109,7 +113,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                 // Typescript reserved words
                 "constructor"));
 
-        typeMapping.put("List", "Array");
         typeMapping.put("object", "any");
         typeMapping.put("DateTime", "Date");
 
@@ -139,6 +142,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
 
         // Git
+        supportingFiles.add(new SupportingFile(".gitattributes.mustache", "", ".gitattributes"));
         supportingFiles.add(new SupportingFile(".gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
@@ -169,30 +173,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
         apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     @Override
@@ -333,9 +313,25 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
-        } else {
-            return enumName;
         }
+
+        if (enumName.isEmpty()) {
+            // After sanitizing *all* characters (e.g. multibyte characters), the var name becomes an empty string.
+            // An empty string would cause a syntax error, so this code attempts to re-sanitize the name using another sanitizer that allows a wider variety of characters.
+            // For backward compatibility, this additional sanitization is only applied if the original sanitized name is empty.
+            final String sanitized = sanitizeNameForTypeScriptSymbol(name);
+            if (sanitized.isEmpty()) {
+                // After re-sanitizing, this pads a pseudo var name ("STRING") if still the name is empty.
+                return "STRING";
+            }
+            return "_" + sanitized;
+        }
+
+        return enumName;
+    }
+
+    private String sanitizeNameForTypeScriptSymbol(String name) {
+        return sanitizeName(name, "[^\\p{L}\\p{Nd}\\$_]");
     }
 
     private String getNameWithEnumPropertyNaming(String name) {
@@ -375,6 +371,16 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                                 .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
+            }
+            if (!cm.oneOf.isEmpty()) {
+                // For oneOfs only import $refs within the oneOf
+                TreeSet<String> oneOfRefs = new TreeSet<>();
+                for (String im : cm.imports) {
+                    if (cm.oneOf.contains(im)) {
+                        oneOfRefs.add(im);
+                    }
+                }
+                cm.imports = oneOfRefs;
             }
         }
         for (ModelMap mo : models) {
@@ -480,12 +486,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(unaliasSchema(inner)) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = getSchemaAdditionalProperties(p);
+        if (ModelUtils.isMapSchema(p)) {
+            Schema<?> inner = getSchemaAdditionalProperties(p);
             String postfix = "";
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 postfix = " | null";
@@ -787,8 +789,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arrayschema = (ArraySchema) schema;
-            Schema itemSchema = arrayschema.getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(schema);
             String itemModelName = getModelName(itemSchema);
             if (objExample instanceof Iterable && itemModelName == null) {
                 // If the example is already a list, return it directly instead of wrongly wrap it in another list
@@ -919,8 +920,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         } else if (simpleStringSchema(schema)) {
             return propName + "_example";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            Schema itemSchema = arraySchema.getItems();
+            Schema itemSchema = ModelUtils.getSchemaItems(schema);
             example = getObjectExample(itemSchema);
             if (example != null) {
                 return example;

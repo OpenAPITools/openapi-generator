@@ -1,0 +1,186 @@
+## ActivityApi
+
+### Check if a repository is starred by the authenticated user
+## Check if a repository is starred by the authenticated user
+GET https://api.github.com/user/starred/{{owner}}/{{repo}}
+Accept: application/json
+
+### Delete a repository subscription
+## Delete a repository subscription
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/subscription
+
+### Delete a thread subscription
+## Delete a thread subscription
+DELETE https://api.github.com/notifications/threads/{{thread_id}}/subscription
+Accept: application/json
+
+### Get feeds
+## Get feeds
+GET https://api.github.com/feeds
+Accept: application/json
+
+### Get a repository subscription
+## Get a repository subscription
+GET https://api.github.com/repos/{{owner}}/{{repo}}/subscription
+Accept: application/json
+
+### Get a thread
+## Get a thread
+GET https://api.github.com/notifications/threads/{{thread_id}}
+Accept: application/json
+
+### Get a thread subscription for the authenticated user
+## Get a thread subscription for the authenticated user
+GET https://api.github.com/notifications/threads/{{thread_id}}/subscription
+Accept: application/json
+
+### List events for the authenticated user
+## List events for the authenticated user
+GET https://api.github.com/users/{{username}}/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List notifications for the authenticated user
+## List notifications for the authenticated user
+GET https://api.github.com/notifications?all={{all}}&participating={{participating}}&since={{since}}&before={{before}}&page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### List organization events for the authenticated user
+## List organization events for the authenticated user
+GET https://api.github.com/users/{{username}}/events/orgs/{{org}}?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public events
+## List public events
+GET https://api.github.com/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public events for a network of repositories
+## List public events for a network of repositories
+GET https://api.github.com/networks/{{owner}}/{{repo}}/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public events for a user
+## List public events for a user
+GET https://api.github.com/users/{{username}}/events/public?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public organization events
+## List public organization events
+GET https://api.github.com/orgs/{{org}}/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List events received by the authenticated user
+## List events received by the authenticated user
+GET https://api.github.com/users/{{username}}/received_events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public events received by a user
+## List public events received by a user
+GET https://api.github.com/users/{{username}}/received_events/public?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository events
+## List repository events
+GET https://api.github.com/repos/{{owner}}/{{repo}}/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository notifications for the authenticated user
+## List repository notifications for the authenticated user
+GET https://api.github.com/repos/{{owner}}/{{repo}}/notifications?all={{all}}&participating={{participating}}&since={{since}}&before={{before}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories starred by the authenticated user
+## List repositories starred by the authenticated user
+GET https://api.github.com/user/starred?sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+Accept: application/vnd.github.v3.star+json
+
+### List repositories starred by a user
+## List repositories starred by a user
+GET https://api.github.com/users/{{username}}/starred?sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories watched by a user
+## List repositories watched by a user
+GET https://api.github.com/users/{{username}}/subscriptions?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List stargazers
+## List stargazers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stargazers?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories watched by the authenticated user
+## List repositories watched by the authenticated user
+GET https://api.github.com/user/subscriptions?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List watchers
+## List watchers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/subscribers?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Mark notifications as read
+## Mark notifications as read
+PUT https://api.github.com/notifications
+Content-Type: application/json
+Accept: application/json
+
+{
+  "last_read_at" : "2022-06-10T00:00:00Z",
+  "read" : true
+}
+
+
+### Mark repository notifications as read
+## Mark repository notifications as read
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/notifications
+Content-Type: application/json
+Accept: application/json
+
+{
+  "last_read_at" : "2019-01-01T00:00:00Z"
+}
+
+
+### Mark a thread as done
+## Mark a thread as done
+DELETE https://api.github.com/notifications/threads/{{thread_id}}
+
+### Mark a thread as read
+## Mark a thread as read
+PATCH https://api.github.com/notifications/threads/{{thread_id}}
+Accept: application/json
+
+### Set a repository subscription
+## Set a repository subscription
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/subscription
+Content-Type: application/json
+Accept: application/json
+
+{
+  "subscribed" : true,
+  "ignored" : false
+}
+
+
+### Set a thread subscription
+## Set a thread subscription
+PUT https://api.github.com/notifications/threads/{{thread_id}}/subscription
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ignored" : false
+}
+
+
+### Star a repository for the authenticated user
+## Star a repository for the authenticated user
+PUT https://api.github.com/user/starred/{{owner}}/{{repo}}
+Accept: application/json
+
+### Unstar a repository for the authenticated user
+## Unstar a repository for the authenticated user
+DELETE https://api.github.com/user/starred/{{owner}}/{{repo}}
+Accept: application/json

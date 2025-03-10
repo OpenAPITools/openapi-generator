@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiPath|Name of the folder that contains the Go source code| |go|
 |enumClassPrefix|Prefix enum with class name| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|interfaceOnly|Whether to generate only API interface stubs without the implementation files.| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |serverPort|The network port the generated server binds to| |8080|

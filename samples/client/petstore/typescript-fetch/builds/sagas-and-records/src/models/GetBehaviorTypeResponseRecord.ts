@@ -50,13 +50,13 @@ knownRecordFactories.set(GetBehaviorTypeResponseRecordProps.recType, GetBehavior
 class GetBehaviorTypeResponseRecordUtils extends ApiRecordUtils<GetBehaviorTypeResponse, GetBehaviorTypeResponseRecord> {
     public normalize(apiObject: GetBehaviorTypeResponse, asEntity?: boolean): GetBehaviorTypeResponse {
         (apiObject as any).recType = GetBehaviorTypeResponseRecordProps.recType;
-        responseMetaRecordUtils.normalize(apiObject.meta);
+        responseMetaRecordUtils.normalize(apiObject['meta']);
         return apiObject;
     }
 
     public toApi(record: GetBehaviorTypeResponseRecord): GetBehaviorTypeResponse {
         const apiObject = super.toApi(record);
-        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        apiObject['meta'] = responseMetaRecordUtils.toApi(record['meta']);
         return apiObject;
     }
 

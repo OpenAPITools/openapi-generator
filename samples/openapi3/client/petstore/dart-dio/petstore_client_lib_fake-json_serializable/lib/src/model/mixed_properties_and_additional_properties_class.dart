@@ -30,7 +30,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     
     name: r'uuid',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -42,7 +42,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     
     name: r'dateTime',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -54,7 +54,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     
     name: r'map',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -62,17 +62,19 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
-     other.uuid == uuid &&
-     other.dateTime == dateTime &&
-     other.map == map;
 
-  @override
-  int get hashCode =>
-    uuid.hashCode +
-    dateTime.hashCode +
-    map.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
+      other.uuid == uuid &&
+      other.dateTime == dateTime &&
+      other.map == map;
+
+    @override
+    int get hashCode =>
+        uuid.hashCode +
+        dateTime.hashCode +
+        map.hashCode;
 
   factory MixedPropertiesAndAdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$MixedPropertiesAndAdditionalPropertiesClassFromJson(json);
 

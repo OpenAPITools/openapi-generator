@@ -65,5 +65,6 @@ data class User (
         private const val serialVersionUID: Long = 123
     }
 
+
 }
 

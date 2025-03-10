@@ -21,22 +21,22 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FormatTest  implements Serializable {
-  private @Valid Integer integer;
-  private @Valid Integer int32;
-  private @Valid Long int64;
-  private @Valid BigDecimal number;
-  private @Valid Float _float;
-  private @Valid Double _double;
-  private @Valid String string;
-  private @Valid byte[] _byte;
-  private @Valid File binary;
-  private @Valid LocalDate date;
-  private @Valid LocalDateTime dateTime;
-  private @Valid UUID uuid;
-  private @Valid String password;
-  private @Valid BigDecimal bigDecimal;
+  private Integer integer;
+  private Integer int32;
+  private Long int64;
+  private BigDecimal number;
+  private Float _float;
+  private Double _double;
+  private String string;
+  private byte[] _byte;
+  private File binary;
+  private LocalDate date;
+  private LocalDateTime dateTime;
+  private UUID uuid;
+  private String password;
+  private BigDecimal bigDecimal;
 
   protected FormatTest(FormatTestBuilder<?, ?> b) {
     this.integer = b.integer;
@@ -58,6 +58,19 @@ public class FormatTest  implements Serializable {
   public FormatTest() {
   }
 
+  @JsonCreator
+  public FormatTest(
+    @JsonProperty(required = true, value = "number") BigDecimal number,
+    @JsonProperty(required = true, value = "byte") byte[] _byte,
+    @JsonProperty(required = true, value = "date") LocalDate date,
+    @JsonProperty(required = true, value = "password") String password
+  ) {
+    this.number = number;
+    this._byte = _byte;
+    this.date = date;
+    this.password = password;
+  }
+
   /**
    * minimum: 10
    * maximum: 100
@@ -70,7 +83,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("integer")
- @Min(10) @Max(100)  public Integer getInteger() {
+   @Min(10) @Max(100)public Integer getInteger() {
     return integer;
   }
 
@@ -91,7 +104,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("int32")
- @Min(20) @Max(200)  public Integer getInt32() {
+   @Min(20) @Max(200)public Integer getInt32() {
     return int32;
   }
 
@@ -130,13 +143,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("number")
-  @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
+  @JsonProperty(required = true, value = "number")
+  @NotNull @Valid  @DecimalMin("32.1") @DecimalMax("543.2")public BigDecimal getNumber() {
     return number;
   }
 
-  @JsonProperty("number")
+  @JsonProperty(required = true, value = "number")
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
@@ -153,7 +165,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("float")
- @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
+   @DecimalMin("54.3") @DecimalMax("987.6")public Float getFloat() {
     return _float;
   }
 
@@ -174,7 +186,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("double")
- @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
+   @DecimalMin("67.8") @DecimalMax("123.4")public Double getDouble() {
     return _double;
   }
 
@@ -193,7 +205,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("string")
- @Pattern(regexp="/[a-z]/i")  public String getString() {
+   @Pattern(regexp="/[a-z]/i")public String getString() {
     return string;
   }
 
@@ -211,13 +223,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("byte")
-  @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
+  @JsonProperty(required = true, value = "byte")
+  @NotNull  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")public byte[] getByte() {
     return _byte;
   }
 
-  @JsonProperty("byte")
+  @JsonProperty(required = true, value = "byte")
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
@@ -250,13 +261,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("date")
-  @NotNull
-  public LocalDate getDate() {
+  @JsonProperty(required = true, value = "date")
+  @NotNull public LocalDate getDate() {
     return date;
   }
 
-  @JsonProperty("date")
+  @JsonProperty(required = true, value = "date")
   public void setDate(LocalDate date) {
     this.date = date;
   }
@@ -308,13 +318,12 @@ public class FormatTest  implements Serializable {
 
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
-  @JsonProperty("password")
-  @NotNull
- @Size(min=10,max=64)  public String getPassword() {
+  @JsonProperty(required = true, value = "password")
+  @NotNull  @Size(min=10,max=64)public String getPassword() {
     return password;
   }
 
-  @JsonProperty("password")
+  @JsonProperty(required = true, value = "password")
   public void setPassword(String password) {
     this.password = password;
   }
@@ -329,7 +338,7 @@ public class FormatTest  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("BigDecimal")
-  public BigDecimal getBigDecimal() {
+  @Valid public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
 

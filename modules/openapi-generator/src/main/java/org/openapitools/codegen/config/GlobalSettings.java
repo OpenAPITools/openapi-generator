@@ -27,7 +27,7 @@ import java.util.Properties;
  * GlobalSettings encapsulates SystemProperties, since the codegen mechanism heavily relies on a stable,
  * non-changing System Property Basis. Using plain System.(get|set|clear)Property raises Race-Conditions in combination
  * with Code, that uses System.setProperties (e.g. maven-surefire-plugin).
- *
+ * <p>
  * This provides a set of properties specific to the executing thread, such that the generator may not modify system properties
  * consumed by other threads.
  *
@@ -45,7 +45,7 @@ public class GlobalSettings {
             Properties copy = new Properties();
             copy.putAll(System.getProperties());
             return copy;
-        };
+        }
     };
 
     public static String getProperty(String key, String defaultValue) {

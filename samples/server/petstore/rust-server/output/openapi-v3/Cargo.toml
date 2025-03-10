@@ -10,12 +10,16 @@ edition = "2018"
 [features]
 default = ["client", "server"]
 client = [
+    "serde_urlencoded",
     "serde_ignored", "regex", "percent-encoding", "lazy_static",
     "hyper", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
     "native-tls", "hyper-openssl", "hyper-tls", "openssl",
    "serde_ignored", "hyper", "regex", "percent-encoding", "url", "lazy_static"
+]
+cli = [
+  "anyhow", "clap-verbosity-flag", "simple_logger", "structopt", "tokio"
 ]
 conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-enum-derive"]
 
@@ -52,18 +56,29 @@ serde_ignored = {version = "0.1.1", optional = true}
 url = {version = "2.1", optional = true}
 
 # Client-specific
+serde_urlencoded = {version = "0.6.1", optional = true}
 
 # Server, and client callback-specific
 lazy_static = { version = "1.4", optional = true }
 percent-encoding = {version = "2.1.0", optional = true}
 regex = {version = "1.3", optional = true}
 
+# CLI-specific
+anyhow = { version = "1", optional = true }
+clap-verbosity-flag = { version = "0.3", optional = true }
+simple_logger = { version = "2.0", features = ["stderr"], optional = true }
+structopt = { version = "0.3", optional = true }
+tokio = { version = "0.2", features = ["rt-threaded", "macros", "stream"], optional = true }
+
 # Conversion
-frunk = { version = "0.3.0", optional = true }
-frunk_derives = { version = "0.3.0", optional = true }
-frunk_core = { version = "0.3.0", optional = true }
-frunk-enum-derive = { version = "0.2.0", optional = true }
-frunk-enum-core = { version = "0.2.0", optional = true }
+frunk = { version = "0.4.0", optional = true }
+frunk_derives = { version = "0.4.0", optional = true }
+frunk_core = { version = "0.4.0", optional = true }
+frunk-enum-derive = { version = "0.3.0", optional = true }
+frunk-enum-core = { version = "0.3.0", optional = true }
+
+# Bearer authentication
+jsonwebtoken = { version = "9.3.0", optional = false }
 
 [dev-dependencies]
 clap = "2.25"
@@ -82,3 +97,8 @@ required-features = ["client"]
 [[example]]
 name = "server"
 required-features = ["server"]
+
+[[bin]]
+name = "openapi-v3"
+path = "bin/cli.rs"
+required-features = ["client", "cli"]

@@ -10,19 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct User: Codable, JSONEncodable, Hashable {
+internal struct User: Codable, JSONEncodable {
 
-    public var id: Int64?
-    public var username: String?
-    public var firstName: String?
-    public var lastName: String?
-    public var email: String?
-    public var password: String?
-    public var phone: String?
+    internal private(set) var id: Int64?
+    internal private(set) var username: String?
+    internal private(set) var firstName: String?
+    internal private(set) var lastName: String?
+    internal private(set) var email: String?
+    internal private(set) var password: String?
+    internal private(set) var phone: String?
     /** User Status */
-    public var userStatus: Int?
+    internal private(set) var userStatus: Int?
 
-    public init(id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
+    internal init(id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self.id = id
         self.username = username
         self.firstName = firstName
@@ -33,7 +33,7 @@ public struct User: Codable, JSONEncodable, Hashable {
         self.userStatus = userStatus
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case username
         case firstName
@@ -46,7 +46,7 @@ public struct User: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(username, forKey: .username)
@@ -59,3 +59,6 @@ public struct User: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension User: Identifiable {}

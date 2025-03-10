@@ -1,0 +1,109 @@
+## ModificationsApi
+
+### Cancel an authorised payment
+## Cancel a payment using your own reference
+POST https://checkout-test.adyen.com/v71/cancels
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "paymentReference": "YOUR_UNIQUE_REFERENCE_FOR_THE_PAYMENT",
+ "reference": "YOUR_UNIQUE_REFERENCE_FOR_THE_CANCELLATION",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+
+### Update an authorised amount
+## Update the amount of an authorised payment
+POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/amountUpdates
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "amount": {
+ "currency": "EUR",
+ "value": 2500
+},
+ "reference": "YOUR_UNIQUE_REFERENCE"
+}
+
+
+### Cancel an authorised payment
+## Cancel payment using a PSP reference
+POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/cancels
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "reference": "YOUR_UNIQUE_REFERENCE",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+
+### Capture an authorised payment
+## Capture an authorised payment
+POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/captures
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "reference": "YOUR_UNIQUE_REFERENCE",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "amount": {
+ "value": 2000,
+ "currency": "EUR"
+},
+ "platformChargebackLogic": {
+ "behavior": "deductFromOneBalanceAccount",
+ "targetAccount": "BA00000000000000000000001",
+ "costAllocationAccount": "BA00000000000000000000001"
+}
+}
+
+
+### Refund a captured payment
+## Refund a payment
+POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/refunds
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 2500
+},
+ "reference": "YOUR_UNIQUE_REFERENCE",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+
+### Refund or cancel a payment
+## Reverse (cancel or refund) a payment
+POST https://checkout-test.adyen.com/v71/payments/{{paymentPspReference}}/reversals
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "reference": "YOUR_UNIQUE_REFERENCE",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+

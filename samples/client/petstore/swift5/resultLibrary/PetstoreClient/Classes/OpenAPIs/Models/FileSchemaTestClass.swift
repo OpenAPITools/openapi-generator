@@ -10,24 +10,24 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct FileSchemaTestClass: Codable, JSONEncodable, Hashable {
+internal struct FileSchemaTestClass: Codable, JSONEncodable {
 
-    public var file: File?
-    public var files: [File]?
+    internal private(set) var file: File?
+    internal private(set) var files: [File]?
 
-    public init(file: File? = nil, files: [File]? = nil) {
+    internal init(file: File? = nil, files: [File]? = nil) {
         self.file = file
         self.files = files
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case file
         case files
     }
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(file, forKey: .file)
         try container.encodeIfPresent(files, forKey: .files)

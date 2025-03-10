@@ -9,12 +9,16 @@
  */
 
 use hyper;
+use hyper_util::client::legacy::Client;
+use hyper_util::client::legacy::connect::Connect;
+use hyper_util::client::legacy::connect::HttpConnector;
+use hyper_util::rt::TokioExecutor;
 
-pub struct Configuration<C: hyper::client::connect::Connect>
+pub struct Configuration<C: Connect = HttpConnector>
     where C: Clone + std::marker::Send + Sync + 'static {
     pub base_path: String,
     pub user_agent: Option<String>,
-    pub client: hyper::client::Client<C>,
+    pub client: Client<C, String>,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
     pub api_key: Option<ApiKey>,
@@ -28,9 +32,47 @@ pub struct ApiKey {
     pub key: String,
 }
 
-impl<C: hyper::client::connect::Connect> Configuration<C>
+impl Configuration<HttpConnector> {
+    /// Construct a default [`Configuration`](Self) with a hyper client using a default
+    /// [`HttpConnector`](hyper_util::client::legacy::connect::HttpConnector).
+    ///
+    /// Use [`with_client`](Configuration<T>::with_client) to construct a Configuration with a
+    /// custom hyper client.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use petstore_hyper::apis::configuration::Configuration;
+    /// let api_config = Configuration {
+    ///   basic_auth: Some(("user".into(), None)),
+    ///   ..Configuration::new()
+    /// };
+    /// ```
+    pub fn new() -> Configuration<HttpConnector> {
+        Configuration::default()
+    }
+}
+
+impl<C: Connect> Configuration<C>
     where C: Clone + std::marker::Send + Sync {
-    pub fn new(client: hyper::client::Client<C>) -> Configuration<C> {
+
+    /// Construct a new Configuration with a custom hyper client.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use core::time::Duration;
+    /// # use petstore_hyper::apis::configuration::Configuration;
+    /// use hyper_util::client::legacy::Client;
+    /// use hyper_util::rt::TokioExecutor;
+    ///
+    /// let client = Client::builder(TokioExecutor::new())
+    ///   .pool_idle_timeout(Duration::from_secs(30))
+    ///   .build_http();
+    ///
+    /// let api_config = Configuration::with_client(client);
+    /// ```
+    pub fn with_client(client: Client<C, String>) -> Configuration<C> {
         Configuration {
             base_path: "http://petstore.swagger.io/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
@@ -39,5 +81,12 @@ impl<C: hyper::client::connect::Connect> Configuration<C>
             oauth_access_token: None,
             api_key: None,
         }
+    }
+}
+
+impl Default for Configuration<HttpConnector> {
+    fn default() -> Self {
+        let client = Client::builder(TokioExecutor::new()).build_http();
+    	Configuration::with_client(client)
     }
 }

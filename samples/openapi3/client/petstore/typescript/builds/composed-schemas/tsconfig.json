@@ -7,16 +7,24 @@
     "declaration": true,
 
     /* Additional Checks */
-     "noUnusedLocals": false,                /* Report errors on unused locals. */ // TODO: reenable (unused imports!)
-     "noUnusedParameters": false,            /* Report errors on unused parameters. */ // TODO: set to true again
-     "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
-     "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+     "noUnusedLocals": false,                     /* Report errors on unused locals. */ // TODO: reenable (unused imports!)
+     "noUnusedParameters": false,                 /* Report errors on unused parameters. */ // TODO: set to true again
+     "noImplicitReturns": true,                   /* Report error when not all code paths in function return a value. */
+     "noFallthroughCasesInSwitch": true,          /* Report errors for fallthrough cases in switch statement. */
+     "noImplicitOverride": true,                  /* Ensure overriding members in derived classes are marked with an override modifier. */
+     "noPropertyAccessFromIndexSignature": true,  /* Enforces using indexed accessors for keys declared using an indexed type. */
+     "noUncheckedIndexedAccess": true,            /* Add 'undefined' to a type when accessed using an index. */
 
     "removeComments": true,
     "sourceMap": true,
     "outDir": "./dist",
     "noLib": false,
-    "lib": [ "es6", "dom" ],
+    "lib": [
+      "es6"
+      ,"ES2017.Object"
+      ,"ES2021.String"
+      ,"dom"
+    ],
   },
   "exclude": [
     "dist",

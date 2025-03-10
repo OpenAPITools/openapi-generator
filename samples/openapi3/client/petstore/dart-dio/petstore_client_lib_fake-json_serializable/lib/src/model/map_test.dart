@@ -31,7 +31,7 @@ class MapTest {
     
     name: r'map_map_of_string',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -43,7 +43,8 @@ class MapTest {
     
     name: r'map_of_enum_string',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: Map<String, MapTestMapOfEnumStringEnum>.unknownDefaultOpenApi,
   )
 
 
@@ -55,7 +56,7 @@ class MapTest {
     
     name: r'direct_map',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -67,7 +68,7 @@ class MapTest {
     
     name: r'indirect_map',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -75,19 +76,21 @@ class MapTest {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is MapTest &&
-     other.mapMapOfString == mapMapOfString &&
-     other.mapOfEnumString == mapOfEnumString &&
-     other.directMap == directMap &&
-     other.indirectMap == indirectMap;
 
-  @override
-  int get hashCode =>
-    mapMapOfString.hashCode +
-    mapOfEnumString.hashCode +
-    directMap.hashCode +
-    indirectMap.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is MapTest &&
+      other.mapMapOfString == mapMapOfString &&
+      other.mapOfEnumString == mapOfEnumString &&
+      other.directMap == directMap &&
+      other.indirectMap == indirectMap;
+
+    @override
+    int get hashCode =>
+        mapMapOfString.hashCode +
+        mapOfEnumString.hashCode +
+        directMap.hashCode +
+        indirectMap.hashCode;
 
   factory MapTest.fromJson(Map<String, dynamic> json) => _$MapTestFromJson(json);
 
@@ -102,12 +105,19 @@ class MapTest {
 
 
 enum MapTestMapOfEnumStringEnum {
-  @JsonValue(r'UPPER')
-  UPPER,
-  @JsonValue(r'lower')
-  lower,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'UPPER')
+UPPER(r'UPPER'),
+@JsonValue(r'lower')
+lower(r'lower'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const MapTestMapOfEnumStringEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

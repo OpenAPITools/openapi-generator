@@ -54,15 +54,15 @@ knownRecordFactories.set(FindPetsByStatusResponseRecordProps.recType, FindPetsBy
 class FindPetsByStatusResponseRecordUtils extends ApiRecordUtils<FindPetsByStatusResponse, FindPetsByStatusResponseRecord> {
     public normalize(apiObject: FindPetsByStatusResponse, asEntity?: boolean): FindPetsByStatusResponse {
         (apiObject as any).recType = FindPetsByStatusResponseRecordProps.recType;
-        responseMetaRecordUtils.normalize(apiObject.meta);
-        if (apiObject.data) { petRecordUtils.normalizeArray(apiObject.data); } 
+        responseMetaRecordUtils.normalize(apiObject['meta']);
+        if (apiObject['data']) { petRecordUtils.normalizeArray(apiObject['data']); } 
         return apiObject;
     }
 
     public toApi(record: FindPetsByStatusResponseRecord): FindPetsByStatusResponse {
         const apiObject = super.toApi(record);
-        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
-        if (record.data) { apiObject.data = petRecordUtils.toApiArray(record.data); } 
+        apiObject['meta'] = responseMetaRecordUtils.toApi(record['meta']);
+        if (record['data']) { apiObject['data'] = petRecordUtils.toApiArray(record['data']); } 
         return apiObject;
     }
 

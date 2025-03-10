@@ -2,9 +2,9 @@
 # Bird
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**featherType** | **kotlin.String** |  | 
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **featherType** | **kotlin.String** |  |  |
 
 
 

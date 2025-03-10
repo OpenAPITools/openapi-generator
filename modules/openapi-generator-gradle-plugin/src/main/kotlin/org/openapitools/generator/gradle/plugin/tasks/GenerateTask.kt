@@ -81,6 +81,15 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val generatorName = project.objects.property<String>()
 
     /**
+     * This is the configuration for reference paths where schemas for openapi generation are stored
+     * The directory which contains the additional schema files
+     */
+    @Optional
+    @InputDirectory
+    @PathSensitive(PathSensitivity.ABSOLUTE)
+    val schemaLocation = project.objects.property<String>()
+
+    /**
      * The output target directory into which code will be generated.
      */
     @Optional
@@ -97,6 +106,10 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
     /**
      * The Open API 2.0/3.x specification location.
+     *
+     * Be default, Gradle will treat the openApiGenerate task as up-to-date based only on this file, regardless of
+     * changes to any $ref referenced files. Use the `inputSpecRootDirectory` property to have Gradle track changes to
+     * an entire directory of spec files.
      */
     @Optional
     @get:InputFile
@@ -104,12 +117,22 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val inputSpec = project.objects.property<String>()
 
     /**
-     * Local root folder with spec files
+     * Local root folder with spec files.
+     *
+     * By default, a merged spec file will be generated based on the contents of the directory. To disable this, set the
+     * `inputSpecRootDirectorySkipMerge` property.
      */
     @Optional
     @get:InputDirectory
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpecRootDirectory = project.objects.property<String>();
+
+    /**
+     * Skip bundling all spec files into a merged spec file, if true.
+     */
+    @Input
+    @Optional
+    val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
 
     /**
      * Name of the file that will contain all merged specs
@@ -132,6 +155,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @InputDirectory
     @PathSensitive(PathSensitivity.RELATIVE)
     val templateDir = project.objects.property<String?>()
+
+    /**
+     * Resource path containing template files.
+     */
+    @Optional
+    @Input
+    val templateResourcePath = project.objects.property<String?>()
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
@@ -306,6 +336,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Optional
     @Input
     val enumNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the operation id name and the new name
+     */
+    @Optional
+    @Input
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -500,14 +537,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
-     * A special-case setting which configures some generators with XML support. In some cases,
-     * this forces json OR xml, so the default here is false.
-     */
-    @Optional
-    @Input
-    val withXml = project.objects.property<Boolean>()
-
-    /**
      * To write all log messages (not just errors) to STDOUT
      */
     @Optional
@@ -610,9 +639,16 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
         }
 
         inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
-            run {
-                resolvedInputSpec = MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.getOrElse("merged")).buildMergedSpec()
-                logger.info("Merge input spec would be used - {}", resolvedInputSpec)
+            val skipMerge = inputSpecRootDirectorySkipMerge.get()
+            val runMergeSpec = !skipMerge
+            if (runMergeSpec) {
+                run {
+                    resolvedInputSpec = MergedSpecBuilder(
+                        inputSpecRootDirectoryValue,
+                        mergedFileName.getOrElse("merged")
+                    ).buildMergedSpec()
+                    logger.info("Merge input spec would be used - {}", resolvedInputSpec)
+                }
             }
         }
 
@@ -673,10 +709,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
             }
 
-            if (withXml.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
-            }
-
             if (inputSpec.isPresent && remoteInputSpec.isPresent) {
                 logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
             }
@@ -709,6 +741,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
 
             templateDir.ifNotEmpty { value ->
+                configurator.setTemplateDir(value)
+            }
+
+            templateResourcePath.ifNotEmpty { value ->
+                templateDir.ifNotEmpty {
+                    logger.warn("Both templateDir and templateResourcePath were configured. templateResourcePath overwrites templateDir.")
+                }
                 configurator.setTemplateDir(value)
             }
 
@@ -872,9 +911,15 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 }
             }
 
+            if (operationIdNameMappings.isPresent) {
+                operationIdNameMappings.get().forEach { entry ->
+                    configurator.addOperationIdNameMapping(entry.key, entry.value)
+                }
+            }
+
             if (openapiNormalizer.isPresent) {
                 openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenAPINormalizer(entry.key, entry.value)
+                    configurator.addOpenapiNormalizer(entry.key, entry.value)
                 }
             }
 
@@ -904,7 +949,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
 
             if (openapiGeneratorIgnoreList.isPresent) {
                 openapiGeneratorIgnoreList.get().forEach {
-                    configurator.addOpenAPIGeneratorIgnoreList(it)
+                    configurator.addOpenapiGeneratorIgnoreList(it)
                 }
             }
 

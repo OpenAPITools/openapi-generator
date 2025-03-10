@@ -20,6 +20,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -53,8 +54,9 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
+    public static final String NET_60_OR_LATER = "net60OrLater";
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
+    @Setter private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
     protected final Logger LOGGER = LoggerFactory.getLogger(AspNetServerCodegen.class);
@@ -188,6 +190,10 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
+
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 useCollection);
@@ -254,7 +260,7 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+                "DateTime", "DateTimeOffset", "Guid"));
     }
 
     @Override
@@ -263,18 +269,8 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected void setTypeMapping() {
-        super.setTypeMapping();
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("integer", "int");
-        typeMapping.put("float", "float");
-        typeMapping.put("long", "long");
-        typeMapping.put("double", "double");
-        typeMapping.put("number", "decimal");
-        typeMapping.put("DateTime", "DateTime");
-        typeMapping.put("date", "DateTime");
-        typeMapping.put("UUID", "Guid");
-        typeMapping.put("URI", "string");
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     @Override
@@ -391,10 +387,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("local.settings.json.mustache", packageFolder, "local.settings.json"));
 
         this.setTypeMapping();
-    }
-
-    public void setPackageGuid(String packageGuid) {
-        this.packageGuid = packageGuid;
     }
 
     @Override
@@ -607,6 +599,13 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         //set .NET target version
         String targetFrameworkVersion = "net" + netCoreVersion.getOptValue();
         additionalProperties.put(TARGET_FRAMEWORK, targetFrameworkVersion);
+        setAdditionalPropertyForFramework();
+    }
+
+    private void setAdditionalPropertyForFramework() {
+        if (((String) additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
+            additionalProperties.put(NET_60_OR_LATER, true);
+        }
     }
 
     private void setOperationIsAsync() {

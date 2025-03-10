@@ -1,0 +1,64 @@
+## InteractionsApi
+
+### Get interaction restrictions for your public repositories
+## Get interaction restrictions for your public repositories
+GET https://api.github.com/user/interaction-limits
+Accept: application/json
+
+### Get interaction restrictions for an organization
+## Get interaction restrictions for an organization
+GET https://api.github.com/orgs/{{org}}/interaction-limits
+Accept: application/json
+
+### Get interaction restrictions for a repository
+## Get interaction restrictions for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/interaction-limits
+Accept: application/json
+
+### Remove interaction restrictions from your public repositories
+## Remove interaction restrictions from your public repositories
+DELETE https://api.github.com/user/interaction-limits
+
+### Remove interaction restrictions for an organization
+## Remove interaction restrictions for an organization
+DELETE https://api.github.com/orgs/{{org}}/interaction-limits
+
+### Remove interaction restrictions for a repository
+## Remove interaction restrictions for a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/interaction-limits
+
+### Set interaction restrictions for your public repositories
+## Set interaction restrictions for your public repositories
+PUT https://api.github.com/user/interaction-limits
+Content-Type: application/json
+Accept: application/json
+
+{
+  "limit" : "collaborators_only",
+  "expiry" : "one_month"
+}
+
+
+### Set interaction restrictions for an organization
+## Set interaction restrictions for an organization
+PUT https://api.github.com/orgs/{{org}}/interaction-limits
+Content-Type: application/json
+Accept: application/json
+
+{
+  "limit" : "collaborators_only",
+  "expiry" : "one_month"
+}
+
+
+### Set interaction restrictions for a repository
+## Set interaction restrictions for a repository
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/interaction-limits
+Content-Type: application/json
+Accept: application/json
+
+{
+  "limit" : "collaborators_only",
+  "expiry" : "one_day"
+}
+

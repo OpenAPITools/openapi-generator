@@ -25,7 +25,7 @@ class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalStringListProperties
     """
-    dict_property: Optional[Dict[str, conlist(StrictStr)]] = Field(None, alias="dictProperty")
+    dict_property: Optional[Dict[str, conlist(StrictStr)]] = Field(default=None, alias="dictProperty")
     __properties = ["dictProperty"]
 
     class Config:
@@ -52,15 +52,6 @@ class UnnamedDictWithAdditionalStringListProperties(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each value in dict_property (dict of array)
-        _field_dict_of_array = {}
-        if self.dict_property:
-            for _key in self.dict_property:
-                if self.dict_property[_key]:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.dict_property[_key]
-                    ]
-            _dict['dictProperty'] = _field_dict_of_array
         return _dict
 
     @classmethod

@@ -74,7 +74,7 @@ public:
 
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
-signals:
+Q_SIGNALS:
     void createUser(OAIUser body);
     void createUsersWithArrayInput(QList<OAIUser> body);
     void createUsersWithListInput(QList<OAIUser> body);

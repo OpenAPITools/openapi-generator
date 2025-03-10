@@ -29,6 +29,7 @@ docs/Model/Dog.md
 docs/Model/EnumArrays.md
 docs/Model/EnumClass.md
 docs/Model/EnumTest.md
+docs/Model/EnumWithNameAndDescription.md
 docs/Model/FakeBigDecimalMap200Response.md
 docs/Model/File.md
 docs/Model/FileSchemaTestClass.md
@@ -91,6 +92,7 @@ src/Model/Dog.php
 src/Model/EnumArrays.php
 src/Model/EnumClass.php
 src/Model/EnumTest.php
+src/Model/EnumWithNameAndDescription.php
 src/Model/FakeBigDecimalMap200Response.php
 src/Model/File.php
 src/Model/FileSchemaTestClass.php

@@ -130,7 +130,7 @@ func TestFindPetsByTag(t *testing.T) {
 func TestFindPetsByStatus(t *testing.T) {
 	resp, r, err := client.PetAPI.FindPetsByStatus(context.Background()).Status([]string{"available"}).Execute()
 	if err != nil {
-		t.Fatalf("Error while getting pet by id: %v", err)
+		t.Fatalf("Error while getting pet by status: %v", err)
 		t.Log(r)
 	} else {
 		if len(resp) == 0 {

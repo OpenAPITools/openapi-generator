@@ -38,14 +38,15 @@ def test_{{operationId}}(client: TestClient):
     }
     {{/-last}}
     {{/formParams}}
-    response = client.request(
-        "{{httpMethod}}",
-        "{{{path}}}"{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
-        headers=headers,{{#bodyParam}}
-        json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
-        data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}
-        params=params,{{/-first}}{{/queryParams}}
-    )
+    # uncomment below to make a request
+    #response = client.request(
+    #    "{{httpMethod}}",
+    #    "{{{path}}}"{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},
+    #    headers=headers,{{#bodyParam}}
+    #    json={{paramName}},{{/bodyParam}}{{#formParams}}{{#-first}}
+    #    data=data,{{/-first}}{{/formParams}}{{#queryParams}}{{#-first}}
+    #    params=params,{{/-first}}{{/queryParams}}
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200

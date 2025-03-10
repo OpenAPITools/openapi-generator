@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @Valid
@@ -53,11 +54,32 @@ public class AdditionalPropertiesClass {
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private @Nullable Object anytype1;
 
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
-  private Object anytype3;
+  private @Nullable Object anytype3;
+
+  public AdditionalPropertiesClass() {
+    super();
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public AdditionalPropertiesClass(Map<String, String> mapString, Map<String, BigDecimal> mapNumber, Map<String, Integer> mapInteger, Map<String, Boolean> mapBoolean, Map<String, List<Integer>> mapArrayInteger, Map<String, List<Object>> mapArrayAnytype, Map<String, Map<String, String>> mapMapString, Map<String, Map<String, Object>> mapMapAnytype, @Nullable Object anytype1, Object anytype2, @Nullable Object anytype3) {
+      this.mapString = mapString;
+      this.mapNumber = mapNumber;
+      this.mapInteger = mapInteger;
+      this.mapBoolean = mapBoolean;
+      this.mapArrayInteger = mapArrayInteger;
+      this.mapArrayAnytype = mapArrayAnytype;
+      this.mapMapString = mapMapString;
+      this.mapMapAnytype = mapMapAnytype;
+      this.anytype1 = anytype1;
+      this.anytype2 = JsonNullable.of(anytype2);
+      this.anytype3 = anytype3;
+  }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -75,7 +97,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapString
    * @return mapString
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_string")
@@ -103,7 +125,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapNumber
    * @return mapNumber
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_number")
@@ -131,7 +153,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapInteger
    * @return mapInteger
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_integer")
@@ -159,7 +181,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapBoolean
    * @return mapBoolean
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("map_boolean")
@@ -187,7 +209,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapArrayInteger
    * @return mapArrayInteger
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_integer")
@@ -215,7 +237,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapArrayAnytype
    * @return mapArrayAnytype
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_anytype")
@@ -243,7 +265,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapMapString
    * @return mapMapString
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_string")
@@ -271,7 +293,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get mapMapAnytype
    * @return mapMapAnytype
-  */
+   */
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_anytype")
@@ -291,7 +313,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get anytype1
    * @return anytype1
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
@@ -311,7 +333,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get anytype2
    * @return anytype2
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_2")
@@ -331,7 +353,7 @@ public class AdditionalPropertiesClass {
   /**
    * Get anytype3
    * @return anytype3
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")

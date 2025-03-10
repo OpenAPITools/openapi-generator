@@ -20,11 +20,12 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 import org.testng.annotations.Test;
-import org.testng.reporters.Files;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.testutils.AssertFile.assertPathEqualsRecursively;
 
@@ -51,7 +52,7 @@ public abstract class AbstractIntegrationTest {
 
         IntegrationTestPathsConfig integrationTestPathsConfig = getIntegrationTestPathsConfig();
 
-        String specContent = Files.readFile(integrationTestPathsConfig.getSpecPath().toFile());
+        String specContent = Files.lines(integrationTestPathsConfig.getSpecPath()).collect(Collectors.joining("\n"));
         OpenAPI openAPI = TestUtils.parseContent(specContent);
 
 

@@ -41,6 +41,7 @@ class ApiExceptionTests(unittest.TestCase):
 
     def test_404_error(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
         self.pet_api.delete_pet(pet_id=self.pet.id)
 
         with self.checkRaiseRegex(ApiException, "Pet not found"):
@@ -55,6 +56,7 @@ class ApiExceptionTests(unittest.TestCase):
 
     def test_500_error(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
 
         with self.checkRaiseRegex(ApiException, "Internal Server Error"):
             self.pet_api.upload_file(

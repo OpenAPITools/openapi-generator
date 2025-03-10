@@ -35,6 +35,10 @@ void PFXStoreApi::initializeServerConfigs() {
     QUrl("http://petstore.swagger.io/v2"),
     "No description provided",
     QMap<QString, PFXServerVariable>()));
+    defaultConf.append(PFXServerConfiguration(
+    QUrl("http://localhost:8080/v2"),
+    "No description provided",
+    QMap<QString, PFXServerVariable>()));
     _serverConfigs.insert("deleteOrder", defaultConf);
     _serverIndices.insert("deleteOrder", 0);
     _serverConfigs.insert("getInventory", defaultConf);
@@ -118,15 +122,9 @@ int PFXStoreApi::addServerConfiguration(const QString &operation, const QUrl &ur
     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
     */
 void PFXStoreApi::setNewServerForAllOperations(const QUrl &url, const QString &description, const QMap<QString, PFXServerVariable> &variables) {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
     for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
         setServerIndex(*keyIt, addServerConfiguration(*keyIt, url, description, variables));
     }
-#else
-    for (auto &e : _serverIndices.keys()) {
-        setServerIndex(e, addServerConfiguration(e, url, description, variables));
-    }
-#endif
 }
 
 /**
@@ -152,7 +150,7 @@ void PFXStoreApi::enableResponseCompression() {
 }
 
 void PFXStoreApi::abortRequests() {
-    emit abortRequestsSignal();
+    Q_EMIT abortRequestsSignal();
 }
 
 QString PFXStoreApi::getParamStylePrefix(const QString &style) {
@@ -241,21 +239,16 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     PFXHttpRequestInput input(fullPath, "DELETE");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -272,8 +265,8 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit deleteOrderSignal();
-        emit deleteOrderSignalFull(worker);
+        Q_EMIT deleteOrderSignal();
+        Q_EMIT deleteOrderSignalFull(worker);
     } else {
 
 #if defined(_MSC_VER)
@@ -290,8 +283,8 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-        emit deleteOrderSignalE(error_type, error_str);
-        emit deleteOrderSignalEFull(worker, error_type, error_str);
+        Q_EMIT deleteOrderSignalE(error_type, error_str);
+        Q_EMIT deleteOrderSignalEFull(worker, error_type, error_str);
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -301,8 +294,8 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic pop
 #endif
 
-        emit deleteOrderSignalError(error_type, error_str);
-        emit deleteOrderSignalErrorFull(worker, error_type, error_str);
+        Q_EMIT deleteOrderSignalError(error_type, error_str);
+        Q_EMIT deleteOrderSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -319,21 +312,16 @@ void PFXStoreApi::getInventory() {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -360,8 +348,8 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit getInventorySignal(output);
-        emit getInventorySignalFull(worker, output);
+        Q_EMIT getInventorySignal(output);
+        Q_EMIT getInventorySignalFull(worker, output);
     } else {
 
 #if defined(_MSC_VER)
@@ -378,8 +366,8 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-        emit getInventorySignalE(output, error_type, error_str);
-        emit getInventorySignalEFull(worker, error_type, error_str);
+        Q_EMIT getInventorySignalE(output, error_type, error_str);
+        Q_EMIT getInventorySignalEFull(worker, error_type, error_str);
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -389,8 +377,8 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic pop
 #endif
 
-        emit getInventorySignalError(output, error_type, error_str);
-        emit getInventorySignalErrorFull(worker, error_type, error_str);
+        Q_EMIT getInventorySignalError(output, error_type, error_str);
+        Q_EMIT getInventorySignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -417,21 +405,16 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     PFXHttpRequestInput input(fullPath, "GET");
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -449,8 +432,8 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit getOrderByIdSignal(output);
-        emit getOrderByIdSignalFull(worker, output);
+        Q_EMIT getOrderByIdSignal(output);
+        Q_EMIT getOrderByIdSignalFull(worker, output);
     } else {
 
 #if defined(_MSC_VER)
@@ -467,8 +450,8 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-        emit getOrderByIdSignalE(output, error_type, error_str);
-        emit getOrderByIdSignalEFull(worker, error_type, error_str);
+        Q_EMIT getOrderByIdSignalE(output, error_type, error_str);
+        Q_EMIT getOrderByIdSignalEFull(worker, error_type, error_str);
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -478,8 +461,8 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic pop
 #endif
 
-        emit getOrderByIdSignalError(output, error_type, error_str);
-        emit getOrderByIdSignalErrorFull(worker, error_type, error_str);
+        Q_EMIT getOrderByIdSignalError(output, error_type, error_str);
+        Q_EMIT getOrderByIdSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -497,21 +480,16 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
         QByteArray output = pfx_order.asJson().toUtf8();
         input.request_body.append(output);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     for (auto keyValueIt = _defaultHeaders.keyValueBegin(); keyValueIt != _defaultHeaders.keyValueEnd(); keyValueIt++) {
         input.headers.insert(keyValueIt->first, keyValueIt->second);
     }
-#else
-    for (auto key : _defaultHeaders.keys()) {
-        input.headers.insert(key, _defaultHeaders[key]);
-    }
-#endif
+
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
-    connect(worker, &QObject::destroyed, this, [this]() {
+    connect(worker, &QObject::destroyed, this, [this] {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -529,8 +507,8 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit placeOrderSignal(output);
-        emit placeOrderSignalFull(worker, output);
+        Q_EMIT placeOrderSignal(output);
+        Q_EMIT placeOrderSignalFull(worker, output);
     } else {
 
 #if defined(_MSC_VER)
@@ -547,8 +525,8 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
-        emit placeOrderSignalE(output, error_type, error_str);
-        emit placeOrderSignalEFull(worker, error_type, error_str);
+        Q_EMIT placeOrderSignalE(output, error_type, error_str);
+        Q_EMIT placeOrderSignalEFull(worker, error_type, error_str);
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -558,8 +536,8 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
 #pragma GCC diagnostic pop
 #endif
 
-        emit placeOrderSignalError(output, error_type, error_str);
-        emit placeOrderSignalErrorFull(worker, error_type, error_str);
+        Q_EMIT placeOrderSignalError(output, error_type, error_str);
+        Q_EMIT placeOrderSignalErrorFull(worker, error_type, error_str);
     }
 }
 

@@ -28,14 +28,14 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('pom.xml', 'modules/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.11.0
+        uses: s4u/setup-maven-action@v1.18.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -87,7 +87,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.11.0
+        uses: s4u/setup-maven-action@v1.18.0
         with:
           java-version: 11
           maven-version: 3.8.8

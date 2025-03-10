@@ -32,7 +32,7 @@
 #' @field oauth_secret OAuth secret
 #' @field oauth_refresh_token OAuth refresh token
 #' @field oauth_flow_type OAuth flow type
-#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_authorization_url Authorization URL
 #' @field oauth_token_url Token URL
 #' @field oauth_pkce Boolean flag to enable PKCE
 #' @field oauth_scopes OAuth scopes
@@ -68,7 +68,7 @@ ApiClient  <- R6::R6Class(
     # OAuth2
     # Flow type
     oauth_flow_type = "implicit",
-    # Authoriziation URL
+    # Authorization URL
     oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
     # Token URL
     oauth_token_url = "",
@@ -99,7 +99,7 @@ ApiClient  <- R6::R6Class(
     #' @param bearer_token Bearer token.
     #' @param timeout Timeout.
     #' @param retry_status_codes Status codes for retry.
-    #' @param max_retry_attempts Maxmium number of retry.
+    #' @param max_retry_attempts Maximum number of retry.
     #' @export
     initialize = function(base_path = NULL, user_agent = NULL,
                           default_headers = NULL,
@@ -296,7 +296,7 @@ ApiClient  <- R6::R6Class(
 
         req <- req %>% req_oauth_auth_code(client, scope = req_oauth_scopes,
                                            pkce = self$oauth_pkce,
-                                           auth_url = self$oauth_authoriziation_url)
+                                           auth_url = self$oauth_authorization_url)
       }
 
       # stream data
@@ -312,7 +312,11 @@ ApiClient  <- R6::R6Class(
         api_response <- ApiResponse$new()
         api_response$status_code <- resp %>% resp_status()
         api_response$status_code_desc <- resp %>% resp_status_desc()
-        api_response$response <- resp %>% resp_body_string()
+        if (length(resp$body) == 0) {
+          api_response$response <- NULL
+        } else {
+          api_response$response <- resp %>% resp_body_raw()
+        }
         api_response$headers <- resp %>% resp_headers()
 
         api_response
@@ -428,6 +432,52 @@ ApiClient  <- R6::R6Class(
         # not json mime type, simply return the first one
         return(headers[1])
       }
+    },
+
+    #' @description
+    #' Deserialize the response
+    #' 
+    #' @param local_var_resp The API response
+    #' @param return_type The target return type for the endpoint (e.g., `"object"`). If `NULL` text will be left as-is.
+    #' @return If the raw response is corecable to text, return the text. Otherwise return the raw response.
+    DeserializeResponse = function(local_var_resp, return_type = NULL) {
+      text <- local_var_resp$response_as_text()
+      if (is.na(text)) {
+        return(local_var_resp$response)
+      } else if (is.null(return_type)) {
+        return(text)
+      }
+      return(self$deserialize(text, return_type, loadNamespace("petstore")))
+    },
+
+    #' @description
+    #' Write response to a file
+    #' 
+    #' The function will write out data. 
+    #' 
+    #' 1. If binary data is detected it will use `writeBin`
+    #' 2. If the raw response is coercible to text, the text will be written to a file
+    #' 3. If the raw response is not coercible to text, the raw response will be written
+    #' 
+    #' @param local_var_resp The API response
+    #' @param file The name of the data file to save the result
+    WriteFile = function(local_var_resp, file) {
+      if (self$IsBinary(local_var_resp$response)) {
+        writeBin(local_var_resp$response, file)
+      } else {
+        response <- self$DeserializeResponse(local_var_resp)
+        base::write(response, file)
+      }
+    },
+
+    #' @description
+    #' Check response for binary content
+    #' 
+    #' @param local_var_resp The API response
+    IsBinary = function(x) {
+      # ref: https://stackoverflow.com/a/17098690/1785752
+      b <- readBin(x, "int", n = 1000, size=1, signed=FALSE)
+      return(max(b) > 128)
     }
   )
 )

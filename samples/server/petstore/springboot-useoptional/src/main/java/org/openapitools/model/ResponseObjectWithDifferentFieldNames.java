@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNames
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNames {
 
   private Optional<String> normalPropertyName = Optional.empty();
@@ -31,14 +32,14 @@ public class ResponseObjectWithDifferentFieldNames {
   private Optional<String> propertyNameWithSpaces = Optional.empty();
 
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
-    this.normalPropertyName = Optional.of(normalPropertyName);
+    this.normalPropertyName = Optional.ofNullable(normalPropertyName);
     return this;
   }
 
   /**
    * Get normalPropertyName
    * @return normalPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
@@ -51,14 +52,14 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
-    this.UPPER_CASE_PROPERTY_SNAKE = Optional.of(UPPER_CASE_PROPERTY_SNAKE);
+    this.UPPER_CASE_PROPERTY_SNAKE = Optional.ofNullable(UPPER_CASE_PROPERTY_SNAKE);
     return this;
   }
 
   /**
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
@@ -71,14 +72,14 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames lowerCasePropertyDashes(String lowerCasePropertyDashes) {
-    this.lowerCasePropertyDashes = Optional.of(lowerCasePropertyDashes);
+    this.lowerCasePropertyDashes = Optional.ofNullable(lowerCasePropertyDashes);
     return this;
   }
 
   /**
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
@@ -91,14 +92,14 @@ public class ResponseObjectWithDifferentFieldNames {
   }
 
   public ResponseObjectWithDifferentFieldNames propertyNameWithSpaces(String propertyNameWithSpaces) {
-    this.propertyNameWithSpaces = Optional.of(propertyNameWithSpaces);
+    this.propertyNameWithSpaces = Optional.ofNullable(propertyNameWithSpaces);
     return this;
   }
 
   /**
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")
@@ -152,5 +153,81 @@ public class ResponseObjectWithDifferentFieldNames {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ResponseObjectWithDifferentFieldNames instance;
+
+    public Builder() {
+      this(new ResponseObjectWithDifferentFieldNames());
+    }
+
+    protected Builder(ResponseObjectWithDifferentFieldNames instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ResponseObjectWithDifferentFieldNames value) { 
+      this.instance.setNormalPropertyName(value.normalPropertyName);
+      this.instance.setUPPERCASEPROPERTYSNAKE(value.UPPER_CASE_PROPERTY_SNAKE);
+      this.instance.setLowerCasePropertyDashes(value.lowerCasePropertyDashes);
+      this.instance.setPropertyNameWithSpaces(value.propertyNameWithSpaces);
+      return this;
+    }
+
+    public ResponseObjectWithDifferentFieldNames.Builder normalPropertyName(String normalPropertyName) {
+      this.instance.normalPropertyName(normalPropertyName);
+      return this;
+    }
+    
+    public ResponseObjectWithDifferentFieldNames.Builder UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
+      this.instance.UPPER_CASE_PROPERTY_SNAKE(UPPER_CASE_PROPERTY_SNAKE);
+      return this;
+    }
+    
+    public ResponseObjectWithDifferentFieldNames.Builder lowerCasePropertyDashes(String lowerCasePropertyDashes) {
+      this.instance.lowerCasePropertyDashes(lowerCasePropertyDashes);
+      return this;
+    }
+    
+    public ResponseObjectWithDifferentFieldNames.Builder propertyNameWithSpaces(String propertyNameWithSpaces) {
+      this.instance.propertyNameWithSpaces(propertyNameWithSpaces);
+      return this;
+    }
+    
+    /**
+    * returns a built ResponseObjectWithDifferentFieldNames instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ResponseObjectWithDifferentFieldNames build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ResponseObjectWithDifferentFieldNames.Builder builder() {
+    return new ResponseObjectWithDifferentFieldNames.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ResponseObjectWithDifferentFieldNames.Builder toBuilder() {
+    ResponseObjectWithDifferentFieldNames.Builder builder = new ResponseObjectWithDifferentFieldNames.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

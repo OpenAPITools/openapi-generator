@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.time.OffsetDateTime;
@@ -53,7 +54,7 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -64,7 +65,7 @@ public class UserApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public UserApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public UserApi(ApiClient apiClient) {
@@ -172,6 +173,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Creates list of users with given input array
    * 
@@ -255,6 +257,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Creates list of users with given input array
    * 
@@ -338,6 +341,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Delete user
    * This can only be done by the logged in user.
@@ -416,6 +420,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Get user by user name
    * 
@@ -509,6 +514,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Logs user into the system
    * 
@@ -624,6 +630,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Logs out current logged in user session
    * 
@@ -695,6 +702,7 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
   /**
    * Updated user
    * This can only be done by the logged in user.
@@ -785,4 +793,5 @@ public class UserApi {
     }
     return localVarRequestBuilder;
   }
+
 }

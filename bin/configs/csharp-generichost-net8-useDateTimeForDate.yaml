@@ -1,0 +1,11 @@
+# for csharp generichost
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
+inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/dates-api.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{2E60EF87-DB0B-4D01-A36E-F5E90F7EC757}'
+  useDateTimeForDate: true
+  targetFramework: net8.0
+  modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical

@@ -25,6 +25,8 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -40,7 +42,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -58,6 +59,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
     protected String defaultServerPort = "8080";
     protected String implFolder = "services";
     protected String projectName = "openapi-server";
+    @Getter @Setter
     protected String exportedName;
 
     public NodeJSExpressServerCodegen() {
@@ -232,14 +234,6 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
-    public String getExportedName() {
-        return exportedName;
-    }
-
-    public void setExportedName(String name) {
-        exportedName = name;
-    }
-
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
@@ -308,6 +302,8 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'JS_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(EXPORTED_NAME)) {
@@ -427,6 +423,7 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -438,23 +435,12 @@ public class NodeJSExpressServerCodegen extends DefaultCodegen implements Codege
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                int exitValue = p.exitValue();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                }
-                LOGGER.info("Successfully executed: {}", command);
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{jsPostProcessFile, file.toString()});
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.JAVASCRIPT;
+    }
 }

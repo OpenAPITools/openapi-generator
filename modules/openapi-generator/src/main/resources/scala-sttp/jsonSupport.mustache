@@ -11,7 +11,8 @@ import scala.reflect.ClassTag
 
 object JsonSupport extends SttpJson4sApi {
   def enumSerializers: Seq[Serializer[_]] = Seq[Serializer[_]](){{#models}}{{#model}}{{#isEnum}} :+
-    new EnumNameSerializer({{classname}}){{/isEnum}}{{/model}}{{/models}}
+    new EnumNameSerializer({{classname}}){{/isEnum}}{{#hasEnums}}{{#vars}}{{#isEnum}} :+
+    new EnumNameSerializer({{classname}}Enums.{{datatypeWithEnum}}){{/isEnum}}{{/vars}}{{/hasEnums}}{{/model}}{{/models}}
 
   private class EnumNameSerializer[E <: Enumeration: ClassTag](enumeration: E) extends Serializer[E#Value] {
     import JsonDSL._

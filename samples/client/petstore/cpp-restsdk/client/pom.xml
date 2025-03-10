@@ -37,6 +37,7 @@
                             <arguments>
                                 <argument>-DCMAKE_CXX_FLAGS="-I/usr/local/opt/openssl/include"</argument>
                                 <argument>-DCMAKE_MODULE_LINKER_FLAGS="-L/usr/local/opt/openssl/lib"</argument>
+                                <argument>-DCMAKE_BUILD_TYPE=Debug</argument>
                             </arguments>
                         </configuration>
                     </execution>

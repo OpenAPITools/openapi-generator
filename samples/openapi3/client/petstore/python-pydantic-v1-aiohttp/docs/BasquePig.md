@@ -22,7 +22,7 @@ print BasquePig.to_json()
 # convert the object into a dict
 basque_pig_dict = basque_pig_instance.to_dict()
 # create an instance of BasquePig from a dict
-basque_pig_form_dict = basque_pig.from_dict(basque_pig_dict)
+basque_pig_from_dict = BasquePig.from_dict(basque_pig_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

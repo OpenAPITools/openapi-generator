@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { AbstractFlatStockPickOrderBaseDto } from './abstract-flat-stock-pick-order-base-dto';
+import type { AbstractFlatStockPickOrderBaseDto } from './abstract-flat-stock-pick-order-base-dto';
 
 /**
  * @type FlatStockPickOrderDto

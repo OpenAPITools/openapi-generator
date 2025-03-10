@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: oneOf test
-  version: '1.0'
+  version: '1.0.0'
 servers:
   - url: 'http://localhost:8000/'
 paths:
@@ -23,7 +23,7 @@ paths:
                   mapping:
                     a-type: '#/components/schemas/ObjA'
                     b-type: '#/components/schemas/ObjB'
-                    b-type: '#/components/schemas/ObjD'
+                    d-type: '#/components/schemas/ObjD'
     post:
       operationId: createState
       requestBody:

@@ -1,0 +1,50 @@
+name: Kotlin Client (Echo API) JDK17
+
+on:
+  push:
+    paths:
+      - samples/client/echo_api/kotlin**
+  pull_request:
+    paths:
+      - samples/client/echo_api/kotlin**
+
+jobs:
+  build:
+    name: Build Kotlin Client JDK17
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/echo_api/kotlin-jvm-spring-3-restclient
+          - samples/client/echo_api/kotlin-model-prefix-type-mappings
+          - samples/client/echo_api/kotlin-jvm-okhttp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+      - name: Cache maven dependencies
+        uses: actions/cache@v4
+        env:
+          cache-name: maven-repository
+        with:
+          path: |
+            ~/.gradle
+          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+      - name: Install Gradle wrapper
+        uses: eskatos/gradle-command-action@v3
+        with:
+          build-root-directory: ${{ matrix.sample }}
+          arguments: wrapper
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+      - name: Run echo server
+        run: |
+          git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
+          (cd http-echo-server && npm install && npm start &)
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: ./gradlew build

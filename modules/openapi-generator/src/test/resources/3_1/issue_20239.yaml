@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  title: API Overview 
+  version: "v1"
+  description: description
+
+tags:
+  - name: aTag
+
+paths:
+  "/path/{path_parameter}":
+    parameters:
+      - $ref: "#/components/parameters/path_parameter"
+    get:
+      tags:
+      - aTag    
+      operationId: get
+      parameters:
+      - $ref: "#/components/parameters/query_parameter"  
+      responses:
+        "200":
+          description: no body
+components:
+  parameters:
+    path_parameter:
+      name: path_parameter
+      in: path
+      required: true
+      schema:
+        type: string
+
+    query_parameter:
+      name: query_parameter
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0

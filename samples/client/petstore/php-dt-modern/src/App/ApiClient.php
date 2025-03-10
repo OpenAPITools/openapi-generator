@@ -19,7 +19,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Add a new pet to the store
      * @param \App\DTO\Pet $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return ResponseInterface
@@ -43,7 +43,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Add a new pet to the store
      * @param \App\DTO\Pet $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return array
@@ -60,6 +60,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->addPetRaw($requestContent, $security, $requestMediaType, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -70,14 +72,14 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Invalid input */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Add a new pet to the store
      * @param \App\DTO\Pet $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return \App\DTO\Pet
@@ -101,7 +103,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Create user
      * @param \App\DTO\User $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -122,7 +124,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Create user
      * @param \App\DTO\User $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -137,20 +139,22 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->createUserRaw($requestContent, $security, $requestMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             default:
                 /* successful operation */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Create user
      * @param \App\DTO\User $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return mixed
      * @throws ClientExceptionInterface
@@ -172,7 +176,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Creates list of users with given input array
      * @param \App\DTO\Collection10 $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -193,7 +197,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Creates list of users with given input array
      * @param \App\DTO\Collection10 $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -208,20 +212,22 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->createUsersWithArrayInputRaw($requestContent, $security, $requestMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             default:
                 /* successful operation */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Creates list of users with given input array
      * @param \App\DTO\Collection10 $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return mixed
      * @throws ClientExceptionInterface
@@ -243,7 +249,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Creates list of users with given input array
      * @param \App\DTO\Collection10 $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -264,7 +270,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Creates list of users with given input array
      * @param \App\DTO\Collection10 $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -279,20 +285,22 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->createUsersWithListInputRaw($requestContent, $security, $requestMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             default:
                 /* successful operation */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Creates list of users with given input array
      * @param \App\DTO\Collection10 $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return mixed
      * @throws ClientExceptionInterface
@@ -340,6 +348,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->deleteOrderRaw($parameters);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 400:
@@ -349,7 +359,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Order not found */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -374,7 +384,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Deletes a pet
      * @param \App\DTO\DeletePetParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return ResponseInterface
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -393,7 +403,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Deletes a pet
      * @param \App\DTO\DeletePetParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return array
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -406,20 +416,22 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->deletePetRaw($parameters, $security);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 400:
                 /* Invalid pet value */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Deletes a pet
      * @param \App\DTO\DeletePetParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return mixed
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -439,7 +451,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Delete user
      * @param \App\DTO\DeleteUserParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return ResponseInterface
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -457,7 +469,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Delete user
      * @param \App\DTO\DeleteUserParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return array
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -470,6 +482,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->deleteUserRaw($parameters, $security);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 400:
@@ -479,14 +493,14 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* User not found */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Delete user
      * @param \App\DTO\DeleteUserParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return mixed
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -506,7 +520,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Finds Pets by status
      * @param \App\DTO\FindPetsByStatusParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -527,7 +541,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Finds Pets by status
      * @param \App\DTO\FindPetsByStatusParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -542,6 +556,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->findPetsByStatusRaw($parameters, $security, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -552,14 +568,14 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Invalid status value */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Finds Pets by status
      * @param \App\DTO\FindPetsByStatusParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return \App\DTO\Collection3
      * @throws ClientExceptionInterface
@@ -581,7 +597,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Finds Pets by tags
      * @param \App\DTO\FindPetsByTagsParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -602,7 +618,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Finds Pets by tags
      * @param \App\DTO\FindPetsByTagsParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -617,6 +633,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->findPetsByTagsRaw($parameters, $security, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -627,14 +645,14 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Invalid tag value */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Finds Pets by tags
      * @param \App\DTO\FindPetsByTagsParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return \App\DTO\Collection6
      * @throws ClientExceptionInterface
@@ -655,7 +673,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     //region getInventory
     /**
      * Returns pet inventories by status
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -674,7 +692,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Returns pet inventories by status
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -688,6 +706,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->getInventoryRaw($security, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -695,13 +715,13 @@ class ApiClient extends OAGAC\AbstractApiClient
                 $responseContent = new \App\DTO\Collection8();
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Returns pet inventories by status
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return \App\DTO\Collection8
      * @throws ClientExceptionInterface
@@ -753,6 +773,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->getOrderByIdRaw($parameters, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -766,7 +788,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Order not found */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -793,7 +815,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Find pet by ID
      * @param \App\DTO\GetPetByIdParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -814,7 +836,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Find pet by ID
      * @param \App\DTO\GetPetByIdParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -829,6 +851,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->getPetByIdRaw($parameters, $security, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -842,14 +866,14 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Pet not found */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Find pet by ID
      * @param \App\DTO\GetPetByIdParameterData $parameters
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $responseMediaType
      * @return \App\DTO\Pet
      * @throws ClientExceptionInterface
@@ -902,6 +926,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->getUserByNameRaw($parameters, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -915,7 +941,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* User not found */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -973,6 +999,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->loginUserRaw($parameters, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -982,7 +1010,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Invalid username/password supplied */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -1008,7 +1036,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     //region logoutUser
     /**
      * Logs out current logged in user session
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return ResponseInterface
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -1024,7 +1052,7 @@ class ApiClient extends OAGAC\AbstractApiClient
 
     /**
      * Logs out current logged in user session
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return array
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -1036,19 +1064,21 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->logoutUserRaw($security);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             default:
                 /* successful operation */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Logs out current logged in user session
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @return mixed
      * @throws ClientExceptionInterface
      * @throws DT\Exception\InvalidData
@@ -1103,6 +1133,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->placeOrderRaw($requestContent, $requestMediaType, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -1113,7 +1145,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Invalid Order */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -1142,7 +1174,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Update an existing pet
      * @param \App\DTO\Pet $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return ResponseInterface
@@ -1166,7 +1198,7 @@ class ApiClient extends OAGAC\AbstractApiClient
     /**
      * Update an existing pet
      * @param \App\DTO\Pet $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return array
@@ -1183,6 +1215,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->updatePetRaw($requestContent, $security, $requestMediaType, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -1199,14 +1233,14 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* Validation exception */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
     /**
      * Update an existing pet
      * @param \App\DTO\Pet $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return \App\DTO\Pet
@@ -1231,7 +1265,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
      * @param \App\DTO\UpdatePetWithFormRequest $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -1254,7 +1288,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
      * @param \App\DTO\UpdatePetWithFormRequest $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -1270,13 +1304,15 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->updatePetWithFormRaw($parameters, $requestContent, $security, $requestMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 405:
                 /* Invalid input */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -1284,7 +1320,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Updates a pet in the store with form data
      * @param \App\DTO\UpdatePetWithFormParameterData $parameters
      * @param \App\DTO\UpdatePetWithFormRequest $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return mixed
      * @throws ClientExceptionInterface
@@ -1308,7 +1344,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Updated user
      * @param \App\DTO\UpdateUserParameterData $parameters
      * @param \App\DTO\User $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return ResponseInterface
      * @throws ClientExceptionInterface
@@ -1331,7 +1367,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Updated user
      * @param \App\DTO\UpdateUserParameterData $parameters
      * @param \App\DTO\User $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return array
      * @throws ClientExceptionInterface
@@ -1347,6 +1383,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->updateUserRaw($parameters, $requestContent, $security, $requestMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 400:
@@ -1356,7 +1394,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 /* User not found */
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -1364,7 +1402,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * Updated user
      * @param \App\DTO\UpdateUserParameterData $parameters
      * @param \App\DTO\User $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @return mixed
      * @throws ClientExceptionInterface
@@ -1388,7 +1426,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
      * @param \App\DTO\UploadFileRequest $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return ResponseInterface
@@ -1414,7 +1452,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
      * @param \App\DTO\UploadFileRequest $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return array
@@ -1432,6 +1470,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->uploadFileRaw($parameters, $requestContent, $security, $requestMediaType, $responseMediaType);
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
             case 200:
@@ -1439,7 +1479,7 @@ class ApiClient extends OAGAC\AbstractApiClient
                 $responseContent = new \App\DTO\ApiResponse();
                 break;
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 
@@ -1447,7 +1487,7 @@ class ApiClient extends OAGAC\AbstractApiClient
      * uploads an image
      * @param \App\DTO\UploadFileParameterData $parameters
      * @param \App\DTO\UploadFileRequest $requestContent
-     * @param iterable|string[][] $security
+     * @param iterable<string, string[]> $security
      * @param string $requestMediaType
      * @param string $responseMediaType
      * @return \App\DTO\ApiResponse

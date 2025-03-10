@@ -20,7 +20,7 @@ public:
     virtual ~{{classname}}Handler();
 
 
-public slots:
+public Q_SLOTS:
     {{#operations}}{{#operation}}virtual void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/operation}}{{/operations}}
 

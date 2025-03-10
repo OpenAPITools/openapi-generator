@@ -1,7 +1,12 @@
+{{#discriminator}}
+// checks if the {{classname}} type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &{{classname}}{}
+{{/discriminator}}
+
 // {{classname}} {{{description}}}{{^description}}struct for {{{classname}}}{{/description}}
 type {{classname}} struct {
 	{{#anyOf}}
-	{{{.}}} *{{{.}}}
+	{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} *{{{.}}}
 	{{/anyOf}}
 }
 
@@ -45,17 +50,17 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	{{/mappedModels}}
 	{{/discriminator}}
 	{{#anyOf}}
-	// try to unmarshal JSON data into {{{.}}}
-	err = json.Unmarshal(data, &dst.{{{.}}});
+	// try to unmarshal JSON data into {{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}
+	err = json.Unmarshal(data, &dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}});
 	if err == nil {
-		json{{{.}}}, _ := json.Marshal(dst.{{{.}}})
-		if string(json{{{.}}}) == "{}" { // empty struct
-			dst.{{{.}}} = nil
+		json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}, _ := json.Marshal(dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
+		if string(json{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}) == "{}" { // empty struct
+			dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 		} else {
-			return nil // data stored in dst.{{{.}}}, return on the first match
+			return nil // data stored in dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}, return on the first match
 		}
 	} else {
-		dst.{{{.}}} = nil
+		dst.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} = nil
 	}
 
 	{{/anyOf}}
@@ -63,14 +68,26 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *{{classname}}) MarshalJSON() ([]byte, error) {
+func (src {{classname}}) MarshalJSON() ([]byte, error) {
 {{#anyOf}}
-	if src.{{{.}}} != nil {
-		return json.Marshal(&src.{{{.}}})
+	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
+		return json.Marshal(&src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
 	}
 
 {{/anyOf}}
 	return nil, nil // no data in anyOf schemas
 }
+
+{{#discriminator}}
+func (src {{classname}}) ToMap() (map[string]interface{}, error) {
+{{#anyOf}}
+	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
+		return src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}}.ToMap()
+	}
+
+{{/anyOf}}
+    return nil, nil // no data in anyOf schemas
+}
+{{/discriminator}}
 
 {{>nullable_model}}

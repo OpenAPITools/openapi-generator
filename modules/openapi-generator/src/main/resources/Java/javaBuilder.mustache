@@ -1,0 +1,82 @@
+public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/parentModel}}{
+
+    private {{classname}} instance;
+
+    public Builder() {
+      this(new {{classname}}());
+    }
+
+    protected Builder({{classname}} instance) {
+    {{#parentModel}}
+      super(instance);
+    {{/parentModel}}
+      this.instance = instance;
+    }
+
+    {{#vars}}
+    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) {
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+      this.instance.{{name}} = JsonNullable.<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}>of({{name}});
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{^vendorExtensions.x-is-jackson-optional-nullable}}
+      this.instance.{{name}} = {{name}};
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+      return this;
+    }
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
+      this.instance.{{name}} = {{name}};
+      return this;
+    }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    {{/vars}}
+
+{{#parentVars}}
+    public {{classname}}.Builder {{name}}({{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}) { // inherited: {{isInherited}}
+      super.{{name}}({{name}});
+      return this;
+   }
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    public {{classname}}.Builder {{name}}(JsonNullable<{{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}}> {{name}}) {
+      this.instance.{{name}} = {{name}};
+      return this;
+    }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+
+    {{/parentVars}}
+
+    /**
+    * returns a built {{classname}} instance.
+    *
+    * The builder is not reusable.
+    */
+    public {{classname}} build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused{{#parentModel}}
+        super.build();{{/parentModel}}
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static {{classname}}.Builder builder() {
+    return new {{classname}}.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public {{classname}}.Builder toBuilder() {
+    return new {{classname}}.Builder(){{#allVars}}
+      .{{name}}({{getter}}()){{/allVars}};
+  }

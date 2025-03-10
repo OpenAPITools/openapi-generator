@@ -13,13 +13,14 @@ def add_pet(body):  # noqa: E501
 
      # noqa: E501
 
-    :param body: Pet object that needs to be added to the store
-    :type body: dict | bytes
+    :param pet: Pet object that needs to be added to the store
+    :type pet: dict | bytes
 
-    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
+    :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
     """
+    pet = body
     if connexion.request.is_json:
-        body = Pet.from_dict(connexion.request.get_json())  # noqa: E501
+        pet = Pet.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -82,13 +83,14 @@ def update_pet(body):  # noqa: E501
 
      # noqa: E501
 
-    :param body: Pet object that needs to be added to the store
-    :type body: dict | bytes
+    :param pet: Pet object that needs to be added to the store
+    :type pet: dict | bytes
 
-    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
+    :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
     """
+    pet = body
     if connexion.request.is_json:
-        body = Pet.from_dict(connexion.request.get_json())  # noqa: E501
+        pet = Pet.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

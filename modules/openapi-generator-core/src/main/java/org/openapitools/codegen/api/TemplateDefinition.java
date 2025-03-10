@@ -17,7 +17,7 @@ public class TemplateDefinition {
     /**
      * <p>Constructor for TemplateDefinition.</p>
      *
-     * @param templateFile a template path relative to user template or embedded template.
+     * @param templateFile        a template path relative to user template or embedded template.
      * @param destinationFilename a target output location for the file, relative to the output directory.
      */
     public TemplateDefinition(String templateFile, String destinationFilename) {
@@ -34,8 +34,8 @@ public class TemplateDefinition {
     /**
      * <p>Constructor for TemplateDefinition.</p>
      *
-     * @param templateFile a template path relative to user template or embedded template.
-     * @param folder a folder in the target output directory in which to place the target file.
+     * @param templateFile        a template path relative to user template or embedded template.
+     * @param folder              a folder in the target output directory in which to place the target file.
      * @param destinationFilename a target output location for the file, relative to the output directory.
      */
     public TemplateDefinition(String templateFile, String folder, String destinationFilename) {
@@ -94,7 +94,9 @@ public class TemplateDefinition {
         this.templateType = templateType;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,13 +108,17 @@ public class TemplateDefinition {
                 getTemplateType() == that.getTemplateType();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getTemplateFile(), getFolder(), getDestinationFilename(), getTemplateType());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new StringJoiner(", ", TemplateDefinition.class.getSimpleName() + "[", "]")

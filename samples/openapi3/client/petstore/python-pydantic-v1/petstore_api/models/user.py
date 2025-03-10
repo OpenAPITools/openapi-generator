@@ -27,12 +27,12 @@ class User(BaseModel):
     """
     id: Optional[StrictInt] = None
     username: Optional[StrictStr] = None
-    first_name: Optional[StrictStr] = Field(None, alias="firstName")
-    last_name: Optional[StrictStr] = Field(None, alias="lastName")
+    first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
+    last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
     email: Optional[StrictStr] = None
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
-    user_status: Optional[StrictInt] = Field(None, alias="userStatus", description="User Status")
+    user_status: Optional[StrictInt] = Field(default=None, alias="userStatus", description="User Status")
     additional_properties: Dict[str, Any] = {}
     __properties = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 

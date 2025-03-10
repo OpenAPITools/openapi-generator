@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.Apple;
 import org.openapitools.model.Banana;
 import org.openapitools.model.FruitType;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -34,7 +35,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Banana.class, name = "Banana")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface Fruit {
     public FruitType getFruitType();
 }

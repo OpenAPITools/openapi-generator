@@ -1,21 +1,24 @@
+import type { HttpService } from '@nestjs/common';
 import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
 
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
-    accessToken?: string | (() => string);
+    accessToken?: string | Promise<string> | (() => string | Promise<string>);
     basePath?: string;
     withCredentials?: boolean;
+    httpClient?: HttpService;
 }
 
 export class Configuration {
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
-    accessToken?: string | (() => string);
+    accessToken?: string | Promise<string> | (() => string | Promise<string>);
     basePath?: string;
     withCredentials?: boolean;
+    httpClient?: HttpService;
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
         this.apiKeys = configurationParameters.apiKeys;
@@ -24,6 +27,7 @@ export class Configuration {
         this.accessToken = configurationParameters.accessToken;
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
+        this.httpClient = configurationParameters.httpClient;
     }
 
     /**

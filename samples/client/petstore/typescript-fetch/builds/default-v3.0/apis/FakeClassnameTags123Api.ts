@@ -36,8 +36,11 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      */
     async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        if (requestParameters.client === null || requestParameters.client === undefined) {
-            throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling testClassname.');
+        if (requestParameters['client'] == null) {
+            throw new runtime.RequiredError(
+                'client',
+                'Required parameter "client" was null or undefined when calling testClassname().'
+            );
         }
 
         const queryParameters: any = {};
@@ -47,7 +50,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
-            queryParameters["api_key_query"] = this.configuration.apiKey("api_key_query"); // api_key_query authentication
+            queryParameters["api_key_query"] = await this.configuration.apiKey("api_key_query"); // api_key_query authentication
         }
 
         const response = await this.request({
@@ -55,7 +58,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.client),
+            body: ClientToJSON(requestParameters['client']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));

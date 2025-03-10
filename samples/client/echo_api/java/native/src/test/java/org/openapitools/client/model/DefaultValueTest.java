@@ -19,35 +19,44 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for DefaultValue
  */
-public class DefaultValueTest {
+class DefaultValueTest {
     private final DefaultValue model = new DefaultValue();
 
     /**
      * Model tests for DefaultValue
      */
     @Test
-    public void testDefaultValue() {
+    void testDefaultValue() {
         // TODO: test DefaultValue
+    }
+
+    /**
+     * Test the property 'arrayStringEnumRefDefault'
+     */
+    @Test
+    void arrayStringEnumRefDefaultTest() {
+        // TODO: test arrayStringEnumRefDefault
     }
 
     /**
      * Test the property 'arrayStringEnumDefault'
      */
     @Test
-    public void arrayStringEnumDefaultTest() {
+    void arrayStringEnumDefaultTest() {
         // TODO: test arrayStringEnumDefault
     }
 
@@ -55,15 +64,23 @@ public class DefaultValueTest {
      * Test the property 'arrayStringDefault'
      */
     @Test
-    public void arrayStringDefaultTest() {
+    void arrayStringDefaultTest() {
         // TODO: test arrayStringDefault
+    }
+
+    /**
+     * Test the property 'arrayIntegerDefault'
+     */
+    @Test
+    void arrayIntegerDefaultTest() {
+        // TODO: test arrayIntegerDefault
     }
 
     /**
      * Test the property 'arrayString'
      */
     @Test
-    public void arrayStringTest() {
+    void arrayStringTest() {
         // TODO: test arrayString
     }
 
@@ -71,15 +88,23 @@ public class DefaultValueTest {
      * Test the property 'arrayStringNullable'
      */
     @Test
-    public void arrayStringNullableTest() {
+    void arrayStringNullableTest() {
         // TODO: test arrayStringNullable
+    }
+
+    /**
+     * Test the property 'arrayStringExtensionNullable'
+     */
+    @Test
+    void arrayStringExtensionNullableTest() {
+        // TODO: test arrayStringExtensionNullable
     }
 
     /**
      * Test the property 'stringNullable'
      */
     @Test
-    public void stringNullableTest() {
+    void stringNullableTest() {
         // TODO: test stringNullable
     }
 

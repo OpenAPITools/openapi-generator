@@ -102,13 +102,14 @@ test {
 
 ext {
     swagger_annotations_version = "1.6.11"
-    jackson_version = "2.14.3"
-    jackson_databind_version = "2.14.3"
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
     jakarta_annotation_version = "1.3.5"
     feign_version = "10.12"
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
+    commons_lang3_version = "3.17.0"
 }
 
 dependencies {
@@ -127,11 +128,12 @@ dependencies {
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"
     implementation "com.brsanthu:migbase64:2.2"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
     testImplementation "com.github.tomakehurst:wiremock-jre8:2.35.1"
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "commons-io:commons-io:2.8.0"
+    testImplementation "commons-io:commons-io:2.16.1"
     testImplementation "ch.qos.logback:logback-classic:1.2.3"
 }

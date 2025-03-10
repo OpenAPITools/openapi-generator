@@ -5,6 +5,7 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-petstore-string
   serializableModel: "true"
+  mapFileBinaryToByteArray: "true"
   sortModelPropertiesByRequiredFlag: "false"
   sortParamsByRequiredFlag: "false"
   dateLibrary: string

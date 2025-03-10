@@ -11,8 +11,8 @@ import org.openapitools.client.auth.*;
 import java.math.BigDecimal;
 
 import org.openapitools.client.model.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ClientTest {
     ApiClient apiClient;
@@ -48,7 +48,7 @@ public class ClientTest {
         model2.setArrayArrayNumber(new ArrayList<List<BigDecimal>>());
         model2.getArrayArrayNumber().add(arrayArrayNumber2);
 
-        Assert.assertTrue(model2.equals(model));
+        Assertions.assertTrue(model2.equals(model));
     }
 
     /**
@@ -65,6 +65,6 @@ public class ClientTest {
         model2.setId(1029L);
         model2.setName("Dog");
 
-        Assert.assertTrue(model.equals(model2));
+        Assertions.assertTrue(model.equals(model2));
     }
 }

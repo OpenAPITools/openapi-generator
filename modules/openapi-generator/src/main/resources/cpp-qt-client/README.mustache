@@ -6,9 +6,9 @@
 
 - API version: {{appVersion}}
 {{^hideGenerationTimestamp}}
-
 - Build date: {{generatedDate}}
 {{/hideGenerationTimestamp}}
+- Generator version: {{generatorVersion}}
 
 {{{appDescriptionWithNewLines}}}
 
@@ -42,7 +42,7 @@ class Example : public QObject {
   {{#allParams}}
     {{{dataType}}} create();
   {{/allParams}}
-public slots:
+public Q_SLOTS:
    void exampleFunction1();
 };
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}

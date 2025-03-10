@@ -47,7 +47,7 @@ public class {{classname}}  {
          String implClass = servletContext.getInitParameter("{{classname}}.implementation");
          if (implClass != null && !"".equals(implClass.trim())) {
             try {
-               delegate = ({{classname}}Service) Class.forName(implClass).newInstance();
+               delegate = ({{classname}}Service) Class.forName(implClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                throw new RuntimeException(e);
             }

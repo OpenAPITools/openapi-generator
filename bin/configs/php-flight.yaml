@@ -1,0 +1,6 @@
+generatorName: php-flight
+outputDir: samples/server/petstore/php-flight
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-flight
+additionalProperties:
+  hideGenerationTimestamp: "true"

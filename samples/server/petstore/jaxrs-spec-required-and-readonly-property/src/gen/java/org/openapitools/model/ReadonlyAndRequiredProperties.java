@@ -16,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("ReadonlyAndRequiredProperties")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ReadonlyAndRequiredProperties  implements Serializable {
-  private @Valid String requiredYesReadonlyYes;
-  private @Valid String requiredYesReadonlyNo;
-  private @Valid String requiredNoReadonlyYes;
-  private @Valid String requiredNoReadonlyNo;
+  private String requiredYesReadonlyYes;
+  private String requiredYesReadonlyNo;
+  private String requiredNoReadonlyYes;
+  private String requiredNoReadonlyNo;
 
   protected ReadonlyAndRequiredProperties(ReadonlyAndRequiredPropertiesBuilder<?, ?> b) {
     this.requiredYesReadonlyYes = b.requiredYesReadonlyYes;
@@ -33,6 +33,15 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
   public ReadonlyAndRequiredProperties() {
   }
 
+  @JsonCreator
+  public ReadonlyAndRequiredProperties(
+    @JsonProperty(required = true, value = "requiredYesReadonlyYes") String requiredYesReadonlyYes,
+    @JsonProperty(required = true, value = "requiredYesReadonlyNo") String requiredYesReadonlyNo
+  ) {
+    this.requiredYesReadonlyYes = requiredYesReadonlyYes;
+    this.requiredYesReadonlyNo = requiredYesReadonlyNo;
+  }
+
   /**
    **/
   public ReadonlyAndRequiredProperties requiredYesReadonlyYes(String requiredYesReadonlyYes) {
@@ -42,12 +51,12 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("requiredYesReadonlyYes")
+  @JsonProperty(required = true, value = "requiredYesReadonlyYes")
   public String getRequiredYesReadonlyYes() {
     return requiredYesReadonlyYes;
   }
 
-  @JsonProperty("requiredYesReadonlyYes")
+  @JsonProperty(required = true, value = "requiredYesReadonlyYes")
   public void setRequiredYesReadonlyYes(String requiredYesReadonlyYes) {
     this.requiredYesReadonlyYes = requiredYesReadonlyYes;
   }
@@ -61,13 +70,12 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("requiredYesReadonlyNo")
-  @NotNull
-  public String getRequiredYesReadonlyNo() {
+  @JsonProperty(required = true, value = "requiredYesReadonlyNo")
+  @NotNull public String getRequiredYesReadonlyNo() {
     return requiredYesReadonlyNo;
   }
 
-  @JsonProperty("requiredYesReadonlyNo")
+  @JsonProperty(required = true, value = "requiredYesReadonlyNo")
   public void setRequiredYesReadonlyNo(String requiredYesReadonlyNo) {
     this.requiredYesReadonlyNo = requiredYesReadonlyNo;
   }

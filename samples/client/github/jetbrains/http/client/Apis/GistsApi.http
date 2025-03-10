@@ -1,0 +1,136 @@
+## GistsApi
+
+### Check if a gist is starred
+## Check if a gist is starred
+GET https://api.github.com/gists/{{gist_id}}/star
+Accept: application/json
+
+### Create a gist
+## Create a gist
+POST https://api.github.com/gists
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description" : "Example of a gist",
+  "public" : false,
+  "files" : {
+    "README.md" : {
+      "content" : "Hello World"
+    }
+  }
+}
+
+
+### Create a gist comment
+## Create a gist comment
+POST https://api.github.com/gists/{{gist_id}}/comments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "This is a comment to a gist"
+}
+
+
+### Delete a gist
+## Delete a gist
+DELETE https://api.github.com/gists/{{gist_id}}
+Accept: application/json
+
+### Delete a gist comment
+## Delete a gist comment
+DELETE https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
+Accept: application/json
+
+### Fork a gist
+## Fork a gist
+POST https://api.github.com/gists/{{gist_id}}/forks
+Accept: application/json
+
+### Get a gist
+## Get a gist
+GET https://api.github.com/gists/{{gist_id}}
+Accept: application/json
+
+### Get a gist comment
+## Get a gist comment
+GET https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
+Accept: application/json
+
+### Get a gist revision
+## Get a gist revision
+GET https://api.github.com/gists/{{gist_id}}/{{sha}}
+Accept: application/json
+
+### List gists for the authenticated user
+## List gists for the authenticated user
+GET https://api.github.com/gists?since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List gist comments
+## List gist comments
+GET https://api.github.com/gists/{{gist_id}}/comments?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List gist commits
+## List gist commits
+GET https://api.github.com/gists/{{gist_id}}/commits?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List gists for a user
+## List gists for a user
+GET https://api.github.com/users/{{username}}/gists?since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List gist forks
+## List gist forks
+GET https://api.github.com/gists/{{gist_id}}/forks?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public gists
+## List public gists
+GET https://api.github.com/gists/public?since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List starred gists
+## List starred gists
+GET https://api.github.com/gists/starred?since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Star a gist
+## Star a gist
+PUT https://api.github.com/gists/{{gist_id}}/star
+Accept: application/json
+
+### Unstar a gist
+## Unstar a gist
+DELETE https://api.github.com/gists/{{gist_id}}/star
+Accept: application/json
+
+### Update a gist
+## Update a gist
+PATCH https://api.github.com/gists/{{gist_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "description" : "An updated gist description",
+  "files" : {
+    "README.md" : {
+      "content" : "Hello World from GitHub"
+    }
+  }
+}
+
+
+### Update a gist comment
+## Update a gist comment
+PATCH https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "This is an update to a comment in a gist"
+}
+

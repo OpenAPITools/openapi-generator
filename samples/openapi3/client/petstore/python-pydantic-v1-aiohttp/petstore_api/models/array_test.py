@@ -27,9 +27,10 @@ class ArrayTest(BaseModel):
     ArrayTest
     """
     array_of_string: Optional[conlist(StrictStr, max_items=3, min_items=0)] = None
+    array_of_nullable_float: Optional[conlist(float)] = None
     array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
     array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
-    __properties = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
+    __properties = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     class Config:
         """Pydantic configuration"""
@@ -77,6 +78,7 @@ class ArrayTest(BaseModel):
 
         _obj = ArrayTest.parse_obj({
             "array_of_string": obj.get("array_of_string"),
+            "array_of_nullable_float": obj.get("array_of_nullable_float"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [
                     [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]

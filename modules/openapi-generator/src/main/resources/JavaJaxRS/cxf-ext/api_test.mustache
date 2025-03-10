@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
+import {{javaxPackage}}.validation.Valid;
 import {{javaxPackage}}.ws.rs.core.MediaType;
 import {{javaxPackage}}.ws.rs.core.Response;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
@@ -23,8 +24,14 @@ import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 {{/useLoggingFeature}}
 
+{{#useJakartaEe}}
+import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
+import com.fasterxml.jackson.jakarta.rs.xml.JacksonXMLProvider;
+{{/useJakartaEe}}
+{{^useJakartaEe}}
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
+{{/useJakartaEe}}
 import org.apache.cxf.jaxrs.provider.MultipartProvider;
 
 import java.util.Arrays;

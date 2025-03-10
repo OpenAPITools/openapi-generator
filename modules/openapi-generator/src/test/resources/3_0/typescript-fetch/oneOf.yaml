@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: testing oneOf without discriminator
+servers:
+  - url: http://localhost:3000
+paths:
+  /test:
+    get:
+      operationId: test
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestResponse'
+components:
+  schemas:
+    TestResponse:
+      oneOf:
+        - $ref: "#/components/schemas/TestA"
+        - $ref: "#/components/schemas/TestB"
+    TestA:
+      type: object
+      properties:
+        foo:
+          type: string
+      required:
+        - foo
+    TestB:
+      type: object
+      properties:
+        bar:
+          type: string
+      required:
+        - bar

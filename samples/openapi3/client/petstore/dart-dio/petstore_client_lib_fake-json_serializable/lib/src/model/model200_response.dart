@@ -27,7 +27,7 @@ class Model200Response {
     
     name: r'name',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +39,7 @@ class Model200Response {
     
     name: r'class',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +47,17 @@ class Model200Response {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
-     other.name == name &&
-     other.class_ == class_;
 
-  @override
-  int get hashCode =>
-    name.hashCode +
-    class_.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Model200Response &&
+      other.name == name &&
+      other.class_ == class_;
+
+    @override
+    int get hashCode =>
+        name.hashCode +
+        class_.hashCode;
 
   factory Model200Response.fromJson(Map<String, dynamic> json) => _$Model200ResponseFromJson(json);
 

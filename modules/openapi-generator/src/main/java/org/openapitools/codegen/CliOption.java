@@ -19,17 +19,21 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class CliOption {
-    private final String opt;
+    @Getter private final String opt;
+    @Getter @Setter
     private String description;
+    @Getter @Setter
     private String type;
     private String defaultValue;
-    private String optValue;
+    @Getter private String optValue;
     private Map<String, String> enumValues;
 
     public CliOption(String opt, String description) {
@@ -39,26 +43,6 @@ public class CliOption {
     public CliOption(String opt, String description, String type) {
         this.opt = opt;
         this.description = description;
-        this.type = type;
-    }
-
-    public String getOpt() {
-        return opt;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
         this.type = type;
     }
 
@@ -75,12 +59,8 @@ public class CliOption {
         return this;
     }
 
-    public String getOptValue() {
-        return this.optValue;
-    }
-
     public void setOptValue(String optValue) {
-        if (this.enumValues!=null && this.enumValues.containsKey(optValue)) {
+        if (this.enumValues != null && this.enumValues.containsKey(optValue)) {
             this.optValue = optValue;
         } else {
             this.optValue = null;
@@ -108,7 +88,7 @@ public class CliOption {
     /**
      * Create new boolean command line option with a default of false
      *
-     * @param opt Option name
+     * @param opt         Option name
      * @param description Option description
      * @return the CliOption created
      */
@@ -119,8 +99,8 @@ public class CliOption {
     /**
      * Create new boolean command line option with the provided value as default
      *
-     * @param opt Option name
-     * @param description Option description
+     * @param opt          Option name
+     * @param description  Option description
      * @param defaultValue the default value to use if option not specified
      * @return the CliOption created
      */
@@ -135,7 +115,7 @@ public class CliOption {
     @JsonIgnore
     public String getOptionHelp() {
         StringBuilder sb = new StringBuilder(description);
-        if(defaultValue != null) {
+        if (defaultValue != null) {
             sb.append(" (Default: ").append(defaultValue).append(")");
         }
         if (enumValues != null) {

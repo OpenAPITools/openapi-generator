@@ -13,7 +13,7 @@ export function appFromJS(any: any): any {
         if (isIndexed(value)) {
             return knownIndexedSetByKey.indexOf(key) !== -1 ? value.toSet() : value.toList();
         } // we're reviving an array -> it's a List
-        const MatchingType = knownRecordFactories.get(value.get('recType')) as { new(input?: any): any }; // check if we know a Record with this type
+        const MatchingType = knownRecordFactories.get(value.get('recType') as string) as { new(input?: any): any }; // check if we know a Record with this type
         if (MatchingType) {
             return new MatchingType(value);
         }

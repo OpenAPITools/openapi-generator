@@ -92,18 +92,11 @@ class StoreController extends Controller
 
             $handler->deleteOrder($orderId, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Order not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                400 => 'Invalid ID supplied',
+                404 => 'Order not found',
+                default => '',
+            };
 
             return new Response(
                 '',
@@ -163,15 +156,10 @@ class StoreController extends Controller
 
             $result = $handler->getInventory($responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -243,21 +231,12 @@ class StoreController extends Controller
 
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid ID supplied';
-                    break;
-                case 404:
-                    $message = 'Order not found';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid ID supplied',
+                404 => 'Order not found',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',
@@ -310,7 +289,7 @@ class StoreController extends Controller
 
         // Deserialize the input values that needs it
         try {
-            $inputFormat = $request->getMimeType($request->getContentType());
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
             $order = $this->deserialize($order, 'OpenAPI\Server\Model\Order', $inputFormat);
         } catch (SerializerRuntimeException $exception) {
             return $this->createBadRequestResponse($exception->getMessage());
@@ -337,18 +316,11 @@ class StoreController extends Controller
 
             $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
-                case 200:
-                    $message = 'successful operation';
-                    break;
-                case 400:
-                    $message = 'Invalid Order';
-                    break;
-            }
+            $message = match($responseCode) {
+                200 => 'successful operation',
+                400 => 'Invalid Order',
+                default => '',
+            };
 
             return new Response(
                 $result !== null ?$this->serialize($result, $responseFormat):'',

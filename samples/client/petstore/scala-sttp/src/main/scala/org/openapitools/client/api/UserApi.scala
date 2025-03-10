@@ -18,8 +18,7 @@ import sttp.client3._
 import sttp.model.Method
 
 object UserApi {
-
-def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
 }
 
 class UserApi(baseUrl: String) {
@@ -36,13 +35,13 @@ class UserApi(baseUrl: String) {
    * @param user Created user object
    */
   def createUser(apiKey: String)(user: User
-): Request[Either[Either[String, String], Unit], Any] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asEither(asString, ignore))
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * 
@@ -56,13 +55,13 @@ class UserApi(baseUrl: String) {
    * @param user List of user object
    */
   def createUsersWithArrayInput(apiKey: String)(user: Seq[User]
-): Request[Either[Either[String, String], Unit], Any] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asEither(asString, ignore))
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * 
@@ -76,13 +75,13 @@ class UserApi(baseUrl: String) {
    * @param user List of user object
    */
   def createUsersWithListInput(apiKey: String)(user: Seq[User]
-): Request[Either[Either[String, String], Unit], Any] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asEither(asString, ignore))
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * This can only be done by the logged in user.
@@ -102,7 +101,7 @@ class UserApi(baseUrl: String) {
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * 
@@ -152,12 +151,12 @@ class UserApi(baseUrl: String) {
    *   api_key (apiKey)
    */
   def logoutUser(apiKey: String)(
-): Request[Either[Either[String, String], Unit], Any] =
+): Request[Either[ResponseException[String, Exception], Unit], Any] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
       .header("api_key", apiKey)
-      .response(asEither(asString, ignore))
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
    * This can only be done by the logged in user.
@@ -179,6 +178,6 @@ class UserApi(baseUrl: String) {
       .contentType("application/json")
       .header("api_key", apiKey)
       .body(user)
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
 }

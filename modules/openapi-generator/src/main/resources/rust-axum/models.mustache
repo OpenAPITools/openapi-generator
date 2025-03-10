@@ -1,0 +1,987 @@
+#![allow(unused_qualifications)]
+
+use http::HeaderValue;
+use validator::Validate;
+
+#[cfg(feature = "server")]
+use crate::header;
+use crate::{models, types::*};
+
+{{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+      
+{{#vendorExtensions}}
+  {{#headerParams.size}}
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+    pub struct {{{operationIdCamelCase}}}HeaderParams {
+        {{#headerParams}}
+            {{#hasValidation}}
+            #[validate(
+                {{#maxLength}}
+                    {{#minLength}}
+                    length(min = {{minLength}}, max = {{maxLength}}),
+                    {{/minLength}}
+                    {{^minLength}}
+                    length(max = {{maxLength}}),
+                    {{/minLength}}
+                {{/maxLength}}
+                {{^maxLength}}
+                    {{#minLength}}
+                    length(min = {{minLength}}),
+                    {{/minLength}}
+                {{/maxLength}}
+                {{#pattern}}
+                    {{^isByteArray}}
+                      regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}),
+                    {{/isByteArray}}
+                    {{#isByteArray}}
+                      custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}"),
+                    {{/isByteArray}}
+                {{/pattern}}
+                {{#maximum}}
+                    {{#minimum}}
+                    range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
+                    {{/minimum}}
+                    {{^minimum}}
+                    range(max = {{maximum}}{{{dataType}}}),
+                    {{/minimum}}
+                {{/maximum}}
+                {{#minimum}}
+                    {{^maximum}}
+                    range(min = {{minimum}}{{{dataType}}}),
+                    {{/maximum}}
+                {{/minimum}}
+                {{#maxItems}}
+                    {{#minItems}}
+                    length(min = {{minItems}}, max = {{maxItems}}),
+                    {{/minItems}}
+                    {{^minItems}}
+                    length(max = {{maxItems}}),
+                    {{/minItems}}
+                {{/maxItems}}
+                {{^maxItems}}
+                    {{#minItems}}
+                    length(min = {{minItems}}),
+                    {{/minItems}}
+                {{/maxItems}}
+                )]
+            {{/hasValidation}}
+        pub {{{paramName}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+        {{/headerParams}} 
+    }
+
+    {{#headerParams}}
+    {{#hasValidation}}
+    {{#pattern}}
+    {{^isByteArray}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    {{/isByteArray}}
+    {{#isByteArray}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}(
+        b: &ByteArray
+    ) -> std::result::Result<(), validator::ValidationError> {
+        if !RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}.is_match(&b.0) {
+            return Err(validator::ValidationError::new("Character not allowed"));
+        }
+        std::result::Result::Ok(())
+    }
+    {{/isByteArray}}
+    {{/pattern}}
+    {{/hasValidation}}
+    {{/headerParams}} 
+            
+  {{/headerParams.size}}
+  {{#pathParams.size}}
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
+    pub struct {{{operationIdCamelCase}}}PathParams {
+        {{#pathParams}}
+            {{#description}}    
+            /// {{{.}}}
+            {{/description}}
+            {{#isEnum}}
+            /// Note: inline enums are not fully supported by openapi-generator
+            {{/isEnum}}
+            {{#hasValidation}}
+                #[validate(
+                    {{#maxLength}}
+                        {{#minLength}}
+                        length(min = {{minLength}}, max = {{maxLength}}),
+                        {{/minLength}}
+                        {{^minLength}}
+                        length(max = {{maxLength}}),
+                        {{/minLength}}
+                    {{/maxLength}}
+                    {{^maxLength}}
+                        {{#minLength}}
+                        length(min = {{minLength}}),
+                        {{/minLength}}
+                    {{/maxLength}}
+                    {{#pattern}}
+                        {{^isByteArray}}
+                          regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}),
+                        {{/isByteArray}}
+                        {{#isByteArray}}
+                          custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}"),
+                        {{/isByteArray}}
+                    {{/pattern}}
+                    {{#maximum}}
+                        {{#minimum}}
+                        range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
+                        {{/minimum}}
+                        {{^minimum}}
+                        range(max = {{maximum}}{{{dataType}}}),
+                        {{/minimum}}
+                    {{/maximum}}
+                    {{#minimum}}
+                        {{^maximum}}
+                        range(min = {{minimum}}{{{dataType}}}),
+                        {{/maximum}}
+                    {{/minimum}}
+                    {{#maxItems}}
+                        {{#minItems}}
+                        length(min = {{minItems}}, max = {{maxItems}}),
+                        {{/minItems}}
+                        {{^minItems}}
+                        length(max = {{maxItems}}),
+                        {{/minItems}}
+                    {{/maxItems}}
+                    {{^maxItems}}
+                        {{#minItems}}
+                        length(min = {{minItems}}),
+                        {{/minItems}}
+                    {{/maxItems}}
+                    )]
+            {{/hasValidation}}
+            {{#required}}
+                pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+            {{/required}}
+            {{^required}}
+            {{#isNullable}}
+                #[serde(deserialize_with = "deserialize_optional_nullable")]
+                #[serde(default = "default_optional_nullable")]
+            {{/isNullable}}
+                #[serde(skip_serializing_if="Option::is_none")]
+                pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+            {{/required}}
+        {{/pathParams}}
+    }
+
+    {{#pathParams}}
+    {{#hasValidation}}
+    {{#pattern}}
+    {{^isByteArray}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    {{/isByteArray}}
+    {{#isByteArray}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}(
+        b: &ByteArray
+    ) -> std::result::Result<(), validator::ValidationError> {
+        if !RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}.is_match(&b.0) {
+            return Err(validator::ValidationError::new("Character not allowed"));
+        }
+        std::result::Result::Ok(())
+    }
+    {{/isByteArray}}
+    {{/pattern}}
+    {{/hasValidation}}
+    {{/pathParams}}
+
+  {{/pathParams.size}}
+  {{#queryParams.size}}
+    #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+    #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
+    pub struct {{{operationIdCamelCase}}}QueryParams {
+        {{#queryParams}}
+          {{#vendorExtensions}}
+            {{#description}}    
+            /// {{{.}}}
+            {{/description}}
+            {{#isEnum}}
+            /// Note: inline enums are not fully supported by openapi-generator
+            {{/isEnum}}
+                #[serde(rename = "{{{baseName}}}")]
+            {{#hasValidation}}
+                #[validate(
+                    {{#maxLength}}
+                        {{#minLength}}
+                        length(min = {{minLength}}, max = {{maxLength}}),
+                        {{/minLength}}
+                        {{^minLength}}
+                        length(max = {{maxLength}}),
+                        {{/minLength}}
+                    {{/maxLength}}
+                    {{^maxLength}}
+                        {{#minLength}}
+                        length(min = {{minLength}}),
+                        {{/minLength}}
+                    {{/maxLength}}
+                    {{#pattern}}
+                        {{^isByteArray}}
+                          regex(path = *RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}),
+                        {{/isByteArray}}
+                        {{#isByteArray}}
+                          custom(function = "validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}"),
+                        {{/isByteArray}}
+                    {{/pattern}}
+                    {{#maximum}}
+                        {{#minimum}}
+                        range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
+                        {{/minimum}}
+                        {{^minimum}}
+                        range(max = {{maximum}}{{{dataType}}}),
+                        {{/minimum}}
+                    {{/maximum}}
+                    {{#minimum}}
+                        {{^maximum}}
+                        range(min = {{minimum}}{{{dataType}}}),
+                        {{/maximum}}
+                    {{/minimum}}
+                    {{#maxItems}}
+                        {{#minItems}}
+                        length(min = {{minItems}}, max = {{maxItems}}),
+                        {{/minItems}}
+                        {{^minItems}}
+                        length(max = {{maxItems}}),
+                        {{/minItems}}
+                    {{/maxItems}}
+                    {{^maxItems}}
+                        {{#minItems}}
+                        length(min = {{minItems}}),
+                        {{/minItems}}
+                    {{/maxItems}}
+                    )]
+            {{/hasValidation}}
+            {{#required}}
+                pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+            {{/required}}
+            {{^required}}
+            {{#isNullable}}
+                #[serde(deserialize_with = "deserialize_optional_nullable")]
+                #[serde(default = "default_optional_nullable")]
+            {{/isNullable}}
+                #[serde(skip_serializing_if="Option::is_none")]
+                pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+            {{/required}}
+          {{/vendorExtensions}}
+        {{/queryParams}}
+    }
+
+    {{#queryParams}}
+    {{#hasValidation}}
+    {{#pattern}}
+    {{^isByteArray}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    {{/isByteArray}}
+    {{#isByteArray}}
+    lazy_static::lazy_static! {
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+    }
+    fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}(
+        b: &ByteArray
+    ) -> std::result::Result<(), validator::ValidationError> {
+        if !RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}.is_match(&b.0) {
+            return Err(validator::ValidationError::new("Character not allowed"));
+        }
+        std::result::Result::Ok(())
+    }
+    {{/isByteArray}}
+    {{/pattern}}
+    {{/hasValidation}}
+    {{/queryParams}} 
+  {{/queryParams.size}}
+{{/vendorExtensions}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+
+{{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
+{{#models}}
+{{#model}}
+
+{{#description}}
+/// {{{.}}}
+{{/description}}
+{{#isEnum}}
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum {{{classname}}} {
+{{#allowableValues}}
+  {{#enumVars}}
+    #[serde(rename = {{{value}}})]
+    {{{name}}},
+  {{/enumVars}}
+{{/allowableValues}}
+}
+
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+{{#allowableValues}}
+  {{#enumVars}}
+            {{{classname}}}::{{{name}}} => write!(f, {{{value}}}),
+  {{/enumVars}}
+{{/allowableValues}}
+        }
+    }
+}
+
+impl std::str::FromStr for {{{classname}}} {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+{{#allowableValues}}
+  {{#enumVars}}
+            {{{value}}} => std::result::Result::Ok({{{classname}}}::{{{name}}}),
+  {{/enumVars}}
+{{/allowableValues}}
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+        }
+    }
+}
+{{/isEnum}}
+{{^isEnum}}
+{{#dataType}}
+{{#isMap}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+{{/isMap}}
+{{^isMap}}
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+{{/isMap}}
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct {{{classname}}}({{{dataType}}});
+
+impl validator::Validate for {{{classname}}} {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
+    fn from(x: {{{dataType}}}) -> Self {
+        {{{classname}}}(x)
+    }
+}
+{{#vendorExtensions.x-is-string}}
+
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+       write!(f, "{:?}", self.0)
+    }
+}
+
+impl std::str::FromStr for {{{classname}}} {
+    type Err = std::string::ParseError;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok({{{classname}}}(x.to_string()))
+    }
+}
+{{/vendorExtensions.x-is-string}}
+
+impl std::convert::From<{{{classname}}}> for {{{dataType}}} {
+    fn from(x: {{{classname}}}) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for {{{classname}}} {
+    type Target = {{{dataType}}};
+    fn deref(&self) -> &{{{dataType}}} {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for {{{classname}}} {
+    fn deref_mut(&mut self) -> &mut {{{dataType}}} {
+        &mut self.0
+    }
+}
+
+{{#additionalPropertiesType}}
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // Skipping additionalProperties in query parameter serialization
+        write!(f, "")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for {{{classname}}} {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err("Parsing additionalProperties for {{{classname}}} is not supported")
+    }
+}
+{{/additionalPropertiesType}}
+{{/dataType}}
+{{^dataType}}
+{{#arrayModelType}}
+{{! vec}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct {{{classname}}}(Vec<{{{arrayModelType}}}>);
+
+impl validator::Validate for {{{classname}}} {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::convert::From<Vec<{{{arrayModelType}}}>> for {{{classname}}} {
+    fn from(x: Vec<{{{arrayModelType}}}>) -> Self {
+        {{{classname}}}(x)
+    }
+}
+
+impl std::convert::From<{{{classname}}}> for Vec<{{{arrayModelType}}}> {
+    fn from(x: {{{classname}}}) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<{{{arrayModelType}}}> for {{{classname}}} {
+    fn from_iter<U: IntoIterator<Item={{{arrayModelType}}}>>(u: U) -> Self {
+        {{{classname}}}(Vec::<{{{arrayModelType}}}>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for {{{classname}}} {
+    type Item = {{{arrayModelType}}};
+    type IntoIter = std::vec::IntoIter<{{{arrayModelType}}}>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a {{{classname}}} {
+    type Item = &'a {{{arrayModelType}}};
+    type IntoIter = std::slice::Iter<'a, {{{arrayModelType}}}>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut {{{classname}}} {
+    type Item = &'a mut {{{arrayModelType}}};
+    type IntoIter = std::slice::IterMut<'a, {{{arrayModelType}}}>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+
+impl std::ops::Deref for {{{classname}}} {
+    type Target = Vec<{{{arrayModelType}}}>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for {{{classname}}} {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for {{{classname}}} {
+   fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+       write!(f, "{}", self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = <{{{arrayModelType}}} as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok({{{classname}}}(items))
+    }
+}
+
+{{/arrayModelType}}
+{{^arrayModelType}}
+{{! general struct}}
+{{#anyOf.size}}
+/// Any of:
+{{#anyOf}}
+/// - {{{.}}}
+{{/anyOf}}
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct {{{classname}}}(Box<serde_json::value::RawValue>);
+
+impl validator::Validate for {{{classname}}}
+{
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+impl PartialEq for {{{classname}}} {
+    fn eq(&self, other: &Self) -> bool {
+        self.0.get() == other.0.get()
+    }
+}
+
+{{/anyOf.size}}
+{{#oneOf.size}}
+{{#discriminator}}
+#[derive(Debug, Clone, PartialEq, serde::Deserialize)]
+#[serde(tag = "{{{propertyBaseName}}}")]
+{{/discriminator}}
+{{^discriminator}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(untagged)]
+{{/discriminator}}
+#[allow(non_camel_case_types)]
+pub enum {{{classname}}} {
+    {{#composedSchemas}}
+    {{#oneOf}}
+    {{{datatypeWithEnum}}}(Box<{{{dataType}}}>),
+    {{/oneOf}}
+    {{/composedSchemas}}
+}
+
+impl validator::Validate for {{{classname}}}
+{
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        match self {
+            {{#composedSchemas}}
+            {{#oneOf}}
+            {{#isPrimitiveType}}
+            Self::{{{datatypeWithEnum}}}(_) => std::result::Result::Ok(()),
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            Self::{{{datatypeWithEnum}}}(x) => x.validate(),
+            {{/isPrimitiveType}}
+            {{/oneOf}}
+            {{/composedSchemas}}
+        }
+    }
+}
+
+{{#discriminator}}
+impl serde::Serialize for {{{classname}}} {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: serde::Serializer {
+            match self {
+                {{#composedSchemas}}
+                {{#oneOf}}
+                Self::{{{datatypeWithEnum}}}(x) => x.serialize(serializer),
+                {{/oneOf}}
+                {{/composedSchemas}}
+            }
+    }
+}
+{{/discriminator}}
+
+
+
+{{#composedSchemas}}
+{{#oneOf}}
+impl From<{{{dataType}}}> for {{{classname}}} {
+    fn from(value: {{{dataType}}}) -> Self {
+        Self::{{{datatypeWithEnum}}}(Box::new(value))
+    }
+}
+{{/oneOf}}
+{{/composedSchemas}}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = serde_json::Error;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        serde_json::from_str(s)
+    }
+}
+
+{{/oneOf.size}}
+{{^anyOf.size}}
+{{^oneOf.size}}
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct {{{classname}}} {
+{{#vars}}
+{{#description}}    
+    /// {{{.}}}
+{{/description}}
+{{#isEnum}}
+    /// Note: inline enums are not fully supported by openapi-generator
+{{/isEnum}}
+{{#isDiscriminator}}
+    #[serde(default = "{{{classname}}}::_name_for_{{{name}}}")]
+    #[serde(serialize_with = "{{{classname}}}::_serialize_{{{name}}}")]
+{{/isDiscriminator}}
+    #[serde(rename = "{{{baseName}}}")]
+{{#hasValidation}}
+    #[validate(
+        {{#maxLength}}
+            {{#minLength}}
+            length(min = {{minLength}}, max = {{maxLength}}),
+            {{/minLength}}
+            {{^minLength}}
+            length(max = {{maxLength}}),
+            {{/minLength}}
+        {{/maxLength}}
+        {{^maxLength}}
+            {{#minLength}}
+            length(min = {{minLength}}),
+            {{/minLength}}
+        {{/maxLength}}
+        {{#pattern}}
+          {{^isByteArray}}
+            regex(path = *RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}),
+          {{/isByteArray}}
+          {{#isByteArray}}
+            custom(function = "validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}"),
+          {{/isByteArray}}
+        {{/pattern}}
+        {{#maximum}}
+            {{#minimum}}
+            range(min = {{minimum}}{{{dataType}}}, max = {{maximum}}{{{dataType}}}),
+            {{/minimum}}
+            {{^minimum}}
+            range(max = {{maximum}}{{{dataType}}}),
+            {{/minimum}}
+        {{/maximum}}
+        {{#minimum}}
+            {{^maximum}}
+            range(min = {{minimum}}{{{dataType}}}),
+            {{/maximum}}
+        {{/minimum}}
+        {{#maxItems}}
+            {{#minItems}}
+            length(min = {{minItems}}, max = {{maxItems}}),
+            {{/minItems}}
+            {{^minItems}}
+            length(max = {{maxItems}}),
+            {{/minItems}}
+        {{/maxItems}}
+        {{^maxItems}}
+            {{#minItems}}
+            length(min = {{minItems}}),
+            {{/minItems}}
+        {{/maxItems}}
+        )]
+{{/hasValidation}}
+{{#required}}
+    pub {{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
+{{/required}}
+{{^required}}
+{{#isNullable}}
+    #[serde(deserialize_with = "deserialize_optional_nullable")]
+    #[serde(default = "default_optional_nullable")]
+{{/isNullable}}
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub {{{name}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
+{{/required}}
+
+{{/vars}}
+}
+
+
+{{#vars}}
+{{#isDiscriminator}}
+impl {{{classname}}} {
+    fn _name_for_{{{name}}}() -> String {
+        String::from("{{{classname}}}")
+    }
+
+    fn _serialize_{{{name}}}<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str(&Self::_name_for_{{{name}}}())
+    }
+}
+{{/isDiscriminator}}
+{{/vars}}
+
+
+{{#vars}}
+{{#hasValidation}}
+{{#pattern}}
+{{^isByteArray}}
+lazy_static::lazy_static! {
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+}
+{{/isByteArray}}
+{{#isByteArray}}
+lazy_static::lazy_static! {
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+}
+fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}(
+    b: &ByteArray
+) -> std::result::Result<(), validator::ValidationError> {
+    if !RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}.is_match(&b.0) {
+        return Err(validator::ValidationError::new("Character not allowed"));
+    }
+    std::result::Result::Ok(())
+}
+{{/isByteArray}}
+{{/pattern}}
+{{/hasValidation}}
+{{/vars}}
+
+impl {{{classname}}} {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new({{#vars}}{{^defaultValue}}{{{name}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}, {{/defaultValue}}{{/vars}}) -> {{{classname}}} {
+        {{{classname}}} {
+{{#vars}}            {{#defaultValue}}{{{name}}}: {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{{name}}}{{/defaultValue}},
+{{/vars}}
+        }
+    }
+}
+
+/// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for {{{classname}}} {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+{{#vars}}
+{{#isByteArray}}
+            // Skipping {{baseName}} in query parameter serialization
+{{/isByteArray}}
+{{#isBinary}}
+            // Skipping {{baseName}} in query parameter serialization
+{{/isBinary}}
+{{#isMap}}
+            // Skipping {{baseName}} in query parameter serialization
+{{/isMap}}
+{{^isPrimitiveType}}
+            // Skipping {{baseName}} in query parameter serialization
+{{/isPrimitiveType}}
+{{^isByteArray}}{{^isBinary}}{{^isMap}}{{#isPrimitiveType}}
+{{#required}}
+            Some("{{{baseName}}}".to_string()),
+{{^isArray}}
+{{#isNullable}}
+            Some(self.{{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string())),
+{{/isNullable}}
+{{^isNullable}}
+            Some(self.{{{name}}}.to_string()),
+{{/isNullable}}
+{{/isArray}}
+{{#isArray}}
+{{#isNullable}}
+            Some(self.{{{name}}}.as_ref().map_or(vec!["null".to_string()], |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","))),
+{{/isNullable}}
+{{^isNullable}}
+            Some(self.{{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+{{/isNullable}}
+{{/isArray}}
+{{/required}}
+{{^required}}
+            self.{{{name}}}.as_ref().map(|{{{name}}}| {
+                [
+                    "{{{baseName}}}".to_string(),
+{{^isArray}}
+{{#isNullable}}
+                    {{{name}}}.as_ref().map_or("null".to_string(), |x| x.to_string()),
+{{/isNullable}}
+{{^isNullable}}
+                    {{{name}}}.to_string(),
+{{/isNullable}}
+{{/isArray}}
+{{#isArray}}
+{{#isNullable}}
+                    {{{name}}}.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+{{/isNullable}}
+{{^isNullable}}
+                    {{{name}}}.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+{{/isNullable}}
+{{/isArray}}
+                ].join(",")
+            }),
+{{/required}}
+{{/isPrimitiveType}}{{/isMap}}{{/isBinary}}{{/isByteArray}}
+{{/vars}}
+        ];
+
+        write!(f, "{}", params.into_iter().flatten().collect::<Vec<_>>().join(","))
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a {{{classname}}} value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for {{{classname}}} {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            {{#vars}}
+            pub {{{name}}}: Vec<{{{dataType}}}>,
+            {{/vars}}
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing {{{classname}}}".to_string())
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+          {{#vars}}
+            {{#isBinary}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing binary data in this style is not supported in {{{classname}}}".to_string()),
+            {{/isBinary}}
+            {{^isBinary}}
+              {{#isByteArray}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing binary data in this style is not supported in {{{classname}}}".to_string()),
+              {{/isByteArray}}
+              {{^isByteArray}}
+                {{#isContainer}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing a container in this style is not supported in {{{classname}}}".to_string()),
+                {{/isContainer}}
+                {{^isContainer}}
+                  {{#isNullable}}
+                    "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
+                  {{/isNullable}}
+                  {{^isNullable}}
+                    #[allow(clippy::redundant_clone)]
+                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                  {{/isNullable}}
+                {{/isContainer}}
+              {{/isByteArray}}
+            {{/isBinary}}
+          {{/vars}}
+                    _ => return std::result::Result::Err("Unexpected key while parsing {{{classname}}}".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok({{{classname}}} {
+            {{#vars}}
+            {{#isNullable}}
+            {{{name}}}: std::result::Result::Err("Nullable types not supported in {{{classname}}}".to_string())?,
+            {{/isNullable}}
+            {{^isNullable}}
+            {{{name}}}: intermediate_rep.{{{name}}}.into_iter().next(){{#required}}.ok_or_else(|| "{{{baseName}}} missing in {{{classname}}}".to_string())?{{/required}},
+            {{/isNullable}}
+            {{/vars}}
+        })
+    }
+}
+{{/oneOf.size}}
+{{/anyOf.size}}
+{{/arrayModelType}}
+
+{{^anyOf.size}}
+{{^oneOf.size}}
+// Methods for converting between header::IntoHeaderValue<{{{classname}}}> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<{{{classname}}}>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<{{{classname}}}> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <{{{classname}}} as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into {{classname}} - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+{{/oneOf.size}}
+{{/anyOf.size}}
+
+{{/dataType}}
+{{/isEnum}}
+
+{{/model}}
+{{/models}}

@@ -10,19 +10,19 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct Dog: Codable, JSONEncodable, Hashable {
+internal struct Dog: Codable, JSONEncodable {
 
-    public var className: String
-    public var color: String? = "red"
-    public var breed: String?
+    internal private(set) var className: String
+    internal private(set) var color: String? = "red"
+    internal private(set) var breed: String?
 
-    public init(className: String, color: String? = "red", breed: String? = nil) {
+    internal init(className: String, color: String? = "red", breed: String? = nil) {
         self.className = className
         self.color = color
         self.breed = breed
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case className
         case color
         case breed
@@ -30,7 +30,7 @@ public struct Dog: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(className, forKey: .className)
         try container.encodeIfPresent(color, forKey: .color)

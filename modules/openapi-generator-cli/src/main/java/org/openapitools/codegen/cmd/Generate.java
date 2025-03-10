@@ -17,24 +17,24 @@
 
 package org.openapitools.codegen.cmd;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
-
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.MergedSpecBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 @SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
@@ -101,7 +101,7 @@ public class Generate extends OpenApiGeneratorCommand {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
-    @Option(name = { "--dry-run" }, title = "Dry run",
+    @Option(name = {"--dry-run"}, title = "Dry run",
             description = "Try things out and report on potential changes (without actually making changes).")
     private Boolean isDryRun;
 
@@ -224,6 +224,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> enumNameMappings = new ArrayList<>();
 
     @Option(
+            name = {"--operation-id-name-mappings"},
+            title = "operation id name mappings",
+            description = "specifies mappings between the operation id name and the new name in the format of operation_id_name=AnotherName,operation_id_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> operationIdNameMappings = new ArrayList<>();
+
+    @Option(
             name = {"--openapi-normalizer"},
             title = "OpenAPI normalizer rules",
             description = "specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original."
@@ -320,15 +327,15 @@ public class Generate extends OpenApiGeneratorCommand {
     private Boolean legacyDiscriminatorBehavior;
 
     @Option(name = {"--minimal-update"},
-        title = "Minimal update",
-        description = "Only write output files that have changed.")
+            title = "Minimal update",
+            description = "Only write output files that have changed.")
     private Boolean minimalUpdate;
 
     @Override
     public void execute() {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
-                .buildMergedSpec();
+                    .buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);
         }
 
@@ -507,11 +514,12 @@ public class Generate extends OpenApiGeneratorCommand {
         applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
         applyModelNameMappingsKvpList(modelNameMappings, configurator);
         applyEnumNameMappingsKvpList(enumNameMappings, configurator);
-        applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
+        applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+        applyOpenapiNormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
-        applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
+        applyOpenapiGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

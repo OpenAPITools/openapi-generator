@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -20,7 +21,7 @@ import jakarta.annotation.Generated;
  * An order for a pets from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Order {
 
   private Optional<Long> id = Optional.empty();
@@ -74,14 +75,14 @@ public class Order {
   private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Optional<Long> getId() {
@@ -93,14 +94,14 @@ public class Order {
   }
 
   public Order petId(Long petId) {
-    this.petId = Optional.of(petId);
+    this.petId = Optional.ofNullable(petId);
     return this;
   }
 
   /**
    * Get petId
    * @return petId
-  */
+   */
   
   @JsonProperty("petId")
   public Optional<Long> getPetId() {
@@ -112,14 +113,14 @@ public class Order {
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = Optional.of(quantity);
+    this.quantity = Optional.ofNullable(quantity);
     return this;
   }
 
   /**
    * Get quantity
    * @return quantity
-  */
+   */
   
   @JsonProperty("quantity")
   public Optional<Integer> getQuantity() {
@@ -131,14 +132,14 @@ public class Order {
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = Optional.of(shipDate);
+    this.shipDate = Optional.ofNullable(shipDate);
     return this;
   }
 
   /**
    * Get shipDate
    * @return shipDate
-  */
+   */
   @Valid 
   @JsonProperty("shipDate")
   public Optional<OffsetDateTime> getShipDate() {
@@ -150,14 +151,14 @@ public class Order {
   }
 
   public Order status(StatusEnum status) {
-    this.status = Optional.of(status);
+    this.status = Optional.ofNullable(status);
     return this;
   }
 
   /**
    * Order Status
    * @return status
-  */
+   */
   
   @JsonProperty("status")
   public Optional<StatusEnum> getStatus() {
@@ -169,14 +170,14 @@ public class Order {
   }
 
   public Order complete(Boolean complete) {
-    this.complete = Optional.of(complete);
+    this.complete = Optional.ofNullable(complete);
     return this;
   }
 
   /**
    * Get complete
    * @return complete
-  */
+   */
   
   @JsonProperty("complete")
   public Optional<Boolean> getComplete() {

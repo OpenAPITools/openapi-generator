@@ -19,7 +19,9 @@ package org.openapitools.codegen.java;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.annotations.Test;
 
@@ -27,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class JavaClientDeepObjectTest {
@@ -59,6 +62,6 @@ public class JavaClientDeepObjectTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/api/DefaultApi.java"),
                 "options.toUrlQueryString(\"options\")",
-                "inputOptions.toUrlQueryString(\"inputOptions\"))");
+                "inputOptions.toUrlQueryString(\"inputOptions\")");
     }
 }

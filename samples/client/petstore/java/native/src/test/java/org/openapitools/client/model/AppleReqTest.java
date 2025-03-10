@@ -18,22 +18,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for AppleReq
  */
-public class AppleReqTest {
+class AppleReqTest {
     private final AppleReq model = new AppleReq();
 
     /**
      * Model tests for AppleReq
      */
     @Test
-    public void testAppleReq() {
+    void testAppleReq() {
         // TODO: test AppleReq
     }
 
@@ -41,7 +41,7 @@ public class AppleReqTest {
      * Test the property 'cultivar'
      */
     @Test
-    public void cultivarTest() {
+    void cultivarTest() {
         // TODO: test cultivar
     }
 
@@ -49,7 +49,7 @@ public class AppleReqTest {
      * Test the property 'mealy'
      */
     @Test
-    public void mealyTest() {
+    void mealyTest() {
         // TODO: test mealy
     }
 

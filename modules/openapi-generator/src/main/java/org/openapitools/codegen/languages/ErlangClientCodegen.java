@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -42,18 +44,21 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
 
-    protected String packageName = "openapi";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapi";
+    @Setter protected String packageVersion = "1.0.0";
     protected String sourceFolder = "src";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "erlang-client";
     }
 
+    @Override
     public String getHelp() {
         return "Generates an Erlang client library (beta).";
     }
@@ -246,6 +251,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toVarName(String name) {
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
         // for reserved word or word starting with number, append _
@@ -257,6 +266,10 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         return camelize(toVarName(name));
     }
 
@@ -347,14 +360,6 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         return objs;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     /**
      * Returns the number of required parameters plus 1.
      *
@@ -397,7 +402,9 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     class ExtendedCodegenOperation extends CodegenOperation {
+        @Getter @Setter
         private List<String> pathTemplateNames = new ArrayList<String>();
+        @Getter @Setter
         private String replacedPathName;
         String arityRequired;
         String arityOptional;
@@ -419,6 +426,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
+            this.isResponseFile = o.isResponseFile;
+            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;
@@ -461,21 +470,6 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.operationIdCamelCase = o.operationIdCamelCase;
         }
 
-        public List<String> getPathTemplateNames() {
-            return pathTemplateNames;
-        }
-
-        public void setPathTemplateNames(List<String> pathTemplateNames) {
-            this.pathTemplateNames = pathTemplateNames;
-        }
-
-        public String getReplacedPathName() {
-            return replacedPathName;
-        }
-
-        public void setReplacedPathName(String replacedPathName) {
-            this.replacedPathName = replacedPathName;
-        }
     }
 
     @Override
@@ -484,5 +478,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

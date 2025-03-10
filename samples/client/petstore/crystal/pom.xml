@@ -37,6 +37,7 @@
                             <arguments>
                                 <argument>install</argument>
                                 <argument>--ignore-crystal-version</argument>
+                                <argument>--without-development</argument>
                             </arguments>
                         </configuration>
                     </execution>

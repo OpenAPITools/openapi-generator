@@ -1,0 +1,4 @@
+generatorName: typescript
+outputDir: samples/client/others/typescript/builds/array-of-lists
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript/array_list.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript

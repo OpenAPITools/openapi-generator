@@ -14,9 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * API tests for AuthApi
  */
-public class AuthApiTest {
+class AuthApiTest {
 
     private final AuthApi api = new AuthApi();
 
@@ -41,7 +41,7 @@ public class AuthApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testAuthHttpBasicTest() throws ApiException {
+    void testAuthHttpBasicTest() throws ApiException {
         //
         //String response = api.testAuthHttpBasic();
 
@@ -56,7 +56,7 @@ public class AuthApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testAuthHttpBearerTest() throws ApiException {
+    void testAuthHttpBearerTest() throws ApiException {
         //
         //String response = api.testAuthHttpBearer();
 

@@ -18,22 +18,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Whale
  */
-public class WhaleTest {
+class WhaleTest {
     private final Whale model = new Whale();
 
     /**
      * Model tests for Whale
      */
     @Test
-    public void testWhale() {
+    void testWhale() {
         // TODO: test Whale
     }
 
@@ -41,7 +41,7 @@ public class WhaleTest {
      * Test the property 'hasBaleen'
      */
     @Test
-    public void hasBaleenTest() {
+    void hasBaleenTest() {
         // TODO: test hasBaleen
     }
 
@@ -49,7 +49,7 @@ public class WhaleTest {
      * Test the property 'hasTeeth'
      */
     @Test
-    public void hasTeethTest() {
+    void hasTeethTest() {
         // TODO: test hasTeeth
     }
 
@@ -57,7 +57,7 @@ public class WhaleTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 

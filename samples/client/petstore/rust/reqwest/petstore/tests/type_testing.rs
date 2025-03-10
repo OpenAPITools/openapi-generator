@@ -12,7 +12,9 @@ fn test_types() {
         double: 45.56,
         string: String::from("something"),
         boolean: true,
-        uuid: Uuid::new_v4()
+        uuid: Uuid::new_v4(),
+        bytes: vec![1, 2, 3, 4],
+        decimal: String::from("foo"),
     };
     assert_eq!(type_of(tt.int32), "i32");
     assert_eq!(type_of(tt.int64), "i64");
@@ -21,6 +23,7 @@ fn test_types() {
     assert_eq!(type_of(tt.string), "alloc::string::String");
     assert_eq!(type_of(tt.boolean), "bool");
     assert_eq!(type_of(tt.uuid), "uuid::Uuid");
+    assert_eq!(type_of(tt.decimal), "alloc::string::String");
 }
 
 fn type_of<T>(_: T) -> &'static str {

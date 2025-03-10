@@ -2,10 +2,10 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.GeneratorLanguage;
+import io.swagger.v3.oas.models.media.FileSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,8 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public abstract class AbstractRustCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractRustCodegen.class);
+
+    protected static final String VENDOR_EXTENSION_PARAM_IDENTIFIER = "x-rust-param-identifier";
 
     protected List<String> charactersToAllow = Collections.singletonList("_");
     protected Set<String> keywordsThatDoNotSupportRawIdentifiers = new HashSet<>(
@@ -147,8 +149,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
 
     public enum CasingType {CAMEL_CASE, SNAKE_CASE}
 
-    ;
-
     /**
      * General purpose sanitizing function for Rust identifiers (fields, variables, structs, parameters, etc.).<br>
      * Rules for Rust are fairly simple:
@@ -233,6 +233,81 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            Schema inner = ModelUtils.getSchemaItems(p);
+            String innerType = getTypeDeclaration(inner);
+            return typeMapping.get("array") + "<" + innerType + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            String innerType = getTypeDeclaration(inner);
+            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
+            typeDeclaration.append(innerType).append(">");
+            return typeDeclaration.toString();
+        } else if (!org.apache.commons.lang3.StringUtils.isEmpty(p.get$ref())) {
+            String datatype;
+            try {
+                datatype = "models::" + toModelName(ModelUtils.getSimpleRef(p.get$ref()));
+            } catch (Exception e) {
+                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
+                datatype = "Object";
+                LOGGER.error(e.getMessage(), e);
+            }
+            return datatype;
+        } else if (p instanceof FileSchema) {
+            return typeMapping.get("file");
+        }
+
+        String oasType = getSchemaType(p);
+        if (typeMapping.containsKey(oasType)) {
+            return typeMapping.get(oasType);
+        }
+
+        if (typeMapping.containsValue(oasType)) {
+            return oasType;
+        }
+
+        if (languageSpecificPrimitives.contains(oasType)) {
+            return oasType;
+        }
+
+        return "models::" + toModelName(oasType);
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        LOGGER.trace("Creating model from schema: {}", model);
+
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel mdl = super.fromModel(name, model);
+
+        mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(model.get$ref())) {
+            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
+            mdl.dataType = typeMapping.get(schema.getType());
+        }
+        if (ModelUtils.isArraySchema(model)) {
+            if (typeMapping.containsKey(mdl.arrayModelType)) {
+                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
+            } else {
+                mdl.arrayModelType = toModelName(mdl.arrayModelType);
+            }
+        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
+            mdl.dataType = getSchemaType(model);
+        }
+
+        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
+
+        if (additionalProperties != null) {
+            mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
+        }
+
+        LOGGER.trace("Created model: {}", mdl);
+
+        return mdl;
+    }
+
+    @Override
     public String toVarName(String name) {
         // obtain the name from nameMapping directly if provided
         if (nameMapping.containsKey(name)) {
@@ -257,7 +332,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return sanitizeIdentifier(operationId, CasingType.SNAKE_CASE, "call", "method", true);
     }
 
-    //// Model naming ////
+    /// / Model naming ////
 
     protected String addModelNamePrefixAndSuffix(String name) {
         if (!Strings.isNullOrEmpty(modelNamePrefix)) {
@@ -284,7 +359,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toModelName(name);
     }
 
-    //// Enum naming ////
+    /// / Enum naming ////
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (enumNameMapping.containsKey(name)) {
@@ -324,7 +399,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         return toEnumVarName(value, datatype);
     }
 
-    //// API naming ////
+    /// / API naming ////
 
     protected String addApiNamePrefixAndSuffix(String name) {
         if (Strings.isNullOrEmpty(name)) {
@@ -357,5 +432,13 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     @Override
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "r#" + name;
     }
 }

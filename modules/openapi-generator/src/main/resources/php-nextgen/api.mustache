@@ -76,13 +76,13 @@ use {{invokerPackage}}\ObjectSerializer;
      * @param int                  $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
-        ClientInterface $client = null,
-        Configuration $config = null,
-        HeaderSelector $selector = null,
+        ?ClientInterface $client = null,
+        ?Configuration $config = null,
+        ?HeaderSelector $selector = null,
         int $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
+        $this->config = $config ?: Configuration::getDefaultConfiguration();
         $this->headerSelector = $selector ?: new HeaderSelector();
         $this->hostIndex = $hostIndex;
     }
@@ -164,7 +164,7 @@ use {{invokerPackage}}\ObjectSerializer;
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     * @return {{{vendorExtensions.x-php-doc-return-type}}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
@@ -172,7 +172,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        {{^required}}?{{/required}}{{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -247,7 +247,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}WithHttpInfo(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        {{^required}}?{{/required}}{{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -286,18 +286,6 @@ use {{invokerPackage}}\ObjectSerializer;
 
             $statusCode = $response->getStatusCode();
 
-            if ($statusCode < 200 || $statusCode > 299) {
-                throw new ApiException(
-                    sprintf(
-                        '[%d] Error connecting to the API (%s)',
-                        $statusCode,
-                        (string) $request->getUri()
-                    ),
-                    $statusCode,
-                    $response->getHeaders(),
-                    (string) $response->getBody()
-                );
-            }
             {{#returnType}}
             {{#responses}}
             {{#-first}}
@@ -306,7 +294,7 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/-first}}
             {{#dataType}}
                 {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                    if ('{{{dataType}}}' === '\SplFileObject') {
+                    if (in_array('{{{dataType}}}', ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
@@ -338,8 +326,21 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/-last}}
             {{/responses}}
 
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
             $returnType = '{{{returnType}}}';
-            if ($returnType === '\SplFileObject') {
+            if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
                 $content = $response->getBody(); //stream goes to serializer
             } else {
                 $content = (string) $response->getBody();
@@ -445,7 +446,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}Async(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        {{^required}}?{{/required}}{{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -523,7 +524,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}AsyncWithHttpInfo(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -546,7 +547,7 @@ use {{invokerPackage}}\ObjectSerializer;
             ->then(
                 function ($response) use ($returnType) {
                     {{#returnType}}
-                    if ($returnType === '\SplFileObject') {
+                    if (in_array($returnType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {
                         $content = $response->getBody(); //stream goes to serializer
                     } else {
                         $content = (string) $response->getBody();
@@ -629,7 +630,7 @@ use {{invokerPackage}}\ObjectSerializer;
     public function {{operationId}}Request(
     {{^vendorExtensions.x-group-parameters}}
     {{#allParams}}
-        ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
+        {{vendorExtensions.x-php-param-type}} ${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}},
     {{/allParams}}
     {{#servers}}
     {{#-first}}
@@ -710,7 +711,7 @@ use {{invokerPackage}}\ObjectSerializer;
         {{#queryParams}}
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            ${{paramName}},
+            ${{paramName}}{{#isEnumRef}}?->value{{/isEnumRef}},
             '{{baseName}}', // param base name
             '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
             '{{style}}', // style
@@ -727,7 +728,7 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/collectionFormat}}
         if (${{paramName}} !== null) {
-            $headerParams['{{baseName}}'] = ObjectSerializer::toHeaderValue(${{paramName}});
+            $headerParams['{{baseName}}'] = ObjectSerializer::toHeaderValue(${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}});
         }
         {{/headerParams}}
 
@@ -741,7 +742,7 @@ use {{invokerPackage}}\ObjectSerializer;
         if (${{paramName}} !== null) {
             $resourcePath = str_replace(
                 '{' . '{{baseName}}' . '}',
-                ObjectSerializer::toPathValue(${{paramName}}),
+                ObjectSerializer::toPathValue(${{paramName}}{{#isEnumRef}}->value{{/isEnumRef}}),
                 $resourcePath
             );
         }
@@ -755,10 +756,12 @@ use {{invokerPackage}}\ObjectSerializer;
             $formParams['{{baseName}}'] = [];
             $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
             foreach ($paramFiles as $paramFile) {
-                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue($paramFile),
-                    'rb'
-                );
+                $formParams['{{baseName}}'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
+                    ? $paramFile
+                    : \GuzzleHttp\Psr7\Utils::tryFopen(
+                        ObjectSerializer::toFormValue($paramFile),
+                        'rb'
+                    );
             }
             {{/isFile}}
             {{^isFile}}

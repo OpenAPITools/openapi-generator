@@ -15,8 +15,13 @@ import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
 
 {{#supportAsync}}
+{{#useMutiny}}
+import io.smallrye.mutiny.Uni;
+{{/useMutiny}}
+{{^useMutiny}}
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
+{{/useMutiny}}
 {{/supportAsync}}
 
 import java.io.InputStream;

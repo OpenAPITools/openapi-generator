@@ -21,25 +21,25 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.ParentPet;
 import java.util.Set;
 import java.util.HashSet;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for ChildCat
  */
-public class ChildCatTest {
+class ChildCatTest {
     private final ChildCat model = new ChildCat();
 
     /**
      * Model tests for ChildCat
      */
     @Test
-    public void testChildCat() {
+    void testChildCat() {
         // TODO: test ChildCat
     }
 
@@ -47,7 +47,7 @@ public class ChildCatTest {
      * Test the property 'petType'
      */
     @Test
-    public void petTypeTest() {
+    void petTypeTest() {
         // TODO: test petType
     }
 
@@ -55,7 +55,7 @@ public class ChildCatTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 

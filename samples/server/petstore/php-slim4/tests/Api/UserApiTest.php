@@ -74,7 +74,7 @@ class UserApiTest extends TestCase
      */
     public function testCreateUser()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "createUser" method has not been implemented yet.'
         );
     }
@@ -88,7 +88,7 @@ class UserApiTest extends TestCase
      */
     public function testCreateUsersWithArrayInput()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "createUsersWithArrayInput" method has not been implemented yet.'
         );
     }
@@ -102,7 +102,7 @@ class UserApiTest extends TestCase
      */
     public function testCreateUsersWithListInput()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "createUsersWithListInput" method has not been implemented yet.'
         );
     }
@@ -116,7 +116,7 @@ class UserApiTest extends TestCase
      */
     public function testDeleteUser()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "deleteUser" method has not been implemented yet.'
         );
     }
@@ -130,7 +130,7 @@ class UserApiTest extends TestCase
      */
     public function testGetUserByName()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "getUserByName" method has not been implemented yet.'
         );
     }
@@ -144,7 +144,7 @@ class UserApiTest extends TestCase
      */
     public function testLoginUser()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "loginUser" method has not been implemented yet.'
         );
     }
@@ -158,7 +158,7 @@ class UserApiTest extends TestCase
      */
     public function testLogoutUser()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "logoutUser" method has not been implemented yet.'
         );
     }
@@ -172,7 +172,7 @@ class UserApiTest extends TestCase
      */
     public function testUpdateUser()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "updateUser" method has not been implemented yet.'
         );
     }

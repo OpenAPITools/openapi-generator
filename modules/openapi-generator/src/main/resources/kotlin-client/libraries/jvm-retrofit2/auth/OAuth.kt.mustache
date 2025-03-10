@@ -19,13 +19,13 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 
-class OAuth(
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class OAuth(
         client: OkHttpClient,
         var tokenRequestBuilder: TokenRequestBuilder
 ) : Interceptor {
 
-    interface AccessTokenListener {
-        fun notify(token: BasicOAuthToken)
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}interface AccessTokenListener {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun notify(token: BasicOAuthToken)
     }
 
     private var oauthClient: OAuthClient = OAuthClient(OAuthOkHttpClient(client))
@@ -35,14 +35,14 @@ class OAuth(
     var authenticationRequestBuilder: AuthenticationRequestBuilder? = null
     private var accessTokenListener: AccessTokenListener? = null
 
-    constructor(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(
             requestBuilder: TokenRequestBuilder
     ) : this(
             OkHttpClient(),
             requestBuilder
     )
 
-    constructor(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(
             flow: OAuthFlow,
             authorizationUrl: String,
             tokenUrl: String,
@@ -54,7 +54,7 @@ class OAuth(
         authenticationRequestBuilder = OAuthClientRequest.authorizationLocation(authorizationUrl)
     }
 
-    fun setFlow(flow: OAuthFlow) {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun setFlow(flow: OAuthFlow) {
         when (flow) {
             OAuthFlow.accessCode, OAuthFlow.implicit ->
                 tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE)
@@ -129,7 +129,7 @@ class OAuth(
      */
     @Throws(IOException::class)
     @Synchronized
-    fun updateAccessToken(requestAccessToken: String?): Boolean {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun updateAccessToken(requestAccessToken: String?): Boolean {
         if (accessToken == null || accessToken.equals(requestAccessToken)) {
             return try {
                 val accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage())

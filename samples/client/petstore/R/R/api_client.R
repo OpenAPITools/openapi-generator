@@ -32,7 +32,7 @@
 #' @field oauth_secret OAuth secret
 #' @field oauth_refresh_token OAuth refresh token
 #' @field oauth_flow_type OAuth flow type
-#' @field oauth_authorization_url Authoriziation URL
+#' @field oauth_authorization_url Authorization URL
 #' @field oauth_token_url Token URL
 #' @field oauth_pkce Boolean flag to enable PKCE
 #' @field bearer_token Bearer token
@@ -68,7 +68,7 @@ ApiClient <- R6::R6Class(
     # OAuth2
     # Flow type
     oauth_flow_type = "implicit",
-    # Authoriziation URL
+    # Authorization URL
     oauth_authorization_url = "http://petstore.swagger.io/api/oauth/dialog",
     # Token URL
     oauth_token_url = "",
@@ -97,7 +97,7 @@ ApiClient <- R6::R6Class(
     #' @param bearer_token Bearer token.
     #' @param timeout Timeout.
     #' @param retry_status_codes Status codes for retry.
-    #' @param max_retry_attempts Maxmium number of retry.
+    #' @param max_retry_attempts Maximum number of retry.
     #' @export
     initialize = function(base_path = NULL, user_agent = NULL,
                           default_headers = NULL,
@@ -150,8 +150,7 @@ ApiClient <- R6::R6Class(
         self$max_retry_attempts <- max_retry_attempts
       }
     },
-    #' Prepare to make an API call with the retry logic.
-    #'
+
     #' @description
     #' Prepare to make an API call with the retry logic.
     #'
@@ -166,8 +165,8 @@ ApiClient <- R6::R6Class(
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process the data stream
     #' @param ... Other optional arguments.
+    #'
     #' @return HTTP response
-    #' @export
     CallApi = function(url, method, query_params, header_params, form_params,
                        file_params, accepts, content_types,
                        body, stream_callback = NULL, ...) {
@@ -197,8 +196,7 @@ ApiClient <- R6::R6Class(
 
       resp
     },
-    #' Make an API call
-    #'
+
     #' @description
     #' Make an API call
     #'
@@ -213,8 +211,8 @@ ApiClient <- R6::R6Class(
     #' @param body The HTTP request body.
     #' @param stream_callback Callback function to process data stream
     #' @param ... Other optional arguments.
+    #'
     #' @return HTTP response
-    #' @export
     Execute = function(url, method, query_params, header_params,
                        form_params, file_params,
                        accepts, content_types,
@@ -297,40 +295,39 @@ ApiClient <- R6::R6Class(
 
         # return ApiResponse
         api_response <- ApiResponse$new()
-        api_response$status_code <- httr::status_code(httr_response) 
+        api_response$status_code <- httr::status_code(httr_response)
         api_response$status_code_desc <- httr::http_status(httr_response)$reason
-        api_response$response <- httr::content(httr_response, "text", encoding = "UTF-8")
+        api_response$response <- httr::content(httr_response, "raw")
         api_response$headers <- httr::headers(httr_response)
 
         api_response
       }
     },
-    #' Deserialize the content of API response to the given type.
-    #'
+
     #' @description
     #' Deserialize the content of API response to the given type.
     #'
     #' @param raw_response Raw response.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
+    #'
     #' @return Deserialized object.
-    #' @export
     deserialize = function(raw_response, return_type, pkg_env) {
       resp_obj <- jsonlite::fromJSON(raw_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
-    #' Deserialize the response from jsonlite object based on the given type
-    #'
+
     #' @description
     #' Deserialize the response from jsonlite object based on the given type
     #' by handling complex and nested types by iterating recursively
-    #' Example return_types will be like "array[integer]", "map(Pet)", "array[map(Tag)]", etc.,
+    #' Example return_types will be like "array[integer]", "map(Pet)",
+    #' "array[map(Tag)]", etc.,
     #'
     #' @param obj Response object.
     #' @param return_type R return type.
     #' @param pkg_env Package environment.
+    #'
     #' @return Deserialized object.
-    #' @export
     deserializeObj = function(obj, return_type, pkg_env) {
       return_obj <- NULL
       primitive_types <- c("character", "numeric", "integer", "logical", "complex")
@@ -392,15 +389,14 @@ ApiClient <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a property header (for accept or content-type).
-    #'
+
     #' @description
     #' Return a property header (for accept or content-type). If JSON-related MIME is found,
     #' return it. Otherwise, return the first one, if any.
     #'
     #' @param headers A list of headers
+    #'
     #' @return A header (e.g. 'application/json')
-    #' @export
     select_header = function(headers) {
       if (length(headers) == 0) {
         return(invisible(NULL))
@@ -415,6 +411,52 @@ ApiClient <- R6::R6Class(
         # not json mime type, simply return the first one
         return(headers[1])
       }
+    },
+
+    #' @description
+    #' Deserialize the response
+    #' 
+    #' @param local_var_resp The API response
+    #' @param return_type The target return type for the endpoint (e.g., `"object"`). If `NULL` text will be left as-is.
+    #' @return If the raw response is corecable to text, return the text. Otherwise return the raw response.
+    DeserializeResponse = function(local_var_resp, return_type = NULL) {
+      text <- local_var_resp$response_as_text()
+      if (is.na(text)) {
+        return(local_var_resp$response)
+      } else if (is.null(return_type)) {
+        return(text)
+      }
+      return(self$deserialize(text, return_type, loadNamespace("petstore")))
+    },
+
+    #' @description
+    #' Write response to a file
+    #' 
+    #' The function will write out data. 
+    #' 
+    #' 1. If binary data is detected it will use `writeBin`
+    #' 2. If the raw response is coercible to text, the text will be written to a file
+    #' 3. If the raw response is not coercible to text, the raw response will be written
+    #' 
+    #' @param local_var_resp The API response
+    #' @param file The name of the data file to save the result
+    WriteFile = function(local_var_resp, file) {
+      if (self$IsBinary(local_var_resp$response)) {
+        writeBin(local_var_resp$response, file)
+      } else {
+        response <- self$DeserializeResponse(local_var_resp)
+        base::write(response, file)
+      }
+    },
+
+    #' @description
+    #' Check response for binary content
+    #' 
+    #' @param local_var_resp The API response
+    IsBinary = function(x) {
+      # ref: https://stackoverflow.com/a/17098690/1785752
+      b <- readBin(x, "int", n = 1000, size=1, signed=FALSE)
+      return(max(b) > 128)
     }
   )
 )

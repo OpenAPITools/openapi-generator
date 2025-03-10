@@ -6,8 +6,8 @@ import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.testng.Assert.assertEquals;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AXIOS})
 public class TypeScriptAxiosClientCodegenTest {
@@ -110,5 +110,24 @@ public class TypeScriptAxiosClientCodegenTest {
 
         assertThat(codegen.supportingFiles()).contains(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         assertThat(codegen.supportingFiles()).doesNotContain(new SupportingFile("tsconfig.esm.mustache", "", "tsconfig.esm.json"));
+    }
+
+    @Test
+    public void testAppliesDefaultAxiosVersion() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        codegen.processOpts();
+
+        assertEquals(codegen.additionalProperties().get("axiosVersion"), TypeScriptAxiosClientCodegen.DEFAULT_AXIOS_VERSION);
+    }
+
+    @Test
+    public void testAppliesCustomAxiosVersion() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+        codegen.additionalProperties().put("axiosVersion", "^1.2.3");
+
+        codegen.processOpts();
+
+        assertEquals(codegen.additionalProperties().get("axiosVersion"), "^1.2.3");
     }
 }

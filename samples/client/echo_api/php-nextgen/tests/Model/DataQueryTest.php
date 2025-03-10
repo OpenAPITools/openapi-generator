@@ -77,7 +77,7 @@ class DataQueryTest extends TestCase
     public function testDataQuery()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -86,7 +86,7 @@ class DataQueryTest extends TestCase
     public function testPropertySuffix()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -95,7 +95,7 @@ class DataQueryTest extends TestCase
     public function testPropertyText()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,6 +104,6 @@ class DataQueryTest extends TestCase
     public function testPropertyDate()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

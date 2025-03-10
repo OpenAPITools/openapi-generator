@@ -1,0 +1,4 @@
+# TODO: Alamofire versions 5.10.0 and above are not currently supported. If you need a newer version, please consider submitting a Pull Request with the required changes.
+github "Alamofire/Alamofire" = 5.9.1
+github "mxcl/PromiseKit" ~> 8.1
+github "ReactiveX/RxSwift" ~> 6.8

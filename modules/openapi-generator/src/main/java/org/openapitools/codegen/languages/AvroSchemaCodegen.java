@@ -16,23 +16,46 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelsMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
+    private final Logger LOGGER = LoggerFactory.getLogger(AvroSchemaCodegen.class);
     private static final String AVRO = "avro-schema";
+
+    /**
+     * See https://avro.apache.org/docs/++version++/specification/#logical-types
+     */
+    public static final String USE_LOGICAL_TYPES = "useLogicalTypes";
+    public static final String USE_LOGICAL_TYPES_DESC = "Use logical types for fields, when matching OpenAPI types. Currently supported: `date-time`, `date`.";
+    /**
+     * See https://avro.apache.org/docs/++version++/specification/#timestamps
+     */
+    public static final String LOGICAL_TYPES_TIME_QUANTIFIER = "logicalTypeTimeQuantifier";
+    public static final String LOGICAL_TYPES_TIME_QUANTIFIER_DESC = "The quantifier for time-related logical types (`timestamp` and `local-timestamp`).";
+
     protected String packageName = "model";
+
+    @Getter @Setter
+    protected boolean useLogicalTypes = false; // this defaults to false for backwards compatibility
+
+    @Getter @Setter
+    protected String logicalTypeTimeQuantifier = "millis";
 
     public AvroSchemaCodegen() {
         super();
@@ -88,11 +111,28 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("BigDecimal", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_NAME_DESC));
+        cliOptions.add(CliOption.newBoolean(USE_LOGICAL_TYPES, USE_LOGICAL_TYPES_DESC).defaultValue(Boolean.FALSE.toString()));
+
+        CliOption logicalTimeQuantifier = new CliOption(LOGICAL_TYPES_TIME_QUANTIFIER, LOGICAL_TYPES_TIME_QUANTIFIER_DESC).defaultValue(this.getLogicalTypeTimeQuantifier());
+        Map<String, String> timeQuantifierOptions = new HashMap<>();
+        timeQuantifierOptions.put("nanos", "nanoseconds");
+        timeQuantifierOptions.put("micros", "microseconds");
+        timeQuantifierOptions.put("millis", "milliseconds");
+        logicalTimeQuantifier.setEnum(timeQuantifierOptions);
+        cliOptions.add(logicalTimeQuantifier);
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("AVRO_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable AVRO_POST_PROCESS_FILE not defined so the Avro schemas may not be properly formatted. To define it, try `export AVRO_POST_PROCESS_FILE=\"/usr/local/bin/prettier -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'AVRO_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
 
@@ -101,6 +141,16 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         additionalProperties.put("packageName", packageName);
+
+        if (!convertPropertyToBooleanAndWriteBack(USE_LOGICAL_TYPES, this::setUseLogicalTypes)) {
+            // This sets the default if the option was not specified.
+            additionalProperties.put(USE_LOGICAL_TYPES, useLogicalTypes);
+        }
+
+        if (convertPropertyToStringAndWriteBack(LOGICAL_TYPES_TIME_QUANTIFIER, this::setLogicalTypeTimeQuantifier) == null) {
+            // This sets the default if the option was not specified.
+            additionalProperties.put(LOGICAL_TYPES_TIME_QUANTIFIER, logicalTypeTimeQuantifier);
+        }
     }
 
     @Override
@@ -129,6 +179,22 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+        if (file == null) {
+            return;
+        }
+        String avroPostProcessFile = System.getenv("AVRO_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(avroPostProcessFile)) {
+            return; // skip if AVRO_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with avsc extension
+        if ("avsc".equals(FilenameUtils.getExtension(file.toString()))) {
+            this.executePostProcessor(new String[]{avroPostProcessFile, file.toString()});
+        }
+    }
+
+    @Override
     protected void setNonArrayMapProperty(CodegenProperty property, String type) {
         super.setNonArrayMapProperty(property, type);
         if (property.isModel) {
@@ -148,4 +214,47 @@ public class AvroSchemaCodegen extends DefaultCodegen implements CodegenConfig {
         return input;
     }
 
+    @Override
+    protected List<Map<String, Object>> buildEnumVars(List<Object> values, String dataType) {
+        List<Object> sanitizedValues = values.stream()
+                .filter(x -> x != null)
+                .map(Object::toString)
+                .map(this::sanitizeEnumValue)
+                .collect(Collectors.toList());
+        removeEnumValueCollisions(sanitizedValues);
+        return super.buildEnumVars(sanitizedValues, dataType);
+    }
+
+    /**
+     * Valid enums in Avro need to adhere to [A-Za-z_][A-Za-z0-9_]*
+     * See https://avro.apache.org/docs/1.12.0/specification/#enums
+     */
+    private String sanitizeEnumValue(String value) {
+        // Replace any non-alphanumeric characters with an underscore
+        String sanitizedValue = value.replaceAll("[^A-Za-z0-9_]", "_");
+        // If the enum starts with a number, prefix it with an underscore
+        sanitizedValue = sanitizedValue.replaceAll("^([0-9])", "_$1");
+        return sanitizedValue;
+    }
+
+    private void removeEnumValueCollisions(List<Object> values) {
+        Collections.reverse(values);
+        for (int i = 0; i < values.size(); i++) {
+            final String value = values.get(i).toString();
+            long count = values.stream().filter(v1 -> v1.equals(value)).count();
+            if (count > 1) {
+                String uniqueEnumValue = getUniqueEnumValue(value.toString(), values);
+                LOGGER.debug("Changing duplicate enumeration value from " + value + " to " + uniqueEnumValue);
+                values.set(i, uniqueEnumValue);
+            }
+        }
+        Collections.reverse(values);
+    }
+
+    private String getUniqueEnumValue(String value, List<Object> values) {
+        long count = values.stream().filter(v -> v.equals(value)).count();
+        return count > 1
+                ? getUniqueEnumValue(value + count, values)
+                : value;
+    }
 }

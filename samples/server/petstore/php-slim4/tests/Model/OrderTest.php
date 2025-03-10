@@ -77,7 +77,7 @@ class OrderTest extends TestCase
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "Order" model has not been implemented yet.'
         );
     }
@@ -87,7 +87,7 @@ class OrderTest extends TestCase
      */
     public function testPropertyId()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "id" property in "Order" model has not been implemented yet.'
         );
     }
@@ -97,7 +97,7 @@ class OrderTest extends TestCase
      */
     public function testPropertyPetId()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "petId" property in "Order" model has not been implemented yet.'
         );
     }
@@ -107,7 +107,7 @@ class OrderTest extends TestCase
      */
     public function testPropertyQuantity()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "quantity" property in "Order" model has not been implemented yet.'
         );
     }
@@ -117,7 +117,7 @@ class OrderTest extends TestCase
      */
     public function testPropertyShipDate()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "shipDate" property in "Order" model has not been implemented yet.'
         );
     }
@@ -127,7 +127,7 @@ class OrderTest extends TestCase
      */
     public function testPropertyStatus()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "status" property in "Order" model has not been implemented yet.'
         );
     }
@@ -137,7 +137,7 @@ class OrderTest extends TestCase
      */
     public function testPropertyComplete()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "complete" property in "Order" model has not been implemented yet.'
         );
     }
@@ -152,3 +152,4 @@ class OrderTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

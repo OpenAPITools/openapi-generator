@@ -1,0 +1,255 @@
+package {{apiPackage}}
+
+import {{apiPackage}}.path._
+import {{apiPackage}}.query._
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#extraImports}}import {{.}}
+{{/extraImports}}
+
+import cats.Monad
+import cats.syntax.all._
+
+import org.http4s._
+import org.http4s.circe._
+import org.http4s.server._
+import org.http4s.headers._
+import org.http4s.dsl.Http4sDsl
+import org.http4s.circe.CirceEntityEncoder._
+
+final case class {{classname}}Routes[
+  F[_]: JsonDecoder: Monad{{#allAuth}}, {{.}}{{/allAuth}}
+](delegate: {{classname}}Delegate[F{{#allAuth}}, {{.}}{{/allAuth}}]) extends Http4sDsl[F] {
+{{#operations}}
+{{#operation}}
+  object {{operationId}} {
+    import {{classname}}Delegate.{{operationId}}Responses
+
+  {{#pathParams}}
+  {{#vendorExtensions.x-refined}}
+    object {{baseName}}Varr extends RefinedVarr[{{vendorExtensions.x-refined-lft}}, {{{vendorExtensions.x-refined-rgt}}}]
+  {{/vendorExtensions.x-refined}}
+  {{/pathParams}}
+  {{#queryParams}}
+  {{#isArray}}
+  {{#required}}
+    object {{baseName}}QueryParam extends QuerySeqParamDecoderMatcher[{{{items.vendorExtensions.x-type}}}]("{{baseName}}")
+  {{/required}}
+  {{^required}}
+    object {{baseName}}QueryParam extends OptionalQuerySeqParamDecoderMatcher[{{{items.vendorExtensions.x-type}}}]("{{baseName}}")
+  {{/required}}
+  {{/isArray}}
+  {{^isArray}}
+  {{#required}}
+    object {{baseName}}QueryParam extends QueryParamDecoderMatcher[{{{vendorExtensions.x-type}}}]("{{baseName}}")
+  {{/required}}
+  {{^required}}
+    object {{baseName}}QueryParam extends OptionalQueryParamDecoderMatcher[{{{vendorExtensions.x-type}}}]("{{baseName}}")
+  {{/required}}
+  {{/isArray}}
+  {{/queryParams}}
+
+{{^vendorExtensions.x-authed}}
+    val route = HttpRoutes.of[F] {
+      case req @ {{{httpMethod}}} -> Root{{{vendorExtensions.x-codegen-path}}}{{{vendorExtensions.x-codegen-query}}} =>
+      {{#vendorExtensions.x-json-body}}
+      {{#vendorExtensions.x-generic-body}}
+      req.contentType match {
+        case Some(`Content-Type`(MediaType.application.json, _)) =>
+          {{>delegateCallJson}}
+        case _ =>
+          {{>delegateCallGeneric}}
+      }
+      {{/vendorExtensions.x-generic-body}}
+      {{^vendorExtensions.x-generic-body}}
+        {{>delegateCallJson}}
+      {{/vendorExtensions.x-generic-body}}
+      {{/vendorExtensions.x-json-body}}
+      {{^vendorExtensions.x-json-body}}
+        {{>delegateCallGeneric}}
+      {{/vendorExtensions.x-json-body}}
+    }
+
+{{/vendorExtensions.x-authed}}
+{{#vendorExtensions.x-authed}}
+    val route{{authName}} = AuthedRoutes.of[{{authName}}, F] {
+      case (req @ {{{httpMethod}}} -> Root{{{vendorExtensions.x-codegen-path}}}{{{vendorExtensions.x-codegen-query}}}) as auth =>
+      {{#vendorExtensions.x-json-body}}
+      {{#vendorExtensions.x-generic-body}}
+      req.contentType match {
+        case Some(`Content-Type`(MediaType.application.json, _)) =>
+          {{>delegateCallJson}}
+        case _ =>
+          {{>delegateCallGeneric}}
+      }
+      {{/vendorExtensions.x-generic-body}}
+      {{^vendorExtensions.x-generic-body}}
+        {{>delegateCallJson}}
+      {{/vendorExtensions.x-generic-body}}
+      {{/vendorExtensions.x-json-body}}
+      {{^vendorExtensions.x-json-body}}
+        {{>delegateCallGeneric}}
+      {{/vendorExtensions.x-json-body}}
+    }
+{{/vendorExtensions.x-authed}}
+
+    val responses: {{operationId}}Responses[F] = new {{operationId}}Responses[F] {
+    {{#responses}}
+      {{#vendorExtensions.x-response-location}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(location: Location, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(location, value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(location: Location): F[Response[F]] = {{vendorExtensions.x-response}}(location)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-location}}
+      {{#vendorExtensions.x-response-www-auth}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(authenticate: `WWW-Authenticate`, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(authenticate, value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(authenticate: `WWW-Authenticate`): F[Response[F]] = {{vendorExtensions.x-response}}(authenticate)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-www-auth}}
+      {{#vendorExtensions.x-response-allow}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(allow: Allow, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(allow, value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(allow: Allow): F[Response[F]] = {{vendorExtensions.x-response}}(allow)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-allow}}
+      {{#vendorExtensions.x-response-proxy-auth}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(authenticate: `Proxy-Authenticate`, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(value, authenticate)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(authenticate: `Proxy-Authenticate`): F[Response[F]] = {{vendorExtensions.x-response}}(authenticate)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-proxy-auth}}
+      {{#vendorExtensions.x-response-standard}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(): F[Response[F]] = {{vendorExtensions.x-response}}()
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-standard}}
+    {{/responses}}
+    }
+  }
+{{/operation}}
+{{/operations}}
+
+{{#operationsByAuth}}
+  val routes{{auth}} =
+  {{#ops}}
+    {{.}}.route{{auth}}{{^-last}} <+>{{/-last}}
+  {{/ops}}
+{{/operationsByAuth}}
+}
+
+object {{classname}}Delegate {
+{{#operations}}
+{{#operation}}
+  trait {{operationId}}Responses[F[_]] {
+  {{#responses}}
+    {{#vendorExtensions.x-response-location}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(location: Location, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(location: Location): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-location}}
+    {{#vendorExtensions.x-response-www-auth}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(authenticate: `WWW-Authenticate`, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(authenticate: `WWW-Authenticate`): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-www-auth}}
+    {{#vendorExtensions.x-response-allow}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(allow: Allow, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(allow: Allow): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-allow}}
+    {{#vendorExtensions.x-response-proxy-auth}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(authenticate: `Proxy-Authenticate`, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(authenticate: `Proxy-Authenticate`): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-proxy-auth}}
+    {{#vendorExtensions.x-response-standard}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-standard}}
+  {{/responses}}
+  }
+
+{{/operation}}
+{{/operations}}
+}
+
+trait {{classname}}Delegate[F[_]{{#allAuth}}, {{.}}{{/allAuth}}] {
+{{#operations}}
+{{#operation}}
+
+  trait {{operationId}} {
+    import {{classname}}Delegate.{{operationId}}Responses
+    {{#vendorExtensions.x-json-body}}
+
+{{^vendorExtensions.x-authed}}
+    def handle(
+      req: Request[F],
+      {{operationId}}: F[{{{bodyParam.dataType}}}],
+{{> delegateArgs}}      responses: {{operationId}}Responses[F]
+    ): F[Response[F]]
+{{/vendorExtensions.x-authed}}
+
+{{#vendorExtensions.x-authed}}
+    def handle_{{authName}}(
+      auth: {{authName}},
+      req: Request[F],
+      {{operationId}}: F[{{{bodyParam.dataType}}}],
+{{> delegateArgs}}      responses: {{operationId}}Responses[F]
+    ): F[Response[F]]
+
+{{/vendorExtensions.x-authed}}
+    {{/vendorExtensions.x-json-body}}
+
+    {{#vendorExtensions.x-generic-body}}
+{{^vendorExtensions.x-authed}}
+    def handle(
+      req: Request[F],
+{{> delegateArgs}}      responses: {{operationId}}Responses[F]
+    ): F[Response[F]]
+{{/vendorExtensions.x-authed}}
+
+{{#vendorExtensions.x-authed}}
+    def handle_{{authName}}(
+      auth: {{authName}},
+      req: Request[F],
+{{> delegateArgs}}      responses: {{operationId}}Responses[F]
+    ): F[Response[F]]
+
+{{/vendorExtensions.x-authed}}
+    {{/vendorExtensions.x-generic-body}}
+  }
+  def {{operationId}}: {{operationId}}
+
+{{/operation}}
+{{/operations}}
+}

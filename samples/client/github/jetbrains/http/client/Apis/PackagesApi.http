@@ -1,0 +1,136 @@
+## PackagesApi
+
+### Delete a package for the authenticated user
+## Delete a package for the authenticated user
+DELETE https://api.github.com/user/packages/{{package_type}}/{{package_name}}
+Accept: application/json
+
+### Delete a package for an organization
+## Delete a package for an organization
+DELETE https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}
+Accept: application/json
+
+### Delete a package for a user
+## Delete a package for a user
+DELETE https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}
+Accept: application/json
+
+### Delete a package version for the authenticated user
+## Delete a package version for the authenticated user
+DELETE https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Accept: application/json
+
+### Delete package version for an organization
+## Delete package version for an organization
+DELETE https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Accept: application/json
+
+### Delete package version for a user
+## Delete package version for a user
+DELETE https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Accept: application/json
+
+### List package versions for a package owned by the authenticated user
+## List package versions for a package owned by the authenticated user
+GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions?page={{page}}&perPage={{perPage}}&state={{state}}
+Accept: application/json
+
+### List package versions for a package owned by an organization
+## List package versions for a package owned by an organization
+GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions?page={{page}}&perPage={{perPage}}&state={{state}}
+Accept: application/json
+
+### List package versions for a package owned by a user
+## List package versions for a package owned by a user
+GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions
+Accept: application/json
+
+### Get a package for the authenticated user
+## Get a package for the authenticated user
+GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}
+Accept: application/json
+
+### Get a package for an organization
+## Get a package for an organization
+GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}
+Accept: application/json
+
+### Get a package for a user
+## Get a package for a user
+GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}
+Accept: application/json
+
+### Get a package version for the authenticated user
+## Get a package version for the authenticated user
+GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Accept: application/json
+
+### Get a package version for an organization
+## Get a package version for an organization
+GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Accept: application/json
+
+### Get a package version for a user
+## Get a package version for a user
+GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Accept: application/json
+
+### Get list of conflicting packages during Docker migration for authenticated-user
+## Get list of conflicting packages during Docker migration for authenticated-user
+GET https://api.github.com/user/docker/conflicts
+Accept: application/json
+
+### Get list of conflicting packages during Docker migration for organization
+## Get list of conflicting packages during Docker migration for organization
+GET https://api.github.com/orgs/{{org}}/docker/conflicts
+Accept: application/json
+
+### Get list of conflicting packages during Docker migration for user
+## Get list of conflicting packages during Docker migration for user
+GET https://api.github.com/users/{{username}}/docker/conflicts
+Accept: application/json
+
+### List packages for the authenticated user&#39;s namespace
+## List packages for the authenticated user&#39;s namespace
+GET https://api.github.com/user/packages?packageType={{packageType}}&visibility={{visibility}}&page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### List packages for an organization
+## List packages for an organization
+GET https://api.github.com/orgs/{{org}}/packages?packageType={{packageType}}&visibility={{visibility}}&page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### List packages for a user
+## List packages for a user
+GET https://api.github.com/users/{{username}}/packages?packageType={{packageType}}&visibility={{visibility}}&page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### Restore a package for the authenticated user
+## Restore a package for the authenticated user
+POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/restore?token={{token}}
+Accept: application/json
+
+### Restore a package for an organization
+## Restore a package for an organization
+POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/restore?token={{token}}
+Accept: application/json
+
+### Restore a package for a user
+## Restore a package for a user
+POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/restore?token={{token}}
+Accept: application/json
+
+### Restore a package version for the authenticated user
+## Restore a package version for the authenticated user
+POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}/restore
+Accept: application/json
+
+### Restore package version for an organization
+## Restore package version for an organization
+POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}/restore
+Accept: application/json
+
+### Restore package version for a user
+## Restore package version for a user
+POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}/restore
+Accept: application/json

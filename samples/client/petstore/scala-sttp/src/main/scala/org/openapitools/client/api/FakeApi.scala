@@ -16,8 +16,7 @@ import sttp.client3._
 import sttp.model.Method
 
 object FakeApi {
-
-def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new FakeApi(baseUrl)
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new FakeApi(baseUrl)
 }
 
 class FakeApi(baseUrl: String) {
@@ -38,6 +37,6 @@ class FakeApi(baseUrl: String) {
       .contentType("application/json")
       .header("_type", underscoreType.toString)
       .header("type_", typeWithUnderscore.toString)
-      .response(asJson[Unit])
+      .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
 }

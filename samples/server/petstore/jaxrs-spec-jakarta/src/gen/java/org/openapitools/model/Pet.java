@@ -24,13 +24,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Pet")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Pet  implements Serializable {
-  private @Valid Long id;
-  private @Valid Category category;
-  private @Valid String name;
+  private Long id;
+  private Category category;
+  private String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<@Valid Tag> tags;
+  private @Valid List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -78,7 +78,7 @@ public class Pet  implements Serializable {
     }
 }
 
-  private @Valid StatusEnum status;
+  private StatusEnum status;
 
   protected Pet(PetBuilder<?, ?> b) {
     this.id = b.id;
@@ -90,6 +90,15 @@ public class Pet  implements Serializable {
   }
 
   public Pet() {
+  }
+
+  @JsonCreator
+  public Pet(
+    @JsonProperty(required = true, value = "name") String name,
+    @JsonProperty(required = true, value = "photoUrls") Set<String> photoUrls
+  ) {
+    this.name = name;
+    this.photoUrls = photoUrls;
   }
 
   /**
@@ -121,7 +130,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Category getCategory() {
+  @Valid public Category getCategory() {
     return category;
   }
 
@@ -139,13 +148,12 @@ public class Pet  implements Serializable {
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @JsonProperty("name")
-  @NotNull
-  public String getName() {
+  @JsonProperty(required = true, value = "name")
+  @NotNull public String getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -159,13 +167,12 @@ public class Pet  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("photoUrls")
-  @NotNull
-  public Set<String> getPhotoUrls() {
+  @JsonProperty(required = true, value = "photoUrls")
+  @NotNull public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  @JsonProperty("photoUrls")
+  @JsonProperty(required = true, value = "photoUrls")
   @JsonDeserialize(as = LinkedHashSet.class)
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -197,7 +204,7 @@ public class Pet  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<Tag> getTags() {
+  @Valid public List<@Valid Tag> getTags() {
     return tags;
   }
 
@@ -314,7 +321,7 @@ public class Pet  implements Serializable {
     private Category category;
     private String name;
     private Set<String> photoUrls = new LinkedHashSet<>();
-    private List<@Valid Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
     private StatusEnum status;
     protected abstract B self();
 
@@ -336,7 +343,7 @@ public class Pet  implements Serializable {
       this.photoUrls = photoUrls;
       return self();
     }
-    public B tags(List<@Valid Tag> tags) {
+    public B tags(List<Tag> tags) {
       this.tags = tags;
       return self();
     }

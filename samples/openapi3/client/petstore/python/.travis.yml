@@ -1,13 +1,13 @@
 # ref: https://docs.travis-ci.com/user/languages/python
 language: python
 python:
-  - "3.7"
   - "3.8"
   - "3.9"
   - "3.10"
   - "3.11"
+  - "3.12"
   # uncomment the following if needed
-  #- "3.11-dev"  # 3.11 development branch
+  #- "3.12-dev"  # 3.12 development branch
   #- "nightly"  # nightly build
 # command to install dependencies
 install:

@@ -18,12 +18,12 @@ json = "{}"
 # create an instance of SecondRef from a JSON string
 second_ref_instance = SecondRef.from_json(json)
 # print the JSON string representation of the object
-print SecondRef.to_json()
+print(SecondRef.to_json())
 
 # convert the object into a dict
 second_ref_dict = second_ref_instance.to_dict()
 # create an instance of SecondRef from a dict
-second_ref_form_dict = second_ref.from_dict(second_ref_dict)
+second_ref_from_dict = SecondRef.from_dict(second_ref_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**Test-QueryIntegerBooleanString**](QueryApi.md#Test-QueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 [**Test-QueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#Test-QueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
 [**Test-QueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#Test-QueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+[**Test-QueryStyleFormExplodeFalseArrayInteger**](QueryApi.md#Test-QueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s)
+[**Test-QueryStyleFormExplodeFalseArrayString**](QueryApi.md#Test-QueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s)
 [**Test-QueryStyleFormExplodeTrueArrayString**](QueryApi.md#Test-QueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**Test-QueryStyleFormExplodeTrueObject**](QueryApi.md#Test-QueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 [**Test-QueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#Test-QueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
@@ -230,6 +232,92 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **QueryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)|  | [optional] 
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-QueryStyleFormExplodeFalseArrayInteger"></a>
+# **Test-QueryStyleFormExplodeFalseArrayInteger**
+> String Test-QueryStyleFormExplodeFalseArrayInteger<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-QueryObject] <System.Nullable[Int32][]><br>
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```powershell
+$QueryObject = 0 # Int32[] |  (optional)
+
+# Test query parameter(s)
+try {
+    $Result = Test-QueryStyleFormExplodeFalseArrayInteger -QueryObject $QueryObject
+} catch {
+    Write-Host ("Exception occurred when calling Test-QueryStyleFormExplodeFalseArrayInteger: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **QueryObject** | [**Int32[]**](Int32.md)|  | [optional] 
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-QueryStyleFormExplodeFalseArrayString"></a>
+# **Test-QueryStyleFormExplodeFalseArrayString**
+> String Test-QueryStyleFormExplodeFalseArrayString<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-QueryObject] <String[]><br>
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+```powershell
+$QueryObject = "MyQueryObject" # String[] |  (optional)
+
+# Test query parameter(s)
+try {
+    $Result = Test-QueryStyleFormExplodeFalseArrayString -QueryObject $QueryObject
+} catch {
+    Write-Host ("Exception occurred when calling Test-QueryStyleFormExplodeFalseArrayString: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **QueryObject** | [**String[]**](String.md)|  | [optional] 
 
 ### Return type
 

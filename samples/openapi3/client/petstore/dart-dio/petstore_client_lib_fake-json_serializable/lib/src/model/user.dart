@@ -39,7 +39,7 @@ class User {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -51,7 +51,7 @@ class User {
     
     name: r'username',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -63,7 +63,7 @@ class User {
     
     name: r'firstName',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -75,7 +75,7 @@ class User {
     
     name: r'lastName',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -87,7 +87,7 @@ class User {
     
     name: r'email',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -99,7 +99,7 @@ class User {
     
     name: r'password',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -111,7 +111,7 @@ class User {
     
     name: r'phone',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -124,7 +124,7 @@ class User {
     
     name: r'userStatus',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -132,27 +132,29 @@ class User {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is User &&
-     other.id == id &&
-     other.username == username &&
-     other.firstName == firstName &&
-     other.lastName == lastName &&
-     other.email == email &&
-     other.password == password &&
-     other.phone == phone &&
-     other.userStatus == userStatus;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    username.hashCode +
-    firstName.hashCode +
-    lastName.hashCode +
-    email.hashCode +
-    password.hashCode +
-    phone.hashCode +
-    userStatus.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is User &&
+      other.id == id &&
+      other.username == username &&
+      other.firstName == firstName &&
+      other.lastName == lastName &&
+      other.email == email &&
+      other.password == password &&
+      other.phone == phone &&
+      other.userStatus == userStatus;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        username.hashCode +
+        firstName.hashCode +
+        lastName.hashCode +
+        email.hashCode +
+        password.hashCode +
+        phone.hashCode +
+        userStatus.hashCode;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

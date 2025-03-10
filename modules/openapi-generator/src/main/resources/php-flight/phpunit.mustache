@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="./vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">{{#lambda.forwardslash}}{{apiSrcPath}}{{/lambda.forwardslash}}</directory>
+            <directory suffix=".php">{{#lambda.forwardslash}}{{modelSrcPath}}{{/lambda.forwardslash}}</directory>
+            <directory suffix=".php">.</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">{{#lambda.forwardslash}}{{testSrcPath}}{{/lambda.forwardslash}}</directory>
+        </exclude>
+    </coverage>
+    <testsuites>
+        <testsuite name="Default test suite">
+            <directory>{{#lambda.forwardslash}}{{testSrcPath}}{{/lambda.forwardslash}}</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value="E_ALL" />
+    </php>
+</phpunit>

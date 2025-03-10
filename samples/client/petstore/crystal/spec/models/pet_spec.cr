@@ -19,7 +19,7 @@ describe Petstore::Pet do
 
   describe "test an instance of Pet" do
     it "should fail to compile if any required properties is missing" do
-      assert_compilation_error(path: "./pet_compilation_error_spec.cr", message: "Error: no overload matches 'Petstore::Pet.new', id: Nil, category: Nil, name: Nil, photo_urls: Array(String), tags: Nil, status: Nil")
+      assert_compilation_error(path: "./pet_compilation_error_spec.cr", message: "Error: expected argument 'name' to 'Petstore::Pet.new' to be String, not Nil")
     end
 
     it "should create an instance of Pet with only required properties" do

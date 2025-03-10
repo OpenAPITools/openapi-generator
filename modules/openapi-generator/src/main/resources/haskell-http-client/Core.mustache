@@ -14,6 +14,7 @@ Module : {{baseModule}}.Core
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TupleSections #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
@@ -41,6 +42,7 @@ import qualified Data.Maybe as P
 import qualified Data.Proxy as P (Proxy(..))
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy.Encoding as TL
 import qualified Data.Time as TI
 import qualified Data.Time.ISO8601 as TI
 import qualified GHC.Base as P (Alternative)
@@ -330,6 +332,9 @@ toQuery :: WH.ToHttpApiData a => (BC.ByteString, Maybe a) -> [NH.QueryItem]
 toQuery x = [(fmap . fmap) toQueryParam x]
   where toQueryParam = T.encodeUtf8 . WH.toQueryParam
 
+toJsonQuery :: A.ToJSON a => (BC.ByteString, Maybe a) -> [NH.QueryItem]
+toJsonQuery = toQuery . (fmap . fmap) (TL.decodeUtf8 . A.encode)
+
 toPartialEscapeQuery :: B.ByteString -> NH.Query -> NH.PartialEscapeQuery
 toPartialEscapeQuery extraUnreserved query = fmap (\(k, v) -> (k, maybe [] go v)) query
   where go :: B.ByteString -> [NH.EscapeItem]
@@ -361,6 +366,9 @@ toFormColl c xs = WH.toForm $ fmap unpack $ _toColl c toHeader $ pack xs
 
 toQueryColl :: WH.ToHttpApiData a => CollectionFormat -> (BC.ByteString, Maybe [a]) -> NH.Query
 toQueryColl c xs = _toCollA c toQuery xs
+
+toJsonQueryColl :: A.ToJSON a => CollectionFormat -> (BC.ByteString, Maybe [a]) -> NH.Query
+toJsonQueryColl c xs = _toCollA c toJsonQuery xs
 
 _toColl :: P.Traversable f => CollectionFormat -> (f a -> [(b, BC.ByteString)]) -> f [a] -> [(b, BC.ByteString)]
 _toColl c encode xs = fmap (fmap P.fromJust) (_toCollA' c fencode BC.singleton (fmap Just xs))

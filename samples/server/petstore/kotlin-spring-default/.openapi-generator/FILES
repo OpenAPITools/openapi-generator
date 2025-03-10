@@ -1,5 +1,9 @@
 README.md
 build.gradle.kts
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
+gradlew
+gradlew.bat
 pom.xml
 settings.gradle
 src/main/kotlin/org/openapitools/Application.kt
@@ -12,11 +16,15 @@ src/main/kotlin/org/openapitools/api/PetApiController.kt
 src/main/kotlin/org/openapitools/api/StoreApiController.kt
 src/main/kotlin/org/openapitools/api/UserApiController.kt
 src/main/kotlin/org/openapitools/model/Annotation.kt
+src/main/kotlin/org/openapitools/model/AnyOfUserOrPet.kt
+src/main/kotlin/org/openapitools/model/AnyOfUserOrPetOrArrayString.kt
 src/main/kotlin/org/openapitools/model/Category.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
 src/main/kotlin/org/openapitools/model/User.kt
+src/main/kotlin/org/openapitools/model/UserOrPet.kt
+src/main/kotlin/org/openapitools/model/UserOrPetOrArrayString.kt
 src/main/resources/application.yaml
 src/main/resources/openapi.yaml

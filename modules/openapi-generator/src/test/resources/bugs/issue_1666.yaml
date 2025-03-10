@@ -1,0 +1,83 @@
+openapi: "3.0.3"
+info:
+  title: issue #1666
+  version: 1.0.0
+tags:
+  - name: test1
+  - name: test2
+  - name: test3
+  - name: test4
+paths:
+  "/not-required":
+    post:
+      operationId: notRequired
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRequest'
+      responses:
+        '200':
+          description: success
+      tags:
+        - test1
+  "/required":
+    post:
+      operationId: required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRequest'
+      responses:
+        '200':
+          description: success
+      tags:
+        - test2
+  "/with-path-param/{param1}":
+    post:
+      operationId: withPathParam
+      parameters:
+      - name: param1
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRequest'
+      responses:
+        '200':
+          description: success
+      tags:
+        - test3
+  "/with-path-param-required/{param1}":
+    post:
+      operationId: withPathParamRequired
+      parameters:
+      - name: param1
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestRequest'
+      responses:
+        '200':
+          description: success
+      tags:
+        - test4
+components:
+  schemas:
+    TestRequest:
+      type: object
+      properties:
+        key1:
+          type: string

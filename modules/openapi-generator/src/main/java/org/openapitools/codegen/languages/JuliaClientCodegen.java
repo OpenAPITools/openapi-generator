@@ -16,7 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 
@@ -29,6 +32,7 @@ public class JuliaClientCodegen extends AbstractJuliaCodegen {
      * @return the CodegenType for this generator
      * @see org.openapitools.codegen.CodegenType
      */
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -39,6 +43,7 @@ public class JuliaClientCodegen extends AbstractJuliaCodegen {
      *
      * @return the name of the generator
      */
+    @Override
     public String getName() {
         return "julia-client";
     }
@@ -49,6 +54,7 @@ public class JuliaClientCodegen extends AbstractJuliaCodegen {
      *
      * @return the help message for the generator
      */
+    @Override
     public String getHelp() {
         return "Generates a julia client.";
     }

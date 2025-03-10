@@ -12,6 +12,7 @@ All URIs are relative to *http://localhost:3000*
 | [**test_echo_body_free_form_object_response_string**](BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**test_echo_body_pet**](BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**test_echo_body_pet_response_string**](BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body |
+| [**test_echo_body_string_enum**](BodyApi.md#test_echo_body_string_enum) | **POST** /echo/body/string_enum | Test string enum response body |
 | [**test_echo_body_tag_response_string**](BodyApi.md#test_echo_body_tag_response_string) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
 
 
@@ -534,6 +535,72 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: text/plain
+
+
+## test_echo_body_string_enum
+
+> <StringEnumRef> test_echo_body_string_enum(opts)
+
+Test string enum response body
+
+Test string enum response body
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::BodyApi.new
+opts = {
+  body: 'body_example' # String | String enum
+}
+
+begin
+  # Test string enum response body
+  result = api_instance.test_echo_body_string_enum(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_echo_body_string_enum: #{e}"
+end
+```
+
+#### Using the test_echo_body_string_enum_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<StringEnumRef>, Integer, Hash)> test_echo_body_string_enum_with_http_info(opts)
+
+```ruby
+begin
+  # Test string enum response body
+  data, status_code, headers = api_instance.test_echo_body_string_enum_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <StringEnumRef>
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_echo_body_string_enum_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **String** | String enum | [optional] |
+
+### Return type
+
+[**StringEnumRef**](StringEnumRef.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 
 ## test_echo_body_tag_response_string

@@ -25,7 +25,7 @@ class ClassModel {
     
     name: r'_class',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +33,15 @@ class ClassModel {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
-     other.class_ == class_;
 
-  @override
-  int get hashCode =>
-    class_.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
+      other.class_ == class_;
+
+    @override
+    int get hashCode =>
+        class_.hashCode;
 
   factory ClassModel.fromJson(Map<String, dynamic> json) => _$ClassModelFromJson(json);
 

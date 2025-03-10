@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,10 +51,11 @@ import org.openapitools.client.JSON;
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Cat extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
+  @javax.annotation.Nullable
   private Boolean declawed;
 
   public Cat() {
@@ -63,21 +63,21 @@ public class Cat extends Animal implements Parcelable {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Cat declawed(Boolean declawed) {
+  public Cat declawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;
   }
 
-   /**
+  /**
    * Get declawed
    * @return declawed
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
   }
 
@@ -161,12 +161,12 @@ public class Cat extends Animal implements Parcelable {
     openapiRequiredFields.add("className");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Cat
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Cat
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Cat.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -185,22 +185,22 @@ public class Cat extends Animal implements Parcelable {
   }
 
 
- /**
-  * Create an instance of Cat given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Cat
-  * @throws IOException if the JSON string is invalid with respect to Cat
-  */
+  /**
+   * Create an instance of Cat given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Cat
+   * @throws IOException if the JSON string is invalid with respect to Cat
+   */
   public static Cat fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Cat.class);
   }
 
- /**
-  * Convert an instance of Cat to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Cat to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

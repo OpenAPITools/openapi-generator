@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: sample spec
+  description: "Sample spec"
+  version: 0.0.1
+
+paths:
+  /v1/sample:
+    post:
+      operationId: samplePost
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                name:
+                  type: string
+              type: object
+      responses:
+        200:
+          description: success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  response:
+                    type: object
+                type: object
+    put:
+      operationId: samplePut
+      parameters:
+        - in: query
+          name: limit
+          schema:
+              type: string
+      requestBody:
+        content:
+          application/json;charset=utf-8:
+            schema:
+              properties:
+                name:
+                  type: string
+              type: object
+      responses:
+        200:
+          description: success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                properties:
+                  response:
+                    type: object
+                type: object
+

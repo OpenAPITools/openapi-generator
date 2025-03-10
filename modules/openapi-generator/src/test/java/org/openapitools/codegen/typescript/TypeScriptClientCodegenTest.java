@@ -4,10 +4,8 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -16,6 +14,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class TypeScriptClientCodegenTest {
 
         // Cf. issue #4968: Array of Alias of Array
         Schema<?> parentSchema = new ArraySchema().items(
-            new Schema().$ref("#/components/schemas/Child")
+                new Schema().$ref("#/components/schemas/Child")
         );
 
         ModelUtils.setGenerateAliasAsModel(false);
@@ -70,12 +70,12 @@ public class TypeScriptClientCodegenTest {
     @Test
     public void testArrayWithUniqueItems() {
         final Schema uniqueArray = new ArraySchema()
-            .items(new StringSchema())
-            .uniqueItems(true);
+                .items(new StringSchema())
+                .uniqueItems(true);
         final Schema model = new ObjectSchema()
-            .description("an object has an array with uniqueItems")
-            .addProperty("uniqueArray", uniqueArray)
-            .addRequiredItem("uniqueArray");
+                .description("an object has an array with uniqueItems")
+                .addProperty("uniqueArray", uniqueArray)
+                .addRequiredItem("uniqueArray");
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
@@ -92,7 +92,7 @@ public class TypeScriptClientCodegenTest {
         inner.setAdditionalProperties(true);
 
         final Schema root = new ObjectSchema()
-            .addProperty("inner", inner);
+                .addProperty("inner", inner);
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);
@@ -157,5 +157,57 @@ public class TypeScriptClientCodegenTest {
         } catch (Exception ex) {
             Assert.fail("Exception was thrown.");
         }
+    }
+
+    @Test
+    public void arrayItemsCanBeNullable() throws Exception {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/array-nullable-items.yaml");
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArrayWithNullableItemsModel")
+                .getProperties()
+                .get("foo");
+        Assert.assertEquals(codegen.getTypeDeclaration(schema), "Array<string | null>");
+    }
+
+    @Test
+    public void testAdditionalPropertiesPutForConfigValues() throws Exception {
+        String licenseName = "Apache 2.0";
+
+        TypeScriptClientCodegen codegen = new TypeScriptClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.LICENSE_NAME, licenseName);
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        codegen.preprocessOpenAPI(openAPI);
+
+        Assert.assertEquals(codegen.getLicenseName(), licenseName);
+    }
+
+    @Test
+    public void testForAllSanitizedEnum() throws Exception {
+        final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/bugs/typescript_enum_var_name_all_sanitized.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/models/Greeting.ts"),
+                "export enum Greeting {\n" +
+                        "    _こんにちは = 'こんにちは',\n" +
+                        "    _你好 = '你好',\n" +
+                        "    _안녕하세요 = '안녕하세요',\n" +
+                        "    STRING = '!@#%',\n" +
+                        "    STRING2 = '^&*\uD83C\uDF63'",
+                "}"
+        );
     }
 }

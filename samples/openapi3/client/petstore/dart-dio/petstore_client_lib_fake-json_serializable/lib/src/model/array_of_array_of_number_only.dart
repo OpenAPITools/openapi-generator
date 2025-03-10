@@ -25,7 +25,7 @@ class ArrayOfArrayOfNumberOnly {
     
     name: r'ArrayArrayNumber',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -33,13 +33,15 @@ class ArrayOfArrayOfNumberOnly {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
-     other.arrayArrayNumber == arrayArrayNumber;
 
-  @override
-  int get hashCode =>
-    arrayArrayNumber.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ArrayOfArrayOfNumberOnly &&
+      other.arrayArrayNumber == arrayArrayNumber;
+
+    @override
+    int get hashCode =>
+        arrayArrayNumber.hashCode;
 
   factory ArrayOfArrayOfNumberOnly.fromJson(Map<String, dynamic> json) => _$ArrayOfArrayOfNumberOnlyFromJson(json);
 

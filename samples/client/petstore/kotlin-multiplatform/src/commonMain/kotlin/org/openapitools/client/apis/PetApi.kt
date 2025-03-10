@@ -165,7 +165,7 @@ open class PetApi : ApiClient {
         companion object : KSerializer<FindPetsByStatusResponse> {
             private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: FindPetsByStatusResponse) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
         }
     }
@@ -208,7 +208,7 @@ open class PetApi : ApiClient {
         companion object : KSerializer<FindPetsByTagsResponse> {
             private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
             override val descriptor = serializer.descriptor
-            override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
+            override fun serialize(encoder: Encoder, value: FindPetsByTagsResponse) = serializer.serialize(encoder, value.value)
             override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
         }
     }

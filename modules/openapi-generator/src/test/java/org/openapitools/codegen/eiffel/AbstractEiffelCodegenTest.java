@@ -17,17 +17,33 @@
 
 package org.openapitools.codegen.eiffel;
 
+import org.mockito.Answers;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractEiffelCodegen;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
 
 public class AbstractEiffelCodegenTest {
 
+    private AbstractEiffelCodegen codegen;
+
+    /**
+     * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
+     * using @BeforeMethod to have a fresh codegen mock for each test
+     */
+    @BeforeMethod
+    void mockAbstractCodegen() {
+        codegen = mock(
+                AbstractEiffelCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+        );
+    }
+
     @Test
     public void testInitialConfigValues() throws Exception {
-        final AbstractEiffelCodegen codegen = new P_AbstractEiffelCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
@@ -36,7 +52,6 @@ public class AbstractEiffelCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final AbstractEiffelCodegen codegen = new P_AbstractEiffelCodegen();
         codegen.setHideGenerationTimestamp(true);
         codegen.processOpts();
 
@@ -46,28 +61,10 @@ public class AbstractEiffelCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final AbstractEiffelCodegen codegen = new P_AbstractEiffelCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
-    }
-
-    private static class P_AbstractEiffelCodegen extends AbstractEiffelCodegen {
-        @Override
-        public CodegenType getTag() {
-            return null;
-        }
-
-        @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getHelp() {
-            return null;
-        }
     }
 }

@@ -4,12 +4,17 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -19,24 +24,45 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@JacksonXmlRootElement(localName = "User")
+@XmlRootElement(name = "User")
+@XmlAccessorType(XmlAccessType.FIELD)
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class User {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private String username;
+  private @Nullable String username;
 
-  private String firstName;
+  private @Nullable String firstName;
 
-  private String lastName;
+  private @Nullable String lastName;
 
-  private String email;
+  private @Nullable String email;
 
-  private String password;
+  private @Nullable String password;
 
-  private String phone;
+  private @Nullable String phone;
 
-  private Integer userStatus;
+  private @Nullable Integer userStatus;
+
+  public User() {
+    super();
+  }
+
+  /**
+   * Constructor with all args parameters
+   */
+  public User(@Nullable Long id, @Nullable String username, @Nullable String firstName, @Nullable String lastName, @Nullable String email, @Nullable String password, @Nullable String phone, @Nullable Integer userStatus) {
+      this.id = id;
+      this.username = username;
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.password = password;
+      this.phone = phone;
+      this.userStatus = userStatus;
+  }
 
   public User id(Long id) {
     this.id = id;
@@ -46,10 +72,12 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
+  @XmlElement(name = "id")
   public Long getId() {
     return id;
   }
@@ -66,10 +94,12 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("username")
+  @JacksonXmlProperty(localName = "username")
+  @XmlElement(name = "username")
   public String getUsername() {
     return username;
   }
@@ -86,10 +116,12 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("firstName")
+  @JacksonXmlProperty(localName = "firstName")
+  @XmlElement(name = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -106,10 +138,12 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastName")
+  @JacksonXmlProperty(localName = "lastName")
+  @XmlElement(name = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -126,10 +160,12 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("email")
+  @JacksonXmlProperty(localName = "email")
+  @XmlElement(name = "email")
   public String getEmail() {
     return email;
   }
@@ -146,10 +182,12 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
+  @JacksonXmlProperty(localName = "password")
+  @XmlElement(name = "password")
   public String getPassword() {
     return password;
   }
@@ -166,10 +204,12 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("phone")
+  @JacksonXmlProperty(localName = "phone")
+  @XmlElement(name = "phone")
   public String getPhone() {
     return phone;
   }
@@ -186,10 +226,12 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("userStatus")
+  @JacksonXmlProperty(localName = "userStatus")
+  @XmlElement(name = "userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }
@@ -248,5 +290,105 @@ public class User {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private User instance;
+
+    public Builder() {
+      this(new User());
+    }
+
+    protected Builder(User instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(User value) { 
+      this.instance.setId(value.id);
+      this.instance.setUsername(value.username);
+      this.instance.setFirstName(value.firstName);
+      this.instance.setLastName(value.lastName);
+      this.instance.setEmail(value.email);
+      this.instance.setPassword(value.password);
+      this.instance.setPhone(value.phone);
+      this.instance.setUserStatus(value.userStatus);
+      return this;
+    }
+
+    public User.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public User.Builder username(String username) {
+      this.instance.username(username);
+      return this;
+    }
+    
+    public User.Builder firstName(String firstName) {
+      this.instance.firstName(firstName);
+      return this;
+    }
+    
+    public User.Builder lastName(String lastName) {
+      this.instance.lastName(lastName);
+      return this;
+    }
+    
+    public User.Builder email(String email) {
+      this.instance.email(email);
+      return this;
+    }
+    
+    public User.Builder password(String password) {
+      this.instance.password(password);
+      return this;
+    }
+    
+    public User.Builder phone(String phone) {
+      this.instance.phone(phone);
+      return this;
+    }
+    
+    public User.Builder userStatus(Integer userStatus) {
+      this.instance.userStatus(userStatus);
+      return this;
+    }
+    
+    /**
+    * returns a built User instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public User build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static User.Builder builder() {
+    return new User.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public User.Builder toBuilder() {
+    User.Builder builder = new User.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

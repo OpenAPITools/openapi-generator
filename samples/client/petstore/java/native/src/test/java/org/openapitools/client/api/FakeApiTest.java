@@ -16,6 +16,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -23,9 +24,10 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,11 +39,27 @@ import java.util.Set;
 /**
  * API tests for FakeApi
  */
-@Ignore
+@Disabled
 public class FakeApiTest {
 
     private final FakeApi api = new FakeApi();
 
+    
+    /**
+     * 
+     *
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void fakeBigDecimalMapTest() throws ApiException {
+        FakeBigDecimalMap200Response response = 
+        api.fakeBigDecimalMap();
+        
+        // TODO: test validations
+    }
     
     /**
      * Health check endpoint
@@ -128,6 +146,22 @@ public class FakeApiTest {
     }
     
     /**
+     * application/json UTF8
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getApplicationJsonUtf8Test() throws ApiException {
+        List<OuterEnum> response = 
+        api.getApplicationJsonUtf8();
+        
+        // TODO: test validations
+    }
+    
+    /**
      * Array of Enums
      *
      * 
@@ -139,6 +173,23 @@ public class FakeApiTest {
     public void getArrayOfEnumsTest() throws ApiException {
         List<OuterEnum> response = 
         api.getArrayOfEnums();
+        
+        // TODO: test validations
+    }
+    
+    /**
+     * test referenced additionalProperties
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testAdditionalPropertiesReferenceTest() throws ApiException {
+        Map<String, Object> requestBody = null;
+        
+        api.testAdditionalPropertiesReference(requestBody);
         
         // TODO: test validations
     }
@@ -298,6 +349,23 @@ public class FakeApiTest {
     }
     
     /**
+     * test inline free-form additionalProperties
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testInlineFreeformAdditionalPropertiesTest() throws ApiException {
+        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+        
+        api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
+        
+        // TODO: test validations
+    }
+    
+    /**
      * test json serialization of form data
      *
      * 
@@ -332,6 +400,23 @@ public class FakeApiTest {
         List<String> context = null;
         
         api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+        
+        // TODO: test validations
+    }
+    
+    /**
+     * test referenced string map
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testStringMapReferenceTest() throws ApiException {
+        Map<String, String> requestBody = null;
+        
+        api.testStringMapReference(requestBody);
         
         // TODO: test validations
     }

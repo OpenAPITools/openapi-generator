@@ -294,17 +294,17 @@ public class TypeScriptAngularModelTest {
     @Test(description = "convert an any of with array oneof model")
     public void objectPropertyAnyOfWithArrayOneOfModelTest() {
         final Schema schema = new ObjectSchema().addProperty("value",
-                new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
-                        .items(new ComposedSchema()
-                                .addOneOfItem(new StringSchema())
-                                .addOneOfItem(new IntegerSchema().format("int64")))))
+                        new ComposedSchema().addAnyOfItem(new StringSchema()).addAnyOfItem(new ArraySchema()
+                                .items(new ComposedSchema()
+                                        .addOneOfItem(new StringSchema())
+                                        .addOneOfItem(new IntegerSchema().format("int64")))))
                 .description("an any of with array oneof model");
         final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
-        String s = codegen.getSchemaType((Schema)schema.getProperties().get("value"));
+        String s = codegen.getSchemaType((Schema) schema.getProperties().get("value"));
 
 
         Assert.assertEquals(cm.name, "sample");
@@ -383,9 +383,9 @@ public class TypeScriptAngularModelTest {
         // Originally parent model "FooResponse" with inline model called "_links". The InlineModelResolver resolves
         // that to "FooResponse__links" (double underscore)
         final Schema schema = new Schema()
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperty("self", new StringSchema());
+                .description("an inline model with name previously prefixed with underscore")
+                .addRequiredItem("self")
+                .addProperty("self", new StringSchema());
 
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put(TypeScriptAngularClientCodegen.FILE_NAMING, "kebab-case");

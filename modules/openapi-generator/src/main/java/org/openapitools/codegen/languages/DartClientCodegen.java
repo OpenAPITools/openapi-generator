@@ -52,7 +52,7 @@ public class DartClientCodegen extends AbstractDartCodegen {
         super.processOpts();
 
         // handle library not being set
-        if(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
+        if (additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY) == null) {
             this.library = SERIALIZATION_LIBRARY_NATIVE;
             LOGGER.debug("Serialization library not set, using default {}", SERIALIZATION_LIBRARY_NATIVE);
         } else {

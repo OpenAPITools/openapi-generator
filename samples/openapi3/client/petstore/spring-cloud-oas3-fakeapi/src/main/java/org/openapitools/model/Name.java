@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,16 +20,20 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Name", description = "Model for testing model name same as property name")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Name {
 
   private Integer name;
 
-  private Integer snakeCase;
+  private @Nullable Integer snakeCase;
 
-  private String property;
+  private @Nullable String property;
 
-  private Integer _123number;
+  private @Nullable Integer _123number;
+
+  public Name() {
+    super();
+  }
 
   public Name name(Integer name) {
     this.name = name;
@@ -38,7 +43,7 @@ public class Name {
   /**
    * Get name
    * @return name
-  */
+   */
   @NotNull 
   @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
@@ -58,7 +63,7 @@ public class Name {
   /**
    * Get snakeCase
    * @return snakeCase
-  */
+   */
   
   @Schema(name = "snake_case", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("snake_case")
@@ -78,7 +83,7 @@ public class Name {
   /**
    * Get property
    * @return property
-  */
+   */
   
   @Schema(name = "property", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("property")
@@ -98,7 +103,7 @@ public class Name {
   /**
    * Get _123number
    * @return _123number
-  */
+   */
   
   @Schema(name = "123Number", accessMode = Schema.AccessMode.READ_ONLY, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("123Number")

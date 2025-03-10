@@ -17,24 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
@@ -155,10 +148,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.GROOVY;
     }
-
-    @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.GROOVY; }
 }

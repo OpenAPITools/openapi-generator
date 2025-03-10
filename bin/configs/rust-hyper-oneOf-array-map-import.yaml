@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/hyper/oneOf-array-map
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOfArrayMapImport.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: oneof-array-map-hyper

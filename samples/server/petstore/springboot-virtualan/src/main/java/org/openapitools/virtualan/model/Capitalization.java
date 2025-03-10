@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -18,20 +19,20 @@ import javax.annotation.Generated;
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Capitalization {
 
-  private String smallCamel;
+  private @Nullable String smallCamel;
 
-  private String capitalCamel;
+  private @Nullable String capitalCamel;
 
-  private String smallSnake;
+  private @Nullable String smallSnake;
 
-  private String capitalSnake;
+  private @Nullable String capitalSnake;
 
-  private String scAETHFlowPoints;
+  private @Nullable String scAETHFlowPoints;
 
-  private String ATT_NAME;
+  private @Nullable String ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -41,7 +42,7 @@ public class Capitalization {
   /**
    * Get smallCamel
    * @return smallCamel
-  */
+   */
   
   @Schema(name = "smallCamel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("smallCamel")
@@ -61,7 +62,7 @@ public class Capitalization {
   /**
    * Get capitalCamel
    * @return capitalCamel
-  */
+   */
   
   @Schema(name = "CapitalCamel", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("CapitalCamel")
@@ -81,7 +82,7 @@ public class Capitalization {
   /**
    * Get smallSnake
    * @return smallSnake
-  */
+   */
   
   @Schema(name = "small_Snake", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("small_Snake")
@@ -101,7 +102,7 @@ public class Capitalization {
   /**
    * Get capitalSnake
    * @return capitalSnake
-  */
+   */
   
   @Schema(name = "Capital_Snake", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("Capital_Snake")
@@ -121,7 +122,7 @@ public class Capitalization {
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  */
+   */
   
   @Schema(name = "SCA_ETH_Flow_Points", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("SCA_ETH_Flow_Points")
@@ -141,7 +142,7 @@ public class Capitalization {
   /**
    * Name of the pet 
    * @return ATT_NAME
-  */
+   */
   
   @Schema(name = "ATT_NAME", description = "Name of the pet ", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("ATT_NAME")

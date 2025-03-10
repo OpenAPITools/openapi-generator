@@ -1,70 +1,45 @@
 package org.openapitools.codegen.validations.oas;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Allows for configuration of validation rules which will be applied to a specification.
  */
+@Getter
+@Setter
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class RuleConfiguration {
     private static String propertyPrefix = "openapi.generator.rule";
-    private boolean enableRecommendations = defaultedBoolean(propertyPrefix + ".recommendations", true);
-    private boolean enableApacheNginxUnderscoreRecommendation = defaultedBoolean(propertyPrefix + ".apache-nginx-underscore", true);
-    private boolean enableOneOfWithPropertiesRecommendation = defaultedBoolean(propertyPrefix + ".oneof-properties-ambiguity", true);
-    private boolean enableUnusedSchemasRecommendation = defaultedBoolean(propertyPrefix + ".unused-schemas", true);
-    private boolean enableSchemaTypeRecommendation = defaultedBoolean(propertyPrefix + ".schema-type", true);
-    private boolean enableNullableAttributeRecommendation = defaultedBoolean(propertyPrefix + ".nullable-deprecated", true);
-    private boolean enableInvalidTypeRecommendation = defaultedBoolean(propertyPrefix + ".invalid-type", true);
-
-    private boolean enableApiRequestUriWithBodyRecommendation = defaultedBoolean(propertyPrefix + ".anti-patterns.uri-unexpected-body", true);
-
-    @SuppressWarnings("SameParameterValue")
-    private static boolean defaultedBoolean(String key, boolean defaultValue) {
-        String property = System.getProperty(key);
-        if (property == null) return defaultValue;
-        return Boolean.parseBoolean(property);
-    }
-
     /**
+     * -- GETTER --
+     * Get whether recommendations are enabled.
+     * <p>
+     * The 'type' attribute must be one of 'null', 'boolean', 'object', 'array', 'number', 'string', or 'integer'
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable recommendations. Recommendations are either informational or warning level type validations
+     * which are raised to communicate issues to the user which they may not be aware of, or for which support in the
+     * tooling/spec may not be clearly defined.
+     * @param enableRecommendations <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableRecommendations = defaultedBoolean(propertyPrefix + ".recommendations", true);
+    /**
+     * -- GETTER --
      * Gets whether we will raise awareness that header parameters with underscore may be ignored in Apache or Nginx by default.
      * For more details, see https://stackoverflow.com/a/22856867/151445.
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableApacheNginxUnderscoreRecommendation() {
-        return enableApacheNginxUnderscoreRecommendation;
-    }
-
-    /**
+     * -- SETTER --
      * Enable or Disable the recommendation check for Apache/Nginx potentially ignoring header with underscore by default.
      * <p>
-     * For more details, see {@link RuleConfiguration#isEnableApacheNginxUnderscoreRecommendation()}
-     *
+     * For more details, see
      * @param enableApacheNginxUnderscoreRecommendation <code>true</code> to enable, <code>false</code> to disable
      */
-    public void setEnableApacheNginxUnderscoreRecommendation(boolean enableApacheNginxUnderscoreRecommendation) {
-        this.enableApacheNginxUnderscoreRecommendation = enableApacheNginxUnderscoreRecommendation;
-    }
-
+    private boolean enableApacheNginxUnderscoreRecommendation = defaultedBoolean(propertyPrefix + ".apache-nginx-underscore", true);
     /**
-     * Gets whether we will raise awareness a GET or HEAD operation is defined with body.
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableApiRequestUriWithBodyRecommendation() {
-        return enableApiRequestUriWithBodyRecommendation;
-    }
-
-    /**
-     * Enable or Disable the recommendation check for GET or HEAD operations with bodies.
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableApiRequestUriWithBodyRecommendation()}
-     *
-     * @param enableApiRequestUriWithBodyRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableApiRequestUriWithBodyRecommendation(boolean enableApiRequestUriWithBodyRecommendation) {
-        this.enableApiRequestUriWithBodyRecommendation = enableApiRequestUriWithBodyRecommendation;
-    }
-
-    /**
+     * -- GETTER --
      * Gets whether the recommendation check for oneOf with sibling properties exists.
      * <p>
      * JSON Schema defines oneOf as a validation property which can be applied to any schema.
@@ -77,121 +52,15 @@ public class RuleConfiguration {
      * properties on the schema defining oneOf relationships may not be intentional in the OpenAPI Specification.
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableOneOfWithPropertiesRecommendation() {
-        return enableOneOfWithPropertiesRecommendation;
-    }
-
-    /**
+     * -- SETTER --
      * Enable or Disable the recommendation check for schemas containing properties and oneOf definitions.
      * <p>
-     * For more details, see {@link RuleConfiguration#isEnableOneOfWithPropertiesRecommendation()}
-     *
+     * For more details, see
      * @param enableOneOfWithPropertiesRecommendation <code>true</code> to enable, <code>false</code> to disable
      */
-    public void setEnableOneOfWithPropertiesRecommendation(boolean enableOneOfWithPropertiesRecommendation) {
-        this.enableOneOfWithPropertiesRecommendation = enableOneOfWithPropertiesRecommendation;
-    }
-
+    private boolean enableOneOfWithPropertiesRecommendation = defaultedBoolean(propertyPrefix + ".oneof-properties-ambiguity", true);
     /**
-     * Enable or Disable the recommendation check for schemas containing type definitions, specifically
-     * for changes between OpenAPI 3.0.x and 3.1.
-     *
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableSchemaTypeRecommendation()}
-     *
-     * @param enableSchemaTypeRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableSchemaTypeRecommendation(boolean enableSchemaTypeRecommendation) {
-        this.enableSchemaTypeRecommendation = enableSchemaTypeRecommendation;
-    }
-
-    /**
-     * Gets whether the recommendation check for schemas containing type definitions.
-     * <p>
-     * In OpenAPI 3.0.x, the "type" attribute must be a string value.
-     * In OpenAPI 3.1, the type attribute may be:
-     *   A string value
-     *   The 'null' value
-     *   An array containing primitive types and the 'null' value.
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableSchemaTypeRecommendation() {
-        return enableSchemaTypeRecommendation;
-    }
-
-    /**
-     * Enable or Disable the recommendation check for the 'nullable' attribute.
-     *
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableNullableAttributeRecommendation()}
-     *
-     * @param enableNullableAttributeRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableNullableAttributeRecommendation(boolean enableNullableAttributeRecommendation) {
-        this.enableNullableAttributeRecommendation = enableNullableAttributeRecommendation;
-    }
-
-    /**
-     * Gets whether the recommendation check for schemas containing the 'nullable' attribute.
-     * <p>
-     * In OpenAPI 3.0.x, the "nullable" attribute is supported. However, because it is deprecated in 3.1
-     * and above, a warning is logged to prepare for OpenAPI 3.1 recommendations.
-     * In OpenAPI 3.1, the 'nullable' attribute is deprecated. Instead the OpenAPI specification should
-     * use the 'null' type.
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableNullableAttributeRecommendation() {
-        return enableNullableAttributeRecommendation;
-    }
-
-    /**
-     * Enable or Disable the recommendation check for the 'type' attribute.
-     *
-     * <p>
-     * For more details, see {@link RuleConfiguration#isEnableInvalidTypeRecommendation()}
-     *
-     * @param enableInvalidTypeRecommendation <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableInvalidTypeRecommendation(boolean enableInvalidTypeRecommendation) {
-        this.enableInvalidTypeRecommendation = enableInvalidTypeRecommendation;
-    }
-
-    /**
-     * Gets whether the recommendation check for schemas containing invalid values for the 'type' attribute.
-     * <p>
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableInvalidTypeRecommendation() {
-        return enableInvalidTypeRecommendation;
-    }
-
-    /**
-     * Get whether recommendations are enabled.
-     * <p>
-     * The 'type' attribute must be one of 'null', 'boolean', 'object', 'array', 'number', 'string', or 'integer'
-     *
-     * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableRecommendations() {
-        return enableRecommendations;
-    }
-
-    /**
-     * Enable or Disable recommendations. Recommendations are either informational or warning level type validations
-     * which are raised to communicate issues to the user which they may not be aware of, or for which support in the
-     * tooling/spec may not be clearly defined.
-     *
-     * @param enableRecommendations <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void setEnableRecommendations(boolean enableRecommendations) {
-        this.enableRecommendations = enableRecommendations;
-    }
-
-    /**
+     * -- GETTER --
      * Gets whether the recommendation to check for unused schemas is enabled.
      * <p>
      * While the tooling may or may not support generation of models representing unused schemas, we take the stance that
@@ -200,19 +69,80 @@ public class RuleConfiguration {
      * intentional.
      *
      * @return <code>true</code> if enabled, <code>false</code> if disabled
-     */
-    public boolean isEnableUnusedSchemasRecommendation() {
-        return enableUnusedSchemasRecommendation;
-    }
-
-    /**
+     * -- SETTER --
      * Enable or Disable the recommendation check for unused schemas.
      * <p>
-     * For more details, see {@link RuleConfiguration#isEnableUnusedSchemasRecommendation()}
-     *
+     * For more details, see
      * @param enableUnusedSchemasRecommendation <code>true</code> to enable, <code>false</code> to disable
      */
-    public void setEnableUnusedSchemasRecommendation(boolean enableUnusedSchemasRecommendation) {
-        this.enableUnusedSchemasRecommendation = enableUnusedSchemasRecommendation;
+    private boolean enableUnusedSchemasRecommendation = defaultedBoolean(propertyPrefix + ".unused-schemas", true);
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for schemas containing type definitions.
+     * <p>
+     * In OpenAPI 3.0.x, the "type" attribute must be a string value.
+     * In OpenAPI 3.1, the type attribute may be:
+     * A string value
+     * The 'null' value
+     * An array containing primitive types and the 'null' value.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for schemas containing type definitions, specifically
+     * for changes between OpenAPI 3.0.x and 3.1.
+     * <p>
+     * For more details, see
+     * @param enableSchemaTypeRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableSchemaTypeRecommendation = defaultedBoolean(propertyPrefix + ".schema-type", true);
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for schemas containing the 'nullable' attribute.
+     * <p>
+     * In OpenAPI 3.0.x, the "nullable" attribute is supported. However, because it is deprecated in 3.1
+     * and above, a warning is logged to prepare for OpenAPI 3.1 recommendations.
+     * In OpenAPI 3.1, the 'nullable' attribute is deprecated. Instead, the OpenAPI specification should
+     * use the 'null' type.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for the 'nullable' attribute.
+     * <p>
+     * For more details, see
+     * @param enableNullableAttributeRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableNullableAttributeRecommendation = defaultedBoolean(propertyPrefix + ".nullable-deprecated", true);
+    /**
+     * -- GETTER --
+     * Gets whether the recommendation check for schemas containing invalid values for the 'type' attribute.
+     * <p>
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for the 'type' attribute.
+     * <p>
+     * For more details, see
+     * @param enableInvalidTypeRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableInvalidTypeRecommendation = defaultedBoolean(propertyPrefix + ".invalid-type", true);
+
+    /**
+     * -- GETTER --
+     * Gets whether we will raise awareness a GET or HEAD operation is defined with body.
+     *
+     * @return <code>true</code> if enabled, <code>false</code> if disabled
+     * -- SETTER --
+     * Enable or Disable the recommendation check for GET or HEAD operations with bodies.
+     * <p>
+     * For more details, see
+     * @param enableApiRequestUriWithBodyRecommendation <code>true</code> to enable, <code>false</code> to disable
+     */
+    private boolean enableApiRequestUriWithBodyRecommendation = defaultedBoolean(propertyPrefix + ".anti-patterns.uri-unexpected-body", true);
+
+    @SuppressWarnings("SameParameterValue")
+    private static boolean defaultedBoolean(String key, boolean defaultValue) {
+        String property = System.getProperty(key);
+        if (property == null) return defaultValue;
+        return Boolean.parseBoolean(property);
     }
 }

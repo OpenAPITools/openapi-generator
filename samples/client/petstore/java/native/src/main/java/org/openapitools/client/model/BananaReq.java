@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -29,6 +31,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * BananaReq
  */
@@ -36,30 +39,31 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
+  @javax.annotation.Nonnull
   private BigDecimal lengthCm;
 
   public static final String JSON_PROPERTY_SWEET = "sweet";
+  @javax.annotation.Nullable
   private Boolean sweet;
 
   public BananaReq() { 
   }
 
-  public BananaReq lengthCm(BigDecimal lengthCm) {
+  public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;
   }
 
-   /**
+  /**
    * Get lengthCm
    * @return lengthCm
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
@@ -67,24 +71,23 @@ public class BananaReq {
 
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setLengthCm(BigDecimal lengthCm) {
+  public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
-  public BananaReq sweet(Boolean sweet) {
+  public BananaReq sweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
     return this;
   }
 
-   /**
+  /**
    * Get sweet
    * @return sweet
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public Boolean getSweet() {
     return sweet;
   }
@@ -92,7 +95,7 @@ public class BananaReq {
 
   @JsonProperty(JSON_PROPERTY_SWEET)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSweet(Boolean sweet) {
+  public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
   }
 
@@ -102,20 +105,12 @@ public class BananaReq {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    BananaReq bananaReq = (BananaReq) o;
-    return Objects.equals(this.lengthCm, bananaReq.lengthCm) &&
-        Objects.equals(this.sweet, bananaReq.sweet);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lengthCm, sweet);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -173,15 +168,74 @@ public class BananaReq {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getLengthCm()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
     }
 
     // add `sweet` to the URL query string
     if (getSweet() != null) {
-      joiner.add(String.format("%ssweet%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSweet()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssweet%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSweet()))));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private BananaReq instance;
+
+    public Builder() {
+      this(new BananaReq());
+    }
+
+    protected Builder(BananaReq instance) {
+      this.instance = instance;
+    }
+
+    public BananaReq.Builder lengthCm(BigDecimal lengthCm) {
+      this.instance.lengthCm = lengthCm;
+      return this;
+    }
+    public BananaReq.Builder sweet(Boolean sweet) {
+      this.instance.sweet = sweet;
+      return this;
+    }
+
+
+    /**
+    * returns a built BananaReq instance.
+    *
+    * The builder is not reusable.
+    */
+    public BananaReq build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static BananaReq.Builder builder() {
+    return new BananaReq.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public BananaReq.Builder toBuilder() {
+    return new BananaReq.Builder()
+      .lengthCm(getLengthCm())
+      .sweet(getSweet());
+  }
+
 }
 

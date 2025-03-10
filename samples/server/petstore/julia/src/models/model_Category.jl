@@ -32,9 +32,11 @@ function check_required(o::Category)
 end
 
 function OpenAPI.validate_property(::Type{ Category }, name::Symbol, val)
+
     if name === Symbol("id")
         OpenAPI.validate_param(name, "Category", :format, val, "int64")
     end
+
     if name === Symbol("name")
         OpenAPI.validate_param(name, "Category", :pattern, val, r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
     end

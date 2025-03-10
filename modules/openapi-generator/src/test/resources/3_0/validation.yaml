@@ -24,3 +24,10 @@ components:
                maximum: 100
                exclusiveMaximum: true
                multipleOf: 5
+            ids:
+               type: array
+               items:
+                  type: integer
+               minItems: 1
+               maxItems: 10
+               uniqueItems: false

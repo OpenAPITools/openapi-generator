@@ -22,7 +22,7 @@ const _returntypes_{{operationId}}_{{classname}} = Dict{Regex,Type}(
     {{/responses}}
 )
 
-function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#required}}, {{paramName}}::{{#dataType}}{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
+function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#required}}, {{paramName}}::{{#dataType}}{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
 {{#allParams}}
 {{#hasValidation}}
 {{#maxLength}}
@@ -43,15 +43,30 @@ function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#requir
 {{#minItems}}
     OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :minItems, {{paramName}}, {{minItems}})
 {{/minItems}}
+{{#uniqueItems}}
+    OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :uniqueItems, {{paramName}}, {{uniqueItems}})
+{{/uniqueItems}}
+{{#maxProperties}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :maxProperties, {{paramName}}, {{maxProperties}})
+{{/maxProperties}}
+{{#minProperties}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :minProperties, {{paramName}}, {{minProperties}})
+{{/minProperties}}
+{{#pattern}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :pattern, {{paramName}}, r"{{{pattern}}}")
+{{/pattern}}
+{{#multipleOf}}
+        OpenAPI.validate_param("{{paramName}}", "{{operationId}}", :multipleOf, {{paramName}}, {{multipleOf}})
+{{/multipleOf}}
 
 {{/hasValidation}}
 {{/allParams}}
-    _ctx = OpenAPI.Clients.Ctx(_api.client, "{{httpMethod}}", _returntypes_{{operationId}}_{{classname}}, "{{path}}", [{{#authMethods}}"{{name}}", {{/authMethods}}]{{#bodyParam}}, {{paramName}}{{/bodyParam}})
+    _ctx = OpenAPI.Clients.Ctx(_api.client, "{{httpMethod}}", _returntypes_{{operationId}}_{{classname}}, "{{{path}}}", [{{#authMethods}}"{{name}}", {{/authMethods}}]{{#bodyParam}}, {{paramName}}{{/bodyParam}})
 {{#pathParams}}
     OpenAPI.Clients.set_param(_ctx.path, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}{{#isListContainer}}; collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
 {{/pathParams}}
 {{#queryParams}}
-    OpenAPI.Clients.set_param(_ctx.query, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}{{#isListContainer}}; collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
+    OpenAPI.Clients.set_param(_ctx.query, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}; style="{{style}}", is_explode={{isExplode}}{{#isListContainer}},collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
 {{/queryParams}}
 {{#headerParams}}
     OpenAPI.Clients.set_param(_ctx.header, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}{{#isListContainer}}; collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
@@ -61,7 +76,7 @@ function _oacinternal_{{operationId}}(_api::{{classname}}{{#allParams}}{{#requir
     OpenAPI.Clients.set_param(_ctx.form, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}}{{#isListContainer}}; collection_format="{{collectionFormat}}"{{/isListContainer}})  # type {{dataType}}
 {{/isFile}}
 {{#isFile}}
-    OpenAPI.Clients.set_param(_ctx.file, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}})  # type {{#dataType}}{{#isBinary}}Vector{UInt8}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}
+    OpenAPI.Clients.set_param(_ctx.file, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{paramName}})  # type {{#dataType}}{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/dataType}}
 {{/isFile}}
 {{/formParams}}
     OpenAPI.Clients.set_header_accept(_ctx, [{{#produces}}"{{{mediaType}}}", {{/produces}}])
@@ -74,17 +89,17 @@ end
 {{/summary.length}}{{#notes.length}}{{{notes}}}
 
 {{/notes.length}}Params:
-{{#allParams}}- {{paramName}}::{{dataType}}{{#required}} (required){{/required}}
+{{#allParams}}- {{paramName}}::{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{#required}} (required){{/required}}
 {{/allParams}}
 
 Return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}, OpenAPI.Clients.ApiResponse
 """
-function {{operationId}}(_api::{{classname}}{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
+function {{operationId}}(_api::{{classname}}{{#allParams}}{{#required}}, {{paramName}}::{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
     _ctx = _oacinternal_{{operationId}}(_api{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}={{paramName}},{{/required}}{{/allParams}} _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx)
 end
 
-function {{operationId}}(_api::{{classname}}, response_stream::Channel{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
+function {{operationId}}(_api::{{classname}}, response_stream::Channel{{#allParams}}{{#required}}, {{paramName}}::{{#isBinary}}{{#isFile}}{{dataType}}{{/isFile}}{{^isFile}}Vector{UInt8}{{/isFile}}{{/isBinary}}{{^isBinary}}{{dataType}}{{/isBinary}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}} _mediaType=nothing)
     _ctx = _oacinternal_{{operationId}}(_api{{#allParams}}{{#required}}, {{paramName}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}={{paramName}},{{/required}}{{/allParams}} _mediaType=_mediaType)
     return OpenAPI.Clients.exec(_ctx, response_stream)
 end

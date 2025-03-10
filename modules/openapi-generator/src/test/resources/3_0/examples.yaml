@@ -107,6 +107,38 @@ paths:
       responses:
         '200':
           description: successful operation
+  /example5/multiple_responses:
+    get:
+      operationId: generateFromResponseSchemaWithOneOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: a successful response example
+        '301':
+          description: permanent redirect
+          content:
+            application/json:
+              schema:
+                type: string
+                example: a redirect response example
+        '404':
+          description: not found
+          content:
+            application/json:
+              schema:
+                type: string
+                example: a not found response example
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+                example: an internal server error response example
 components:
   schemas:
     User:

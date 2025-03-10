@@ -12,7 +12,7 @@
 {{/isDate
 }}{{#isDateTime
 }}     * @DTA\Strategy(name="DateTime")
-     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
+     * @DTA\Validator(name="DateTime")
 {{/isDateTime
 }}{{^isPrimitiveType
 }}{{^isDate
@@ -25,21 +25,24 @@
 }}{{/isContainer
 }}{{#hasValidation
 }}{{#minLength}}{{#maxLength
-}}     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}, "max":{{maxLength}}})
+}}     * @DTA\Validator(name="Length", options={"min":{{minLength}}, "max":{{maxLength}}})
 {{/maxLength}}{{/minLength
 }}{{^minLength}}{{#maxLength
-}}     * @DTA\Validator(name="StringLength", options={"max":{{maxLength}}})
+}}     * @DTA\Validator(name="Length", options={"max":{{maxLength}}})
 {{/maxLength}}{{/minLength
 }}{{#minLength}}{{^maxLength
-}}     * @DTA\Validator(name="StringLength", options={"min":{{minLength}}})
+}}     * @DTA\Validator(name="Length", options={"min":{{minLength}}})
 {{/maxLength}}{{/minLength
-}}{{#minimum
-}}     * @DTA\Validator(name="GreaterThan", options={"min":{{minimum}}{{^exclusiveMinimum}}, "inclusive":true{{/exclusiveMinimum}}})
-{{/minimum
-}}{{#maximum
-}}     * @DTA\Validator(name="LessThan", options={"max":{{maximum}}{{^exclusiveMaximum}}, "inclusive":true{{/exclusiveMaximum}}})
-{{/maximum
+}}{{#minimum}}{{#maximum
+}}     * @DTA\Validator(name="Range", options={"min":{{minimum}}, "max":{{maximum}}{{#exclusiveMinimum}}, "exclude_min":true{{/exclusiveMinimum}}{{#exclusiveMaximum}}, "exclude_max":true{{/exclusiveMaximum}}})
+{{/maximum}}{{/minimum
+}}{{^minimum}}{{#maximum
+}}     * @DTA\Validator(name="Range", options={"max":{{maximum}}{{#exclusiveMaximum}}, "exclude_max":true{{/exclusiveMaximum}}})
+{{/maximum}}{{/minimum
+}}{{#minimum}}{{^maximum
+}}     * @DTA\Validator(name="Range", options={"min":{{minimum}}{{#exclusiveMinimum}}, "exclude_min":true{{/exclusiveMinimum}}})
+{{/maximum}}{{/minimum
 }}{{#pattern
-}}     * @DTA\Validator(name="Regex", options={"pattern":"{{{pattern}}}"})
+}}     * @DTA\Validator(name="Match", options={"pattern":"{{{pattern}}}"})
 {{/pattern
 }}{{/hasValidation}}

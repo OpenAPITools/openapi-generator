@@ -102,8 +102,10 @@ test {
 
 ext {
     swagger_annotations_version = "1.6.11"
-    jackson_version = "2.14.3"
-    jackson_databind_version = "2.14.3"
+    {{#jackson}}
+    jackson_version = "2.17.1"
+    jackson_databind_version = "2.17.1"
+    {{/jackson}}
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
@@ -112,35 +114,45 @@ ext {
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
     implementation "io.swagger:swagger-annotations:$swagger_annotations_version"
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "io.github.openfeign:feign-core:$feign_version"
+    {{#jackson}}
     implementation "io.github.openfeign:feign-jackson:$feign_version"
+    {{/jackson}}
     implementation "io.github.openfeign:feign-slf4j:$feign_version"
     implementation "io.github.openfeign:feign-okhttp:$feign_version"
     implementation "io.github.openfeign.form:feign-form:$feign_form_version"
-    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    {{#openApiNullable}}
-    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
-    {{/openApiNullable}}
+    {{#jackson}}
     {{#joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
+    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/jackson}}
+    {{#openApiNullable}}
+    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
     implementation "com.brsanthu:migbase64:2.2"
     implementation "com.github.scribejava:scribejava-core:$scribejava_version"
     implementation "com.brsanthu:migbase64:2.2"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {{#useReflectionEqualsHashCode}}
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/useReflectionEqualsHashCode}}
     testImplementation "org.junit.jupiter:junit-jupiter:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
     testImplementation "com.github.tomakehurst:wiremock-jre8:2.35.1"
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation "commons-io:commons-io:2.8.0"
+    testImplementation "commons-io:commons-io:2.16.1"
     testImplementation "ch.qos.logback:logback-classic:1.2.3"
 }

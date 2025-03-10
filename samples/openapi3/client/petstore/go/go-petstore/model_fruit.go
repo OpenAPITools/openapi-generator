@@ -13,6 +13,7 @@ package petstore
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // Fruit - struct for Fruit
@@ -47,7 +48,11 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 		if string(jsonApple) == "{}" { // empty struct
 			dst.Apple = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.Apple); err != nil {
+				dst.Apple = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.Apple = nil
@@ -60,7 +65,11 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 		if string(jsonBanana) == "{}" { // empty struct
 			dst.Banana = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.Banana); err != nil {
+				dst.Banana = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.Banana = nil
@@ -103,6 +112,20 @@ func (obj *Fruit) GetActualInstance() (interface{}) {
 
 	if obj.Banana != nil {
 		return obj.Banana
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj Fruit) GetActualInstanceValue() (interface{}) {
+	if obj.Apple != nil {
+		return *obj.Apple
+	}
+
+	if obj.Banana != nil {
+		return *obj.Banana
 	}
 
 	// all schemas are nil

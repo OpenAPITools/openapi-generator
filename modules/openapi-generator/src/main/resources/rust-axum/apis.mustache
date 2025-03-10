@@ -1,0 +1,83 @@
+use async_trait::async_trait;
+use axum::extract::*;
+use axum_extra::extract::{CookieJar, Host};
+use bytes::Bytes;
+use http::Method;
+use serde::{Deserialize, Serialize};
+
+use crate::{models, types::*};
+
+{{#operations}}
+{{#operation}}
+{{>response}}
+{{/operation}}
+{{/operations}}
+
+{{#operations}}
+/// {{classnamePascalCase}}
+#[async_trait]
+#[allow(clippy::ptr_arg)]
+pub trait {{classnamePascalCase}}<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+{{#havingAuthMethod}}
+    type Claims;
+
+{{/havingAuthMethod}}
+{{#operation}}
+  {{#summary}}
+    /// {{{.}}}.
+    ///
+  {{/summary}}
+  {{#vendorExtensions}}
+    /// {{{operationId}}} - {{{httpMethod}}} {{{basePathWithoutHost}}}{{{path}}}
+    async fn {{{x-operation-id}}}(
+    &self,
+    method: &Method,
+    host: &Host,
+    cookies: &CookieJar,
+    {{#vendorExtensions}}
+      {{#x-has-auth-methods}}
+        claims: &Self::Claims,
+      {{/x-has-auth-methods}}
+    {{/vendorExtensions}}
+    {{#headerParams.size}}
+      header_params: &models::{{{operationIdCamelCase}}}HeaderParams,
+    {{/headerParams.size}}
+    {{#pathParams.size}}
+      path_params: &models::{{{operationIdCamelCase}}}PathParams,
+    {{/pathParams.size}}
+    {{#queryParams.size}}
+      query_params: &models::{{{operationIdCamelCase}}}QueryParams,
+    {{/queryParams.size}}
+    {{^x-consumes-multipart-related}}
+    {{^x-consumes-multipart}}
+      {{#bodyParam}}
+      {{#vendorExtensions}}
+        {{^x-consumes-plain-text}}
+            body: &{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
+        {{/x-consumes-plain-text}}
+        {{#x-consumes-plain-text}}
+          {{#isString}}
+            body: &String,
+          {{/isString}}
+          {{^isString}}
+            body: &Bytes,
+          {{/isString}}
+        {{/x-consumes-plain-text}}
+      {{/vendorExtensions}}
+      {{/bodyParam}}
+    {{/x-consumes-multipart}}
+    {{/x-consumes-multipart-related}}
+    {{#x-consumes-multipart}}
+        body: &Multipart,
+    {{/x-consumes-multipart}}
+    {{#x-consumes-multipart-related}}
+        body: &axum::body::Body,
+    {{/x-consumes-multipart-related}}
+    ) -> Result<{{{operationId}}}Response, E>;
+  {{/vendorExtensions}}
+  {{^-last}}
+
+  {{/-last}}
+{{/operation}}
+}
+{{/operations}}

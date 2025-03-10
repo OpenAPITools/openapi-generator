@@ -1,5 +1,11 @@
 {{>example-server-common}}
 
+use jsonwebtoken::{decode, encode, errors::Error as JwtError, Algorithm, DecodingKey, EncodingKey, Header, TokenData, Validation};
+use serde::{Deserialize, Serialize};
+use swagger::auth::Authorization;
+use crate::server_auth;
+
+
 use {{{externCrateName}}}::{
     Api,
 {{#apiInfo}}

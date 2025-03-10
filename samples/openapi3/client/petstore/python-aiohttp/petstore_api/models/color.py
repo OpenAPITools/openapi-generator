@@ -15,11 +15,11 @@
 from __future__ import annotations
 import json
 import pprint
-from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional
 from typing_extensions import Annotated
 from pydantic import StrictStr, Field
-from typing import Union, List, Optional, Dict
+from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
@@ -35,12 +35,12 @@ class Color(BaseModel):
     # data type: str
     oneof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
     actual_instance: Optional[Union[List[int], str]] = None
-    one_of_schemas: List[str] = Field(default=Literal["List[int]", "str"])
+    one_of_schemas: Set[str] = { "List[int]", "str" }
 
-    model_config = {
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def __init__(self, *args, **kwargs) -> None:
@@ -89,11 +89,11 @@ class Color(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: Optional[str]) -> Self:
         """Returns the object represented by the json string"""
         instance = cls.model_construct()
         if json_str is None:
@@ -149,7 +149,7 @@ class Color(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict, List[int], str]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], List[int], str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

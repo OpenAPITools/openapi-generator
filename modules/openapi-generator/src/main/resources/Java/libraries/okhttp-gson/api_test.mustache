@@ -16,6 +16,11 @@ import java.util.Map;
 import java.io.InputStream;
 {{/supportStreaming}}
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */

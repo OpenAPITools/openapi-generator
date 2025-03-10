@@ -40,5 +40,8 @@ data class ModelApiResponse (
     @SerialName(value = "message")
     val message: kotlin.String? = null
 
-)
+) {
+
+
+}
 

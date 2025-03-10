@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,10 +22,10 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ListDto {
 
-  private String _123List;
+  private @Nullable String _123List;
 
   public ListDto _123List(String _123List) {
     this._123List = _123List;
@@ -34,7 +35,7 @@ public class ListDto {
   /**
    * Get _123List
    * @return _123List
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")

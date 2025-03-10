@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   @Valid
@@ -37,6 +38,10 @@ public class ContainerDefaultValue {
 
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
+
+  public ContainerDefaultValue() {
+    super();
+  }
 
   public ContainerDefaultValue nullableArray(List<String> nullableArray) {
     this.nullableArray = JsonNullable.of(nullableArray);
@@ -54,7 +59,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @Schema(name = "nullable_array", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullable_array")
@@ -82,7 +87,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull 
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("nullable_required_array")
@@ -110,7 +115,7 @@ public class ContainerDefaultValue {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull 
   @Schema(name = "required_array", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("required_array")
@@ -138,7 +143,7 @@ public class ContainerDefaultValue {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @Schema(name = "nullable_array_with_default", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("nullable_array_with_default")

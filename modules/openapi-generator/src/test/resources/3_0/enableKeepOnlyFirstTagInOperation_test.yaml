@@ -30,6 +30,7 @@ paths:
     delete:
       tags:
         - person
+      x-internal: true
       parameters:
         - name: personId
           in: path
@@ -45,6 +46,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Person"
+    put:
+      tags:
+        - person
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: put
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+
 components:
   schemas:
     Person:
@@ -56,4 +76,11 @@ components:
         lastName:
           type: string
         firstName:
+          type: string
+    Dummy:
+      x-internal: true
+      description: to test x-internal
+      type: object
+      properties:
+        test:
           type: string

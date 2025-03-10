@@ -4,9 +4,10 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.web.util.UriUtils
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.http.ResponseEntity
+import org.springframework.http.client.MultipartBodyBuilder
+import org.springframework.util.LinkedMultiValueMap
 import reactor.core.publisher.Mono
 
 open class ApiClient(protected val client: WebClient) {
@@ -33,26 +34,38 @@ open class ApiClient(protected val client: WebClient) {
             }
         }
 
-    protected fun encodeURIComponent(uriComponent: kotlin.String) =
-        UriUtils.encodeFragment(uriComponent, Charsets.UTF_8)
-
     private fun <I> WebClient.method(requestConfig: RequestConfig<I>)=
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
         uri { builder ->
-            builder.path(requestConfig.path).apply {
-                requestConfig.query.forEach { (name, value) ->
-                    queryParam(name, value)
-                }
-            }.build()
+            builder
+                .path(requestConfig.path)
+                .queryParams(LinkedMultiValueMap(requestConfig.query))
+                .build(requestConfig.params)
         }
 
     private fun <I> WebClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }
 
-    private fun <I : Any> WebClient.RequestBodySpec.body(requestConfig: RequestConfig<I>) =
-        apply { if (requestConfig.body != null) bodyValue(requestConfig.body) }
+    private fun <I : Any> WebClient.RequestBodySpec.body(requestConfig: RequestConfig<I>): WebClient.RequestBodySpec {
+        when {
+            requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
+                val builder = MultipartBodyBuilder()
+                (requestConfig.body as Map<String, PartConfig<*>>).forEach { (name, part) ->
+                    if (part.body != null) {
+                        val partBuilder = builder.part(name, part.body)
+                        val partHeaders = part.headers
+                        partHeaders.forEach { partBuilder.header(it.key, it.value) }
+                    }
+                }
+                return apply { bodyValue(builder.build()) }
+            }
+            else -> {
+                return apply { if (requestConfig.body != null) bodyValue(requestConfig.body) }
+            }
+        }
+    }
 }
 
 inline fun <reified T: Any> parseDateToQueryString(value : T): String {

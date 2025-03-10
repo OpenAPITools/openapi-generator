@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Property refs using allOf
+paths:
+  /limits:
+    get:
+      operationId: getLimits
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Limits'
+components:
+  schemas:
+    NumberRange:
+      type: object
+      properties:
+        min:
+          type: number
+        max:
+          type: number
+      required:
+        - min
+        - max
+    Limits:
+      type: object
+      properties:
+        allOfRef:
+          allOf:
+            - $ref: '#/components/schemas/NumberRange'
+        allOfRefWithDescription:
+          description: |
+            Description for this property
+          allOf:
+            - $ref: '#/components/schemas/NumberRange'
+        allOfRefWithReadonly:
+          readOnly: true
+          allOf:
+            - $ref: '#/components/schemas/NumberRange'
+        allOfRefWithDescriptionAndReadonly:
+          description: |
+            Description for this readonly property
+          readOnly: true
+          allOf:
+            - $ref: '#/components/schemas/NumberRange'
+      required:
+        - allOfRef
+        - allOfRefWithDescription
+        - allOfRefWithReadonly
+        - allOfRefWithDescriptionAndReadonly

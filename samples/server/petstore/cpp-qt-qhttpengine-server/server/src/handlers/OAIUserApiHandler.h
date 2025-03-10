@@ -29,7 +29,7 @@ public:
     virtual ~OAIUserApiHandler();
 
 
-public slots:
+public Q_SLOTS:
     virtual void createUser(OAIUser body);
     virtual void createUsersWithArrayInput(QList<OAIUser> body);
     virtual void createUsersWithListInput(QList<OAIUser> body);

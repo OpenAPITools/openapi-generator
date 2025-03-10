@@ -37,7 +37,7 @@ class Pet {
     
     name: r'id',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -49,7 +49,7 @@ class Pet {
     
     name: r'category',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -61,7 +61,7 @@ class Pet {
     
     name: r'name',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -73,7 +73,7 @@ class Pet {
     
     name: r'photoUrls',
     required: true,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -85,7 +85,7 @@ class Pet {
     
     name: r'tags',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -98,7 +98,8 @@ class Pet {
     
     name: r'status',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: PetStatusEnum.unknownDefaultOpenApi,
   )
 
 
@@ -106,23 +107,25 @@ class Pet {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Pet &&
-     other.id == id &&
-     other.category == category &&
-     other.name == name &&
-     other.photoUrls == photoUrls &&
-     other.tags == tags &&
-     other.status == status;
 
-  @override
-  int get hashCode =>
-    id.hashCode +
-    category.hashCode +
-    name.hashCode +
-    photoUrls.hashCode +
-    tags.hashCode +
-    status.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is Pet &&
+      other.id == id &&
+      other.category == category &&
+      other.name == name &&
+      other.photoUrls == photoUrls &&
+      other.tags == tags &&
+      other.status == status;
+
+    @override
+    int get hashCode =>
+        id.hashCode +
+        category.hashCode +
+        name.hashCode +
+        photoUrls.hashCode +
+        tags.hashCode +
+        status.hashCode;
 
   factory Pet.fromJson(Map<String, dynamic> json) => _$PetFromJson(json);
 
@@ -137,14 +140,25 @@ class Pet {
 
 /// pet status in the store
 enum PetStatusEnum {
-  @JsonValue(r'available')
-  available,
-  @JsonValue(r'pending')
-  pending,
-  @JsonValue(r'sold')
-  sold,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+    /// pet status in the store
+@JsonValue(r'available')
+available(r'available'),
+    /// pet status in the store
+@JsonValue(r'pending')
+pending(r'pending'),
+    /// pet status in the store
+@JsonValue(r'sold')
+sold(r'sold'),
+    /// pet status in the store
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const PetStatusEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

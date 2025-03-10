@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**Test-EchoBodyPetResponseString**](BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
 [**Test-EchoBodyTagResponseString**](BodyApi.md#Test-EchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 [**Test-EchoBodyAllOfPet**](BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
+[**Test-EchoBodyStringEnum**](BodyApi.md#Test-EchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 
 
 <a id="Test-BinaryGif"></a>
@@ -391,6 +392,49 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Pet**](Pet.md) (PSCustomObject)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-EchoBodyStringEnum"></a>
+# **Test-EchoBodyStringEnum**
+> StringEnumRef Test-EchoBodyStringEnum<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Body] <System.Nullable[String]><br>
+
+Test string enum response body
+
+Test string enum response body
+
+### Example
+```powershell
+$Body = 0 # String | String enum (optional)
+
+# Test string enum response body
+try {
+    $Result = Test-EchoBodyStringEnum -Body $Body
+} catch {
+    Write-Host ("Exception occurred when calling Test-EchoBodyStringEnum: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **Body** | **String**| String enum | [optional] 
+
+### Return type
+
+[**StringEnumRef**](StringEnumRef.md) (PSCustomObject)
 
 ### Authorization
 

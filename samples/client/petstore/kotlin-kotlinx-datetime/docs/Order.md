@@ -2,21 +2,21 @@
 # Order
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **kotlin.Long** |  |  [optional]
-**petId** | **kotlin.Long** |  |  [optional]
-**quantity** | **kotlin.Int** |  |  [optional]
-**shipDate** | [**kotlinx.datetime.Instant**](kotlinx.datetime.Instant.md) |  |  [optional]
-**status** | [**inline**](#Status) | Order Status |  [optional]
-**complete** | **kotlin.Boolean** |  |  [optional]
+| Name | Type | Description | Notes |
+| ------------ | ------------- | ------------- | ------------- |
+| **id** | **kotlin.Long** |  |  [optional] |
+| **petId** | **kotlin.Long** |  |  [optional] |
+| **quantity** | **kotlin.Int** |  |  [optional] |
+| **shipDate** | [**kotlinx.datetime.Instant**](kotlinx.datetime.Instant.md) |  |  [optional] |
+| **status** | [**inline**](#Status) | Order Status |  [optional] |
+| **complete** | **kotlin.Boolean** |  |  [optional] |
 
 
 <a id="Status"></a>
 ## Enum: status
-Name | Value
----- | -----
-status | placed, approved, delivered
+| Name | Value |
+| ---- | ----- |
+| status | placed, approved, delivered |
 
 
 

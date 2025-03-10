@@ -26,7 +26,7 @@ class ModelFile {
     
     name: r'sourceURI',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -34,13 +34,15 @@ class ModelFile {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
-     other.sourceURI == sourceURI;
 
-  @override
-  int get hashCode =>
-    sourceURI.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ModelFile &&
+      other.sourceURI == sourceURI;
+
+    @override
+    int get hashCode =>
+        sourceURI.hashCode;
 
   factory ModelFile.fromJson(Map<String, dynamic> json) => _$ModelFileFromJson(json);
 

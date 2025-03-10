@@ -26,6 +26,16 @@ paths:
               schema:
                 type: string
                 example: primitive type example value
+  /generate_from_response_schema_with_date_format:
+    get:
+      operationId: generateFromResponseSchemaWithDateFormat
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateSchema'
   /generate_from_response_schema_with_array_of_model:
     get:
       operationId: generateFromResponseSchemaWithArrayOfModel
@@ -51,9 +61,19 @@ paths:
                 items:
                   type: string
                   example: primitive types example value
+  /generate_from_response_schema_array_reference:
+    get:
+      operationId: generateFromResponseSchemaArrayReference
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleArraySchema'
   /generate_from_response_schema_with_model:
     get:
-      operationId: generateFromResponseSchemaWithArrayOfPrimitiveTypes
+      operationId: generateFromResponseSchemaWithModel
       responses:
         '200':
           description: successful operation
@@ -61,8 +81,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExampleSchema'
+  /generate_from_response_schema_with_allOf_composed_model:
+    get:
+      operationId: generateFromResponseSchemaWithAllOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleAllOfSchema'
+  /generate_from_response_schema_with_allOf_child_composed_model:
+    get:
+      operationId: generateFromResponseSchemaWithAllOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleAllOfParentSchema'
+  /generate_from_response_schema_with_anyOf_composed_model:
+    get:
+      operationId: generateFromResponseSchemaWithAnyOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleAnyOfSchema'
+  /generate_from_response_schema_with_oneOf_composed_model:
+    get:
+      operationId: generateFromResponseSchemaWithOneOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleOneOfSchema'
 components:
   schemas:
+    DateSchema:
+      type: object
+      properties:
+        date_with_example:
+          type: string
+          format: date
+          example: 2024-01-01
+        date_without_example:
+          type: string
+          format: date
     StringSchema:
       type: string
       example: string schema example value
@@ -72,3 +142,43 @@ components:
         example_schema_property:
           type: string
           example: example schema property value
+    ExampleAllOfSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ExampleSchema'
+        - type: object
+          properties:
+            example_schema_property_composed:
+              type: string
+              example: example schema property value composed
+    ExampleAllOfParentSchema:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ExampleAllOfSchema'
+        - type: object
+          properties:
+            example_schema_property_composed_parent:
+              type: string
+              example: example schema property value composed parent
+    ExampleAnyOfSchema:
+      type: object
+      anyOf:
+        - $ref: '#/components/schemas/ExampleSchema'
+        - type: object
+          properties:
+            example_schema_property_composed:
+              type: string
+              example: example schema property value composed
+    ExampleOneOfSchema:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/ExampleSchema'
+        - type: object
+          properties:
+            example_schema_property_composed:
+              type: string
+              example: example schema property value composed
+    ExampleArraySchema:
+      type: array
+      items:
+        $ref: '#/components/schemas/ExampleSchema'

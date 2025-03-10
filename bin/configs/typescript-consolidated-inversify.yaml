@@ -8,3 +8,4 @@ additionalProperties:
   useInversify: true
   projectName: ts-petstore-client
   moduleName: petstore
+  supportsES6: true

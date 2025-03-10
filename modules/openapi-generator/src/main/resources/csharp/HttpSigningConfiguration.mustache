@@ -82,7 +82,7 @@ namespace {{packageName}}.Client
         /// <param name="path">Path</param>
         /// <param name="requestOptions">Request options</param>
         /// <returns>Http signed headers</returns>
-        internal Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
+        public Dictionary<string, string> GetHttpSignedHeader(string basePath,string method, string path, RequestOptions requestOptions)
         {
             const string HEADER_REQUEST_TARGET = "(request-target)";
             //The time when the HTTP signature expires. The API server should reject HTTP requests
@@ -133,16 +133,18 @@ namespace {{packageName}}.Client
             foreach (var parameter in requestOptions.QueryParameters)
             {
 #if (NETCOREAPP)
+                string framework = RuntimeInformation.FrameworkDescription;
+                string key = framework.StartsWith(".NET 9")?parameter.Key:HttpUtility.UrlEncode(parameter.Key);
                 if (parameter.Value.Count > 1)
                 { // array
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(HttpUtility.UrlEncode(parameter.Key) + "[]", value);
+                        httpValues.Add(key + "[]", value);
                     }
                 }
                 else
                 {
-                    httpValues.Add(HttpUtility.UrlEncode(parameter.Key), parameter.Value[0]);
+                    httpValues.Add(key, parameter.Value[0]);
                 }
 #else
                 if (parameter.Value.Count > 1)
@@ -389,7 +391,7 @@ namespace {{packageName}}.Client
         }
 
         /// <summary>
-        /// Convert ANS1 format to DER format. Not recommended to use because it generate inavlid signature occationally.
+        /// Convert ANS1 format to DER format. Not recommended to use because it generate invalid signature occasionally.
         /// </summary>
         /// <param name="signedBytes"></param>
         /// <returns></returns>
@@ -498,7 +500,7 @@ namespace {{packageName}}.Client
                 binkey = Convert.FromBase64String(pvkstr);
                 return binkey;
             }
-            catch (System.FormatException)
+            catch (global::System.FormatException)
             {
                 StringReader str = new StringReader(pvkstr);
 
@@ -528,7 +530,7 @@ namespace {{packageName}}.Client
                 {   //should have b64 encrypted RSA key now
                     binkey = Convert.FromBase64String(encryptedstr);
                 }
-                catch (System.FormatException)
+                catch (global::System.FormatException)
                 {   //data is not in base64 format
                     return null;
                 }

@@ -129,7 +129,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// <param name="path"></param>
         /// <param name="requestedAt"></param>
         /// <param name="jsonSerializerOptions"></param>
-        public ApiResponse(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
+        public ApiResponse(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
@@ -143,7 +143,7 @@ namespace {{packageName}}.{{clientPackage}}
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
-        partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+        partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
     }
     {{#x-http-statuses-with-return}}
 
@@ -164,7 +164,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        bool Try{{.}}({{^netStandard}}[NotNullWhen(true)]{{/netStandard}}out TType{{nrt?}} result);
+        bool Try{{.}}({{#net60OrLater}}[NotNullWhen(true)]{{/net60OrLater}}out TType{{nrt?}} result);
     }
     {{/x-http-statuses-with-return}}
 }

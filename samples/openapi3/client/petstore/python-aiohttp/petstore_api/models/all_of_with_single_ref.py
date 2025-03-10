@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.single_ref_type import SingleRefType
 from typing import Optional, Set
@@ -31,11 +31,11 @@ class AllOfWithSingleRef(BaseModel):
     single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
     __properties: ClassVar[List[str]] = ["username", "SingleRefType"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -73,7 +73,7 @@ class AllOfWithSingleRef(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AllOfWithSingleRef from a dict"""
         if obj is None:
             return None

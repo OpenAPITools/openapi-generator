@@ -1,0 +1,86 @@
+<?php
+
+{{>licenseInfo}}
+
+namespace {{invokerPackage}};
+{{#apiInfo}}
+
+class RegisterRoutes {
+
+    static public function registerRoutes({{#apis}}\{{apiPackage}}\{{classname}}{{^-last}}|{{/-last}}{{/apis}} $handler): void
+    {
+        $reflectionClass = new \ReflectionClass($handler);
+
+        {{#apis}}
+        {{#operations}}
+        {{#operation}}
+        if (declaresMethod($reflectionClass, '{{operationId}}') && declaresMethod($reflectionClass, '{{operationId}}Stream')) {
+            throw new \Exception('Operation {{operationId}} cannot be both streaming and non-streaming');
+        }
+        if (declaresMethod($reflectionClass, '{{operationId}}')) {
+            \Flight::route('{{httpMethod}} {{vendorExtensions.x-path}}', function ({{#pathParams}}string ${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) use ($handler) {
+                $r = \Flight::request();
+                {{^vendorExtensions.x-return-type-is-void}}$result = {{/vendorExtensions.x-return-type-is-void}}$handler->{{operationId}}(
+                {{#vendorExtensions.x-nonFormParams}}
+                    parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}}, {{/-last}}
+                {{/vendorExtensions.x-nonFormParams}}
+                );
+                {{^vendorExtensions.x-return-type-is-void}}
+                if ($result === null) {
+                    \Flight::halt({{{vendorExtensions.x-default-status-code}}});
+                } else {
+                    \Flight::json($result, {{{vendorExtensions.x-default-status-code}}});
+                }
+                {{/vendorExtensions.x-return-type-is-void}}
+                {{#vendorExtensions.x-return-type-is-void}}
+                \Flight::halt({{{vendorExtensions.x-default-status-code}}});
+                {{/vendorExtensions.x-return-type-is-void}}
+            });
+        }
+        if (declaresMethod($reflectionClass, '{{operationId}}Stream')) {
+            \Flight::route('{{httpMethod}} {{vendorExtensions.x-path}}', function ({{#pathParams}}string ${{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) use ($handler) {
+                $r = \Flight::request();
+                $handler->{{operationId}}Stream(
+                {{#vendorExtensions.x-nonFormParams}}
+                    parseParam({{#isBodyParam}}json_decode($r->getBody(), true){{/isBodyParam}}{{#isQueryParam}}$r->query['{{baseName}}'] ?? null{{/isQueryParam}}{{#isPathParam}}${{paramName}}{{/isPathParam}}{{#isHeaderParam}}$r->getHeader('{{baseName}}'){{/isHeaderParam}}, '{{vendorExtensions.x-comment-type-escaped}}'){{^-last}}, {{/-last}}
+                {{/vendorExtensions.x-nonFormParams}}
+                );
+                // ignore return value: streaming expected
+            })->streamWithHeaders(['status' => {{{vendorExtensions.x-default-status-code}}}{{#vendorExtensions.x-default-media-type}}, 'Content-Type' => '{{{vendorExtensions.x-default-media-type}}}'{{/vendorExtensions.x-default-media-type}}]);
+        }
+
+        {{/operation}}
+        {{/operations}}
+        {{/apis}}
+    }
+}
+
+{{/apiInfo}}
+
+function parseParam(mixed $param, string $type)
+{
+    $nonNullType = str_replace('?', '', $type);
+    if ($param === null) {
+        return null;
+    } elseif ($nonNullType === 'int') {
+        return intval($param);
+    } elseif ($nonNullType === 'float') {
+        return floatval($param);
+    } elseif ($nonNullType === 'bool') {
+        return filter_var($param, FILTER_VALIDATE_BOOLEAN);
+    } elseif (str_ends_with($type, '[]')) {
+        return array_map(fn($el) => parseParam($el, substr($type, 0, -2)), $param);
+    } elseif (str_starts_with($nonNullType, '\\{{escapedModelPackage}}')) {
+        if (enum_exists($nonNullType)) {
+            return $nonNullType::tryFrom($param);
+        }
+        return $nonNullType::fromArray($param);
+    } else {
+        return $param;
+    }
+}
+
+function declaresMethod(\ReflectionClass $reflectionClass, string $methodName): bool
+{
+    return $reflectionClass->hasMethod($methodName) && $reflectionClass->getMethod($methodName)->getDeclaringClass()->getName() === $reflectionClass->getName();
+}

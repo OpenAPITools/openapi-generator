@@ -71,6 +71,14 @@ module {{moduleName}}
     # @return [true, false]
     attr_accessor :debugging
 
+    # Set this to ignore operation servers for the API client. This is useful when you need to
+    # send requests to a different server than the one specified in the OpenAPI document.
+    # Will default to the base url defined in the spec but can be overridden by setting
+    # `scheme`, `host`, `base_path` directly.
+    # Default to false.
+    # @return [true, false]
+    attr_accessor :ignore_operation_servers
+
     # Defines the logger used for debugging.
     # Default to `Rails.logger` (when in Rails) or logging to STDOUT.
     #
@@ -146,6 +154,7 @@ module {{moduleName}}
       @configure_session_blocks = []
       {{/isHttpx}}
       @debugging = false
+      @ignore_operation_servers = false
       @inject_format = false
       @force_ending_format = false
       @logger = defined?(Rails) ? Rails.logger : Logger.new(STDOUT)
@@ -180,6 +189,7 @@ module {{moduleName}}
 
     # Returns base URL for specified operation based on server settings
     def base_url(operation = nil)
+      return "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') if ignore_operation_servers
       if operation_server_settings.key?(operation) then
         index = server_operation_index.fetch(operation, server_index)
         server_url(index.nil? ? 0 : index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
@@ -221,7 +231,7 @@ module {{moduleName}}
             type: 'api_key',
             in: {{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
             key: '{{keyParamName}}',
-            value: api_key_with_prefix('{{name}}'{{#vendorExtensions.x-auth-id-alias}}, '{{.}}'{{/vendorExtensions.x-auth-id-alias}})
+            value: api_key_with_prefix('{{keyParamName}}'{{#vendorExtensions.x-auth-id-alias}}, '{{.}}'{{/vendorExtensions.x-auth-id-alias}})
           },
 {{/isApiKey}}
 {{#isBasic}}

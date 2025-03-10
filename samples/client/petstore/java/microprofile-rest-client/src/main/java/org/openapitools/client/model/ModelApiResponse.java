@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,6 +12,8 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import java.lang.reflect.Type;
 import javax.json.bind.annotation.JsonbTypeDeserializer;
 import javax.json.bind.annotation.JsonbTypeSerializer;
@@ -22,10 +24,8 @@ import javax.json.bind.serializer.SerializationContext;
 import javax.json.stream.JsonGenerator;
 import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbCreator;
 
-/**
-  * Describes the result of uploading an image resource
- **/
 
 public class ModelApiResponse  {
   
@@ -38,17 +38,17 @@ public class ModelApiResponse  {
   @JsonbProperty("message")
   private String message;
 
- /**
+  /**
    * Get code
    * @return code
-  **/
+   **/
   public Integer getCode() {
     return code;
   }
 
   /**
-    * Set code
-  **/
+   * Set code
+   */
   public void setCode(Integer code) {
     this.code = code;
   }
@@ -58,17 +58,17 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get type
    * @return type
-  **/
+   **/
   public String getType() {
     return type;
   }
 
   /**
-    * Set type
-  **/
+   * Set type
+   */
   public void setType(String type) {
     this.type = type;
   }
@@ -78,17 +78,17 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get message
    * @return message
-  **/
+   **/
   public String getMessage() {
     return message;
   }
 
   /**
-    * Set message
-  **/
+   * Set message
+   */
   public void setMessage(String message) {
     this.message = message;
   }
@@ -98,10 +98,28 @@ public class ModelApiResponse  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(code, type, message);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -125,3 +143,4 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -1,0 +1,14 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-delegate-nodefaults
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: swagger2
+  useSwaggerUI: "true"
+  delegatePattern: "true"
+  skipDefaultInterface: "true"
+  beanValidations: "true"
+  requestMappingMode: "api_interface"
+  useSpringBoot3: "true"
