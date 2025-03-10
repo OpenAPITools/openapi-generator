@@ -11,36 +11,36 @@ import java.util.*;
 
 public interface UserApi {
 
-    void createUser(User user, Handler<AsyncResult<Void>> handler);
+    void createUser(@javax.annotation.Nonnull User user, Handler<AsyncResult<Void>> handler);
 
-    void createUser(User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void createUser(@javax.annotation.Nonnull User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithArrayInput(List<User> user, Handler<AsyncResult<Void>> handler);
+    void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithArrayInput(List<User> user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithListInput(List<User> user, Handler<AsyncResult<Void>> handler);
+    void createUsersWithListInput(@javax.annotation.Nonnull List<User> user, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithListInput(List<User> user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void createUsersWithListInput(@javax.annotation.Nonnull List<User> user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void deleteUser(String username, Handler<AsyncResult<Void>> handler);
+    void deleteUser(@javax.annotation.Nonnull String username, Handler<AsyncResult<Void>> handler);
 
-    void deleteUser(String username, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void deleteUser(@javax.annotation.Nonnull String username, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void getUserByName(String username, Handler<AsyncResult<User>> handler);
+    void getUserByName(@javax.annotation.Nonnull String username, Handler<AsyncResult<User>> handler);
 
-    void getUserByName(String username, ApiClient.AuthInfo authInfo, Handler<AsyncResult<User>> handler);
+    void getUserByName(@javax.annotation.Nonnull String username, ApiClient.AuthInfo authInfo, Handler<AsyncResult<User>> handler);
 
-    void loginUser(String username, String password, Handler<AsyncResult<String>> handler);
+    void loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Handler<AsyncResult<String>> handler);
 
-    void loginUser(String username, String password, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> handler);
+    void loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> handler);
 
     void logoutUser(Handler<AsyncResult<Void>> handler);
 
     void logoutUser(ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void updateUser(String username, User user, Handler<AsyncResult<Void>> handler);
+    void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, Handler<AsyncResult<Void>> handler);
 
-    void updateUser(String username, User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
 }

@@ -74,7 +74,7 @@ public class PetApi {
         this.localCustomBaseUrl = customBaseUrl;
     }
 
-    private okhttp3.Call addPetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call addPetCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -122,7 +122,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call addPetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call addPetValidateBeforeCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new ApiException("Missing the required parameter 'pet' when calling addPet(Async)");
@@ -133,13 +133,13 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Pet> addPetWithHttpInfo(Pet pet) throws ApiException {
+    private ApiResponse<Pet> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
         okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call addPetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
+    private okhttp3.Call addPetAsync(@javax.annotation.Nonnull Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -148,9 +148,10 @@ public class PetApi {
     }
 
     public class APIaddPetRequest {
+        @javax.annotation.Nonnull
         private final Pet pet;
 
-        private APIaddPetRequest(Pet pet) {
+        private APIaddPetRequest(@javax.annotation.Nonnull Pet pet) {
             this.pet = pet;
         }
 
@@ -235,10 +236,10 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public APIaddPetRequest addPet(Pet pet) {
+    public APIaddPetRequest addPet(@javax.annotation.Nonnull Pet pet) {
         return new APIaddPetRequest(pet);
     }
-    private okhttp3.Call deletePetCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deletePetCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -288,7 +289,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deletePetValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling deletePet(Async)");
@@ -299,12 +300,12 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+    private ApiResponse<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
         okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, null);
         return localVarApiClient.execute(localVarCall);
     }
 
-    private okhttp3.Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> _callback) throws ApiException {
+    private okhttp3.Call deletePetAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -312,10 +313,12 @@ public class PetApi {
     }
 
     public class APIdeletePetRequest {
+        @javax.annotation.Nonnull
         private final Long petId;
+        @javax.annotation.Nullable
         private String apiKey;
 
-        private APIdeletePetRequest(Long petId) {
+        private APIdeletePetRequest(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
         }
 
@@ -324,7 +327,7 @@ public class PetApi {
          * @param apiKey  (optional)
          * @return APIdeletePetRequest
          */
-        public APIdeletePetRequest apiKey(String apiKey) {
+        public APIdeletePetRequest apiKey(@javax.annotation.Nullable String apiKey) {
             this.apiKey = apiKey;
             return this;
         }
@@ -403,10 +406,10 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public APIdeletePetRequest deletePet(Long petId) {
+    public APIdeletePetRequest deletePet(@javax.annotation.Nonnull Long petId) {
         return new APIdeletePetRequest(petId);
     }
-    private okhttp3.Call findPetsByStatusCall(List<String> status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByStatusCall(@javax.annotation.Nonnull List<String> status, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -456,7 +459,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByStatusValidateBeforeCall(@javax.annotation.Nonnull List<String> status, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'status' is set
         if (status == null) {
             throw new ApiException("Missing the required parameter 'status' when calling findPetsByStatus(Async)");
@@ -467,13 +470,13 @@ public class PetApi {
     }
 
 
-    private ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+    private ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws ApiException {
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
+    private okhttp3.Call findPetsByStatusAsync(@javax.annotation.Nonnull List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, _callback);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
@@ -482,9 +485,10 @@ public class PetApi {
     }
 
     public class APIfindPetsByStatusRequest {
+        @javax.annotation.Nonnull
         private final List<String> status;
 
-        private APIfindPetsByStatusRequest(List<String> status) {
+        private APIfindPetsByStatusRequest(@javax.annotation.Nonnull List<String> status) {
             this.status = status;
         }
 
@@ -569,10 +573,10 @@ public class PetApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public APIfindPetsByStatusRequest findPetsByStatus(List<String> status) {
+    public APIfindPetsByStatusRequest findPetsByStatus(@javax.annotation.Nonnull List<String> status) {
         return new APIfindPetsByStatusRequest(status);
     }
-    private okhttp3.Call findPetsByTagsCall(List<String> tags, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByTagsCall(@javax.annotation.Nonnull List<String> tags, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -623,7 +627,7 @@ public class PetApi {
 
     @Deprecated
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByTagsValidateBeforeCall(List<String> tags, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByTagsValidateBeforeCall(@javax.annotation.Nonnull List<String> tags, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new ApiException("Missing the required parameter 'tags' when calling findPetsByTags(Async)");
@@ -634,13 +638,13 @@ public class PetApi {
     }
 
 
-    private ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
+    private ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull List<String> tags) throws ApiException {
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call findPetsByTagsAsync(List<String> tags, final ApiCallback<List<Pet>> _callback) throws ApiException {
+    private okhttp3.Call findPetsByTagsAsync(@javax.annotation.Nonnull List<String> tags, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, _callback);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
@@ -649,9 +653,10 @@ public class PetApi {
     }
 
     public class APIfindPetsByTagsRequest {
+        @javax.annotation.Nonnull
         private final List<String> tags;
 
-        private APIfindPetsByTagsRequest(List<String> tags) {
+        private APIfindPetsByTagsRequest(@javax.annotation.Nonnull List<String> tags) {
             this.tags = tags;
         }
 
@@ -746,10 +751,10 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public APIfindPetsByTagsRequest findPetsByTags(List<String> tags) {
+    public APIfindPetsByTagsRequest findPetsByTags(@javax.annotation.Nonnull List<String> tags) {
         return new APIfindPetsByTagsRequest(tags);
     }
-    private okhttp3.Call getPetByIdCall(Long petId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPetByIdCall(@javax.annotation.Nonnull Long petId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -796,7 +801,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPetByIdValidateBeforeCall(@javax.annotation.Nonnull Long petId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling getPetById(Async)");
@@ -807,13 +812,13 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+    private ApiResponse<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws ApiException {
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call getPetByIdAsync(Long petId, final ApiCallback<Pet> _callback) throws ApiException {
+    private okhttp3.Call getPetByIdAsync(@javax.annotation.Nonnull Long petId, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -822,9 +827,10 @@ public class PetApi {
     }
 
     public class APIgetPetByIdRequest {
+        @javax.annotation.Nonnull
         private final Long petId;
 
-        private APIgetPetByIdRequest(Long petId) {
+        private APIgetPetByIdRequest(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
         }
 
@@ -914,10 +920,10 @@ public class PetApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public APIgetPetByIdRequest getPetById(Long petId) {
+    public APIgetPetByIdRequest getPetById(@javax.annotation.Nonnull Long petId) {
         return new APIgetPetByIdRequest(petId);
     }
-    private okhttp3.Call updatePetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -965,7 +971,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetValidateBeforeCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new ApiException("Missing the required parameter 'pet' when calling updatePet(Async)");
@@ -976,13 +982,13 @@ public class PetApi {
     }
 
 
-    private ApiResponse<Pet> updatePetWithHttpInfo(Pet pet) throws ApiException {
+    private ApiResponse<Pet> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
         okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call updatePetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
+    private okhttp3.Call updatePetAsync(@javax.annotation.Nonnull Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -991,9 +997,10 @@ public class PetApi {
     }
 
     public class APIupdatePetRequest {
+        @javax.annotation.Nonnull
         private final Pet pet;
 
-        private APIupdatePetRequest(Pet pet) {
+        private APIupdatePetRequest(@javax.annotation.Nonnull Pet pet) {
             this.pet = pet;
         }
 
@@ -1088,7 +1095,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
      */
-    public APIupdatePetRequest updatePet(Pet pet) {
+    public APIupdatePetRequest updatePet(@javax.annotation.Nonnull Pet pet) {
         return new APIupdatePetRequest(pet);
     }
     /**
@@ -1106,7 +1113,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1160,7 +1167,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetWithFormValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling updatePetWithForm(Async)");
@@ -1184,7 +1191,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
+    public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
         updatePetWithFormWithHttpInfo(petId, name, status);
     }
 
@@ -1203,7 +1210,7 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+    public ApiResponse<Void> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
         okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1224,13 +1231,13 @@ public class PetApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
-    private okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1285,7 +1292,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
@@ -1296,13 +1303,13 @@ public class PetApi {
     }
 
 
-    private ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+    private ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
-    private okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    private okhttp3.Call uploadFileAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, _callback);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
@@ -1311,11 +1318,14 @@ public class PetApi {
     }
 
     public class APIuploadFileRequest {
+        @javax.annotation.Nonnull
         private final Long petId;
+        @javax.annotation.Nullable
         private String additionalMetadata;
+        @javax.annotation.Nullable
         private File _file;
 
-        private APIuploadFileRequest(Long petId) {
+        private APIuploadFileRequest(@javax.annotation.Nonnull Long petId) {
             this.petId = petId;
         }
 
@@ -1324,7 +1334,7 @@ public class PetApi {
          * @param additionalMetadata Additional data to pass to server (optional)
          * @return APIuploadFileRequest
          */
-        public APIuploadFileRequest additionalMetadata(String additionalMetadata) {
+        public APIuploadFileRequest additionalMetadata(@javax.annotation.Nullable String additionalMetadata) {
             this.additionalMetadata = additionalMetadata;
             return this;
         }
@@ -1334,7 +1344,7 @@ public class PetApi {
          * @param _file file to upload (optional)
          * @return APIuploadFileRequest
          */
-        public APIuploadFileRequest _file(File _file) {
+        public APIuploadFileRequest _file(@javax.annotation.Nullable File _file) {
             this._file = _file;
             return this;
         }
@@ -1415,7 +1425,7 @@ public class PetApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public APIuploadFileRequest uploadFile(Long petId) {
+    public APIuploadFileRequest uploadFile(@javax.annotation.Nonnull Long petId) {
         return new APIuploadFileRequest(petId);
     }
 }
