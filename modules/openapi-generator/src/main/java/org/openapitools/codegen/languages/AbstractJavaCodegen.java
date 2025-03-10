@@ -1330,8 +1330,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            if (isGenerateAliasAsModel()) {
-                // additionalProperties generated
+            if (ModelUtils.isGenerateAliasAsModel() && !cp.dataType.contains("Map<")) {
+                // Aliased class used as the field name instead of Map<>
                 return null;
             }
 
