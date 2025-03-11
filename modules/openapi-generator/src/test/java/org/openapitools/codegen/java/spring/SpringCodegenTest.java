@@ -5391,7 +5391,7 @@ public class SpringCodegenTest {
                 .setGeneratorName("spring")
                 .setGenerateAliasAsModel(true)
                 //.setInputSpec("src/test/resources/3_0/additionalProperties.yaml")
-                .setInputSpec("C:\\dev\\openapi-generator\\modules\\openapi-generator\\src\\test\\resources\\3_0\\petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setInputSpec("C:\\dev\\openapi-generator\\modules\\openapi-generator\\src\\test\\resources\\3_0\\additionalProperties.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
