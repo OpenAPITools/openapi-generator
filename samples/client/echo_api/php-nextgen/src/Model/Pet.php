@@ -267,7 +267,7 @@ class Pet implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public function getStatusAllowableValues()
+    public static function getStatusAllowableValues()
     {
         return [
             self::STATUS_AVAILABLE,

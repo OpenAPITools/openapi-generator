@@ -40,14 +40,17 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import com.google.common.base.CaseFormat;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final String IMPORT = "import";
 
     private static final String IMPORTS = "imports";
+
+    private static final String ARRAY_SUFFIX = "Array";
+
+    private static final String MAP_SUFFIX = "Map";
 
     public static final String NUMBERED_FIELD_NUMBER_LIST = "numberedFieldNumberList";
 
@@ -295,6 +298,30 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    public List<CodegenProperty> processOneOfAnyOfItems(List<CodegenProperty> composedSchemasProperty) {
+        for(CodegenProperty cd: composedSchemasProperty) {
+            if (cd.getTitle() != null) {
+                cd.name = cd.getTitle();
+                cd.baseName = cd.getTitle();
+            } else{
+                cd.name = getNameFromDataType(cd);
+                cd.baseName = getNameFromDataType(cd);
+            }
+        }
+        return composedSchemasProperty;
+    }
+
+    public String getNameFromDataType(CodegenProperty property) {
+        if (Boolean.TRUE.equals(property.getIsArray())){
+            return underscore(property.mostInnerItems.dataType + ARRAY_SUFFIX);
+        } else if (Boolean.TRUE.equals(property.getIsMap())) {
+            return underscore(property.mostInnerItems.dataType + MAP_SUFFIX);
+        } else {
+            return underscore(property.dataType);
+        }
+    }
+
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
@@ -312,6 +339,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
 
+            if(cm.oneOf != null && !cm.oneOf.isEmpty()){
+                cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getOneOf());
+            } else if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
+                cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
+            }
             int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array

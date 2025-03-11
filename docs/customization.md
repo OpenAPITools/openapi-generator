@@ -504,7 +504,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 - `MAP_ITEM_SUFFIX` set the map item suffix
 - `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schemas by default)
-- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
+- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref. This must be activated to allow the renaming of inline enum definitions using `inlineSchemaMappings`.
 
 ## OpenAPI Normalizer
 
@@ -601,11 +601,29 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
 ```
 
-- `FILTER`: When set to `operationId:addPet|getPetById` for example, it will add `x-internal:true` to operations with operationId not equal to addPet/getPetById (which will have x-internal set to false) so that these operations marked as internal won't be generated.
+- `FILTER`
 
-Example:
-```
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FILTER="operationId:addPet|getPetById"
+The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated.
+
+### Available Filters
+
+- **`operationId`**  
+  When set to `operationId:addPet|getPetById`, operations **not** matching `addPet` or `getPetById` will be marked as internal (`x-internal: true`), and excluded from generation. Matching operations will have `x-internal: false`.
+
+- **`method`**  
+  When set to `method:get|post`, operations **not** using `GET` or `POST` methods will be marked as internal (`x-internal: true`), preventing their generation.
+
+- **`tag`**  
+  When set to `tag:person|basic`, operations **not** tagged with `person` or `basic` will be marked as internal (`x-internal: true`), and will not be generated.
+
+### Example Usage
+
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+  -g java \
+  -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
+  -o /tmp/java-okhttp/ \
+  --openapi-normalizer FILTER="operationId:addPet|getPetById"
 ```
 
 - `SET_CONTAINER_TO_NULLABLE`: When set to `array|set|map` (or just `array`) for example, it will set `nullable` in array, set and map to true.

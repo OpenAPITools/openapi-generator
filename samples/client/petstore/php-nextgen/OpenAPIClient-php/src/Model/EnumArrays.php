@@ -243,7 +243,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public function getJustSymbolAllowableValues()
+    public static function getJustSymbolAllowableValues()
     {
         return [
             self::JUST_SYMBOL_GREATER_THAN_OR_EQUAL_TO,
@@ -256,7 +256,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, JsonSerializable
      *
      * @return string[]
      */
-    public function getArrayEnumAllowableValues()
+    public static function getArrayEnumAllowableValues()
     {
         return [
             self::ARRAY_ENUM_FISH,

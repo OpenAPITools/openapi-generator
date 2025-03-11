@@ -415,4 +415,28 @@ public class TypeScriptAngularClientCodegenTest {
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
         assertThat(fileContents).containsOnlyOnce("localVarHeaders = this.configuration.addCredentialToHeaders('OAuth2', 'Authorization', localVarHeaders, 'Bearer ');");
     }
+
+    @Test
+    public void testBasePath() throws IOException {
+        // GIVEN
+        final String specPath = "src/test/resources/3_0/typescript-angular/issue_20760.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN
+        final String fileContents = Files.readString(Paths.get(output + "/api.base.service.ts"));
+        assertThat(fileContents).containsOnlyOnce("basePath = '/relative/url'");
+    }
 }
