@@ -41,7 +41,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -3516,7 +3515,7 @@ public class JavaClientCodegenTest {
                 "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties)");
 
         JavaFileAssert.assertThat(files.get("Response.java")).fileContains(
-
+                "Map<String, String> inlineMap = new HashMap<>();",
                 "AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
     }
 
@@ -3558,7 +3557,6 @@ public class JavaClientCodegenTest {
                 "return Objects.hash(name, super.hashCode())");
 
         JavaFileAssert.assertThat(files.get("Response.java")).fileContains(
-                "Map<String, String> inlineMap = new HashMap<>();",
                 "AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
     }
 }
