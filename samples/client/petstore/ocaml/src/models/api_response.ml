@@ -7,9 +7,21 @@
  *)
 
 type t = {
-    code: int32 option [@default None]; [@key "code"]
-    _type: string option [@default None]; [@key "type"]
-    message: string option [@default None]; [@key "message"]
+      code: int32
+          
+           option [@default None]
+        
+        ; [@key "code"]
+      _type: string
+          
+           option [@default None]
+        
+        ; [@key "type"]
+      message: string
+          
+           option [@default None]
+        
+        ; [@key "message"]
 } [@@deriving yojson { strict = false }, show ];;
 
 (** Describes the result of uploading an image resource *)

@@ -16,6 +16,7 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/csharp/restsharp/net8/ParameterMappings/
+          - samples/client/petstore/csharp/restsharp/net8/useVirtualForHooks/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.3.0

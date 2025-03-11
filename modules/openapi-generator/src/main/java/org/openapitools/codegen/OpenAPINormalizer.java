@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
@@ -119,6 +120,9 @@ public class OpenAPINormalizer {
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
     HashSet<String> operationIdFilters = new HashSet<>();
+    HashSet<String> methodFilters = new HashSet<>();
+
+    HashSet<String> tagFilters = new HashSet<>();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -238,15 +242,25 @@ public class OpenAPINormalizer {
 
             String[] filterStrs = inputRules.get(FILTER).split(":");
             if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
             } else {
                 if ("operationId".equals(filterStrs[0])) {
                     operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
                             .filter(Objects::nonNull)
                             .map(String::trim)
                             .collect(Collectors.toCollection(HashSet::new));
+                } else if ("method".equals(filterStrs[0])) {
+                    methodFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
+                } else if ("tag".equals(filterStrs[0])) {
+                    tagFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
                 } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
                 }
             }
         }
@@ -338,6 +352,27 @@ public class OpenAPINormalizer {
             PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
 
+            Map<String, Function<PathItem, Operation>> methodMap = Map.of(
+                    "get", PathItem::getGet,
+                    "put", PathItem::getPut,
+                    "head", PathItem::getHead,
+                    "post", PathItem::getPost,
+                    "delete", PathItem::getDelete,
+                    "patch", PathItem::getPatch,
+                    "options", PathItem::getOptions,
+                    "trace", PathItem::getTrace
+            );
+
+            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
+            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
+            methodMap.forEach((method, getter) -> {
+                Operation operation = getter.apply(path);
+                if (operation != null && !methodFilters.isEmpty()) {
+                    LOGGER.info("operation `{}` marked internal only (x-internal: `{}`) by the method FILTER", operation.getOperationId(), !methodFilters.contains(method));
+                    operation.addExtension("x-internal", !methodFilters.contains(method));
+                }
+            });
+
             // Include callback operation as well
             for (Operation operation : path.readOperations()) {
                 Map<String, Callback> callbacks = operation.getCallbacks();
@@ -357,7 +392,14 @@ public class OpenAPINormalizer {
                     if (operationIdFilters.contains(operation.getOperationId())) {
                         operation.addExtension("x-internal", false);
                     } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the FILTER", operation.getOperationId());
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
+                        operation.addExtension("x-internal", true);
+                    }
+                } else if (!tagFilters.isEmpty()) {
+                    if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
+                        operation.addExtension("x-internal", false);
+                    } else {
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
                         operation.addExtension("x-internal", true);
                     }
                 }

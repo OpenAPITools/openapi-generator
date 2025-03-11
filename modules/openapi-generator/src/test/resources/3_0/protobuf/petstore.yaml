@@ -18,6 +18,29 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /pets:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: "#/components/schemas/Cat"
+                - $ref: "#/components/schemas/Dog"
+      responses:
+        "200":
+          description: Updated
   /pet:
     post:
       tags:
@@ -604,6 +627,21 @@ components:
       name: api_key
       in: header
   schemas:
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+        breed:
+          type: string
+          enum: [ Dingo, Husky, Retriever, Shepherd ]
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
