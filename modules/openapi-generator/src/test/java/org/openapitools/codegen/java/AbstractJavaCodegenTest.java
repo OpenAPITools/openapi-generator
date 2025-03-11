@@ -552,7 +552,7 @@ public class AbstractJavaCodegenTest {
 
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(codegen.fromProperty("", schema), schema);
-        Assert.assertNull(defaultValue);
+        Assert.assertEquals(defaultValue, "new HashMap<>()");
 
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
