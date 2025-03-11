@@ -187,7 +187,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
         // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
         typeMapping.put("file", "std::path::PathBuf");
-        typeMapping.put("binary", "crate::models::File");
+        typeMapping.put("binary", "super::super::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "serde_json::Value");
         typeMapping.put("AnyType", "serde_json::Value");
