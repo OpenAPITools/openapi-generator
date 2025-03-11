@@ -5693,12 +5693,11 @@ public class DefaultCodegen implements CodegenConfig {
                 operationId = String.join(removeOperationIdPrefixDelimiter, Arrays.copyOfRange(components, component_number, components.length));
             }
         }
-        operationId = removeNonNameElementToCamelCase(operationId);
 
         if (operationIdNameMapping.containsKey(operationId)) {
             return operationIdNameMapping.get(operationId);
         } else {
-            return toOperationId(operationId);
+            return toOperationId(removeNonNameElementToCamelCase(operationId));
         }
     }
 
