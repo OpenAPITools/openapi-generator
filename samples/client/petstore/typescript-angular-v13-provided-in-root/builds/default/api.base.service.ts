@@ -31,7 +31,7 @@ export class BaseService {
     protected addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         // If the value is an object (but not a Date), recursively add its keys.
         if (typeof value === 'object' && !(value instanceof Date)) {
-            return this.addToHttpParamsRecursive(httpParams, value, key);
+            return this.addToHttpParamsRecursive(httpParams, value);
         }
         return this.addToHttpParamsRecursive(httpParams, value, key);
     }
