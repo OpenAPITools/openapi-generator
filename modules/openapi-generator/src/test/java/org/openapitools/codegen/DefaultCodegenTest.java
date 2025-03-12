@@ -2337,6 +2337,7 @@ public class DefaultCodegenTest {
 
         CodegenOperation codegenOperation = codegen.fromOperation("/type-alias", "get", openAPI.getPaths().get("/type-alias").getGet(), null);
         Assertions.assertEquals(codegenOperation.operationId, "fix_edge_case");
+        Assertions.assertEquals(codegen.getOrGenerateOperationId(openAPI.getPaths().get("/type-alias").getGet(), "/type-alias", "get"), "fix_edge_case");
     }
 
     @Test
