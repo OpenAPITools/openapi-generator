@@ -1,8 +1,11 @@
 package org.openapitools.codegen.config;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -16,6 +19,7 @@ public class GlobalSettingsTest {
 
   @BeforeClass
   public void setUp() {
+    ((Logger) LoggerFactory.getLogger(GlobalSettings.class)).setLevel(Level.DEBUG);
     Properties props = new Properties(2);
     props.put("test1", OBJECT);
     props.put(OBJECT, "test2");
