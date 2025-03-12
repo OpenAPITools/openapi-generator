@@ -207,7 +207,6 @@ use crate::{models, types::*};
     #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))] 
     pub struct {{{operationIdCamelCase}}}QueryParams {
         {{#queryParams}}
-          {{#vendorExtensions}}
             {{#description}}    
             /// {{{.}}}
             {{/description}}
@@ -266,6 +265,16 @@ use crate::{models, types::*};
                     {{/maxItems}}
                     )]
             {{/hasValidation}}
+            {{#isArray}}
+            {{#isNullable}}
+                // Nullable array query parameters are not fully supported.
+            {{/isNullable}}
+            {{^required}}
+                #[serde(default)]
+            {{/required}}
+                pub {{{paramName}}}: {{{dataType}}},
+            {{/isArray}}
+            {{^isArray}}
             {{#required}}
                 pub {{{paramName}}}: {{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},
             {{/required}}
@@ -277,7 +286,7 @@ use crate::{models, types::*};
                 #[serde(skip_serializing_if="Option::is_none")]
                 pub {{{paramName}}}: Option<{{#isNullable}}Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}}>,
             {{/required}}
-          {{/vendorExtensions}}
+            {{/isArray}}
         {{/queryParams}}
     }
 

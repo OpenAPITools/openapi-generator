@@ -23,7 +23,7 @@ async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}<I, A, E{
   Path(path_params): Path<models::{{{operationIdCamelCase}}}PathParams>,
 {{/pathParams.size}}
 {{#queryParams.size}}
-  Query(query_params): Query<models::{{{operationIdCamelCase}}}QueryParams>,
+  QueryExtra(query_params): QueryExtra<models::{{{operationIdCamelCase}}}QueryParams>,
 {{/queryParams.size}}
  State(api_impl): State<I>,
 {{#vendorExtensions}}
@@ -334,7 +334,7 @@ where
   {{#allowBlockingResponseSerialize}}
                                                   let body_content =
   {{/allowBlockingResponseSerialize}}
-                                                      serde_urlencoded::to_string(body).map_err(|e| {
+                                                      serde_html_form::to_string(body).map_err(|e| {
                                                         error!(error = ?e);
                                                         StatusCode::INTERNAL_SERVER_ERROR
                                                       }){{^allowBlockingResponseSerialize}}).await.unwrap(){{/allowBlockingResponseSerialize}}?;
