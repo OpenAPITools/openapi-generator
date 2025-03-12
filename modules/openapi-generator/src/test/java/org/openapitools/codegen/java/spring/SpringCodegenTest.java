@@ -594,7 +594,7 @@ public class SpringCodegenTest {
         // make sure that the operation parameters omit character suffixes
         String route = "/numericqueryparams";
         Operation op = openAPI.getPaths().get(route).getGet();
-        CodegenOperation co = codegen.fromOperation(route, "GET", op, null);
+        CodegenOperation co = codegen.fromOperation(route, "GET",0, op, null);
         CodegenParameter int64Param = co.queryParams.get(0);
         CodegenParameter floatParam = co.queryParams.get(1);
         CodegenParameter doubleParam = co.queryParams.get(2);

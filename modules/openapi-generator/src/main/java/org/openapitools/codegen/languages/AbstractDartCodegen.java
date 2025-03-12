@@ -619,8 +619,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        final CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         for (CodegenResponse r : op.responses) {
             // By default, only set types are automatically added to operation imports, not sure why.
             // Add all container type imports here, by default 'dart:core' imports are skipped

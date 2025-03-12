@@ -74,7 +74,7 @@ public class GoClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);
@@ -87,7 +87,7 @@ public class GoClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/pet/{id}";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
         Assert.assertEquals(op.allParams.size(), 9);
         CodegenParameter cp = op.allParams.get(0);
         Assert.assertEquals(cp.paramName, "id");

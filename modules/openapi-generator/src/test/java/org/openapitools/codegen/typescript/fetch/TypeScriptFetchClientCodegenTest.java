@@ -59,7 +59,7 @@ public class TypeScriptFetchClientCodegenTest {
         final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/optionalResponse.yaml");
         codegen.setOpenAPI(openApi);
         PathItem path = openApi.getPaths().get("/api/Users/{userId}");
-        CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
+        CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get",0, path.getGet(), path.getServers());
         Assert.assertEquals(operation.isResponseOptional, true);
     }
 

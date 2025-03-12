@@ -105,7 +105,7 @@ public class JavascriptClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Operation textOperation = openAPI.getPaths().get("/user").getPost();
-        CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
+        CodegenOperation coText = codegen.fromOperation("/user", "post",0, textOperation, null);
 
         for (CodegenResponse cr : coText.responses) {
             Assert.assertTrue(cr.isDefault);
@@ -123,7 +123,7 @@ public class JavascriptClientCodegenTest {
 
         final String requestPath = "/multipart-array";
         Operation textOperation = openAPI.getPaths().get(requestPath).getPost();
-        CodegenOperation operation = codegen.fromOperation(requestPath, "post", textOperation, null);
+        CodegenOperation operation = codegen.fromOperation(requestPath, "post",0, textOperation, null);
         CodegenParameter codegenParameter = operation.allParams.get(0);
 
         Assert.assertEquals(codegenParameter.collectionFormat, "passthrough");
@@ -136,7 +136,7 @@ public class JavascriptClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Operation textOperation = openAPI.getPaths().get("/pet").getPost();
-        CodegenOperation coText = codegen.fromOperation("/user", "post", textOperation, null);
+        CodegenOperation coText = codegen.fromOperation("/user", "post",0, textOperation, null);
 
         for (Map<String, String> consume : coText.consumes) {
             if ("application/json".equals(consume.get("mediaType"))) {
@@ -156,7 +156,7 @@ public class JavascriptClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Operation textOperation = openAPI.getPaths().get("/pet/{petId}").getGet();
-        CodegenOperation coText = codegen.fromOperation("/user", "get", textOperation, null);
+        CodegenOperation coText = codegen.fromOperation("/user", "get",0, textOperation, null);
 
         for (Map<String, String> consume : coText.produces) {
             if ("application/json".equals(consume.get("mediaType"))) {

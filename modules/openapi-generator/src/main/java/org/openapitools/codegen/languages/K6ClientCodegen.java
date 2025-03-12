@@ -528,7 +528,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 // optionally group and order operations - see `X_OPERATION_GROUPING` K6 vendor
                 // extension
-                final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
+                final CodegenOperation cgOperation = super.fromOperation(path, method.name(),0, operation, null);
                 Optional<OperationGrouping> operationGrouping = extractOperationGrouping(cgOperation);
                 if (operationGrouping.isPresent()) {
                     groupName = operationGrouping.get().groupName;
@@ -932,7 +932,7 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 final PathItem.HttpMethod method = methodOperation.getKey();
                 final Operation operation = methodOperation.getValue();
-                final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
+                final CodegenOperation cgOperation = super.fromOperation(path, method.name(),0, operation, null);
 
                 if (cgOperation.getHasVendorExtensions()
                         && cgOperation.vendorExtensions.containsKey(X_OPERATION_DATAEXTRACT)

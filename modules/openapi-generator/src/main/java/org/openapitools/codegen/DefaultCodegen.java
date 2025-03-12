@@ -4514,7 +4514,7 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
-                                          int contentTypeIndex,
+                                          Integer contentTypeIndex,
                                           Operation operation,
                                           List<Server> servers) {
         LOGGER.debug("fromOperation => operation: {}", operation);
@@ -5103,7 +5103,7 @@ public class DefaultCodegen implements CodegenConfig {
                             // distinguish between normal operations and callback requests
                             op.getExtensions().put("x-callback-request", true);
 
-                            CodegenOperation co = fromOperation(expression, method, op, servers);
+                            CodegenOperation co = fromOperation(expression, method, 0, op, servers);
                             if (genId) {
                                 co.operationIdOriginal = null;
                                 // legacy (see `fromOperation()`)

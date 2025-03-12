@@ -294,8 +294,8 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         addPathMatcher(codegenOperation);
         return codegenOperation;
     }
