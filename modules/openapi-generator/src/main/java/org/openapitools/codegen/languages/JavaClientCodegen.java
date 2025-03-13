@@ -384,13 +384,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, this::setMicroProfileGlobalExceptionMapper);
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, this::setMicroProfileRegisterExceptionMapper);
 
-        if (!additionalProperties.containsKey(MICROPROFILE_REGISTER_EXCEPTION_MAPPER)) {
-            additionalProperties.put(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, true);
-        }
-
-        if (!additionalProperties.containsKey(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER)) {
-            additionalProperties.put(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, true);
-        }
+        additionalProperties.put(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, microProfileRegisterExceptionMapper);
+        additionalProperties.put(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, microProfileGlobalExceptionMapper);
 
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_MUTINY, this::setMicroprofileMutiny);
 
