@@ -1574,16 +1574,16 @@ public class DefaultGenerator implements Generator {
                             httpMethod, resourcePath, operation.getOperationId());
                 } else {
 
-                    ///
+                    // get content types list - if available
                     List<String> contentTypes = new ArrayList<>(List.of("dummy"));
                     RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
                     if (requestBody != null) {
                         contentTypes = new ArrayList<>(requestBody.getContent().keySet());
                     }
 
+                    // iterate through content types
                     for (int contentTypeIndex = 0; contentTypeIndex < contentTypes.size(); contentTypeIndex++) {
-                    
-                    ///                     
+                                                           
                         CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, contentTypeIndex, operation, path.getServers());
                         codegenOperation.tags = new ArrayList<>(tags);
                         config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
