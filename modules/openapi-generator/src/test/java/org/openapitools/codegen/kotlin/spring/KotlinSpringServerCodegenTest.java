@@ -845,7 +845,7 @@ public class KotlinSpringServerCodegenTest {
         Path outputFilepath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
 
         assertFileContains(outputFilepath,
-                "@Parameter(description = \"Additional data to pass to server\") @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
+                "@Parameter(description = \"Additional data to pass to server\") @Valid @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?");
         assertFileContains(outputFilepath,
                 "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile");
 
