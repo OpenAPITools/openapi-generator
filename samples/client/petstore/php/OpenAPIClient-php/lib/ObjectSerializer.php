@@ -330,15 +330,28 @@ class ObjectSerializer
      *
      * @param string|\SplFileObject $value the value of the form parameter
      *
-     * @return string the form string
+     * @return array
      */
-    public static function toFormValue($value)
+    public static function toFormValue(string $key, mixed $value)
     {
-        if ($value instanceof \SplFileObject) {
-            return $value->getRealPath();
-        } else {
-            return self::toString($value);
+        $stringable = self::toString($value);
+
+        if ($stringable !== null) {
+            return [$key => $stringable];
+        } elseif ($value instanceof \SplFileObject) {
+            return [$key => $value->getRealPath()];
         }
+
+        $flattened = [];
+        $result = [];
+
+        self::flatten_array(json_decode(json_encode($value), true), $flattened);
+
+        foreach ($flattened as $k => $v) {
+            $result["{$key}{$k}"] = self::toString($v);
+        }
+
+        return $result;
     }
 
     /**
@@ -349,12 +362,14 @@ class ObjectSerializer
      *
      * @param float|int|bool|\DateTime $value the value of the parameter
      *
-     * @return string the header string
+     * @return string|null the header string
      */
     public static function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
             return $value->format(self::$dateTimeFormat);
+        } elseif (!is_scalar($value) && $value !== null) {
+            return null;
         } elseif (is_bool($value)) {
             return $value ? 'true' : 'false';
         } else {
@@ -613,5 +628,82 @@ class ObjectSerializer
         }
 
         return $qs ? (string) substr($qs, 0, -1) : '';
+    }
+
+    /**
+     * Flattens an array of Model object and generates an array compatible
+     * with formdata - a single-level array where the keys use bracket
+     * notation to signify nested data.
+     *
+     * @param \ArrayAccess|array $source
+     *
+     * credit: https://github.com/FranBar1966/FlatPHP
+     */
+    private static function flatten_array(
+        mixed $source,
+        array &$destination,
+        string $start = '',
+    ) {
+        $opt = [
+            'prefix'          => '[',
+            'suffix'          => ']',
+            'suffix-end'      => true,
+            'prefix-list'     => '[',
+            'suffix-list'     => ']',
+            'suffix-list-end' => true,
+        ];
+
+        if (!is_array($source)) {
+            $source = (array) $source;
+        }
+
+        /**
+         * array_is_list only in PHP >= 8.1
+         *
+         * credit: https://www.php.net/manual/en/function.array-is-list.php#127044
+         */
+        if (!function_exists('array_is_list')) {
+            function array_is_list(array $array)
+            {
+                $i = -1;
+
+                foreach ($array as $k => $v) {
+                    ++$i;
+                    if ($k !== $i) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        if (array_is_list($source)) {
+            $currentPrefix    = $opt['prefix-list'];
+            $currentSuffix    = $opt['suffix-list'];
+            $currentSuffixEnd = $opt['suffix-list-end'];
+        } else {
+            $currentPrefix    = $opt['prefix'];
+            $currentSuffix    = $opt['suffix'];
+            $currentSuffixEnd = $opt['suffix-end'];
+        }
+
+        $currentName = $start;
+
+        foreach ($source as $key => $val) {
+            $currentName .= $currentPrefix.$key;
+
+            if (is_array($val) && !empty($val)) {
+                $currentName .= "{$currentSuffix}";
+                self::flatten_array($val, $destination, $currentName);
+            } else {
+                if ($currentSuffixEnd) {
+                    $currentName .= $currentSuffix;
+                }
+                $destination[$currentName] = self::toString($val);
+            }
+
+            $currentName = $start;
+        }
     }
 }
