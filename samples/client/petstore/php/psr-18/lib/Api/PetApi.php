@@ -1818,11 +1818,11 @@ class PetApi
 
         // form params
         if ($name !== null) {
-            $formParams['name'] = ObjectSerializer::toFormValue($name);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
         }
         // form params
         if ($status !== null) {
-            $formParams['status'] = ObjectSerializer::toFormValue($status);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('status', $status));
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -2094,7 +2094,7 @@ class PetApi
 
         // form params
         if ($additional_metadata !== null) {
-            $formParams['additionalMetadata'] = ObjectSerializer::toFormValue($additional_metadata);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('additionalMetadata', $additional_metadata));
         }
         // form params
         if ($file !== null) {
@@ -2103,7 +2103,7 @@ class PetApi
             $paramFiles = is_array($file) ? $file : [$file];
             foreach ($paramFiles as $paramFile) {
                 $formParams['file'][] = \GuzzleHttp\Psr7\try_fopen(
-                    ObjectSerializer::toFormValue($paramFile),
+                    ObjectSerializer::toFormValue('file', $paramFile)['file'],
                     'rb'
                 );
             }
@@ -2384,7 +2384,7 @@ class PetApi
 
         // form params
         if ($additional_metadata !== null) {
-            $formParams['additionalMetadata'] = ObjectSerializer::toFormValue($additional_metadata);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('additionalMetadata', $additional_metadata));
         }
         // form params
         if ($required_file !== null) {
@@ -2393,7 +2393,7 @@ class PetApi
             $paramFiles = is_array($required_file) ? $required_file : [$required_file];
             foreach ($paramFiles as $paramFile) {
                 $formParams['requiredFile'][] = \GuzzleHttp\Psr7\try_fopen(
-                    ObjectSerializer::toFormValue($paramFile),
+                    ObjectSerializer::toFormValue('requiredFile', $paramFile)['requiredFile'],
                     'rb'
                 );
             }
