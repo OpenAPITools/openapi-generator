@@ -49,7 +49,7 @@ public class ElmClientCodegenTest {
                 .operationId("opId")
                 .addParametersItem(new QueryParameter().name("listOfUuid").schema(p));
 
-        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, null);
+        CodegenOperation co = codegen.fromOperation("/some/path", "get",0, operation, null);
 
         OperationMap operationMap = new OperationMap();
         operationMap.setOperation(co);
@@ -75,7 +75,7 @@ public class ElmClientCodegenTest {
                 .operationId("opId")
                 .addParametersItem(new QueryParameter().name("listOfDateTime").schema(p));
 
-        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, null);
+        CodegenOperation co = codegen.fromOperation("/some/path", "get",0, operation, null);
 
         OperationMap operationMap = new OperationMap();
         operationMap.setOperation(co);

@@ -272,8 +272,8 @@ public abstract class JavaHelidonCommonCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
 
         op.allParams.forEach(p -> p.vendorExtensions.put(X_IS_MULTIPART_FORM_PARAM, op.isMultipart && p.isFormParam));
         op.vendorExtensions.put(X_HAS_RETURN_TYPE, op.returnType != null && !op.returnType.equals("void"));

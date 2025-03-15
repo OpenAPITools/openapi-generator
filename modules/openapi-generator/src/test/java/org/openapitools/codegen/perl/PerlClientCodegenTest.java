@@ -64,7 +64,7 @@ public class PerlClientCodegenTest {
         codegen.setOpenAPI(openAPI);
 
         Operation operation = openAPI.getPaths().get("/issue677").getPost();
-        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, null);
+        CodegenOperation co = codegen.fromOperation("/issue677", "POST",0, operation, null);
         Assert.assertNotNull(co);
     }
 

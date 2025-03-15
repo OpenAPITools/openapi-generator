@@ -87,7 +87,7 @@ public class XojoClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.returnType, "FolderItem");
         Assert.assertEquals(op.bodyParam.dataType, "FolderItem");
@@ -102,7 +102,7 @@ public class XojoClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
+        final CodegenOperation op = codegen.fromOperation(path, "post",0, p, null);
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");

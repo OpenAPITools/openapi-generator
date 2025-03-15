@@ -53,7 +53,7 @@ public class CSharpOperationTest {
 
         final String path = "/pet/{petId}/uploadImage";
         final Operation postOperation = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation codegenOperation = codegen.fromOperation(path, "post", postOperation, null);
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "post",0, postOperation, null);
 
         return codegenOperation.allParams.get(2).dataType;
     }

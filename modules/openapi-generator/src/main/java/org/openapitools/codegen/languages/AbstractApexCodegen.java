@@ -555,10 +555,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
 
         CodegenOperation op = super.fromOperation(
-                path, httpMethod, operation, null);
+                path, httpMethod, contentTypeIndex, operation, null);
 
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
