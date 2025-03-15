@@ -22,6 +22,7 @@ docs/Ref.md
 docs/Return.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestAllOfWithMultiMetadataOnly.md
 docs/TestingApi.md
 docs/TestsDiscriminatorDuplicateEnumsGet200Response.md
 docs/TypeTesting.md
@@ -59,6 +60,7 @@ src/models/person.rs
 src/models/pet.rs
 src/models/property_test.rs
 src/models/tag.rs
+src/models/test_all_of_with_multi_metadata_only.rs
 src/models/type_testing.rs
 src/models/unique_item_array_testing.rs
 src/models/user.rs
