@@ -630,7 +630,7 @@ public class ApiClient extends JavaTimeFormatter {
         MediaType contentType, String[] authNames) {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(basePath).path(path);
 
         String finalUri = builder.build(false).toUriString();
         Map<String, Object> uriParams = new HashMap<>();
