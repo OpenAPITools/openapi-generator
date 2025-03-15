@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -420,9 +421,9 @@ public class InlineModelResolver {
                         // Check if there is only one "non metadata" schema.
                         // For example, there may be an `description` only schema that is used to override the descrption.
                         // In these cases, we can simply discard those schemas.
-                        List<Schema> nonMetadataOnlySchemas = schema.getAllOf().stream()
+                        List<Schema> nonMetadataOnlySchemas = (List<Schema>) schema.getAllOf().stream()
                                 .filter(v -> isMetadataOnlySchema((Schema) v))
-                                .toList();
+                                .collect(Collectors.toList());
 
                         if (nonMetadataOnlySchemas.size() == 1) {
                             schema.setAllOf(nonMetadataOnlySchemas);
