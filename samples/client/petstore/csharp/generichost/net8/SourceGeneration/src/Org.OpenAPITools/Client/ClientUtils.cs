@@ -407,11 +407,6 @@ namespace Org.OpenAPITools.Client
         public const string SCHEME = "http";
 
         /// <summary>
-        /// The context path of the API
-        /// </summary>
-        public const string CONTEXT_PATH = "/v2";
-
-        /// <summary>
         /// The host of the API
         /// </summary>
         public const string HOST = "petstore.swagger.io";
