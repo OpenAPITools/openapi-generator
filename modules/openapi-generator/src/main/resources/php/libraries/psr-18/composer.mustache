@@ -1,5 +1,10 @@
 {
+    {{#composerPackageName}}
+    "name": "{{{.}}}",
+    {{/composerPackageName}}
+    {{^composerPackageName}}
     "name": "{{gitUserId}}/{{gitRepoId}}",
+    {{/composerPackageName}}
     {{#artifactVersion}}
     "version": "{{artifactVersion}}",
     {{/artifactVersion}}
