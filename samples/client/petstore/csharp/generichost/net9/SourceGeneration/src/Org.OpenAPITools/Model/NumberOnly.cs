@@ -129,8 +129,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "JustNumber":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                justNumber = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            justNumber = new Option<decimal?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (decimal?)null : utf8JsonReader.GetDecimal());
                             break;
                         default:
                             break;
