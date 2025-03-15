@@ -1,0 +1,230 @@
+openapi: 3.0.0
+info:
+  description: This spec is mainly for testing generateAliasAsModel and
+  version: 1.0.0
+  title: generateAliasAsModel
+paths:
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalProperties'
+        description: request body
+        required: true
+components:
+  schemas:
+    AdditionalProperties:
+      type: object
+      properties:
+        additionalPropertiesClassRef:
+          $ref: "#/components/schemas/AdditionalPropertiesClassRef"
+        additionalPropertiesClass:
+          $ref: "#/components/schemas/AdditionalPropertiesClass"
+        mixed:
+          $ref: "#/components/schemas/MixedPropertiesAndAdditionalPropertiesClass"
+    AdditionalPropertiesClassRef:
+      type: object
+      properties:
+        map_string:
+          $ref: "#/components/schemas/AdditionalPropertiesString"
+        map_number:
+          $ref: "#/components/schemas/AdditionalPropertiesNumber"
+        map_integer:
+          $ref: "#/components/schemas/AdditionalPropertiesInteger"
+        map_boolean:
+          $ref: "#/components/schemas/AdditionalPropertiesBoolean"
+        anytype_1:
+          $ref: "#/components/schemas/AnyType1"
+    AdditionalPropertyClassRef:
+      type: object
+      properties:
+        map_string:
+          $ref: "#/components/schemas/AdditionalPropertyString"
+        map_number:
+          $ref: "#/components/schemas/AdditionalPropertyNumber"
+        map_integer:
+          $ref: "#/components/schemas/AdditionalPropertyInteger"
+        map_boolean:
+          $ref: "#/components/schemas/AdditionalPropertyBoolean"
+        map_array_integer:
+          $ref: "#/components/schemas/AdditionalPropertyArrayInteger"
+        map_array_anytype:
+          $ref: "#/components/schemas/AdditionalPropertyArrayAnyType"
+        map_map_string:
+          $ref: "#/components/schemas/AdditionalPropertyMapString"
+        map_map_anytype:
+          $ref: "#/components/schemas/AdditionalPropertyMapAnyType"
+        anytype_1:
+          $ref: "#/components/schemas/AnyType1"
+    AdditionalPropertyString:
+      type: object
+      additionalProperties:
+        type: string
+    AdditionalPropertyNumber:
+      type: object
+      additionalProperties:
+        type: number
+    AdditionalPropertyInteger:
+      type: object
+      additionalProperties:
+        type: integer
+    AdditionalPropertyBoolean:
+      type: object
+      additionalProperties:
+        type: boolean
+    AdditionalPropertyArrayInteger:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: integer
+    AdditionalPropertyArrayAnyType:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: object
+    AdditionalPropertyMapString:
+      type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
+    AdditionalPropertyMapAnyType:
+      type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: object
+    AnyType1:
+      type: object
+    AdditionalPropertiesClass:
+      type: object
+      properties:
+        map_string:
+          type: object
+          additionalProperties:
+            type: string
+        map_number:
+          type: object
+          additionalProperties:
+            type: number
+        map_integer:
+          type: object
+          additionalProperties:
+            type: integer
+        map_boolean:
+          type: object
+          additionalProperties:
+            type: boolean
+        map_array_integer:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: integer
+        map_array_anytype:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+        map_map_string:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: string
+        map_map_anytype:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+        anytype_1:
+          type: object
+        anytype_2: {}
+        anytype_3:
+          type: object
+          properties: {}
+    AdditionalPropertiesString:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+    AdditionalPropertiesInteger:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: integer
+    AdditionalPropertiesNumber:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: number
+    AdditionalPropertiesBoolean:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: boolean
+    AdditionalPropertiesArray:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: array
+        items:
+          type: object
+    AdditionalPropertiesObject:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: object
+    AdditionalPropertiesAnyType:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+    MixedPropertiesAndAdditionalPropertiesClass:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        dateTime:
+          type: string
+          format: date-time
+        map:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/Animal"
+    Animal:
+      type: object
+      properties:
+        className:
+          type: string
