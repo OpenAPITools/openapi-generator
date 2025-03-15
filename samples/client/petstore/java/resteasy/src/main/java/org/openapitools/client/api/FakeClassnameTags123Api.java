@@ -41,7 +41,7 @@ public class FakeClassnameTags123Api {
    * @return a {@code Client}
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(Client client) throws ApiException {
+  public Client testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set

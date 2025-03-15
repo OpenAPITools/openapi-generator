@@ -92,7 +92,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumRefStringCall(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEnumRefStringCall(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -145,7 +145,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEnumRefStringValidateBeforeCall(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testEnumRefStringValidateBeforeCall(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
         return testEnumRefStringCall(enumNonrefStringQuery, enumRefStringQuery, _callback);
 
     }
@@ -164,7 +164,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+    public String testEnumRefString(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery) throws ApiException {
         ApiResponse<String> localVarResp = testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
         return localVarResp.getData();
     }
@@ -183,7 +183,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testEnumRefStringWithHttpInfo(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+    public ApiResponse<String> testEnumRefStringWithHttpInfo(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery) throws ApiException {
         okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumNonrefStringQuery, enumRefStringQuery, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -204,7 +204,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumRefStringAsync(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testEnumRefStringAsync(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumNonrefStringQuery, enumRefStringQuery, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -226,7 +226,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryDatetimeDateStringCall(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryDatetimeDateStringCall(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -283,7 +283,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryDatetimeDateStringValidateBeforeCall(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryDatetimeDateStringValidateBeforeCall(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery, final ApiCallback _callback) throws ApiException {
         return testQueryDatetimeDateStringCall(datetimeQuery, dateQuery, stringQuery, _callback);
 
     }
@@ -303,7 +303,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws ApiException {
+    public String testQueryDatetimeDateString(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
         ApiResponse<String> localVarResp = testQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery);
         return localVarResp.getData();
     }
@@ -323,7 +323,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryDatetimeDateStringWithHttpInfo(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws ApiException {
+    public ApiResponse<String> testQueryDatetimeDateStringWithHttpInfo(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
         okhttp3.Call localVarCall = testQueryDatetimeDateStringValidateBeforeCall(datetimeQuery, dateQuery, stringQuery, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -345,7 +345,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryDatetimeDateStringAsync(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryDatetimeDateStringAsync(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryDatetimeDateStringValidateBeforeCall(datetimeQuery, dateQuery, stringQuery, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -367,7 +367,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryIntegerBooleanStringCall(Integer integerQuery, Boolean booleanQuery, String stringQuery, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryIntegerBooleanStringCall(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -424,7 +424,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryIntegerBooleanStringValidateBeforeCall(Integer integerQuery, Boolean booleanQuery, String stringQuery, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryIntegerBooleanStringValidateBeforeCall(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery, final ApiCallback _callback) throws ApiException {
         return testQueryIntegerBooleanStringCall(integerQuery, booleanQuery, stringQuery, _callback);
 
     }
@@ -444,7 +444,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+    public String testQueryIntegerBooleanString(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
         ApiResponse<String> localVarResp = testQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery);
         return localVarResp.getData();
     }
@@ -464,7 +464,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+    public ApiResponse<String> testQueryIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
         okhttp3.Call localVarCall = testQueryIntegerBooleanStringValidateBeforeCall(integerQuery, booleanQuery, stringQuery, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -486,7 +486,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryIntegerBooleanStringAsync(Integer integerQuery, Boolean booleanQuery, String stringQuery, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryIntegerBooleanStringAsync(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryIntegerBooleanStringValidateBeforeCall(integerQuery, booleanQuery, stringQuery, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -506,7 +506,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectCall(Pet queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectCall(@javax.annotation.Nullable Pet queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -555,7 +555,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectValidateBeforeCall(Pet queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectValidateBeforeCall(@javax.annotation.Nullable Pet queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleDeepObjectExplodeTrueObjectCall(queryObject, _callback);
 
     }
@@ -573,7 +573,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject) throws ApiException {
+    public String testQueryStyleDeepObjectExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -591,7 +591,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Pet queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@javax.annotation.Nullable Pet queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -611,7 +611,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAsync(Pet queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAsync(@javax.annotation.Nullable Pet queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -631,7 +631,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfCall(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfCall(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -680,7 +680,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfCall(queryObject, _callback);
 
     }
@@ -698,7 +698,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
+    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -716,7 +716,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -736,7 +736,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -756,7 +756,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerCall(List<Integer> queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerCall(@javax.annotation.Nullable List<Integer> queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -805,7 +805,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(List<Integer> queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(@javax.annotation.Nullable List<Integer> queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleFormExplodeFalseArrayIntegerCall(queryObject, _callback);
 
     }
@@ -823,7 +823,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws ApiException {
+    public String testQueryStyleFormExplodeFalseArrayInteger(@javax.annotation.Nullable List<Integer> queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -841,7 +841,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<Integer> queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@javax.annotation.Nullable List<Integer> queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -861,7 +861,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerAsync(List<Integer> queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerAsync(@javax.annotation.Nullable List<Integer> queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -881,7 +881,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeFalseArrayStringCall(List<String> queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayStringCall(@javax.annotation.Nullable List<String> queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -930,7 +930,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(List<String> queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(@javax.annotation.Nullable List<String> queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleFormExplodeFalseArrayStringCall(queryObject, _callback);
 
     }
@@ -948,7 +948,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws ApiException {
+    public String testQueryStyleFormExplodeFalseArrayString(@javax.annotation.Nullable List<String> queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -966,7 +966,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<String> queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@javax.annotation.Nullable List<String> queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -986,7 +986,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeFalseArrayStringAsync(List<String> queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayStringAsync(@javax.annotation.Nullable List<String> queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -1006,7 +1006,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeTrueArrayStringCall(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeTrueArrayStringCall(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1055,7 +1055,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleFormExplodeTrueArrayStringValidateBeforeCall(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleFormExplodeTrueArrayStringValidateBeforeCall(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleFormExplodeTrueArrayStringCall(queryObject, _callback);
 
     }
@@ -1073,7 +1073,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
+    public String testQueryStyleFormExplodeTrueArrayString(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -1091,7 +1091,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleFormExplodeTrueArrayStringValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1111,7 +1111,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeTrueArrayStringAsync(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleFormExplodeTrueArrayStringValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -1131,7 +1131,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeTrueObjectCall(Pet queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeTrueObjectCall(@javax.annotation.Nullable Pet queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1180,7 +1180,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleFormExplodeTrueObjectValidateBeforeCall(Pet queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleFormExplodeTrueObjectValidateBeforeCall(@javax.annotation.Nullable Pet queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleFormExplodeTrueObjectCall(queryObject, _callback);
 
     }
@@ -1198,7 +1198,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleFormExplodeTrueObject(Pet queryObject) throws ApiException {
+    public String testQueryStyleFormExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -1216,7 +1216,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(Pet queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@javax.annotation.Nullable Pet queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleFormExplodeTrueObjectValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1236,7 +1236,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeTrueObjectAsync(Pet queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeTrueObjectAsync(@javax.annotation.Nullable Pet queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleFormExplodeTrueObjectValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -1256,7 +1256,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeTrueObjectAllOfCall(DataQuery queryObject, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeTrueObjectAllOfCall(@javax.annotation.Nullable DataQuery queryObject, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1305,7 +1305,7 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testQueryStyleFormExplodeTrueObjectAllOfValidateBeforeCall(DataQuery queryObject, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testQueryStyleFormExplodeTrueObjectAllOfValidateBeforeCall(@javax.annotation.Nullable DataQuery queryObject, final ApiCallback _callback) throws ApiException {
         return testQueryStyleFormExplodeTrueObjectAllOfCall(queryObject, _callback);
 
     }
@@ -1323,7 +1323,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws ApiException {
+    public String testQueryStyleFormExplodeTrueObjectAllOf(@javax.annotation.Nullable DataQuery queryObject) throws ApiException {
         ApiResponse<String> localVarResp = testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject);
         return localVarResp.getData();
     }
@@ -1341,7 +1341,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery queryObject) throws ApiException {
+    public ApiResponse<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(@javax.annotation.Nullable DataQuery queryObject) throws ApiException {
         okhttp3.Call localVarCall = testQueryStyleFormExplodeTrueObjectAllOfValidateBeforeCall(queryObject, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1361,7 +1361,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery queryObject, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testQueryStyleFormExplodeTrueObjectAllOfAsync(@javax.annotation.Nullable DataQuery queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleFormExplodeTrueObjectAllOfValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();

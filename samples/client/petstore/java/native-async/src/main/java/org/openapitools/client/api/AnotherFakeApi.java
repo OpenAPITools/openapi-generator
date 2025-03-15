@@ -90,7 +90,7 @@ public class AnotherFakeApi {
    * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Client> call123testSpecialTags(Client client) throws ApiException {
+  public CompletableFuture<Client> call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
       return memberVarHttpClient.sendAsync(
@@ -121,7 +121,7 @@ public class AnotherFakeApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(client);
       return memberVarHttpClient.sendAsync(
@@ -152,7 +152,7 @@ public class AnotherFakeApi {
     }
   }
 
-  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client client) throws ApiException {
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");

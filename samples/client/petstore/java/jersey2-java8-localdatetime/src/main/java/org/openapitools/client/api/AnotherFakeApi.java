@@ -61,7 +61,7 @@ public class AnotherFakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client call123testSpecialTags(UUID uuidTest, Client body) throws ApiException {
+  public Client call123testSpecialTags(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body) throws ApiException {
     return call123testSpecialTagsWithHttpInfo(uuidTest, body).getData();
   }
 
@@ -79,7 +79,7 @@ public class AnotherFakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(UUID uuidTest, Client body) throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body) throws ApiException {
     // Check required parameters
     if (uuidTest == null) {
       throw new ApiException(400, "Missing the required parameter 'uuidTest' when calling call123testSpecialTags");
