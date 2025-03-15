@@ -50,6 +50,7 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
 }
 
 open class RequestBuilder<T>: @unchecked Sendable {
+    public let id: UUID = UUID()
     public var credential: URLCredential?
     public var headers: [String: String]
     public let parameters: [String: Any]?

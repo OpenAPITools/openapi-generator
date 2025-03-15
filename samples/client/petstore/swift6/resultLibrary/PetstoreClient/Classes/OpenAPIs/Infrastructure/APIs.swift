@@ -48,6 +48,7 @@ internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
 }
 
 internal class RequestBuilder<T>: @unchecked Sendable {
+    internal let id: UUID = UUID()
     internal var credential: URLCredential?
     internal var headers: [String: String]
     internal let parameters: [String: Any]?
