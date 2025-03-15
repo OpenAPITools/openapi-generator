@@ -2,5 +2,5 @@ import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/htt
 import { Configuration, ConfigurationOptions, PromiseConfigurationOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
-import { SomeObject } from '../models/SomeObject';
-import { WithNullableType } from '../models/WithNullableType';
+import { SingleValueEnum30 } from '../models/SingleValueEnum30';
+import { SingleValueEnum31 } from '../models/SingleValueEnum31';

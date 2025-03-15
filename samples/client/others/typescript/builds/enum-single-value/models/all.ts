@@ -1,2 +1,2 @@
-export * from '../models/SomeObject'
-export * from '../models/WithNullableType'
+export * from '../models/SingleValueEnum30'
+export * from '../models/SingleValueEnum31'
