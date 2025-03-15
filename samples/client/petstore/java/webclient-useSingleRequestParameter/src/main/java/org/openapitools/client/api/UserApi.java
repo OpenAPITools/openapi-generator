@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -442,46 +444,63 @@ public class UserApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            LoginUserRequest request = (LoginUserRequest) o;
+            return Objects.equals(this.username, request.username()) &&
+                Objects.equals(this.password, request.password());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(username, password);
+        }
     }
 
-      /**
-      * Logs user into the system
-      * 
-         * <p><b>200</b> - successful operation
-         * <p><b>400</b> - Invalid username/password supplied
-         * @param requestParameters The loginUser request parameters as object
-         * @return String
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<String> loginUser(LoginUserRequest requestParameters) throws WebClientResponseException {
-          return this.loginUser(requestParameters.username(), requestParameters.password());
-      }
+    /**
+     * Logs user into the system
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username/password supplied
+     * @param requestParameters The loginUser request parameters as object
+     * @return String
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<String> loginUser(LoginUserRequest requestParameters) throws WebClientResponseException {
+        return this.loginUser(requestParameters.username(), requestParameters.password());
+    }
 
-      /**
-      * Logs user into the system
-      * 
-         * <p><b>200</b> - successful operation
-         * <p><b>400</b> - Invalid username/password supplied
-         * @param requestParameters The loginUser request parameters as object
-         * @return ResponseEntity&lt;String&gt;
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<String>> loginUserWithHttpInfo(LoginUserRequest requestParameters) throws WebClientResponseException {
-          return this.loginUserWithHttpInfo(requestParameters.username(), requestParameters.password());
-      }
+    /**
+     * Logs user into the system
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username/password supplied
+     * @param requestParameters The loginUser request parameters as object
+     * @return ResponseEntity&lt;String&gt;
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<String>> loginUserWithHttpInfo(LoginUserRequest requestParameters) throws WebClientResponseException {
+        return this.loginUserWithHttpInfo(requestParameters.username(), requestParameters.password());
+    }
 
-      /**
-      * Logs user into the system
-      * 
-         * <p><b>200</b> - successful operation
-         * <p><b>400</b> - Invalid username/password supplied
-         * @param requestParameters The loginUser request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec loginUserWithResponseSpec(LoginUserRequest requestParameters) throws WebClientResponseException {
-         return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
-      }
+    /**
+     * Logs user into the system
+     * 
+     * <p><b>200</b> - successful operation
+     * <p><b>400</b> - Invalid username/password supplied
+     * @param requestParameters The loginUser request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec loginUserWithResponseSpec(LoginUserRequest requestParameters) throws WebClientResponseException {
+       return this.loginUserWithResponseSpec(requestParameters.username(), requestParameters.password());
+    }
 
           
     /**
@@ -659,44 +678,61 @@ public class UserApi {
             return this;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            UpdateUserRequest request = (UpdateUserRequest) o;
+            return Objects.equals(this.username, request.username()) &&
+                Objects.equals(this.user, request.user());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(username, user);
+        }
     }
 
-      /**
-      * Updated user
-      * This can only be done by the logged in user.
-         * <p><b>400</b> - Invalid user supplied
-         * <p><b>404</b> - User not found
-         * @param requestParameters The updateUser request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<Void> updateUser(UpdateUserRequest requestParameters) throws WebClientResponseException {
-          return this.updateUser(requestParameters.username(), requestParameters.user());
-      }
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid user supplied
+     * <p><b>404</b> - User not found
+     * @param requestParameters The updateUser request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> updateUser(UpdateUserRequest requestParameters) throws WebClientResponseException {
+        return this.updateUser(requestParameters.username(), requestParameters.user());
+    }
 
-      /**
-      * Updated user
-      * This can only be done by the logged in user.
-         * <p><b>400</b> - Invalid user supplied
-         * <p><b>404</b> - User not found
-         * @param requestParameters The updateUser request parameters as object
-         * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(UpdateUserRequest requestParameters) throws WebClientResponseException {
-          return this.updateUserWithHttpInfo(requestParameters.username(), requestParameters.user());
-      }
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid user supplied
+     * <p><b>404</b> - User not found
+     * @param requestParameters The updateUser request parameters as object
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(UpdateUserRequest requestParameters) throws WebClientResponseException {
+        return this.updateUserWithHttpInfo(requestParameters.username(), requestParameters.user());
+    }
 
-      /**
-      * Updated user
-      * This can only be done by the logged in user.
-         * <p><b>400</b> - Invalid user supplied
-         * <p><b>404</b> - User not found
-         * @param requestParameters The updateUser request parameters as object
-      * @return ResponseSpec
-      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
-      */
-      public ResponseSpec updateUserWithResponseSpec(UpdateUserRequest requestParameters) throws WebClientResponseException {
-         return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
-      }
+    /**
+     * Updated user
+     * This can only be done by the logged in user.
+     * <p><b>400</b> - Invalid user supplied
+     * <p><b>404</b> - User not found
+     * @param requestParameters The updateUser request parameters as object
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec updateUserWithResponseSpec(UpdateUserRequest requestParameters) throws WebClientResponseException {
+       return this.updateUserWithResponseSpec(requestParameters.username(), requestParameters.user());
+    }
 
           
     /**
