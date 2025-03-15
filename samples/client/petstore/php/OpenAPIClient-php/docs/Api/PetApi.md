@@ -13,6 +13,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**updatePetWithForm()**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data |
 | [**uploadFile()**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image |
 | [**uploadFileWithRequiredFile()**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required) |
+| [**uploadImageFullFormData()**](PetApi.md#uploadImageFullFormData) | **POST** /pet/{petId}/uploadImageFullFormData | uploads an image attached to a Pet object as formdata |
 
 
 ## `addPet()`
@@ -595,6 +596,82 @@ try {
 | **pet_id** | **int**| ID of pet to update | |
 | **required_file** | **\SplFileObject****\SplFileObject**| file to upload | |
 | **additional_metadata** | **string**| Additional data to pass to server | [optional] |
+
+### Return type
+
+[**\OpenAPI\Client\Model\ApiResponse**](../Model/ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../../README.md#petstore_auth)
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `uploadImageFullFormData()`
+
+```php
+uploadImageFullFormData($pet_id, $name, $photo_urls, $id, $category, $tags, $status, $file, $multiple_files): \OpenAPI\Client\Model\ApiResponse
+```
+
+uploads an image attached to a Pet object as formdata
+
+
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure OAuth2 access token for authorization: petstore_auth
+$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new OpenAPI\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$pet_id = 56; // int | ID of pet to update
+$name = 'name_example'; // string
+$photo_urls = array('photo_urls_example'); // string[]
+$id = 56; // int
+$category = new \OpenAPI\Client\Model\Category(); // \OpenAPI\Client\Model\Category
+$tags = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\Tag()); // \OpenAPI\Client\Model\Tag[]
+$status = 'status_example'; // string | pet status in the store
+$file = '/path/to/file.txt'; // \SplFileObject | file to upload
+$multiple_files = array('/path/to/file.txt'); // \SplFileObject[]
+
+try {
+    $result = $apiInstance->uploadImageFullFormData($pet_id, $name, $photo_urls, $id, $category, $tags, $status, $file, $multiple_files);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PetApi->uploadImageFullFormData: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet_id** | **int**| ID of pet to update | |
+| **name** | **string**|  | |
+| **photo_urls** | [**string[]**](../Model/string.md)|  | |
+| **id** | **int**|  | [optional] |
+| **category** | [**\OpenAPI\Client\Model\Category**](../Model/Category.md)|  | [optional] |
+| **tags** | [**\OpenAPI\Client\Model\Tag[]**](../Model/\OpenAPI\Client\Model\Tag.md)|  | [optional] |
+| **status** | **string**| pet status in the store | [optional] |
+| **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional] |
+| **multiple_files** | **\SplFileObject[]**|  | [optional] |
 
 ### Return type
 
