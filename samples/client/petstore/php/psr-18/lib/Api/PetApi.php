@@ -2453,6 +2453,365 @@ class PetApi
         return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
+    /**
+     * Operation uploadImageFullFormData
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $name name (required)
+     * @param  string[] $photo_urls photo_urls (required)
+     * @param  int $id id (optional)
+     * @param  \OpenAPI\Client\Model\Category $category category (optional)
+     * @param  \OpenAPI\Client\Model\Tag[] $tags tags (optional)
+     * @param  string $status pet status in the store (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     * @param  \SplFileObject[] $multiple_files multiple_files (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\ApiResponse
+     */
+    public function uploadImageFullFormData($pet_id, $name, $photo_urls, $id = null, $category = null, $tags = null, $status = null, $file = null, $multiple_files = null)
+    {
+        list($response) = $this->uploadImageFullFormDataWithHttpInfo($pet_id, $name, $photo_urls, $id, $category, $tags, $status, $file, $multiple_files);
+        return $response;
+    }
+
+    /**
+     * Operation uploadImageFullFormDataWithHttpInfo
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $name (required)
+     * @param  string[] $photo_urls (required)
+     * @param  int $id (optional)
+     * @param  \OpenAPI\Client\Model\Category $category (optional)
+     * @param  \OpenAPI\Client\Model\Tag[] $tags (optional)
+     * @param  string $status pet status in the store (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     * @param  \SplFileObject[] $multiple_files (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function uploadImageFullFormDataWithHttpInfo($pet_id, $name, $photo_urls, $id = null, $category = null, $tags = null, $status = null, $file = null, $multiple_files = null)
+    {
+        $request = $this->uploadImageFullFormDataRequest($pet_id, $name, $photo_urls, $id, $category, $tags, $status, $file, $multiple_files);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\ApiResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\ApiResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation uploadImageFullFormDataAsync
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $name (required)
+     * @param  string[] $photo_urls (required)
+     * @param  int $id (optional)
+     * @param  \OpenAPI\Client\Model\Category $category (optional)
+     * @param  \OpenAPI\Client\Model\Tag[] $tags (optional)
+     * @param  string $status pet status in the store (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     * @param  \SplFileObject[] $multiple_files (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function uploadImageFullFormDataAsync($pet_id, $name, $photo_urls, $id = null, $category = null, $tags = null, $status = null, $file = null, $multiple_files = null)
+    {
+        return $this->uploadImageFullFormDataAsyncWithHttpInfo($pet_id, $name, $photo_urls, $id, $category, $tags, $status, $file, $multiple_files)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation uploadImageFullFormDataAsyncWithHttpInfo
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $name (required)
+     * @param  string[] $photo_urls (required)
+     * @param  int $id (optional)
+     * @param  \OpenAPI\Client\Model\Category $category (optional)
+     * @param  \OpenAPI\Client\Model\Tag[] $tags (optional)
+     * @param  string $status pet status in the store (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     * @param  \SplFileObject[] $multiple_files (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function uploadImageFullFormDataAsyncWithHttpInfo($pet_id, $name, $photo_urls, $id = null, $category = null, $tags = null, $status = null, $file = null, $multiple_files = null)
+    {
+        $returnType = '\OpenAPI\Client\Model\ApiResponse';
+        $request = $this->uploadImageFullFormDataRequest($pet_id, $name, $photo_urls, $id, $category, $tags, $status, $file, $multiple_files);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'uploadImageFullFormData'
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  string $name (required)
+     * @param  string[] $photo_urls (required)
+     * @param  int $id (optional)
+     * @param  \OpenAPI\Client\Model\Category $category (optional)
+     * @param  \OpenAPI\Client\Model\Tag[] $tags (optional)
+     * @param  string $status pet status in the store (optional)
+     * @param  \SplFileObject $file file to upload (optional)
+     * @param  \SplFileObject[] $multiple_files (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function uploadImageFullFormDataRequest($pet_id, $name, $photo_urls, $id = null, $category = null, $tags = null, $status = null, $file = null, $multiple_files = null)
+    {
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet_id when calling uploadImageFullFormData'
+            );
+        }
+        // verify the required parameter 'name' is set
+        if ($name === null || (is_array($name) && count($name) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $name when calling uploadImageFullFormData'
+            );
+        }
+        // verify the required parameter 'photo_urls' is set
+        if ($photo_urls === null || (is_array($photo_urls) && count($photo_urls) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $photo_urls when calling uploadImageFullFormData'
+            );
+        }
+
+
+        $resourcePath = '/pet/{petId}/uploadImageFullFormData';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+        // path params
+        if ($pet_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'petId' . '}',
+                ObjectSerializer::toPathValue($pet_id),
+                $resourcePath
+            );
+        }
+
+        // form params
+        if ($id !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('id', $id));
+        }
+        // form params
+        if ($category !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('category', $category));
+        }
+        // form params
+        if ($name !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
+        }
+        // form params
+        if ($photo_urls !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('photoUrls', $photo_urls));
+        }
+        // form params
+        if ($tags !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('tags', $tags));
+        }
+        // form params
+        if ($status !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('status', $status));
+        }
+        // form params
+        if ($file !== null) {
+            $multipart = true;
+            $formParams['file'] = [];
+            $paramFiles = is_array($file) ? $file : [$file];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['file'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('file', $paramFile)['file'],
+                    'rb'
+                );
+            }
+        }
+        // form params
+        if ($multiple_files !== null) {
+            $multipart = true;
+            $formParams['multiple_files'] = [];
+            $paramFiles = is_array($multiple_files) ? $multiple_files : [$multiple_files];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['multiple_files'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('multiple_files', $paramFile)['multiple_files'],
+                    'rb'
+                );
+            }
+        }
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'multipart/form-data',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
 
     /**
      * @param string $method
