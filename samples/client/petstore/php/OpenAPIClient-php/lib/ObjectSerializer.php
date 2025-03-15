@@ -345,7 +345,7 @@ class ObjectSerializer
         $flattened = [];
         $result = [];
 
-        self::flatten_array(json_decode(json_encode($value), true), $flattened);
+        self::flattenArray(json_decode(json_encode($value), true), $flattened);
 
         foreach ($flattened as $k => $v) {
             $result["{$key}{$k}"] = self::toString($v);
@@ -639,7 +639,7 @@ class ObjectSerializer
      *
      * credit: https://github.com/FranBar1966/FlatPHP
      */
-    private static function flatten_array(
+    private static function flattenArray(
         mixed $source,
         array &$destination,
         string $start = '',
@@ -695,7 +695,7 @@ class ObjectSerializer
 
             if (is_array($val) && !empty($val)) {
                 $currentName .= "{$currentSuffix}";
-                self::flatten_array($val, $destination, $currentName);
+                self::flattenArray($val, $destination, $currentName);
             } else {
                 if ($currentSuffixEnd) {
                     $currentName .= $currentSuffix;
