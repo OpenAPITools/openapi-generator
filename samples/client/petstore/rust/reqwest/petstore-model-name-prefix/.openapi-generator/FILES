@@ -20,6 +20,7 @@ docs/FooPropertyTest.md
 docs/FooRef.md
 docs/FooReturn.md
 docs/FooTag.md
+docs/FooTestAllOfWithMultiMetadataOnly.md
 docs/FooTestsDiscriminatorDuplicateEnumsGet200Response.md
 docs/FooTypeTesting.md
 docs/FooUniqueItemArrayTesting.md
@@ -56,6 +57,7 @@ src/models/foo_property_test.rs
 src/models/foo_ref.rs
 src/models/foo_return.rs
 src/models/foo_tag.rs
+src/models/foo_test_all_of_with_multi_metadata_only.rs
 src/models/foo_type_testing.rs
 src/models/foo_unique_item_array_testing.rs
 src/models/foo_user.rs
