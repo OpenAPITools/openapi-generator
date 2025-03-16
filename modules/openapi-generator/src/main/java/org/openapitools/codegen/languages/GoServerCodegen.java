@@ -49,7 +49,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     /**
      * List of available routers
      */
-    private static final String[] ROUTERS = {"mux", "chi"};
+    private static final String[] ROUTERS = {"stdmux", "mux", "chi"};
 
     private final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
