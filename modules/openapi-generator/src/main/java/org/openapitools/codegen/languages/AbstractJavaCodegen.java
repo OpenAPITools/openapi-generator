@@ -68,7 +68,6 @@ import java.util.stream.StreamSupport;
 
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
-import static org.openapitools.codegen.utils.ModelUtils.isGenerateAliasAsModel;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
