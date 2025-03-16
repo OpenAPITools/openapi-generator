@@ -31,8 +31,8 @@ components:
           $ref: '#/components/schemas/AdditionalPropertiesTypeString'
         additionalPropertiesTrue:
           $ref: '#/components/schemas/AdditionalPropertiesTrue'
-          additionalPropertiesOnlyTrue:
-            $ref: '#/components/schemas/AdditionalPropertiesOnlyTrue'
+        additionalPropertiesOnlyTrue:
+          $ref: '#/components/schemas/AdditionalPropertiesOnlyTrue'
     AdditionalPropertiesOnlyTypeObject:
       type: object
       additionalProperties:
