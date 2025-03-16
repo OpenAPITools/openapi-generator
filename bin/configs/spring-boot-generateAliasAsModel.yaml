@@ -1,0 +1,12 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-generateAliasAsModel
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/generateAliasAsModel.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+generateAliasAsModel: "true"
+additionalProperties:
+  documentationProvider: springfox
+  useSwaggerUI: false
+  java8: true
+  artifactId: spring-boot-generateAliasAsModel
+  hideGenerationTimestamp: "true"
