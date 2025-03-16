@@ -37,9 +37,7 @@ import org.springframework.http.HttpStatus;
 {{#useResponseEntity}}
 import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
-{{#useBeanValidation}}
-import org.springframework.validation.annotation.Validated;
-{{/useBeanValidation}}
+{{#useBeanValidation}}{{^useSpringBuiltInValidation}}import org.springframework.validation.annotation.Validated;{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
 import org.springframework.stereotype.Controller;
@@ -82,9 +80,7 @@ import java.util.concurrent.CompletableFuture;
 import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
-{{#useBeanValidation}}
-@Validated
-{{/useBeanValidation}}
+{{#useBeanValidation}}{{^useSpringBuiltInValidation}}@Validated{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
 {{#useSpringController}}
 {{#useResponseEntity}}
 @Controller
