@@ -76,8 +76,8 @@ public struct OpenAPIDateWithoutTime: Sendable, Codable, Hashable, Equatable {
     }
 }
 
-extension OpenAPIDateWithoutTime: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+extension OpenAPIDateWithoutTime: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String {
         return OpenISO8601DateFormatter.withoutTime.string(from: self.normalizedWrappedDate())
     }
 }
