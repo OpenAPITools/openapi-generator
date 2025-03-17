@@ -83,16 +83,12 @@ import kotlin.collections.Map
         @{{httpMethod}}("{{path}}")
         @Description("""{{{unescapedNotes}}}""")
         @AdminApiAccess
-        @RequestContentType(MediaType.APPLICATION_JSON)
-        @ResponseContentType(MediaTypes.APPLICATION_JSON)
+        @RequestContentType({{#hasConsumes}}{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}{{/hasConsumes}})
+        @ResponseContentType({{#hasProduces}}{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}})
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         @RequestMapping(
-        value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]{{#singleContentTypes}}{{#hasProduces}},
-        produces = [{{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
-        consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
-        produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
-        consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
+        value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]
         )
         {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): {{>returnTypes}} {
         TODO()
