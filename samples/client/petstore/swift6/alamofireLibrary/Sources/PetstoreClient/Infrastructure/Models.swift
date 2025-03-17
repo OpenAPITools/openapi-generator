@@ -119,9 +119,9 @@ extension Response : Sendable where T : Sendable {}
 /// Type-erased ResponseSerializer
 ///
 /// This is needed in order to use `ResponseSerializer` as a Type in `Configuration`. Obsolete with `any` keyword in Swift >= 5.7
-public struct AnyResponseSerializer<T>: ResponseSerializer {
+public struct AnyResponseSerializer<T: Sendable>: ResponseSerializer {
     
-    let _serialize: (URLRequest?, HTTPURLResponse?, Data?, Error?) throws -> T
+    let _serialize: @Sendable (URLRequest?, HTTPURLResponse?, Data?, Error?) throws -> T
     
     public init<V: ResponseSerializer>(_ delegatee: V) where V.SerializedObject == T {
         _serialize = delegatee.serialize

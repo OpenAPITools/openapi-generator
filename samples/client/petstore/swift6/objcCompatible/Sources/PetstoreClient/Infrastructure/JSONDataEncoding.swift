@@ -10,7 +10,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-public struct JSONDataEncoding {
+public struct JSONDataEncoding: Sendable {
 
     // MARK: Properties
 
@@ -27,8 +27,8 @@ public struct JSONDataEncoding {
     /// - throws: An `Error` if the encoding process encounters an error.
     ///
     /// - returns: The encoded request.
-    public func encode(_ urlRequest: URLRequest, with parameters: [String: any Sendable]?) -> URLRequest {
-        var urlRequest = urlRequest
+    public func encode(request: URLRequest, with parameters: [String: any Sendable]?) -> URLRequest {
+        var urlRequest = request
 
         guard let jsonData = parameters?[JSONDataEncoding.jsonDataKey] as? Data, !jsonData.isEmpty else {
             return urlRequest
