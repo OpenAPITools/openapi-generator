@@ -315,34 +315,32 @@ class ObjectSerializer
     }
 
     /**
-     * Take value and turn it into a string suitable for inclusion in
+     * Take value and turn it into an array suitable for inclusion in
      * the http body (form parameter). If it's a string, pass through unchanged
      * If it's a datetime object, format it in ISO8601
      *
-     * @param string|\SplFileObject $value the value of the form parameter
+     * @param string|bool|array|DateTime|ArrayAccess|\SplFileObject $value the value of the form parameter
      *
-     * @return array
+     * @return array [key => value] of formdata
      */
     public static function toFormValue(string $key, mixed $value)
     {
-        $stringable = self::toString($value);
-
-        if ($stringable !== null) {
-            return [$key => $stringable];
-        } elseif ($value instanceof \SplFileObject) {
+        if ($value instanceof \SplFileObject) {
             return [$key => $value->getRealPath()];
+        } elseif (is_array($value) || $value instanceof ArrayAccess) {
+            $flattened = [];
+            $result = [];
+
+            self::flattenArray(json_decode(json_encode($value), true), $flattened);
+
+            foreach ($flattened as $k => $v) {
+                $result["{$key}{$k}"] = self::toString($v);
+            }
+
+            return $result;
+        } else {
+            return [$key => self::toString($value)];
         }
-
-        $flattened = [];
-        $result = [];
-
-        self::flattenArray(json_decode(json_encode($value), true), $flattened);
-
-        foreach ($flattened as $k => $v) {
-            $result["{$key}{$k}"] = self::toString($v);
-        }
-
-        return $result;
     }
 
     /**
@@ -353,14 +351,12 @@ class ObjectSerializer
      *
      * @param float|int|bool|\DateTime $value the value of the parameter
      *
-     * @return string|null the header string
+     * @return string the header string
      */
     public static function toString($value)
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
             return $value->format(self::$dateTimeFormat);
-        } elseif (!is_scalar($value) && $value !== null) {
-            return null;
         } elseif (is_bool($value)) {
             return $value ? 'true' : 'false';
         } else {
