@@ -61,6 +61,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
                 )
         );
 
+        embeddedTemplateDir = templateDir = "kotlin-misk";
+
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
@@ -76,7 +78,6 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
         modelTemplateFiles.put("model.mustache", ".proto");
 
-        embeddedTemplateDir = templateDir = "kotlin-misk-server";
         apiPackage = rootPackage + ".api";
         modelPackage = rootPackage + ".model";
         artifactId = "openapi-kotlin-misk-server";
@@ -86,7 +87,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        //supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
     }
