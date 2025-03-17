@@ -7,8 +7,8 @@
 import Foundation
 
 public struct APIHelper {
-    public static func rejectNil(_ source: [String: Any?]) -> [String: Any]? {
-        let destination = source.reduce(into: [String: Any]()) { result, item in
+    public static func rejectNil(_ source: [String: (any Sendable)?]) -> [String: any Sendable]? {
+        let destination = source.reduce(into: [String: any Sendable]()) { result, item in
             if let value = item.value {
                 result[item.key] = value
             }
@@ -20,7 +20,7 @@ public struct APIHelper {
         return destination
     }
 
-    public static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
+    public static func rejectNilHeaders(_ source: [String: (any Sendable)?]) -> [String: String] {
         return source.reduce(into: [String: String]()) { result, item in
             if let collection = item.value as? [Any?] {
                 result[item.key] = collection
@@ -32,12 +32,12 @@ public struct APIHelper {
         }
     }
 
-    public static func convertBoolToString(_ source: [String: Any]?) -> [String: Any]? {
+    public static func convertBoolToString(_ source: [String: any Sendable]?) -> [String: any Sendable]? {
         guard let source = source else {
             return nil
         }
 
-        return source.reduce(into: [String: Any]()) { result, item in
+        return source.reduce(into: [String: any Sendable]()) { result, item in
             switch item.value {
             case let x as Bool:
                 result[item.key] = x.description
@@ -99,7 +99,7 @@ public struct APIHelper {
     /// maps all values from source to query parameters
     ///
     /// collection values are always exploded
-    public static func mapValuesToQueryItems(_ source: [String: Any?]) -> [URLQueryItem]? {
+    public static func mapValuesToQueryItems(_ source: [String: (any Sendable)?]) -> [URLQueryItem]? {
         let destination = source.filter { $0.value != nil }.reduce(into: [URLQueryItem]()) { result, item in
             if let collection = item.value as? [Any?] {
                 collection

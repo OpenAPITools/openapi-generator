@@ -12,7 +12,7 @@ public typealias EnumArrays = PetstoreClientAPI.EnumArrays
 
 extension PetstoreClientAPI {
 
-public final class EnumArrays: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class EnumArrays: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
 
     public enum JustSymbol: String, Sendable, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
