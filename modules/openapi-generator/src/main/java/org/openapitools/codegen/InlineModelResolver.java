@@ -30,6 +30,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -417,7 +418,18 @@ public class InlineModelResolver {
                     if (schema.getAllOf().size() == 1) {
                         // handle earlier in this function when looping through properties
                     } else if (schema.getAllOf().size() > 1) {
-                        LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
+                        // Check if there is only one "non metadata" schema.
+                        // For example, there may be an `description` only schema that is used to override the descrption.
+                        // In these cases, we can simply discard those schemas.
+                        List<Schema> nonMetadataOnlySchemas = (List<Schema>) schema.getAllOf().stream()
+                                .filter(v -> isMetadataOnlySchema((Schema) v))
+                                .collect(Collectors.toList());
+
+                        if (nonMetadataOnlySchemas.size() == 1) {
+                            schema.setAllOf(nonMetadataOnlySchemas);
+                        } else {
+                            LOGGER.warn("allOf schema `{}` containing multiple types (not model) is not supported at the moment.", schema.getName());
+                        }
                     } else {
                         LOGGER.error("allOf schema `{}` contains no items.", schema.getName());
                     }
@@ -471,6 +483,31 @@ public class InlineModelResolver {
                 }
             }
         }
+    }
+
+    /**
+     * Returns true if a schema is only metadata and not an actual type.
+     * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
+     * 
+     * @param schema the schema
+     * @return       if the schema is only metadata and not an actual type
+     */
+    boolean isMetadataOnlySchema(Schema schema) {
+        return schema.get$ref() != null ||
+                schema.getProperties() != null ||
+                schema.getType() != null ||
+                schema.getAdditionalProperties() != null ||
+                schema.getAllOf() != null ||
+                schema.getAnyOf() != null ||
+                schema.getOneOf() != null ||
+                schema.getPrefixItems() != null ||
+                schema.getItems() != null ||
+                schema.getTypes() != null ||
+                schema.getPatternProperties() != null ||
+                schema.getContains() != null ||
+                schema.get$dynamicAnchor() != null ||
+                schema.get$anchor() != null ||
+                schema.getContentSchema() != null;
     }
 
     /**
