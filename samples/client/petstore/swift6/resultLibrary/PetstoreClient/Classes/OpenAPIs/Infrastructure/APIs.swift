@@ -47,7 +47,7 @@ internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
     internal static let shared = PetstoreClientAPIConfiguration()
 }
 
-internal class RequestBuilder<T>: @unchecked Sendable {
+internal class RequestBuilder<T>: @unchecked Sendable, Identifiable {
     internal var credential: URLCredential?
     internal var headers: [String: String]
     internal let parameters: [String: any Sendable]?

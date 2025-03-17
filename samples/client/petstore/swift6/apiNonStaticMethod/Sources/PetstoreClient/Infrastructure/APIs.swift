@@ -61,7 +61,7 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public static let shared = PetstoreClientAPIConfiguration()
 }
 
-open class RequestBuilder<T>: @unchecked Sendable {
+open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
     public var credential: URLCredential?
     public var headers: [String: String]
     public let parameters: [String: any Sendable]?
