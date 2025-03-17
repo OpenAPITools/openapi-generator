@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client;
 
+use ArrayAccess;
 use GuzzleHttp\Psr7\Utils;
 use OpenAPI\Client\Model\ModelInterface;
 
