@@ -35,14 +35,20 @@ enum PathStyleFormat:
 inline def allLabels[T <: Tuple]: List[String] =
   constValueTuple[T].toList.asInstanceOf[List[String]]
 
-inline def checkFields[T <: Tuple]: Unit =
+private inline def checkFields[T <: Tuple]: Unit =
   inline erasedValue[T] match {
     case _: EmptyTuple => ()
     case _: (t *: ts) =>
       inline erasedValue[t] match
         case _: Primitive => checkFields[ts]
+        case _: Option[Primitive] => checkFields[ts]
         case _ => error("Cannot derive structure, structure must consist only of primitive fields")
   }
+
+private val flattenKeyVals: Primitive | Option[Primitive] => Option[Primitive] = {
+  case p: Primitive => Some(p)
+  case opt: Option[Primitive] => opt
+}
 
 trait FormSerializable[T]:
   inline def serialize(
@@ -82,7 +88,9 @@ object FormSerializable:
                 checkFields[mirror.MirroredElemTypes]
                 val labels = allLabels[mirror.MirroredElemLabels]
                 optObj.map { obj =>
-                    val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]])
+                    val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                      .filter((_, v) => v.isDefined)
+                      .map((k, v) => (k, v.get))
                     serializeModel(name, keyVals, format, explode)
                   }.getOrElse(Seq.empty[(String, String)])
               case mirror: Mirror.SumOf[t] => optObj.map(v => (name, writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]))).toSeq
@@ -93,7 +101,9 @@ object FormSerializable:
               case mirror: Mirror.ProductOf[T] =>
                 checkFields[mirror.MirroredElemTypes] // Stripe ma IDGAF bo używają deepObject np. tak lines[0][tax_amounts][0][amount] - mimo tego że spec na to nie pozwala
                 val labels = allLabels[mirror.MirroredElemLabels]
-                val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
+                val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                  .filter((_, v) => v.isDefined)
+                  .map((k, v) => (k, v.get))
                 serializeModel(name, keyVals, format, explode)
     }
 
@@ -180,7 +190,9 @@ object HeaderSerializable:
               checkFields[mirror.MirroredElemTypes]
               val labels = allLabels[mirror.MirroredElemLabels]
               optObj.map { obj =>
-                  val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]].map(_.toString))
+                  val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                    .filter((_, v) => v.isDefined)
+                    .map((k, v) => (k, v.get.toString))
                   inline if explode then
                     Map(name ->keyVals.map((k, v) => s"$k=$v").mkString(","))
                   else
@@ -192,7 +204,9 @@ object HeaderSerializable:
             case mirror: Mirror.ProductOf[T] =>
               checkFields[mirror.MirroredElemTypes]
               val labels = allLabels[mirror.MirroredElemLabels]
-              val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]].map(_.toString))
+              val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                .filter((_, v) => v.isDefined)
+                .map((k, v) => (k, v.get.toString))
               inline if explode then
                 Map(name ->keyVals.map((k, v) => s"$k=$v").mkString(","))
               else
@@ -228,7 +242,9 @@ object PathSerializable:
                 checkFields[mirror.MirroredElemTypes]
                 val labels = allLabels[mirror.MirroredElemLabels]
                 optObj.map { obj =>
-                    val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]])
+                  val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                    .filter((_, v) => v.isDefined)
+                    .map((k, v) => (k, v.get))
                     serializeModel(name, keyVals, style, explode)
                   }.getOrElse("")
               case mirror: Mirror.SumOf[t] => optObj.map(writeToString(_)(summonInline[JsonValueCodec[mirror.MirroredMonoType]])).getOrElse("")
@@ -239,7 +255,9 @@ object PathSerializable:
               case mirror: Mirror.ProductOf[T] =>
                 checkFields[mirror.MirroredElemTypes]
                 val labels = allLabels[mirror.MirroredElemLabels]
-                val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
+                val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                  .filter((_, v) => v.isDefined)
+                  .map((k, v) => (k, v.get))
                 serializeModel(name, keyVals, style, explode)
     }
 
@@ -315,7 +333,9 @@ object CookieSerializable:
                 checkFields[mirror.MirroredElemTypes]
                 val labels = allLabels[mirror.MirroredElemLabels]
                 optObj.map { obj =>
-                    val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]])
+                  val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                    .filter((_, v) => v.isDefined)
+                    .map((k, v) => (k, v.get))
                     serializeModel(name, keyVals, explode)
                 }.getOrElse(Seq.empty[(String, String)])
               case mirror: Mirror.SumOf[t] => optObj.map(v => (name, writeToString(v)(summonInline[JsonValueCodec[mirror.MirroredMonoType]]))).toSeq
@@ -326,7 +346,9 @@ object CookieSerializable:
               case mirror: Mirror.ProductOf[T] =>
                 checkFields[mirror.MirroredElemTypes]
                 val labels = allLabels[mirror.MirroredElemLabels]
-                val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive]]).toSeq
+                val keyVals = labels.zip(obj.asInstanceOf[Product].productIterator.toSeq.asInstanceOf[Seq[Primitive | Option[Primitive]]].map(flattenKeyVals))
+                  .filter((_, v) => v.isDefined)
+                  .map((k, v) => (k, v.get))
                 serializeModel(name, keyVals, explode)
     }
 
