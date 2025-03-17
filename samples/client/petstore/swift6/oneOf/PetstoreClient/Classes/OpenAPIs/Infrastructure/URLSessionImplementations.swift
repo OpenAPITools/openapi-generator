@@ -71,7 +71,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
 open class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+    required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
 
@@ -431,11 +431,11 @@ public enum HTTPMethod: String {
 }
 
 public protocol ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest
+    func encode(_ urlRequest: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest
 }
 
 private class URLEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
         var urlRequest = urlRequest
 
@@ -462,7 +462,7 @@ private class FormDataEncoding: ParameterEncoding {
         self.contentTypeForFormPart = contentTypeForFormPart
     }
 
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
         var urlRequest = urlRequest
 
@@ -631,7 +631,7 @@ private class FormDataEncoding: ParameterEncoding {
 }
 
 private class FormURLEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
         var urlRequest = urlRequest
 
@@ -661,7 +661,7 @@ private class FormURLEncoding: ParameterEncoding {
 }
 
 private class OctetStreamEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(_ urlRequest: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
         var urlRequest = urlRequest
 

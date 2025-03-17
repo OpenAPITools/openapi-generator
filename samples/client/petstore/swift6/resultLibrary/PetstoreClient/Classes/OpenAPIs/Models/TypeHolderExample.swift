@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct TypeHolderExample: Sendable, Codable, JSONEncodable {
+internal struct TypeHolderExample: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var stringItem: String
     internal private(set) var numberItem: Double

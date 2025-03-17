@@ -9,73 +9,49 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension Bool: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
+extension Bool: QueryStringEncodable {}
+extension Float: QueryStringEncodable {}
+extension Int: QueryStringEncodable {}
+extension Int32: QueryStringEncodable {}
+extension Int64: QueryStringEncodable {}
+extension Double: QueryStringEncodable {}
+extension Decimal: QueryStringEncodable {}
+extension String: QueryStringEncodable {}
+extension URL: QueryStringEncodable {}
+extension UUID: QueryStringEncodable {}
+
+extension QueryStringEncodable {
+    @_disfavoredOverload
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
-extension Float: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
+extension RawRepresentable where RawValue: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: rawValue) }
 }
 
-extension Int: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension Int32: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension Int64: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension Double: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension Decimal: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension String: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension URL: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension UUID: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { self }
-}
-
-extension RawRepresentable where RawValue: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any { return self.rawValue }
-}
-
-private func encodeIfPossible<T>(_ object: T, codableHelper: CodableHelper) -> Any {
-    if let encodableObject = object as? JSONEncodable {
-        return encodableObject.encodeToJSON(codableHelper: codableHelper)
+private func encodeIfPossible<T>(_ object: T, codableHelper: CodableHelper) -> String {
+    if let encodableObject = object as? QueryStringEncodable {
+        return encodableObject.encodeToQueryString(codableHelper: codableHelper)
     } else {
-        return object
+        return String(describing: object)
     }
 }
 
-extension Array: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+extension Array {
+    func encodeToQueryString(codableHelper: CodableHelper) -> [String] {
         return self.map { encodeIfPossible($0, codableHelper: codableHelper) }
     }
 }
 
-extension Set: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
-        return Array(self).encodeToJSON(codableHelper: codableHelper)
+extension Set {
+    func encodeToQueryString(codableHelper: CodableHelper) -> [String] {
+        return Array(self).encodeToQueryString(codableHelper: codableHelper)
     }
 }
 
-extension Dictionary: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
-        var dictionary = [AnyHashable: Any]()
+extension Dictionary {
+    func encodeToQueryString(codableHelper: CodableHelper) -> [Key: String] {
+        var dictionary = [Key: String]()
         for (key, value) in self {
             dictionary[key] = encodeIfPossible(value, codableHelper: codableHelper)
         }
@@ -83,24 +59,24 @@ extension Dictionary: JSONEncodable {
     }
 }
 
-extension Data: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+extension Data: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String {
         return self.base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
-extension Date: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+extension Date: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String {
         return codableHelper.dateFormatter.string(from: self)
     }
 }
 
-extension JSONEncodable where Self: Encodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+extension QueryStringEncodable where Self: Encodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String {
         guard let data = try? codableHelper.jsonEncoder.encode(self) else {
             fatalError("Could not encode to json: \(self)")
         }
-        return data.encodeToJSON(codableHelper: codableHelper)
+        return data.encodeToQueryString(codableHelper: codableHelper)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable, JSONEncodable {
+@objcMembers public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable, QueryStringEncodable {
 
     public var uuid: UUID?
     public var dateTime: Date?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Category: Sendable, Codable, JSONEncodable, Hashable {
+internal struct Category: Sendable, Codable, QueryStringEncodable, Hashable {
 
     internal private(set) var id: Int64?
     internal private(set) var name: String? = "default-name"

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TypeHolderDefault: Sendable, Codable, JSONEncodable, Hashable {
+public struct TypeHolderDefault: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var stringItem: String = "what"
     public var numberItem: Double

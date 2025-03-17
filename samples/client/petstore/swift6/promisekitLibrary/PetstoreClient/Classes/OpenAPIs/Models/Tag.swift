@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Tag: Sendable, Codable, JSONEncodable, Hashable {
+public struct Tag: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var id: Int64?
     public var name: String?
