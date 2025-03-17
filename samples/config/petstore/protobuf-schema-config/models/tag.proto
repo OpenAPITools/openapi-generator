@@ -12,11 +12,12 @@ syntax = "proto3";
 
 package petstore;
 
+import public "models/tag_name.proto";
 
 message Tag {
 
   int64 id = 1;
 
-  string name = 2;
+  TagName name = 2;
 
 }

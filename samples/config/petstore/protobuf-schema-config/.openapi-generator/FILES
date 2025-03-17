@@ -8,7 +8,11 @@ models/other_test.proto
 models/pet.proto
 models/pets_get_request.proto
 models/pets_post_request.proto
+models/string_array.proto
+models/string_map.proto
 models/tag.proto
+models/tag_map.proto
+models/tag_name.proto
 models/user.proto
 services/default_service.proto
 services/pet_service.proto

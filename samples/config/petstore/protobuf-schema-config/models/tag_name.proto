@@ -13,13 +13,13 @@ syntax = "proto3";
 package petstore;
 
 import public "models/string_array.proto";
+import public "models/string_map.proto";
 
-message Category {
+message TagName {
 
-  int64 id = 1;
-
-  string name = 2;
-
-  map<string, StringArray> document = 3;
-
+    oneof tag_name {
+        string string = 1;
+        StringArray string_array = 2;
+        StringMap map = 3;
+    }
 }
