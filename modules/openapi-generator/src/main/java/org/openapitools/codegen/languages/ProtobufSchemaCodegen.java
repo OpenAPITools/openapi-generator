@@ -269,7 +269,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     /**
      * Creates a new model schema for a property.
      */
-
     public Schema addSchemas(Schema schema, String schemaName, Set<Schema> visitedSchema) {
         LOGGER.info("Generating new model: {}", schemaName);
 
@@ -346,7 +345,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return schema;
     }
 
-    public void processNestedSchemas(Schema schema, Set<Schema> visitedSchemas, String modelName) {
+    /**
+     * Processes nested schemas for maps and arrays.
+     */
+    public void processNestedSchemas(Schema schema, Set<Schema> visitedSchemas) {
         if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
@@ -383,31 +385,34 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    /**
+     * Wraps models to handle nested schemas for maps and arrays.
+     */
     private void wrapModels() {
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
         Set<Schema> visitedSchema = new HashSet<>();
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName: modelNames) {
             Schema schema = models.get(modelName);
-            processNestedSchemas(schema, visitedSchema, modelName);
+            processNestedSchemas(schema, visitedSchema);
             if (ModelUtils.isModel(schema) && schema.getProperties() != null) {
                 Map<String, Schema> properties = schema.getProperties();
                 for (Map.Entry<String, Schema> propertyEntry : properties.entrySet()) {
                     Schema propertySchema = propertyEntry.getValue();
-                    processNestedSchemas(propertySchema, visitedSchema, modelName);
+                    processNestedSchemas(propertySchema, visitedSchema);
                 }
             }  else if (ModelUtils.isAllOf(schema)) {
-                wrapComposedChildren(schema.getAllOf(), visitedSchema, modelName);
+                wrapComposedChildren(schema.getAllOf(), visitedSchema);
             } else if (ModelUtils.isOneOf(schema)) {
-                wrapComposedChildren(schema.getOneOf(), visitedSchema, modelName);
+                wrapComposedChildren(schema.getOneOf(), visitedSchema);
             } else if (ModelUtils.isAnyOf(schema)) {
-                wrapComposedChildren(schema.getAnyOf(), visitedSchema, modelName);
+                wrapComposedChildren(schema.getAnyOf(), visitedSchema);
             }
 
         }
     }
 
-    private void wrapComposedChildren(List<Schema> children, Set<Schema> visitedSchema, String modelName) {
+    private void wrapComposedChildren(List<Schema> children, Set<Schema> visitedSchema) {
         if (children == null || children.isEmpty()) {
             return;
         }
@@ -417,7 +422,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if(properties == null || properties.isEmpty()) continue;
             for(Map.Entry<String, Schema> propertyEntry : properties.entrySet()) {
                 Schema propertySchema = propertyEntry.getValue();
-                processNestedSchemas(propertySchema, visitedSchema, modelName);
+                processNestedSchemas(propertySchema, visitedSchema);
             }
         }
     }
