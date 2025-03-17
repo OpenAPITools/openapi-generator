@@ -1,0 +1,12 @@
+generatorName: dart-dio
+outputDir: samples/openapi3/client/petstore/dart-dio/issues_20910_client_lib
+inputSpec: modules/openapi-generator/src/test/resources/bugs/issues_20910.yaml
+templateDir: modules/openapi-generator/src/main/resources/dart/libraries/dio
+typeMappings:
+  Client: "ModelClient"
+  File: "ModelFile"
+  EnumClass: "ModelEnumClass"
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  enumUnknownDefaultCase: "true"
+  dateLibrary: "core"

@@ -12,13 +12,13 @@ part 'outer_enum_integer_default_value.g.dart';
 class OuterEnumIntegerDefaultValue extends EnumClass {
 
   @BuiltValueEnumConst(wireNumber: 0)
-  static const OuterEnumIntegerDefaultValue number0 = _$number0;
+  static const OuterEnumIntegerDefaultValue number0Attr = _$number0;
   @BuiltValueEnumConst(wireNumber: 1)
-  static const OuterEnumIntegerDefaultValue number1 = _$number1;
+  static const OuterEnumIntegerDefaultValue number1Attr = _$number1;
   @BuiltValueEnumConst(wireNumber: 2)
-  static const OuterEnumIntegerDefaultValue number2 = _$number2;
+  static const OuterEnumIntegerDefaultValue number2Attr = _$number2;
   @BuiltValueEnumConst(wireNumber: 11184809, fallback: true)
-  static const OuterEnumIntegerDefaultValue unknownDefaultOpenApi = _$unknownDefaultOpenApi;
+  static const OuterEnumIntegerDefaultValue unknownDefaultOpenApiAttr = _$unknownDefaultOpenApi;
 
   static Serializer<OuterEnumIntegerDefaultValue> get serializer => _$outerEnumIntegerDefaultValueSerializer;
 

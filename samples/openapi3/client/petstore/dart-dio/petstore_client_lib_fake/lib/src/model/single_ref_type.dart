@@ -12,11 +12,11 @@ part 'single_ref_type.g.dart';
 class SingleRefType extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'admin')
-  static const SingleRefType admin = _$admin;
+  static const SingleRefType adminAttr = _$admin;
   @BuiltValueEnumConst(wireName: r'user')
-  static const SingleRefType user = _$user;
+  static const SingleRefType userAttr = _$user;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const SingleRefType unknownDefaultOpenApi = _$unknownDefaultOpenApi;
+  static const SingleRefType unknownDefaultOpenApiAttr = _$unknownDefaultOpenApi;
 
   static Serializer<SingleRefType> get serializer => _$singleRefTypeSerializer;
 
