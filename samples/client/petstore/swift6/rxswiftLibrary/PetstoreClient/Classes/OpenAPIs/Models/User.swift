@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct User: Sendable, Codable, JSONEncodable, Hashable {
+public struct User: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var id: Int64?
     public var username: String?

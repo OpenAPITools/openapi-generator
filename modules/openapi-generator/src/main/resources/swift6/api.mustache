@@ -295,7 +295,7 @@ extension {{projectName}}API {
         {{/bodyParam}}
         {{^bodyParam}}
             {{#hasFormParams}}
-        let localVariableFormParams: [String: Any?] = [
+        let localVariableFormParams: [String: (any Sendable)?] = [
                 {{#formParams}}
             {{> _param}},
                 {{/formParams}}
@@ -305,7 +305,7 @@ extension {{projectName}}API {
         let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
             {{/hasFormParams}}
             {{^hasFormParams}}
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableParameters: [String: any Sendable]? = nil
             {{/hasFormParams}}
 {{/bodyParam}}{{#hasQueryParams}}
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
@@ -316,7 +316,7 @@ extension {{projectName}}API {
         ]){{/hasQueryParams}}{{^hasQueryParams}}
         let localVariableUrlComponents = URLComponents(string: localVariableURLString){{/hasQueryParams}}
 
-        let localVariableNillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}{{^hasConsumes}}
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [{{^headerParams}}{{^hasFormParams}}{{^hasConsumes}}
             :{{/hasConsumes}}{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
             "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{^hasFormParams}}{{#hasConsumes}}
             "Content-Type": {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasConsumes}}{{/hasFormParams}}{{#headerParams}}

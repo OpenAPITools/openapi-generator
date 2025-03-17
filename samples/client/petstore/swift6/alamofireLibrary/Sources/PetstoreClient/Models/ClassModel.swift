@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public struct ClassModel: Sendable, Codable, JSONEncodable, Hashable {
+public struct ClassModel: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var _class: String?
 

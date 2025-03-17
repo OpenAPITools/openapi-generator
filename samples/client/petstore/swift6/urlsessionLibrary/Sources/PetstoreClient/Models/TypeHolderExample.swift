@@ -12,7 +12,7 @@ public typealias TypeHolderExample = PetstoreClientAPI.TypeHolderExample
 
 extension PetstoreClientAPI {
 
-public final class TypeHolderExample: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class TypeHolderExample: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
 
     public private(set) var stringItem: String
     public private(set) var numberItem: Double

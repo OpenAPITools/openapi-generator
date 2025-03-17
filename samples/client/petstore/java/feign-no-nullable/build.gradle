@@ -105,7 +105,7 @@ ext {
     jackson_version = "2.17.1"
     jackson_databind_version = "2.17.1"
     jakarta_annotation_version = "1.3.5"
-    feign_version = "10.12"
+    feign_version = "13.5"
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"

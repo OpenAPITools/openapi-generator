@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class EnumArrays: NSObject, Codable, JSONEncodable {
+@objcMembers public class EnumArrays: NSObject, Codable, QueryStringEncodable {
 
     public enum JustSymbol: String, Sendable, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="

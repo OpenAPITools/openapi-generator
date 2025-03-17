@@ -12,7 +12,7 @@ public typealias OuterComposite = PetstoreClientAPI.OuterComposite
 
 extension PetstoreClientAPI {
 
-public final class OuterComposite: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class OuterComposite: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
 
     public private(set) var myNumber: Double?
     public private(set) var myString: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class HasOnlyReadOnly: NSObject, Codable, JSONEncodable {
+@objcMembers public class HasOnlyReadOnly: NSObject, Codable, QueryStringEncodable {
 
     public var bar: String?
     public var foo: String?

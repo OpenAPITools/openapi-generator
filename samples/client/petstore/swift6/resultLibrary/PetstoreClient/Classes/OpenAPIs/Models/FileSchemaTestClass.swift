@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FileSchemaTestClass: Sendable, Codable, JSONEncodable {
+internal struct FileSchemaTestClass: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var file: File?
     internal private(set) var files: [File]?

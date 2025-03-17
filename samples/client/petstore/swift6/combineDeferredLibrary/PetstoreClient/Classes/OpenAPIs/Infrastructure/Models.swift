@@ -9,8 +9,8 @@ import Foundation
 import FoundationNetworking
 #endif
 
-protocol JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any
+protocol QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String
 }
 
 /// An enum where the last case value can be used as a default catch-all.

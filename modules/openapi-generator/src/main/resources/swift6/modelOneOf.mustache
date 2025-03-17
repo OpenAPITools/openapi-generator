@@ -1,4 +1,4 @@
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{^useClasses}}Sendable, {{/useClasses}}{{#useClasses}}{{#readonlyProperties}}Sendable, {{/readonlyProperties}}{{/useClasses}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable, JSONEncodable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum {{classname}}: {{^useClasses}}Sendable, {{/useClasses}}{{#useClasses}}{{#readonlyProperties}}Sendable, {{/readonlyProperties}}{{/useClasses}}{{#useVapor}}Content{{/useVapor}}{{^useVapor}}Codable, QueryStringEncodable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}}{{/useVapor}} {
     {{#oneOf}}
     case type{{#transformArrayType}}{{.}}{{/transformArrayType}}({{.}})
     {{/oneOf}}
