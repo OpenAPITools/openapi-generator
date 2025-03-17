@@ -1,0 +1,38 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
+    id 'com.squareup.wire' version '4.9.1'
+}
+
+group '{{groupId}}'
+version '{{artifactVersion}}'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.squareup.misk:misk:{{miskVersion}}'
+    implementation 'com.squareup.wire:wire-runtime:4.9.1'
+    implementation 'com.squareup.wire:wire-moshi-adapter:4.9.1'
+    
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'com.squareup.misk:misk-testing:{{miskVersion}}'
+}
+
+wire {
+    kotlin {
+        rpcCallStyle = 'suspending'
+        singleMethodServices = true
+        protoPath {
+            srcDir 'proto'
+        }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+apply from: 'proto.gradle'

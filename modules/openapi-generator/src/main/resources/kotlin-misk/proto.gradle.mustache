@@ -1,0 +1,17 @@
+// Wire-specific configuration
+wire {
+    kotlin {
+        javaInterop = true
+        nameSuffix = 'Proto'
+    }
+}
+
+// Clean task for generated code
+tasks.register('cleanGeneratedCode', Delete) {
+    delete fileTree("${projectDir}/proto") {
+        include '**/*.proto'
+    }
+    delete fileTree("${projectDir}/src/main/kotlin") {
+        include '**/wire/**/*.kt'
+    }
+}
