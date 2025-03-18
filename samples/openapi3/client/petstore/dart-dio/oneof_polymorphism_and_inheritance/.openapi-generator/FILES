@@ -59,6 +59,3 @@ lib/src/model/pizza.dart
 lib/src/model/pizza_speziale.dart
 lib/src/serializers.dart
 pubspec.yaml
-test/animal_test.dart
-test/cat_test.dart
-test/dog_test.dart
