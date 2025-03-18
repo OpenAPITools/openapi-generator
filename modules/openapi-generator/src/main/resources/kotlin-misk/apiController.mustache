@@ -39,8 +39,12 @@ import kotlin.collections.Map
 
 import javax.inject.Inject
 import javax.inject.Singleton
+
+// TODO("Only import what we need")
 import misk.web.Delete
 import misk.web.Description
+import misk.web.FormField
+import misk.web.FormValue
 import misk.web.Get
 import misk.web.PathParam
 import misk.web.Post
@@ -49,6 +53,7 @@ import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestContentType
 import misk.web.ResponseContentType
+import misk.web.actions.WebAction
 import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 
@@ -62,7 +67,7 @@ import misk.web.mediatype.MediaTypes
     @Singleton
     class {{classname}}Controller @Inject constructor(
         private val {{classname}} : {{classname}}
-    ) : {{classname}} {
+    ) : {{classname}}, WebAction {
     {{#operation}}
 
         {{#swagger2AnnotationLibrary}}
