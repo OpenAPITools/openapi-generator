@@ -83,8 +83,6 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
         apiTemplateFiles.put("apiInterface.mustache", ".kt");
 
-        //modelTemplateFiles.put("model.mustache", ".proto");
-
         apiPackage = rootPackage + ".api";
         modelPackage = rootPackage + ".model";
         artifactId = "openapi-kotlin-misk-server";
