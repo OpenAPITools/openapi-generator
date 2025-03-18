@@ -249,8 +249,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Creates an array schema from the provided object schema.
+     *
+     *  @param objectSchema the schema of the object to be wrapped in an array schema
+     *  @return the created array schema
      */
-    public Schema createArraySchema(Schema objectSchema) {
+    private Schema createArraySchema(Schema objectSchema) {
         ArraySchema arraySchema = new ArraySchema();
         arraySchema.items(objectSchema);
         return arraySchema;
@@ -259,17 +262,25 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Creates a map schema from the provided object schema.
+     *
+     *  @param objectSchema the schema of the object to be wrapped in a map schema
+     *  @return the created map schema
      */
-    public Schema createMapSchema(Schema objectSchema) {
+    private Schema createMapSchema(Schema objectSchema) {
         MapSchema mapSchema = new MapSchema();
         mapSchema.additionalProperties(objectSchema);
         return mapSchema;
     }
 
     /**
-     * Creates a new model schema for a property.
+     * Adds a new schema to the OpenAPI components.
+     *
+     * @param schema the schema to be added
+     * @param schemaName the name of the schema
+     * @param visitedSchema a set of schemas that have already been visited
+     * @return the reference schema
      */
-    public Schema addSchemas(Schema schema, String schemaName, Set<Schema> visitedSchema) {
+    private Schema addSchemas(Schema schema, String schemaName, Set<Schema> visitedSchema) {
         LOGGER.info("Generating new model: {}", schemaName);
 
         ObjectSchema model = new ObjectSchema();
@@ -290,7 +301,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return refSchema;
     }
 
-    public String getType(Schema schema) {
+    /**
+     * Derive name from schema primitive type
+     *
+     *  @param schema the schema to derive the name from
+     *  @return the derived name
+     */
+    private String getNameFromSchemaPrimitiveType(Schema schema) {
         if (!ModelUtils.isPrimitiveType(schema)) return "";
         if(ModelUtils.isNumberSchema(schema)) {
             if(schema.getFormat() != null) {
@@ -303,9 +320,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     /**
-     * Recursively generates schemas for nested maps and arrays
+     * Recursively generates schemas for nested maps and arrays.
+     * @param schema the schema to be processed
+     * @param visitedSchemas a set of schemas that have already been visited
+     * @return the processed schema
      */
-    public Schema generateNestedSchema(Schema schema, Set<Schema> visitedSchemas) {
+    private Schema generateNestedSchema(Schema schema, Set<Schema> visitedSchemas) {
         if (visitedSchemas.contains(schema)) {
             LOGGER.warn("Skipping recursive schema");
             return schema;
@@ -318,7 +338,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getSchemaItems(schema).get$ref()) + ARRAY_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             }else if (ModelUtils.isPrimitiveType(itemsSchema)){
-                String newSchemaName = getType(itemsSchema) + ARRAY_SUFFIX;
+                String newSchemaName = getNameFromSchemaPrimitiveType(itemsSchema) + ARRAY_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             } else {
                 Schema childSchema = generateNestedSchema(itemsSchema, visitedSchemas);
@@ -333,7 +353,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getAdditionalProperties(schema).get$ref()) + MAP_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             }else if (ModelUtils.isPrimitiveType(mapValueSchema)){
-                String newSchemaName = getType(mapValueSchema) + MAP_SUFFIX;
+                String newSchemaName = getNameFromSchemaPrimitiveType(mapValueSchema) + MAP_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             } else {
                 Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
@@ -346,9 +366,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     /**
-     * Processes nested schemas for maps and arrays.
+     * Processes nested schemas for complex type(map, array, oneOf)
+     *
+     *  @param schema the schema to be processed
+     *  @param visitedSchemas a set of schemas that have already been visited
      */
-    public void processNestedSchemas(Schema schema, Set<Schema> visitedSchemas) {
+    private void processNestedSchemas(Schema schema, Set<Schema> visitedSchemas) {
         if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
@@ -386,7 +409,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     }
 
     /**
-     * Wraps models to handle nested schemas for maps and arrays.
+     * Traverses models and properties to wrap nested schemas.
      */
     private void wrapModels() {
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
@@ -412,6 +435,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
+    /**
+     * Traverses a composed schema and its properties to wrap nested schemas.
+     *
+     * @param children the list of child schemas to be processed
+     * @param visitedSchema a set of schemas that have already been visited
+     */
     private void wrapComposedChildren(List<Schema> children, Set<Schema> visitedSchema) {
         if (children == null || children.isEmpty()) {
             return;

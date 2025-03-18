@@ -12,10 +12,12 @@ syntax = "proto3";
 
 package petstore;
 
-import public "models/tag.proto";
+import public "models/category.proto";
 
-message TagMap {
+message Pet {
 
-  map<string, Tag> tag_map = 1;
+  int64 id = 1;
+
+  Category category = 2;
 
 }
