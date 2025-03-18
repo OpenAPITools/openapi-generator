@@ -19,15 +19,6 @@ package {{package}}
     import io.swagger.annotations.AuthorizationScope
 {{/swagger1AnnotationLibrary}}
 
-import misk.web.Get
-import misk.web.PathParam
-import misk.web.QueryParam
-import misk.web.RequestContentType
-import misk.web.ResponseContentType
-import misk.web.actions.WebAction
-import misk.web.interceptors.LogRequestResponse
-import misk.web.mediatype.MediaTypes
-
 {{#useBeanValidation}}
     import {{javaxPackage}}.validation.Valid
     import {{javaxPackage}}.validation.constraints.DecimalMax
@@ -48,19 +39,25 @@ import kotlin.collections.Map
 
 import javax.inject.Inject
 import javax.inject.Singleton
+import misk.web.Delete
+import misk.web.Description
+import misk.web.Get
+import misk.web.PathParam
+import misk.web.Post
+import misk.web.Put
+import misk.web.QueryParam
+import misk.web.RequestBody
+import misk.web.RequestContentType
+import misk.web.ResponseContentType
+import misk.web.interceptors.LogRequestResponse
+import misk.web.mediatype.MediaTypes
 
-@RestController{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{#useBeanValidation}}
     @Validated
 {{/useBeanValidation}}
 {{#swagger1AnnotationLibrary}}
     @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
-{{#useRequestMappingOnController}}
-    {{=<% %>=}}
-    @RequestMapping("\${api.base-path:<%contextPath%>}")
-    <%={{ }}=%>
-{{/useRequestMappingOnController}}
 {{#operations}}
     @Singleton
     class {{classname}}Controller @Inject constructor(
