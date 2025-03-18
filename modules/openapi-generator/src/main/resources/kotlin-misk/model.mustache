@@ -1,53 +1,31 @@
-{{>partial_header}}
-syntax = "proto3";
+package {{package}}
 
-package {{#lambda.lowercase}}{{{packageName}}};{{/lambda.lowercase}}
-
-{{#imports}}
-{{#import}}
-import public "{{{modelPackage}}}/{{{import}}}.proto";
-{{/import}}
+import java.util.Objects
+{{#imports}}import {{import}}
 {{/imports}}
+{{#serializableModel}}
+import java.io.Serializable
+{{/serializableModel}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
+import {{javaxPackage}}.validation.Valid
+{{/useBeanValidation}}
+{{#swagger2AnnotationLibrary}}
+import io.swagger.v3.oas.annotations.media.Schema
+{{/swagger2AnnotationLibrary}}
+{{#swagger1AnnotationLibrary}}
+import io.swagger.annotations.ApiModelProperty
+{{/swagger1AnnotationLibrary}}
 
 {{#models}}
 {{#model}}
-{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}message {{classname}} {
-
-{{#oneOf}}
-{{#-first}}
-    oneof {{classVarName}} {
-        {{#vars}}
-        {{#description}}
-        // {{{.}}}
-        {{/description}}
-        {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
-        {{/vars}}
-    }
-{{/-first}}
-{{/oneOf}}
-{{^oneOf}}
-  {{#vars}}
-  {{#description}}
-  // {{{.}}}
-  {{/description}}
-  {{^isEnum}}
-  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{{name}}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}}{{#vendorExtensions.x-protobuf-json-name}} [json_name="{{vendorExtensions.x-protobuf-json-name}}"]{{/vendorExtensions.x-protobuf-json-name}};
-  {{/isEnum}}
-  {{#isEnum}}
-  enum {{enumName}} {
-    {{#allowableValues}}
-    {{#enumVars}}
-    {{{name}}} = {{{protobuf-enum-index}}};
-    {{/enumVars}}
-    {{/allowableValues}}
-  }
-
-  {{enumName}} {{name}} = {{vendorExtensions.x-protobuf-index}};
-  {{/isEnum}}
-
-  {{/vars}}
-{{/oneOf}}
-}
-{{/isEnum}}
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{>dataClass}}{{/isEnum}}
 {{/model}}
 {{/models}}

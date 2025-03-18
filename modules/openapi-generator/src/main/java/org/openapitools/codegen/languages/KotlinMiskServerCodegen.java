@@ -33,7 +33,6 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
     public static final String ROOT_PACKAGE = "rootPackage";
-
     public static final String PROJECT_NAME = "projectName";
 
     final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
@@ -50,7 +49,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a kotlin-misk server.";
+        return "Generates a kotlin-misk server with Protocol Buffers models.";
     }
 
     public KotlinMiskServerCodegen() {
@@ -58,7 +57,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
                 .securityFeatures(EnumSet.noneOf(
                         SecurityFeature.class
                 ))
@@ -92,6 +91,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         apiTemplateFiles.put("apiController.mustache", "Controller.kt");
         apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
         apiTemplateFiles.put("apiInterface.mustache", ".kt");
+        //modelTemplateFiles.put("model.mustache", ".proto");
+        modelTemplateFiles.put("model.mustache", ".kt");
 
         apiPackage = rootPackage + ".api";
         modelPackage = rootPackage + ".model";
@@ -102,9 +103,16 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
-        //supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        // Add supporting files
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
+        supportingFiles.add(new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
+        supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
+        // Create directories
+        supportingFiles.add(new SupportingFile("", "proto", ".gitkeep"));
+        supportingFiles.add(new SupportingFile("", "src/main/kotlin", ".gitkeep"));
+        supportingFiles.add(new SupportingFile("", "src/test/kotlin", ".gitkeep"));
     }
 
     @Override
@@ -146,5 +154,3 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         return result;
     }
 }
-
-
