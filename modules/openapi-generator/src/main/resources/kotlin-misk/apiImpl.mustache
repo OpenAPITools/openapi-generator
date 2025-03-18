@@ -1,0 +1,26 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import kotlin.collections.List
+import kotlin.collections.Map
+
+import javax.inject.Inject
+import javax.inject.Singleton
+
+/**
+ * @TODO("Fill out implementation")
+ */
+{{#operations}}
+@Singleton
+class {{classname}}Impl @Inject constructor(
+): {{classname}} {
+{{#operation}}
+
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams2}}{{>pathParams2}}{{>headerParams2}}{{>cookieParams2}}{{>bodyParams}}{{>formParams2}}{{^-last}},{{/-last}}{{/allParams}}): {{>returnTypes}} {
+        TODO()
+    }
+{{/operation}}
+}
+{{/operations}}

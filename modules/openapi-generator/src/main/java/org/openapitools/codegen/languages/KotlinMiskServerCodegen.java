@@ -74,9 +74,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.clear();
 
         apiTemplateFiles.clear();
-        apiTemplateFiles.put("api.mustache", ".kt");
+        apiTemplateFiles.put("apiController.mustache", "Controller.kt");
+        apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
+        apiTemplateFiles.put("apiInterface.mustache", ".kt");
 
-        modelTemplateFiles.put("model.mustache", ".proto");
+        //modelTemplateFiles.put("model.mustache", ".proto");
 
         apiPackage = rootPackage + ".api";
         modelPackage = rootPackage + ".model";
@@ -91,6 +93,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
     }
+
 
 }
 

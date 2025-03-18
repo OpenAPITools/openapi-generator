@@ -46,6 +46,9 @@ import misk.web.mediatype.MediaTypes
 import kotlin.collections.List
 import kotlin.collections.Map
 
+import javax.inject.Inject
+import javax.inject.Singleton
+
 @RestController{{#beanQualifiers}}("{{package}}.{{classname}}Controller"){{/beanQualifiers}}
 {{#useBeanValidation}}
     @Validated
@@ -59,7 +62,10 @@ import kotlin.collections.Map
     <%={{ }}=%>
 {{/useRequestMappingOnController}}
 {{#operations}}
-    class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
+    @Singleton
+    class {{classname}}Controller @Inject constructor(
+        private val {{classname}} : {{classname}}
+    ) : {{classname}} {
     {{#operation}}
 
         {{#swagger2AnnotationLibrary}}
@@ -91,7 +97,7 @@ import kotlin.collections.Map
         value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]
         )
         {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): {{>returnTypes}} {
-        TODO()
+            return {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
         }
     {{/operation}}
     }

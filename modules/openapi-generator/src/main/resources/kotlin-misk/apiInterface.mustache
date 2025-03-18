@@ -1,0 +1,19 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import kotlin.collections.List
+import kotlin.collections.Map
+
+import javax.inject.Inject
+import javax.inject.Singleton
+
+{{#operations}}
+    interface {{classname}}({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
+    {{#operation}}
+
+        {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{>headerParamsSimple}}{{>cookieParamsSimple}}{{>bodyParams}}{{>formParamsSimple}}{{^-last}},{{/-last}}{{/allParams}}): {{>returnTypes}}
+    {{/operation}}
+    }
+{{/operations}}
