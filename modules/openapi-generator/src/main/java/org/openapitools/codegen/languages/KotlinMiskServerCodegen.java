@@ -20,8 +20,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -111,10 +113,37 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         List<CodegenOperation> operations = objectMap.getOperation();
 
         for (CodegenOperation operation : operations) {
+
+            if (operation.hasConsumes) {
+                for (Map<String, String> consumes : operation.consumes) {
+                    consumes.computeIfPresent("mediaType", (__, mediaType) -> mapMediaType(mediaType));
+                }
+            }
+
+            if (operation.hasProduces) {
+                for (Map<String, String> produces : operation.produces) {
+                    produces.computeIfPresent("mediaType", (__, mediaType) -> mapMediaType(mediaType));
+                }
+            }
+
             // http method verb conversion (e.g. PUT => Put)
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
         return objs;
+    }
+
+    private String mapMediaType(String mediaType) {
+        return MEDIA_MAPPING.get(mediaType);
+    }
+
+    private final static Map<String, String> MEDIA_MAPPING = getMappings();
+
+    private static Map<String, String> getMappings() {
+        Map<String, String> result = new HashMap<>();
+        // @todo add others as needed
+        result.put("application/json", "MediaTypes.APPLICATION_JSON");
+        result.put("application/xml", "MediaTypes.APPLICATION_XML");
+        return result;
     }
 }
 
