@@ -1,1 +1,0 @@
-{{#isBodyParam}}{{{paramName}}}: {{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}
