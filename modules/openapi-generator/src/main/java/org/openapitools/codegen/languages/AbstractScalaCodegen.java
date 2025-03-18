@@ -530,7 +530,16 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
             return identifier;
         }
-        return escapeReservedWord(identifier);
+        if (identifier.matches("[0-9]*")) {
+            return escapeReservedWord(identifier);
+        }
+        if (!capitalized || StringUtils.isNumeric(name)) {
+            // starts with a small letter, could be a keyword or a number
+            return escapeReservedWord(identifier);
+        } else {
+            // no keywords start with large letter
+            return identifier;
+        }
     }
 
     protected String stripPackageName(String input) {

@@ -1,16 +1,18 @@
 {{#required}}
     {{#isFile}}
-        Some(multipartFile("{{baseName}}", {{#isContainer}}ArrayValues({{{paramName}}}{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}{{{paramName}}}{{/isContainer}})){{^-last}},{{/-last}}
+        Some(multipartFile("{{baseName}}", {{paramName}}))
     {{/isFile}}
-    {{^isFile}}
-        Some({{paramName}}).map(_.toString).map(multipart("{{baseName}}", _)){{^-last}},{{/-last}}
+    {{^isFile}}{{#isFormParam}}{{^isPrimitiveType}}
+        Some(multipart("{{baseName}}", FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}))){{/isPrimitiveType}}{{/isFormParam}}{{#isPrimitiveType}}
+        Some(multipart("{{baseName}}", {{paramName}}.toString)){{/isPrimitiveType}}
     {{/isFile}}
 {{/required}}
 {{^required}}
     {{#isFile}}
-        {{paramName}}.map(multipartFile("{{baseName}}", _)){{^-last}},{{/-last}}
+        {{paramName}}.map(multipartFile("{{baseName}}", _))
     {{/isFile}}
-    {{^isFile}}
-        {{paramName}}{{^isContainer}}.map(_.toString){{/isContainer}}.map(multipart("{{baseName}}", {{#isContainer}}ArrayValues(_{{#collectionFormat}}, {{collectionFormat.toUpperCase}}{{/collectionFormat}}){{/isContainer}}{{^isContainer}}_{{/isContainer}})){{^-last}},{{/-last}}
+    {{^isFile}}{{#isFormParam}}{{^isPrimitiveType}}
+        {{paramName}}.map(value => multipart("{{baseName}}", FormSerializable.serialize("{{baseName}}", value{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}))){{/isPrimitiveType}}{{/isFormParam}}{{#isPrimitiveType}}
+        {{paramName}}.map(value => multipart("{{baseName}}", value.toString)){{/isPrimitiveType}}
     {{/isFile}}
-{{/required}}
+{{/required}}{{^-last}},{{/-last}}
