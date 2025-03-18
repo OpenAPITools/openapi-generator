@@ -4,6 +4,14 @@
 {{/withXml}}
 {{#discriminator}}
 {{>typeInfoAnnotation}}
+{{/discriminator}}{{^discriminator}}{{#useDeductionForOneOfInterfaces}}
+@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
+@JsonSubTypes({
+    {{#interfaceModels}}
+    @JsonSubTypes.Type(value = {{classname}}.class){{^-last}}, {{/-last}}
+    {{/interfaceModels}}
+})
+{{/useDeductionForOneOfInterfaces}}
 {{/discriminator}}
 {{>generatedAnnotation}}
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
