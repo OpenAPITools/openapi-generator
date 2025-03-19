@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class OuterComposite: NSObject, Codable, JSONEncodable {
+@objcMembers public class OuterComposite: NSObject, Codable, QueryStringEncodable {
 
     public var myNumber: Double?
     public var myString: String?

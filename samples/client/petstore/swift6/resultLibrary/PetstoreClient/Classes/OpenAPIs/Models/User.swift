@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct User: Sendable, Codable, JSONEncodable {
+internal struct User: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var id: Int64?
     internal private(set) var username: String?

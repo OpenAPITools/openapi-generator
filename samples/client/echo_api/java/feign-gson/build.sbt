@@ -11,10 +11,10 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.6.11" % "compile",
       "com.google.code.findbugs" % "jsr305" % "3.0.2" % "compile",
-      "io.github.openfeign" % "feign-core" % "10.12" % "compile",
-      "io.github.openfeign" % "feign-slf4j" % "10.12" % "compile",
+      "io.github.openfeign" % "feign-core" % "13.5" % "compile",
+      "io.github.openfeign" % "feign-slf4j" % "13.5" % "compile",
       "io.github.openfeign.form" % "feign-form" % "3.8.0" % "compile",
-      "io.github.openfeign" % "feign-okhttp" % "10.12" % "compile",
+      "io.github.openfeign" % "feign-okhttp" % "13.5" % "compile",
       "com.github.scribejava" % "scribejava-core" % "8.0.0" % "compile",
       "com.brsanthu" % "migbase64" % "2.2" % "compile",
       "jakarta.annotation" % "jakarta.annotation-api" % "1.3.5" % "compile",

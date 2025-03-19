@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct List: Sendable, Codable, JSONEncodable, Hashable {
+public struct List: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var _123list: String?
 

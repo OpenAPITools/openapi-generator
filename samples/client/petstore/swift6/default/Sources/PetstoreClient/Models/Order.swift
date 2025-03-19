@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Order: Sendable, Codable, JSONEncodable, Hashable {
+public struct Order: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
         case placed = "placed"

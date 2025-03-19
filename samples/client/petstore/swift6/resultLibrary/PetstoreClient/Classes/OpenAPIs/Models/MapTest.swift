@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct MapTest: Sendable, Codable, JSONEncodable {
+internal struct MapTest: Sendable, Codable, QueryStringEncodable {
 
     internal enum MapOfEnumString: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"

@@ -12,7 +12,7 @@ public typealias ApiResponse = PetstoreClientAPI.ApiResponse
 
 extension PetstoreClientAPI {
 
-public final class ApiResponse: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class ApiResponse: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
 
     public private(set) var code: Int?
     public private(set) var type: String?

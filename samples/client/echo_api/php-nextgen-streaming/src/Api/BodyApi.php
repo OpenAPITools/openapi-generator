@@ -1034,7 +1034,7 @@ class BodyApi
                 $formParams['files'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
                     ? $paramFile
                     : \GuzzleHttp\Psr7\Utils::tryFopen(
-                        ObjectSerializer::toFormValue($paramFile),
+                        ObjectSerializer::toFormValue('files', $paramFile)['files'],
                         'rb'
                     );
             }
@@ -1357,7 +1357,7 @@ class BodyApi
                 $formParams['my-file'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
                     ? $paramFile
                     : \GuzzleHttp\Psr7\Utils::tryFopen(
-                        ObjectSerializer::toFormValue($paramFile),
+                        ObjectSerializer::toFormValue('my-file', $paramFile)['my-file'],
                         'rb'
                     );
             }

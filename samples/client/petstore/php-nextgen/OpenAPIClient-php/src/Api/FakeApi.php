@@ -4585,39 +4585,39 @@ class FakeApi
 
         // form params
         if ($integer !== null) {
-            $formParams['integer'] = ObjectSerializer::toFormValue($integer);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('integer', $integer));
         }
         // form params
         if ($int32 !== null) {
-            $formParams['int32'] = ObjectSerializer::toFormValue($int32);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int32', $int32));
         }
         // form params
         if ($int64 !== null) {
-            $formParams['int64'] = ObjectSerializer::toFormValue($int64);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int64', $int64));
         }
         // form params
         if ($number !== null) {
-            $formParams['number'] = ObjectSerializer::toFormValue($number);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('number', $number));
         }
         // form params
         if ($float !== null) {
-            $formParams['float'] = ObjectSerializer::toFormValue($float);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('float', $float));
         }
         // form params
         if ($double !== null) {
-            $formParams['double'] = ObjectSerializer::toFormValue($double);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('double', $double));
         }
         // form params
         if ($string !== null) {
-            $formParams['string'] = ObjectSerializer::toFormValue($string);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('string', $string));
         }
         // form params
         if ($pattern_without_delimiter !== null) {
-            $formParams['pattern_without_delimiter'] = ObjectSerializer::toFormValue($pattern_without_delimiter);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('pattern_without_delimiter', $pattern_without_delimiter));
         }
         // form params
         if ($byte !== null) {
-            $formParams['byte'] = ObjectSerializer::toFormValue($byte);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('byte', $byte));
         }
         // form params
         if ($binary !== null) {
@@ -4628,26 +4628,26 @@ class FakeApi
                 $formParams['binary'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
                     ? $paramFile
                     : \GuzzleHttp\Psr7\Utils::tryFopen(
-                        ObjectSerializer::toFormValue($paramFile),
+                        ObjectSerializer::toFormValue('binary', $paramFile)['binary'],
                         'rb'
                     );
             }
         }
         // form params
         if ($date !== null) {
-            $formParams['date'] = ObjectSerializer::toFormValue($date);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('date', $date));
         }
         // form params
         if ($date_time !== null) {
-            $formParams['dateTime'] = ObjectSerializer::toFormValue($date_time);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('dateTime', $date_time));
         }
         // form params
         if ($password !== null) {
-            $formParams['password'] = ObjectSerializer::toFormValue($password);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('password', $password));
         }
         // form params
         if ($callback !== null) {
-            $formParams['callback'] = ObjectSerializer::toFormValue($callback);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('callback', $callback));
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -5017,11 +5017,11 @@ class FakeApi
 
         // form params
         if ($enum_form_string_array !== null) {
-            $formParams['enum_form_string_array'] = ObjectSerializer::toFormValue($enum_form_string_array);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string_array', $enum_form_string_array));
         }
         // form params
         if ($enum_form_string !== null) {
-            $formParams['enum_form_string'] = ObjectSerializer::toFormValue($enum_form_string);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string', $enum_form_string));
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -6055,11 +6055,11 @@ class FakeApi
 
         // form params
         if ($param !== null) {
-            $formParams['param'] = ObjectSerializer::toFormValue($param);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param', $param));
         }
         // form params
         if ($param2 !== null) {
-            $formParams['param2'] = ObjectSerializer::toFormValue($param2);
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param2', $param2));
         }
 
         $headers = $this->headerSelector->selectHeaders(

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class FileSchemaTestClass: NSObject, Codable, JSONEncodable {
+@objcMembers public class FileSchemaTestClass: NSObject, Codable, QueryStringEncodable {
 
     public var file: File?
     public var files: [File]?
