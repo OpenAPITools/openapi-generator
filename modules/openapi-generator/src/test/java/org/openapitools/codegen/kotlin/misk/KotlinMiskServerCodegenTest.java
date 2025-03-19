@@ -27,7 +27,7 @@ public class KotlinMiskServerCodegenTest {
 
         // Test basic properties
         Assert.assertEquals(codegen.getName(), "kotlin-misk");
-        Assert.assertEquals(codegen.getHelp(), "Generates a kotlin-misk server with Protocol Buffers models.");
+        Assert.assertEquals(codegen.getHelp(), "Generates a kotlin-misk server.");
         
         // Test package names
         Assert.assertEquals(codegen.apiPackage(), "org.openapitools.server.api.api");
