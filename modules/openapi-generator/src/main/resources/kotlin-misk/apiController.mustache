@@ -69,7 +69,6 @@ import misk.web.mediatype.MediaTypes
         private val {{classname}} : {{classname}}
     ) : {{classname}}, WebAction {
     {{#operation}}
-
         {{#swagger2AnnotationLibrary}}
             @Operation(
             summary = "{{{summary}}}",
@@ -97,7 +96,7 @@ import misk.web.mediatype.MediaTypes
         @RequestMapping(
         value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]
         )
-        {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): {{>returnTypes}} =
+        {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}): {{>returnTypes}}{{^returnType}}Void{{/returnType}} =
             {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     {{/operation}}
     }
