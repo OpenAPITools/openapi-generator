@@ -17,12 +17,37 @@ tags:
     description: Access to Petstore orders
   - name: user
     description: Operations about user
-paths: {}
+paths:
+  /pets:
+    get:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cat"
+      responses:
+        "200":
+          description: Updated
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
   schemas:
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+        breed:
+          type: string
+          enum: [ Dingo, Husky, Retriever, Shepherd ]
+    Cat:
+      type: object
+      properties:
+        hunts:
+          type: boolean
+        age:
+          type: integer
     Category:
       title: Pet category
       description: A category for a pet
