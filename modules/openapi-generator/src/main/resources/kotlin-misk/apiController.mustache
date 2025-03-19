@@ -31,20 +31,12 @@ package {{package}}
     import {{javaxPackage}}.validation.constraints.Size
 {{/useBeanValidation}}
 
-{{#reactive}}
-    import kotlinx.coroutines.flow.Flow
-{{/reactive}}
-import kotlin.collections.List
-import kotlin.collections.Map
-
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 
 {{! TODO("Only import what we need") }}
 import misk.web.Delete
 import misk.web.Description
-import misk.web.FormField
-import misk.web.FormValue
 import misk.web.Get
 import misk.web.HttpCall
 import misk.web.PathParam
@@ -94,9 +86,6 @@ import misk.web.mediatype.MediaTypes
         @ResponseContentType({{#hasProduces}}{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}})
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
-        @RequestMapping(
-        value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]
-        )
         override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) =
             {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     {{/operation}}
