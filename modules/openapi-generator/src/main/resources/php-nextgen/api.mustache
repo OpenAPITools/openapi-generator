@@ -759,13 +759,13 @@ use {{invokerPackage}}\ObjectSerializer;
                 $formParams['{{baseName}}'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
                     ? $paramFile
                     : \GuzzleHttp\Psr7\Utils::tryFopen(
-                        ObjectSerializer::toFormValue($paramFile),
+                        ObjectSerializer::toFormValue('{{baseName}}', $paramFile)['{{baseName}}'],
                         'rb'
                     );
             }
             {{/isFile}}
             {{^isFile}}
-            $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('{{baseName}}', ${{paramName}}));
             {{/isFile}}
         }
         {{/formParams}}
