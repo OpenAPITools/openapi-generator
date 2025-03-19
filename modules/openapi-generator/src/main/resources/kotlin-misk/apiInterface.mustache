@@ -10,7 +10,7 @@ import kotlin.collections.Map
 interface {{classname}} {
 {{#operation}}
 
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{>headerParamsSimple}}{{>cookieParamsSimple}}{{>formParamsSimple}}{{^-last}}, {{/-last}}{{/allParams}}) {{#returnType}}: {{{returnType}}}{{/returnType}}
+    fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{>headerParamsSimple}}{{>cookieParamsSimple}}{{>formParamsSimple}}{{^-last}}, {{/-last}}{{/allParams}}) {{#returnType}}: {{{returnType}}}{{/returnType}}
 {{/operation}}
 }
 {{/operations}}

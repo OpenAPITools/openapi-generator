@@ -97,7 +97,7 @@ import misk.web.mediatype.MediaTypes
         @RequestMapping(
         value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]
         )
-        {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) =
+        override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) =
             {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     {{/operation}}
     }
