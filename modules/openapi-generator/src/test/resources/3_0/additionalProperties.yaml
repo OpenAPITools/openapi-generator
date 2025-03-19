@@ -1,0 +1,66 @@
+openapi: 3.0.0
+info:
+  title: "test for additionalProperties"
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        "200":
+          description: test
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        inlineMap:
+          type: object
+          additionalProperties:
+            type: string
+        additionalPropertiesOnlyTypeObject:
+          $ref: '#/components/schemas/AdditionalPropertiesOnlyTypeObject'
+        additionalPropertiesOnlyTypeString:
+          $ref: '#/components/schemas/AdditionalPropertiesOnlyTypeString'
+        additionalPropertiesTypeObject:
+          $ref: '#/components/schemas/AdditionalPropertiesTypeObject'
+        additionalPropertiesTypeString:
+          $ref: '#/components/schemas/AdditionalPropertiesTypeString'
+        additionalPropertiesTrue:
+          $ref: '#/components/schemas/AdditionalPropertiesTrue'
+        additionalPropertiesOnlyTrue:
+          $ref: '#/components/schemas/AdditionalPropertiesOnlyTrue'
+    AdditionalPropertiesOnlyTypeObject:
+      type: object
+      additionalProperties:
+        type: object
+    AdditionalPropertiesOnlyTypeString:
+      type: object
+      additionalProperties:
+        type: string
+    AdditionalPropertiesTypeObject:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: object
+    AdditionalPropertiesTypeString:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+    AdditionalPropertiesOnlyTrue:
+      type: object
+      additionalProperties: true
+    AdditionalPropertiesTrue:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: true
