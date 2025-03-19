@@ -49,7 +49,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a kotlin-misk server with Protocol Buffers models.";
+        return "Generates a kotlin-misk server.";
     }
 
     public KotlinMiskServerCodegen() {
