@@ -15,7 +15,7 @@ class {{classname}}Impl @Inject constructor(
 ): {{classname}} {
 {{#operation}}
 
-    override fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{>headerParamsSimple}}{{>cookieParamsSimple}}{{>formParamsSimple}}{{^-last}}, {{/-last}}{{/allParams}}) {{#returnType}}: {{{returnType}}}{{/returnType}} {
+    override fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{>headerParamsSimple}}{{>cookieParamsSimple}}{{>formParamsSimple}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
         TODO()
     }
 {{/operation}}
