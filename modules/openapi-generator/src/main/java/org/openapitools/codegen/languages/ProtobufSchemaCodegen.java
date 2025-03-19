@@ -74,7 +74,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private boolean addJsonNameAnnotation = false;
 
-    private boolean wrapComplexType = false;
+    private boolean wrapComplexType = true;
 
     @Override
     public CodegenType getTag() {
