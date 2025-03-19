@@ -8,7 +8,7 @@ import okhttp3.Headers
 interface {{classname}} {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{>headerParamsSimple}}{{>cookieParamsSimple}}{{>formParamsSimple}}{{^-last}}, {{/-last}}{{/allParams}}) {{#returnType}}: {{{returnType}}}{{/returnType}}
+    fun {{operationId}}({{#allParams}}{{>queryParamsSimple}}{{>pathParamsSimple}}{{#isHeaderParam}}headers: Headers{{/isHeaderParam}}{{#isCookieParam}}{{{paramName}}}: HttpCall{{/isCookieParam}}{{>formParamsSimple}}{{^-last}}, {{/-last}}{{/allParams}}) {{#returnType}}: {{{returnType}}}{{/returnType}}
 {{/operation}}
 }
 {{/operations}}

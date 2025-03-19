@@ -89,7 +89,7 @@ import okhttp3.Headers
         @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
-        override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) =
+        override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{#isHeaderParam}} @RequestHeaders headers: Headers{{/isHeaderParam}}{{#isCookieParam}}{{{paramName}}}: HttpCall{{/isCookieParam}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) =
             {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     {{/operation}}
     }
