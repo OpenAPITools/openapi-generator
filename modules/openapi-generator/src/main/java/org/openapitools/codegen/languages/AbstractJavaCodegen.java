@@ -1329,6 +1329,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
+            if (ModelUtils.isGenerateAliasAsModel() && !cp.dataType.contains("Map<")) {
+                // Aliased class used as the field name instead of Map<>
+                return null;
+            }
+
             return String.format(Locale.ROOT, "new %s<>()",
                     instantiationTypes().getOrDefault("map", "HashMap"));
         } else if (ModelUtils.isIntegerSchema(schema)) {

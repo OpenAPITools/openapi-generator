@@ -5383,4 +5383,31 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
+
+    @Test
+    public void testAdditionalPropertiesWithGenerateAliasAsModelGeneratesCorrectHashCodeAndEquals() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setGenerateAliasAsModel(true)
+                .setInputSpec("src/test/resources/3_0/additionalProperties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeObject.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTrue.java")).fileContains("return Objects.hash(additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeObject.java")).fileContains("return Objects.hash(name, additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTypeString.java")).fileContains("return Objects.hash(name, additionalProperties)");
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesTrue.java")).fileContains("return Objects.hash(name, additionalProperties)");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesOnlyTypeString.java")).fileContains(
+                "AdditionalPropertiesOnlyTypeString additionalPropertiesOnlyTypeString = (AdditionalPropertiesOnlyTypeString) o;",
+                "return Objects.equals(this.additionalProperties, additionalPropertiesOnlyTypeString.additionalProperties);");
+
+        JavaFileAssert.assertThat(files.get("Response.java")).fileContains("AdditionalPropertiesOnlyTypeObject additionalPropertiesOnlyTypeObject;");
+    }
 }
