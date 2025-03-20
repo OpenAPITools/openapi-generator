@@ -96,7 +96,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
-
+    public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "oneOfInterfacesDeduction";
     @Getter
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
@@ -152,6 +152,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     @Getter @Setter
     protected boolean optionalAcceptNullable = true;
+    @Getter @Setter
+    protected boolean useDeductionForOneOfInterfaces = false;
 
     public SpringCodegen() {
         super();
@@ -260,6 +262,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use `ofNullable` instead of just `of` to accept null values when using Optional.",
                 optionalAcceptNullable));
 
+        cliOptions.add(CliOption.newBoolean(USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "whether to use deduction for generated oneOf interfaces", useDeductionForOneOfInterfaces));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
