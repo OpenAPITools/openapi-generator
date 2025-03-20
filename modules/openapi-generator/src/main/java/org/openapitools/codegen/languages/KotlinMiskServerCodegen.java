@@ -168,9 +168,22 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
     private static Map<String, String> getMappings() {
         Map<String, String> result = new HashMap<>();
-        // @todo add others as needed
         result.put("application/json", "MediaTypes.APPLICATION_JSON");
         result.put("application/xml", "MediaTypes.APPLICATION_XML");
+        result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
+        result.put("*/*", "MediaTypes.ALL");
+        result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
+        result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
+        result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");
+        result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
+        result.put("text/css", "MediaTypes.TEXT_CSS");
+        result.put("text/html", "MediaTypes.TEXT_HTML");
+        result.put("text/plain", "MediaTypes.TEXT_PLAIN_UTF8");
+        result.put("image/png", "MediaTypes.IMAGE_PNG");
+        result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
+        result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
+        result.put("image/gif", "MediaTypes.IMAGE_GIF");
+        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
         return result;
     }
 }
