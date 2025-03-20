@@ -1,7 +1,6 @@
 package org.openapitools.codegen.languages;
 
 import lombok.Setter;
-import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
