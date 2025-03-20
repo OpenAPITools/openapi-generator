@@ -15,43 +15,43 @@ extension QueryStringEncodable {
 }
 
 extension Bool: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension Float: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension Int: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension Int32: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension Int64: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension Double: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension Decimal: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension String: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension URL: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension UUID: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self)}
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
 extension RawRepresentable where RawValue: QueryStringEncodable {
