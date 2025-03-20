@@ -26,7 +26,6 @@ import okhttp3.Headers
 
     @Singleton
     class UserApiController @Inject constructor(
-        // @TODO("camelCase this")
         private val UserApi : UserApi
     ) : UserApi, WebAction {
 

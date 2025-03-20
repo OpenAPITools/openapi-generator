@@ -6,7 +6,6 @@ import misk.testing.MiskTest
 import misk.testing.MiskTestModule
 import misk.web.WebTestClient
 
-
 import org.junit.jupiter.api.Test
 
 @MiskTest(startService = true)
@@ -14,7 +13,7 @@ internal class StoreApiTest {
 
     @MiskTestModule val module = GambitTestingModule()
 
-    @Inject private lateinit var webTestClient: WebTestClient
+    @Inject private lateinit var StoreApi : StoreApi
 
     /**
      * To test StoreApiController.deleteOrder
@@ -22,18 +21,14 @@ internal class StoreApiTest {
     @Test
     fun `should handle deleteOrder`() {
         val orderId: kotlin.String = TODO()
-        val response:  = webTestClient.deleteOrder(orderId)
-
-        TODO()
+        val response = StoreApi.deleteOrder(orderId)
     }
     /**
      * To test StoreApiController.getInventory
      */
     @Test
     fun `should handle getInventory`() {
-        val response: : kotlin.collections.Map<kotlin.String, kotlin.Int> = webTestClient.getInventory()
-
-        TODO()
+        val response: kotlin.collections.Map<kotlin.String, kotlin.Int> = StoreApi.getInventory()
     }
     /**
      * To test StoreApiController.getOrderById
@@ -41,9 +36,7 @@ internal class StoreApiTest {
     @Test
     fun `should handle getOrderById`() {
         val orderId: kotlin.Long = TODO()
-        val response: : Order = webTestClient.getOrderById(orderId)
-
-        TODO()
+        val response: Order = StoreApi.getOrderById(orderId)
     }
     /**
      * To test StoreApiController.placeOrder
@@ -51,8 +44,6 @@ internal class StoreApiTest {
     @Test
     fun `should handle placeOrder`() {
         val order: Order = TODO()
-        val response: : Order = webTestClient.placeOrder(order)
-
-        TODO()
+        val response: Order = StoreApi.placeOrder(order)
     }
 }

@@ -6,7 +6,6 @@ import misk.testing.MiskTest
 import misk.testing.MiskTestModule
 import misk.web.WebTestClient
 
-
 import org.junit.jupiter.api.Test
 
 @MiskTest(startService = true)
@@ -14,7 +13,7 @@ internal class UserApiTest {
 
     @MiskTestModule val module = GambitTestingModule()
 
-    @Inject private lateinit var webTestClient: WebTestClient
+    @Inject private lateinit var UserApi : UserApi
 
     /**
      * To test UserApiController.createUser
@@ -22,9 +21,7 @@ internal class UserApiTest {
     @Test
     fun `should handle createUser`() {
         val user: User = TODO()
-        val response:  = webTestClient.createUser(user)
-
-        TODO()
+        val response = UserApi.createUser(user)
     }
     /**
      * To test UserApiController.createUsersWithArrayInput
@@ -32,9 +29,7 @@ internal class UserApiTest {
     @Test
     fun `should handle createUsersWithArrayInput`() {
         val user: kotlin.Array<User> = TODO()
-        val response:  = webTestClient.createUsersWithArrayInput(user)
-
-        TODO()
+        val response = UserApi.createUsersWithArrayInput(user)
     }
     /**
      * To test UserApiController.createUsersWithListInput
@@ -42,9 +37,7 @@ internal class UserApiTest {
     @Test
     fun `should handle createUsersWithListInput`() {
         val user: kotlin.Array<User> = TODO()
-        val response:  = webTestClient.createUsersWithListInput(user)
-
-        TODO()
+        val response = UserApi.createUsersWithListInput(user)
     }
     /**
      * To test UserApiController.deleteUser
@@ -52,9 +45,7 @@ internal class UserApiTest {
     @Test
     fun `should handle deleteUser`() {
         val username: kotlin.String = TODO()
-        val response:  = webTestClient.deleteUser(username)
-
-        TODO()
+        val response = UserApi.deleteUser(username)
     }
     /**
      * To test UserApiController.getUserByName
@@ -62,9 +53,7 @@ internal class UserApiTest {
     @Test
     fun `should handle getUserByName`() {
         val username: kotlin.String = TODO()
-        val response: : User = webTestClient.getUserByName(username)
-
-        TODO()
+        val response: User = UserApi.getUserByName(username)
     }
     /**
      * To test UserApiController.loginUser
@@ -73,18 +62,14 @@ internal class UserApiTest {
     fun `should handle loginUser`() {
         val username: kotlin.String = TODO()
         val password: kotlin.String = TODO()
-        val response: : kotlin.String = webTestClient.loginUser(username, password)
-
-        TODO()
+        val response: kotlin.String = UserApi.loginUser(username, password)
     }
     /**
      * To test UserApiController.logoutUser
      */
     @Test
     fun `should handle logoutUser`() {
-        val response:  = webTestClient.logoutUser()
-
-        TODO()
+        val response = UserApi.logoutUser()
     }
     /**
      * To test UserApiController.updateUser
@@ -93,8 +78,6 @@ internal class UserApiTest {
     fun `should handle updateUser`() {
         val username: kotlin.String = TODO()
         val user: User = TODO()
-        val response:  = webTestClient.updateUser(username, user)
-
-        TODO()
+        val response = UserApi.updateUser(username, user)
     }
 }

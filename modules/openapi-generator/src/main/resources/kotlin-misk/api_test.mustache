@@ -5,7 +5,6 @@ package {{package}}
 import jakarta.inject.Inject
 import misk.testing.MiskTest
 import misk.testing.MiskTestModule
-import misk.web.WebTestClient
 
 import org.junit.jupiter.api.Test
 
@@ -14,7 +13,7 @@ internal class {{classname}}Test {
 
     @MiskTestModule val module = GambitTestingModule()
 
-    @Inject private lateinit var webTestClient: WebTestClient
+    @Inject private lateinit var {{classname}} : {{classname}}
 
     {{#operations}}
     {{#operation}}
@@ -26,9 +25,7 @@ internal class {{classname}}Test {
         {{#allParams}}
         val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
-        val response: {{#returnType}}: {{{returnType}}}{{/returnType}} = webTestClient.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
-
-        TODO()
+        val response{{#returnType}}: {{{returnType}}}{{/returnType}} = {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     }
     {{/operation}}
     {{/operations}}
