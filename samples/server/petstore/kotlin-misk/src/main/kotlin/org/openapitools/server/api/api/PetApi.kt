@@ -6,19 +6,19 @@ import okhttp3.Headers
 
 interface PetApi {
 
-    fun addPet(pet: Pet) : Pet
+    fun addPet(pet: Pet): Pet
 
-    fun deletePet(petId: kotlin.Long, headers: Headers) 
+    fun deletePet(petId: kotlin.Long, headers: Headers)
 
-    fun findPetsByStatus(status: kotlin.Array<kotlin.String>) : kotlin.Array<Pet>
+    fun findPetsByStatus(status: kotlin.Array<kotlin.String>): kotlin.Array<Pet>
 
-    fun findPetsByTags(tags: kotlin.Array<kotlin.String>) : kotlin.Array<Pet>
+    fun findPetsByTags(tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet>
 
-    fun getPetById(petId: kotlin.Long) : Pet
+    fun getPetById(petId: kotlin.Long): Pet
 
-    fun updatePet(pet: Pet) : Pet
+    fun updatePet(pet: Pet): Pet
 
-    fun updatePetWithForm(petId: kotlin.Long,  name: kotlin.String?,  status: kotlin.String?) 
+    fun updatePetWithForm(petId: kotlin.Long, , )
 
-    fun uploadFile(petId: kotlin.Long,  additionalMetadata: kotlin.String?, ) : ModelApiResponse
+    fun uploadFile(petId: kotlin.Long, , ): ModelApiResponse
 }
