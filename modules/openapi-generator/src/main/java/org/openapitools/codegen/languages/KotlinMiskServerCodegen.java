@@ -78,20 +78,25 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         embeddedTemplateDir = templateDir = "kotlin-misk";
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
+                .stability(Stability.STABLE)
                 .build();
 
         outputFolder = "generated-code" + File.separator + "kotlin-misk";
 
         apiTestTemplateFiles.clear();
+
+        apiDocTemplateFiles.clear();
+        apiDocTemplateFiles.put("api_doc.md", ".md");
+
         modelDocTemplateFiles.clear();
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+
         supportingFiles.clear();
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("apiController.mustache", "Controller.kt");
         apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
         apiTemplateFiles.put("apiInterface.mustache", ".kt");
-        //modelTemplateFiles.put("model.mustache", ".proto");
         modelTemplateFiles.put("model.mustache", ".kt");
 
         apiPackage = rootPackage + ".api";
