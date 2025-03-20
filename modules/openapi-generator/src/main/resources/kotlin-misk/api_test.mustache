@@ -24,6 +24,7 @@ internal class {{classname}}Test {
         {{/allParams}}
         val response{{#returnType}}: {{{returnType}}}{{/returnType}} = {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     }
+
     {{/operation}}
     {{/operations}}
 }
