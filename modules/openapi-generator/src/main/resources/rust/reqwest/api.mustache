@@ -321,7 +321,22 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/required}}
     {{/supportAsync}}
     {{#supportAsync}}
-    // TODO: support file upload for '{{{baseName}}}' parameter
+    {{#required}}
+    {{^isNullable}}
+    multipart_form = multipart_form.file("{{{baseName}}}", {{{paramName}}}).await?;
+    {{/isNullable}}
+    {{#isNullable}}
+    match {{{paramName}}} {
+        Some(local_var_param_value) => { multipart_form = multipart_form.file("{{{baseName}}}", local_var_param_value).await?; },
+        None => { unimplemented!("Required nullable form file param not supported"); },
+    }
+    {{/isNullable}}
+    {{/required}}
+    {{^required}}
+    if let Some(local_var_param_value) = {{{paramName}}} {
+        multipart_form = multipart_form.file("{{{baseName}}}", local_var_param_value).await?;
+    }
+    {{/required}}
     {{/supportAsync}}
     {{/isFile}}
     {{^isFile}}

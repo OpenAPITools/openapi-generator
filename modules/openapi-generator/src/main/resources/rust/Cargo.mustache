@@ -69,7 +69,7 @@ reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multip
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
-reqwest = { version = "^0.12", features = ["json", "multipart"] }
+reqwest = { version = "^0.12", features = ["json", "stream", "multipart"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
