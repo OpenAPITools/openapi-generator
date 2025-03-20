@@ -33,6 +33,7 @@ public class KotlinMiskServerCodegenModelTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.ENABLE_POST_PROCESS_FILE, "true");
 
         List<File> files = generator.opts(input).generate();
 

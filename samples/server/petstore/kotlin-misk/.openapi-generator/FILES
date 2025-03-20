@@ -1,6 +1,11 @@
-.openapi-generator-ignore
 README.md
 build.gradle.kts
+docs/ApiResponse.md
+docs/Category.md
+docs/Order.md
+docs/Pet.md
+docs/Tag.md
+docs/User.md
 settings.gradle.kts
 src/main/kotlin/org/openapitools/server/api/api/PetApi.kt
 src/main/kotlin/org/openapitools/server/api/api/PetApiController.kt

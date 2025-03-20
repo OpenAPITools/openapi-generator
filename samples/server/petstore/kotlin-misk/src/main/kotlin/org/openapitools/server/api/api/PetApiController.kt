@@ -28,7 +28,7 @@ import okhttp3.Headers
     @Singleton
     class PetApiController @Inject constructor(
         // @TODO("camelCase this")
-        private val PetApi : PetApi
+        private val  : PetApi
     ) : PetApi, WebAction {
 
         @Post("/pet")
@@ -37,15 +37,15 @@ import okhttp3.Headers
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
-        override fun addPet(@RequestBody pet: Pet) =
-            PetApi.addPet(pet)
+        override fun addPet(@RequestBody(required = false) pet: Pet) =
+            .addPet(pet)
 
         @Delete("/pet/{petId}")
         @Description("Deletes a pet")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun deletePet(@PathParam("petId") petId: kotlin.Long, @RequestHeaders headers: Headers) =
-            PetApi.deletePet(petId, apiKey)
+            .deletePet(petId, apiKey)
 
         @Get("/pet/findByStatus")
         @Description("Finds Pets by status")
@@ -53,7 +53,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun findPetsByStatus(@QueryParam status: kotlin.Array<kotlin.String>) =
-            PetApi.findPetsByStatus(status)
+            .findPetsByStatus(status)
 
         @Get("/pet/findByTags")
         @Description("Finds Pets by tags")
@@ -61,7 +61,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun findPetsByTags(@QueryParam tags: kotlin.Array<kotlin.String>) =
-            PetApi.findPetsByTags(tags)
+            .findPetsByTags(tags)
 
         @Get("/pet/{petId}")
         @Description("Find pet by ID")
@@ -69,7 +69,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun getPetById(@PathParam("petId") petId: kotlin.Long) =
-            PetApi.getPetById(petId)
+            .getPetById(petId)
 
         @Put("/pet")
         @Description("Update an existing pet")
@@ -77,16 +77,16 @@ import okhttp3.Headers
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
-        override fun updatePet(@RequestBody pet: Pet) =
-            PetApi.updatePet(pet)
+        override fun updatePet(@RequestBody(required = false) pet: Pet) =
+            .updatePet(pet)
 
         @Post("/pet/{petId}")
         @Description("Updates a pet in the store with form data")
         @RequestContentType()
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
-        override fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "name") name: kotlin.String? , @QueryParam(value = "status") status: kotlin.String? ) =
-            PetApi.updatePetWithForm(petId, name, status)
+        override fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,,) =
+            .updatePetWithForm(petId, name, status)
 
         @Post("/pet/{petId}/uploadImage")
         @Description("uploads an image")
@@ -94,6 +94,6 @@ import okhttp3.Headers
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
-        override fun uploadFile(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , file: HttpCall) =
-            PetApi.uploadFile(petId, additionalMetadata, file)
+        override fun uploadFile(@PathParam("petId") petId: kotlin.Long,,) =
+            .uploadFile(petId, additionalMetadata, file)
     }

@@ -38,11 +38,11 @@ class PetApiImpl @Inject constructor(
         TODO()
     }
 
-    override fun updatePetWithForm(petId: kotlin.Long,  name: kotlin.String?,  status: kotlin.String?) {
+    override fun updatePetWithForm(petId: kotlin.Long, , ) {
         TODO()
     }
 
-    override fun uploadFile(petId: kotlin.Long,  additionalMetadata: kotlin.String?, ): ModelApiResponse {
+    override fun uploadFile(petId: kotlin.Long, , ): ModelApiResponse {
         TODO()
     }
 }
