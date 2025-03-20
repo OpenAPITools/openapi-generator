@@ -1,0 +1,35 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import jakarta.inject.Inject
+import misk.testing.MiskTest
+import misk.testing.MiskTestModule
+import misk.web.WebTestClient
+
+import org.junit.jupiter.api.Test
+
+@MiskTest(startService = true)
+internal class {{classname}}Test {
+
+    @MiskTestModule val module = GambitTestingModule()
+
+    @Inject private lateinit var webTestClient: WebTestClient
+
+    {{#operations}}
+    {{#operation}}
+    /**
+     * To test {{classname}}Controller.{{operationId}}
+     */
+    @Test
+    fun `should handle {{operationId}}`() {
+        {{#allParams}}
+        val {{{paramName}}}: {{>optionalDataType}} = TODO()
+        {{/allParams}}
+        val response: {{#returnType}}: {{{returnType}}}{{/returnType}} = webTestClient.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+        TODO()
+    }
+    {{/operation}}
+    {{/operations}}
+}

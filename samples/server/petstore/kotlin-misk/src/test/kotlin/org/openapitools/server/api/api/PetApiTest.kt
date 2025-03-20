@@ -1,0 +1,105 @@
+package org.openapitools.server.api.api
+
+import org.openapitools.server.api.model.ModelApiResponse
+import org.openapitools.server.api.model.Pet
+import jakarta.inject.Inject
+import misk.testing.MiskTest
+import misk.testing.MiskTestModule
+import misk.web.WebTestClient
+
+
+import org.junit.jupiter.api.Test
+
+@MiskTest(startService = true)
+internal class PetApiTest {
+
+    @MiskTestModule val module = GambitTestingModule()
+
+    @Inject private lateinit var webTestClient: WebTestClient
+
+    /**
+     * To test PetApiController.addPet
+     */
+    @Test
+    fun `should handle addPet`() {
+        val pet: Pet = TODO()
+        val response: : Pet = webTestClient.addPet(pet)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.deletePet
+     */
+    @Test
+    fun `should handle deletePet`() {
+        val petId: kotlin.Long = TODO()
+        val apiKey: kotlin.String? = TODO()
+        val response:  = webTestClient.deletePet(petId, apiKey)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.findPetsByStatus
+     */
+    @Test
+    fun `should handle findPetsByStatus`() {
+        val status: kotlin.Array<kotlin.String> = TODO()
+        val response: : kotlin.Array<Pet> = webTestClient.findPetsByStatus(status)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.findPetsByTags
+     */
+    @Test
+    fun `should handle findPetsByTags`() {
+        val tags: kotlin.Array<kotlin.String> = TODO()
+        val response: : kotlin.Array<Pet> = webTestClient.findPetsByTags(tags)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.getPetById
+     */
+    @Test
+    fun `should handle getPetById`() {
+        val petId: kotlin.Long = TODO()
+        val response: : Pet = webTestClient.getPetById(petId)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.updatePet
+     */
+    @Test
+    fun `should handle updatePet`() {
+        val pet: Pet = TODO()
+        val response: : Pet = webTestClient.updatePet(pet)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.updatePetWithForm
+     */
+    @Test
+    fun `should handle updatePetWithForm`() {
+        val petId: kotlin.Long = TODO()
+        val name: kotlin.String? = TODO()
+        val status: kotlin.String? = TODO()
+        val response:  = webTestClient.updatePetWithForm(petId, name, status)
+
+        TODO()
+    }
+    /**
+     * To test PetApiController.uploadFile
+     */
+    @Test
+    fun `should handle uploadFile`() {
+        val petId: kotlin.Long = TODO()
+        val additionalMetadata: kotlin.String? = TODO()
+        val file: HttpCall = TODO()
+        val response: : ModelApiResponse = webTestClient.uploadFile(petId, additionalMetadata, file)
+
+        TODO()
+    }
+}

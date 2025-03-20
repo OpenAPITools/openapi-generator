@@ -27,7 +27,7 @@ import okhttp3.Headers
     @Singleton
     class StoreApiController @Inject constructor(
         // @TODO("camelCase this")
-        private val  : StoreApi
+        private val StoreApi : StoreApi
     ) : StoreApi, WebAction {
 
         @Delete("/store/order/{orderId}")
@@ -35,7 +35,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) =
-            .deleteOrder(orderId)
+            StoreApi.deleteOrder(orderId)
 
         @Get("/store/inventory")
         @Description("Returns pet inventories by status")
@@ -43,7 +43,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun getInventory() =
-            .getInventory()
+            StoreApi.getInventory()
 
         @Get("/store/order/{orderId}")
         @Description("Find purchase order by ID")
@@ -51,7 +51,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun getOrderById(@PathParam("orderId") orderId: kotlin.Long) =
-            .getOrderById(orderId)
+            StoreApi.getOrderById(orderId)
 
         @Post("/store/order")
         @Description("Place an order for a pet")
@@ -60,5 +60,5 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun placeOrder(@RequestBody(required = false) order: Order) =
-            .placeOrder(order)
+            StoreApi.placeOrder(order)
     }
