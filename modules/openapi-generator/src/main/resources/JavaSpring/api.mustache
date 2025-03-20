@@ -172,7 +172,7 @@ public interface {{classname}} {
             {{#responses}}
             @ApiResponse(responseCode = {{#isDefault}}"default"{{/isDefault}}{{^isDefault}}"{{{code}}}"{{/isDefault}}, description = "{{{message}}}"{{#baseType}}, content = {
                 {{#produces}}
-                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}{{#-last}}){{/-last}}{{^-last}}),{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}{{#-last}}){{/-last}}{{^-last}}),{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
+                @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}{{^isJson}}){{^-last}},{{/-last}}{{/isJson}}{{#isJson}}{{^examples.0}}){{^-last}},{{/-last}}{{/examples.0}}{{#examples.0}}, examples = {
                 {{#examples}}
                     @ExampleObject(
                         name = "{{{exampleName}}}",
