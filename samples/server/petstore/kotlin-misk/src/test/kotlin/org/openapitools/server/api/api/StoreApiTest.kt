@@ -3,15 +3,11 @@ package org.openapitools.server.api.api
 import org.openapitools.server.api.model.Order
 import jakarta.inject.Inject
 import misk.testing.MiskTest
-import misk.testing.MiskTestModule
-import misk.web.WebTestClient
 
 import org.junit.jupiter.api.Test
 
 @MiskTest(startService = true)
 internal class StoreApiTest {
-
-    @MiskTestModule val module = GambitTestingModule()
 
     @Inject private lateinit var StoreApi : StoreApi
 
