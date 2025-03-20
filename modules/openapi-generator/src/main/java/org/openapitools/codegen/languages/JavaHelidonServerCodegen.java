@@ -281,8 +281,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod, Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         if (HELIDON_SE.equals(getLibrary())) {
             if (isJackson()) {
                 codegenOperation.imports.add("ObjectMapper");

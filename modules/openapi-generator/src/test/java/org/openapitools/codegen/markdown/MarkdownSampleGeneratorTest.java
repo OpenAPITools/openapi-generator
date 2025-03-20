@@ -21,7 +21,7 @@ public class MarkdownSampleGeneratorTest {
 
         final String requestPath = "/v1/MyRequest";
         Operation textOperation = openAPI.getPaths().get(requestPath).getPut();
-        CodegenOperation operation = codegen.fromOperation(requestPath, "put", textOperation, null);
+        CodegenOperation operation = codegen.fromOperation(requestPath, "put",0, textOperation, null);
         CodegenParameter codegenParameter = operation.allParams.get(0);
         Assert.assertNotNull(codegenParameter);
     }
