@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -31,9 +33,13 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
+    @Setter protected String moduleClassName = "OpenApiModule";
+    @Setter protected String moduleFileName = moduleClassName + ".kt";
 
     public static final String ROOT_PACKAGE = "rootPackage";
     public static final String PROJECT_NAME = "projectName";
+    public static final String MODULE_CLASS_NAME = "moduleClassName";
+    public static final String MODULE_FILE_NAME = "moduleFileName";
 
     final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
 
@@ -83,6 +89,10 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
         outputFolder = "generated-code" + File.separator + "kotlin-misk";
 
+        // Add CLI options for module customization
+        addOption(MODULE_CLASS_NAME, "Name of the generated module class", moduleClassName);
+        addOption(MODULE_FILE_NAME, "Name of the generated module file", moduleFileName);
+
         apiTestTemplateFiles.clear();
         apiTestTemplateFiles.put("api_test.mustache", ".kt");
 
@@ -116,6 +126,24 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(MODULE_CLASS_NAME)) {
+            setModuleClassName((String) additionalProperties.get(MODULE_CLASS_NAME));
+        }
+        additionalProperties.put(MODULE_CLASS_NAME, moduleClassName);
+
+        if (additionalProperties.containsKey(MODULE_FILE_NAME)) {
+            setModuleFileName((String) additionalProperties.get(MODULE_FILE_NAME));
+        }
+        additionalProperties.put(MODULE_FILE_NAME, moduleFileName);
+
+        String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
+        supportingFiles.add(new SupportingFile("miskModule.mustache", apiModuleFolder, moduleFileName));
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
@@ -137,6 +165,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
             // http method verb conversion (e.g. PUT => Put)
             operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
+
         return objs;
     }
 
