@@ -33,12 +33,10 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
     @Setter protected String moduleClassName = "OpenApiModule";
-    @Setter protected String moduleFileName = moduleClassName + ".kt";
 
     public static final String ROOT_PACKAGE = "rootPackage";
     public static final String PROJECT_NAME = "projectName";
     public static final String MODULE_CLASS_NAME = "moduleClassName";
-    public static final String MODULE_FILE_NAME = "moduleFileName";
 
     final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
 
@@ -88,9 +86,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
         outputFolder = "generated-code" + File.separator + "kotlin-misk";
 
-        // Add CLI options for module customization
         addOption(MODULE_CLASS_NAME, "Name of the generated module class", moduleClassName);
-        addOption(MODULE_FILE_NAME, "Name of the generated module file", moduleFileName);
 
         apiTestTemplateFiles.clear();
         apiTestTemplateFiles.put("api_test.mustache", ".kt");
@@ -133,12 +129,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         }
         additionalProperties.put(MODULE_CLASS_NAME, moduleClassName);
 
-        if (additionalProperties.containsKey(MODULE_FILE_NAME)) {
-            setModuleFileName((String) additionalProperties.get(MODULE_FILE_NAME));
-        }
-        additionalProperties.put(MODULE_FILE_NAME, moduleFileName);
-
         String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
+        String moduleFileName = moduleClassName + ".kt";
         supportingFiles.add(new SupportingFile("miskModule.mustache", apiModuleFolder, moduleFileName));
     }
 
