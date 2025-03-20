@@ -4,14 +4,11 @@ package {{package}}
 {{/imports}}
 import jakarta.inject.Inject
 import misk.testing.MiskTest
-import misk.testing.MiskTestModule
 
 import org.junit.jupiter.api.Test
 
 @MiskTest(startService = true)
 internal class {{classname}}Test {
-
-    @MiskTestModule val module = GambitTestingModule()
 
     @Inject private lateinit var {{classname}} : {{classname}}
 
