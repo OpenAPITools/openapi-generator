@@ -5384,6 +5384,56 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
 
+    @Test
+    public void shouldEnableBuiltInValidationOptionWhenSetToTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BUILT_IN_VALIDATION, true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .hasNoImports("org.springframework.validation.annotation.Validated")
+                .assertTypeAnnotations()
+                .doesNotContainWithName("Validated");
+    }
+
+    @Test
+    public void shouldDisableBuiltInValidationOptionWhenSetToFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BUILT_IN_VALIDATION, false);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .hasImports("org.springframework.validation.annotation.Validated")
+                .assertTypeAnnotations()
+                .containsWithName("Validated");
+    }
+
+    @Test
+    public void shouldDisableBuiltInValidationOptionByDefault() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseSpringBoot3(true);
+        codegen.setUseOptional(true);
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .hasImports("org.springframework.validation.annotation.Validated")
+                .assertTypeAnnotations()
+                .containsWithName("Validated");
+    }
+
     public void testExampleAnnotationGeneration_issue17610() throws IOException {
         final Map<String, File> generatedCodeFiles = generateFromContract("src/test/resources/3_0/spring/api-response-examples_issue17610.yaml", SPRING_BOOT);
 

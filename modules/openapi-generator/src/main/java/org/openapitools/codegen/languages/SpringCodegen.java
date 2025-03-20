@@ -96,6 +96,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String USE_SEALED = "useSealed";
     public static final String OPTIONAL_ACCEPT_NULLABLE = "optionalAcceptNullable";
+    public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
 
     @Getter
     public enum RequestMappingMode {
@@ -152,6 +153,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     @Getter @Setter
     protected boolean optionalAcceptNullable = true;
+    @Getter @Setter
+    protected boolean useSpringBuiltInValidation = false;
 
     public SpringCodegen() {
         super();
@@ -214,6 +217,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions
                 .add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BUILT_IN_VALIDATION,
+                "Disable `@Validated` at the class level when using built-in validation.",
+                useSpringBuiltInValidation));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(USE_SEALED,
@@ -423,6 +429,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(UNHANDLED_EXCEPTION_HANDLING, this::setUnhandledException);
         convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -623,6 +630,17 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
+
+        if (useBeanValidation) {
+            if (additionalProperties.containsKey(USE_SPRING_BUILT_IN_VALIDATION)) {
+                this.useSpringBuiltInValidation = Boolean.parseBoolean(
+                        additionalProperties.get(USE_SPRING_BUILT_IN_VALIDATION).toString()
+                );
+            } else {
+                this.useSpringBuiltInValidation = false;
+            }
+            additionalProperties.put(USE_SPRING_BUILT_IN_VALIDATION, useSpringBuiltInValidation);
+        }
     }
 
     private boolean containsEnums() {

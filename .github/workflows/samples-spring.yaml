@@ -45,6 +45,7 @@ jobs:
           - samples/server/petstore/spring-boot-defaultInterface-unhandledException
           - samples/server/petstore/springboot
           - samples/server/petstore/springboot-beanvalidation
+          - samples/server/petstore/springboot-builtin-validation
           - samples/server/petstore/springboot-delegate
           - samples/server/petstore/springboot-delegate-no-response-entity
           - samples/server/petstore/springboot-implicitHeaders
