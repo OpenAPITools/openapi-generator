@@ -46,13 +46,13 @@ knownRecordFactories.set(DefaultMetaOnlyResponseRecordProps.recType, DefaultMeta
 class DefaultMetaOnlyResponseRecordUtils extends ApiRecordUtils<DefaultMetaOnlyResponse, DefaultMetaOnlyResponseRecord> {
     public normalize(apiObject: DefaultMetaOnlyResponse, asEntity?: boolean): DefaultMetaOnlyResponse {
         (apiObject as any).recType = DefaultMetaOnlyResponseRecordProps.recType;
-        responseMetaRecordUtils.normalize(apiObject.meta);
+        responseMetaRecordUtils.normalize(apiObject['meta']);
         return apiObject;
     }
 
     public toApi(record: DefaultMetaOnlyResponseRecord): DefaultMetaOnlyResponse {
         const apiObject = super.toApi(record);
-        apiObject.meta = responseMetaRecordUtils.toApi(record.meta);
+        apiObject['meta'] = responseMetaRecordUtils.toApi(record['meta']);
         return apiObject;
     }
 }

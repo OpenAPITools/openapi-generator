@@ -22,6 +22,30 @@ class TestParameters(unittest.TestCase):
         path = self.json_data['item'][0]['item'][0]
         self.assertEqual(path['name'], '/users/:userId (DEPRECATED)')
 
+    def test_request_from_inline_examples(self):
+        # item
+        item = self.json_data['item'][0]['item'][0]['item'][0]
+        self.assertEqual(item['name'], 'Update First Name')
+        self.assertEqual(item['request']["method"], 'PATCH')
+        self.assertEqual(item['request']["body"]["raw"], '{\n  "firstName" : "Rebecca"\n}')
+
+    def test_request_with_array_strings(self):
+        # item
+        item = self.json_data['item'][2]['item'][0]['item'][0]
+        self.assertEqual(item['request']["method"], 'POST')
+        data = json.loads(item['request']["body"]["raw"])
+        # check is list
+        self.assertTrue(isinstance(data.get("tags"), list))
+        # check values
+        self.assertTrue(set(data.get("tags")) == {"user", "admin", "guest"})
+
+    def test_request_boolean_field(self):
+        # item
+        item = self.json_data['item'][0]['item'][0]['item'][1]
+        self.assertEqual(item['name'], 'Update Email')
+        self.assertEqual(item['request']["method"], 'PATCH')
+        self.assertEqual(item['request']["body"]["raw"], '{\n  "email" : "rebecca@gmail.com",\n  "verified" : true\n}')
+
 
 if __name__ == '__main__':
     unittest.main()

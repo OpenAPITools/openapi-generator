@@ -30,21 +30,23 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
  */
 @JsonPropertyOrder({
   TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.JSON_PROPERTY_VALUES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
-  private List<String> values;
+  @javax.annotation.Nullable
+  private List<String> values = new ArrayList<>();
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() { 
   }
 
-  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(List<String> values) {
+  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(@javax.annotation.Nullable List<String> values) {
     this.values = values;
     return this;
   }
@@ -57,14 +59,13 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     return this;
   }
 
-   /**
+  /**
    * Get values
    * @return values
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_VALUES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
   public List<String> getValues() {
     return values;
   }
@@ -72,7 +73,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
 
   @JsonProperty(JSON_PROPERTY_VALUES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setValues(List<String> values) {
+  public void setValues(@javax.annotation.Nullable List<String> values) {
     this.values = values;
   }
 
@@ -154,7 +155,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
       for (int i = 0; i < getValues().size(); i++) {
         joiner.add(String.format("%svalues%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getValues().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getValues().get(i)))));
       }
     }
 

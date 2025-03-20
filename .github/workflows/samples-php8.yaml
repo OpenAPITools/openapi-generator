@@ -4,9 +4,13 @@ on:
   push:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-laravel/**
   pull_request:
     paths:
       - samples/server/petstore/php-symfony/SymfonyBundle-php/**
+      - samples/server/petstore/php-flight/**
+      - samples/server/petstore/php-laravel/**
 jobs:
   build:
     name: Build PHP projects
@@ -14,15 +18,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        php:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
         sample:
           # servers
           - samples/server/petstore/php-symfony/SymfonyBundle-php/
+          - samples/server/petstore/php-flight/
+          - samples/server/petstore/php-laravel/
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP with tools
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: "${{ matrix.php }}"
           tools: php-cs-fixer, phpunit
       - name: composer install
         working-directory: ${{ matrix.sample }}

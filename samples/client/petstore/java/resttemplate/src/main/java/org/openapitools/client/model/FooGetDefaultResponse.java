@@ -31,24 +31,32 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
 @JsonTypeName("_foo_get_default_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
+  @javax.annotation.Nullable
   private Foo string;
 
   public FooGetDefaultResponse() {
   }
 
-  public FooGetDefaultResponse string(Foo string) {
+  /**
+   * Constructor with all args parameters
+   */
+  public FooGetDefaultResponse(@JsonProperty(JSON_PROPERTY_STRING) Foo string) {
+    this.string = string;
+  }
+
+  public FooGetDefaultResponse string(@javax.annotation.Nullable Foo string) {
     
     this.string = string;
     return this;
   }
 
-   /**
+  /**
    * Get string
    * @return string
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -60,9 +68,10 @@ public class FooGetDefaultResponse {
 
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setString(Foo string) {
+  public void setString(@javax.annotation.Nullable Foo string) {
     this.string = string;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -100,6 +109,60 @@ public class FooGetDefaultResponse {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private FooGetDefaultResponse instance;
+
+    public Builder() {
+      this(new FooGetDefaultResponse());
+    }
+
+    protected Builder(FooGetDefaultResponse instance) {
+      this.instance = instance;
+    }
+
+    public FooGetDefaultResponse.Builder string(Foo string) {
+      this.instance.string = string;
+      return this;
+    }
+
+
+    /**
+    * returns a built FooGetDefaultResponse instance.
+    *
+    * The builder is not reusable.
+    */
+    public FooGetDefaultResponse build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FooGetDefaultResponse.Builder builder() {
+    return new FooGetDefaultResponse.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FooGetDefaultResponse.Builder toBuilder() {
+    return new FooGetDefaultResponse.Builder()
+      .string(getString());
+  }
+
 
 }
 

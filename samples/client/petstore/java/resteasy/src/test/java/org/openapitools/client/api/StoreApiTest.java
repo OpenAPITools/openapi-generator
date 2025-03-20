@@ -15,9 +15,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for StoreApi
  */
-public class StoreApiTest {
+class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
 
@@ -42,7 +42,7 @@ public class StoreApiTest {
      *          if the Api call fails
      */
     @Test
-    public void deleteOrderTest() throws ApiException {
+    void deleteOrderTest() throws ApiException {
         //
         //String orderId = null;
         //
@@ -59,7 +59,7 @@ public class StoreApiTest {
      *          if the Api call fails
      */
     @Test
-    public void getInventoryTest() throws ApiException {
+    void getInventoryTest() throws ApiException {
         //
         //Map<String, Integer> response = api.getInventory();
 
@@ -74,7 +74,7 @@ public class StoreApiTest {
      *          if the Api call fails
      */
     @Test
-    public void getOrderByIdTest() throws ApiException {
+    void getOrderByIdTest() throws ApiException {
         //
         //Long orderId = null;
         //
@@ -91,7 +91,7 @@ public class StoreApiTest {
      *          if the Api call fails
      */
     @Test
-    public void placeOrderTest() throws ApiException {
+    void placeOrderTest() throws ApiException {
         //
         //Order order = null;
         //

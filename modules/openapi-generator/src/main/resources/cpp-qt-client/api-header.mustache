@@ -58,7 +58,7 @@ public:
     {{/required}}
     {{/allParams}}
     */{{/hasParams}}
-    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{#isDeprecated}}Q_DECL_DEPRECATED {{/isDeprecated}}{{#makeOperationsVirtual}}virtual {{/makeOperationsVirtual}}void {{nickname}}({{#allParams}}{{#required}}const {{{dataType}}} &{{/required}}{{^required}}const ::{{cppNamespace}}::OptionalParam<{{{dataType}}}> &{{/required}}{{paramName}}{{^required}} = ::{{cppNamespace}}::OptionalParam<{{{dataType}}}>(){{/required}}{{^-last}}, {{/-last}}{{/allParams}});
 {{/operation}}{{/operations}}
 
 private:
@@ -88,6 +88,8 @@ private:
 Q_SIGNALS:
 {{#operations}}{{#operation}}
     void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}{{#addDownloadProgress}}
+    void {{nickname}}Progress(qint64 bytesReceived, qint64 bytesTotal);{{/addDownloadProgress}}{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}

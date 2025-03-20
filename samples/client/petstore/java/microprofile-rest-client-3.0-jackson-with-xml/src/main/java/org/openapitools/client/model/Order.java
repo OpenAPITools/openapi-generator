@@ -12,6 +12,8 @@
 
 package org.openapitools.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,12 +26,14 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
- @XmlType(name = "Order", propOrder =
-    { "id", "petId", "quantity", "shipDate", "status", "complete"
-})
+@XmlType(name = "Order", propOrder =
+    { "id", "petId", "quantity", "shipDate", "status", "complete" }
+)
 
-@XmlRootElement(name="Order")
+
+@XmlRootElement(name = "Order")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Order")
 @JsonPropertyOrder({
   Order.JSON_PROPERTY_ID,
   Order.JSON_PROPERTY_PET_ID,
@@ -40,24 +44,24 @@ import jakarta.xml.bind.annotation.adapters.*;
 })
 /**
   * An order for a pets from the pet store
- **/
+  */
 
 public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
-  @XmlElement(name="id")
+  @XmlElement(name = "id")
   private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
-  @XmlElement(name="petId")
+  @XmlElement(name = "petId")
   private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
-  @XmlElement(name="quantity")
+  @XmlElement(name = "quantity")
   private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
-  @XmlElement(name="shipDate")
+  @XmlElement(name = "shipDate")
   private Date shipDate;
 
 @XmlType(name="StatusEnum")
@@ -94,20 +98,20 @@ public class Order  {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
-  @XmlElement(name="status")
+  @XmlElement(name = "status")
  /**
-   * Order Status
-  **/
+  * Order Status
+  */
   private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
-  @XmlElement(name="complete")
+  @XmlElement(name = "complete")
   private Boolean complete = false;
 
- /**
+  /**
    * Get id
    * @return id
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -116,8 +120,8 @@ public class Order  {
   }
 
   /**
-    * Set id
-  **/
+   * Set id
+   */
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -130,10 +134,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get petId
    * @return petId
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "petId")
@@ -142,8 +146,8 @@ public class Order  {
   }
 
   /**
-    * Set petId
-  **/
+   * Set petId
+   */
   @JsonProperty(JSON_PROPERTY_PET_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "petId")
@@ -156,10 +160,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get quantity
    * @return quantity
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "quantity")
@@ -168,8 +172,8 @@ public class Order  {
   }
 
   /**
-    * Set quantity
-  **/
+   * Set quantity
+   */
   @JsonProperty(JSON_PROPERTY_QUANTITY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "quantity")
@@ -182,10 +186,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get shipDate
    * @return shipDate
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "shipDate")
@@ -194,8 +198,8 @@ public class Order  {
   }
 
   /**
-    * Set shipDate
-  **/
+   * Set shipDate
+   */
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "shipDate")
@@ -208,10 +212,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Order Status
    * @return status
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
@@ -223,8 +227,8 @@ public class Order  {
   }
 
   /**
-    * Set status
-  **/
+   * Set status
+   */
   @JsonProperty(JSON_PROPERTY_STATUS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "status")
@@ -237,10 +241,10 @@ public class Order  {
     return this;
   }
 
- /**
+  /**
    * Get complete
    * @return complete
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "complete")
@@ -249,8 +253,8 @@ public class Order  {
   }
 
   /**
-    * Set complete
-  **/
+   * Set complete
+   */
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "complete")
@@ -263,10 +267,31 @@ public class Order  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -293,3 +318,4 @@ public class Order  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

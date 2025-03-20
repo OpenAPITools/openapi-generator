@@ -8,4 +8,6 @@ additionalProperties:
   annotationLibrary: swagger2
   useSwaggerUI: "true"
   delegatePattern: "true"
+  appendRequestToHandler: "true"
   beanValidations: "true"
+  requestMappingMode: none

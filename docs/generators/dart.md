@@ -11,7 +11,7 @@ title: Documentation for the dart Generator
 | generator type | CLIENT | |
 | generator language | Dart | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Dart 2.x client library. | |
+| helpTxt | Generates a Dart client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -68,7 +68,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>as</li>
 <li>assert</li>
 <li>async</li>
+<li>augment</li>
 <li>await</li>
+<li>base</li>
 <li>break</li>
 <li>case</li>
 <li>catch</li>
@@ -116,6 +118,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>required</li>
 <li>rethrow</li>
 <li>return</li>
+<li>sealed</li>
 <li>set</li>
 <li>show</li>
 <li>source</li>
@@ -130,6 +133,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>typedef</li>
 <li>var</li>
 <li>void</li>
+<li>when</li>
 <li>while</li>
 <li>with</li>
 <li>yield</li>

@@ -101,6 +101,10 @@ class {{controllerName}} extends Controller
         // HTTP basic authentication required
         $security{{name}} = $request->headers->get('authorization');
         {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        // HTTP bearer authentication required
+        $security{{name}} = $request->headers->get('authorization');
+        {{/isBasicBearer}}
         {{#isOAuth}}
         // Oauth required
         $security{{name}} = $request->headers->get('authorization');
@@ -148,7 +152,7 @@ class {{controllerName}} extends Controller
             {{#allParams}}
             {{^isFile}}
             {{#isBodyParam}}
-            $inputFormat = $request->getMimeType($request->getContentType());
+            $inputFormat = $request->getMimeType($request->getContentTypeFormat());
             ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{#isEnumRef}}\{{modelPackage}}\{{dataType}}{{/isEnumRef}}{{^isEnumRef}}{{dataType}}{{/isEnumRef}}{{/isContainer}}', $inputFormat);
             {{/isBodyParam}}
             {{^isBodyParam}}
@@ -178,17 +182,12 @@ class {{controllerName}} extends Controller
 
             {{#returnType}}$result = {{/returnType}}$handler->{{operationId}}({{#allParams}}${{paramName}}, {{/allParams}}$responseCode, $responseHeaders);
 
-            // Find default response message
-            $message = '{{#responses}}{{#isDefault}}{{message}}{{/isDefault}}{{/responses}}';
-
-            // Find a more specific message, if available
-            switch ($responseCode) {
+            $message = match($responseCode) {
             {{#responses}}
-                case {{code}}:
-                    $message = '{{message}}';
-                    break;
+                {{code}} => '{{message}}',
             {{/responses}}
-            }
+                default => '{{#responses}}{{#isDefault}}{{message}}{{/isDefault}}{{/responses}}',
+            };
 
             return new Response(
                 {{#returnType}}$result !== null ?$this->serialize($result, $responseFormat):''{{/returnType}}{{^returnType}}''{{/returnType}},

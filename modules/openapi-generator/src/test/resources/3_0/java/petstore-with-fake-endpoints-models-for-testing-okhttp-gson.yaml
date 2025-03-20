@@ -176,7 +176,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                allOf:
+                  - $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':
@@ -257,6 +258,13 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: Content-Type
+          in: header
+          style: simple
+          description: Content type header parameter
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
@@ -937,6 +945,55 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/oneOfWIthSameErasure:
+    get:
+      description: Test route, this shouldn't cause a compiler error
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      type: integer
+  /fake/anyOfWIthSameErasure:
+    get:
+      description: Test route, this shouldn't cause a compiler error
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      type: integer
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1030,6 +1087,33 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/get-free-form-object:
+    get:
+      tags:
+        - fake
+      description: Get a free form object or Json string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeFormObjectTestClass'
+  /fake/free-form-query-parameters:
+    get:
+      parameters:
+        - in: "query"
+          name: "fixed"
+          schema:
+            type: "string"
+        - in: "query"
+          name: "free-form"
+          schema:
+            type: "object"
+          style: "form"
+      responses:
+        200:
+          description: OK
   /fake/test-query-parameters:
     put:
       tags:
@@ -1155,7 +1239,7 @@ paths:
       operationId: getParameterNameMapping
       parameters:
         - name: _type
-          in: header 
+          in: header
           description: _type
           required: true
           schema:
@@ -1168,7 +1252,7 @@ paths:
           schema:
             type: string
         - name: type_
-          in: header 
+          in: header
           description: type_
           required: true
           schema:
@@ -1184,7 +1268,7 @@ paths:
       operationId: getParameterStringNumber
       parameters:
         - name: string_number
-          in: header 
+          in: header
           description: string number
           required: true
           schema:
@@ -1259,6 +1343,46 @@ paths:
       responses:
         '200':
           description: ''
+  '/fake/pet/{petId}/uploadImage':
+    post:
+      tags:
+        - fake
+      summary: fake reference parameter
+      description: ''
+      operationId: fake-upload-ref-request-bodies
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        $ref: '#/components/requestBodies/upload_body'
+  '/fake/pet/{petId}/reference/parameter':
+    post:
+      tags:
+        - fake
+      summary: fake reference parameter
+      description: ''
+      operationId: fake-ref-parameter
+      parameters:
+        - $ref: '#/components/parameters/pet_id'
+      responses:
+        '200':
+          description: successful operation
   /values:
     get:
       tags:
@@ -1266,6 +1390,22 @@ paths:
       summary: Get some primitive variable values
       description: ''
       operationId: getSomeValues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
+  /internal/only:
+    get:
+      x-internal: true
+      tags:
+        - values
+      summary: internal only
+      description: ''
       responses:
         '200':
           description: successful operation
@@ -1301,7 +1441,30 @@ servers:
   - url: https://127.0.0.1/no_variable
     description: The local server without variables
 components:
+  parameters:
+    pet_id:
+      name: petId
+      in: path
+      description: to test oneOf in parameter $ref
+      required: true
+      schema:
+        oneOf:
+          - type: string
+          - type: integer
   requestBodies:
+    upload_body:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              additionalMetadata:
+                description: Additional data to pass to server
+                type: string
+              file:
+                description: file to upload
+                type: string
+                format: binary
     UserArray:
       content:
         application/json:
@@ -1329,7 +1492,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            allOf:
+              - $ref: '#/components/schemas/Pet'
         application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
@@ -1896,6 +2060,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1953,6 +2122,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/File'
+    FreeFormObjectTestClass:
+      type: object
+      properties:
+        name:
+          type: string
+        properties:
+          oneOf:
+            - type: string
+            - type: object
+              additionalProperties: true
     File:
       type: object
       description: Must be named `File` for test.
@@ -2061,6 +2240,13 @@ components:
           type: number
     mammal:
       oneOf:
+        - $ref: '#/components/schemas/whale'
+        - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
+      discriminator:
+        propertyName: className
+    mammal_anyof:
+      anyOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
         - $ref: '#/components/schemas/Pig'
@@ -2464,6 +2650,17 @@ components:
         category_allOf_ref:
           allOf:
             - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description:
+          description: |
+            Adding description to property using allOf
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        category_allOf_ref_description_readonly:
+          description: |
+            Adding description to readonly property using allOf
+          readOnly: true
+          allOf:
+            - $ref: '#/components/schemas/Category'
         name:
           type: string
           example: doggie
@@ -2490,6 +2687,7 @@ components:
             - pending
             - sold
     PropertyNameCollision:
+      x-internal: false
       type: object
       properties:
         _type:
@@ -2497,6 +2695,12 @@ components:
         type:
           type: string
         type_:
+          type: string
+    InteralOnly:
+      type: object
+      x-internal: true
+      properties:
+        type:
           type: string
     AllOfModelArrayAnyOf:
       allOf:
@@ -2521,3 +2725,87 @@ components:
                   oneOf:
                   - $ref: '#/components/schemas/Pet'
                   - $ref: '#/components/schemas/Order'
+    PetUsingAllOf:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        category:
+          description: |
+            multi line description
+            2nd line
+            last line
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+    PetComposition:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+    PetRef:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          $ref: '#/components/schemas/Pet/properties/id'
+        category:
+          $ref: '#/components/schemas/Pet/properties/category'
+        name:
+          $ref: '#/components/schemas/Pet/properties/name'
+        photoUrls:
+          $ref: '#/components/schemas/Pet/properties/photoUrls'
+        tags:
+          $ref: '#/components/schemas/Pet/properties/tags'
+        status:
+          $ref: '#/components/schemas/Pet/properties/status'
+      xml:
+        name: Pet
+    ArrayOneOf:
+      oneOf:
+        - type: integer
+        - type: array
+          items:
+            type: string
+    ArrayAnyOf:
+      anyOf:
+        - type: integer
+        - type: array
+          items:
+            type: string
+    ModelWithOneOfAnyOfProperties:
+      type: object
+      properties:
+        oneof_prop:
+          $ref: '#/components/schemas/ArrayOneOf'
+        anyof_prop:
+          $ref: '#/components/schemas/ArrayAnyOf'

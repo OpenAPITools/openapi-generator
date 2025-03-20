@@ -77,7 +77,7 @@ class NumberPropertiesOnlyTest extends TestCase
     public function testNumberPropertiesOnly()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -86,7 +86,7 @@ class NumberPropertiesOnlyTest extends TestCase
     public function testPropertyNumber()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -95,7 +95,7 @@ class NumberPropertiesOnlyTest extends TestCase
     public function testPropertyFloat()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,6 +104,6 @@ class NumberPropertiesOnlyTest extends TestCase
     public function testPropertyDouble()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

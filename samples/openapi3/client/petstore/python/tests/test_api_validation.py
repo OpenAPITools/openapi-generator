@@ -50,7 +50,7 @@ class ApiExceptionTests(unittest.TestCase):
         try:
             self.pet_api.get_pet_by_id()  # type: ignore
         except ValidationError as e:
-            self.assertIn("1 validation error for get_pet_by_id", str(e))
+            self.assertIn("1 validation error for PetApi.get_pet_by_id", str(e))
             self.assertIn("Missing required argument", str(e))
 
     def test_integer_validation(self):
@@ -61,7 +61,7 @@ class ApiExceptionTests(unittest.TestCase):
             # pet_id
             #   Input should be a valid integer [type=int_type, input_value='123', input_type=str]
             #     For further information visit https://errors.pydantic.dev/2.3/v/int_type
-            self.assertIn("1 validation error for get_pet_by_id", str(e))
+            self.assertIn("1 validation error for PetApi.get_pet_by_id", str(e))
             self.assertIn("Input should be a valid integer", str(e))
 
     def test_string_enum_validation(self):

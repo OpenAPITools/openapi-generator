@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,10 +30,8 @@ export interface Foo {
 /**
  * Check if a given object implements the Foo interface.
  */
-export function instanceOfFoo(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+export function instanceOfFoo(value: object): value is Foo {
+    return true;
 }
 
 export function FooFromJSON(json: any): Foo {
@@ -41,25 +39,27 @@ export function FooFromJSON(json: any): Foo {
 }
 
 export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'bar': !exists(json, 'bar') ? undefined : json['bar'],
+        'bar': json['bar'] == null ? undefined : json['bar'],
     };
 }
 
-export function FooToJSON(value?: Foo | null): any {
-    if (value === undefined) {
-        return undefined;
+export function FooToJSON(json: any): Foo {
+    return FooToJSONTyped(json, false);
+}
+
+export function FooToJSONTyped(value?: Foo | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'bar': value.bar,
+        'bar': value['bar'],
     };
 }
 

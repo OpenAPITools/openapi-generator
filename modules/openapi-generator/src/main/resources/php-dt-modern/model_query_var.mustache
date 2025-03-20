@@ -21,7 +21,7 @@
 {{/isDate
 }}{{#isDateTime
 }}    #[DTA\Strategy("DateTime", subset: "{{internal.parameterLocation}}")]
-    #[DTA\Validator("Date", ["format" => \DateTime::RFC3339], subset: "{{internal.parameterLocation}}")]
+    #[DTA\Validator("DateTime", subset: "{{internal.parameterLocation}}")]
 {{/isDateTime
 }}{{^isPrimitiveType
 }}{{^isDate}}{{^isDateTime
@@ -31,21 +31,24 @@
 }}{{/isContainer
 }}{{#hasValidation
 }}{{#minLength}}{{#maxLength
-}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}, "max" => {{maxLength}}], subset: "{{internal.parameterLocation}}")]
+}}    #[DTA\Validator("Length", ["min" => {{minLength}}, "max" => {{maxLength}}], subset: "{{internal.parameterLocation}}")]
 {{/maxLength}}{{/minLength
 }}{{^minLength}}{{#maxLength
-}}    #[DTA\Validator("StringLength", ["max" => {{maxLength}}], subset: "{{internal.parameterLocation}}")]
+}}    #[DTA\Validator("Length", ["max" => {{maxLength}}], subset: "{{internal.parameterLocation}}")]
 {{/maxLength}}{{/minLength
 }}{{#minLength}}{{^maxLength
-}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}], subset: "{{internal.parameterLocation}}")]
+}}    #[DTA\Validator("Length", ["min" => {{minLength}}], subset: "{{internal.parameterLocation}}")]
 {{/maxLength}}{{/minLength
-}}{{#minimum
-}}    #[DTA\Validator("GreaterThan", ["min" => {{minimum}}{{^exclusiveMinimum}}, "inclusive" => true{{/exclusiveMinimum}}], subset: "{{internal.parameterLocation}}")]
-{{/minimum
-}}{{#maximum
-}}    #[DTA\Validator("LessThan", ["max" => {{maximum}}{{^exclusiveMaximum}}, "inclusive" => true{{/exclusiveMaximum}}], subset: "{{internal.parameterLocation}}")]
-{{/maximum
+}}{{#minimum}}{{#maximum
+}}    #[DTA\Validator("Range", ["min" => {{minimum}}, "max" => {{maximum}}{{#exclusiveMinimum}}, "exclude_min" => true{{/exclusiveMinimum}}{{#exclusiveMaximum}}, "exclude_max" => true{{/exclusiveMaximum}}], subset: "{{internal.parameterLocation}}")]
+{{/maximum}}{{/minimum
+}}{{^minimum}}{{#maximum
+}}    #[DTA\Validator("Range", ["max" => {{maximum}}{{#exclusiveMaximum}}, "exclude_max" => true{{/exclusiveMaximum}}], subset: "{{internal.parameterLocation}}")]
+{{/maximum}}{{/minimum
+}}{{#minimum}}{{^maximum
+}}    #[DTA\Validator("Range", ["min" => {{minimum}}{{#exclusiveMinimum}}, "exclude_min" => true{{/exclusiveMinimum}}], subset: "{{internal.parameterLocation}}")]
+{{/maximum}}{{/minimum
 }}{{#pattern
-}}    #[DTA\Validator("Regex", ["pattern" => "{{{pattern}}}"], subset: "{{internal.parameterLocation}}")]
+}}    #[DTA\Validator("Match", ["pattern" => "{{{pattern}}}"], subset: "{{internal.parameterLocation}}")]
 {{/pattern
 }}{{/hasValidation}}

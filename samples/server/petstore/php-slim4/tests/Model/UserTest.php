@@ -77,7 +77,7 @@ class UserTest extends TestCase
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "User" model has not been implemented yet.'
         );
     }
@@ -87,7 +87,7 @@ class UserTest extends TestCase
      */
     public function testPropertyId()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "id" property in "User" model has not been implemented yet.'
         );
     }
@@ -97,7 +97,7 @@ class UserTest extends TestCase
      */
     public function testPropertyUsername()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "username" property in "User" model has not been implemented yet.'
         );
     }
@@ -107,7 +107,7 @@ class UserTest extends TestCase
      */
     public function testPropertyFirstName()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "firstName" property in "User" model has not been implemented yet.'
         );
     }
@@ -117,7 +117,7 @@ class UserTest extends TestCase
      */
     public function testPropertyLastName()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "lastName" property in "User" model has not been implemented yet.'
         );
     }
@@ -127,7 +127,7 @@ class UserTest extends TestCase
      */
     public function testPropertyEmail()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "email" property in "User" model has not been implemented yet.'
         );
     }
@@ -137,7 +137,7 @@ class UserTest extends TestCase
      */
     public function testPropertyPassword()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "password" property in "User" model has not been implemented yet.'
         );
     }
@@ -147,7 +147,7 @@ class UserTest extends TestCase
      */
     public function testPropertyPhone()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "phone" property in "User" model has not been implemented yet.'
         );
     }
@@ -157,7 +157,7 @@ class UserTest extends TestCase
      */
     public function testPropertyUserStatus()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "userStatus" property in "User" model has not been implemented yet.'
         );
     }
@@ -172,3 +172,4 @@ class UserTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

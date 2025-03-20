@@ -1,0 +1,663 @@
+## PaymentsApi
+
+### Get the result of a payment session
+## Get the result of a payment session
+GET https://checkout-test.adyen.com/v71/sessions/{{sessionId}}?sessionResult={{sessionResult}}
+Accept: application/json
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+### Get the list of brands on the card
+## Get a list of brands on a card
+POST https://checkout-test.adyen.com/v71/cardDetails
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "cardNumber": "411111"
+}
+
+### Get the list of brands on the card
+## Get a list of brands on a card specifying your supported card brands
+POST https://checkout-test.adyen.com/v71/cardDetails
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "cardNumber": "411111",
+ "supportedBrands": ["visa","mc","amex"]
+}
+
+
+### Get a list of available payment methods
+## Get available payment methods
+POST https://checkout-test.adyen.com/v71/paymentMethods
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Get a list of available payment methods
+## Get payment methods based on the country and amount
+POST https://checkout-test.adyen.com/v71/paymentMethods
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "countryCode": "NL",
+ "shopperLocale": "nl-NL",
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+}
+}
+
+### Get a list of available payment methods
+## Get payment methods including stored card details
+POST https://checkout-test.adyen.com/v71/paymentMethods
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "countryCode": "NL",
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+},
+ "shopperReference": "YOUR_SHOPPER_REFERENCE"
+}
+
+
+### Start a transaction
+## Make an Apple Pay payment
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "applepay",
+ "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Make a card payment with 3D Secure 2 native authentication
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+},
+ "reference": "YOUR_ORDER_NUMBER",
+ "paymentMethod": {
+ "type": "scheme",
+ "encryptedCardNumber": "test_4035501428146300",
+ "encryptedExpiryMonth": "test_03",
+ "encryptedExpiryYear": "test_2030",
+ "encryptedSecurityCode": "test_737",
+ "holderName": "John Smith"
+},
+ "authenticationData": {
+ "threeDSRequestData": {
+ "nativeThreeDS": "preferred"
+}
+},
+ "billingAddress": {
+ "country": "US",
+ "city": "New York",
+ "street": "Redwood Block",
+ "houseNumberOrName": "37C",
+ "stateOrProvince": "NY",
+ "postalCode": "10039"
+},
+ "shopperEmail": "s.hopper@test.com",
+ "shopperIP": "192.0.2.1",
+ "browserInfo": {
+ "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+ "acceptHeader": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+ "language": "nl-NL",
+ "colorDepth": 24,
+ "screenHeight": 723,
+ "screenWidth": 1536,
+ "timeZoneOffset": 0,
+ "javaEnabled": true
+},
+ "channel": "Web",
+ "origin": "https://your-company.com",
+ "returnUrl": "https://your-company.com/checkout/",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Make a card payment with 3D Secure redirect authentication
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "number": "4212345678901237",
+ "expiryMonth": "03",
+ "expiryYear": "2030",
+ "holderName": "John Smith",
+ "cvc": "737"
+},
+ "browserInfo": {
+ "userAgent": "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9) Gecko/2008052912 Firefox/3.0",
+ "acceptHeader": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+ "javaEnabled": true,
+ "colorDepth": 10,
+ "screenHeight": 2000,
+ "screenWidth": 3000,
+ "timeZoneOffset": 5,
+ "language": "en"
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Make a card payment with unencrypted card details
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "number": "4111111111111111",
+ "expiryMonth": "03",
+ "expiryYear": "2030",
+ "holderName": "John Smith",
+ "cvc": "737"
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Make a card payment
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "encryptedCardNumber": "test_4111111111111111",
+ "encryptedExpiryMonth": "test_03",
+ "encryptedExpiryYear": "test_2030",
+ "encryptedSecurityCode": "test_737"
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Tokenize card details for one-off payments
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "encryptedCardNumber": "test_4111111111111111",
+ "encryptedExpiryMonth": "test_03",
+ "encryptedExpiryYear": "test_2030",
+ "encryptedSecurityCode": "test_737"
+},
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "storePaymentMethod": true,
+ "shopperInteraction": "Ecommerce",
+ "recurringProcessingModel": "CardOnFile",
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Make a Google Pay payment
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "paywithgoogle",
+ "googlePayToken": "==Payload as retrieved from Google Pay response=="
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YourMerchantAccount"
+}
+
+### Start a transaction
+## Make an iDEAL payment
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "EUR",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "ideal",
+ "issuer": "1121"
+},
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+### Start a transaction
+## Make a Klarna payment
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "reference": "YOUR_ORDER_REFERENCE",
+ "paymentMethod": {
+ "type": "klarna"
+},
+ "amount": {
+ "currency": "SEK",
+ "value": 1000
+},
+ "shopperLocale": "en_US",
+ "countryCode": "SE",
+ "telephoneNumber": "+46 840 839 298",
+ "shopperEmail": "youremail@email.com",
+ "shopperName": {
+ "firstName": "Testperson-se",
+ "lastName": "Approved"
+},
+ "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3k9G2PvXFu2j",
+ "billingAddress": {
+ "city": "Ankeborg",
+ "country": "SE",
+ "houseNumberOrName": "1",
+ "postalCode": "12345",
+ "street": "Stargatan"
+},
+ "deliveryAddress": {
+ "city": "Ankeborg",
+ "country": "SE",
+ "houseNumberOrName": "1",
+ "postalCode": "12345",
+ "street": "Stargatan"
+},
+ "returnUrl": "https://www.your-company.com/...",
+ "lineItems": ["{quantity=1, amountExcludingTax=331, taxPercentage=2100, description=Shoes, id=Item #1, taxAmount=69, amountIncludingTax=400, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}","{quantity=2, amountExcludingTax=248, taxPercentage=2100, description=Socks, id=Item #2, taxAmount=52, amountIncludingTax=300, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}"]
+}
+
+### Start a transaction
+## Make a one-off payment with a token and CVV
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "storedPaymentMethodId": "8416038790273850",
+ "encryptedSecurityCode": "adyenjs_0_1_18$MT6ppy0FAMVMLH..."
+},
+ "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_6738oneoff",
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "shopperInteraction": "ContAuth",
+ "recurringProcessingModel": "CardOnFile"
+}
+
+### Start a transaction
+## Make a subscription card payment with a token
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "storedPaymentMethodId": "8316038796685850"
+},
+ "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3subscription",
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "shopperInteraction": "ContAuth",
+ "recurringProcessingModel": "Subscription"
+}
+
+### Start a transaction
+## Split a payment between balance accounts
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "paymentMethod": {
+ "type": "scheme",
+ "encryptedCardNumber": "test_4111111111111111",
+ "encryptedExpiryMonth": "test_03",
+ "encryptedExpiryYear": "test_2030",
+ "encryptedSecurityCode": "test_737"
+},
+ "amount": {
+ "value": 40000,
+ "currency": "USD"
+},
+ "reference": "YOUR_ORDER_NUMBER",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "returnUrl": "https://your-company.com/...",
+ "platformChargebackLogic": {
+ "behavior": "deductFromOneBalanceAccount",
+ "targetAccount": "BA00000000000000000000001",
+ "costAllocationAccount": "BA00000000000000000000001"
+},
+ "splits": ["{amount={value=39600}, type=BalanceAccount, account=BA00000000000000000000001, reference=Your reference for the sale amount, description=Your description for the sale amount}","{amount={value=400}, type=Commission, reference=Your reference for the commission, description=Your description for the commission}","{type=PaymentFee, account=BA00000000000000000000001, reference=Your reference for the fees, description=Your description for the fees}"]
+}
+
+### Start a transaction
+## Split a payment in a Classic Platforms integration
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "paymentMethod": {
+ "type": "scheme",
+ "encryptedCardNumber": "test_4111111111111111",
+ "encryptedExpiryMonth": "test_03",
+ "encryptedExpiryYear": "test_2030",
+ "encryptedSecurityCode": "test_737"
+},
+ "amount": {
+ "value": 6200,
+ "currency": "EUR"
+},
+ "reference": "YOUR_ORDER_NUMBER",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "returnUrl": "https://your-company.com/...",
+ "splits": ["{amount={value=6000}, type=MarketPlace, account=151272963, reference=6124145, description=Porcelain Doll: Eliza (20cm)}","{amount={value=200}, type=Commission, reference=6124146}"]
+}
+
+### Start a transaction
+## Tokenize card details for a subscription
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "currency": "USD",
+ "value": 1000
+},
+ "reference": "Your order number",
+ "paymentMethod": {
+ "type": "scheme",
+ "encryptedCardNumber": "test_4111111111111111",
+ "encryptedExpiryMonth": "test_03",
+ "encryptedExpiryYear": "test_2030",
+ "encryptedSecurityCode": "test_737"
+},
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "storePaymentMethod": true,
+ "shopperInteraction": "Ecommerce",
+ "recurringProcessingModel": "Subscription",
+ "returnUrl": "https://your-company.com/...",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+}
+
+
+### Submit details for a payment
+## Submit the redirect result
+POST https://checkout-test.adyen.com/v71/payments/details
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "details": {
+ "redirectResult": "X6XtfGC3!Y..."
+}
+}
+
+### Submit details for a payment
+## Submit 3D Secure 2 authentication result
+POST https://checkout-test.adyen.com/v71/payments/details
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "details": {
+ "threeDSResult": "eyJ0cmFuc1N0YXR1cyI6IlkifQ=="
+}
+}
+
+
+### Create a payment session
+## Create a payment session
+POST https://checkout-test.adyen.com/v71/sessions
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "amount": {
+ "value": 100,
+ "currency": "EUR"
+},
+ "returnUrl": "https://your-company.com/checkout?shopperOrder=12xy..",
+ "reference": "YOUR_PAYMENT_REFERENCE",
+ "countryCode": "NL"
+}
+
+### Create a payment session
+## Create a payment session including Klarna fields
+POST https://checkout-test.adyen.com/v71/sessions
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "reference": "YOUR_ORDER_REFERENCE",
+ "amount": {
+ "currency": "SEK",
+ "value": 1000
+},
+ "shopperLocale": "en_US",
+ "countryCode": "SE",
+ "telephoneNumber": "+46 840 839 298",
+ "shopperEmail": "youremail@email.com",
+ "shopperName": {
+ "firstName": "Testperson-se",
+ "lastName": "Approved"
+},
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "billingAddress": {
+ "city": "Ankeborg",
+ "country": "SE",
+ "houseNumberOrName": "1",
+ "postalCode": "12345",
+ "street": "Stargatan"
+},
+ "deliveryAddress": {
+ "city": "Ankeborg",
+ "country": "SE",
+ "houseNumberOrName": "1",
+ "postalCode": "12345",
+ "street": "Stargatan"
+},
+ "dateOfBirth": "1996-09-04",
+ "socialSecurityNumber": "0108",
+ "returnUrl": "https://example.org",
+ "lineItems": ["{quantity=1, amountExcludingTax=331, taxPercentage=2100, description=Shoes, id=Item #1, taxAmount=69, amountIncludingTax=400, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}","{quantity=2, amountExcludingTax=248, taxPercentage=2100, description=Socks, id=Item #2, taxAmount=52, amountIncludingTax=300, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}"]
+}
+
+### Create a payment session
+## Tokenize card details for one-off payments without asking shopper
+POST https://checkout-test.adyen.com/v71/sessions
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "merchantAccount": "TestMerchantCheckout",
+ "amount": {
+ "value": 100,
+ "currency": "EUR"
+},
+ "shopperReference": "YOUR_SHOPPER_REFERENCE",
+ "returnUrl": "https://your-company.com/checkout?shopperOrder=12xy..",
+ "reference": "YOUR_PAYMENT_REFERENCE",
+ "countryCode": "NL",
+ "storePaymentMethodMode": "enabled",
+ "shopperInteraction": "Ecommerce",
+ "recurringProcessingModel": "CardOnFile"
+}
+
+### Create a payment session
+## Split a payment between balance accounts
+POST https://checkout-test.adyen.com/v71/sessions
+Content-Type: application/json
+Accept: application/json
+Idempotency-Key: {{idempotencyKey}}
+Authorization: Basic: {{username-password}}
+X-API-Key: {{apiKey}}
+
+{
+ "amount": {
+ "value": 40000,
+ "currency": "USD"
+},
+ "reference": "YOUR_ORDER_NUMBER",
+ "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "returnUrl": "https://your-company.com/...",
+ "splits": ["{amount={value=39200}, type=BalanceAccount, account=BA00000000000000000000001, reference=Your reference for the sale amount, description=Your description for the sale amount}","{amount={value=400}, type=Commission, reference=Your reference for the commission, description=Your description for the commission}","{amount={value=400}, account=BA00000000000000000000001, reference=Your reference for the fees, description=Your description for the fees, type=PaymentFee}"]
+}
+

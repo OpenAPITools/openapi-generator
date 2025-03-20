@@ -1,11 +1,17 @@
-private void processNonFileFormField(String name, Map<String, List<String>> nonFileFormContent, ReadableBodyPart part) {
+private void processNonFileFormField(String name, Map<String, List<String>> nonFileFormContent, Readable{{#x-helidon-v3}}Body{{/x-helidon-v3}}Part part) {
         List<String> content = nonFileFormContent.computeIfAbsent(name, key -> new ArrayList<>());
-        part.content().as(String.class).thenAccept(content::add);
+{{#x-helidon-v3}}        part.content().as(String.class).thenAccept(content::add);
+{{/x-helidon-v3}}
+{{^x-helidon-v3}}        content.add(part.as(String.class));
+{{/x-helidon-v3}}
     }
-
-    private void processFileFormField(String name, Map<String, List<InputStream>> fileFormContent, ReadableBodyPart part) {
-        List<InputStream> content = fileFormContent.computeIfAbsent(name, key -> new ArrayList<>());
-        part.content().map(DataChunk::bytes)
+{{!
+    Helidon 4 changed ReadableBodyPart to ReadablePart and, for Helidon 4, we save the entire part (which can now include
+    the optional filename and part headers) as well as the InputStream instead of just the InputStream as in Helidon 3.
+}}
+    private void processFileFormField(String name, Map<String, List<{{#x-helidon-v3}}InputStream{{/x-helidon-v3}}{{^x-helidon-v3}}ReadablePart{{/x-helidon-v3}}>> fileFormContent, Readable{{#x-helidon-v3}}Body{{/x-helidon-v3}}Part part) {
+    {{^x-helidon-v3}}    {{/x-helidon-v3}}List<{{#x-helidon-v3}}InputStream{{/x-helidon-v3}}{{^x-helidon-v3}}ReadablePart{{/x-helidon-v3}}> content = fileFormContent.computeIfAbsent(name, key -> new ArrayList<>());
+{{#x-helidon-v3}}        part.content().map(DataChunk::bytes)
             .collect(ByteArrayOutputStream::new, (stream, bytes) -> {
                 try {
                     stream.write(bytes);
@@ -14,4 +20,7 @@ private void processNonFileFormField(String name, Map<String, List<String>> nonF
                 }
         })
         .thenAccept(byteStream -> content.add(new ByteArrayInputStream(byteStream.toByteArray())));
+{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}        content.add(part);
+{{/x-helidon-v3}}
     }

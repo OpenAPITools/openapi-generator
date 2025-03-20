@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 from typing import Optional, Set
@@ -31,11 +31,11 @@ class Parent(BaseModel):
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["optionalDict"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -75,9 +75,9 @@ class Parent(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each value in optional_dict (dict)
         _field_dict = {}
         if self.optional_dict:
-            for _key in self.optional_dict:
-                if self.optional_dict[_key]:
-                    _field_dict[_key] = self.optional_dict[_key].to_dict()
+            for _key_optional_dict in self.optional_dict:
+                if self.optional_dict[_key_optional_dict]:
+                    _field_dict[_key_optional_dict] = self.optional_dict[_key_optional_dict].to_dict()
             _dict['optionalDict'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

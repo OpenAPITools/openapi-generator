@@ -17,7 +17,8 @@ paths:
         "200":
           description: OK
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     _myExample_post_request:

@@ -65,5 +65,6 @@ data class Order (
         @Json(name = "approved") approved("approved"),
         @Json(name = "delivered") delivered("delivered");
     }
+
 }
 

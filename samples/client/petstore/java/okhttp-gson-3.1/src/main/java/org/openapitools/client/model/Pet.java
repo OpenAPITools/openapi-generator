@@ -20,9 +20,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.openapitools.client.model.Category;
-import org.openapitools.jackson.nullable.JsonNullable;
+import org.openapitools.client.model.Tag;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,7 +41,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,27 +52,32 @@ import org.openapitools.client.JSON;
 /**
  * A pet for sale in the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Object id = null;
+  @javax.annotation.Nullable
+  private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
+  @javax.annotation.Nullable
   private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private Object name = null;
+  @javax.annotation.Nonnull
+  private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private Object photoUrls = null;
+  @javax.annotation.Nonnull
+  private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private Object tags = null;
+  @javax.annotation.Nullable
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -84,13 +90,13 @@ public class Pet {
     
     SOLD("sold");
 
-    private Object value;
+    private String value;
 
-    StatusEnum(Object value) {
+    StatusEnum(String value) {
       this.value = value;
     }
 
-    public Object getValue() {
+    public String getValue() {
       return value;
     }
 
@@ -99,13 +105,13 @@ public class Pet {
       return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(Object value) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
         if (b.value.equals(value)) {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {
@@ -116,13 +122,13 @@ public class Pet {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        Object value =  jsonReader.nextObject();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }
 
     public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      Object value = jsonElement.getAsObject();
+      String value = jsonElement.getAsString();
       StatusEnum.fromValue(value);
     }
   }
@@ -130,117 +136,134 @@ public class Pet {
   public static final String SERIALIZED_NAME_STATUS = "status";
   @Deprecated
   @SerializedName(SERIALIZED_NAME_STATUS)
-  private StatusEnum status = null;
+  @javax.annotation.Nullable
+  private StatusEnum status;
 
   public Pet() {
   }
 
-  public Pet id(Object id) {
+  public Pet id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
-  public Object getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Object id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Pet category(Category category) {
+  public Pet category(@javax.annotation.Nullable Category category) {
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
   public Category getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(@javax.annotation.Nullable Category category) {
     this.category = category;
   }
 
 
-  public Pet name(Object name) {
+  public Pet name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
-  @javax.annotation.Nullable
-  public Object getName() {
+   */
+  @javax.annotation.Nonnull
+  public String getName() {
     return name;
   }
 
-  public void setName(Object name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public Pet photoUrls(Object photoUrls) {
+  public Pet photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
 
-   /**
+  public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
+    this.photoUrls.add(photoUrlsItem);
+    return this;
+  }
+
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
-  @javax.annotation.Nullable
-  public Object getPhotoUrls() {
+   */
+  @javax.annotation.Nonnull
+  public List<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(Object photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public Pet tags(Object tags) {
+  public Pet tags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
     return this;
   }
 
-   /**
+  public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
+    this.tags.add(tagsItem);
+    return this;
+  }
+
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
-  public Object getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
-  public void setTags(Object tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
   @Deprecated
-  public Pet status(StatusEnum status) {
+  public Pet status(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   public StatusEnum getStatus() {
@@ -248,7 +271,7 @@ public class Pet {
   }
 
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 
@@ -316,20 +339,9 @@ public class Pet {
         Objects.equals(this.additionalProperties, pet.additionalProperties);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return Objects.hash(id, category, name, photoUrls, tags, status, additionalProperties);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -378,12 +390,12 @@ public class Pet {
     openapiRequiredFields.add("photoUrls");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to Pet
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to Pet
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Pet.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -401,6 +413,32 @@ public class Pet {
       // validate the optional field `category`
       if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
         Category.validateJsonElement(jsonObj.get("category"));
+      }
+      if (!jsonObj.get("name").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
+      }
+      // ensure the required json array is present
+      if (jsonObj.get("photoUrls") == null) {
+        throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
+      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
+      }
+      if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {
+        JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
+        if (jsonArraytags != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("tags").isJsonArray()) {
+            throw new IllegalArgumentException(String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
+          }
+
+          // validate the optional field `tags` (array)
+          for (int i = 0; i < jsonArraytags.size(); i++) {
+            Tag.validateJsonElement(jsonArraytags.get(i));
+          };
+        }
+      }
+      if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
       }
       // validate the optional field `status`
       if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
@@ -436,7 +474,12 @@ public class Pet {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -475,22 +518,22 @@ public class Pet {
     }
   }
 
- /**
-  * Create an instance of Pet given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of Pet
-  * @throws IOException if the JSON string is invalid with respect to Pet
-  */
+  /**
+   * Create an instance of Pet given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of Pet
+   * @throws IOException if the JSON string is invalid with respect to Pet
+   */
   public static Pet fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, Pet.class);
   }
 
- /**
-  * Convert an instance of Pet to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of Pet to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**operation**](DefaultApi.md#operation) | **GET** / | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**operation**](DefaultApi.md#operation) | **GET** / |  |
 
 
 <a id="operation"></a>

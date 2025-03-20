@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -23,20 +24,20 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesAnyType
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AdditionalPropertiesAnyType {
 
   private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesAnyType name(String name) {
-    this.name = Optional.of(name);
+    this.name = Optional.ofNullable(name);
     return this;
   }
 
   /**
    * Get name
    * @return name
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
@@ -124,5 +125,68 @@ public class AdditionalPropertiesAnyType {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private AdditionalPropertiesAnyType instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesAnyType());
+    }
+
+    protected Builder(AdditionalPropertiesAnyType instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(AdditionalPropertiesAnyType value) { 
+      this.instance.setName(value.name);
+      return this;
+    }
+
+    public AdditionalPropertiesAnyType.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    public AdditionalPropertiesAnyType.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
+    /**
+    * returns a built AdditionalPropertiesAnyType instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public AdditionalPropertiesAnyType build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static AdditionalPropertiesAnyType.Builder builder() {
+    return new AdditionalPropertiesAnyType.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesAnyType.Builder toBuilder() {
+    AdditionalPropertiesAnyType.Builder builder = new AdditionalPropertiesAnyType.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

@@ -16,9 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -39,21 +39,24 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
-     final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
+    final Logger LOGGER = LoggerFactory.getLogger(NimClientCodegen.class);
 
     public static final String PROJECT_NAME = "projectName";
 
-    protected String packageName = "openapiclient";
-    protected String packageVersion = "1.0.0";
+    @Setter protected String packageName = "openapiclient";
+    @Setter protected String packageVersion = "1.0.0";
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
+    @Override
     public String getName() {
         return "nim";
     }
 
+    @Override
     public String getHelp() {
         return "Generates a nim client (beta).";
     }
@@ -166,14 +169,6 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "string");
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public void setPackageVersion(String packageVersion) {
-        this.packageVersion = packageVersion;
-    }
-
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         return postProcessModelsEnum(objs);
@@ -275,8 +270,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = ModelUtils.getSchemaItems(p);
             if (inner == null) {
                 return null;
             }
@@ -374,5 +368,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.NIM; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.NIM;
+    }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplateFileType;
@@ -20,7 +21,13 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class DynamicSettings {
-    @JsonAnySetter
+    /**
+     * -- GETTER --
+     * Gets all "custom" properties included in the config object.
+     *
+     * @return All user-specified custom properties.
+     */
+    @Getter @JsonAnySetter
     private Map<String, Object> dynamicProperties = new HashMap<>();
 
     @JsonUnwrapped
@@ -89,18 +96,10 @@ public class DynamicSettings {
      * <p>Constructor for DynamicSettings.</p>
      */
     @JsonCreator
-    public DynamicSettings() { }
-
-    /**
-     * Gets all "custom" properties included in the config object.
-     *
-     * @return All user-specified custom properties.
-     */
-    public Map<String, Object> getDynamicProperties() {
-        return dynamicProperties;
+    public DynamicSettings() {
     }
 
-    private void excludeSettingsFromDynamicProperties(){
+    private void excludeSettingsFromDynamicProperties() {
         Set<String> fieldNames = new HashSet<>();
         for (Field field : GeneratorSettings.class.getDeclaredFields()) {
             fieldNames.add(field.getName());

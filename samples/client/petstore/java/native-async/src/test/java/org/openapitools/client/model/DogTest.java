@@ -21,23 +21,23 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.Animal;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Dog
  */
-public class DogTest {
+class DogTest {
     private final Dog model = new Dog();
 
     /**
      * Model tests for Dog
      */
     @Test
-    public void testDog() {
+    void testDog() {
         // TODO: test Dog
     }
 
@@ -45,7 +45,7 @@ public class DogTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 
@@ -53,7 +53,7 @@ public class DogTest {
      * Test the property 'color'
      */
     @Test
-    public void colorTest() {
+    void colorTest() {
         // TODO: test color
     }
 
@@ -61,7 +61,7 @@ public class DogTest {
      * Test the property 'breed'
      */
     @Test
-    public void breedTest() {
+    void breedTest() {
         // TODO: test breed
     }
 

@@ -18,43 +18,70 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
+import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
+    @Getter
+    @Setter
     private Boolean autoHeadFeatureEnabled = true;
+    @Getter
+    @Setter
     private Boolean conditionalHeadersFeatureEnabled = false;
+    @Getter
+    @Setter
     private Boolean hstsFeatureEnabled = true;
+    @Getter
+    @Setter
     private Boolean corsFeatureEnabled = false;
+    @Getter
+    @Setter
     private Boolean compressionFeatureEnabled = true;
+    @Getter
+    @Setter
     private Boolean resourcesFeatureEnabled = true;
+    @Getter
+    @Setter
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
+    @Setter
     private boolean omitGradleWrapper = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
             .put(Constants.KTOR, Arrays.asList(
+                    Constants.AUTOMATIC_HEAD_REQUESTS,
+                    Constants.CONDITIONAL_HEADERS,
+                    Constants.HSTS,
+                    Constants.CORS,
+                    Constants.COMPRESSION,
+                    Constants.RESOURCES,
+                    Constants.METRICS,
+                    Constants.OMIT_GRADLE_WRAPPER
+            ))
+            .put(Constants.KTOR2, Arrays.asList(
                     Constants.AUTOMATIC_HEAD_REQUESTS,
                     Constants.CONDITIONAL_HEADERS,
                     Constants.HSTS,
@@ -118,7 +145,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         modelPackage = packageName + ".models";
 
         supportedLibraries.put(Constants.KTOR, "ktor framework");
+        supportedLibraries.put(Constants.KTOR2, "ktor (2.x) framework");
         supportedLibraries.put(Constants.JAXRS_SPEC, "JAX-RS spec only");
+        supportedLibraries.put(Constants.JAVALIN5, "Javalin 5");
+        supportedLibraries.put(Constants.JAVALIN6, "Javalin 6");
 
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
         addOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC, DEFAULT_LIBRARY, supportedLibraries);
@@ -138,78 +168,21 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
     }
 
-    public Boolean getAutoHeadFeatureEnabled() {
-        return autoHeadFeatureEnabled;
-    }
-
-    public void setAutoHeadFeatureEnabled(Boolean autoHeadFeatureEnabled) {
-        this.autoHeadFeatureEnabled = autoHeadFeatureEnabled;
-    }
-
-    public Boolean getCompressionFeatureEnabled() {
-        return compressionFeatureEnabled;
-    }
-
-    public void setCompressionFeatureEnabled(Boolean compressionFeatureEnabled) {
-        this.compressionFeatureEnabled = compressionFeatureEnabled;
-    }
-
-    public Boolean getConditionalHeadersFeatureEnabled() {
-        return conditionalHeadersFeatureEnabled;
-    }
-
-    public void setConditionalHeadersFeatureEnabled(Boolean conditionalHeadersFeatureEnabled) {
-        this.conditionalHeadersFeatureEnabled = conditionalHeadersFeatureEnabled;
-    }
-
-    public Boolean getCorsFeatureEnabled() {
-        return corsFeatureEnabled;
-    }
-
-    public void setCorsFeatureEnabled(Boolean corsFeatureEnabled) {
-        this.corsFeatureEnabled = corsFeatureEnabled;
-    }
-
+    @Override
     public String getHelp() {
         return "Generates a Kotlin server.";
-    }
-
-    public Boolean getHstsFeatureEnabled() {
-        return hstsFeatureEnabled;
-    }
-
-    public void setHstsFeatureEnabled(Boolean hstsFeatureEnabled) {
-        this.hstsFeatureEnabled = hstsFeatureEnabled;
-    }
-
-    public Boolean getResourcesFeatureEnabled() {
-        return resourcesFeatureEnabled;
     }
 
     public boolean getOmitGradleWrapper() {
         return omitGradleWrapper;
     }
 
-    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
-        this.omitGradleWrapper = omitGradleWrapper;
-    }
-
-    public void setResourcesFeatureEnabled(Boolean resourcesFeatureEnabled) {
-        this.resourcesFeatureEnabled = resourcesFeatureEnabled;
-    }
-
-    public Boolean getMetricsFeatureEnabled() {
-        return metricsFeatureEnabled;
-    }
-
-    public void setMetricsFeatureEnabled(Boolean metricsEnabled) {
-        this.metricsFeatureEnabled = metricsEnabled;
-    }
-
+    @Override
     public String getName() {
         return "kotlin-server";
     }
 
+    @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
@@ -271,6 +244,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             LOGGER.info("`library` option is empty. Default to {}", DEFAULT_LIBRARY);
         }
 
+        if (isKtor()) {
+            typeMapping.put("date-time", "kotlin.String");
+            typeMapping.put("DateTime", "kotlin.String");
+        }
+
         if (additionalProperties.containsKey(Constants.AUTOMATIC_HEAD_REQUESTS)) {
             setAutoHeadFeatureEnabled(convertPropertyToBooleanAndWriteBack(Constants.AUTOMATIC_HEAD_REQUESTS));
         } else {
@@ -318,15 +296,23 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (library.equals(Constants.KTOR)) {
+        if (isKtor2Or3()) {
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
 
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        String gradleBuildFile = "build.gradle";
+
+        if (isJavalin() || isKtor2Or3()) {
+            gradleBuildFile = "build.gradle.kts";
+        }
+
+        supportingFiles.add(new SupportingFile(gradleBuildFile + ".mustache", "", gradleBuildFile));
         supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
 
-        if (library.equals(Constants.KTOR)) {
+        if (isKtor2Or3()) {
+            additionalProperties.put(Constants.IS_KTOR, true);
+
             supportingFiles.add(new SupportingFile("AppMain.kt.mustache", packageFolder, "AppMain.kt"));
             supportingFiles.add(new SupportingFile("Configuration.kt.mustache", packageFolder, "Configuration.kt"));
 
@@ -340,6 +326,19 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", File.separator);
 
             supportingFiles.add(new SupportingFile("ApiKeyAuth.kt.mustache", infrastructureFolder, "ApiKeyAuth.kt"));
+
+            if (!getOmitGradleWrapper()) {
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"));
+            }
+
+        } else if (isJavalin()) {
+            supportingFiles.add(new SupportingFile("Main.kt.mustache", packageFolder, "Main.kt"));
+            apiTemplateFiles.put("service.mustache", "Service.kt");
+            apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
+            additionalProperties.put("lowercase", new LowercaseLambda());
+            additionalProperties.put("camelcase", new CamelCaseLambda());
+            typeMapping.put("file", "io.javalin.http.UploadedFile");
+            importMapping.put("io.javalin.http.UploadedFile", "io.javalin.http.UploadedFile");
         }
     }
 
@@ -350,7 +349,11 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     public static class Constants {
         public final static String KTOR = "ktor";
+        public final static String KTOR2 = "ktor2";
         public final static String JAXRS_SPEC = "jaxrs-spec";
+
+        public final static String JAVALIN5 = "javalin5";
+        public final static String JAVALIN6 = "javalin6";
         public final static String AUTOMATIC_HEAD_REQUESTS = "featureAutoHead";
         public final static String AUTOMATIC_HEAD_REQUESTS_DESC = "Automatically provide responses to HEAD requests for existing routes that have the GET verb defined.";
         public final static String CONDITIONAL_HEADERS = "featureConditionalHeaders";
@@ -377,6 +380,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
         public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
+        public static final String IS_KTOR = "isKtor";
     }
 
     @Override
@@ -389,5 +393,80 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
         System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F     #");
         System.out.println("################################################################################");
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        OperationMap operations = objs.getOperations();
+        // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
+        if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
+            List<CodegenOperation> ops = operations.getOperation();
+            ops.forEach(operation -> {
+                if (isKtor()) {
+                    ArrayList<CodegenParameter> params = new ArrayList<>();
+                    params.addAll(operation.pathParams);
+                    params.addAll(operation.queryParams);
+                    operation.vendorExtensions.put("ktor-params", params);
+                }
+
+                List<CodegenResponse> responses = operation.responses;
+                if (responses != null) {
+                    responses.forEach(resp -> {
+
+                        if ("0".equals(resp.code)) {
+                            resp.code = "200";
+                        }
+
+                        doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
+                            @Override
+                            public void setReturnType(final String returnType) {
+                                resp.dataType = returnType;
+                            }
+
+                            @Override
+                            public void setReturnContainer(final String returnContainer) {
+                                resp.containerType = returnContainer;
+                            }
+                        });
+                    });
+                }
+
+                doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+
+                    @Override
+                    public void setReturnType(final String returnType) {
+                        operation.returnType = returnType;
+                    }
+
+                    @Override
+                    public void setReturnContainer(final String returnContainer) {
+                        operation.returnContainer = returnContainer;
+                    }
+                });
+            });
+        }
+
+        return objs;
+    }
+
+    private boolean isJavalin() {
+        return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
+    }
+
+    private boolean isKtor2Or3() {
+        return Constants.KTOR.equals(library) || Constants.KTOR2.equals(library);
+    }
+
+    /**
+     * Returns true if latest version of ktor is used.
+     *
+     * @return true if latest version of ktor is used.
+     */
+    private boolean isKtor() {
+        return Constants.KTOR.equals(library);
+    }
+
+    private boolean isKtor2() {
+        return Constants.KTOR2.equals(library);
     }
 }

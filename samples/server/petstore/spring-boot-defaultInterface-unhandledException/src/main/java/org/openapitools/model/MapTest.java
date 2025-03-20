@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,7 +22,7 @@ import javax.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class MapTest {
 
   @Valid
@@ -87,7 +88,7 @@ public class MapTest {
   /**
    * Get mapMapOfString
    * @return mapMapOfString
-  */
+   */
   @Valid 
   @Schema(name = "map_map_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_map_of_string")
@@ -115,7 +116,7 @@ public class MapTest {
   /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  */
+   */
   
   @Schema(name = "map_of_enum_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("map_of_enum_string")
@@ -143,7 +144,7 @@ public class MapTest {
   /**
    * Get directMap
    * @return directMap
-  */
+   */
   
   @Schema(name = "direct_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("direct_map")
@@ -171,7 +172,7 @@ public class MapTest {
   /**
    * Get indirectMap
    * @return indirectMap
-  */
+   */
   
   @Schema(name = "indirect_map", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("indirect_map")

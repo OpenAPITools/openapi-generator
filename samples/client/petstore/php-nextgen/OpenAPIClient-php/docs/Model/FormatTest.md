@@ -20,5 +20,6 @@ Name | Type | Description | Notes
 **password** | **string** |  |
 **pattern_with_digits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional]
 **pattern_with_digits_and_delimiter** | **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional]
+**array_ref** | **string[]** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

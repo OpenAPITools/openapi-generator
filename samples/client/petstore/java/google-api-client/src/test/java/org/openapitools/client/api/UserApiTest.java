@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,12 +29,10 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@Ignore
 public class UserApiTest {
 
     private final UserApi api = new UserApi();
 
-    
     /**
      * Create user
      *
@@ -46,11 +44,12 @@ public class UserApiTest {
     @Test
     public void createUserTest() throws IOException {
         User body = null;
-        api.createUser(body);
+        // uncomment below to test the API function
+        //api.createUser(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * Creates list of users with given input array
      *
@@ -62,11 +61,12 @@ public class UserApiTest {
     @Test
     public void createUsersWithArrayInputTest() throws IOException {
         List<User> body = null;
-        api.createUsersWithArrayInput(body);
+        // uncomment below to test the API function
+        //api.createUsersWithArrayInput(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * Creates list of users with given input array
      *
@@ -78,11 +78,12 @@ public class UserApiTest {
     @Test
     public void createUsersWithListInputTest() throws IOException {
         List<User> body = null;
-        api.createUsersWithListInput(body);
+        // uncomment below to test the API function
+        //api.createUsersWithListInput(body);
 
         // TODO: test validations
     }
-    
+
     /**
      * Delete user
      *
@@ -94,11 +95,12 @@ public class UserApiTest {
     @Test
     public void deleteUserTest() throws IOException {
         String username = null;
-        api.deleteUser(username);
+        // uncomment below to test the API function
+        //api.deleteUser(username);
 
         // TODO: test validations
     }
-    
+
     /**
      * Get user by user name
      *
@@ -110,11 +112,12 @@ public class UserApiTest {
     @Test
     public void getUserByNameTest() throws IOException {
         String username = null;
-        User response = api.getUserByName(username);
+        // uncomment below to test the API function
+        //User response = api.getUserByName(username);
 
         // TODO: test validations
     }
-    
+
     /**
      * Logs user into the system
      *
@@ -127,11 +130,12 @@ public class UserApiTest {
     public void loginUserTest() throws IOException {
         String username = null;
         String password = null;
-        String response = api.loginUser(username, password);
+        // uncomment below to test the API function
+        //String response = api.loginUser(username, password);
 
         // TODO: test validations
     }
-    
+
     /**
      * Logs out current logged in user session
      *
@@ -142,11 +146,12 @@ public class UserApiTest {
      */
     @Test
     public void logoutUserTest() throws IOException {
-        api.logoutUser();
+        // uncomment below to test the API function
+        //api.logoutUser();
 
         // TODO: test validations
     }
-    
+
     /**
      * Updated user
      *
@@ -159,9 +164,10 @@ public class UserApiTest {
     public void updateUserTest() throws IOException {
         String username = null;
         User body = null;
-        api.updateUser(username, body);
+        // uncomment below to test the API function
+        //api.updateUser(username, body);
 
         // TODO: test validations
     }
-    
+
 }

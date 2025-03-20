@@ -27,7 +27,7 @@ import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -56,22 +56,6 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library for the Aurelia framework (beta).";
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     @Override

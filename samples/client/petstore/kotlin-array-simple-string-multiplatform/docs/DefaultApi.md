@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**idsGet**](DefaultApi.md#idsGet) | **GET** /{ids} | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**idsGet**](DefaultApi.md#idsGet) | **GET** /{ids} |  |
 
 
 <a id="idsGet"></a>
@@ -33,10 +33,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ids** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **ids** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
 
 ### Return type
 

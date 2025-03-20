@@ -19,12 +19,12 @@ json = "{}"
 # create an instance of WithNestedOneOf from a JSON string
 with_nested_one_of_instance = WithNestedOneOf.from_json(json)
 # print the JSON string representation of the object
-print WithNestedOneOf.to_json()
+print(WithNestedOneOf.to_json())
 
 # convert the object into a dict
 with_nested_one_of_dict = with_nested_one_of_instance.to_dict()
 # create an instance of WithNestedOneOf from a dict
-with_nested_one_of_form_dict = with_nested_one_of.from_dict(with_nested_one_of_dict)
+with_nested_one_of_from_dict = WithNestedOneOf.from_dict(with_nested_one_of_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

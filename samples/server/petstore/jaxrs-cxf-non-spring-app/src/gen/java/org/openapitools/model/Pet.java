@@ -37,7 +37,7 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<@Valid Tag> tags;
+  private List<@Valid Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
 

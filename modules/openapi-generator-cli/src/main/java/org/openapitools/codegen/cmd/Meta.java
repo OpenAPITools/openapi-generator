@@ -17,9 +17,7 @@
 
 package org.openapitools.codegen.cmd;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
-import static com.google.common.base.Joiner.on;
-
+import ch.lambdaj.function.convert.Converter;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -28,24 +26,23 @@ import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.TemplateManagerOptions;
-import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
-import ch.lambdaj.function.convert.Converter;
+import static ch.lambdaj.collection.LambdaCollections.with;
+import static com.google.common.base.Joiner.on;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
@@ -101,19 +98,19 @@ public class Meta extends OpenApiGeneratorCommand {
                         new SupportingFile("kotlin/generatorClassTest.mustache", on(File.separator).join("src/test/kotlin", asPath(targetPackage)), mainClass.concat("Test.kt")),
                         new SupportingFile("kotlin/README.mustache", "", "README.md"),
 
-                        new SupportingFile("api.template", "src/main/resources" + File.separator + name,"api.mustache"),
-                        new SupportingFile("model.template", "src/main/resources" + File.separator + name,"model.mustache"),
+                        new SupportingFile("api.template", "src/main/resources" + File.separator + name, "api.mustache"),
+                        new SupportingFile("model.template", "src/main/resources" + File.separator + name, "model.mustache"),
                         new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
                         new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()))
                 : ImmutableList.of(
-                        new SupportingFile("pom.mustache", "", "pom.xml"),
-                        new SupportingFile("generatorClass.mustache", on(File.separator).join("src/main/java", asPath(targetPackage)), mainClass.concat(".java")),
-                        new SupportingFile("generatorClassTest.mustache", on(File.separator).join("src/test/java", asPath(targetPackage)), mainClass.concat("Test.java")),
-                        new SupportingFile("README.mustache", "", "README.md"),
-                        new SupportingFile("api.template", "src/main/resources" + File.separator + name,"api.mustache"),
-                        new SupportingFile("model.template", "src/main/resources" + File.separator + name,"model.mustache"),
-                        new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
-                        new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()));
+                new SupportingFile("pom.mustache", "", "pom.xml"),
+                new SupportingFile("generatorClass.mustache", on(File.separator).join("src/main/java", asPath(targetPackage)), mainClass.concat(".java")),
+                new SupportingFile("generatorClassTest.mustache", on(File.separator).join("src/test/java", asPath(targetPackage)), mainClass.concat("Test.java")),
+                new SupportingFile("README.mustache", "", "README.md"),
+                new SupportingFile("api.template", "src/main/resources" + File.separator + name, "api.mustache"),
+                new SupportingFile("model.template", "src/main/resources" + File.separator + name, "model.mustache"),
+                new SupportingFile("myFile.template", String.join(File.separator, "src", "main", "resources", name), "myFile.mustache"),
+                new SupportingFile("services.mustache", "src/main/resources/META-INF/services", CodegenConfig.class.getCanonicalName()));
 
         String currentVersion = buildInfo.getVersion();
 
@@ -136,11 +133,11 @@ public class Meta extends OpenApiGeneratorCommand {
      * destination directory
      *
      * @param targetDir - destination directory
-     * @param data - map with additional params needed to process templates
+     * @param data      - map with additional params needed to process templates
      * @return converter object to pass to lambdaj
      */
     private static Converter<SupportingFile, File> processFiles(final File targetDir,
-            final Map<String, Object> data) {
+                                                                final Map<String, Object> data) {
         return support -> {
             try {
                 File destinationFolder =
@@ -150,7 +147,7 @@ public class Meta extends OpenApiGeneratorCommand {
                 TemplateManager templateProcessor = new TemplateManager(
                         new TemplateManagerOptions(false, false),
                         new MustacheEngineAdapter(),
-                        new TemplatePathLocator[]{ new CommonTemplateContentLocator("codegen") }
+                        new TemplatePathLocator[]{new CommonTemplateContentLocator("codegen")}
                 );
 
                 String template = templateProcessor.readTemplate(new File(TEMPLATE_DIR_CLASSPATH, support.getTemplateFile()).getPath());

@@ -37,33 +37,47 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @javax.annotation.Nullable
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
+  @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
+  @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
+  @javax.annotation.Nullable
   private List<String> bars;
 
   public ObjectWithDeprecatedFields() {
   }
 
-  public ObjectWithDeprecatedFields uuid(String uuid) {
+  /**
+   * Constructor with all args parameters
+   */
+  public ObjectWithDeprecatedFields(@JsonProperty(JSON_PROPERTY_UUID) String uuid, @JsonProperty(JSON_PROPERTY_ID) BigDecimal id, @JsonProperty(JSON_PROPERTY_DEPRECATED_REF) DeprecatedObject deprecatedRef, @JsonProperty(JSON_PROPERTY_BARS) List<String> bars) {
+    this.uuid = uuid;
+    this.id = id;
+    this.deprecatedRef = deprecatedRef;
+    this.bars = bars;
+  }
+
+  public ObjectWithDeprecatedFields uuid(@javax.annotation.Nullable String uuid) {
     
     this.uuid = uuid;
     return this;
   }
 
-   /**
+  /**
    * Get uuid
    * @return uuid
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -75,22 +89,21 @@ public class ObjectWithDeprecatedFields {
 
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setUuid(String uuid) {
+  public void setUuid(@javax.annotation.Nullable String uuid) {
     this.uuid = uuid;
   }
 
-
-  public ObjectWithDeprecatedFields id(BigDecimal id) {
+  public ObjectWithDeprecatedFields id(@javax.annotation.Nullable BigDecimal id) {
     
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
@@ -103,22 +116,21 @@ public class ObjectWithDeprecatedFields {
 
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(BigDecimal id) {
+  public void setId(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
   }
 
-
-  public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
+  public ObjectWithDeprecatedFields deprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
     return this;
   }
 
-   /**
+  /**
    * Get deprecatedRef
    * @return deprecatedRef
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
@@ -131,12 +143,11 @@ public class ObjectWithDeprecatedFields {
 
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
+  public void setDeprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
-
-  public ObjectWithDeprecatedFields bars(List<String> bars) {
+  public ObjectWithDeprecatedFields bars(@javax.annotation.Nullable List<String> bars) {
     
     this.bars = bars;
     return this;
@@ -150,11 +161,11 @@ public class ObjectWithDeprecatedFields {
     return this;
   }
 
-   /**
+  /**
    * Get bars
    * @return bars
    * @deprecated
-  **/
+   */
   @Deprecated
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)
@@ -167,9 +178,10 @@ public class ObjectWithDeprecatedFields {
 
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setBars(List<String> bars) {
+  public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -213,6 +225,75 @@ public class ObjectWithDeprecatedFields {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private ObjectWithDeprecatedFields instance;
+
+    public Builder() {
+      this(new ObjectWithDeprecatedFields());
+    }
+
+    protected Builder(ObjectWithDeprecatedFields instance) {
+      this.instance = instance;
+    }
+
+    public ObjectWithDeprecatedFields.Builder uuid(String uuid) {
+      this.instance.uuid = uuid;
+      return this;
+    }
+    public ObjectWithDeprecatedFields.Builder id(BigDecimal id) {
+      this.instance.id = id;
+      return this;
+    }
+    public ObjectWithDeprecatedFields.Builder deprecatedRef(DeprecatedObject deprecatedRef) {
+      this.instance.deprecatedRef = deprecatedRef;
+      return this;
+    }
+    public ObjectWithDeprecatedFields.Builder bars(List<String> bars) {
+      this.instance.bars = bars;
+      return this;
+    }
+
+
+    /**
+    * returns a built ObjectWithDeprecatedFields instance.
+    *
+    * The builder is not reusable.
+    */
+    public ObjectWithDeprecatedFields build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ObjectWithDeprecatedFields.Builder builder() {
+    return new ObjectWithDeprecatedFields.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ObjectWithDeprecatedFields.Builder toBuilder() {
+    return new ObjectWithDeprecatedFields.Builder()
+      .uuid(getUuid())
+      .id(getId())
+      .deprecatedRef(getDeprecatedRef())
+      .bars(getBars());
+  }
+
 
 }
 

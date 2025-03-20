@@ -1,5 +1,5 @@
 {{#models}}{{#model}}/*
- * {{classname}}.h
+ * {{classFilename}}.h
  *
  * {{description}}
  */
@@ -30,14 +30,15 @@ char* {{classFilename}}_{{classname}}_ToString({{projectName}}_{{classVarName}}_
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_FromString(char* {{classname}});
 
-//cJSON *{{classFilename}}_{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
+cJSON *{{classname}}_convertToJSON({{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}});
 
-//{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
 
 {{/isEnum}}
 {{^isEnum}}
 {{#vars}}
 {{^isContainer}}
+    {{#isPrimitiveType}}
     {{^isModel}}
     {{#isEnum}}
 // Enum {{enumName}} for {{classVarName}}
@@ -52,6 +53,7 @@ char* {{classFilename}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enu
 
     {{/isEnum}}
     {{/isModel}}
+    {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#items}}
@@ -88,7 +90,12 @@ typedef struct {{classname}}_t {
     {{/isModel}}
     {{^isModel}}
     {{^isFreeFormObject}}
+    {{^isEnum}}
     {{datatype}}_t *{{name}}; // custom
+    {{/isEnum}}
+    {{#isEnum}}
+    {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}; //referenced enum
+    {{/isEnum}}
     {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
@@ -147,9 +154,10 @@ typedef struct {{classname}}_t {
     {{/isContainer}}
     {{/vars}}
 
+    int _library_owned; // Is the library responsible for freeing this object?
 } {{classname}}_t;
 
-{{classname}}_t *{{classname}}_create(
+__attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{#vars}}
     {{^isContainer}}
     {{^isPrimitiveType}}
@@ -163,7 +171,12 @@ typedef struct {{classname}}_t {
     {{/isModel}}
     {{^isModel}}
     {{^isFreeFormObject}}
+    {{^isEnum}}
     {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
+    {{#isEnum}}
+    {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
+    {{/isEnum}}
     {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}

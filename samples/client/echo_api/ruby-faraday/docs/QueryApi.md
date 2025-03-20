@@ -9,6 +9,8 @@ All URIs are relative to *http://localhost:3000*
 | [**test_query_integer_boolean_string**](QueryApi.md#test_query_integer_boolean_string) | **GET** /query/integer/boolean/string | Test query parameter(s) |
 | [**test_query_style_deep_object_explode_true_object**](QueryApi.md#test_query_style_deep_object_explode_true_object) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s) |
 | [**test_query_style_deep_object_explode_true_object_all_of**](QueryApi.md#test_query_style_deep_object_explode_true_object_all_of) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s) |
+| [**test_query_style_form_explode_false_array_integer**](QueryApi.md#test_query_style_form_explode_false_array_integer) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s) |
+| [**test_query_style_form_explode_false_array_string**](QueryApi.md#test_query_style_form_explode_false_array_string) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s) |
 | [**test_query_style_form_explode_true_array_string**](QueryApi.md#test_query_style_form_explode_true_array_string) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**test_query_style_form_explode_true_object**](QueryApi.md#test_query_style_form_explode_true_object) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**test_query_style_form_explode_true_object_all_of**](QueryApi.md#test_query_style_form_explode_true_object_all_of) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
@@ -339,6 +341,138 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md) |  | [optional] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+
+## test_query_style_form_explode_false_array_integer
+
+> String test_query_style_form_explode_false_array_integer(opts)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::QueryApi.new
+opts = {
+  query_object: [37] # Array<Integer> | 
+}
+
+begin
+  # Test query parameter(s)
+  result = api_instance.test_query_style_form_explode_false_array_integer(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling QueryApi->test_query_style_form_explode_false_array_integer: #{e}"
+end
+```
+
+#### Using the test_query_style_form_explode_false_array_integer_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> test_query_style_form_explode_false_array_integer_with_http_info(opts)
+
+```ruby
+begin
+  # Test query parameter(s)
+  data, status_code, headers = api_instance.test_query_style_form_explode_false_array_integer_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling QueryApi->test_query_style_form_explode_false_array_integer_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query_object** | [**Array&lt;Integer&gt;**](Integer.md) |  | [optional] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+
+## test_query_style_form_explode_false_array_string
+
+> String test_query_style_form_explode_false_array_string(opts)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::QueryApi.new
+opts = {
+  query_object: ['inner_example'] # Array<String> | 
+}
+
+begin
+  # Test query parameter(s)
+  result = api_instance.test_query_style_form_explode_false_array_string(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling QueryApi->test_query_style_form_explode_false_array_string: #{e}"
+end
+```
+
+#### Using the test_query_style_form_explode_false_array_string_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> test_query_style_form_explode_false_array_string_with_http_info(opts)
+
+```ruby
+begin
+  # Test query parameter(s)
+  data, status_code, headers = api_instance.test_query_style_form_explode_false_array_string_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling QueryApi->test_query_style_form_explode_false_array_string_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **query_object** | [**Array&lt;String&gt;**](String.md) |  | [optional] |
 
 ### Return type
 

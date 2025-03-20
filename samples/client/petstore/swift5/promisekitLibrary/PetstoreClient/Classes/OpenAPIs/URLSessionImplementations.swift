@@ -8,12 +8,37 @@ import Foundation
 #if !os(macOS)
 import MobileCoreServices
 #endif
+#if canImport(UniformTypeIdentifiers)
+import UniformTypeIdentifiers
+#endif
 
-public protocol URLSessionProtocol {
-    func dataTask(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+// Protocol defined for a session data task. This allows mocking out the URLSessionProtocol below since
+// you may not want to create or return a real URLSessionDataTask.
+public protocol URLSessionDataTaskProtocol {
+    func resume()
+
+    var taskIdentifier: Int { get }
+
+    var progress: Progress { get }
+
+    func cancel()
 }
 
-extension URLSession: URLSessionProtocol {}
+// Protocol allowing implementations to alter what is returned or to test their implementations.
+public protocol URLSessionProtocol {
+    // Task which performs the network fetch. Expected to be from URLSession.dataTask(with:completionHandler:) such that a network request
+    // is sent off when `.resume()` is called.
+    func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol
+}
+
+extension URLSession: URLSessionProtocol {
+  // Passthrough to URLSession.dataTask(with:completionHandler) since URLSessionDataTask conforms to URLSessionDataTaskProtocol and fetches the network data.
+  public func dataTaskFromProtocol(with request: URLRequest, completionHandler: @escaping @Sendable (Data?, URLResponse?, (any Error)?) -> Void) -> any URLSessionDataTaskProtocol {
+    return dataTask(with: request, completionHandler: completionHandler)
+  }
+}
+
+extension URLSessionDataTask: URLSessionDataTaskProtocol {}
 
 class URLSessionRequestBuilderFactory: RequestBuilderFactory {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
@@ -109,7 +134,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
         case .options, .post, .put, .patch, .delete, .trace, .connect:
             let contentType = headers["Content-Type"] ?? "application/json"
 
-            if contentType.hasPrefix("application/json") {
+            if contentType.hasPrefix("application/") && contentType.contains("json") {
                 encoding = JSONDataEncoding()
             } else if contentType.hasPrefix("multipart/form-data") {
                 encoding = FormDataEncoding(contentTypeForFormPart: contentTypeForFormPart(fileURL:))
@@ -133,7 +158,7 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
                  }
              }
 
-            let dataTask = urlSession.dataTask(with: request) { data, response, error in
+            let dataTask = urlSession.dataTaskFromProtocol(with: request) { data, response, error in
                 apiResponseQueue.async {
                     self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
                     cleanupRequest()
@@ -560,9 +585,20 @@ private class FormDataEncoding: ParameterEncoding {
     func mimeType(for url: URL) -> String {
         let pathExtension = url.pathExtension
 
-        if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
-                let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-            return mimetype as String
+        if #available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *) {
+            #if canImport(UniformTypeIdentifiers)
+            if let utType = UTType(filenameExtension: pathExtension) {
+                return utType.preferredMIMEType ?? "application/octet-stream"
+            }
+            #else
+            return "application/octet-stream" 
+            #endif
+        } else {
+            if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue(),
+                    let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+                return mimetype as String
+            }
+            return "application/octet-stream"
         }
         return "application/octet-stream"
     }
@@ -575,12 +611,24 @@ private class FormURLEncoding: ParameterEncoding {
         var urlRequest = urlRequest
 
         var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        
+        /// `httpBody` needs to be percent encoded
+        /// -> https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST
+        /// "application/x-www-form-urlencoded: [...] Non-alphanumeric characters in both keys and values are percent-encoded"
+        let percentEncodedQueryItems = queryItems?.compactMap { queryItem in
+            return URLQueryItem(
+                name: queryItem.name.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.name,
+                value: queryItem.value?.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.value)
+        }
+        requestBodyComponents.queryItems = percentEncodedQueryItems
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
 
+        /// We can't use `requestBodyComponents.percentEncodedQuery` since this does NOT percent encode the `+` sign
+        /// that is why we do the percent encoding manually for each key/value pair
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
         return urlRequest

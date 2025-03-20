@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.model.Client;
 import java.util.UUID;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,12 +29,10 @@ import java.util.Map;
 /**
  * API tests for AnotherFakeApi
  */
-@Ignore
 public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
 
-    
     /**
      * To test special tags
      *
@@ -47,9 +45,10 @@ public class AnotherFakeApiTest {
     public void call123testSpecialTagsTest() throws IOException {
         UUID uuidTest = null;
         Client body = null;
-        Client response = api.call123testSpecialTags(uuidTest, body);
+        // uncomment below to test the API function
+        //Client response = api.call123testSpecialTags(uuidTest, body);
 
         // TODO: test validations
     }
-    
+
 }

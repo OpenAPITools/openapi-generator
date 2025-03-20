@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: Demo
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /test:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Apa'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+components:
+  schemas:
+    Apa:
+      example:
+        epa: 5.962133916683182
+        bepa: 0.8008281904610115
+        depa: 1.4658129805029452
+        cepa: 6.027456183070403
+        fepa: 5.637376656633329
+        gepa: 2.3021358869347655
+      properties:
+        bepa:
+          default: 0
+          format: long
+          type: number
+        cepa:
+          default: 6.28318
+          type: number
+        depa:
+          default: 71
+          type: number
+        epa:
+          default: -71
+          nullable: false
+          type: number
+        fepa:
+          default: 100
+          deprecated: true
+          nullable: true
+          type: number
+        gepa:
+          nullable: true
+          type: number
+      required:
+      - bepa
+      - cepa
+      type: object

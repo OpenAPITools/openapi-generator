@@ -272,14 +272,14 @@ public class PhpModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][] {
-            {"sample", "Sample"},
-            {"sample_name", "SampleName"},
-            {"sample__name", "SampleName"},
-            {"/sample", "Sample"},
-            {"\\sample", "\\Sample"},
-            {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+        return new Object[][]{
+                {"sample", "Sample"},
+                {"sample_name", "SampleName"},
+                {"sample__name", "SampleName"},
+                {"/sample", "Sample"},
+                {"\\sample", "\\Sample"},
+                {"sample.name", "SampleName"},
+                {"_sample", "Sample"},
         };
     }
 
@@ -303,7 +303,7 @@ public class PhpModelTest {
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         final Schema definition = schemas.get("EnumArrays");
 
-        Schema property =  (Schema) definition.getProperties().get("array_enum");
+        Schema property = (Schema) definition.getProperties().get("array_enum");
         CodegenProperty prope = codegen.fromProperty("array_enum", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
@@ -311,11 +311,11 @@ public class PhpModelTest {
         Assert.assertTrue(prope.isEnum);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
-        HashMap<String, Object> fish= new HashMap<String, Object>();
+        HashMap<String, Object> fish = new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
         fish.put("isString", true);
-        HashMap<String, Object> crab= new HashMap<String, Object>();
+        HashMap<String, Object> crab = new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
         crab.put("isString", true);
@@ -337,7 +337,7 @@ public class PhpModelTest {
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
 
-        Schema property =  (Schema) definition.getProperties().get("enum_integer");
+        Schema property = (Schema) definition.getProperties().get("enum_integer");
         CodegenProperty prope = codegen.fromProperty("enum_integer", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
@@ -348,7 +348,7 @@ public class PhpModelTest {
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 
         HashMap<String, Object> one = new HashMap<String, Object>();
-        one.put("name", "1");
+        one.put("name", "NUMBER_1");
         one.put("value", "1");
         one.put("isString", false);
         HashMap<String, Object> minusOne = new HashMap<String, Object>();

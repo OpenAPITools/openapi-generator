@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,10 +21,10 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ModelList {
 
-  private String _123list;
+  private @Nullable String _123list;
 
   public ModelList _123list(String _123list) {
     this._123list = _123list;
@@ -33,7 +34,7 @@ public class ModelList {
   /**
    * Get _123list
    * @return _123list
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("123-list")

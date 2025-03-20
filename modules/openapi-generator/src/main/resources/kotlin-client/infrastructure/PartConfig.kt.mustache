@@ -5,7 +5,7 @@ package {{packageName}}.infrastructure
  * NOTE: Headers is a Map<String,String> because rfc2616 defines
  *       multi-valued headers as csv-only.
  */
-{{#nonPublicApi}}internal {{/nonPublicApi}}data class PartConfig<T>(
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class PartConfig<T>(
     val headers: MutableMap<String, String> = mutableMapOf(),
     val body: T? = null
 )

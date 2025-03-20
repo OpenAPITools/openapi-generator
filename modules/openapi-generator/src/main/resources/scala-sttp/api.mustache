@@ -10,8 +10,7 @@ import sttp.model.Method
 
 {{#operations}}
 object {{classname}} {
-
-def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+  def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
 }
 
 class {{classname}}(baseUrl: String) {
@@ -20,7 +19,7 @@ class {{classname}}(baseUrl: String) {
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): Request[{{#defaultReturnType}}Either[Either[String, String], Unit]{{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}{{/defaultReturnType}}, Any] =
+  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}, Any] =
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
@@ -36,7 +35,7 @@ class {{classname}}(baseUrl: String) {
         {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
-      .response({{#defaultReturnType}}asEither(asString, ignore){{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}asJson{{/separateErrorChannel}}{{^separateErrorChannel}}asJsonAlwaysUnsafe{{/separateErrorChannel}}[{{>operationReturnType}}]{{/defaultReturnType}})
+      .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}
 }

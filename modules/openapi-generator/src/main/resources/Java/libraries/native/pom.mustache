@@ -64,7 +64,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
                         <loggerPath>conf/log4j.properties</loggerPath>
@@ -255,6 +255,15 @@
             <version>${jakarta-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
+        {{#useBeanValidation}}
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
+            <scope>provided</scope>
+        </dependency>
+        {{/useBeanValidation}}
         {{#hasFormParamsInSpec}}
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -262,11 +271,19 @@
             <version>${httpmime-version}</version>
         </dependency>
         {{/hasFormParamsInSpec}}
+        {{#useReflectionEqualsHashCode}}
+        <!-- For equals and hashCode using reflection -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+        {{/useReflectionEqualsHashCode}}
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
@@ -282,18 +299,23 @@
         {{/swagger2AnnotationLibrary}}
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <jackson-version>2.15.2</jackson-version>
+        <jackson-version>2.17.1</jackson-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <beanvalidation-version>2.0.2</beanvalidation-version>
         {{/useJakartaEe}}
         {{#hasFormParamsInSpec}}
         <httpmime-version>4.5.14</httpmime-version>
         {{/hasFormParamsInSpec}}
-        <junit-version>4.13.2</junit-version>
+        {{#useReflectionEqualsHashCode}}
+        <commons-lang3-version>3.17.0</commons-lang3-version>
+        {{/useReflectionEqualsHashCode}}
+        <junit-version>5.10.2</junit-version>
         <spotless.version>2.27.2</spotless.version>
     </properties>
 </project>

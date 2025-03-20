@@ -5,25 +5,39 @@ package {{package}};
 
 {{#useAbstractClass}}
 import java.util.Optional;
+{{#x-helidon-v3}}
 import java.util.logging.Logger;
+{{/x-helidon-v3}}
 
+{{#x-helidon-v3}}
 import io.helidon.common.GenericType;
 import io.helidon.common.reactive.Single;
+{{/x-helidon-v3}}
 {{/useAbstractClass}}
-import io.helidon.webserver.Routing;
-import io.helidon.webserver.ServerRequest;
-import io.helidon.webserver.ServerResponse;
-import io.helidon.webserver.Service;
+import io.helidon.webserver.{{#x-helidon-v3}}Routing{{/x-helidon-v3}}{{^x-helidon-v3}}http.HttpRules{{/x-helidon-v3}};
+import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerRequest;
+import io.helidon.webserver.{{^x-helidon-v3}}http.{{/x-helidon-v3}}ServerResponse;
+import io.helidon.webserver.{{^x-helidon-v3}}http.Http{{/x-helidon-v3}}Service;
 
 {{#operations}}
-{{^useAbstractClass}}public interface {{classname}} extends Service { {{/useAbstractClass}}
-{{#useAbstractClass}}public abstract class {{classname}} implements Service {
+{{^x-helidon-v3}}
+@io.helidon.common.Generated(value = "{{additionalProperties.generatorClass}}",
+                             trigger = "tag = '{{baseName}}'",
+                             version = "{{generatorVersion}}")
+{{/x-helidon-v3}}{{!
+}}{{^useAbstractClass}}public interface {{classname}} extends {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service {{=<% %>=}}{<%#x-helidon-v3%> <%/x-helidon-v3%><%={{ }}=%>
+{{/useAbstractClass}}{{!
+}}{{#useAbstractClass}}public abstract class {{classname}} implements {{^x-helidon-v3}}Http{{/x-helidon-v3}}Service {
 
-    protected static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
-{{#jackson}}
+{{#x-helidon-v3}}    protected static final Logger LOGGER = Logger.getLogger({{classname}}.class.getName());
+{{/x-helidon-v3}}{{!
+}}{{#jackson}}
     protected static final ObjectMapper MAPPER = JsonProvider.objectMapper();{{/jackson}}
 {{#jsonb}}
-    protected static final Jsonb JSONB = JsonbBuilder.create();{{/jsonb}}
+    protected static final Jsonb JSONB = JsonbBuilder.create();{{/jsonb}}{{!
+}}{{^x-helidon-v3}}
+{{#operations}}{{#operation}}    protected {{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}} {{operationId}}Op = create{{#lambda.titlecase}}{{operationId}}Op{{/lambda.titlecase}}();
+{{/operation}}{{/operations}}{{/x-helidon-v3}}
 {{/useAbstractClass}}
 
     /**
@@ -31,48 +45,87 @@ import io.helidon.webserver.Service;
      * @param rules the routing rules.
      */
     @Override
-    {{#useAbstractClass}}public{{/useAbstractClass}}{{^useAbstractClass}}default{{/useAbstractClass}} void update(Routing.Rules rules) {
+    {{#useAbstractClass}}public{{/useAbstractClass}}{{^useAbstractClass}}default{{/useAbstractClass}} void {{#x-helidon-v3}}update{{/x-helidon-v3}}{{^x-helidon-v3}}routing{{/x-helidon-v3}}({{#x-helidon-v3}}Routing.{{/x-helidon-v3}}{{^x-helidon-v3}}Http{{/x-helidon-v3}}Rules rules) {
 {{#operation}}
-        rules.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{{path}}}", {{!
-        }}{{#bodyParam}}{{#isModel}}Handler.create({{{dataType}}}.class, {{/isModel}}this::{{{operationId}}}){{#isModel}}){{/isModel}}{{/bodyParam}}{{!
-        }}{{^bodyParam}}this::{{{operationId}}}){{/bodyParam}};
+        rules.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}("{{#x-helidon-v3}}{{{path}}}{{/x-helidon-v3}}{{^x-helidon-v3}}{{{vendorExtensions.x-helidon-pathSuffix}}}{{/x-helidon-v3}}", {{!
+
+    See comment below about the signatures of the generated handler methods for v3 vs. v4.
+
+}}{{#x-helidon-v3}}{{#bodyParam}}{{#isModel}}Handler.create({{{dataType}}}.class, {{/isModel}}this::{{{operationId}}}){{#isModel}}){{/isModel}}{{/bodyParam}}{{!
+}}{{^bodyParam}}this::{{{operationId}}}){{/bodyParam}}{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}this::{{{operationId}}}){{/x-helidon-v3}};
 {{/operation}}
     }
-{{#useAbstractClass}}{{#isFormParamsFunctions}}
+{{#x-helidon-v3}}{{#useAbstractClass}}{{#isFormParamsFunctions}}
 
     {{!}}{{>formParamsFunctions}}
-{{/isFormParamsFunctions}}{{/useAbstractClass}}
+{{/isFormParamsFunctions}}{{/useAbstractClass}}{{/x-helidon-v3}}
 {{#operation}}
 
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}.
+{{^x-helidon-v3}}     *
+{{/x-helidon-v3}}
      * @param request the server request
-     * @param response the server response{{#allParams}}{{#isBodyParam}}{{#isModel}}
-     * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/isModel}}{{/isBodyParam}}{{/allParams}}
+     * @param response the server response{{!
+}}{{!
+        For v3 the interface or abstract class handler methods declare a method parameter for the body parameter--if one is
+        specified in the OpenAPI operation declaration--in addition to the request and response. The routing code extracts the
+        body parameter from the request content and passes it to the handler method.
+
+        For v4 the generated handler methods do not declare the body parameter as a method parameter. Instead body parameters are
+        dealt with, as all other request parameters, by the user-provided code (when an interface is generated) or by the
+        generated code (when an abstract class is generated).
+
+}}{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}
+     * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}
      */
-    void {{{operationId}}}(ServerRequest request, ServerResponse response{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}){{^useAbstractClass}};{{/useAbstractClass}}{{#useAbstractClass}} { {{#formParams}}{{#-first}}
-        {{>formParamsInitial}}{{/-first}}{{/formParams}}
-        Single.create({{^hasParams}}Single.empty(){{/hasParams}}{{#hasParams}}{{^bodyParam}}{{#formParams}}{{#-first}}formSingle{{/-first}}{{/formParams}}{{^formParams}}Single.empty(){{/formParams}}{{/bodyParam}}{{#bodyParam}}{{^isModel}}request.content().as(new GenericType<{{{dataType}}}>() { }){{/isModel}}{{#isModel}}Single.empty(){{/isModel}}{{/bodyParam}}{{/hasParams}})
+    {{^x-helidon-v3}}{{#useAbstractClass}}protected {{/useAbstractClass}}{{/x-helidon-v3}}void {{{operationId}}}(ServerRequest request, ServerResponse response{{#x-helidon-v3}}{{#allParams}}{{#isBodyParam}}{{#isModel}}, {{{dataType}}} {{paramName}}{{/isModel}}{{/isBodyParam}}{{/allParams}}{{/x-helidon-v3}}){{^useAbstractClass}};{{/useAbstractClass}}{{#useAbstractClass}} { {{> paramsInitial }}{{!
+}}{{#x-helidon-v3}}
+        Single.create({{^hasParams}}Single.empty(){{/hasParams}}{{#hasParams}}{{^bodyParam}}{{#formParams}}{{#-first}}formSingle{{/-first}}{{/formParams}}{{^formParams}}Single.empty(){{/formParams}}{{/bodyParam}}{{#bodyParam}}{{^isModel}}request.content().as(new GenericType<{{#isFile}}InputStream{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}}>() { }){{/isModel}}{{#isModel}}Single.empty(){{/isModel}}{{/bodyParam}}{{/hasParams}})
             .thenAccept({{#bodyParam}}{{^isModel}}{{paramName}}{{/isModel}}{{#isModel}}val{{/isModel}}{{/bodyParam}}{{^bodyParam}}val{{/bodyParam}} -> {
-{{#allParams}}
-                {{> queryParams }}{{> pathParams }}{{> headerParams}}{{> bodyParams}}{{> formParams}}{{> cookieParams}}
+{{/x-helidon-v3}}
+{{#allParams}}{{^x-helidon-v3}}
+        // Parameter: {{baseName}}
+{{/x-helidon-v3}}
+{{#x-helidon-v3}}        {{/x-helidon-v3}}        {{> queryParams }}{{> pathParams }}{{> headerParams}}{{> bodyParams}}{{> formParams}}{{> cookieParams}}
 {{/allParams}}
-                handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(request, response{{#allParams}}, {{paramName}}{{/allParams}});
-            })
+{{#x-helidon-v3}}        {{/x-helidon-v3}}        {{> paramsFinal }}{{!
+}}{{#x-helidon-v3}}         {{/x-helidon-v3}}        handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(request, response{{#allParams}}, {{^x-helidon-v3}}
+                    {{/x-helidon-v3}}{{paramName}}{{/allParams}});
+{{#x-helidon-v3}}            })
             .exceptionally(throwable -> handleError(request, response, throwable));
+{{/x-helidon-v3}}
     }
 
     /**
-     * Handle {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}.
+     * Handle {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}.{{^x-helidon-v3}}
+     *{{/x-helidon-v3}}
      * @param request the server request
      * @param response the server response{{#allParams}}
      * @param {{paramName}} {{{description}}}{{^description}}{{paramName}}{{/description}} {{/allParams}}
      */
-    abstract void handle{{#lambda.titlecase}}{{{operationId}}}{{/lambda.titlecase}}(ServerRequest request, ServerResponse response{{#allParams}}, {{>dataType}} {{paramName}}{{/allParams}});
+    {{^x-helidon-v3}}{{#useAbstractClass}}protected {{/useAbstractClass}}{{/x-helidon-v3}}abstract {{> handleMethodSignature }};
 {{/useAbstractClass}}
+{{#x-helidon-v3}}
 
+{{/x-helidon-v3}}
 {{/operation}}
-{{#useAbstractClass}}    abstract Void handleError(ServerRequest request, ServerResponse response, Throwable throwable);{{!
-}}{{/useAbstractClass}}
-}
+{{#useAbstractClass}}{{#x-helidon-v3}}    abstract Void handleError(ServerRequest request, ServerResponse response, Throwable throwable);{{/x-helidon-v3}}{{!
+}}{{^x-helidon-v3}}
+{{#operation}}
+{{> opHelpers }}
+{{/operation}}
+{{/x-helidon-v3}}{{/useAbstractClass}}
+{{#useAbstractClass}}
+{{^x-helidon-v3}}
+    @Override
+    public void afterStop() {
+    System.out.println("Service {{classname}} is down. Goodbye!");
+    }
+
+
+{{/x-helidon-v3}}{{!
+}}{{/useAbstractClass}}{{!
+}}}
 {{/operations}}

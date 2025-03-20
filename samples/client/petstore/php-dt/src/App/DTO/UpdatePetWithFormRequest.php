@@ -5,24 +5,20 @@ namespace App\DTO;
 
 use Articus\DataTransfer\Annotation as DTA;
 
-/**
- */
 class UpdatePetWithFormRequest
 {
     /**
      * Updated name of the pet
      * @DTA\Data(field="name", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $name;
+    public ?string $name = null;
 
     /**
      * Updated status of the pet
      * @DTA\Data(field="status", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $status;
+    public ?string $status = null;
 
 }

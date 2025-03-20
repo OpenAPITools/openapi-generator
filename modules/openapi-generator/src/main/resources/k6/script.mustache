@@ -4,6 +4,9 @@ import http from "k6/http";
 import { group, check, sleep } from "k6";
 
 const BASE_URL = "{{baseURL}}";
+{{#authToken}}
+const TOKEN = "TOKEN_VALUE_HERE";
+{{/authToken}}
 // Sleep duration between successive requests.
 // You might want to edit the value of this variable or remove calls to the sleep function on the script.
 const SLEEP_DURATION = 0.1;
@@ -30,7 +33,13 @@ export default function() {
             let body = {{#body}}{{=<% %>=}}{<%#parameters%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/parameters%>}<%={{ }}=%>{{/body}};
             {{/body}}
             {{#params}}
-            let params = {{#params}}{{=<% %>=}}{headers: {<%# headers%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/headers%><%#responseType%>, "Accept": <%& responseType%><%/responseType%>}<%# auth%>, auth: "<%& auth%>"<%/auth%>}<%={{ }}=%>{{/params}};
+            let params = {{#params}}{{=<% %>=}}{
+                headers: {
+                    <%# headers%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/headers%><%#responseType%>, "Accept": <%& responseType%><%/responseType%>
+                }<%#hasCookie%>, cookies: {
+                    <%# cookies%>"<%& key%>": <%& value%><%^-last%>, <%/-last%><%/cookies%>
+                }<%/hasCookie%><%# auth%>, auth: "<%& auth%>"<%/auth%>
+            }<%={{ }}=%>{{/params}};
             {{/params}}
             {{#isDelete}}
             {{#params}}

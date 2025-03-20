@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -14,9 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 
@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-
 /**
  * OpenAPI Petstore Test
  *
@@ -40,7 +38,7 @@ public class StoreApiTest {
     private StoreApi client;
     private String baseUrl = "http://localhost:9080";
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         // TODO initialize the client
     }
@@ -58,8 +56,8 @@ public class StoreApiTest {
     public void deleteOrderTest() {
         // TODO: test validations
         String orderId = null;
-        //void response = api.deleteOrder(orderId);
-        //assertNotNull(response);
+        //api.deleteOrder(orderId);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -76,7 +74,7 @@ public class StoreApiTest {
     public void getInventoryTest() {
         // TODO: test validations
         //Map<String, Integer> response = api.getInventory();
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -94,7 +92,7 @@ public class StoreApiTest {
         // TODO: test validations
         Long orderId = null;
         //Order response = api.getOrderById(orderId);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }
@@ -112,7 +110,7 @@ public class StoreApiTest {
         // TODO: test validations
         Order order = null;
         //Order response = api.placeOrder(order);
-        //assertNotNull(response);
+        //Assertions.assertNotNull(response);
 
 
     }

@@ -12,7 +12,7 @@ server, you can easily generate a server stub.
 To see how to make this your own, look here: [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-
+- Generator version: 7.12.0-SNAPSHOT
 
 
 
@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl openapi-v3::Api for ServerImpl {
+impl openapi_v3::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl openapi_v3::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = openapi-v3::server::new(Arc::new(ServerImpl));
+    let app = openapi_v3::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

@@ -43,5 +43,8 @@ data class Apa (
     @Json(name = "n1")
     val n1: java.math.BigDecimal? = null
 
-)
+) {
+
+
+}
 

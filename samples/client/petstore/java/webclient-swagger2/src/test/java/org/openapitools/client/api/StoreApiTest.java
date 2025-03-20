@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Order;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for StoreApi
  */
-@Ignore
+@Disabled
 public class StoreApiTest {
 
     private final StoreApi api = new StoreApi();
@@ -39,8 +40,9 @@ public class StoreApiTest {
      */
     @Test
     public void deleteOrderTest()  {
-        String orderId = null;
-        api.deleteOrder(orderId).block();
+        // uncomment below to test the function
+        //String orderId = null;
+        //api.deleteOrder(orderId).block();
 
         // TODO: test validations
     }
@@ -52,7 +54,8 @@ public class StoreApiTest {
      */
     @Test
     public void getInventoryTest()  {
-        Map<String, Integer> response = api.getInventory().block();
+        // uncomment below to test the function
+        //Map<String, Integer> response = api.getInventory().block();
 
         // TODO: test validations
     }
@@ -64,8 +67,9 @@ public class StoreApiTest {
      */
     @Test
     public void getOrderByIdTest()  {
-        Long orderId = null;
-        Order response = api.getOrderById(orderId).block();
+        // uncomment below to test the function
+        //Long orderId = null;
+        //Order response = api.getOrderById(orderId).block();
 
         // TODO: test validations
     }
@@ -77,8 +81,9 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest()  {
-        Order order = null;
-        Order response = api.placeOrder(order).block();
+        // uncomment below to test the function
+        //Order order = null;
+        //Order response = api.placeOrder(order).block();
 
         // TODO: test validations
     }

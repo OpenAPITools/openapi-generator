@@ -94,7 +94,7 @@ end
 
 describe 'BaseObject' do
   describe 'boolean values' do
-    let(:obj) { Petstore::Cat.new(declawed: false) }
+    let(:obj) { Petstore::Cat.new(class_name: "CAT", declawed: false) }
 
     it 'should have values set' do
       expect(obj.declawed).not_to be_nil

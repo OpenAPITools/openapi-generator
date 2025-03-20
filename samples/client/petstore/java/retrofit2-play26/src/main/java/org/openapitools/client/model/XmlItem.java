@@ -26,8 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * XmlItem
@@ -63,109 +63,138 @@ import javax.validation.Valid;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class XmlItem {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
+  @jakarta.annotation.Nullable
   private String attributeString;
 
   public static final String JSON_PROPERTY_ATTRIBUTE_NUMBER = "attribute_number";
+  @jakarta.annotation.Nullable
   private BigDecimal attributeNumber;
 
   public static final String JSON_PROPERTY_ATTRIBUTE_INTEGER = "attribute_integer";
+  @jakarta.annotation.Nullable
   private Integer attributeInteger;
 
   public static final String JSON_PROPERTY_ATTRIBUTE_BOOLEAN = "attribute_boolean";
+  @jakarta.annotation.Nullable
   private Boolean attributeBoolean;
 
   public static final String JSON_PROPERTY_WRAPPED_ARRAY = "wrapped_array";
-  private List<Integer> wrappedArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_STRING = "name_string";
+  @jakarta.annotation.Nullable
   private String nameString;
 
   public static final String JSON_PROPERTY_NAME_NUMBER = "name_number";
+  @jakarta.annotation.Nullable
   private BigDecimal nameNumber;
 
   public static final String JSON_PROPERTY_NAME_INTEGER = "name_integer";
+  @jakarta.annotation.Nullable
   private Integer nameInteger;
 
   public static final String JSON_PROPERTY_NAME_BOOLEAN = "name_boolean";
+  @jakarta.annotation.Nullable
   private Boolean nameBoolean;
 
   public static final String JSON_PROPERTY_NAME_ARRAY = "name_array";
-  private List<Integer> nameArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> nameArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAME_WRAPPED_ARRAY = "name_wrapped_array";
-  private List<Integer> nameWrappedArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_STRING = "prefix_string";
+  @jakarta.annotation.Nullable
   private String prefixString;
 
   public static final String JSON_PROPERTY_PREFIX_NUMBER = "prefix_number";
+  @jakarta.annotation.Nullable
   private BigDecimal prefixNumber;
 
   public static final String JSON_PROPERTY_PREFIX_INTEGER = "prefix_integer";
+  @jakarta.annotation.Nullable
   private Integer prefixInteger;
 
   public static final String JSON_PROPERTY_PREFIX_BOOLEAN = "prefix_boolean";
+  @jakarta.annotation.Nullable
   private Boolean prefixBoolean;
 
   public static final String JSON_PROPERTY_PREFIX_ARRAY = "prefix_array";
-  private List<Integer> prefixArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> prefixArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_WRAPPED_ARRAY = "prefix_wrapped_array";
-  private List<Integer> prefixWrappedArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_STRING = "namespace_string";
+  @jakarta.annotation.Nullable
   private String namespaceString;
 
   public static final String JSON_PROPERTY_NAMESPACE_NUMBER = "namespace_number";
+  @jakarta.annotation.Nullable
   private BigDecimal namespaceNumber;
 
   public static final String JSON_PROPERTY_NAMESPACE_INTEGER = "namespace_integer";
+  @jakarta.annotation.Nullable
   private Integer namespaceInteger;
 
   public static final String JSON_PROPERTY_NAMESPACE_BOOLEAN = "namespace_boolean";
+  @jakarta.annotation.Nullable
   private Boolean namespaceBoolean;
 
   public static final String JSON_PROPERTY_NAMESPACE_ARRAY = "namespace_array";
-  private List<Integer> namespaceArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY = "namespace_wrapped_array";
-  private List<Integer> namespaceWrappedArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_STRING = "prefix_ns_string";
+  @jakarta.annotation.Nullable
   private String prefixNsString;
 
   public static final String JSON_PROPERTY_PREFIX_NS_NUMBER = "prefix_ns_number";
+  @jakarta.annotation.Nullable
   private BigDecimal prefixNsNumber;
 
   public static final String JSON_PROPERTY_PREFIX_NS_INTEGER = "prefix_ns_integer";
+  @jakarta.annotation.Nullable
   private Integer prefixNsInteger;
 
   public static final String JSON_PROPERTY_PREFIX_NS_BOOLEAN = "prefix_ns_boolean";
+  @jakarta.annotation.Nullable
   private Boolean prefixNsBoolean;
 
   public static final String JSON_PROPERTY_PREFIX_NS_ARRAY = "prefix_ns_array";
-  private List<Integer> prefixNsArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   public static final String JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY = "prefix_ns_wrapped_array";
-  private List<Integer> prefixNsWrappedArray;
+  @jakarta.annotation.Nullable
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem() {
   }
 
-  public XmlItem attributeString(String attributeString) {
+  public XmlItem attributeString(@jakarta.annotation.Nullable String attributeString) {
     
     this.attributeString = attributeString;
     return this;
   }
 
-   /**
+  /**
    * Get attributeString
    * @return attributeString
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -177,22 +206,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAttributeString(String attributeString) {
+  public void setAttributeString(@jakarta.annotation.Nullable String attributeString) {
     this.attributeString = attributeString;
   }
 
-
-  public XmlItem attributeNumber(BigDecimal attributeNumber) {
+  public XmlItem attributeNumber(@jakarta.annotation.Nullable BigDecimal attributeNumber) {
     
     this.attributeNumber = attributeNumber;
     return this;
   }
 
-   /**
+  /**
    * Get attributeNumber
    * @return attributeNumber
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
@@ -205,22 +233,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAttributeNumber(BigDecimal attributeNumber) {
+  public void setAttributeNumber(@jakarta.annotation.Nullable BigDecimal attributeNumber) {
     this.attributeNumber = attributeNumber;
   }
 
-
-  public XmlItem attributeInteger(Integer attributeInteger) {
+  public XmlItem attributeInteger(@jakarta.annotation.Nullable Integer attributeInteger) {
     
     this.attributeInteger = attributeInteger;
     return this;
   }
 
-   /**
+  /**
    * Get attributeInteger
    * @return attributeInteger
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -232,22 +259,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAttributeInteger(Integer attributeInteger) {
+  public void setAttributeInteger(@jakarta.annotation.Nullable Integer attributeInteger) {
     this.attributeInteger = attributeInteger;
   }
 
-
-  public XmlItem attributeBoolean(Boolean attributeBoolean) {
+  public XmlItem attributeBoolean(@jakarta.annotation.Nullable Boolean attributeBoolean) {
     
     this.attributeBoolean = attributeBoolean;
     return this;
   }
 
-   /**
+  /**
    * Get attributeBoolean
    * @return attributeBoolean
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -259,12 +285,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setAttributeBoolean(Boolean attributeBoolean) {
+  public void setAttributeBoolean(@jakarta.annotation.Nullable Boolean attributeBoolean) {
     this.attributeBoolean = attributeBoolean;
   }
 
-
-  public XmlItem wrappedArray(List<Integer> wrappedArray) {
+  public XmlItem wrappedArray(@jakarta.annotation.Nullable List<Integer> wrappedArray) {
     
     this.wrappedArray = wrappedArray;
     return this;
@@ -278,11 +303,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get wrappedArray
    * @return wrappedArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -294,22 +319,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setWrappedArray(List<Integer> wrappedArray) {
+  public void setWrappedArray(@jakarta.annotation.Nullable List<Integer> wrappedArray) {
     this.wrappedArray = wrappedArray;
   }
 
-
-  public XmlItem nameString(String nameString) {
+  public XmlItem nameString(@jakarta.annotation.Nullable String nameString) {
     
     this.nameString = nameString;
     return this;
   }
 
-   /**
+  /**
    * Get nameString
    * @return nameString
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -321,22 +345,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNameString(String nameString) {
+  public void setNameString(@jakarta.annotation.Nullable String nameString) {
     this.nameString = nameString;
   }
 
-
-  public XmlItem nameNumber(BigDecimal nameNumber) {
+  public XmlItem nameNumber(@jakarta.annotation.Nullable BigDecimal nameNumber) {
     
     this.nameNumber = nameNumber;
     return this;
   }
 
-   /**
+  /**
    * Get nameNumber
    * @return nameNumber
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
@@ -349,22 +372,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNameNumber(BigDecimal nameNumber) {
+  public void setNameNumber(@jakarta.annotation.Nullable BigDecimal nameNumber) {
     this.nameNumber = nameNumber;
   }
 
-
-  public XmlItem nameInteger(Integer nameInteger) {
+  public XmlItem nameInteger(@jakarta.annotation.Nullable Integer nameInteger) {
     
     this.nameInteger = nameInteger;
     return this;
   }
 
-   /**
+  /**
    * Get nameInteger
    * @return nameInteger
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -376,22 +398,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNameInteger(Integer nameInteger) {
+  public void setNameInteger(@jakarta.annotation.Nullable Integer nameInteger) {
     this.nameInteger = nameInteger;
   }
 
-
-  public XmlItem nameBoolean(Boolean nameBoolean) {
+  public XmlItem nameBoolean(@jakarta.annotation.Nullable Boolean nameBoolean) {
     
     this.nameBoolean = nameBoolean;
     return this;
   }
 
-   /**
+  /**
    * Get nameBoolean
    * @return nameBoolean
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -403,12 +424,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNameBoolean(Boolean nameBoolean) {
+  public void setNameBoolean(@jakarta.annotation.Nullable Boolean nameBoolean) {
     this.nameBoolean = nameBoolean;
   }
 
-
-  public XmlItem nameArray(List<Integer> nameArray) {
+  public XmlItem nameArray(@jakarta.annotation.Nullable List<Integer> nameArray) {
     
     this.nameArray = nameArray;
     return this;
@@ -422,11 +442,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameArray
    * @return nameArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -438,12 +458,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNameArray(List<Integer> nameArray) {
+  public void setNameArray(@jakarta.annotation.Nullable List<Integer> nameArray) {
     this.nameArray = nameArray;
   }
 
-
-  public XmlItem nameWrappedArray(List<Integer> nameWrappedArray) {
+  public XmlItem nameWrappedArray(@jakarta.annotation.Nullable List<Integer> nameWrappedArray) {
     
     this.nameWrappedArray = nameWrappedArray;
     return this;
@@ -457,11 +476,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get nameWrappedArray
    * @return nameWrappedArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -473,22 +492,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNameWrappedArray(List<Integer> nameWrappedArray) {
+  public void setNameWrappedArray(@jakarta.annotation.Nullable List<Integer> nameWrappedArray) {
     this.nameWrappedArray = nameWrappedArray;
   }
 
-
-  public XmlItem prefixString(String prefixString) {
+  public XmlItem prefixString(@jakarta.annotation.Nullable String prefixString) {
     
     this.prefixString = prefixString;
     return this;
   }
 
-   /**
+  /**
    * Get prefixString
    * @return prefixString
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -500,22 +518,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixString(String prefixString) {
+  public void setPrefixString(@jakarta.annotation.Nullable String prefixString) {
     this.prefixString = prefixString;
   }
 
-
-  public XmlItem prefixNumber(BigDecimal prefixNumber) {
+  public XmlItem prefixNumber(@jakarta.annotation.Nullable BigDecimal prefixNumber) {
     
     this.prefixNumber = prefixNumber;
     return this;
   }
 
-   /**
+  /**
    * Get prefixNumber
    * @return prefixNumber
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
@@ -528,22 +545,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNumber(BigDecimal prefixNumber) {
+  public void setPrefixNumber(@jakarta.annotation.Nullable BigDecimal prefixNumber) {
     this.prefixNumber = prefixNumber;
   }
 
-
-  public XmlItem prefixInteger(Integer prefixInteger) {
+  public XmlItem prefixInteger(@jakarta.annotation.Nullable Integer prefixInteger) {
     
     this.prefixInteger = prefixInteger;
     return this;
   }
 
-   /**
+  /**
    * Get prefixInteger
    * @return prefixInteger
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -555,22 +571,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixInteger(Integer prefixInteger) {
+  public void setPrefixInteger(@jakarta.annotation.Nullable Integer prefixInteger) {
     this.prefixInteger = prefixInteger;
   }
 
-
-  public XmlItem prefixBoolean(Boolean prefixBoolean) {
+  public XmlItem prefixBoolean(@jakarta.annotation.Nullable Boolean prefixBoolean) {
     
     this.prefixBoolean = prefixBoolean;
     return this;
   }
 
-   /**
+  /**
    * Get prefixBoolean
    * @return prefixBoolean
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -582,12 +597,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixBoolean(Boolean prefixBoolean) {
+  public void setPrefixBoolean(@jakarta.annotation.Nullable Boolean prefixBoolean) {
     this.prefixBoolean = prefixBoolean;
   }
 
-
-  public XmlItem prefixArray(List<Integer> prefixArray) {
+  public XmlItem prefixArray(@jakarta.annotation.Nullable List<Integer> prefixArray) {
     
     this.prefixArray = prefixArray;
     return this;
@@ -601,11 +615,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixArray
    * @return prefixArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -617,12 +631,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixArray(List<Integer> prefixArray) {
+  public void setPrefixArray(@jakarta.annotation.Nullable List<Integer> prefixArray) {
     this.prefixArray = prefixArray;
   }
 
-
-  public XmlItem prefixWrappedArray(List<Integer> prefixWrappedArray) {
+  public XmlItem prefixWrappedArray(@jakarta.annotation.Nullable List<Integer> prefixWrappedArray) {
     
     this.prefixWrappedArray = prefixWrappedArray;
     return this;
@@ -636,11 +649,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixWrappedArray
    * @return prefixWrappedArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -652,22 +665,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixWrappedArray(List<Integer> prefixWrappedArray) {
+  public void setPrefixWrappedArray(@jakarta.annotation.Nullable List<Integer> prefixWrappedArray) {
     this.prefixWrappedArray = prefixWrappedArray;
   }
 
-
-  public XmlItem namespaceString(String namespaceString) {
+  public XmlItem namespaceString(@jakarta.annotation.Nullable String namespaceString) {
     
     this.namespaceString = namespaceString;
     return this;
   }
 
-   /**
+  /**
    * Get namespaceString
    * @return namespaceString
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -679,22 +691,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNamespaceString(String namespaceString) {
+  public void setNamespaceString(@jakarta.annotation.Nullable String namespaceString) {
     this.namespaceString = namespaceString;
   }
 
-
-  public XmlItem namespaceNumber(BigDecimal namespaceNumber) {
+  public XmlItem namespaceNumber(@jakarta.annotation.Nullable BigDecimal namespaceNumber) {
     
     this.namespaceNumber = namespaceNumber;
     return this;
   }
 
-   /**
+  /**
    * Get namespaceNumber
    * @return namespaceNumber
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
@@ -707,22 +718,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNamespaceNumber(BigDecimal namespaceNumber) {
+  public void setNamespaceNumber(@jakarta.annotation.Nullable BigDecimal namespaceNumber) {
     this.namespaceNumber = namespaceNumber;
   }
 
-
-  public XmlItem namespaceInteger(Integer namespaceInteger) {
+  public XmlItem namespaceInteger(@jakarta.annotation.Nullable Integer namespaceInteger) {
     
     this.namespaceInteger = namespaceInteger;
     return this;
   }
 
-   /**
+  /**
    * Get namespaceInteger
    * @return namespaceInteger
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -734,22 +744,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNamespaceInteger(Integer namespaceInteger) {
+  public void setNamespaceInteger(@jakarta.annotation.Nullable Integer namespaceInteger) {
     this.namespaceInteger = namespaceInteger;
   }
 
-
-  public XmlItem namespaceBoolean(Boolean namespaceBoolean) {
+  public XmlItem namespaceBoolean(@jakarta.annotation.Nullable Boolean namespaceBoolean) {
     
     this.namespaceBoolean = namespaceBoolean;
     return this;
   }
 
-   /**
+  /**
    * Get namespaceBoolean
    * @return namespaceBoolean
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -761,12 +770,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNamespaceBoolean(Boolean namespaceBoolean) {
+  public void setNamespaceBoolean(@jakarta.annotation.Nullable Boolean namespaceBoolean) {
     this.namespaceBoolean = namespaceBoolean;
   }
 
-
-  public XmlItem namespaceArray(List<Integer> namespaceArray) {
+  public XmlItem namespaceArray(@jakarta.annotation.Nullable List<Integer> namespaceArray) {
     
     this.namespaceArray = namespaceArray;
     return this;
@@ -780,11 +788,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceArray
    * @return namespaceArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -796,12 +804,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNamespaceArray(List<Integer> namespaceArray) {
+  public void setNamespaceArray(@jakarta.annotation.Nullable List<Integer> namespaceArray) {
     this.namespaceArray = namespaceArray;
   }
 
-
-  public XmlItem namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+  public XmlItem namespaceWrappedArray(@jakarta.annotation.Nullable List<Integer> namespaceWrappedArray) {
     
     this.namespaceWrappedArray = namespaceWrappedArray;
     return this;
@@ -815,11 +822,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -831,22 +838,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setNamespaceWrappedArray(List<Integer> namespaceWrappedArray) {
+  public void setNamespaceWrappedArray(@jakarta.annotation.Nullable List<Integer> namespaceWrappedArray) {
     this.namespaceWrappedArray = namespaceWrappedArray;
   }
 
-
-  public XmlItem prefixNsString(String prefixNsString) {
+  public XmlItem prefixNsString(@jakarta.annotation.Nullable String prefixNsString) {
     
     this.prefixNsString = prefixNsString;
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsString
    * @return prefixNsString
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -858,22 +864,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNsString(String prefixNsString) {
+  public void setPrefixNsString(@jakarta.annotation.Nullable String prefixNsString) {
     this.prefixNsString = prefixNsString;
   }
 
-
-  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+  public XmlItem prefixNsNumber(@jakarta.annotation.Nullable BigDecimal prefixNsNumber) {
     
     this.prefixNsNumber = prefixNsNumber;
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsNumber
    * @return prefixNsNumber
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
@@ -886,22 +891,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+  public void setPrefixNsNumber(@jakarta.annotation.Nullable BigDecimal prefixNsNumber) {
     this.prefixNsNumber = prefixNsNumber;
   }
 
-
-  public XmlItem prefixNsInteger(Integer prefixNsInteger) {
+  public XmlItem prefixNsInteger(@jakarta.annotation.Nullable Integer prefixNsInteger) {
     
     this.prefixNsInteger = prefixNsInteger;
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsInteger
    * @return prefixNsInteger
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -913,22 +917,21 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNsInteger(Integer prefixNsInteger) {
+  public void setPrefixNsInteger(@jakarta.annotation.Nullable Integer prefixNsInteger) {
     this.prefixNsInteger = prefixNsInteger;
   }
 
-
-  public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
+  public XmlItem prefixNsBoolean(@jakarta.annotation.Nullable Boolean prefixNsBoolean) {
     
     this.prefixNsBoolean = prefixNsBoolean;
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsBoolean
    * @return prefixNsBoolean
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -940,12 +943,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_BOOLEAN)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
+  public void setPrefixNsBoolean(@jakarta.annotation.Nullable Boolean prefixNsBoolean) {
     this.prefixNsBoolean = prefixNsBoolean;
   }
 
-
-  public XmlItem prefixNsArray(List<Integer> prefixNsArray) {
+  public XmlItem prefixNsArray(@jakarta.annotation.Nullable List<Integer> prefixNsArray) {
     
     this.prefixNsArray = prefixNsArray;
     return this;
@@ -959,11 +961,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsArray
    * @return prefixNsArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -975,12 +977,11 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNsArray(List<Integer> prefixNsArray) {
+  public void setPrefixNsArray(@jakarta.annotation.Nullable List<Integer> prefixNsArray) {
     this.prefixNsArray = prefixNsArray;
   }
 
-
-  public XmlItem prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+  public XmlItem prefixNsWrappedArray(@jakarta.annotation.Nullable List<Integer> prefixNsWrappedArray) {
     
     this.prefixNsWrappedArray = prefixNsWrappedArray;
     return this;
@@ -994,11 +995,11 @@ public class XmlItem {
     return this;
   }
 
-   /**
+  /**
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
-  **/
-  @javax.annotation.Nullable
+   */
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -1010,7 +1011,7 @@ public class XmlItem {
 
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+  public void setPrefixNsWrappedArray(@jakarta.annotation.Nullable List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 

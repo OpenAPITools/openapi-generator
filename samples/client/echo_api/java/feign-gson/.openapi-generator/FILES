@@ -38,5 +38,6 @@ src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Query.java
 src/main/java/org/openapitools/client/model/StringEnumRef.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestFormObjectMultipartRequestMarker.java
 src/main/java/org/openapitools/client/model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.java
 src/main/java/org/openapitools/client/model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.java

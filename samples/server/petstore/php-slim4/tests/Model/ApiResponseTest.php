@@ -77,7 +77,7 @@ class ApiResponseTest extends TestCase
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "ApiResponse" model has not been implemented yet.'
         );
     }
@@ -87,7 +87,7 @@ class ApiResponseTest extends TestCase
      */
     public function testPropertyCode()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "code" property in "ApiResponse" model has not been implemented yet.'
         );
     }
@@ -97,7 +97,7 @@ class ApiResponseTest extends TestCase
      */
     public function testPropertyType()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "type" property in "ApiResponse" model has not been implemented yet.'
         );
     }
@@ -107,7 +107,7 @@ class ApiResponseTest extends TestCase
      */
     public function testPropertyMessage()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "message" property in "ApiResponse" model has not been implemented yet.'
         );
     }
@@ -122,3 +122,4 @@ class ApiResponseTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

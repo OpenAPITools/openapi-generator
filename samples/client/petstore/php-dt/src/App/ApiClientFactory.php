@@ -3,18 +3,20 @@ declare(strict_types=1);
 
 namespace App;
 
-use Articus\DataTransfer as DT;
-use Interop\Container\ContainerInterface;
+use Articus\PluginManager as PM;
 use OpenAPIGenerator\APIClient as OAGAC;
+use Psr\Container\ContainerInterface;
 
-class ApiClientFactory extends DT\ConfigAwareFactory
+class ApiClientFactory implements PM\ServiceFactoryInterface
 {
+    use PM\ConfigAwareFactoryTrait;
+
     public function __construct(string $configKey = ApiClient::class)
     {
-        parent::__construct($configKey);
+        $this->configKey = $configKey;
     }
 
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ApiClient
     {
         $config = new OAGAC\ApiClientOptions(\array_merge($this->getServiceConfig($container), $options ?? []));
         return new ApiClient(
@@ -24,7 +26,9 @@ class ApiClientFactory extends DT\ConfigAwareFactory
             $container->get($config->httpClientServiceName),
             $container->get($config->securityProviderFactoryServiceName),
             $container->get($config->bodyCoderFactoryServiceName),
-            $container->get($config->bodyCoderFactoryServiceName)
+            $container->get($config->bodyCoderFactoryServiceName),
+            $container->get($config->contentStrategyFactoryServiceName),
+            $container->get($config->contentValidatorFactoryServiceName)
         );
     }
 }

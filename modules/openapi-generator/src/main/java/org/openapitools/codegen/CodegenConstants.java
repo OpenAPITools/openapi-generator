@@ -25,6 +25,7 @@ public class CodegenConstants {
     // NOTE: We may want to move these to a separate class to avoid confusion or modification.
     public static final String APIS = "apis";
     public static final String MODELS = "models";
+    public static final String GENERATE_RECURSIVE_DEPENDENT_MODELS = "generateRecursiveDependentModels";
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
@@ -32,7 +33,6 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
-    public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
@@ -91,7 +91,7 @@ public class CodegenConstants {
     public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";
@@ -232,6 +232,8 @@ public class CodegenConstants {
     public static final String TEMPLATING_ENGINE = "templatingEngine";
     public static final String TEMPLATING_ENGINE_DESC = "The templating engine plugin to use: \"mustache\" (default) or \"handlebars\" (beta)";
 
+    public static final String MUSTACHE_PARENT_CONTEXT = "MUSTACHE_PARENT_CONTEXT";
+
     public static enum PARAM_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
@@ -283,6 +285,9 @@ public class CodegenConstants {
 
     public static final String SUPPORTS_ASYNC = "supportsAsync";
     public static final String SUPPORTS_ASYNC_DESC = "Generate code that supports async operations.";
+
+    public static final String USE_VIRTUAL_FOR_HOOKS = "useVirtualForHooks";
+    public static final String USE_VIRTUAL_FOR_HOOKS_DESC = "Generate code that exposes public virtual hooks on ApiClient to customize low-level HTTP requests (only `restsharp`. `httpclient` libraries support this option).";
 
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
@@ -370,9 +375,9 @@ public class CodegenConstants {
 
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
     public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate model implementation for aliases to map and array schemas. " +
-        "An 'alias' is an array, map, or list which is defined inline in a OpenAPI document and becomes a model in the generated code. " +
-        "A 'map' schema is an object that can have undeclared properties, i.e. the 'additionalproperties' attribute is set on that object. " +
-        "An 'array' schema is a list of sub schemas in a OAS document";
+            "An 'alias' is an array, map, or list which is defined inline in a OpenAPI document and becomes a model in the generated code. " +
+            "A 'map' schema is an object that can have undeclared properties, i.e. the 'additionalproperties' attribute is set on that object. " +
+            "An 'array' schema is a list of sub schemas in a OAS document";
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
@@ -403,18 +408,16 @@ public class CodegenConstants {
 
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
-        "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
-        "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+            "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
+                    "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
 
     public static final String UNSUPPORTED_V310_SPEC_MSG =
-                    "Generation using 3.1.0 specs is in development and is not officially supported yet. " +
-                    "If you would like to expedite development, please consider woking on the open issues in the 3.1.0 project: https://github.com/orgs/OpenAPITools/projects/4/views/1 " +
-                    "and reach out to our team on Slack at https://join.slack.com/t/openapi-generator/shared_invite/zt-12jxxd7p2-XUeQM~4pzsU9x~eGLQqX2g";
+            "OpenAPI 3.1 support is still in beta. To report an issue related to 3.1 spec, please kindly open an issue in the Github repo: https://github.com/openAPITools/openapi-generator.";
 
     public static final String ENUM_UNKNOWN_DEFAULT_CASE = "enumUnknownDefaultCase";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_DESC =
             "If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response." +
-            "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
+                    "With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.";
 
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
     public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.";
@@ -437,12 +440,18 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String WITH_XML = "withXml";
+
     public static final String WITH_GO_MOD = "withGoMod";
 
     public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
     public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
 
+    public static final String GENERATE_UNMARSHAL_JSON = "generateUnmarshalJSON";
+    public static final String GENERATE_UNMARSHAL_JSON_DESC = "Generate UnmarshalJSON method";
     public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
 
     public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
+
+    public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
 }

@@ -10,12 +10,12 @@ import java.io.Writer;
 
 /**
  * Converts text from CaseFormat to another CaseFormat
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("convert", new CaseFormatLambda(LOWER_CAMEL, UPPER_UNDERSCORE));
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#convert}}{{name}}{{/convert}}

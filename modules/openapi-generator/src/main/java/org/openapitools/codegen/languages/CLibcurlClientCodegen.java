@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -39,6 +38,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
+    public static final String USE_JSON_UNFORMATTED = "useJsonUnformatted";
+    public static final String USE_JSON_UNFORMATTED_DESC = "Use cJSON_PrintUnformatted instead of cJSON_Print when creating the JSON string.";
+
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
     protected String projectName;
@@ -47,6 +49,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     protected String libFolder = "lib";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean useJsonUnformatted = false;
 
     protected static int emptyMethodNameCounter = 0;
 
@@ -252,7 +255,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         // VC++ reserved keywords
                         "stdin",
                         "stdout",
-                        "stderr")
+                        "stderr",
+
+                        // gcc predefined macros
+                        "linux"
+                )
         );
 
         instantiationTypes.clear();
@@ -306,6 +313,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(new CliOption(USE_JSON_UNFORMATTED, USE_JSON_UNFORMATTED_DESC).
+                defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -314,6 +323,17 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         if (StringUtils.isEmpty(System.getenv("C_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'C_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
+        if (additionalProperties.containsKey(USE_JSON_UNFORMATTED)) {
+            useJsonUnformatted = Boolean.parseBoolean(additionalProperties.get(USE_JSON_UNFORMATTED).toString());
+        }
+        if (useJsonUnformatted) {
+            additionalProperties.put("cJSONPrint", "cJSON_PrintUnformatted");
+        } else {
+            additionalProperties.put("cJSONPrint", "cJSON_Print");
         }
 
         // make api and model doc path available in mustache template
@@ -327,6 +347,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // root folder
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("Packing.cmake.mustache", "", "Packing.cmake"));
+        supportingFiles.add(new SupportingFile("cmake-config.mustache", "", "Config.cmake.in"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
@@ -348,6 +369,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // Object files in model folder
         supportingFiles.add(new SupportingFile("object-body.mustache", "model", "object.c"));
         supportingFiles.add(new SupportingFile("object-header.mustache", "model", "object.h"));
+        supportingFiles.add(new SupportingFile("any_type-header.mustache", "model", "any_type.h"));
     }
 
     @Override
@@ -883,6 +905,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
         if (file == null) {
             return;
         }
@@ -895,7 +918,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
         Set<String> supportedFileType = new HashSet<>(
                 Arrays.asList(
-                        "supporting-mustache",
+                        "supporting-file",
                         "model-test",
                         "model",
                         "api-test",
@@ -907,20 +930,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = cPostProcessFile + " " + file;
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: {}", command);
-                }
-            } catch (InterruptedException | IOException e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-                // Restore interrupted state
-                Thread.currentThread().interrupt();
-            }
+            this.executePostProcessor(new String[]{cPostProcessFile, file.toString()});
         }
     }
 

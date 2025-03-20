@@ -12,7 +12,7 @@
 {{/isDate
 }}{{#isDateTime
 }}    #[DTA\Strategy("DateTime")]
-    #[DTA\Validator("Date", ["format" => \DateTime::RFC3339])]
+    #[DTA\Validator("DateTime")]
 {{/isDateTime
 }}{{^isPrimitiveType
 }}{{^isDate
@@ -25,21 +25,24 @@
 }}{{/isContainer
 }}{{#hasValidation
 }}{{#minLength}}{{#maxLength
-}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}, "max" => {{maxLength}}])]
+}}    #[DTA\Validator("Length", ["min" => {{minLength}}, "max" => {{maxLength}}])]
 {{/maxLength}}{{/minLength
 }}{{^minLength}}{{#maxLength
-}}    #[DTA\Validator("StringLength", ["max" => {{maxLength}}])]
+}}    #[DTA\Validator("Length", ["max" => {{maxLength}}])]
 {{/maxLength}}{{/minLength
 }}{{#minLength}}{{^maxLength
-}}    #[DTA\Validator("StringLength", ["min" => {{minLength}}])]
+}}    #[DTA\Validator("Length", ["min" => {{minLength}}])]
 {{/maxLength}}{{/minLength
-}}{{#minimum
-}}    #[DTA\Validator("GreaterThan", ["min" => {{minimum}}{{^exclusiveMinimum}}, "inclusive" => true{{/exclusiveMinimum}}])]
-{{/minimum
-}}{{#maximum
-}}    #[DTA\Validator("LessThan", ["max" => {{maximum}}{{^exclusiveMaximum}}, "inclusive" => true{{/exclusiveMaximum}}])]
-{{/maximum
+}}{{#minimum}}{{#maximum
+}}    #[DTA\Validator("Range", ["min" => {{minimum}}, "max" => {{maximum}}{{#exclusiveMinimum}}, "exclude_min" => true{{/exclusiveMinimum}}{{#exclusiveMaximum}}, "exclude_max" => true{{/exclusiveMaximum}}])]
+{{/maximum}}{{/minimum
+}}{{^minimum}}{{#maximum
+}}    #[DTA\Validator("Range", ["max" => {{maximum}}{{#exclusiveMaximum}}, "exclude_max" => true{{/exclusiveMaximum}}])]
+{{/maximum}}{{/minimum
+}}{{#minimum}}{{^maximum
+}}    #[DTA\Validator("Range", ["min" => {{minimum}}{{#exclusiveMinimum}}, "exclude_min" => true{{/exclusiveMinimum}}])]
+{{/maximum}}{{/minimum
 }}{{#pattern
-}}    #[DTA\Validator("Regex", ["pattern" => "{{{pattern}}}"])]
+}}    #[DTA\Validator("Match", ["pattern" => "{{{pattern}}}"])]
 {{/pattern
 }}{{/hasValidation}}

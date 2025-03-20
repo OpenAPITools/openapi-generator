@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,62 +51,65 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ArrayOfInlineAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY = "array_allof_dog_property";
   @SerializedName(SERIALIZED_NAME_ARRAY_ALLOF_DOG_PROPERTY)
-  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty;
+  @javax.annotation.Nullable
+  private List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty = new ArrayList<>();
 
   public ArrayOfInlineAllOf() {
   }
 
-  public ArrayOfInlineAllOf id(Long id) {
+  public ArrayOfInlineAllOf id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public ArrayOfInlineAllOf name(String name) {
+  public ArrayOfInlineAllOf name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public ArrayOfInlineAllOf arrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+  public ArrayOfInlineAllOf arrayAllofDogProperty(@javax.annotation.Nullable List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
     this.arrayAllofDogProperty = arrayAllofDogProperty;
     return this;
   }
@@ -120,16 +122,16 @@ public class ArrayOfInlineAllOf {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAllofDogProperty
    * @return arrayAllofDogProperty
-  **/
+   */
   @javax.annotation.Nullable
   public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }
 
-  public void setArrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+  public void setArrayAllofDogProperty(@javax.annotation.Nullable List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
     this.arrayAllofDogProperty = arrayAllofDogProperty;
   }
 
@@ -238,12 +240,12 @@ public class ArrayOfInlineAllOf {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOf
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfInlineAllOf
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfInlineAllOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -305,7 +307,12 @@ public class ArrayOfInlineAllOf {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -344,22 +351,22 @@ public class ArrayOfInlineAllOf {
     }
   }
 
- /**
-  * Create an instance of ArrayOfInlineAllOf given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfInlineAllOf
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOf
-  */
+  /**
+   * Create an instance of ArrayOfInlineAllOf given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfInlineAllOf
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfInlineAllOf
+   */
   public static ArrayOfInlineAllOf fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfInlineAllOf.class);
   }
 
- /**
-  * Convert an instance of ArrayOfInlineAllOf to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfInlineAllOf to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

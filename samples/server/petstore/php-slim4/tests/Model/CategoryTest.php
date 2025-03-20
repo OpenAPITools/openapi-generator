@@ -77,7 +77,7 @@ class CategoryTest extends TestCase
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "Category" model has not been implemented yet.'
         );
     }
@@ -87,7 +87,7 @@ class CategoryTest extends TestCase
      */
     public function testPropertyId()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "id" property in "Category" model has not been implemented yet.'
         );
     }
@@ -97,7 +97,7 @@ class CategoryTest extends TestCase
      */
     public function testPropertyName()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "name" property in "Category" model has not been implemented yet.'
         );
     }
@@ -112,3 +112,4 @@ class CategoryTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

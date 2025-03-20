@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for AdditionalPropertiesArray
  */

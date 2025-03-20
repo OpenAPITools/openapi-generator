@@ -102,7 +102,7 @@ class Controller extends AbstractController
         $json = $this->exceptionToArray($exception);
         $json['statusCode'] = $statusCode;
 
-        return new Response(json_encode($json, 15, 512), $statusCode, $headers);
+        return new Response(json_encode($json, 15), $statusCode, $headers);
     }
 
     /**
@@ -161,7 +161,7 @@ class Controller extends AbstractController
      *
      * @return array|null
      */
-    private function exceptionToArray(\Throwable $exception = null): ?array
+    private function exceptionToArray(?\Throwable $exception = null): ?array
     {
         if (null === $exception) {
             return null;
@@ -229,7 +229,7 @@ class Controller extends AbstractController
     public static function isContentTypeAllowed(Request $request, array $consumes = []): bool
     {
         if (!empty($consumes) && $consumes[0] !== '*/*') {
-            $currentFormat = $request->getContentType();
+            $currentFormat = $request->getContentTypeFormat();
             foreach ($consumes as $mimeType) {
                 // canonize mime type
                 if (is_string($mimeType) && false !== $pos = strpos($mimeType, ';')) {
@@ -240,7 +240,7 @@ class Controller extends AbstractController
                     // add custom format to request
                     $format = $mimeType;
                     $request->setFormat($format, $format);
-                    $currentFormat = $request->getContentType();
+                    $currentFormat = $request->getContentTypeFormat();
                 }
 
                 if ($format === $currentFormat) {

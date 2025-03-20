@@ -19,22 +19,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for NumberPropertiesOnly
  */
-public class NumberPropertiesOnlyTest {
+class NumberPropertiesOnlyTest {
     private final NumberPropertiesOnly model = new NumberPropertiesOnly();
 
     /**
      * Model tests for NumberPropertiesOnly
      */
     @Test
-    public void testNumberPropertiesOnly() {
+    void testNumberPropertiesOnly() {
         // TODO: test NumberPropertiesOnly
     }
 
@@ -42,7 +42,7 @@ public class NumberPropertiesOnlyTest {
      * Test the property 'number'
      */
     @Test
-    public void numberTest() {
+    void numberTest() {
         // TODO: test number
     }
 
@@ -50,7 +50,7 @@ public class NumberPropertiesOnlyTest {
      * Test the property '_float'
      */
     @Test
-    public void _floatTest() {
+    void _floatTest() {
         // TODO: test _float
     }
 
@@ -58,7 +58,7 @@ public class NumberPropertiesOnlyTest {
      * Test the property '_double'
      */
     @Test
-    public void _doubleTest() {
+    void _doubleTest() {
         // TODO: test _double
     }
 

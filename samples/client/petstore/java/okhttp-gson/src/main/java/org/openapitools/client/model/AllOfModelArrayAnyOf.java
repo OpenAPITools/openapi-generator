@@ -39,7 +39,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,99 +50,103 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AllOfModelArrayAnyOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name = "default-name";
 
   public static final String SERIALIZED_NAME_LINK_LIST_COLUMN1 = "linkListColumn1";
   @SerializedName(SERIALIZED_NAME_LINK_LIST_COLUMN1)
+  @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1;
 
   public static final String SERIALIZED_NAME_ATTRIBUTES = "attributes";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTES)
+  @javax.annotation.Nullable
   private AllOfModelArrayAnyOfAllOfAttributes attributes;
 
   public AllOfModelArrayAnyOf() {
   }
 
-  public AllOfModelArrayAnyOf id(Long id) {
+  public AllOfModelArrayAnyOf id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
   public Long getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public AllOfModelArrayAnyOf name(String name) {
+  public AllOfModelArrayAnyOf name(@javax.annotation.Nonnull String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public AllOfModelArrayAnyOf linkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
+  public AllOfModelArrayAnyOf linkListColumn1(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
     this.linkListColumn1 = linkListColumn1;
     return this;
   }
 
-   /**
+  /**
    * Get linkListColumn1
    * @return linkListColumn1
-  **/
+   */
   @javax.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfLinkListColumn1 getLinkListColumn1() {
     return linkListColumn1;
   }
 
-  public void setLinkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
+  public void setLinkListColumn1(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
     this.linkListColumn1 = linkListColumn1;
   }
 
 
-  public AllOfModelArrayAnyOf attributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
+  public AllOfModelArrayAnyOf attributes(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributes attributes) {
     this.attributes = attributes;
     return this;
   }
 
-   /**
+  /**
    * Get attributes
    * @return attributes
-  **/
+   */
   @javax.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfAttributes getAttributes() {
     return attributes;
   }
 
-  public void setAttributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
+  public void setAttributes(@javax.annotation.Nullable AllOfModelArrayAnyOfAllOfAttributes attributes) {
     this.attributes = attributes;
   }
 
@@ -255,12 +258,12 @@ public class AllOfModelArrayAnyOf {
     openapiRequiredFields.add("name");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOf
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOf
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AllOfModelArrayAnyOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -316,7 +319,12 @@ public class AllOfModelArrayAnyOf {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -355,22 +363,22 @@ public class AllOfModelArrayAnyOf {
     }
   }
 
- /**
-  * Create an instance of AllOfModelArrayAnyOf given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOf
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOf
-  */
+  /**
+   * Create an instance of AllOfModelArrayAnyOf given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of AllOfModelArrayAnyOf
+   * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOf
+   */
   public static AllOfModelArrayAnyOf fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOf.class);
   }
 
- /**
-  * Convert an instance of AllOfModelArrayAnyOf to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of AllOfModelArrayAnyOf to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

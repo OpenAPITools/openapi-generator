@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Cat;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -24,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -66,7 +67,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private KindEnum kind;
+  private @Nullable KindEnum kind;
 
   public BigCat() {
     super();
@@ -87,7 +88,7 @@ public class BigCat extends Cat {
   /**
    * Get kind
    * @return kind
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("kind")

@@ -1,0 +1,14 @@
+# for csharp generichost
+generatorName: csharp
+outputDir: samples/client/petstore/csharp/generichost/net8/AllOf
+inputSpec: modules/openapi-generator/src/test/resources/3_0/allOf.yaml
+templateDir: modules/openapi-generator/src/main/resources/csharp
+additionalProperties:
+  packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
+  useCompareNetObjects: true 
+  disallowAdditionalPropertiesIfNotPresent: false
+  nullableReferenceTypes: true
+  equatable: true
+  targetFramework: net8.0
+  modelPropertySorting: alphabetical
+  operationParameterSorting: alphabetical

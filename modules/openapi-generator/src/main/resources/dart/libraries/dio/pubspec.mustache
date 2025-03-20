@@ -9,22 +9,26 @@ repository: {{.}}
 publish_to: {{.}}
 {{/pubPublishTo}}
 
+
 environment:
-  sdk: '>={{#useJsonSerializable}}2.17.0{{/useJsonSerializable}}{{^useJsonSerializable}}2.15.0{{/useJsonSerializable}} <3.0.0'
+  sdk: '>={{^useJsonSerializable}}2.18.0{{/useJsonSerializable}}{{#useJsonSerializable}}3.5.0{{/useJsonSerializable}} <4.0.0'
 
 dependencies:
-  dio: '^5.2.0'
+  dio: '^5.7.0'
 {{#useBuiltValue}}
   one_of: '>=1.5.0 <2.0.0'
   one_of_serializer: '>=1.5.0 <2.0.0'
   built_value: '>=8.4.0 <9.0.0'
   built_collection: '>=5.1.1 <6.0.0'
 {{/useBuiltValue}}
+{{#useEquatable}}
+  equatable: '^2.0.7'
+{{/useEquatable}}
 {{#useJsonSerializable}}
-  json_annotation: '^4.4.0'
+  json_annotation: '^4.9.0'
 {{/useJsonSerializable}}
 {{#useDateLibTimeMachine}}
-  time_machine: ^0.9.16
+  time_machine: ^0.9.17
 {{/useDateLibTimeMachine}}
 
 dev_dependencies:
@@ -34,6 +38,6 @@ dev_dependencies:
 {{/useBuiltValue}}
 {{#useJsonSerializable}}
   build_runner: any
-  json_serializable: '^6.1.5'
+  json_serializable: '^6.9.3'
 {{/useJsonSerializable}}
-  test: ^1.16.0
+  test: '^1.16.0'

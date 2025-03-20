@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import lombok.Setter;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -30,15 +31,21 @@ import org.openapitools.codegen.model.OperationsMap;
 import java.io.File;
 import java.util.List;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     public static final String DEFAULT_PACKAGE_NAME = "QtOpenAPIClient";
+    public static final String MAKE_OPERATIONS_VIRTUAL_NAME = "makeOperationsVirtual";
+    public static final String MAKE_OPERATIONS_VIRTUAL_DESC =
+            "Make all operations methods virtual. " +
+                    "This makes it easy to mock the generated API class for testing purposes.";
     protected String packageName = "";
     // source folder where to write the files
     protected String sourceFolder = "client";
-    protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean optionalProjectFileFlag = true;
+    @Setter protected boolean addDownloadProgress = false;
+    @Setter protected boolean makeOperationsVirtual = true;
 
     public CppQtClientCodegen() {
         super();
@@ -97,6 +104,8 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME, "C++ package (library) name.", DEFAULT_PACKAGE_NAME);
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE, OPTIONAL_PROJECT_FILE_DESC, this.optionalProjectFileFlag);
+        addSwitch("addDownloadProgress", "Add support for Qt download progress", this.addDownloadProgress);
+        addSwitch(MAKE_OPERATIONS_VIRTUAL_NAME, MAKE_OPERATIONS_VIRTUAL_DESC, this.makeOperationsVirtual);
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder, PREFIX + "Helpers.cpp"));
@@ -120,6 +129,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         typeMapping.put("AnyType", "QJsonValue");
         importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
         importMapping.put("QJsonValue", "#include <QJsonValue>");
+
+        reservedWords.add("valid");
+        reservedWords.add("set");
     }
 
     @Override
@@ -132,6 +144,12 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
         } else {
             additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
+        }
+
+        if (additionalProperties.containsKey(MAKE_OPERATIONS_VIRTUAL_NAME)) {
+            setMakeOperationsVirtual(convertPropertyToBooleanAndWriteBack(MAKE_OPERATIONS_VIRTUAL_NAME));
+        } else {
+            additionalProperties.put(MAKE_OPERATIONS_VIRTUAL_NAME, makeOperationsVirtual);
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -219,10 +237,6 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
     @Override
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
-    }
-
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
     }
 
     @Override

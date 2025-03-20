@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import java.io.File;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * API tests for ResourceApi
  */
-@Ignore
+@Disabled
 public class ResourceApiTest {
 
     private final ResourceApi api = new ResourceApi();
@@ -39,7 +40,8 @@ public class ResourceApiTest {
      */
     @Test
     public void resourceInResponseTest()  {
-        org.springframework.core.io.Resource response = api.resourceInResponse().block();
+        // uncomment below to test the function
+        //org.springframework.core.io.Resource response = api.resourceInResponse().block();
 
         // TODO: test validations
     }

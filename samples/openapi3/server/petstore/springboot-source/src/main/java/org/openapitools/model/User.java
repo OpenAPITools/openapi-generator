@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -17,24 +18,24 @@ import javax.annotation.Generated;
  * A User who is purchasing from the pet store
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class User {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private String username;
+  private @Nullable String username;
 
-  private String firstName;
+  private @Nullable String firstName;
 
-  private String lastName;
+  private @Nullable String lastName;
 
-  private String email;
+  private @Nullable String email;
 
-  private String password;
+  private @Nullable String password;
 
-  private String phone;
+  private @Nullable String phone;
 
-  private Integer userStatus;
+  private @Nullable Integer userStatus;
 
   public User id(Long id) {
     this.id = id;
@@ -44,7 +45,7 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @JsonProperty("id")
   public Long getId() {
@@ -63,7 +64,7 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
   @JsonProperty("username")
   public String getUsername() {
@@ -82,7 +83,7 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -101,7 +102,7 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @JsonProperty("lastName")
   public String getLastName() {
@@ -120,7 +121,7 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
   @JsonProperty("email")
   public String getEmail() {
@@ -139,7 +140,7 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
   @JsonProperty("password")
   public String getPassword() {
@@ -158,7 +159,7 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @JsonProperty("phone")
   public String getPhone() {
@@ -177,7 +178,7 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @JsonProperty("userStatus")
   public Integer getUserStatus() {

@@ -13,6 +13,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -32,25 +34,32 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
+  @javax.annotation.Nullable
   private String someProperty;
 
   public TestInlineFreeformAdditionalPropertiesRequest() {
-
   }
 
-  public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
+  /**
+   * Constructor with all args parameters
+   */
+  public TestInlineFreeformAdditionalPropertiesRequest(@JsonProperty(JSON_PROPERTY_SOME_PROPERTY) String someProperty) {
+    this.someProperty = someProperty;
+  }
+
+  public TestInlineFreeformAdditionalPropertiesRequest someProperty(@javax.annotation.Nullable String someProperty) {
     
     this.someProperty = someProperty;
     return this;
   }
 
-   /**
+  /**
    * Get someProperty
    * @return someProperty
-  **/
+   */
   @javax.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -62,8 +71,52 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
   @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setSomeProperty(String someProperty) {
+  public void setSomeProperty(@javax.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
+  }
+
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
+   */
+  @JsonAnySetter
+  public TestInlineFreeformAdditionalPropertiesRequest putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
   }
 
   @Override
@@ -76,20 +129,20 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     }
     TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = (TestInlineFreeformAdditionalPropertiesRequest) o;
     return Objects.equals(this.someProperty, testInlineFreeformAdditionalPropertiesRequest.someProperty) &&
-        super.equals(o);
+        Objects.equals(this.additionalProperties, testInlineFreeformAdditionalPropertiesRequest.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(someProperty, super.hashCode());
+    return Objects.hash(someProperty, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    someProperty: ").append(toIndentedString(someProperty)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -104,6 +157,60 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public static class Builder {
+
+    private TestInlineFreeformAdditionalPropertiesRequest instance;
+
+    public Builder() {
+      this(new TestInlineFreeformAdditionalPropertiesRequest());
+    }
+
+    protected Builder(TestInlineFreeformAdditionalPropertiesRequest instance) {
+      this.instance = instance;
+    }
+
+    public TestInlineFreeformAdditionalPropertiesRequest.Builder someProperty(String someProperty) {
+      this.instance.someProperty = someProperty;
+      return this;
+    }
+
+
+    /**
+    * returns a built TestInlineFreeformAdditionalPropertiesRequest instance.
+    *
+    * The builder is not reusable.
+    */
+    public TestInlineFreeformAdditionalPropertiesRequest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TestInlineFreeformAdditionalPropertiesRequest.Builder builder() {
+    return new TestInlineFreeformAdditionalPropertiesRequest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TestInlineFreeformAdditionalPropertiesRequest.Builder toBuilder() {
+    return new TestInlineFreeformAdditionalPropertiesRequest.Builder()
+      .someProperty(getSomeProperty());
+  }
+
 
 }
 

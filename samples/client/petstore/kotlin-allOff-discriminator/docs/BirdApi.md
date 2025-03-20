@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://example.org*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getBird**](BirdApi.md#getBird) | **GET** /v1/bird/{id} | 
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**getBird**](BirdApi.md#getBird) | **GET** /v1/bird/{id} |  |
 
 
 <a id="getBird"></a>
@@ -34,10 +34,9 @@ try {
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **java.util.UUID**|  |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **id** | **java.util.UUID**|  | |
 
 ### Return type
 

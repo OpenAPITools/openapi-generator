@@ -27,6 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|useJsonUnformatted|Use cJSON_PrintUnformatted instead of cJSON_Print when creating the JSON string.| |false|
 
 ## IMPORT MAPPING
 
@@ -119,6 +120,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>if</li>
 <li>inline</li>
 <li>int</li>
+<li>linux</li>
 <li>long</li>
 <li>mutable</li>
 <li>namespace</li>

@@ -5,11 +5,13 @@ on:
     paths:
       - samples/server/petstore/haskell-yesod/**
       - samples/server/petstore/haskell-servant/**
+      - samples/server/others/haskell-servant-ping/**
       - samples/client/petstore/haskell-http-client/**
   pull_request:
     paths:
       - samples/server/petstore/haskell-yesod/**
       - samples/server/petstore/haskell-servant/**
+      - samples/server/others/haskell-servant-ping/**
       - samples/client/petstore/haskell-http-client/**
 jobs:
   build:
@@ -22,6 +24,7 @@ jobs:
           # servers
           - samples/server/petstore/haskell-yesod/
           - samples/server/petstore/haskell-servant/
+          - samples/server/others/haskell-servant-ping/
           - samples/client/petstore/haskell-http-client/
     steps:
       - uses: actions/checkout@v4

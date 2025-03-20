@@ -3,7 +3,6 @@ package org.openapitools.codegen.xojo.client;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.XojoClientCodegen;
-import org.openapitools.codegen.options.OptionsProvider;
 import org.openapitools.codegen.options.XojoClientOptionsProvider;
 
 import static org.mockito.Mockito.mock;

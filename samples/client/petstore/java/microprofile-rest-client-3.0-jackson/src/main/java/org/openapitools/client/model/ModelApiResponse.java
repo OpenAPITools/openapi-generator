@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,6 +12,10 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import java.util.Objects;
+import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,9 +30,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
 @JsonTypeName("ApiResponse")
-/**
-  * Describes the result of uploading an image resource
- **/
 
 public class ModelApiResponse  {
   
@@ -44,10 +45,10 @@ public class ModelApiResponse  {
   
   private String message;
 
- /**
+  /**
    * Get code
    * @return code
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getCode() {
@@ -55,8 +56,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set code
-  **/
+   * Set code
+   */
   @JsonProperty(JSON_PROPERTY_CODE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCode(Integer code) {
@@ -68,10 +69,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get type
    * @return type
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getType() {
@@ -79,8 +80,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set type
-  **/
+   * Set type
+   */
   @JsonProperty(JSON_PROPERTY_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(String type) {
@@ -92,10 +93,10 @@ public class ModelApiResponse  {
     return this;
   }
 
- /**
+  /**
    * Get message
    * @return message
-  **/
+   **/
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getMessage() {
@@ -103,8 +104,8 @@ public class ModelApiResponse  {
   }
 
   /**
-    * Set message
-  **/
+   * Set message
+   */
   @JsonProperty(JSON_PROPERTY_MESSAGE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMessage(String message) {
@@ -116,10 +117,19 @@ public class ModelApiResponse  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.reflectionHashCode(this);
+  }
 
   /**
-    * Create a string representation of this pojo.
-  **/
+   * Create a string representation of this pojo.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -143,3 +153,4 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

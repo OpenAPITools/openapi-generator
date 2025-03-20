@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 	"time"
 	"fmt"
+	"gopkg.in/validator.v2"
 )
 
 // OneOfPrimitiveTypes - struct for OneOfPrimitiveTypes
@@ -48,7 +49,11 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 		if string(jsonString) == "{}" { // empty struct
 			dst.String = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.String); err != nil {
+				dst.String = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.String = nil
@@ -61,7 +66,11 @@ func (dst *OneOfPrimitiveTypes) UnmarshalJSON(data []byte) error {
 		if string(jsonTimeTime) == "{}" { // empty struct
 			dst.TimeTime = nil
 		} else {
-			match++
+			if err = validator.Validate(dst.TimeTime); err != nil {
+				dst.TimeTime = nil
+			} else {
+				match++
+			}
 		}
 	} else {
 		dst.TimeTime = nil
@@ -104,6 +113,20 @@ func (obj *OneOfPrimitiveTypes) GetActualInstance() (interface{}) {
 
 	if obj.TimeTime != nil {
 		return obj.TimeTime
+	}
+
+	// all schemas are nil
+	return nil
+}
+
+// Get the actual instance value
+func (obj OneOfPrimitiveTypes) GetActualInstanceValue() (interface{}) {
+	if obj.String != nil {
+		return *obj.String
+	}
+
+	if obj.TimeTime != nil {
+		return *obj.TimeTime
 	}
 
 	// all schemas are nil

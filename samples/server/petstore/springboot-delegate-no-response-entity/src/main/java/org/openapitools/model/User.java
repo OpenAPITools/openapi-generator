@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -20,24 +21,24 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "A User who is purchasing from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class User {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private String username;
+  private @Nullable String username;
 
-  private String firstName;
+  private @Nullable String firstName;
 
-  private String lastName;
+  private @Nullable String lastName;
 
-  private String email;
+  private @Nullable String email;
 
-  private String password;
+  private @Nullable String password;
 
-  private String phone;
+  private @Nullable String phone;
 
-  private Integer userStatus;
+  private @Nullable Integer userStatus;
 
   public User id(Long id) {
     this.id = id;
@@ -47,7 +48,7 @@ public class User {
   /**
    * Get id
    * @return id
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
@@ -67,7 +68,7 @@ public class User {
   /**
    * Get username
    * @return username
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("username")
@@ -87,7 +88,7 @@ public class User {
   /**
    * Get firstName
    * @return firstName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
@@ -107,7 +108,7 @@ public class User {
   /**
    * Get lastName
    * @return lastName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
@@ -127,7 +128,7 @@ public class User {
   /**
    * Get email
    * @return email
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("email")
@@ -147,7 +148,7 @@ public class User {
   /**
    * Get password
    * @return password
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("password")
@@ -167,7 +168,7 @@ public class User {
   /**
    * Get phone
    * @return phone
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
@@ -187,7 +188,7 @@ public class User {
   /**
    * User Status
    * @return userStatus
-  */
+   */
   
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")

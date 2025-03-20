@@ -21,24 +21,24 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.ComplexQuadrilateral;
 import org.openapitools.client.model.SimpleQuadrilateral;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Quadrilateral
  */
-public class QuadrilateralTest {
+class QuadrilateralTest {
     private final Quadrilateral model = new Quadrilateral();
 
     /**
      * Model tests for Quadrilateral
      */
     @Test
-    public void testQuadrilateral() {
+    void testQuadrilateral() {
         // TODO: test Quadrilateral
     }
 
@@ -46,7 +46,7 @@ public class QuadrilateralTest {
      * Test the property 'shapeType'
      */
     @Test
-    public void shapeTypeTest() {
+    void shapeTypeTest() {
         // TODO: test shapeType
     }
 
@@ -54,7 +54,7 @@ public class QuadrilateralTest {
      * Test the property 'quadrilateralType'
      */
     @Test
-    public void quadrilateralTypeTest() {
+    void quadrilateralTypeTest() {
         // TODO: test quadrilateralType
     }
 

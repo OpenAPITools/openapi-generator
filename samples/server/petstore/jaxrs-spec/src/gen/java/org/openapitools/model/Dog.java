@@ -17,9 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("Dog")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
-  private @Valid String breed;
+  private String breed;
 
   protected Dog(DogBuilder<?, ?> b) {
     super(b);
@@ -27,6 +27,15 @@ public class Dog extends Animal implements Serializable {
   }
 
   public Dog() {
+  }
+
+  @JsonCreator
+  public Dog(
+    @JsonProperty(required = true, value = "className") String className
+  ) {
+    super(
+      className
+    );
   }
 
   /**

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Entity;
 import org.openapitools.model.FooRefOrValue;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -24,16 +25,16 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Bar extends Entity implements BarRefOrValue {
 
   private String id;
 
-  private String barPropA;
+  private @Nullable String barPropA;
 
-  private String fooPropB;
+  private @Nullable String fooPropB;
 
-  private FooRefOrValue foo;
+  private @Nullable FooRefOrValue foo;
 
   public Bar() {
     super();
@@ -55,7 +56,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get id
    * @return id
-  */
+   */
   @NotNull 
   @Schema(name = "id", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("id")
@@ -75,7 +76,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get barPropA
    * @return barPropA
-  */
+   */
   
   @Schema(name = "barPropA", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("barPropA")
@@ -95,7 +96,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get fooPropB
    * @return fooPropB
-  */
+   */
   
   @Schema(name = "fooPropB", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fooPropB")
@@ -115,7 +116,7 @@ public class Bar extends Entity implements BarRefOrValue {
   /**
    * Get foo
    * @return foo
-  */
+   */
   @Valid 
   @Schema(name = "foo", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("foo")
@@ -191,5 +192,108 @@ public class Bar extends Entity implements BarRefOrValue {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private Bar instance;
+
+    public Builder() {
+      this(new Bar());
+    }
+
+    protected Builder(Bar instance) {
+      super(instance); // the parent builder shares the same instance
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(Bar value) { 
+      super.copyOf(value);
+      this.instance.setId(value.id);
+      this.instance.setBarPropA(value.barPropA);
+      this.instance.setFooPropB(value.fooPropB);
+      this.instance.setFoo(value.foo);
+      return this;
+    }
+
+    public Bar.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public Bar.Builder barPropA(String barPropA) {
+      this.instance.barPropA(barPropA);
+      return this;
+    }
+    
+    public Bar.Builder fooPropB(String fooPropB) {
+      this.instance.fooPropB(fooPropB);
+      return this;
+    }
+    
+    public Bar.Builder foo(FooRefOrValue foo) {
+      this.instance.foo(foo);
+      return this;
+    }
+    
+    @Override
+    public Bar.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+    
+    @Override
+    public Bar.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+    
+    @Override
+    public Bar.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+    
+    @Override
+    public Bar.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    
+    /**
+    * returns a built Bar instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Bar build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static Bar.Builder builder() {
+    return new Bar.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Bar.Builder toBuilder() {
+    Bar.Builder builder = new Bar.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

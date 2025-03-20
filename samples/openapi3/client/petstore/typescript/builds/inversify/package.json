@@ -15,13 +15,17 @@
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
-  "type": "commonjs",
+  "type": "module",
+  "module": "./dist/index.js",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
@@ -32,12 +36,10 @@
     "@types/node-fetch": "^2.5.7",
     "@types/node": "*",
     "form-data": "^2.5.0",
-    "inversify": "^5.0.1",
-    "es6-promise": "^4.2.4",
-    "url-parse": "^1.4.3"
+    "inversify": "^6.0.1",
+    "es6-promise": "^4.2.4"
   },
   "devDependencies": {
-    "typescript": "^4.0",
-    "@types/url-parse": "1.4.4"
+    "typescript": "^4.0"
   }
 }

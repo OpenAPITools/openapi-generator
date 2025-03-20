@@ -56,9 +56,9 @@
     </plugins>
   </build>
   <dependencies>
-   <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
@@ -152,16 +152,18 @@
     <java.version>11</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <swagger.core.version>1.5.18</swagger.core.version>
     <jetty.version>9.2.9.v20150224</jetty.version>
-    <junit.version>4.13.2</junit.version>
-    <logback.version>1.4.14</logback.version>
+    <junit.version>5.10.2</junit.version>
+    <logback.version>1.5.13</logback.version>
     <cxf.version>3.2.7</cxf.version>
-    <jackson.jaxrs.version>2.15.2</jackson.jaxrs.version>
-    <jackson.version>2.15.2</jackson.version>
+    <jackson.jaxrs.version>2.17.1</jackson.jaxrs.version>
+    <jackson.version>2.17.1</jackson.version>
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
-    <jakarta.json.bind.version>2.0.0</jakarta.json.bind.version>
+    <jakarta.json.bind.version>3.0.0</jakarta.json.bind.version>
     <jakarta.json.version>2.0.1</jakarta.json.version>
     <jakarta.ws.rs.version>3.0.0</jakarta.ws.rs.version>
     <jakarta.xml.bind.version>3.0.1</jakarta.xml.bind.version>
@@ -175,6 +177,5 @@
     <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

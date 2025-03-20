@@ -43,8 +43,8 @@ message AddPetRequest {
 
 message DeletePetRequest {
   // Pet id to delete
-  int64 petId = 1;
-  string apiKey = 2;
+  int64 pet_id = 1;
+  string api_key = 2;
 
 }
 
@@ -70,7 +70,7 @@ message FindPetsByTagsResponse {
 
 message GetPetByIdRequest {
   // ID of pet to return
-  int64 petId = 1;
+  int64 pet_id = 1;
 
 }
 
@@ -82,7 +82,7 @@ message UpdatePetRequest {
 
 message UpdatePetWithFormRequest {
   // ID of pet that needs to be updated
-  int64 petId = 1;
+  int64 pet_id = 1;
   // Updated name of the pet
   string name = 2;
   // Updated status of the pet
@@ -92,9 +92,9 @@ message UpdatePetWithFormRequest {
 
 message UploadFileRequest {
   // ID of pet to update
-  int64 petId = 1;
+  int64 pet_id = 1;
   // Additional data to pass to server
-  string additionalMetadata = 2;
+  string additional_metadata = 2;
   // file to upload
   string file = 3;
 

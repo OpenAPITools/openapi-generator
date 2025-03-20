@@ -5,6 +5,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2.
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fakeBigDecimalMap()**](FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap | 
+[**fakeEnumEndpoint()**](FakeApi.md#fakeEnumEndpoint) | **GET** /fake/enum/endpoint | test endpoint with enum parameter
 [**fakeHealthGet()**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 [**fakeHttpSignatureTest()**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize()**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -25,6 +26,7 @@ Method | HTTP request | Description
 [**testInlineFreeformAdditionalProperties()**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 [**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+[**testStringMapReference()**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 
 
 ## `fakeBigDecimalMap()`
@@ -75,6 +77,64 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeEnumEndpoint()`
+
+```php
+fakeEnumEndpoint($enum_class, $enum_class_array, $enum_class_map): \OpenAPI\Client\Model\EnumClass
+```
+
+test endpoint with enum parameter
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
+    new GuzzleHttp\Client()
+);
+$enum_class = new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass(); // \OpenAPI\Client\Model\EnumClass | enum class parameter
+$enum_class_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[] | enum class parameter
+$enum_class_map = array('key' => new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // array<string,\OpenAPI\Client\Model\EnumClass> | enum class parameter
+
+try {
+    $result = $apiInstance->fakeEnumEndpoint($enum_class, $enum_class_array, $enum_class_map);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeEnumEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enum_class** | [**\OpenAPI\Client\Model\EnumClass**](../Model/.md)| enum class parameter |
+ **enum_class_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)| enum class parameter |
+ **enum_class_map** | [**array<string,\OpenAPI\Client\Model\EnumClass>**](../Model/\OpenAPI\Client\Model\EnumClass.md)| enum class parameter |
+
+### Return type
+
+[**\OpenAPI\Client\Model\EnumClass**](../Model/EnumClass.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)
@@ -609,7 +669,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client()
 );
-$body = "/path/to/file.txt"; // \SplFileObject | image to upload
+$body = '/path/to/file.txt'; // \SplFileObject | image to upload
 
 try {
     $apiInstance->testBodyWithBinary($body);
@@ -845,9 +905,9 @@ $int32 = 56; // int | None
 $int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = 'string_example'; // string | None
-$binary = "/path/to/file.txt"; // \SplFileObject | None
-$date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
-$date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
+$binary = '/path/to/file.txt'; // \SplFileObject | None
+$date = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | None
+$date_time = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | None
 $password = 'password_example'; // string | None
 $callback = 'callback_example'; // string | None
 
@@ -1264,6 +1324,61 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testStringMapReference()`
+
+```php
+testStringMapReference($request_body)
+```
+
+test referenced string map
+
+
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `Psr\Http\Client\ClientInterface`.
+    // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
+    new GuzzleHttp\Client()
+);
+$request_body = array('key' => 'request_body_example'); // array<string,string> | request body
+
+try {
+    $apiInstance->testStringMapReference($request_body);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testStringMapReference: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**array<string,string>**](../Model/string.md)| request body |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)

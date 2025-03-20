@@ -206,7 +206,7 @@ public class GoClientCodegenTest {
 
         Assert.assertEquals(codegen.modelFileFolder(), "generated-code/go/model_dir/".replace("/", File.separator));
     }
-    
+
     @Test
     public void verifyTestFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
@@ -289,6 +289,69 @@ public class GoClientCodegenTest {
                 "resp, httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
         TestUtils.assertFileContains(Paths.get(output + "/test/api_pet_test.go"),
                 "httpRes, err := apiClient.PetAPI.PetDelete(context.Background()).Execute()");
+    }
+
+    @Test
+    public void verifyApiWithAllOfMultipleRefAndDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_multiple_ref_and_discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_final_item.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/model_final_item.go"),
+                "BaseItem");
+    }
+
+    @Test
+    public void testVendorExtensionGenerateUnmarshalJson() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_with_unmarshal_json.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
+        TestUtils.assertFileContains(Paths.get(output + "/model_base_item.go"),
+                "func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {");
+    }
+
+    @Test
+    public void testVendorExtensionSkipGenerateUnmarshalJson() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setGitUserId("OpenAPITools")
+                .setGitRepoId("openapi-generator")
+                .setInputSpec("src/test/resources/3_0/go/allof_skip_unmarshal_json.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output + "/model_base_item.go"));
+        TestUtils.assertFileNotContains(Paths.get(output + "/model_base_item.go"),
+                "func (o *BaseItem) UnmarshalJSON(data []byte) (err error) {");
     }
 
     @Test

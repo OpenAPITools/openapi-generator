@@ -18,12 +18,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  **/
 @ApiModel(description = "Model for testing model name same as property name")
 @JsonTypeName("Name")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Name  implements Serializable {
-  private @Valid Integer name;
-  private @Valid Integer snakeCase;
-  private @Valid String property;
-  private @Valid Integer _123number;
+  private Integer name;
+  private Integer snakeCase;
+  private String property;
+  private Integer _123number;
 
   protected Name(NameBuilder<?, ?> b) {
     this.name = b.name;
@@ -35,6 +35,13 @@ public class Name  implements Serializable {
   public Name() {
   }
 
+  @JsonCreator
+  public Name(
+    @JsonProperty(required = true, value = "name") Integer name
+  ) {
+    this.name = name;
+  }
+
   /**
    **/
   public Name name(Integer name) {
@@ -44,13 +51,12 @@ public class Name  implements Serializable {
 
   
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("name")
-  @NotNull
-  public Integer getName() {
+  @JsonProperty(required = true, value = "name")
+  @NotNull public Integer getName() {
     return name;
   }
 
-  @JsonProperty("name")
+  @JsonProperty(required = true, value = "name")
   public void setName(Integer name) {
     this.name = name;
   }

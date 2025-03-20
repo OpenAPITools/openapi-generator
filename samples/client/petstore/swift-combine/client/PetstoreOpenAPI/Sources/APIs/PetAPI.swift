@@ -53,9 +53,9 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/pet"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/pet"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -107,10 +107,10 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/pet/{petId}"
-                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/pet/{petId}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{petId}", with: "\(petId)")
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -170,9 +170,9 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/pet/findByStatus"
-                let url = baseURL.appendingPathComponent(path)
-                var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/pet/findByStatus"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                var components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 var queryItems: [URLQueryItem] = []
                 queryItems.append(URLQueryItem(name: "status", value: status.map { $0.rawValue }.joined(separator: ",")))
                 components?.queryItems = queryItems
@@ -225,9 +225,9 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/pet/findByTags"
-                let url = baseURL.appendingPathComponent(path)
-                var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/pet/findByTags"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                var components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 var queryItems: [URLQueryItem] = []
                 queryItems.append(URLQueryItem(name: "tags", value: tags.joined(separator: ",")))
                 components?.queryItems = queryItems
@@ -273,7 +273,7 @@ open class PetAPI {
     /// - GET /pet/{petId}
     /// - Returns a single pet
     /// - API Key:
-    /// - type: apiKey api_key 
+    /// - type: apiKey api_key (HEADER)
     /// - name: api_key
     /// - parameter petId: (path) ID of pet to return 
     /// - returns: AnyPublisher<Pet, Error> 
@@ -283,10 +283,10 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/pet/{petId}"
-                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/pet/{petId}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{petId}", with: "\(petId)")
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -349,9 +349,9 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                let path = "/pet"
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                let localVarPath = "/pet"
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -410,10 +410,10 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/pet/{petId}"
-                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/pet/{petId}"
+                localVarPath = localVarPath.replacingOccurrences(of: "{petId}", with: "\(petId)")
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }
@@ -458,10 +458,10 @@ open class PetAPI {
                 guard let baseURL = self.transport.baseURL ?? self.baseURL else {
                     throw OpenAPITransportError.badURLError()
                 }
-                var path = "/pet/{petId}/uploadImage"
-                path = path.replacingOccurrences(of: "{petId}", with: "\(petId)")
-                let url = baseURL.appendingPathComponent(path)
-                let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+                var localVarPath = "/pet/{petId}/uploadImage"
+                localVarPath = localVarPath.replacingOccurrences(of: "{petId}", with: "\(petId)")
+                let localVarURL = baseURL.appendingPathComponent(localVarPath)
+                let components = URLComponents(url: localVarURL, resolvingAgainstBaseURL: false)
                 guard let requestURL = components?.url else {
                     throw OpenAPITransportError.badURLError()
                 }

@@ -16,20 +16,20 @@
 
 package org.openapitools.codegen.templating.mustache;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template.Fragment;
 
+import java.io.IOException;
+import java.io.Writer;
+
 /**
  * Replaces duplicate line break characters in a fragment with single line break.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#trimTrailingWhiteSpace}}{{name}}{{/trimTrailingWhiteSpace}}

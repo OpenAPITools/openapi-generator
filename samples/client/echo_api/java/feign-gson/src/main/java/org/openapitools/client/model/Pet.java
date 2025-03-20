@@ -30,38 +30,43 @@ import org.openapitools.client.model.Tag;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
+  @javax.annotation.Nonnull
   private String name;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
+  @javax.annotation.Nullable
   private Category category;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
+  @javax.annotation.Nonnull
   private List<String> photoUrls = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  @javax.annotation.Nullable
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
    */
   @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
-    AVAILABLE("available"),
+    AVAILABLE(String.valueOf("available")),
     
-    PENDING("pending"),
+    PENDING(String.valueOf("pending")),
     
-    SOLD("sold");
+    SOLD(String.valueOf("sold"));
 
     private String value;
 
@@ -103,21 +108,22 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
+  @javax.annotation.Nullable
   private StatusEnum status;
 
   public Pet() {
   }
 
-  public Pet id(Long id) {
+  public Pet id(@javax.annotation.Nullable Long id) {
     
     this.id = id;
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
-  **/
+   */
   @javax.annotation.Nullable
 
   public Long getId() {
@@ -125,21 +131,21 @@ public class Pet {
   }
 
 
-  public void setId(Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
 
-  public Pet name(String name) {
+  public Pet name(@javax.annotation.Nonnull String name) {
     
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
-  **/
+   */
   @javax.annotation.Nonnull
 
   public String getName() {
@@ -147,21 +153,21 @@ public class Pet {
   }
 
 
-  public void setName(String name) {
+  public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
   }
 
 
-  public Pet category(Category category) {
+  public Pet category(@javax.annotation.Nullable Category category) {
     
     this.category = category;
     return this;
   }
 
-   /**
+  /**
    * Get category
    * @return category
-  **/
+   */
   @javax.annotation.Nullable
 
   public Category getCategory() {
@@ -169,12 +175,12 @@ public class Pet {
   }
 
 
-  public void setCategory(Category category) {
+  public void setCategory(@javax.annotation.Nullable Category category) {
     this.category = category;
   }
 
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     
     this.photoUrls = photoUrls;
     return this;
@@ -188,10 +194,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get photoUrls
    * @return photoUrls
-  **/
+   */
   @javax.annotation.Nonnull
 
   public List<String> getPhotoUrls() {
@@ -199,12 +205,12 @@ public class Pet {
   }
 
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(@javax.annotation.Nonnull List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(@javax.annotation.Nullable List<Tag> tags) {
     
     this.tags = tags;
     return this;
@@ -218,10 +224,10 @@ public class Pet {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
-  **/
+   */
   @javax.annotation.Nullable
 
   public List<Tag> getTags() {
@@ -229,21 +235,21 @@ public class Pet {
   }
 
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(@javax.annotation.Nullable List<Tag> tags) {
     this.tags = tags;
   }
 
 
-  public Pet status(StatusEnum status) {
+  public Pet status(@javax.annotation.Nullable StatusEnum status) {
     
     this.status = status;
     return this;
   }
 
-   /**
+  /**
    * pet status in the store
    * @return status
-  **/
+   */
   @javax.annotation.Nullable
 
   public StatusEnum getStatus() {
@@ -251,7 +257,7 @@ public class Pet {
   }
 
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
 

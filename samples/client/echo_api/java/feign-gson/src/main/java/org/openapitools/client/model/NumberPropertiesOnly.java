@@ -26,33 +26,36 @@ import java.math.BigDecimal;
 /**
  * NumberPropertiesOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
+  @javax.annotation.Nullable
   private BigDecimal number;
 
   public static final String SERIALIZED_NAME_FLOAT = "float";
   @SerializedName(SERIALIZED_NAME_FLOAT)
+  @javax.annotation.Nullable
   private Float _float;
 
   public static final String SERIALIZED_NAME_DOUBLE = "double";
   @SerializedName(SERIALIZED_NAME_DOUBLE)
+  @javax.annotation.Nullable
   private Double _double;
 
   public NumberPropertiesOnly() {
   }
 
-  public NumberPropertiesOnly number(BigDecimal number) {
+  public NumberPropertiesOnly number(@javax.annotation.Nullable BigDecimal number) {
     
     this.number = number;
     return this;
   }
 
-   /**
+  /**
    * Get number
    * @return number
-  **/
+   */
   @javax.annotation.Nullable
 
   public BigDecimal getNumber() {
@@ -60,21 +63,21 @@ public class NumberPropertiesOnly {
   }
 
 
-  public void setNumber(BigDecimal number) {
+  public void setNumber(@javax.annotation.Nullable BigDecimal number) {
     this.number = number;
   }
 
 
-  public NumberPropertiesOnly _float(Float _float) {
+  public NumberPropertiesOnly _float(@javax.annotation.Nullable Float _float) {
     
     this._float = _float;
     return this;
   }
 
-   /**
+  /**
    * Get _float
    * @return _float
-  **/
+   */
   @javax.annotation.Nullable
 
   public Float getFloat() {
@@ -82,23 +85,23 @@ public class NumberPropertiesOnly {
   }
 
 
-  public void setFloat(Float _float) {
+  public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
   }
 
 
-  public NumberPropertiesOnly _double(Double _double) {
+  public NumberPropertiesOnly _double(@javax.annotation.Nullable Double _double) {
     
     this._double = _double;
     return this;
   }
 
-   /**
+  /**
    * Get _double
    * minimum: 0.8
    * maximum: 50.2
    * @return _double
-  **/
+   */
   @javax.annotation.Nullable
 
   public Double getDouble() {
@@ -106,7 +109,7 @@ public class NumberPropertiesOnly {
   }
 
 
-  public void setDouble(Double _double) {
+  public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
   }
 

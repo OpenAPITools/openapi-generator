@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -21,16 +22,16 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNamesDto {
 
-  private String normalPropertyName;
+  private @Nullable String normalPropertyName;
 
-  private String UPPER_CASE_PROPERTY_SNAKE;
+  private @Nullable String UPPER_CASE_PROPERTY_SNAKE;
 
-  private String lowerCasePropertyDashes;
+  private @Nullable String lowerCasePropertyDashes;
 
-  private String propertyNameWithSpaces;
+  private @Nullable String propertyNameWithSpaces;
 
   public ResponseObjectWithDifferentFieldNamesDto normalPropertyName(String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
@@ -40,7 +41,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get normalPropertyName
    * @return normalPropertyName
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("normalPropertyName")
@@ -60,7 +61,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
@@ -80,7 +81,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("lower-case-property-dashes")
@@ -100,7 +101,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   /**
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("property name with spaces")

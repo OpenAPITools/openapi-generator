@@ -14,9 +14,18 @@ paths:
                 $ref: '#/components/schemas/Foo'
 components:
   schemas:
+    string50:
+      type: string
+      pattern: "^[a-zA-Z0-9 .:!()-]$"
+      maxLength: 50
     Foo:
       type: object
       properties:
+        category:
+          type: array
+          maxItems: 20
+          items:
+            $ref: "#/components/schemas/string50"
         stringPattern:
           type: array
           uniqueItems: true

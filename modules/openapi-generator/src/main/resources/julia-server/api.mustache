@@ -8,7 +8,7 @@ function {{operationId}}_read(handler)
         path_params = HTTP.getparams(req){{#pathParams}}
         openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{dataType}}, path_params, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#required}}required=true, {{/required}}{{#isListContainer}}collection_format="{{collectionFormat}}", {{/isListContainer}}){{/pathParams}}{{/hasPathParams}}{{#hasQueryParams}}
         query_params = HTTP.queryparams(URIs.URI(req.target)){{#queryParams}}
-        openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{dataType}}, query_params, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#required}}required=true, {{/required}}{{#isListContainer}}collection_format="{{collectionFormat}}", {{/isListContainer}}){{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
+        openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{dataType}}, query_params, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#required}}required=true, {{/required}}style="{{style}}", is_explode={{isExplode}}{{#isListContainer}},collection_format="{{collectionFormat}}"{{/isListContainer}}){{/queryParams}}{{/hasQueryParams}}{{#hasHeaderParams}}
         headers = Dict{String,String}(HTTP.headers(req)){{#headerParams}}
         openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param({{dataType}}, headers, "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#required}}required=true, {{/required}}{{#isListContainer}}collection_format="{{collectionFormat}}", {{/isListContainer}}){{/headerParams}}{{/hasHeaderParams}}{{#hasBodyParam}}{{#bodyParams}}
         openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = OpenAPI.Servers.to_param_type({{dataType}}, String(req.body)){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}
@@ -43,6 +43,21 @@ function {{operationId}}_validate(handler)
         {{#minItems}}
         OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minItems}})
         {{/minItems}}
+        {{#uniqueItems}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :uniqueItems, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{uniqueItems}})
+        {{/uniqueItems}}
+        {{#maxProperties}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :maxProperties, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{maxProperties}})
+        {{/maxProperties}}
+        {{#minProperties}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :minProperties, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{minProperties}})
+        {{/minProperties}}
+        {{#pattern}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :pattern, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], r"{{{pattern}}}")
+        {{/pattern}}
+        {{#multipleOf}}
+        OpenAPI.validate_param("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", "{{operationId}}", :multipleOf, openapi_params["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"], {{multipleOf}})
+        {{/multipleOf}}
         {{/hasValidation}}{{/allParams}}
         return handler(req)
     end
@@ -61,7 +76,7 @@ end
 
 function register{{classname}}(router::HTTP.Router, impl; path_prefix::String="", optional_middlewares...)
     {{#operation}}
-    HTTP.register!(router, "{{httpMethod}}", path_prefix * "{{path}}", OpenAPI.Servers.middleware(impl, {{operationId}}_read, {{operationId}}_validate, {{operationId}}_invoke; optional_middlewares...))
+    HTTP.register!(router, "{{httpMethod}}", path_prefix * "{{{path}}}", OpenAPI.Servers.middleware(impl, {{operationId}}_read, {{operationId}}_validate, {{operationId}}_invoke; optional_middlewares...))
     {{/operation}}
     return router
 end

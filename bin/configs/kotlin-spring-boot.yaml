@@ -10,3 +10,4 @@ additionalProperties:
   serviceImplementation: "true"
   serializableModel: "true"
   beanValidations: "true"
+  requestMappingMode: controller

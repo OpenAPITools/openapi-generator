@@ -1,0 +1,37 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test swagger file
+
+paths:
+  /pet:
+    get:
+      tags:
+        - store
+      operationId: getNestedObject
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/outerType'
+components:
+  schemas:
+    outerType:
+      type: object
+      required:
+        - middle
+      properties:
+        middle:
+          $ref: '#/components/schemas/middleType'
+    middleType:
+      type: object
+      required:
+        - inner
+      properties:
+        inner:
+          $ref: '#/components/schemas/innerType'
+    innerType:
+      type: string
+      

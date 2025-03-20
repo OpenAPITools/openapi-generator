@@ -1,0 +1,1 @@
+{{#isQueryParam}}{{#isArray}}ctx.queryParams("{{baseName}}"){{/isArray}}{{^isArray}}ctx.queryParamAsClass<String>("{{baseName}}").get(){{/isArray}}{{/isQueryParam}}

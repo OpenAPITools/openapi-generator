@@ -21,7 +21,7 @@ print Parent.to_json()
 # convert the object into a dict
 parent_dict = parent_instance.to_dict()
 # create an instance of Parent from a dict
-parent_form_dict = parent.from_dict(parent_dict)
+parent_from_dict = Parent.from_dict(parent_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

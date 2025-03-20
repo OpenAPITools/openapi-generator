@@ -1,0 +1,297 @@
+## IssuesApi
+
+### Add assignees to an issue
+## Add assignees to an issue
+POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/assignees
+Content-Type: application/json
+Accept: application/json
+
+{
+  "assignees" : [ "hubot", "other_user" ]
+}
+
+
+### Add labels to an issue
+## Add labels to an issue
+POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "labels" : [ "bug", "enhancement" ]
+}
+
+
+### Check if a user can be assigned
+## Check if a user can be assigned
+GET https://api.github.com/repos/{{owner}}/{{repo}}/assignees/{{assignee}}
+Accept: application/json
+
+### Check if a user can be assigned to a issue
+## Check if a user can be assigned to a issue
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/assignees/{{assignee}}
+Accept: application/json
+
+### Create an issue
+## Create an issue
+POST https://api.github.com/repos/{{owner}}/{{repo}}/issues
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "title" : "Found a bug",
+  "body" : "I'm having a problem with this.",
+  "assignees" : [ "octocat" ],
+  "milestone" : 1,
+  "labels" : [ "bug" ]
+}
+
+
+### Create an issue comment
+## Create an issue comment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/comments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Me too"
+}
+
+
+### Create a label
+## Create a label
+POST https://api.github.com/repos/{{owner}}/{{repo}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "bug",
+  "description" : "Something isn't working",
+  "color" : "f29513"
+}
+
+
+### Create a milestone
+## Create a milestone
+POST https://api.github.com/repos/{{owner}}/{{repo}}/milestones
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "v1.0",
+  "state" : "open",
+  "description" : "Tracking milestone for version 1.0",
+  "due_on" : "2012-10-09T23:39:01Z"
+}
+
+
+### Delete an issue comment
+## Delete an issue comment
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}
+
+### Delete a label
+## Delete a label
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/labels/{{name}}
+
+### Delete a milestone
+## Delete a milestone
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}
+Accept: application/json
+
+### Get an issue
+## Get an issue
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}
+Accept: application/json
+
+### Get an issue comment
+## Get an issue comment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}
+Accept: application/json
+
+### Get an issue event
+## Get an issue event
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/events/{{event_id}}
+Accept: application/json
+
+### Get a label
+## Get a label
+GET https://api.github.com/repos/{{owner}}/{{repo}}/labels/{{name}}
+Accept: application/json
+
+### Get a milestone
+## Get a milestone
+GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}
+Accept: application/json
+
+### List issues assigned to the authenticated user
+## List issues assigned to the authenticated user
+GET https://api.github.com/issues?filter={{filter}}&state={{state}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&collab={{collab}}&orgs={{orgs}}&owned={{owned}}&pulls={{pulls}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List assignees
+## List assignees
+GET https://api.github.com/repos/{{owner}}/{{repo}}/assignees?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List issue comments
+## List issue comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/comments?since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List issue comments for a repository
+## List issue comments for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments?sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List issue events
+## List issue events
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List issue events for a repository
+## List issue events for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/events?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List timeline events for an issue
+## List timeline events for an issue
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/timeline?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List user account issues assigned to the authenticated user
+## List user account issues assigned to the authenticated user
+GET https://api.github.com/user/issues?filter={{filter}}&state={{state}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List organization issues assigned to the authenticated user
+## List organization issues assigned to the authenticated user
+GET https://api.github.com/orgs/{{org}}/issues?filter={{filter}}&state={{state}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository issues
+## List repository issues
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues?milestone={{milestone}}&state={{state}}&assignee={{assignee}}&creator={{creator}}&mentioned={{mentioned}}&labels={{labels}}&sort={{sort}}&direction={{direction}}&since={{since}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List labels for issues in a milestone
+## List labels for issues in a milestone
+GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}/labels?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List labels for a repository
+## List labels for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/labels?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List labels for an issue
+## List labels for an issue
+GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List milestones
+## List milestones
+GET https://api.github.com/repos/{{owner}}/{{repo}}/milestones?state={{state}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Lock an issue
+## Lock an issue
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/lock
+Content-Type: application/json
+Accept: application/json
+
+{
+  "lock_reason" : "off-topic"
+}
+
+
+### Remove all labels from an issue
+## Remove all labels from an issue
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
+Accept: application/json
+
+### Remove assignees from an issue
+## Remove assignees from an issue
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/assignees
+Content-Type: application/json
+Accept: application/json
+
+{
+  "assignees" : [ "hubot", "other_user" ]
+}
+
+
+### Remove a label from an issue
+## Remove a label from an issue
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels/{{name}}
+Accept: application/json
+
+### Set labels for an issue
+## Set labels for an issue
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/labels
+Content-Type: application/json
+Accept: application/json
+
+{
+  "labels" : [ "bug", "enhancement" ]
+}
+
+
+### Unlock an issue
+## Unlock an issue
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/lock
+Accept: application/json
+
+### Update an issue
+## Update an issue
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "Found a bug",
+  "body" : "I'm having a problem with this.",
+  "assignees" : [ "octocat" ],
+  "milestone" : 1,
+  "state" : "open",
+  "labels" : [ "bug" ]
+}
+
+
+### Update an issue comment
+## Update an issue comment
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Me too"
+}
+
+
+### Update a label
+## Update a label
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/labels/{{name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "new_name" : "bug :bug:",
+  "description" : "Small bug fix required",
+  "color" : "b01f26"
+}
+
+
+### Update a milestone
+## Update a milestone
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/milestones/{{milestone_number}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "v1.0",
+  "state" : "open",
+  "description" : "Tracking milestone for version 1.0",
+  "due_on" : "2012-10-09T23:39:01Z"
+}
+

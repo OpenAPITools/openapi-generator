@@ -34,8 +34,7 @@
     `_discriminator_property_name` = '{{discriminator.propertyName}}',
     {{#discriminator.mappedModels}}{{#-first}}`_discriminator_mapping_name` = c({{/-first}}'{{mappingName}}' = '{{modelName}}'{{^-last}}, {{/-last}}{{#-last}}),{{/-last}}{{/discriminator.mappedModels}}
     {{/discriminator}}
-    #' Initialize a new {{{classname}}} class.
-    #'
+
     #' @description
     #' Initialize a new {{{classname}}} class.
     #'
@@ -49,7 +48,6 @@
     #' @param additional_properties additional properties (optional)
     {{/isAdditionalPropertiesTrue}}
     #' @param ... Other optional arguments.
-    #' @export
     initialize = function({{#requiredVars}}`{{name}}`, {{/requiredVars}}{{#optionalVars}}`{{name}}` = {{{defaultValue}}}{{^defaultValue}}NULL{{/defaultValue}}, {{/optionalVars}}{{#isAdditionalPropertiesTrue}}additional_properties = NULL, {{/isAdditionalPropertiesTrue}}...) {
       {{#requiredVars}}
       if (!missing(`{{name}}`)) {
@@ -203,14 +201,37 @@
       }
       {{/isAdditionalPropertiesTrue}}
     },
-    #' To JSON string
-    #'
+
     #' @description
-    #' To JSON String
-    #'
-    #' @return {{{classname}}} in JSON format
-    #' @export
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return {{{classname}}} as a base R list.
+    #' @examples
+    #' # convert array of {{{classname}}} (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert {{{classname}}} to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       {{classname}}Object <- list()
       {{#vars}}
       if (!is.null(self$`{{name}}`)) {
@@ -221,7 +242,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          lapply(self$`{{name}}`, function(x) x$toJSON())
+          lapply(self$`{{name}}`, function(x) x$toSimpleType())
           {{/isPrimitiveType}}
           {{/isArray}}
           {{#isMap}}
@@ -229,7 +250,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          lapply(self$`{{name}}`, function(x) x$toJSON())
+          lapply(self$`{{name}}`, function(x) x$toSimpleType())
           {{/isPrimitiveType}}
           {{/isMap}}
           {{/isContainer}}
@@ -238,7 +259,7 @@
           self$`{{name}}`
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          self$`{{name}}`$toJSON()
+          self$`{{name}}`$toSimpleType()
           {{/isPrimitiveType}}
           {{/isContainer}}
       }
@@ -249,16 +270,14 @@
       }
 
       {{/isAdditionalPropertiesTrue}}
-      {{classname}}Object
+      return({{classname}}Object)
     },
-    #' Deserialize JSON string into an instance of {{{classname}}}
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
     #' @param input_json the JSON input
     #' @return the instance of {{{classname}}}
-    #' @export
     fromJSON = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       {{#vars}}
@@ -307,90 +326,28 @@
       {{/isAdditionalPropertiesTrue}}
       self
     },
-    #' To JSON string
-    #'
+
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return {{{classname}}} in JSON format
-    #' @export
-    toJSONString = function() {
-      jsoncontent <- c(
-      {{#vars}}
-        if (!is.null(self$`{{name}}`)) {
-          sprintf(
-          '"{{baseName}}":
-          {{#isContainer}}
-          {{#isArray}}
-          {{#isPrimitiveType}}
-             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}[%s]
-          {{/isPrimitiveType}}
-          {{/isArray}}
-          {{#isMap}}
-          {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}%s
-          {{/isPrimitiveType}}
-          {{/isMap}}
-          {{/isContainer}}
-          {{^isContainer}}
-          {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}%s
-          {{/isPrimitiveType}}
-          {{/isContainer}}',
-          {{#isContainer}}
-          {{#isArray}}
-          {{#isPrimitiveType}}
-          paste(unlist(lapply(self$`{{{name}}}`, function(x) paste0('"', x, '"'))), collapse = ",")
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-          paste(sapply(self$`{{{name}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox = TRUE, digits = NA)), collapse = ",")
-          {{/isPrimitiveType}}
-          {{/isArray}}
-          {{#isMap}}
-          {{#isPrimitiveType}}
-          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x }), auto_unbox = TRUE, digits = NA)
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-          jsonlite::toJSON(lapply(self$`{{{name}}}`, function(x){ x$toJSON() }), auto_unbox = TRUE, digits = NA)
-          {{/isPrimitiveType}}
-          {{/isMap}}
-          {{/isContainer}}
-          {{^isContainer}}
-          {{#isPrimitiveType}}
-          {{#isBoolean}}tolower({{/isBoolean}}self$`{{name}}`{{#isBoolean}}){{/isBoolean}}
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-          jsonlite::toJSON(self$`{{name}}`$toJSON(), auto_unbox = TRUE, digits = NA)
-          {{/isPrimitiveType}}
-          {{/isContainer}}
-          )
-        }{{^-last}},{{/-last}}
-      {{/vars}}
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       {{#isAdditionalPropertiesTrue}}
-      json_obj <- jsonlite::fromJSON(json_string)
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
       {{/isAdditionalPropertiesTrue}}
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
-    #' Deserialize JSON string into an instance of {{{classname}}}
-    #'
+
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
     #'
     #' @param input_json the JSON input
     #' @return the instance of {{{classname}}}
-    #' @export
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       {{#vars}}
@@ -436,13 +393,11 @@
       {{/isAdditionalPropertiesTrue}}
       self
     },
-    #' Validate JSON input with respect to {{classname}}
-    #'
+
     #' @description
     #' Validate JSON input with respect to {{classname}} and throw an exception if invalid
     #'
     #' @param input the JSON input
-    #' @export
     validateJSON = function(input) {
       input_json <- jsonlite::fromJSON(input)
       {{#requiredVars}}
@@ -515,23 +470,19 @@
       }
       {{/requiredVars}}
     },
-    #' To string (JSON format)
-    #'
+
     #' @description
     #' To string (JSON format)
     #'
     #' @return String representation of {{{classname}}}
-    #' @export
     toString = function() {
       self$toJSONString()
     },
-    #' Return true if the values in all fields are valid.
-    #'
+
     #' @description
     #' Return true if the values in all fields are valid.
     #'
     #' @return true if the values in all fields are valid.
-    #' @export
     isValid = function() {
       {{#allVars}}
       {{^isNullable}}
@@ -590,13 +541,11 @@
       {{/allVars}}
       TRUE
     },
-    #' Return a list of invalid fields (if any).
-    #'
+
     #' @description
     #' Return a list of invalid fields (if any).
     #'
     #' @return A list of invalid fields (if any).
-    #' @export
     getInvalidFields = function() {
       invalid_fields <- list()
       {{#allVars}}
@@ -656,12 +605,9 @@
       {{/allVars}}
       invalid_fields
     },
-    #' Print the object
-    #'
+
     #' @description
     #' Print the object
-    #'
-    #' @export
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)

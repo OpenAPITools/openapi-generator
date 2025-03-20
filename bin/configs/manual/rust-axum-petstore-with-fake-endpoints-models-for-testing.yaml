@@ -7,4 +7,6 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: petstore-with-fake-endpoints-models-for-testing
   publishRustRegistry: crates-io
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

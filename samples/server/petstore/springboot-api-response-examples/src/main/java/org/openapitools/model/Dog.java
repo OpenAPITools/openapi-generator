@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -18,12 +19,12 @@ import jakarta.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Dog {
 
-  private String name;
+  private @Nullable String name;
 
-  private Integer age;
+  private @Nullable Integer age;
 
   public Dog name(String name) {
     this.name = name;
@@ -33,7 +34,7 @@ public class Dog {
   /**
    * Get name
    * @return name
-  */
+   */
   @Pattern(regexp = "^[a-zA-Z]+$", message="Name must contain only letters") @Size(max = 50) 
   @Schema(name = "name", example = "Rex", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("name")
@@ -54,7 +55,7 @@ public class Dog {
    * Get age
    * minimum: 0
    * @return age
-  */
+   */
   @Min(0) 
   @Schema(name = "age", example = "5", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("age")

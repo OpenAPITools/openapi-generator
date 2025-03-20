@@ -1,0 +1,1567 @@
+## ReposApi
+
+### Accept a repository invitation
+## Accept a repository invitation
+PATCH https://api.github.com/user/repository_invitations/{{invitation_id}}
+Accept: application/json
+
+### Add app access restrictions
+## Add app access restrictions
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
+Content-Type: application/json
+Accept: application/json
+
+{
+  "apps" : [ "octoapp" ]
+}
+
+
+### Add a repository collaborator
+## Add a repository collaborator
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "permission" : "triage"
+}
+
+
+### Add status check contexts
+## Add status check contexts
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "contexts" : [ "continuous-integration/travis-ci", "continuous-integration/jenkins" ]
+}
+
+
+### Add team access restrictions
+## Add team access restrictions
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
+Content-Type: application/json
+Accept: application/json
+
+{
+  "teams" : [ "justice-league" ]
+}
+
+
+### Add user access restrictions
+## Add user access restrictions
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "users" : [ "octocat" ]
+}
+
+
+### Cancel a GitHub Pages deployment
+## Cancel a GitHub Pages deployment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_deployment_id}}/cancel
+Accept: application/json
+
+### Check if automated security fixes are enabled for a repository
+## Check if automated security fixes are enabled for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
+Accept: application/json
+
+### Check if a user is a repository collaborator
+## Check if a user is a repository collaborator
+GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
+
+### Check if vulnerability alerts are enabled for a repository
+## Check if vulnerability alerts are enabled for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
+
+### List CODEOWNERS errors
+## List CODEOWNERS errors
+GET https://api.github.com/repos/{{owner}}/{{repo}}/codeowners/errors?ref={{ref}}
+Accept: application/json
+
+### Compare two commits
+## Compare two commits
+GET https://api.github.com/repos/{{owner}}/{{repo}}/compare/{{basehead}}?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### Create an autolink reference for a repository
+## Create an autolink reference for a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/autolinks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "key_prefix" : "TICKET-",
+  "url_template" : "https://example.com/TICKET?query=<num>",
+  "is_alphanumeric" : true
+}
+
+
+### Create a commit comment
+## Create a commit comment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Great stuff",
+  "path" : "file1.txt",
+  "position" : 4,
+  "line" : 1
+}
+
+
+### Create commit signature protection
+## Create commit signature protection
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
+Accept: application/json
+
+### Create a commit status
+## Create a commit status
+POST https://api.github.com/repos/{{owner}}/{{repo}}/statuses/{{sha}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "state" : "success",
+  "target_url" : "https://example.com/build/status",
+  "description" : "The build succeeded!",
+  "context" : "continuous-integration/jenkins"
+}
+
+
+### Create a deploy key
+## Create a deploy key
+POST https://api.github.com/repos/{{owner}}/{{repo}}/keys
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title" : "octocat@octomac",
+  "key" : "ssh-rsa AAA...",
+  "read_only" : true
+}
+
+
+### Create a deployment
+## Create a deployment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ref" : "topic-branch",
+  "payload" : "{ \"deploy\": \"migrate\" }",
+  "description" : "Deploy request from hubot"
+}
+
+
+### Create a deployment branch policy
+## Create a deployment branch policy
+POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "release/*"
+}
+
+
+### Create a custom deployment protection rule on an environment
+## Create a custom deployment protection rule on an environment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules
+Content-Type: application/json
+Accept: application/json
+
+{
+  "integration_id" : 5
+}
+
+
+### Create a deployment status
+## Create a deployment status
+POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses
+Content-Type: application/json
+Accept: application/json
+
+{
+  "environment" : "production",
+  "state" : "success",
+  "log_url" : "https://example.com/deployment/42/output",
+  "description" : "Deployment finished successfully."
+}
+
+
+### Create a repository dispatch event
+## Create a repository dispatch event
+POST https://api.github.com/repos/{{owner}}/{{repo}}/dispatches
+Content-Type: application/json
+Accept: application/json
+
+{
+  "event_type" : "on-demand-test",
+  "client_payload" : {
+    "unit" : false,
+    "integration" : true
+  }
+}
+
+
+### Create a repository for the authenticated user
+## Create a repository for the authenticated user
+POST https://api.github.com/user/repos
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "name" : "Hello-World",
+  "description" : "This is your first repo!",
+  "homepage" : "https://github.com",
+  "private" : false,
+  "is_template" : true
+}
+
+
+### Create a fork
+## Create a fork
+POST https://api.github.com/repos/{{owner}}/{{repo}}/forks
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "organization" : "octocat",
+  "name" : "Hello-World",
+  "default_branch_only" : true
+}
+
+
+### Create an organization repository
+## Create an organization repository
+POST https://api.github.com/orgs/{{org}}/repos
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Hello-World",
+  "description" : "This is your first repository",
+  "homepage" : "https://github.com",
+  "private" : false,
+  "has_issues" : true,
+  "has_projects" : true,
+  "has_wiki" : true
+}
+
+
+### Create or update custom property values for a repository
+## 
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
+Content-Type: application/json
+Accept: application/json
+
+{
+  "properties" : [ {
+    "property_name" : "environment",
+    "value" : "production"
+  }, {
+    "property_name" : "service",
+    "value" : "web"
+  }, {
+    "property_name" : "team",
+    "value" : "octocat"
+  } ]
+}
+
+
+### Create or update an environment
+## Create or update an environment
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "wait_timer" : 30,
+  "prevent_self_review" : false,
+  "reviewers" : [ {
+    "type" : "User",
+    "id" : 1
+  }, {
+    "type" : "Team",
+    "id" : 1
+  } ],
+  "deployment_branch_policy" : {
+    "protected_branches" : false,
+    "custom_branch_policies" : true
+  }
+}
+
+
+### Create or update file contents
+## Create or update file contents
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "message" : "my commit message",
+  "committer" : {
+    "name" : "Monalisa Octocat",
+    "email" : "octocat@github.com"
+  },
+  "content" : "bXkgbmV3IGZpbGUgY29udGVudHM="
+}
+
+
+### Create an organization repository ruleset
+## Create an organization repository ruleset
+POST https://api.github.com/orgs/{{org}}/rulesets
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "super cool ruleset",
+  "target" : "branch",
+  "enforcement" : "active",
+  "bypass_actors" : [ {
+    "actor_id" : 234,
+    "actor_type" : "Team",
+    "bypass_mode" : "always"
+  } ],
+  "conditions" : {
+    "ref_name" : {
+      "include" : [ "refs/heads/main", "refs/heads/master" ],
+      "exclude" : [ "refs/heads/dev*" ]
+    },
+    "repository_name" : {
+      "include" : [ "important_repository", "another_important_repository" ],
+      "exclude" : [ "unimportant_repository" ],
+      "protected" : true
+    }
+  },
+  "rules" : [ {
+    "type" : "commit_author_email_pattern",
+    "parameters" : {
+      "operator" : "contains",
+      "pattern" : "github"
+    }
+  } ]
+}
+
+
+### Create a GitHub Pages deployment
+## Create a GitHub Pages deployment
+POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "artifact_url" : "https://downloadcontent/",
+  "environment" : "github-pages",
+  "pages_build_version" : "4fd754f7e594640989b406850d0bc8f06a121251",
+  "oidc_token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IlV2R1h4SUhlY0JFc1JCdEttemUxUEhfUERiVSIsImtpZCI6IjUyRjE5N0M0ODFERTcwMTEyQzQ0MUI0QTlCMzdCNTNDN0ZDRjBEQjUifQ.eyJqdGkiOiJhMWIwNGNjNy0zNzZiLTQ1N2QtOTMzNS05NTY5YmVjZDExYTIiLCJzdWIiOiJyZXBvOnBhcGVyLXNwYS9taW55aTplbnZpcm9ubWVudDpQcm9kdWN0aW9uIiwiYXVkIjoiaHR0cHM6Ly9naXRodWIuY29tL3BhcGVyLXNwYSIsInJlZiI6InJlZnMvaGVhZHMvbWFpbiIsInNoYSI6ImEyODU1MWJmODdiZDk3NTFiMzdiMmM0YjM3M2MxZjU3NjFmYWM2MjYiLCJyZXBvc2l0b3J5IjoicGFwZXItc3BhL21pbnlpIiwicmVwb3NpdG9yeV9vd25lciI6InBhcGVyLXNwYSIsInJ1bl9pZCI6IjE1NDY0NTkzNjQiLCJydW5fbnVtYmVyIjoiMzQiLCJydW5fYXR0ZW1wdCI6IjYiLCJhY3RvciI6IllpTXlzdHkiLCJ3b3JrZmxvdyI6IkNJIiwiaGVhZF9yZWYiOiIiLCJiYXNlX3JlZiI6IiIsImV2ZW50X25hbWUiOiJwdXNoIiwicmVmX3R5cGUiOiJicmFuY2giLCJlbnZpcm9ubWVudCI6IlByb2R1Y3Rpb24iLCJqb2Jfd29ya2Zsb3dfcmVmIjoicGFwZXItc3BhL21pbnlpLy5naXRodWIvd29ya2Zsb3dzL2JsYW5rLnltbEByZWZzL2hlYWRzL21haW4iLCJpc3MiOiJodHRwczovL3Rva2VuLmFjdGlvbnMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwibmJmIjoxNjM5MDAwODU2LCJleHAiOjE2MzkwMDE3NTYsImlhdCI6MTYzOTAwMTQ1Nn0.VP8WictbQECKozE2SgvKb2FqJ9hisWsoMkYRTqfBrQfZTCXi5IcFEdgDMB2X7a99C2DeUuTvHh9RMKXLL2a0zg3-Sd7YrO7a2ll2kNlnvyIypcN6AeIc7BxHsTTnZN9Ud_xmEsTrSRGOEKmzCFkULQ6N4zlVD0sidypmXlMemmWEcv_ZHqhioEI_VMp5vwXQurketWH7qX4oDgG4okyYtPrv5RQHbfQcVo9izaPJ_jnsDd0CBA0QOx9InjPidtIkMYQLyUgJy33HLJy86EFNUnAf8UhBQuQi5mAsEpEzBBuKpG3PDiPtYCHOk64JZkZGd5mR888a5sbHRiaF8hm8YA",
+  "preview" : false
+}
+
+
+### Create a GitHub Pages site
+## Create a GitHub Pages site
+POST https://api.github.com/repos/{{owner}}/{{repo}}/pages
+Content-Type: application/json
+Accept: application/json
+
+{
+  "source" : {
+    "branch" : "main",
+    "path" : "/docs"
+  }
+}
+
+
+### Create a release
+## Create a release
+POST https://api.github.com/repos/{{owner}}/{{repo}}/releases
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tag_name" : "v1.0.0",
+  "target_commitish" : "master",
+  "name" : "v1.0.0",
+  "body" : "Description of the release",
+  "draft" : false,
+  "prerelease" : false,
+  "generate_release_notes" : false
+}
+
+
+### Create a repository ruleset
+## Create a repository ruleset
+POST https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "super cool ruleset",
+  "target" : "branch",
+  "enforcement" : "active",
+  "bypass_actors" : [ {
+    "actor_id" : 234,
+    "actor_type" : "Team",
+    "bypass_mode" : "always"
+  } ],
+  "conditions" : {
+    "ref_name" : {
+      "include" : [ "refs/heads/main", "refs/heads/master" ],
+      "exclude" : [ "refs/heads/dev*" ]
+    }
+  },
+  "rules" : [ {
+    "type" : "commit_author_email_pattern",
+    "parameters" : {
+      "operator" : "contains",
+      "pattern" : "github"
+    }
+  } ]
+}
+
+
+### Create a tag protection state for a repository
+## Create a tag protection state for a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
+Content-Type: application/json
+Accept: application/json
+
+{
+  "pattern" : "v1.*"
+}
+
+
+### Create a repository using a template
+## Create a repository using a template
+POST https://api.github.com/repos/{{template_owner}}/{{template_repo}}/generate
+Content-Type: application/json
+Accept: application/json
+
+{
+  "owner" : "octocat",
+  "name" : "Hello-World",
+  "description" : "This is your first repository",
+  "include_all_branches" : false,
+  "private" : false
+}
+
+
+### Create a repository webhook
+## Create a repository webhook
+POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "web",
+  "active" : true,
+  "events" : [ "push", "pull_request" ],
+  "config" : {
+    "url" : "https://example.com/webhook",
+    "content_type" : "json",
+    "insecure_ssl" : "0"
+  }
+}
+
+
+### Decline a repository invitation
+## Decline a repository invitation
+DELETE https://api.github.com/user/repository_invitations/{{invitation_id}}
+Accept: application/json
+
+### Delete a repository
+## Delete a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}
+Accept: application/json
+
+### Delete access restrictions
+## Delete access restrictions
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions
+
+### Delete admin branch protection
+## Delete admin branch protection
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/enforce_admins
+Accept: application/json
+
+### Delete an environment
+## Delete an environment
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
+
+### Delete an autolink reference from a repository
+## Delete an autolink reference from a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/autolinks/{{autolink_id}}
+Accept: application/json
+
+### Delete branch protection
+## Delete branch protection
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
+Accept: application/json
+
+### Delete a commit comment
+## Delete a commit comment
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
+Accept: application/json
+
+### Delete commit signature protection
+## Delete commit signature protection
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
+Accept: application/json
+
+### Delete a deploy key
+## Delete a deploy key
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/keys/{{key_id}}
+
+### Delete a deployment
+## Delete a deployment
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}
+Accept: application/json
+
+### Delete a deployment branch policy
+## Delete a deployment branch policy
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
+
+### Delete a file
+## Delete a file
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "message" : "my commit message",
+  "committer" : {
+    "name" : "Monalisa Octocat",
+    "email" : "octocat@github.com"
+  },
+  "sha" : "329688480d39049927147c162b9d2deaf885005f"
+}
+
+
+### Delete a repository invitation
+## Delete a repository invitation
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
+
+### Delete an organization repository ruleset
+## Delete an organization repository ruleset
+DELETE https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
+Accept: application/json
+
+### Delete a GitHub Pages site
+## Delete a GitHub Pages site
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pages
+Accept: application/json
+
+### Delete pull request review protection
+## Delete pull request review protection
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
+Accept: application/json
+
+### Delete a release
+## Delete a release
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
+
+### Delete a release asset
+## Delete a release asset
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
+
+### Delete a repository ruleset
+## Delete a repository ruleset
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
+Accept: application/json
+
+### Delete a tag protection state for a repository
+## Delete a tag protection state for a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection/{{tag_protection_id}}
+Accept: application/json
+
+### Delete a repository webhook
+## Delete a repository webhook
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
+Accept: application/json
+
+### Disable automated security fixes
+## Disable automated security fixes
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
+
+### Disable a custom protection rule for an environment
+## Disable a custom protection rule for an environment
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/{{protection_rule_id}}
+
+### Disable private vulnerability reporting for a repository
+## Disable private vulnerability reporting for a repository
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/private-vulnerability-reporting
+Accept: application/json
+Accept: application/scim+json
+
+### Disable vulnerability alerts
+## Disable vulnerability alerts
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
+
+### Download a repository archive (tar)
+## Download a repository archive (tar)
+GET https://api.github.com/repos/{{owner}}/{{repo}}/tarball/{{ref}}
+
+### Download a repository archive (zip)
+## Download a repository archive (zip)
+GET https://api.github.com/repos/{{owner}}/{{repo}}/zipball/{{ref}}
+
+### Enable automated security fixes
+## Enable automated security fixes
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
+
+### Enable private vulnerability reporting for a repository
+## Enable private vulnerability reporting for a repository
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/private-vulnerability-reporting
+Accept: application/json
+Accept: application/scim+json
+
+### Enable vulnerability alerts
+## Enable vulnerability alerts
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
+
+### Generate release notes content for a release
+## Generate release notes content for a release
+POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/generate-notes
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tag_name" : "v1.0.0",
+  "target_commitish" : "main",
+  "previous_tag_name" : "v0.9.2",
+  "configuration_file_path" : ".github/custom_release_config.yml"
+}
+
+
+### Get a repository
+## Get a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}
+Accept: application/json
+
+### Get access restrictions
+## Get access restrictions
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions
+Accept: application/json
+
+### Get admin branch protection
+## Get admin branch protection
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/enforce_admins
+Accept: application/json
+
+### Get all deployment protection rules for an environment
+## Get all deployment protection rules for an environment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules
+Accept: application/json
+
+### List environments
+## List environments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get all status check contexts
+## Get all status check contexts
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
+Accept: application/json
+
+### Get all repository topics
+## Get all repository topics
+GET https://api.github.com/repos/{{owner}}/{{repo}}/topics?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### Get apps with access to the protected branch
+## Get apps with access to the protected branch
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
+Accept: application/json
+
+### Get an autolink reference of a repository
+## Get an autolink reference of a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/autolinks/{{autolink_id}}
+Accept: application/json
+
+### Get a branch
+## Get a branch
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}
+Accept: application/json
+
+### Get branch protection
+## Get branch protection
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
+Accept: application/json
+
+### Get rules for a branch
+## Get rules for a branch
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rules/branches/{{branch}}?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get repository clones
+## Get repository clones
+GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/clones?per={{per}}
+Accept: application/json
+
+### Get the weekly commit activity
+## Get the weekly commit activity
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/code_frequency
+Accept: application/json
+
+### Get repository permissions for a user
+## Get repository permissions for a user
+GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}/permission
+Accept: application/json
+
+### Get the combined status for a specific reference
+## Get the combined status for a specific reference
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/status?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get a commit
+## Get a commit
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### Get the last year of commit activity
+## Get the last year of commit activity
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/commit_activity
+Accept: application/json
+
+### Get a commit comment
+## Get a commit comment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
+Accept: application/json
+
+### Get commit signature protection
+## Get commit signature protection
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
+Accept: application/json
+
+### Get community profile metrics
+## Get community profile metrics
+GET https://api.github.com/repos/{{owner}}/{{repo}}/community/profile
+Accept: application/json
+
+### Get repository content
+## Get repository content
+GET https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}?ref={{ref}}
+Accept: application/vnd.github.object
+Accept: application/json
+
+### Get all contributor commit activity
+## Get all contributor commit activity
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/contributors
+Accept: application/json
+
+### Get a custom deployment protection rule
+## Get a custom deployment protection rule
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/{{protection_rule_id}}
+Accept: application/json
+
+### Get all custom property values for a repository
+## Get all custom property values for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
+Accept: application/json
+
+### Get a deploy key
+## Get a deploy key
+GET https://api.github.com/repos/{{owner}}/{{repo}}/keys/{{key_id}}
+Accept: application/json
+
+### Get a deployment
+## Get a deployment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}
+Accept: application/json
+
+### Get a deployment branch policy
+## Get a deployment branch policy
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
+Accept: application/json
+
+### Get a deployment status
+## Get a deployment status
+GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses/{{status_id}}
+Accept: application/json
+
+### Get an environment
+## Get an environment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
+Accept: application/json
+
+### Get latest Pages build
+## Get latest Pages build
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds/latest
+Accept: application/json
+
+### Get the latest release
+## Get the latest release
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/latest
+Accept: application/json
+
+### Get an organization rule suite
+## Get an organization rule suite
+GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites/{{rule_suite_id}}
+Accept: application/json
+
+### List organization rule suites
+## List organization rule suites
+GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites?repositoryName={{repositoryName}}&timePeriod={{timePeriod}}&actorName={{actorName}}&ruleSuiteResult={{ruleSuiteResult}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get an organization repository ruleset
+## Get an organization repository ruleset
+GET https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
+Accept: application/json
+
+### Get all organization repository rulesets
+## Get all organization repository rulesets
+GET https://api.github.com/orgs/{{org}}/rulesets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get a GitHub Pages site
+## Get a GitHub Pages site
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages
+Accept: application/json
+
+### Get GitHub Pages build
+## Get GitHub Pages build
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds/{{build_id}}
+Accept: application/json
+
+### Get the status of a GitHub Pages deployment
+## Get the status of a GitHub Pages deployment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_deployment_id}}
+Accept: application/json
+
+### Get a DNS health check for GitHub Pages
+## Get a DNS health check for GitHub Pages
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/health
+Accept: application/json
+
+### Get the weekly commit count
+## Get the weekly commit count
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/participation
+Accept: application/json
+
+### Get pull request review protection
+## Get pull request review protection
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
+Accept: application/json
+
+### Get the hourly commit count for each day
+## Get the hourly commit count for each day
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/punch_card
+Accept: application/json
+
+### Get a repository README
+## Get a repository README
+GET https://api.github.com/repos/{{owner}}/{{repo}}/readme?ref={{ref}}
+Accept: application/json
+
+### Get a repository README for a directory
+## Get a repository README for a directory
+GET https://api.github.com/repos/{{owner}}/{{repo}}/readme/{{dir}}?ref={{ref}}
+Accept: application/json
+
+### Get a release
+## Get a release
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
+Accept: application/json
+
+### Get a release asset
+## Get a release asset
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
+Accept: application/json
+
+### Get a release by tag name
+## Get a release by tag name
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/tags/{{tag}}
+Accept: application/json
+
+### Get a repository rule suite
+## Get a repository rule suite
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites/{{rule_suite_id}}
+Accept: application/json
+
+### List repository rule suites
+## List repository rule suites
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites?ref={{ref}}&timePeriod={{timePeriod}}&actorName={{actorName}}&ruleSuiteResult={{ruleSuiteResult}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Get a repository ruleset
+## Get a repository ruleset
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}?includesParents={{includesParents}}
+Accept: application/json
+
+### Get all repository rulesets
+## Get all repository rulesets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets?perPage={{perPage}}&page={{page}}&includesParents={{includesParents}}
+Accept: application/json
+
+### Get status checks protection
+## Get status checks protection
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
+Accept: application/json
+
+### Get teams with access to the protected branch
+## Get teams with access to the protected branch
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
+Accept: application/json
+
+### Get top referral paths
+## Get top referral paths
+GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/popular/paths
+Accept: application/json
+
+### Get top referral sources
+## Get top referral sources
+GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/popular/referrers
+Accept: application/json
+
+### Get users with access to the protected branch
+## Get users with access to the protected branch
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
+Accept: application/json
+
+### Get page views
+## Get page views
+GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/views?per={{per}}
+Accept: application/json
+
+### Get a repository webhook
+## Get a repository webhook
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
+Accept: application/json
+
+### Get a webhook configuration for a repository
+## Get a webhook configuration for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
+Accept: application/json
+
+### Get a delivery for a repository webhook
+## Get a delivery for a repository webhook
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}
+Accept: application/json
+Accept: application/scim+json
+
+### List repository activities
+## List repository activities
+GET https://api.github.com/repos/{{owner}}/{{repo}}/activity?direction={{direction}}&perPage={{perPage}}&before={{before}}&after={{after}}&ref={{ref}}&actor={{actor}}&timePeriod={{timePeriod}}&activityType={{activityType}}
+Accept: application/json
+
+### Get all autolinks of a repository
+## Get all autolinks of a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/autolinks
+Accept: application/json
+
+### List branches
+## List branches
+GET https://api.github.com/repos/{{owner}}/{{repo}}/branches?protected={{protected}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List branches for HEAD commit
+## List branches for HEAD commit
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/branches-where-head
+Accept: application/json
+
+### List repository collaborators
+## List repository collaborators
+GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators?affiliation={{affiliation}}&permission={{permission}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List commit comments
+## List commit comments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List commit comments for a repository
+## List commit comments for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/comments?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List commit statuses for a reference
+## List commit statuses for a reference
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/statuses?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List commits
+## List commits
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits?sha={{sha}}&path={{path}}&author={{author}}&committer={{committer}}&since={{since}}&until={{until}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+Accept: application/scim+json
+
+### List repository contributors
+## List repository contributors
+GET https://api.github.com/repos/{{owner}}/{{repo}}/contributors?anon={{anon}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List custom deployment rule integrations available for an environment
+## List custom deployment rule integrations available for an environment
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/apps?page={{page}}&perPage={{perPage}}
+Accept: application/json
+
+### List deploy keys
+## List deploy keys
+GET https://api.github.com/repos/{{owner}}/{{repo}}/keys?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List deployment branch policies
+## List deployment branch policies
+GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List deployment statuses
+## List deployment statuses
+GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List deployments
+## List deployments
+GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments?sha={{sha}}&ref={{ref}}&task={{task}}&environment={{environment}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories for the authenticated user
+## List repositories for the authenticated user
+GET https://api.github.com/user/repos?visibility={{visibility}}&affiliation={{affiliation}}&type={{type}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}&since={{since}}&before={{before}}
+Accept: application/json
+
+### List organization repositories
+## List organization repositories
+GET https://api.github.com/orgs/{{org}}/repos?type={{type}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repositories for a user
+## List repositories for a user
+GET https://api.github.com/users/{{username}}/repos?type={{type}}&sort={{sort}}&direction={{direction}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List forks
+## List forks
+GET https://api.github.com/repos/{{owner}}/{{repo}}/forks?sort={{sort}}&perPage={{perPage}}&page={{page}}
+Accept: application/json
+Accept: application/scim+json
+
+### List repository invitations
+## List repository invitations
+GET https://api.github.com/repos/{{owner}}/{{repo}}/invitations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository invitations for the authenticated user
+## List repository invitations for the authenticated user
+GET https://api.github.com/user/repository_invitations?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository languages
+## List repository languages
+GET https://api.github.com/repos/{{owner}}/{{repo}}/languages
+Accept: application/json
+
+### List GitHub Pages builds
+## List GitHub Pages builds
+GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List public repositories
+## List public repositories
+GET https://api.github.com/repositories?since={{since}}
+Accept: application/json
+
+### List pull requests associated with a commit
+## List pull requests associated with a commit
+GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/pulls?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List release assets
+## List release assets
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List releases
+## List releases
+GET https://api.github.com/repos/{{owner}}/{{repo}}/releases?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List tag protection states for a repository
+## List tag protection states for a repository
+GET https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
+Accept: application/json
+
+### List repository tags
+## List repository tags
+GET https://api.github.com/repos/{{owner}}/{{repo}}/tags?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List repository teams
+## List repository teams
+GET https://api.github.com/repos/{{owner}}/{{repo}}/teams?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### List deliveries for a repository webhook
+## List deliveries for a repository webhook
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries?perPage={{perPage}}&cursor={{cursor}}&redelivery={{redelivery}}
+Accept: application/json
+Accept: application/scim+json
+
+### List repository webhooks
+## List repository webhooks
+GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks?perPage={{perPage}}&page={{page}}
+Accept: application/json
+
+### Merge a branch
+## Merge a branch
+POST https://api.github.com/repos/{{owner}}/{{repo}}/merges
+Content-Type: application/json
+Accept: application/json
+
+{
+  "base" : "master",
+  "head" : "cool_feature",
+  "commit_message" : "Shipped cool_feature!"
+}
+
+
+### Sync a fork branch with the upstream repository
+## Sync a fork branch with the upstream repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/merge-upstream
+Content-Type: application/json
+Accept: application/json
+
+{
+  "branch" : "main"
+}
+
+
+### Ping a repository webhook
+## Ping a repository webhook
+POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/pings
+Accept: application/json
+
+### Redeliver a delivery for a repository webhook
+## Redeliver a delivery for a repository webhook
+POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}/attempts
+Accept: application/json
+Accept: application/scim+json
+
+### Remove app access restrictions
+## Remove app access restrictions
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
+Content-Type: application/json
+Accept: application/json
+
+{
+  "apps" : [ "my-app" ]
+}
+
+
+### Remove a repository collaborator
+## Remove a repository collaborator
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
+Accept: application/json
+
+### Remove status check contexts
+## Remove status check contexts
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "contexts" : [ "continuous-integration/jenkins" ]
+}
+
+
+### Remove status check protection
+## Remove status check protection
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
+
+### Remove team access restrictions
+## Remove team access restrictions
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
+Content-Type: application/json
+Accept: application/json
+
+{
+  "teams" : [ "octocats" ]
+}
+
+
+### Remove user access restrictions
+## Remove user access restrictions
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "users" : [ "octocat" ]
+}
+
+
+### Rename a branch
+## Rename a branch
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/rename
+Content-Type: application/json
+Accept: application/json
+
+{
+  "new_name" : "my_renamed_branch"
+}
+
+
+### Replace all repository topics
+## Replace all repository topics
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/topics
+Content-Type: application/json
+Accept: application/json
+
+{
+  "names" : [ "octocat", "atom", "electron", "api" ]
+}
+
+
+### Request a GitHub Pages build
+## Request a GitHub Pages build
+POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
+Accept: application/json
+
+### Set admin branch protection
+## Set admin branch protection
+POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/enforce_admins
+Accept: application/json
+
+### Set app access restrictions
+## Set app access restrictions
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
+Content-Type: application/json
+Accept: application/json
+
+{
+  "apps" : [ "octoapp" ]
+}
+
+
+### Set status check contexts
+## Set status check contexts
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
+Content-Type: application/json
+Accept: application/json
+
+{
+  "contexts" : [ "continuous-integration/travis-ci" ]
+}
+
+
+### Set team access restrictions
+## Set team access restrictions
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
+Content-Type: application/json
+Accept: application/json
+
+{
+  "teams" : [ "justice-league" ]
+}
+
+
+### Set user access restrictions
+## Set user access restrictions
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "users" : [ "octocat" ]
+}
+
+
+### Test the push repository webhook
+## Test the push repository webhook
+POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/tests
+Accept: application/json
+
+### Transfer a repository
+## Transfer a repository
+POST https://api.github.com/repos/{{owner}}/{{repo}}/transfer
+Content-Type: application/json
+Accept: application/json
+
+{
+  "new_owner" : "github",
+  "team_ids" : [ 12, 345 ],
+  "new_name" : "octorepo"
+}
+
+
+### Update a repository
+## Update a repository
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "Hello-World",
+  "description" : "This is your first repository",
+  "homepage" : "https://github.com",
+  "private" : true,
+  "has_issues" : true,
+  "has_projects" : true,
+  "has_wiki" : true
+}
+
+
+### Update branch protection
+## Update branch protection
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
+Content-Type: application/json
+Accept: application/json
+
+{
+  "required_status_checks" : {
+    "strict" : true,
+    "contexts" : [ "continuous-integration/travis-ci" ]
+  },
+  "enforce_admins" : true,
+  "required_pull_request_reviews" : {
+    "dismissal_restrictions" : {
+      "users" : [ "octocat" ],
+      "teams" : [ "justice-league" ]
+    },
+    "dismiss_stale_reviews" : true,
+    "require_code_owner_reviews" : true,
+    "required_approving_review_count" : 2,
+    "require_last_push_approval" : true,
+    "bypass_pull_request_allowances" : {
+      "users" : [ "octocat" ],
+      "teams" : [ "justice-league" ]
+    }
+  },
+  "restrictions" : {
+    "users" : [ "octocat" ],
+    "teams" : [ "justice-league" ],
+    "apps" : [ "super-ci" ]
+  },
+  "required_linear_history" : true,
+  "allow_force_pushes" : true,
+  "allow_deletions" : true,
+  "block_creations" : true,
+  "required_conversation_resolution" : true,
+  "lock_branch" : true,
+  "allow_fork_syncing" : true
+}
+
+
+### Update a commit comment
+## Update a commit comment
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "body" : "Nice change"
+}
+
+
+### Update a deployment branch policy
+## Update a deployment branch policy
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "release/*"
+}
+
+
+### Update information about a GitHub Pages site
+## Update information about a GitHub Pages site
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/pages
+Content-Type: application/json
+Accept: application/json
+Accept: application/scim+json
+
+{
+  "cname" : "octocatblog.com",
+  "source" : {
+    "branch" : "main",
+    "path" : "/"
+  }
+}
+
+
+### Update a repository invitation
+## Update a repository invitation
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "permissions" : "write"
+}
+
+
+### Update an organization repository ruleset
+## Update an organization repository ruleset
+PUT https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "super cool ruleset",
+  "target" : "branch",
+  "enforcement" : "active",
+  "bypass_actors" : [ {
+    "actor_id" : 234,
+    "actor_type" : "Team",
+    "bypass_mode" : "always"
+  } ],
+  "conditions" : {
+    "ref_name" : {
+      "include" : [ "refs/heads/main", "refs/heads/master" ],
+      "exclude" : [ "refs/heads/dev*" ]
+    },
+    "repository_name" : {
+      "include" : [ "important_repository", "another_important_repository" ],
+      "exclude" : [ "unimportant_repository" ],
+      "protected" : true
+    }
+  },
+  "rules" : [ {
+    "type" : "commit_author_email_pattern",
+    "parameters" : {
+      "operator" : "contains",
+      "pattern" : "github"
+    }
+  } ]
+}
+
+
+### Update pull request review protection
+## Update pull request review protection
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
+Content-Type: application/json
+Accept: application/json
+
+{
+  "dismissal_restrictions" : {
+    "users" : [ "octocat" ],
+    "teams" : [ "justice-league" ],
+    "apps" : [ "octoapp" ]
+  },
+  "bypass_pull_request_allowances" : {
+    "users" : [ "octocat" ],
+    "teams" : [ "justice-league" ],
+    "apps" : [ "octoapp" ]
+  },
+  "dismiss_stale_reviews" : true,
+  "require_code_owner_reviews" : true,
+  "required_approving_review_count" : 2,
+  "require_last_push_approval" : true
+}
+
+
+### Update a release
+## Update a release
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "tag_name" : "v1.0.0",
+  "target_commitish" : "master",
+  "name" : "v1.0.0",
+  "body" : "Description of the release",
+  "draft" : false,
+  "prerelease" : false
+}
+
+
+### Update a release asset
+## Update a release asset
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "foo-1.0.0-osx.zip",
+  "label" : "Mac binary"
+}
+
+
+### Update a repository ruleset
+## Update a repository ruleset
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "super cool ruleset",
+  "target" : "branch",
+  "enforcement" : "active",
+  "bypass_actors" : [ {
+    "actor_id" : 234,
+    "actor_type" : "Team",
+    "bypass_mode" : "always"
+  } ],
+  "conditions" : {
+    "ref_name" : {
+      "include" : [ "refs/heads/main", "refs/heads/master" ],
+      "exclude" : [ "refs/heads/dev*" ]
+    }
+  },
+  "rules" : [ {
+    "type" : "commit_author_email_pattern",
+    "parameters" : {
+      "operator" : "contains",
+      "pattern" : "github"
+    }
+  } ]
+}
+
+
+### Update status check protection
+## Update status check protection
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "strict" : true,
+  "contexts" : [ "continuous-integration/travis-ci" ]
+}
+
+
+### Update a repository webhook
+## Update a repository webhook
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "active" : true,
+  "add_events" : [ "pull_request" ]
+}
+
+
+### Update a webhook configuration for a repository
+## Update a webhook configuration for a repository
+PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
+Content-Type: application/json
+Accept: application/json
+
+{
+  "content_type" : "json",
+  "url" : "https://example.com/webhook"
+}
+
+
+### Upload a release asset
+## Upload a release asset
+POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets?name={{name}}&label={{label}}
+Content-Type: application/octet-stream
+Accept: application/json
+
+
+

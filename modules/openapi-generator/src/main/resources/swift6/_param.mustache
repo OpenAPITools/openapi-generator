@@ -1,0 +1,1 @@
+"{{baseName}}": {{#isQueryParam}}(wrappedValue: {{/isQueryParam}}{{paramName}}{{^required}}?{{/required}}.encodeToQueryString(codableHelper: apiConfiguration.codableHelper){{#isQueryParam}}, isExplode: {{isExplode}}){{/isQueryParam}}

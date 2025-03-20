@@ -17,10 +17,10 @@ Method | HTTP request | Description
 
 ## add_pet
 
-> crate::models::Pet add_pet(pet)
+> models::Pet add_pet(pet)
 Add a new pet to the store
 
-
+This is the description for the addPet operation
 
 ### Parameters
 
@@ -31,7 +31,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Pet**](Pet.md)
+[**models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -78,10 +78,10 @@ Name | Type | Description  | Required | Notes
 
 ## find_pets_by_status
 
-> Vec<crate::models::Pet> find_pets_by_status(status)
+> Vec<models::Pet> find_pets_by_status(status, r#type)
 Finds Pets by status
 
-Multiple status values can be provided with comma separated strings
+Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 
 ### Parameters
 
@@ -89,10 +89,11 @@ Multiple status values can be provided with comma separated strings
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **status** | [**Vec<String>**](String.md) | Status values that need to be considered for filter | [required] |
+**r#type** | Option<[**Vec<String>**](String.md)> | Make sure that Rust keywords like type work as query params |  |
 
 ### Return type
 
-[**Vec<crate::models::Pet>**](Pet.md)
+[**Vec<models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -108,7 +109,7 @@ Name | Type | Description  | Required | Notes
 
 ## find_pets_by_tags
 
-> Vec<crate::models::Pet> find_pets_by_tags(tags)
+> Vec<models::Pet> find_pets_by_tags(tags)
 Finds Pets by tags
 
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -122,7 +123,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**Vec<crate::models::Pet>**](Pet.md)
+[**Vec<models::Pet>**](Pet.md)
 
 ### Authorization
 
@@ -138,7 +139,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_pet_by_id
 
-> crate::models::Pet get_pet_by_id(pet_id)
+> models::Pet get_pet_by_id(pet_id)
 Find pet by ID
 
 Returns a single pet
@@ -152,7 +153,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Pet**](Pet.md)
+[**models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -168,7 +169,7 @@ Name | Type | Description  | Required | Notes
 
 ## update_pet
 
-> crate::models::Pet update_pet(pet)
+> models::Pet update_pet(pet)
 Update an existing pet
 
 
@@ -182,7 +183,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Pet**](Pet.md)
+[**models::Pet**](Pet.md)
 
 ### Authorization
 
@@ -230,7 +231,7 @@ Name | Type | Description  | Required | Notes
 
 ## upload_file
 
-> crate::models::ApiResponse upload_file(pet_id, additional_metadata, file)
+> models::ApiResponse upload_file(pet_id, additional_metadata, file)
 uploads an image
 
 
@@ -246,7 +247,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::ApiResponse**](ApiResponse.md)
+[**models::ApiResponse**](ApiResponse.md)
 
 ### Authorization
 

@@ -1,0 +1,4 @@
+generatorName: avro-schema
+outputDir: samples/openapi3/schema/valid-enums/avro-schema-enum
+inputSpec: modules/openapi-generator/src/test/resources/3_0/avro-schema/valid-enums.yaml
+templateDir: modules/openapi-generator/src/main/resources/avro-schema

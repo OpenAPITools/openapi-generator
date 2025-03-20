@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,22 +31,21 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Drawing
  */
-public class DrawingTest {
+class DrawingTest {
     private final Drawing model = new Drawing();
 
     /**
      * Model tests for Drawing
      */
     @Test
-    public void testDrawing() {
+    void testDrawing() {
         // TODO: test Drawing
     }
 
@@ -53,7 +53,7 @@ public class DrawingTest {
      * Test the property 'mainShape'
      */
     @Test
-    public void mainShapeTest() {
+    void mainShapeTest() {
         // TODO: test mainShape
     }
 
@@ -61,7 +61,7 @@ public class DrawingTest {
      * Test the property 'shapeOrNull'
      */
     @Test
-    public void shapeOrNullTest() {
+    void shapeOrNullTest() {
         // TODO: test shapeOrNull
     }
 
@@ -69,7 +69,7 @@ public class DrawingTest {
      * Test the property 'nullableShape'
      */
     @Test
-    public void nullableShapeTest() {
+    void nullableShapeTest() {
         // TODO: test nullableShape
     }
 
@@ -77,7 +77,7 @@ public class DrawingTest {
      * Test the property 'shapes'
      */
     @Test
-    public void shapesTest() {
+    void shapesTest() {
         // TODO: test shapes
     }
 

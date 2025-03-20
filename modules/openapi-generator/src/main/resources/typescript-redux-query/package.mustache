@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}.git"
   },
+{{#licenseName}}
+  "license": "{{licenseName}}",
+{{/licenseName}}
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts" : {
@@ -17,7 +20,7 @@
     "redux-query": "^3.2.0"
   },
   "devDependencies": {
-    "typescript": "^4.0"
+    "typescript": "^4.0 || ^5.0"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}
   "publishConfig": {

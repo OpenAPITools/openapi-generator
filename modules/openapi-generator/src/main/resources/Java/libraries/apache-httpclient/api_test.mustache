@@ -5,9 +5,9 @@ package {{package}};
 import {{invokerPackage}}.ApiException;
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -16,10 +16,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 /**
  * API tests for {{classname}}
  */
-@Ignore
+@Disabled
 public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();

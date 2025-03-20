@@ -55,6 +55,15 @@ describe Petstore::Configuration do
       expect(config.base_url).to eq('https://localhost:8080/v2')
     end
 
+    it 'ignores the operation server settings and uses the custom base url' do
+      config.scheme = 'https'
+      config.host = 'api.example.com'
+      config.base_path = '/v2'
+      config.ignore_operation_servers = true
+      expect(config.base_url).to eq('https://api.example.com/v2')
+      expect(config.base_url(:'PetApi.add_pet')).to eq('https://api.example.com/v2')
+    end
+
     it 'throws argument error when attempting to use a server index that is out of bounds' do
       config.server_operation_index = {
         :'PetApi.add_pet' => 10

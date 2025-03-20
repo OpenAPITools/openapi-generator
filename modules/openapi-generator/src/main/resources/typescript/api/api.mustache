@@ -66,7 +66,27 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if ({{paramName}} !== undefined) {
+            {{#isPrimitiveType}}
             requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#isExplode}}
+            const serializedParams = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}");
+            {{#isArray}}
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("{{baseName}}", serializedParam);
+            }
+            {{/isArray}}
+            {{^isArray}}
+            for (const key of Object.keys(serializedParams)) {
+                requestContext.setQueryParam(key, serializedParams[key]);
+            }
+            {{/isArray}}
+            {{/isExplode}}
+            {{^isExplode}}
+            requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+            {{/isExplode}}
+            {{/isPrimitiveType}}
         }
         {{/queryParams}}
         {{#headerParams}}
@@ -163,7 +183,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{/authMethods}}
         
         {{^useInversify}}
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
         if (defaultAuth?.applySecurityAuthentication) {
             await defaultAuth?.applySecurityAuthentication(requestContext);
         }

@@ -18,22 +18,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for BasquePig
  */
-public class BasquePigTest {
+class BasquePigTest {
     private final BasquePig model = new BasquePig();
 
     /**
      * Model tests for BasquePig
      */
     @Test
-    public void testBasquePig() {
+    void testBasquePig() {
         // TODO: test BasquePig
     }
 
@@ -41,7 +41,7 @@ public class BasquePigTest {
      * Test the property 'className'
      */
     @Test
-    public void classNameTest() {
+    void classNameTest() {
         // TODO: test className
     }
 

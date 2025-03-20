@@ -36,7 +36,8 @@ paths:
           description: Bad Request
       summary: Create a dog
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   examples:
     DogNameBiggerThan50Error:

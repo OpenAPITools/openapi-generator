@@ -1,12 +1,14 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.examples.Example;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
 public class CodegenMediaType {
     private CodegenProperty schema;
     private LinkedHashMap<String, CodegenEncoding> encoding;
@@ -33,28 +35,6 @@ public class CodegenMediaType {
         this.example = example;
     }
 
-    public CodegenProperty getSchema() {
-        return schema;
-    }
-
-    public LinkedHashMap<String, CodegenEncoding> getEncoding() {
-        return encoding;
-    }
-
-    public HashMap<String, SchemaTestCase> getTestCases() { return testCases; }
-
-    public Map<String, Example> getExamples() {
-        return examples;
-    }
-
-    public Object getExample() {
-        return example;
-    }
-
-    public Map<String, Object> getVendorExtensions() {
-        return vendorExtensions;
-    }
-
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenMediaType{");
         sb.append("schema=").append(schema);
@@ -68,7 +48,7 @@ public class CodegenMediaType {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenMediaType that = (CodegenMediaType) o;
-        return Objects.equals(schema,that.getSchema()) &&
+        return Objects.equals(schema, that.getSchema()) &&
                 Objects.equals(encoding, that.getEncoding()) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions);
     }

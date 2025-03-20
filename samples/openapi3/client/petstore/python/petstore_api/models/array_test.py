@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
@@ -29,17 +29,17 @@ class ArrayTest(BaseModel):
     ArrayTest
     """ # noqa: E501
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
-    array_of_nullable_float: Optional[List[StrictFloat]] = None
+    array_of_nullable_float: Optional[List[Optional[StrictFloat]]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -79,10 +79,10 @@ class ArrayTest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list of list)
         _items = []
         if self.array_array_of_model:
-            for _item in self.array_array_of_model:
-                if _item:
+            for _item_array_array_of_model in self.array_array_of_model:
+                if _item_array_array_of_model:
                     _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
+                         [_inner_item.to_dict() for _inner_item in _item_array_array_of_model if _inner_item is not None]
                     )
             _dict['array_array_of_model'] = _items
         # puts key-value pairs in additional_properties in the top level

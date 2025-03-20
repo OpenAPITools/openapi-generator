@@ -1,0 +1,162 @@
+openapi: 3.0.0
+info:
+  title: Completions API
+  version: 1.0.0
+  description: API for generating text completions
+
+paths:
+  /completions:
+    post:
+      summary: Create a completion
+      operationId: createCompletion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompletionRequest'
+      responses:
+        '200':
+          description: Successful completion response
+          content:
+            application/json:
+              schema:
+                type: object
+                # Note: Full response schema would be defined here
+
+components:
+  schemas:
+    CreateCompletionRequest:
+      type: object
+      required:
+        - model
+        - prompt
+      properties:
+        model:
+          description: ID of the model to use
+          anyOf:
+            - type: string
+            - type: string
+              enum:
+                - gpt-3.5-turbo-instruct
+                - davinci-002
+                - babbage-002
+        prompt:
+          description: The prompt(s) to generate completions for
+          default: <|endoftext|>
+          oneOf:
+            - type: string
+              default: ""
+              example: This is a test.
+            - type: array
+              items:
+                type: string
+                default: ""
+                example: This is a test.
+            - type: array
+              minItems: 1
+              items:
+                type: integer
+              example: "[1212, 318, 257, 1332, 13]"
+            - type: array
+              minItems: 1
+              items:
+                type: array
+                minItems: 1
+                items:
+                  type: integer
+              example: "[[1212, 318, 257, 1332, 13]]"
+        max_tokens:
+          type: integer
+          minimum: 0
+          default: 16
+          nullable: true
+          description: The maximum number of tokens that can be generated in the completion
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+          default: 1
+          nullable: true
+          description: What sampling temperature to use, between 0 and 2
+        top_p:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 1
+          nullable: true
+          description: An alternative to sampling with temperature, called nucleus sampling
+        n:
+          type: integer
+          minimum: 1
+          maximum: 128
+          default: 1
+          nullable: true
+          description: How many completions to generate for each prompt
+        stream:
+          type: boolean
+          nullable: true
+          default: false
+          description: Whether to stream back partial progress
+        logprobs:
+          type: integer
+          minimum: 0
+          maximum: 5
+          nullable: true
+          description: Include the log probabilities on the most likely output tokens
+        echo:
+          type: boolean
+          default: false
+          nullable: true
+          description: Echo back the prompt in addition to the completion
+        stop:
+          description: Up to 4 sequences where the API will stop generating further tokens
+          nullable: true
+          oneOf:
+            - type: string
+              example: "\n"
+            - type: array
+              minItems: 1
+              maxItems: 4
+              items:
+                type: string
+        presence_penalty:
+          type: number
+          default: 0
+          minimum: -2
+          maximum: 2
+          nullable: true
+          description: Number between -2.0 and 2.0 for presence-based penalty
+        frequency_penalty:
+          type: number
+          default: 0
+          minimum: -2
+          maximum: 2
+          nullable: true
+          description: Number between -2.0 and 2.0 for frequency-based penalty
+        best_of:
+          type: integer
+          default: 1
+          minimum: 0
+          maximum: 20
+          nullable: true
+          description: Number of completions to generate server-side
+        logit_bias:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: integer
+          description: Modify the likelihood of specified tokens appearing
+        user:
+          type: string
+          example: user-1234
+          description: A unique identifier representing your end-user
+        seed:
+          type: integer
+          format: int64
+          nullable: true
+          description: Seed for deterministic sampling
+        suffix:
+          type: string
+          nullable: true
+          description: The suffix that comes after a completion of inserted text

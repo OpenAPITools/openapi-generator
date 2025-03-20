@@ -1,0 +1,20 @@
+^.*\.Rproj$         # Designates the directory as an RStudio Project
+^\.Rproj\.user$     # Used by RStudio for temporary files
+^README\.Rmd$       # An Rmd file used to generate README.md
+^LICENSE\.md$       # Full text of the license
+^cran-comments\.md$ # Comments for CRAN submission
+^data-raw$          # Code used to create data included in the package
+^pkgdown$           # Resources used for the package website
+^_pkgdown\.yml$     # Configuration info for the package website
+^\.github$          # Contributing guidelines, CoC, issue templates, etc.
+^\.Rhistory$
+^\.gitignore$
+^\.openapi-generator-ignore$
+^\.travis\.yml$
+^\.lintr$
+^\.github$
+^\.openapi-generator$
+^docs$
+^git_push\.sh$
+^openapi\.Rcheck$
+^\.\.Rcheck$

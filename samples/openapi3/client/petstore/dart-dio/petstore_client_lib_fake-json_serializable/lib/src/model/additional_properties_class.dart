@@ -27,7 +27,7 @@ class AdditionalPropertiesClass {
     
     name: r'map_property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -39,7 +39,7 @@ class AdditionalPropertiesClass {
     
     name: r'map_of_map_property',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -47,15 +47,17 @@ class AdditionalPropertiesClass {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
-     other.mapProperty == mapProperty &&
-     other.mapOfMapProperty == mapOfMapProperty;
 
-  @override
-  int get hashCode =>
-    mapProperty.hashCode +
-    mapOfMapProperty.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
+      other.mapProperty == mapProperty &&
+      other.mapOfMapProperty == mapOfMapProperty;
+
+    @override
+    int get hashCode =>
+        mapProperty.hashCode +
+        mapOfMapProperty.hashCode;
 
   factory AdditionalPropertiesClass.fromJson(Map<String, dynamic> json) => _$AdditionalPropertiesClassFromJson(json);
 

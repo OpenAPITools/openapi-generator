@@ -43,7 +43,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
     // JSON-B / Jackson
     }
 
-    /**
+{{#hasVars}}    /**
      * Create {{classname}}.
      *
 {{#vars}}
@@ -58,7 +58,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 {{#vars}}
         this.{{name}} = {{name}};
 {{/vars}}
-    }
+    }{{/hasVars}}
 
 {{#vars}}{{#vendorExtensions.x-has-readonly-properties}}{{#jsonb}}
     @JsonbCreator

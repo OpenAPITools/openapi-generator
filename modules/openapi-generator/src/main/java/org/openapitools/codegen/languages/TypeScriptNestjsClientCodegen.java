@@ -17,6 +17,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -53,15 +55,17 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
 
     protected String nestVersion = "8.0.0";
+    @Getter @Setter
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
-    protected Boolean stringEnums = false;
+    @Getter protected Boolean stringEnums = false;
 
     private boolean taggedUnions = false;
 
@@ -69,8 +73,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         super();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.EXPERIMENTAL)
-            .build();
+                .stability(Stability.EXPERIMENTAL)
+                .build();
 
         this.outputFolder = "generated-code/typescript-nestjs";
 
@@ -84,6 +88,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         apiPackage = "api";
         modelPackage = "model";
 
+        reservedWords.addAll(Arrays.asList("from", "headers"));
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
@@ -92,13 +98,14 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0","Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0","Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
+        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0", "Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0", "Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.").defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -216,10 +223,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         stringEnums = value;
     }
 
-    public Boolean getStringEnums() {
-        return stringEnums;
-    }
-
     @Override
     public boolean isDataTypeFile(final String dataType) {
         return "Blob".equals(dataType);
@@ -326,6 +329,10 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
             // Overwrite path to TypeScript template string, after applying everything we just did.
             op.path = pathBuffer.toString();
+
+            for (CodegenParameter param : op.allParams) {
+                param.vendorExtensions.putIfAbsent("x-param-has-sanitized-name", !param.baseName.equals(param.paramName));
+            }
         }
 
         operations.put("hasSomeFormParams", hasSomeFormParams);
@@ -450,14 +457,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         return modelPackage() + "/" + toModelFilename(name);
     }
 
-    public String getNpmRepository() {
-        return npmRepository;
-    }
-
-    public void setNpmRepository(String npmRepository) {
-        this.npmRepository = npmRepository;
-    }
-
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - serviceSuffix.length());
         return toApiFilename(name);
@@ -548,6 +547,4 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
         return name;
     }
-
 }
-

@@ -48,33 +48,33 @@ class Order
         /**
      * @var int|null
      * @SerializedName("id")
-     * @Assert\Type("int")
      * @Type("int")
-     */
+    */
+    #[Assert\Type("int")]
     protected ?int $id = null;
 
     /**
      * @var int|null
      * @SerializedName("petId")
-     * @Assert\Type("int")
      * @Type("int")
-     */
+    */
+    #[Assert\Type("int")]
     protected ?int $petId = null;
 
     /**
      * @var int|null
      * @SerializedName("quantity")
-     * @Assert\Type("int")
      * @Type("int")
-     */
+    */
+    #[Assert\Type("int")]
     protected ?int $quantity = null;
 
     /**
      * @var \DateTime|null
      * @SerializedName("shipDate")
-     * @Assert\Type("\DateTime"))
      * @Type("DateTime")
-     */
+    */
+    #[Assert\Type("\DateTime")]
     protected ?\DateTime $shipDate = null;
 
     /**
@@ -82,25 +82,25 @@ class Order
      *
      * @var string|null
      * @SerializedName("status")
-     * @Assert\Choice({ "placed", "approved", "delivered" })
-     * @Assert\Type("string")
      * @Type("string")
-     */
+    */
+    #[Assert\Choice(['placed', 'approved', 'delivered'])]
+    #[Assert\Type("string")]
     protected ?string $status = null;
 
     /**
      * @var bool|null
      * @SerializedName("complete")
-     * @Assert\Type("bool")
      * @Type("bool")
-     */
+    */
+    #[Assert\Type("bool")]
     protected ?bool $complete = false;
 
     /**
      * Constructor
      * @param array|null $data Associated array of property values initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         if (is_array($data)) {
             $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
@@ -122,21 +122,22 @@ class Order
         return $this->id;
     }
 
-
-
     /**
-     * Sets id.
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
+    * Sets id.
+    *
+    * @param int|null $id
+    *
+    * @return $this
+    */
     public function setId(?int $id = null): self
     {
         $this->id = $id;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets petId.
@@ -148,21 +149,22 @@ class Order
         return $this->petId;
     }
 
-
-
     /**
-     * Sets petId.
-     *
-     * @param int|null $petId
-     *
-     * @return $this
-     */
+    * Sets petId.
+    *
+    * @param int|null $petId
+    *
+    * @return $this
+    */
     public function setPetId(?int $petId = null): self
     {
         $this->petId = $petId;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets quantity.
@@ -174,21 +176,22 @@ class Order
         return $this->quantity;
     }
 
-
-
     /**
-     * Sets quantity.
-     *
-     * @param int|null $quantity
-     *
-     * @return $this
-     */
+    * Sets quantity.
+    *
+    * @param int|null $quantity
+    *
+    * @return $this
+    */
     public function setQuantity(?int $quantity = null): self
     {
         $this->quantity = $quantity;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets shipDate.
@@ -200,21 +203,22 @@ class Order
         return $this->shipDate;
     }
 
-
-
     /**
-     * Sets shipDate.
-     *
-     * @param \DateTime|null $shipDate
-     *
-     * @return $this
-     */
+    * Sets shipDate.
+    *
+    * @param \DateTime|null $shipDate
+    *
+    * @return $this
+    */
     public function setShipDate(?\DateTime $shipDate = null): self
     {
         $this->shipDate = $shipDate;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets status.
@@ -226,21 +230,22 @@ class Order
         return $this->status;
     }
 
-
-
     /**
-     * Sets status.
-     *
-     * @param string|null $status  Order Status
-     *
-     * @return $this
-     */
+    * Sets status.
+    *
+    * @param string|null $status  Order Status
+    *
+    * @return $this
+    */
     public function setStatus(?string $status = null): self
     {
         $this->status = $status;
 
         return $this;
     }
+
+
+
 
     /**
      * Gets complete.
@@ -252,21 +257,22 @@ class Order
         return $this->complete;
     }
 
-
-
     /**
-     * Sets complete.
-     *
-     * @param bool|null $complete
-     *
-     * @return $this
-     */
+    * Sets complete.
+    *
+    * @param bool|null $complete
+    *
+    * @return $this
+    */
     public function setComplete(?bool $complete = null): self
     {
         $this->complete = $complete;
 
         return $this;
     }
+
+
+
 }
 
 

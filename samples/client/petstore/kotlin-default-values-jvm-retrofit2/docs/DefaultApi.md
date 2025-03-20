@@ -2,9 +2,9 @@
 
 All URIs are relative to *http://localhost*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**test**](DefaultApi.md#test) | **POST** test | Tests default values
+| Method | HTTP request | Description |
+| ------------- | ------------- | ------------- |
+| [**test**](DefaultApi.md#test) | **POST** test | Tests default values |
 
 
 
@@ -55,38 +55,37 @@ webService.test(pi0, pi1, pn0, pn1, qi0, qi1, qi2, qi3, qn0, qn1, qn2, qn3, hi0,
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pi0** | **kotlin.Int**|  | [default to 10]
- **pi1** | **kotlin.Int**|  |
- **pn0** | **java.math.BigDecimal**|  | [default to 10.0]
- **pn1** | **java.math.BigDecimal**|  |
- **qi0** | **kotlin.Int**|  | [optional] [default to 10]
- **qi1** | **kotlin.Int**|  | [default to 71]
- **qi2** | **kotlin.Int**|  | [optional]
- **qi3** | **kotlin.Int**|  |
- **qn0** | **java.math.BigDecimal**|  | [optional] [default to 10.0]
- **qn1** | **java.math.BigDecimal**|  | [default to 71.0]
- **qn2** | **java.math.BigDecimal**|  | [optional]
- **qn3** | **java.math.BigDecimal**|  |
- **hi0** | **kotlin.Int**|  | [optional] [default to 10]
- **hi1** | **kotlin.Int**|  | [default to 71]
- **hi2** | **kotlin.Int**|  | [optional]
- **hi3** | **kotlin.Int**|  |
- **hn0** | **java.math.BigDecimal**|  | [optional] [default to 10.0]
- **hn1** | **java.math.BigDecimal**|  | [default to 71.0]
- **hn2** | **java.math.BigDecimal**|  | [optional]
- **hn3** | **java.math.BigDecimal**|  |
- **fi0** | **kotlin.Int**|  | [optional] [default to 10]
- **fi1** | **kotlin.Int**|  | [default to 71]
- **fi2** | **kotlin.Int**|  | [optional]
- **fi3** | **kotlin.Int**|  |
- **fn0** | **java.math.BigDecimal**|  | [optional] [default to 10.0]
- **fn1** | **java.math.BigDecimal**|  | [default to 71.0]
- **fn2** | **java.math.BigDecimal**|  | [optional]
- **fn3** | **java.math.BigDecimal**|  |
- **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  |
+| **pi0** | **kotlin.Int**|  | [default to 10] |
+| **pi1** | **kotlin.Int**|  | |
+| **pn0** | **java.math.BigDecimal**|  | [default to 10.0] |
+| **pn1** | **java.math.BigDecimal**|  | |
+| **qi0** | **kotlin.Int**|  | [optional] [default to 10] |
+| **qi1** | **kotlin.Int**|  | [default to 71] |
+| **qi2** | **kotlin.Int**|  | [optional] |
+| **qi3** | **kotlin.Int**|  | |
+| **qn0** | **java.math.BigDecimal**|  | [optional] [default to 10.0] |
+| **qn1** | **java.math.BigDecimal**|  | [default to 71.0] |
+| **qn2** | **java.math.BigDecimal**|  | [optional] |
+| **qn3** | **java.math.BigDecimal**|  | |
+| **hi0** | **kotlin.Int**|  | [optional] [default to 10] |
+| **hi1** | **kotlin.Int**|  | [default to 71] |
+| **hi2** | **kotlin.Int**|  | [optional] |
+| **hi3** | **kotlin.Int**|  | |
+| **hn0** | **java.math.BigDecimal**|  | [optional] [default to 10.0] |
+| **hn1** | **java.math.BigDecimal**|  | [default to 71.0] |
+| **hn2** | **java.math.BigDecimal**|  | [optional] |
+| **hn3** | **java.math.BigDecimal**|  | |
+| **fi0** | **kotlin.Int**|  | [optional] [default to 10] |
+| **fi1** | **kotlin.Int**|  | [default to 71] |
+| **fi2** | **kotlin.Int**|  | [optional] |
+| **fi3** | **kotlin.Int**|  | |
+| **fn0** | **java.math.BigDecimal**|  | [optional] [default to 10.0] |
+| **fn1** | **java.math.BigDecimal**|  | [default to 71.0] |
+| **fn2** | **java.math.BigDecimal**|  | [optional] |
+| **fn3** | **java.math.BigDecimal**|  | |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **fn4** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | |
 
 ### Return type
 

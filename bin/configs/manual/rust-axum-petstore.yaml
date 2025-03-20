@@ -6,4 +6,6 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: petstore
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

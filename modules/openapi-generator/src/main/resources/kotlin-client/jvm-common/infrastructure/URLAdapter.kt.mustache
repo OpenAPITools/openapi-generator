@@ -1,7 +1,6 @@
 package {{packageName}}.infrastructure
 
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -9,8 +8,7 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
 import java.net.URL
 
-@Serializer(forClass = URL::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}object URLAdapter : KSerializer<URL> {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object URLAdapter : KSerializer<URL> {
     override fun serialize(encoder: Encoder, value: URL) {
         encoder.encodeString(value.toExternalForm())
     }

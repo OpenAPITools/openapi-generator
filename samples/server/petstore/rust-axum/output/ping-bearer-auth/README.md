@@ -12,7 +12,7 @@ server, you can easily generate a server stub.
 To see how to make this your own, look here: [README]((https://openapi-generator.tech))
 
 - API version: 1.0
-
+- Generator version: 7.12.0-SNAPSHOT
 
 
 
@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl ping-bearer-auth::Api for ServerImpl {
+impl ping_bearer_auth::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl ping_bearer_auth::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = ping-bearer-auth::server::new(Arc::new(ServerImpl));
+    let app = ping_bearer_auth::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

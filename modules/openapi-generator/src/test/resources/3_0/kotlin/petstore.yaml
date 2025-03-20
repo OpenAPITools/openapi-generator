@@ -690,6 +690,8 @@ components:
           description: User Status
       xml:
         name: User
+      required:
+        - username
     Tag:
       title: Pet Tag
       description: A tag for a pet
@@ -760,3 +762,25 @@ components:
         id:
           type: string
           format: uuid
+    UserOrPet:
+      oneOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+    UserOrPetOrArrayString:
+      oneOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+        - type: array
+          items:
+            type: string
+    AnyOfUserOrPet:
+      anyOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+    AnyOfUserOrPetOrArrayString:
+      anyOf:
+        - $ref: "#/components/schemas/User"
+        - $ref: "#/components/schemas/Pet"
+        - type: array
+          items:
+            type: string

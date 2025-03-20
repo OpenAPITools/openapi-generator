@@ -1,0 +1,8 @@
+generatorName: kotlin-server
+outputDir: samples/server/others/kotlin-server/jaxrs-spec-array-response
+library: jaxrs-spec
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/issue18177-array.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-server
+additionalProperties:
+  interfaceOnly: "true"
+  useJakartaEe: true

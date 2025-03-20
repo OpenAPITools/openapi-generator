@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,20 +23,20 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ModelReturn {
 
   private Optional<Integer> _return = Optional.empty();
 
   public ModelReturn _return(Integer _return) {
-    this._return = Optional.of(_return);
+    this._return = Optional.ofNullable(_return);
     return this;
   }
 
   /**
    * Get _return
    * @return _return
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("return")
@@ -83,5 +84,63 @@ public class ModelReturn {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ModelReturn instance;
+
+    public Builder() {
+      this(new ModelReturn());
+    }
+
+    protected Builder(ModelReturn instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(ModelReturn value) { 
+      this.instance.setReturn(value._return);
+      return this;
+    }
+
+    public ModelReturn.Builder _return(Integer _return) {
+      this.instance._return(_return);
+      return this;
+    }
+    
+    /**
+    * returns a built ModelReturn instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ModelReturn build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static ModelReturn.Builder builder() {
+    return new ModelReturn.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelReturn.Builder toBuilder() {
+    ModelReturn.Builder builder = new ModelReturn.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

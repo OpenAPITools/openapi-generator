@@ -1,0 +1,11 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-lombok-data
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  artifactId: springboot-lombok-data
+  hideGenerationTimestamp: "true"
+  additionalModelTypeAnnotations: "@lombok.Data;@lombok.Builder;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor"
+  generateConstructorWithAllArgs: true
+  generateBuilders: true

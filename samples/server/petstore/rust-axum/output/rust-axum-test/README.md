@@ -12,7 +12,7 @@ server, you can easily generate a server stub.
 To see how to make this your own, look here: [README]((https://openapi-generator.tech))
 
 - API version: 2.3.4
-
+- Generator version: 7.12.0-SNAPSHOT
 
 
 
@@ -43,16 +43,18 @@ struct ServerImpl {
 
 #[allow(unused_variables)]
 #[async_trait]
-impl rust-server-test::Api for ServerImpl {
+impl rust_server_test::apis::default::Api for ServerImpl {
   // API implementation goes here
 }
+
+impl rust_server_test::apis::ErrorHandler for ServerImpl {}
 
 pub async fn start_server(addr: &str) {
     // initialize tracing
     tracing_subscriber::fmt::init();
 
     // Init Axum router
-    let app = rust-server-test::server::new(Arc::new(ServerImpl));
+    let app = rust_server_test::server::new(Arc::new(ServerImpl));
 
     // Add layers to the router
     let app = app.layer(...);

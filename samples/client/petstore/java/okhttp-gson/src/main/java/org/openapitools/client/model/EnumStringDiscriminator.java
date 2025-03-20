@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * An object to test discriminator of enum string
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class EnumStringDiscriminator {
   /**
    * enum string type
@@ -105,26 +104,28 @@ public class EnumStringDiscriminator {
 
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
   @SerializedName(SERIALIZED_NAME_ENUM_STR_TYPE)
+  @javax.annotation.Nonnull
   protected EnumStrTypeEnum enumStrType;
 
   public EnumStringDiscriminator() {
+
   }
 
-  public EnumStringDiscriminator enumStrType(EnumStrTypeEnum enumStrType) {
+  public EnumStringDiscriminator enumStrType(@javax.annotation.Nonnull EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;
     return this;
   }
 
-   /**
+  /**
    * enum string type
    * @return enumStrType
-  **/
+   */
   @javax.annotation.Nonnull
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }
 
-  public void setEnumStrType(EnumStrTypeEnum enumStrType) {
+  public void setEnumStrType(@javax.annotation.Nonnull EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;
   }
 
@@ -227,12 +228,12 @@ public class EnumStringDiscriminator {
     openapiRequiredFields.add("enum_str_type");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to EnumStringDiscriminator
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to EnumStringDiscriminator
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EnumStringDiscriminator.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -276,7 +277,12 @@ public class EnumStringDiscriminator {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -315,22 +321,22 @@ public class EnumStringDiscriminator {
     }
   }
 
- /**
-  * Create an instance of EnumStringDiscriminator given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of EnumStringDiscriminator
-  * @throws IOException if the JSON string is invalid with respect to EnumStringDiscriminator
-  */
+  /**
+   * Create an instance of EnumStringDiscriminator given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of EnumStringDiscriminator
+   * @throws IOException if the JSON string is invalid with respect to EnumStringDiscriminator
+   */
   public static EnumStringDiscriminator fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EnumStringDiscriminator.class);
   }
 
- /**
-  * Convert an instance of EnumStringDiscriminator to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of EnumStringDiscriminator to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

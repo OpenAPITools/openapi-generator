@@ -14,21 +14,21 @@ import java.io.IOException
 import kotlinx.datetime.Instant
 
 {{#moshi}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class InstantAdapter {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class InstantAdapter {
     @ToJson
-    fun toJson(value: Instant): String {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun toJson(value: Instant): String {
         return value.toString()
     }
 
     @FromJson
-    fun fromJson(value: String): Instant {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun fromJson(value: String): Instant {
         return Instant.parse(value)
     }
 
 }
 {{/moshi}}
 {{#gson}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class InstantAdapter : TypeAdapter<Instant>() {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class InstantAdapter : TypeAdapter<Instant>() {
     @Throws(IOException::class)
     override fun write(out: JsonWriter?, value: Instant?) {
         if (value == null) {

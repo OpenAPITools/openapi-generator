@@ -1,0 +1,11 @@
+{{#authMethods}}
+{{#isBasicBasic}}
+val principal = call.authentication.principal<UserIdPrincipal>()!!
+{{/isBasicBasic}}{{^isBasicBasic}}{{#isApiKey}}
+val principal = call.authentication.principal<ApiPrincipal>()!!
+{{/isApiKey}}{{^isApiKey}}{{#isOAuth}}
+val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
+{{/isOAuth}}{{^isOAuth}}
+val principal = null!!
+{{/isOAuth}}{{/isApiKey}}{{/isBasicBasic}}
+{{/authMethods}}

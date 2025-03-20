@@ -1,19 +1,13 @@
 package org.openapitools.codegen;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.media.Schema;
+import java.util.*;
+import java.util.stream.Stream;
 
 public interface IJsonSchemaValidationProperties {
     CodegenProperty getContains();
@@ -105,9 +99,22 @@ public interface IJsonSchemaValidationProperties {
 
     void setIsMap(boolean isMap);
 
+    /**
+     * Tells if the datatype is a generic inner parameter of a <code>std::optional</code> for C++, or <code>Optional</code> (Java)<br>
+     * to resolve cases (detected in issue #6726) where :<br>
+     * - <code>categoryOneOf</code> is a parameter of class <code>GetAccountVideos_categoryOneOf_parameter</code>, a model parameter that correctly prefixed by its namespace: <code>org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter</code><br>
+     * - but that <code>GetAccountVideos_categoryOneOf_parameter</code> class is inside an <code>std::optional</code><br>
+     * <br>
+     * Then a correct generation of that parameter can be (for C++) <code>const std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code><br>
+     * but using #isModel alone without #isOptional in mustache might produce <code>const org::openapitools::server::model::std::optional&lt;org::openapitools::server::model::GetAccountVideos_categoryOneOf_parameter&gt; &amp;categoryOneOf</code> instead, that do not compile.
+     */
+    boolean getIsOptional();
+
+    void setIsOptional(boolean isOptional);
+
     boolean getIsArray();
 
-    void setIsArray(boolean isShort);
+    void setIsArray(boolean isArray);
 
     boolean getIsShort();
 
@@ -180,7 +187,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsString();
 
-    void setIsString(boolean isNumber);
+    void setIsString(boolean isString);
 
     boolean getIsNumber();
 
@@ -236,7 +243,7 @@ public interface IJsonSchemaValidationProperties {
 
     boolean getIsDouble();
 
-    void setIsInteger(boolean isDouble);
+    void setIsInteger(boolean isInteger);
 
     boolean getIsInteger();
 
@@ -271,14 +278,13 @@ public interface IJsonSchemaValidationProperties {
      *
      * @param p the schema which contains the type info
      */
-    default void setTypeProperties(Schema p) {
+    default void setTypeProperties(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isModelWithPropertiesOnly(p)) {
             setIsModel(true);
         } else if (ModelUtils.isArraySchema(p)) {
             setIsArray(true);
         } else if (ModelUtils.isFileSchema(p) && !ModelUtils.isStringSchema(p)) {
             // swagger v2 only, type file
-            ;
         } else if (ModelUtils.isStringSchema(p)) {
             setIsString(true);
             if (ModelUtils.isByteArraySchema(p)) {
@@ -325,9 +331,11 @@ public interface IJsonSchemaValidationProperties {
             setIsNull(true);
         } else if (ModelUtils.isAnyType(p)) {
             setIsAnyType(true);
-        } else if (ModelUtils.isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p, openAPI)) {
             setIsFreeFormObject(true);
             // TODO: remove below later after updating generators to properly use isFreeFormObject
+            setIsMap(true);
+        } else if (ModelUtils.isMapSchema(p)) {
             setIsMap(true);
         } else if (ModelUtils.isTypeObjectSchema(p)) {
             setIsMap(true);

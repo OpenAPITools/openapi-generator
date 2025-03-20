@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
  * TypeHolderExample
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class TypeHolderExample {
 
   private String stringItem;
@@ -62,7 +63,7 @@ public class TypeHolderExample {
   /**
    * Get stringItem
    * @return stringItem
-  */
+   */
   @NotNull 
   @Schema(name = "string_item", example = "what", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("string_item")
@@ -82,7 +83,7 @@ public class TypeHolderExample {
   /**
    * Get numberItem
    * @return numberItem
-  */
+   */
   @NotNull @Valid 
   @Schema(name = "number_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("number_item")
@@ -102,7 +103,7 @@ public class TypeHolderExample {
   /**
    * Get floatItem
    * @return floatItem
-  */
+   */
   @NotNull 
   @Schema(name = "float_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("float_item")
@@ -122,7 +123,7 @@ public class TypeHolderExample {
   /**
    * Get integerItem
    * @return integerItem
-  */
+   */
   @NotNull 
   @Schema(name = "integer_item", example = "-2", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("integer_item")
@@ -142,7 +143,7 @@ public class TypeHolderExample {
   /**
    * Get boolItem
    * @return boolItem
-  */
+   */
   @NotNull 
   @Schema(name = "bool_item", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("bool_item")
@@ -170,7 +171,7 @@ public class TypeHolderExample {
   /**
    * Get arrayItem
    * @return arrayItem
-  */
+   */
   @NotNull 
   @Schema(name = "array_item", example = "[0,1,2,3]", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("array_item")

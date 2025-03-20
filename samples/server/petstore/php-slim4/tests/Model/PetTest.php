@@ -77,7 +77,7 @@ class PetTest extends TestCase
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "Pet" model has not been implemented yet.'
         );
     }
@@ -87,7 +87,7 @@ class PetTest extends TestCase
      */
     public function testPropertyId()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "id" property in "Pet" model has not been implemented yet.'
         );
     }
@@ -97,7 +97,7 @@ class PetTest extends TestCase
      */
     public function testPropertyCategory()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "category" property in "Pet" model has not been implemented yet.'
         );
     }
@@ -107,7 +107,7 @@ class PetTest extends TestCase
      */
     public function testPropertyName()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "name" property in "Pet" model has not been implemented yet.'
         );
     }
@@ -117,7 +117,7 @@ class PetTest extends TestCase
      */
     public function testPropertyPhotoUrls()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "photoUrls" property in "Pet" model has not been implemented yet.'
         );
     }
@@ -127,7 +127,7 @@ class PetTest extends TestCase
      */
     public function testPropertyTags()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "tags" property in "Pet" model has not been implemented yet.'
         );
     }
@@ -137,7 +137,7 @@ class PetTest extends TestCase
      */
     public function testPropertyStatus()
     {
-        $this->markTestIncomplete(
+        self::markTestIncomplete(
             'Test of "status" property in "Pet" model has not been implemented yet.'
         );
     }
@@ -152,3 +152,4 @@ class PetTest extends TestCase
         $this->assertIsArray($schemaArr);
     }
 }
+

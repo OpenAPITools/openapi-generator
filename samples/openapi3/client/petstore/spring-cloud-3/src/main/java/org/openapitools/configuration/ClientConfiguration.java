@@ -21,7 +21,6 @@ import feign.RequestTemplate;
 import org.springframework.context.annotation.Configuration;
 
 
-@Configuration
 public class ClientConfiguration {
 
   private static final String CLIENT_PRINCIPAL_IMPLICIT = "oauth2FeignClient";

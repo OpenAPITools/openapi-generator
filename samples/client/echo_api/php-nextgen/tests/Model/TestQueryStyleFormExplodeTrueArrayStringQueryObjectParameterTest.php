@@ -77,7 +77,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest extends T
     public function testTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -86,6 +86,6 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest extends T
     public function testPropertyValues()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

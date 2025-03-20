@@ -1,0 +1,12 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/rust-axum-validation-test
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/rust-axum-validation-test.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: rust-axum-validation-test
+  disableValidator: "true"
+globalProperties:
+  skipFormModel: false
+enablePostProcessFile: true

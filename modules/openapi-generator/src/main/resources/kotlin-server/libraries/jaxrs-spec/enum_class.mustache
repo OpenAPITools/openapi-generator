@@ -13,6 +13,12 @@ import kotlinx.serialization.Serializable
 {{>additionalModelTypeAnnotations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
+
+    {{#enumDescription}}
+    /**
+    * {{.}}
+    */
+    {{/enumDescription}}
     @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{#kotlinx_serialization}}
     @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})

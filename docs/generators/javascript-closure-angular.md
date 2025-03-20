@@ -7,11 +7,11 @@ title: Documentation for the javascript-closure-angular Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | javascript-closure-angular | pass this to the generate command after -g |
-| generator stability | STABLE | |
+| generator stability | BETA | |
 | generator type | CLIENT | |
 | generator language | Javascript | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Javascript AngularJS client library (beta) annotated with Google Closure Compiler annotations(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en) | |
+| helpTxt | Generates a Javascript AngularJS client library annotated with Google Closure Compiler annotations(https://developers.google.com/closure/compiler/docs/js-for-compiler?hl=en) | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
@@ -217,6 +217,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |JSON|✓|OAS2,OAS3
-|XML|✓|OAS2,OAS3
+|XML|✗|OAS2,OAS3
 |PROTOBUF|✗|ToolingExtension
 |Custom|✗|OAS2,OAS3

@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import lombok.Setter;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -66,7 +67,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     protected String pidFolder = tmpFolder + File.separator + "pids";
     protected String socketsFolder = tmpFolder + File.separator + "sockets";
     protected String vendorFolder = "vendor";
-    protected String databaseAdapter = "sqlite";
+    @Setter protected String databaseAdapter = "sqlite";
 
 
     public RubyOnRailsServerCodegen() {
@@ -293,9 +294,5 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    public void setDatabaseAdapter(String databaseAdapter) {
-        this.databaseAdapter = databaseAdapter;
     }
 }

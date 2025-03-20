@@ -32,7 +32,8 @@ class ChildWithNullable {
     
     name: r'type',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
+  unknownEnumValue: ChildWithNullableTypeEnum.unknownDefaultOpenApi,
   )
 
 
@@ -44,7 +45,7 @@ class ChildWithNullable {
     
     name: r'nullableProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -56,7 +57,7 @@ class ChildWithNullable {
     
     name: r'otherProperty',
     required: false,
-    includeIfNull: false
+    includeIfNull: false,
   )
 
 
@@ -64,17 +65,19 @@ class ChildWithNullable {
 
 
 
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
-     other.type == type &&
-     other.nullableProperty == nullableProperty &&
-     other.otherProperty == otherProperty;
 
-  @override
-  int get hashCode =>
-    type.hashCode +
-    (nullableProperty == null ? 0 : nullableProperty.hashCode) +
-    otherProperty.hashCode;
+
+    @override
+    bool operator ==(Object other) => identical(this, other) || other is ChildWithNullable &&
+      other.type == type &&
+      other.nullableProperty == nullableProperty &&
+      other.otherProperty == otherProperty;
+
+    @override
+    int get hashCode =>
+        type.hashCode +
+        (nullableProperty == null ? 0 : nullableProperty.hashCode) +
+        otherProperty.hashCode;
 
   factory ChildWithNullable.fromJson(Map<String, dynamic> json) => _$ChildWithNullableFromJson(json);
 
@@ -89,10 +92,17 @@ class ChildWithNullable {
 
 
 enum ChildWithNullableTypeEnum {
-  @JsonValue(r'ChildWithNullable')
-  childWithNullable,
-  @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+@JsonValue(r'ChildWithNullable')
+childWithNullable(r'ChildWithNullable'),
+@JsonValue(r'unknown_default_open_api')
+unknownDefaultOpenApi(r'unknown_default_open_api');
+
+const ChildWithNullableTypeEnum(this.value);
+
+final String value;
+
+@override
+String toString() => value;
 }
 
 

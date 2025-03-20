@@ -40,8 +40,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun addPet(pet: Pet): Pet {
-        return addPetWithHttpInfo(pet = pet)
-            .body!!
+        val result = addPetWithHttpInfo(pet = pet)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -77,8 +77,7 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
-        return deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
-            .body!!
+        deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
     }
 
     @Throws(RestClientResponseException::class)
@@ -113,17 +112,17 @@ class PetApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter status
      */
-     enum class StatusFindPetsByStatus(val value: kotlin.String) {
-         @JsonProperty(value = "available") available("available"),
-         @JsonProperty(value = "pending") pending("pending"),
-         @JsonProperty(value = "sold") sold("sold"),
-     }
+    enum class StatusFindPetsByStatus(val value: kotlin.String) {
+        @JsonProperty(value = "available") available("available"),
+        @JsonProperty(value = "pending") pending("pending"),
+        @JsonProperty(value = "sold") sold("sold"),
+    }
 
 
     @Throws(RestClientResponseException::class)
     fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): kotlin.collections.List<Pet> {
-        return findPetsByStatusWithHttpInfo(status = status)
-            .body!!
+        val result = findPetsByStatusWithHttpInfo(status = status)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -161,8 +160,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): kotlin.collections.List<Pet> {
-        return findPetsByTagsWithHttpInfo(tags = tags)
-            .body!!
+        val result = findPetsByTagsWithHttpInfo(tags = tags)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -201,8 +200,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getPetById(petId: kotlin.Long): Pet {
-        return getPetByIdWithHttpInfo(petId = petId)
-            .body!!
+        val result = getPetByIdWithHttpInfo(petId = petId)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -237,8 +236,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun updatePet(pet: Pet): Pet {
-        return updatePetWithHttpInfo(pet = pet)
-            .body!!
+        val result = updatePetWithHttpInfo(pet = pet)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -274,8 +273,7 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
-        return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
-            .body!!
+        updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
     }
 
     @Throws(RestClientResponseException::class)
@@ -311,8 +309,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse {
-        return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
-            .body!!
+        val result = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)

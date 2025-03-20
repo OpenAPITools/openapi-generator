@@ -9,11 +9,10 @@ $ cd OpenAPIetstore-python
 $ pytest
 """
 
-import os
-import time
-import atexit
-import weakref
 import unittest
+from decimal import Decimal
+from enum import Enum
+
 from dateutil.parser import parse
 
 import petstore_api
@@ -57,6 +56,33 @@ class ApiClientTests(unittest.TestCase):
         # test basic auth
         self.assertEqual('test_username', client.configuration.username)
         self.assertEqual('test_password', client.configuration.password)
+
+    def test_ignore_operation_servers(self):
+        config = petstore_api.Configuration(host=HOST)
+        client = petstore_api.ApiClient(config)
+        user_api_instance = petstore_api.api.user_api.UserApi(client)
+
+        config_ignore = petstore_api.Configuration(host=HOST, ignore_operation_servers=True)
+        client_ignore = petstore_api.ApiClient(config_ignore)
+        user_api_instance_ignore = petstore_api.api.user_api.UserApi(client_ignore)
+
+        params_to_serialize = {
+            'user': petstore_api.User(id=1, username='test'),
+            '_request_auth': None,
+            '_content_type': 'application/json',
+            '_headers': None,
+            '_host_index': 0
+        }
+
+        # operation servers should be used
+        _, url, *_ = user_api_instance._create_user_serialize(**params_to_serialize)
+        self.assertEqual(client.configuration.host, HOST)
+        self.assertEqual(url, 'http://petstore.swagger.io/v2/user')
+
+        # operation servers should be ignored
+        _, url_ignore, *_ = user_api_instance_ignore._create_user_serialize(**params_to_serialize)
+        self.assertEqual(client.configuration.host, HOST)
+        self.assertEqual(url_ignore, HOST + '/user')
 
     def test_select_header_accept(self):
         accepts = ['APPLICATION/JSON', 'APPLICATION/XML']
@@ -155,6 +181,21 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
 
+    def test_sanitize_for_serialization_decimal(self):
+        data = Decimal("1.0")
+        result = self.api_client.sanitize_for_serialization(data)
+        self.assertEqual(result, "1.0")
+
+    def test_sanitize_for_serialization_list_enum(self):
+        class EnumSerialization(int, Enum):
+            NUMBER_0 = 0
+            NUMBER_1 = 1
+
+        data = [EnumSerialization.NUMBER_1]
+        result = self.api_client.sanitize_for_serialization(data)
+        self.assertEqual(result, [1])
+        self.assertNotIsInstance(result[0], EnumSerialization)
+
     def test_sanitize_for_serialization_list(self):
         data = [1]
         result = self.api_client.sanitize_for_serialization(data)
@@ -203,10 +244,11 @@ class ApiClientTests(unittest.TestCase):
             "category2": "example2"
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, "value=%7B%22category%22%3A%20%22example%22%2C%20%22category2%22%3A%20%22example2%22%7D")
-        
+        self.assertEqual(result,
+                         "value=%7B%22category%22%3A%20%22example%22%2C%20%22category2%22%3A%20%22example2%22%7D")
+
     def test_parameters_to_url_query_complex_values(self):
-        data='value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
+        data = 'value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
         dictionary = {
             "number": 1,
             "string": "str",
@@ -218,10 +260,11 @@ class ApiClientTests(unittest.TestCase):
             }
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, 'value=%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%2C%20%22dict%22%3A%20%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%7D%7D')
+        self.assertEqual(result,
+                         'value=%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%2C%20%22dict%22%3A%20%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%7D%7D')
 
     def test_parameters_to_url_query_dict_values(self):
-        data='value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
+        data = 'value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
         dictionary = {
             "strValues": [
                 "one",
@@ -240,12 +283,19 @@ class ApiClientTests(unittest.TestCase):
             ]
         }
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
-        self.assertEqual(result, 'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
+        self.assertEqual(result,
+                         'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
 
     def test_parameters_to_url_query_boolean_value(self):
         result = self.api_client.parameters_to_url_query([('boolean', True)], {})
         self.assertEqual(result, "boolean=true")
 
     def test_parameters_to_url_query_list_value(self):
-        params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])], collection_formats={'list': 'multi'})
+        params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])],
+                                                         collection_formats={'list': 'multi'})
         self.assertEqual(params, "list=1&list=2&list=3")
+
+    def test_parameters_to_url_query_list_value_encoded(self):
+        params = self.api_client.parameters_to_url_query(params=[('list', [" !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", "2023-01-01T00:00:00+01:00"])],
+                                                         collection_formats={'list': 'multi'})
+        self.assertEqual(params, "list=%20%21%22%23%24%25%26%27%28%29%2A%2B%2C-./%3A%3B%3C%3D%3E%3F%40%5B%5C%5D%5E_%60%7B%7C%7D~&list=2023-01-01T00%3A00%3A00%2B01%3A00")

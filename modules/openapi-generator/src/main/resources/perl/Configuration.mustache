@@ -82,7 +82,7 @@ sub new {
 
     # class/static variables
     $p{http_timeout} //= 180;
-    $p{http_user_agent} //= '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{moduleVersion}}}/perl{{/httpUserAgent}}';
+    $p{http_user_agent} //= '{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/' . VERSION . '/perl{{/httpUserAgent}}';
 
     # authentication setting
     $p{api_key} //= {};

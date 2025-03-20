@@ -1,0 +1,1 @@
+{{#dataType}}case r if r.status.code == {{code}} => parseJson[F, {{>operationReturnType}}]("{{>operationReturnType}}", r){{/dataType}}{{^dataType}}case r if r.status.code == {{code}} => Concurrent[F].pure(()){{/dataType}}

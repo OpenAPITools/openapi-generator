@@ -198,7 +198,7 @@ function Test-BodyMultipartFormdataArrayOfBinary {
         if (!$Files) {
             throw "Error! The required parameter `Files` missing when calling test_body_multipart_formdata_arrayOfBinary."
         }
-        $LocalVarFormParameters['files'] = $Files
+        $LocalVarFormParameters['files'] = $Files | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
 
         $LocalVarResult = Invoke-ApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
@@ -273,7 +273,7 @@ function Test-BodyMultipartFormdataSingleBinary {
         $LocalVarUri = '/body/application/octetstream/single_binary'
 
         if ($MyFile) {
-            $LocalVarFormParameters['my-file'] = $MyFile
+            $LocalVarFormParameters['my-file'] = $MyFile | Foreach-Object { [System.IO.FileInfo]$executionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($_) }
         }
 
         $LocalVarResult = Invoke-ApiClient -Method 'POST' `
@@ -656,6 +656,80 @@ function Test-EchoBodyAllOfPet {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "Pet" `
+                                -IsBodyNullable $false
+
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
+    }
+}
+
+<#
+.SYNOPSIS
+
+Test string enum response body
+
+.DESCRIPTION
+
+No description available.
+
+.PARAMETER Body
+String enum
+
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
+.OUTPUTS
+
+StringEnumRef
+#>
+function Test-EchoBodyStringEnum {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[String]]
+        ${Body},
+        [Switch]
+        $WithHttpInfo
+    )
+
+    Process {
+        'Calling method: Test-EchoBodyStringEnum' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
+        $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter = $null
+
+        $Configuration = Get-Configuration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/json')
+
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
+        $LocalVarUri = '/echo/body/string_enum'
+
+        $LocalVarBodyParameter = $Body | ConvertTo-Json -Depth 100
+
+        $LocalVarResult = Invoke-ApiClient -Method 'POST' `
+                                -Uri $LocalVarUri `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameter `
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "StringEnumRef" `
                                 -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {

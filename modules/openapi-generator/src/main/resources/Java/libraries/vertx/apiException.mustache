@@ -8,6 +8,8 @@ import io.vertx.core.MultiMap;
 
 {{>generatedAnnotation}}
 public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
+    private static final long serialVersionUID = 1L;
+
     private int code = 0;
     private MultiMap responseHeaders = null;
     private String responseBody = null;

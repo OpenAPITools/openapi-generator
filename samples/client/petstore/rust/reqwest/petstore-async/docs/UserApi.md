@@ -57,7 +57,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**user** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
+**user** | [**Vec<models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -87,7 +87,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**user** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
+**user** | [**Vec<models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -137,7 +137,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_user_by_name
 
-> crate::models::User get_user_by_name(username)
+> models::User get_user_by_name(username)
 Get user by user name
 
 
@@ -151,7 +151,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::User**](User.md)
+[**models::User**](User.md)
 
 ### Authorization
 
@@ -191,7 +191,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+- **Accept**: application/xml, application/json, text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

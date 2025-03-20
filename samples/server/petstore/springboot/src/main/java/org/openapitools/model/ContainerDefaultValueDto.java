@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -26,7 +27,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("ContainerDefaultValue")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
   @Valid
@@ -69,7 +70,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get nullableArray
    * @return nullableArray
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array")
@@ -97,7 +98,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get nullableRequiredArray
    * @return nullableRequiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("nullable_required_array")
@@ -125,7 +126,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get requiredArray
    * @return requiredArray
-  */
+   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("required_array")
@@ -153,7 +154,7 @@ public class ContainerDefaultValueDto {
   /**
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("nullable_array_with_default")

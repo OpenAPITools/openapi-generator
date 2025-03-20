@@ -10,33 +10,37 @@ import Foundation
 import AnyCodable
 #endif
 
-public struct EnumTest: Codable, JSONEncodable, Hashable {
+internal struct EnumTest: Codable, JSONEncodable {
 
-    public enum EnumString: String, Codable, CaseIterable {
+    internal enum EnumString: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public enum EnumStringRequired: String, Codable, CaseIterable {
+    internal enum EnumStringRequired: String, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
+        case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    public enum EnumInteger: Int, Codable, CaseIterable {
+    internal enum EnumInteger: Int, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _1 = 1
         case number1 = -1
+        case unknownDefaultOpenApi = 11184809
     }
-    public enum EnumNumber: Double, Codable, CaseIterable {
+    internal enum EnumNumber: Double, Codable, CaseIterable, CaseIterableDefaultsLast {
         case _11 = 1.1
         case number12 = -1.2
+        case unknownDefaultOpenApi = 11184809
     }
-    public var enumString: EnumString?
-    public var enumStringRequired: EnumStringRequired
-    public var enumInteger: EnumInteger?
-    public var enumNumber: EnumNumber?
-    public var outerEnum: OuterEnum?
+    internal private(set) var enumString: EnumString?
+    internal private(set) var enumStringRequired: EnumStringRequired
+    internal private(set) var enumInteger: EnumInteger?
+    internal private(set) var enumNumber: EnumNumber?
+    internal private(set) var outerEnum: OuterEnum?
 
-    public init(enumString: EnumString? = nil, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger? = nil, enumNumber: EnumNumber? = nil, outerEnum: OuterEnum? = nil) {
+    internal init(enumString: EnumString? = nil, enumStringRequired: EnumStringRequired, enumInteger: EnumInteger? = nil, enumNumber: EnumNumber? = nil, outerEnum: OuterEnum? = nil) {
         self.enumString = enumString
         self.enumStringRequired = enumStringRequired
         self.enumInteger = enumInteger
@@ -44,7 +48,7 @@ public struct EnumTest: Codable, JSONEncodable, Hashable {
         self.outerEnum = outerEnum
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case enumString = "enum_string"
         case enumStringRequired = "enum_string_required"
         case enumInteger = "enum_integer"
@@ -54,7 +58,7 @@ public struct EnumTest: Codable, JSONEncodable, Hashable {
 
     // Encodable protocol methods
 
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(enumString, forKey: .enumString)
         try container.encode(enumStringRequired, forKey: .enumStringRequired)

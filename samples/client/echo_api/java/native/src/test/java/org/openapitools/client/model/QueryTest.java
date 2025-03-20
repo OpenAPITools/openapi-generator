@@ -19,23 +19,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Query
  */
-public class QueryTest {
+class QueryTest {
     private final Query model = new Query();
 
     /**
      * Model tests for Query
      */
     @Test
-    public void testQuery() {
+    void testQuery() {
         // TODO: test Query
     }
 
@@ -43,7 +43,7 @@ public class QueryTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -51,7 +51,7 @@ public class QueryTest {
      * Test the property 'outcomes'
      */
     @Test
-    public void outcomesTest() {
+    void outcomesTest() {
         // TODO: test outcomes
     }
 

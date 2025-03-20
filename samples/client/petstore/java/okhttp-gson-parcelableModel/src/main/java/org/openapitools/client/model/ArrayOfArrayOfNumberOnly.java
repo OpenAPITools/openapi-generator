@@ -42,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,16 +53,17 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber;
+  @javax.annotation.Nullable
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnly() {
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(@javax.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -76,16 +76,16 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
     return this;
   }
 
-   /**
+  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
-  **/
+   */
   @javax.annotation.Nullable
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(@javax.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -162,12 +162,12 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
     openapiRequiredFields = new HashSet<String>();
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to ArrayOfArrayOfNumberOnly
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to ArrayOfArrayOfNumberOnly
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfArrayOfNumberOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -218,22 +218,22 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
     }
   }
 
- /**
-  * Create an instance of ArrayOfArrayOfNumberOnly given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of ArrayOfArrayOfNumberOnly
-  * @throws IOException if the JSON string is invalid with respect to ArrayOfArrayOfNumberOnly
-  */
+  /**
+   * Create an instance of ArrayOfArrayOfNumberOnly given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of ArrayOfArrayOfNumberOnly
+   * @throws IOException if the JSON string is invalid with respect to ArrayOfArrayOfNumberOnly
+   */
   public static ArrayOfArrayOfNumberOnly fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, ArrayOfArrayOfNumberOnly.class);
   }
 
- /**
-  * Convert an instance of ArrayOfArrayOfNumberOnly to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of ArrayOfArrayOfNumberOnly to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }

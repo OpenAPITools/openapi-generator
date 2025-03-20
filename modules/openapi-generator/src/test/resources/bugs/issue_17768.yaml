@@ -1,0 +1,33 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  description: Specification to reproduce incorrect return for useOptional in Spring Delegate
+  title: OptionalRequestBodyDelegateTest Api
+paths:
+  /update:
+    post:
+      tags:
+        - test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateRequest"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: boolean
+components:
+  schemas:
+    updateRequest:
+      type: object
+      title: Update Request
+      properties:
+        id:
+          type: string
+        time:
+          type: integer
+          format: int64

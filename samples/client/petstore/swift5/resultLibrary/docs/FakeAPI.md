@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 # **fakeOuterBooleanSerialize**
 ```swift
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil, completion: @escaping (_ data: Bool?, _ error: Error?) -> Void)
+    internal class func fakeOuterBooleanSerialize(body: Bool? = nil, completion: @escaping (_ data: Bool?, _ error: Error?) -> Void)
 ```
 
 
@@ -69,7 +69,7 @@ No authorization required
 
 # **fakeOuterCompositeSerialize**
 ```swift
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @escaping (_ data: OuterComposite?, _ error: Error?) -> Void)
+    internal class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, completion: @escaping (_ data: OuterComposite?, _ error: Error?) -> Void)
 ```
 
 
@@ -118,7 +118,7 @@ No authorization required
 
 # **fakeOuterNumberSerialize**
 ```swift
-    open class func fakeOuterNumberSerialize(body: Double? = nil, completion: @escaping (_ data: Double?, _ error: Error?) -> Void)
+    internal class func fakeOuterNumberSerialize(body: Double? = nil, completion: @escaping (_ data: Double?, _ error: Error?) -> Void)
 ```
 
 
@@ -167,7 +167,7 @@ No authorization required
 
 # **fakeOuterStringSerialize**
 ```swift
-    open class func fakeOuterStringSerialize(body: String? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
+    internal class func fakeOuterStringSerialize(body: String? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
 ```
 
 
@@ -216,7 +216,7 @@ No authorization required
 
 # **testBodyWithFileSchema**
 ```swift
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testBodyWithFileSchema(body: FileSchemaTestClass, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 
@@ -265,7 +265,7 @@ No authorization required
 
 # **testBodyWithQueryParams**
 ```swift
-    open class func testBodyWithQueryParams(query: String, body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testBodyWithQueryParams(query: String, body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 
@@ -314,7 +314,7 @@ No authorization required
 
 # **testClientModel**
 ```swift
-    open class func testClientModel(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
+    internal class func testClientModel(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
 ```
 
 To test \"client\" model
@@ -364,7 +364,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testEndpointParameters(integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, number: Double, float: Float? = nil, double: Double, string: String? = nil, patternWithoutDelimiter: String, byte: Data, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -376,15 +376,15 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let number = 987 // Double | None
-let double = 987 // Double | None
-let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = Data([9, 8, 7]) // Data | None
 let integer = 987 // Int | None (optional)
 let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
+let number = 987 // Double | None
 let float = 987 // Float | None (optional)
+let double = 987 // Double | None
 let string = "string_example" // String | None (optional)
+let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
+let byte = Data([9, 8, 7]) // Data | None
 let binary = URL(string: "https://example.com")! // URL | None (optional)
 let date = Date() // Date | None (optional)
 let dateTime = Date() // Date | None (optional)
@@ -392,7 +392,7 @@ let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
 // Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { (response, error) in
+FakeAPI.testEndpointParameters(integer: integer, int32: int32, int64: int64, number: number, float: float, double: double, string: string, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -408,15 +408,15 @@ FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDel
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Double** | None | 
- **double** | **Double** | None | 
- **patternWithoutDelimiter** | **String** | None | 
- **byte** | **Data** | None | 
  **integer** | **Int** | None | [optional] 
  **int32** | **Int** | None | [optional] 
  **int64** | **Int64** | None | [optional] 
+ **number** | **Double** | None | 
  **float** | **Float** | None | [optional] 
+ **double** | **Double** | None | 
  **string** | **String** | None | [optional] 
+ **patternWithoutDelimiter** | **String** | None | 
+ **byte** | **Data** | None | 
  **binary** | **URL** | None | [optional] 
  **date** | **Date** | None | [optional] 
  **dateTime** | **Date** | None | [optional] 
@@ -440,7 +440,7 @@ Void (empty response body)
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 To test enum parameters
@@ -504,7 +504,7 @@ No authorization required
 
 # **testGroupParameters**
 ```swift
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Fake endpoint to test group parameters (optional)
@@ -564,7 +564,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties(param: [String: String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testInlineAdditionalProperties(param: [String: String], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 test inline additionalProperties
@@ -612,7 +612,7 @@ No authorization required
 
 # **testJsonFormData**
 ```swift
-    open class func testJsonFormData(param: String, param2: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    internal class func testJsonFormData(param: String, param2: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 test json serialization of form data

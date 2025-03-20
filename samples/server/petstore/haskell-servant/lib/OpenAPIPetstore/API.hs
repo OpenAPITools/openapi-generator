@@ -42,7 +42,9 @@ import           Control.Monad.Except               (ExceptT, runExceptT)
 import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Reader         (ReaderT (..))
 import           Data.Aeson                         (Value)
+import qualified Data.Aeson                         as Aeson
 import           Data.ByteString                    (ByteString)
+import qualified Data.ByteString.Lazy               as BSL
 import           Data.Coerce                        (coerce)
 import           Data.Data                          (Data)
 import           Data.Function                      ((&))
@@ -52,6 +54,7 @@ import           Data.Proxy                         (Proxy (..))
 import           Data.Set                           (Set)
 import           Data.Text                          (Text)
 import qualified Data.Text                          as T
+import qualified Data.Text.Encoding                 as T
 import           Data.Time
 import           Data.UUID                          (UUID)
 import           GHC.Exts                           (IsString (..))
@@ -143,11 +146,22 @@ instance ToHttpApiData a => ToHttpApiData (QueryList 'MultiParamArray a) where
 formatSeparatedQueryList :: ToHttpApiData a => Char ->  QueryList p a -> Text
 formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryParam . fromQueryList
 
+newtype JSONQueryParam a = JSONQueryParam
+  { fromJsonQueryParam :: a
+  } deriving (Functor, Foldable, Traversable)
+
+instance Aeson.ToJSON a => ToHttpApiData (JSONQueryParam a) where
+  toQueryParam = T.decodeUtf8 . BSL.toStrict . Aeson.encode . fromJsonQueryParam
+
+instance Aeson.FromJSON a => FromHttpApiData (JSONQueryParam a) where
+  parseQueryParam = either (Left . T.pack) (Right . JSONQueryParam) . Aeson.eitherDecodeStrict . T.encodeUtf8
+
 
 -- | Servant type-level API, generated from the OpenAPI spec for OpenAPIPetstore.
 type OpenAPIPetstoreAPI
     =    Protected :> "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] Pet -- 'addPet' route
     :<|> Protected :> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] NoContent -- 'deletePet' route
+    :<|> Protected :> "pet" :> "find" :> QueryParam "filter" (JSONQueryParam PetFilter) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPets' route
     :<|> Protected :> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
     :<|> Protected :> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> Protected :> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
@@ -188,6 +202,7 @@ newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
 data OpenAPIPetstoreBackend a m = OpenAPIPetstoreBackend
   { addPet :: a -> Pet -> m Pet{- ^  -}
   , deletePet :: a -> Integer -> Maybe Text -> m NoContent{- ^  -}
+  , findPets :: a -> Maybe PetFilter -> m [Pet]{- ^  -}
   , findPetsByStatus :: a -> Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
   , findPetsByTags :: a -> Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: a -> Integer -> m Pet{- ^ Returns a single pet -}
@@ -240,6 +255,7 @@ createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
   where
     ((coerce -> addPet) :<|>
      (coerce -> deletePet) :<|>
+     (coerce -> findPets) :<|>
      (coerce -> findPetsByStatus) :<|>
      (coerce -> findPetsByTags) :<|>
      (coerce -> getPetById) :<|>
@@ -314,6 +330,7 @@ serverWaiApplicationOpenAPIPetstore auth backend = serveWithContextT (Proxy :: P
     serverFromBackend OpenAPIPetstoreBackend{..} =
       (coerce addPet :<|>
        coerce deletePet :<|>
+       coerce findPets :<|>
        coerce findPetsByStatus :<|>
        coerce findPetsByTags :<|>
        coerce getPetById :<|>

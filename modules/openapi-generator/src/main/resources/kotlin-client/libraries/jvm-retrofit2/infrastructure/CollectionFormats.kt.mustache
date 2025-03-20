@@ -1,16 +1,16 @@
 package {{packageName}}.infrastructure
 
-class CollectionFormats {
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class CollectionFormats {
 
-    open class CSVParams {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class CSVParams {
 
-        var params: List<String>
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var params: List<String>
 
-        constructor(params: List<String>) {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(params: List<String>) {
             this.params = params
         }
 
-        constructor(vararg params: String) {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(vararg params: String) {
             this.params = listOf(*params)
         }
 
@@ -19,38 +19,38 @@ class CollectionFormats {
         }
     }
 
-    open class SSVParams : CSVParams {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class SSVParams : CSVParams {
 
-        constructor(params: List<String>) : super(params)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(params: List<String>) : super(params)
 
-        constructor(vararg params: String) : super(*params)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(vararg params: String) : super(*params)
 
         override fun toString(): String {
             return params.joinToString(" ")
         }
     }
 
-    class TSVParams : CSVParams {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class TSVParams : CSVParams {
 
-        constructor(params: List<String>) : super(params)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(params: List<String>) : super(params)
 
-        constructor(vararg params: String) : super(*params)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(vararg params: String) : super(*params)
 
         override fun toString(): String {
             return params.joinToString("\t")
         }
     }
 
-    class PIPESParams : CSVParams {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class PIPESParams : CSVParams {
 
-        constructor(params: List<String>) : super(params)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(params: List<String>) : super(params)
 
-        constructor(vararg params: String) : super(*params)
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(vararg params: String) : super(*params)
 
         override fun toString(): String {
             return params.joinToString("|")
         }
     }
 
-    class SPACEParams : SSVParams()
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class SPACEParams : SSVParams()
 }

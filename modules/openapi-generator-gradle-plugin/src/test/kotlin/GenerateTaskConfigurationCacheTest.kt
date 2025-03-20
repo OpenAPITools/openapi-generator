@@ -20,7 +20,7 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
     }
 
     @DataProvider(name = "gradle_version_provider")
-    private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("8.1.1"), arrayOf("7.6"))
+    private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("8.7"), arrayOf("7.6.4"))
 
     @DataProvider(name = "gradle_version_provider_without_cc")
     private fun gradleVersionProviderWithoutConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("5.6.1"))

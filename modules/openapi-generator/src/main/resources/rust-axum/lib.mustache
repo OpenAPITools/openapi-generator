@@ -1,99 +1,30 @@
-#![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
-#![allow(unused_imports, unused_attributes)]
-#![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
-
-use async_trait::async_trait;
-use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
-use bytes::Bytes;
-use http::Method;
-use serde::{Deserialize, Serialize};
-
-use types::*;
+#![allow(
+    missing_docs,
+    trivial_casts,
+    unused_variables,
+    unused_mut,
+    unused_extern_crates,
+    non_camel_case_types,
+    unused_imports,
+    unused_attributes,
+)]
+#![allow(
+    clippy::derive_partial_eq_without_eq,
+    clippy::disallowed_names,
+    clippy::too_many_arguments
+)]
 
 pub const BASE_PATH: &str = "{{{basePathWithoutHost}}}";
 {{#appVersion}}
 pub const API_VERSION: &str = "{{{.}}}";
 {{/appVersion}}
 
-{{#apiInfo}}
-  {{#apis}}
-    {{#operations}}
-      {{#operation}}
-        {{>response}}
-      {{/operation}}
-    {{/operations}}
-  {{/apis}}
-{{/apiInfo}}
-
-/// API
-#[async_trait]
-#[allow(clippy::ptr_arg)]
-pub trait Api {
-{{#apiInfo}}
-  {{#apis}}
-    {{#operations}}
-      {{#operation}}
-
-            {{#summary}}
-                /// {{{.}}}.
-                ///
-            {{/summary}}
-            {{#vendorExtensions}}
-                /// {{{operationId}}} - {{{httpMethod}}} {{{basePathWithoutHost}}}{{{path}}}
-                async fn {{{x-operation-id}}}(
-                &self,
-                method: Method,
-                host: Host,
-                cookies: CookieJar,
-                {{#headerParams.size}}
-                  header_params: models::{{{operationIdCamelCase}}}HeaderParams,
-                {{/headerParams.size}}
-                {{#pathParams.size}}
-                  path_params: models::{{{operationIdCamelCase}}}PathParams,
-                {{/pathParams.size}}
-                {{#queryParams.size}}
-                  query_params: models::{{{operationIdCamelCase}}}QueryParams,
-                {{/queryParams.size}}
-                {{^x-consumes-multipart-related}}
-                {{^x-consumes-multipart}}
-                  {{#bodyParam}}
-                  {{#vendorExtensions}}
-                    {{^x-consumes-plain-text}}
-                        body: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
-                    {{/x-consumes-plain-text}}
-                    {{#x-consumes-plain-text}}
-                      {{#isString}}
-                        body: String,
-                      {{/isString}}
-                      {{^isString}}
-                        body: Bytes,
-                      {{/isString}}
-                    {{/x-consumes-plain-text}}
-                  {{/vendorExtensions}}
-                  {{/bodyParam}}
-                {{/x-consumes-multipart}}
-                {{/x-consumes-multipart-related}}
-                {{#x-consumes-multipart}}
-                    body: Multipart,
-                {{/x-consumes-multipart}}
-                {{#x-consumes-multipart-related}}
-                    body: axum::body::Body,
-                {{/x-consumes-multipart-related}}
-                ) -> Result<{{{operationId}}}Response, String>;
-            {{/vendorExtensions}}
-
-      {{/operation}}
-    {{/operations}}
-  {{/apis}}
-{{/apiInfo}}
-}
-
 #[cfg(feature = "server")]
 pub mod server;
 
 pub mod models;
 pub mod types;
+pub mod apis;
 
 #[cfg(feature = "server")]
 pub(crate) mod header;

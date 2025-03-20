@@ -2,9 +2,12 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.model.Client;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +20,7 @@ public class FakeClassnameTags123ApiTest {
 
     private FakeClassnameTags123Api api;
 
-    @Before
+    @BeforeEach
     public void setup() {
         api = new ApiClient().createService(FakeClassnameTags123Api.class);
     }

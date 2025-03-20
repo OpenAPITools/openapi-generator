@@ -17,6 +17,7 @@ public struct Pet: Codable, JSONEncodable, Hashable {
         case pending = "pending"
         case sold = "sold"
     }
+    public static let photoUrlsRule = ArrayRule(minItems: nil, maxItems: nil, uniqueItems: true)
     public var id: Int64?
     public var category: Category?
     public var name: String
@@ -56,3 +57,6 @@ public struct Pet: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Pet: Identifiable {}

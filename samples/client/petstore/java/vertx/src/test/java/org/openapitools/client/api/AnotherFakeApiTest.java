@@ -16,11 +16,10 @@ import org.openapitools.client.model.Client;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -41,24 +40,16 @@ import java.util.Map;
 /**
  * API tests for AnotherFakeApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class AnotherFakeApiTest {
 
     private AnotherFakeApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new AnotherFakeApiImpl();
     }
-    
+
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
@@ -74,5 +65,4 @@ public class AnotherFakeApiTest {
             async.complete();
         });
     }
-    
 }

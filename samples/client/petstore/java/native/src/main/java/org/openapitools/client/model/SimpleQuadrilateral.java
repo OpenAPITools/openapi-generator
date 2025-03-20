@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
@@ -28,6 +30,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
+import org.openapitools.client.ApiClient;
 /**
  * SimpleQuadrilateral
  */
@@ -35,30 +38,31 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   SimpleQuadrilateral.JSON_PROPERTY_SHAPE_TYPE,
   SimpleQuadrilateral.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class SimpleQuadrilateral {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
+  @javax.annotation.Nonnull
   private String quadrilateralType;
 
   public SimpleQuadrilateral() { 
   }
 
-  public SimpleQuadrilateral shapeType(String shapeType) {
+  public SimpleQuadrilateral shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getShapeType() {
     return shapeType;
   }
@@ -66,24 +70,23 @@ public class SimpleQuadrilateral {
 
   @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public SimpleQuadrilateral quadrilateralType(String quadrilateralType) {
+  public SimpleQuadrilateral quadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
     return this;
   }
 
-   /**
+  /**
    * Get quadrilateralType
    * @return quadrilateralType
-  **/
+   */
   @javax.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
@@ -91,7 +94,7 @@ public class SimpleQuadrilateral {
 
   @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setQuadrilateralType(String quadrilateralType) {
+  public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }
 
@@ -101,20 +104,12 @@ public class SimpleQuadrilateral {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    SimpleQuadrilateral simpleQuadrilateral = (SimpleQuadrilateral) o;
-    return Objects.equals(this.shapeType, simpleQuadrilateral.shapeType) &&
-        Objects.equals(this.quadrilateralType, simpleQuadrilateral.quadrilateralType);
+    return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, quadrilateralType);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
   @Override
@@ -172,15 +167,74 @@ public class SimpleQuadrilateral {
 
     // add `shapeType` to the URL query string
     if (getShapeType() != null) {
-      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getShapeType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshapeType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShapeType()))));
     }
 
     // add `quadrilateralType` to the URL query string
     if (getQuadrilateralType() != null) {
-      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getQuadrilateralType()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squadrilateralType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuadrilateralType()))));
     }
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private SimpleQuadrilateral instance;
+
+    public Builder() {
+      this(new SimpleQuadrilateral());
+    }
+
+    protected Builder(SimpleQuadrilateral instance) {
+      this.instance = instance;
+    }
+
+    public SimpleQuadrilateral.Builder shapeType(String shapeType) {
+      this.instance.shapeType = shapeType;
+      return this;
+    }
+    public SimpleQuadrilateral.Builder quadrilateralType(String quadrilateralType) {
+      this.instance.quadrilateralType = quadrilateralType;
+      return this;
+    }
+
+
+    /**
+    * returns a built SimpleQuadrilateral instance.
+    *
+    * The builder is not reusable.
+    */
+    public SimpleQuadrilateral build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static SimpleQuadrilateral.Builder builder() {
+    return new SimpleQuadrilateral.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public SimpleQuadrilateral.Builder toBuilder() {
+    return new SimpleQuadrilateral.Builder()
+      .shapeType(getShapeType())
+      .quadrilateralType(getQuadrilateralType());
+  }
+
 }
 

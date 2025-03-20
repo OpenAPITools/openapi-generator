@@ -15,8 +15,9 @@ package org.openapitools.client.api;
 
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -28,8 +29,8 @@ import java.util.Map;
 /**
  * API tests for UserApi
  */
-@Ignore
-public class UserApiTest {
+@Disabled
+class UserApiTest {
 
     private final UserApi api = new UserApi();
 
@@ -39,12 +40,13 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void createUserTest() {
+    void createUserTest() {
         User user = null;
+
         api.createUser(user);
 
         // TODO: test validations
@@ -55,12 +57,13 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void createUsersWithArrayInputTest() {
+    void createUsersWithArrayInputTest() {
         List<User> user = null;
+
         api.createUsersWithArrayInput(user);
 
         // TODO: test validations
@@ -71,12 +74,13 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void createUsersWithListInputTest() {
+    void createUsersWithListInputTest() {
         List<User> user = null;
+
         api.createUsersWithListInput(user);
 
         // TODO: test validations
@@ -87,12 +91,13 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void deleteUserTest() {
+    void deleteUserTest() {
         String username = null;
+
         api.deleteUser(username);
 
         // TODO: test validations
@@ -103,12 +108,13 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void getUserByNameTest() {
+    void getUserByNameTest() {
         String username = null;
+
         User response = api.getUserByName(username);
 
         // TODO: test validations
@@ -119,13 +125,14 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void loginUserTest() {
+    void loginUserTest() {
         String username = null;
         String password = null;
+
         String response = api.loginUser(username, password);
 
         // TODO: test validations
@@ -136,11 +143,12 @@ public class UserApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void logoutUserTest() {
+    void logoutUserTest() {
+
         api.logoutUser();
 
         // TODO: test validations
@@ -151,13 +159,14 @@ public class UserApiTest {
      *
      * This can only be done by the logged in user.
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void updateUserTest() {
+    void updateUserTest() {
         String username = null;
         User user = null;
+
         api.updateUser(username, user);
 
         // TODO: test validations

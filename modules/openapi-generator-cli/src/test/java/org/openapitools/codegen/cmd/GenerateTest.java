@@ -24,7 +24,6 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.Generator;
 import org.openapitools.codegen.SpecValidationException;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.testng.TestException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -364,7 +363,7 @@ public class GenerateTest {
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
         } finally {
-            if(!f.delete()) {
+            if (!f.delete()) {
                 System.out.println("Directory didn't delete. You can ignore this.");
             }
         }
@@ -390,7 +389,7 @@ public class GenerateTest {
             verify(configurator).toClientOptInput();
             verify(configurator).toContext();
             verifyNoMoreInteractions(configurator);
-            if(!f.delete()) {
+            if (!f.delete()) {
                 System.out.println("Directory didn't delete. You can ignore this.");
             }
         }

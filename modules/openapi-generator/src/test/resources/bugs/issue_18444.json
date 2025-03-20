@@ -1,0 +1,194 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/service",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/api/v1/subservice/m1": {
+      "post": {
+        "tags": [
+          "subservice"
+        ],
+        "summary": "subservice",
+        "operationId": "m1",
+        "parameters": [
+          {
+            "name": "n1",
+            "in": "header",
+            "description": "n1 description",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RQ1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RS1"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "B_TT": {
+	"discriminator": {
+	  "propertyName": "otype"
+	},
+	"required": [
+          "ident",
+          "otype"
+	],
+        "type": "object",
+        "properties": {
+           "ident": {
+           "type": "integer",
+           "format": "int32"
+           },
+           "otype": {
+             "type": "object"
+          }
+        }
+      },
+      "BadRequestError": {
+        "allOf": [
+	  { "$ref": "#/components/schemas/B_TT" },
+	  {
+             "type": "object",
+             "properties": {
+              "status": {
+                "type": "integer",
+                "format": "int32",
+                "default": 400
+              },
+              "error": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+	  }
+        ]
+      },
+      "RQ1": {
+	"allOf": [
+	  { "$ref": "#/components/schemas/B_TT" },
+	  { "type": "object",
+	    "properties": {
+              "f1": {
+                "$ref": "#/components/schemas/FT1"
+              },
+              "f2": {
+                "$ref": "#/components/schemas/FT2"
+              }
+            }
+	  }
+	]
+      },
+      "FT1": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "FT2": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "RS1": {
+        "type": "object",
+        "properties": {
+          "f1": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FT3"
+            }
+          },
+          "f2": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "FT3": {
+        "required": [
+          "f1",
+          "f2"
+        ],
+        "type": "object",
+        "properties": {
+          "f2": {
+            "type": "string",
+            "enum": [
+              "E1",
+              "E2"
+            ]
+          },
+          "f1": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    }
+  }
+}

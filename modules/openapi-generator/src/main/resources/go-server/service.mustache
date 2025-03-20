@@ -15,7 +15,7 @@ type {{classname}}Service struct {
 }
 
 // New{{classname}}Service creates a default api service
-func New{{classname}}Service() {{classname}}Servicer {
+func New{{classname}}Service() *{{classname}}Service {
 	return &{{classname}}Service{}
 }{{#operations}}{{#operation}}
 

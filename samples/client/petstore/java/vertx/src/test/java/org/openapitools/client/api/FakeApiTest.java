@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -24,15 +25,15 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import org.openapitools.client.Configuration;
 
-import org.junit.Test;
-import org.junit.Ignore;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -53,24 +54,16 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-@RunWith(VertxUnitRunner.class)
-@Ignore
+@Disabled
 public class FakeApiTest {
 
     private FakeApi api;
 
-    @Rule
-    public RunTestOnContext rule = new RunTestOnContext();
-
-    @BeforeClass
+    @BeforeAll
     public void setupApiClient() {
-        JsonObject config = new JsonObject();
-        Vertx vertx = rule.vertx();
-        Configuration.setupDefaultApiClient(vertx, config);
-
         api = new FakeApiImpl();
     }
-    
+
     /**
      * 
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
@@ -85,7 +78,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * Health check endpoint
      * 
@@ -100,7 +92,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * test http signature authentication
      * 
@@ -118,7 +109,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of outer boolean types
@@ -134,7 +124,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of object with outer number type
@@ -150,7 +139,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of outer number types
@@ -166,7 +154,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of outer string types
@@ -182,7 +169,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * Test serialization of enum (int) properties with examples
@@ -198,7 +184,21 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
+    /**
+     * test referenced additionalProperties
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testAdditionalPropertiesReferenceTest(TestContext testContext) {
+        Async async = testContext.async();
+        Map<String, Object> requestBody = null;
+        api.testAdditionalPropertiesReference(requestBody, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
     /**
      * 
      * For this test, the body has to be a binary file.
@@ -214,7 +214,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
@@ -230,7 +229,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * 
      * 
@@ -247,7 +245,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
@@ -263,7 +260,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -292,7 +288,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * To test enum parameters
      * To test enum parameters
@@ -316,7 +311,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
@@ -337,7 +331,6 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
     /**
      * test inline additionalProperties
      * 
@@ -353,7 +346,21 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
+    /**
+     * test inline free-form additionalProperties
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testInlineFreeformAdditionalPropertiesTest(TestContext testContext) {
+        Async async = testContext.async();
+        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+        api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
     /**
      * test json serialization of form data
      * 
@@ -370,7 +377,21 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
+    /**
+     * test nullable parent property
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testNullableTest(TestContext testContext) {
+        Async async = testContext.async();
+        ChildWithNullable childWithNullable = null;
+        api.testNullable(childWithNullable, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
     /**
      * 
      * To test the collection format in query parameters
@@ -392,5 +413,19 @@ public class FakeApiTest {
             async.complete();
         });
     }
-    
+    /**
+     * test referenced string map
+     * 
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testStringMapReferenceTest(TestContext testContext) {
+        Async async = testContext.async();
+        Map<String, String> requestBody = null;
+        api.testStringMapReference(requestBody, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
 }

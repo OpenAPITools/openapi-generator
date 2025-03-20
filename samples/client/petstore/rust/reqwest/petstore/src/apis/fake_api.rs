@@ -10,9 +10,9 @@
 
 
 use reqwest;
-
-use crate::apis::ResponseContent;
-use super::{Error, configuration};
+use serde::{Deserialize, Serialize, de::Error as _};
+use crate::{apis::ResponseContent, models};
+use super::{Error, configuration, ContentType};
 
 
 /// struct for typed errors of method [`test_nullable_required_param`]
@@ -26,37 +26,43 @@ pub enum TestNullableRequiredParamError {
 
 
 /// 
-pub fn test_nullable_required_param(configuration: &configuration::Configuration, username: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
-    let local_var_configuration = configuration;
+pub fn test_nullable_required_param(configuration: &configuration::Configuration, user_name: &str, dummy_required_nullable_param: Option<&str>, any_type: &str, uppercase: Option<&str>, content: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+    // add a prefix to parameters to efficiently prevent name collisions
+    let p_user_name = user_name;
+    let p_dummy_required_nullable_param = dummy_required_nullable_param;
+    let p_any_type = any_type;
+    let p_uppercase = uppercase;
+    let p_content = content;
 
-    let local_var_client = &local_var_configuration.client;
+    let uri_str = format!("{}/fake/user/{user_name}", configuration.base_path, user_name=crate::apis::urlencode(p_user_name));
+    let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
 
-    let local_var_uri_str = format!("{}/fake/user/{username}", local_var_configuration.base_path, username=crate::apis::urlencode(username));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    if let Some(ref param_value) = p_content {
+        req_builder = req_builder.query(&[("content", &param_value.to_string())]);
     }
-    match dummy_required_nullable_param {
-        Some(local_var_param_value) => { local_var_req_builder = local_var_req_builder.header("dummy_required_nullable_param", local_var_param_value.to_string()); },
-        None => { local_var_req_builder = local_var_req_builder.header("dummy_required_nullable_param", ""); },
+    req_builder = req_builder.query(&[("anyType", &p_any_type.to_string())]);
+    if let Some(ref user_agent) = configuration.user_agent {
+        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }
-    if let Some(local_var_param_value) = uppercase {
-        local_var_req_builder = local_var_req_builder.header("UPPERCASE", local_var_param_value.to_string());
+    match p_dummy_required_nullable_param {
+        Some(param_value) => { req_builder = req_builder.header("dummy_required_nullable_param", param_value.to_string()); },
+        None => { req_builder = req_builder.header("dummy_required_nullable_param", ""); },
+    }
+    if let Some(param_value) = p_uppercase {
+        req_builder = req_builder.header("UPPERCASE", param_value.to_string());
     }
 
-    let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let req = req_builder.build()?;
+    let resp = configuration.client.execute(req)?;
 
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text()?;
+    let status = resp.status();
 
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+    if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let local_var_entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+        let content = resp.text()?;
+        let entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&content).ok();
+        Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 

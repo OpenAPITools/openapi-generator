@@ -20,45 +20,23 @@ package org.openapitools.codegen.online.model;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
 import java.util.Map;
 
+@Setter
 public class GeneratorInput {
-    private JsonNode spec;
-    private Map<String, String> options;
+    @Getter private JsonNode spec;
+    @Getter private Map<String, String> options;
     private String openAPIUrl;
-    private AuthorizationValue authorizationValue;
-
-    public AuthorizationValue getAuthorizationValue() {
-        return authorizationValue;
-    }
-
-    public void setAuthorizationValue(AuthorizationValue authorizationValue) {
-        this.authorizationValue = authorizationValue;
-    }
-
-    public JsonNode getSpec() {
-        return spec;
-    }
-
-    public void setSpec(JsonNode spec) {
-        this.spec = spec;
-    }
-
-    public Map<String, String> getOptions() {
-        return options;
-    }
-
-    public void setOptions(Map<String, String> options) {
-        this.options = options;
-    }
+    @Getter private AuthorizationValue authorizationValue;
+    //FILTER=operationId:updatePet
+    @Getter private List<String> openapiNormalizer;
 
     @ApiModelProperty(example = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
     public String getOpenAPIUrl() {
         return openAPIUrl;
-    }
-
-    public void setOpenAPIUrl(String url) {
-        this.openAPIUrl = url;
     }
 }

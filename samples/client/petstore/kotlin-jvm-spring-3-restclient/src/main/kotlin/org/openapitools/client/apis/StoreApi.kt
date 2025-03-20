@@ -39,8 +39,7 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun deleteOrder(orderId: kotlin.String): Unit {
-        return deleteOrderWithHttpInfo(orderId = orderId)
-            .body!!
+        deleteOrderWithHttpInfo(orderId = orderId)
     }
 
     @Throws(RestClientResponseException::class)
@@ -74,8 +73,8 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
-        return getInventoryWithHttpInfo()
-            .body!!
+        val result = getInventoryWithHttpInfo()
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -109,8 +108,8 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getOrderById(orderId: kotlin.Long): Order {
-        return getOrderByIdWithHttpInfo(orderId = orderId)
-            .body!!
+        val result = getOrderByIdWithHttpInfo(orderId = orderId)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -145,8 +144,8 @@ class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun placeOrder(order: Order): Order {
-        return placeOrderWithHttpInfo(order = order)
-            .body!!
+        val result = placeOrderWithHttpInfo(order = order)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)

@@ -70,5 +70,6 @@ data class Order (
         @SerialName(value = "approved") APPROVED("approved"),
         @SerialName(value = "delivered") DELIVERED("delivered");
     }
+
 }
 

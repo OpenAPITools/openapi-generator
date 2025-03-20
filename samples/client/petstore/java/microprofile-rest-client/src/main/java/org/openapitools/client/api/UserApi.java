@@ -1,6 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -32,11 +32,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 /**
  * OpenAPI Petstore
  *
- * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  */
 
-@RegisterRestClient(configKey="petstore")
+@RegisterRestClient(configKey="user-api")
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/user")
 public interface UserApi  {
@@ -49,23 +49,30 @@ public interface UserApi  {
      */
     @POST
     
-    void createUser(User body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void createUser(User user) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
+     *
+     * 
      *
      */
     @POST
     @Path("/createWithArray")
-    void createUsersWithArrayInput(List<User> body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void createUsersWithArrayInput(List<User> user) throws ApiException, ProcessingException;
 
     /**
      * Creates list of users with given input array
      *
+     * 
+     *
      */
     @POST
     @Path("/createWithList")
-    void createUsersWithListInput(List<User> body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void createUsersWithListInput(List<User> user) throws ApiException, ProcessingException;
 
     /**
      * Delete user
@@ -80,6 +87,8 @@ public interface UserApi  {
     /**
      * Get user by user name
      *
+     * 
+     *
      */
     @GET
     @Path("/{username}")
@@ -89,6 +98,8 @@ public interface UserApi  {
     /**
      * Logs user into the system
      *
+     * 
+     *
      */
     @GET
     @Path("/login")
@@ -97,6 +108,8 @@ public interface UserApi  {
 
     /**
      * Logs out current logged in user session
+     *
+     * 
      *
      */
     @GET
@@ -111,5 +124,6 @@ public interface UserApi  {
      */
     @PUT
     @Path("/{username}")
-    void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
+    @Consumes({ "application/json" })
+    void updateUser(@PathParam("username") String username, User user) throws ApiException, ProcessingException;
 }

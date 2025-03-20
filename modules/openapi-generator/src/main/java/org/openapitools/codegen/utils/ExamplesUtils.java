@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +38,14 @@ public class ExamplesUtils {
 
         if (content.containsKey("application/json")) {
             Map<String, Example> examples = content.get("application/json").getExamples();
-            if (content.size() > 1 && examples != null && !examples.isEmpty())
-                once(LOGGER).warn("More than one content media types found in response. Only response examples of the application/json will be taken for codegen.");
+            if (content.size() > 1 && examples != null && !examples.isEmpty()) {
+                once(LOGGER).warn("More than one content media type found in response. Only response examples of the application/json will be taken for codegen.");
+            }
 
             return examples;
         }
 
-        once(LOGGER).warn("No application/json content media type found in response. Response examples can only be generated for application/json media type.");
+        once(LOGGER).warn("No application/json content media type found in response. Response examples can currently only be generated for application/json media type.");
 
         return Collections.emptyMap();
     }
@@ -71,7 +71,7 @@ public class ExamplesUtils {
                 // if the reference is null, we get the value directly from the example -- no unaliasing is needed
                 // if it isn't, we get the value from the components examples
                 Object exampleValue;
-                if(example.getValue().get$ref() != null){
+                if(example.getValue().get$ref() != null) {
                     exampleValue = actualComponentsExamples.get(exampleName).getValue();
                     LOGGER.debug("Unaliased example value from components examples: {}", exampleValue);
                 } else {

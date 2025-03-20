@@ -1,7 +1,6 @@
 package org.openapitools.model
 
 import java.util.HashMap
-import java.util.List
 import java.util.Map
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification

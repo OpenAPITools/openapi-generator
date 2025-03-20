@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -21,10 +22,10 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Model for testing reserved words")
 @JsonTypeName("Return")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ModelReturn {
 
-  private Integer _return;
+  private @Nullable Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
@@ -34,7 +35,7 @@ public class ModelReturn {
   /**
    * Get _return
    * @return _return
-  */
+   */
   
   @ApiModelProperty(value = "")
   @JsonProperty("return")

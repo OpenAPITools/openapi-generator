@@ -120,6 +120,8 @@ paths:
                 - sold
               default: available
       responses:
+        '2XX':
+          description: Anything within 200-299
         '200':
           description: successful operation
           content:
@@ -135,6 +137,8 @@ paths:
                   $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
+        '4XX':
+          description: Anything within 400-499
       security:
         - http_signature_test: []
         - petstore_auth:
@@ -991,6 +995,23 @@ paths:
               $ref: '#/components/schemas/FreeFormObject'
         description: request body
         required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1233,6 +1254,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/mixed/anyOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type anyOf deserialization
+      operationId: getMixedAnyOf
+      responses:
+        200:
+          description: Got mixed anyOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+  /fake/mixed/oneOf:
+    get:
+      tags:
+        - fake
+      summary: Test mixed type oneOf deserialization
+      operationId: getMixedOneOf
+      responses:
+        200:
+          description: Got mixed oneOf
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
   /country:
     post:
       operationId: getCountry
@@ -1332,7 +1379,7 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: api_key
+      name: api-key
       in: header
     api_key_query:
       type: apiKey
@@ -1538,6 +1585,16 @@ components:
         return:
           type: integer
           format: int32
+        lock:
+          type: string
+        abstract:
+          type: string
+          nullable: true
+        unsafe:
+          type: string
+      required:
+        - lock
+        - abstract
       xml:
         name: Return
     Name:
@@ -1627,6 +1684,24 @@ components:
           format: int32
           maximum: 200
           minimum: 20
+        int32Range:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        int64Positive:
+          type: integer
+          minimum: 2147483648 # int.MaxValue + 1
+        int64Negative:
+          type: integer
+          maximum: -2147483649 # int.MinValue - 1
+        int64PositiveExclusive:
+          type: integer
+          minimum: 2147483647
+          exclusiveMinimum: true
+        int64NegativeExclusive:
+          type: integer
+          maximum: -2147483648
+          exclusiveMaximum: true
         unsigned_integer:
           type: integer
           format: int32
@@ -1942,6 +2017,11 @@ components:
       type: object
       description: A schema consisting only of additional properties
       additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2721,3 +2801,124 @@ components:
                 type: array
                 items:
                     $ref: '#/components/schemas/Custom-Variableobject-Response'
+    MixedOneOf:
+      properties:
+        content:
+          oneOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+          description: Mixed oneOf types for testing
+    MixedAnyOf:
+      properties:
+        content:
+          anyOf:
+            - type: string
+            - type: boolean
+            # JsonReader will give back C# System.Int64 regardless of format.
+            - type: integer
+              format: uint8
+            # JsonReader will give back C# System.Double regardless of format.
+            - type: number
+              format: float32
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
+              
+          description:  Mixed anyOf types for testing
+    MixedSubId:
+      properties:
+        id:
+          type: string
+    Descendant1:
+      allOf:
+      - $ref: "#/components/schemas/TestDescendants"
+      - required:
+        - "descendantName"
+        type: "object"
+        properties:
+          descendantName:
+            type: "string"
+    Descendant2:
+      allOf:
+      - $ref: "#/components/schemas/TestDescendants"
+      - required:
+        - "confidentiality"
+        type: "object"
+        properties:
+          confidentiality:
+            type: "string"
+    TestDescendants:
+      required:
+      - "alternativeName"
+      - "objectType"
+      type: "object"
+      properties:
+        alternativeName:
+          type: "string"
+        objectType:
+          type: "string"
+          enum:
+          - "Descendant1"
+          - "Descendant2"
+      description: ""
+      discriminator:
+        propertyName: "objectType"
+    CopyActivity:
+      type: object
+      required:
+        - $schema
+        - copyActivitytt
+      properties:
+        $schema:
+          type: string
+          enum:
+            - ScopeActivity
+        copyActivitytt:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/EntityBase'
+    EntityBase:
+      type: object
+      required:
+        - $schema
+      properties:
+        $schema:
+          type: string
+      discriminator:
+        propertyName: $schema
+        mapping:
+          ScopeActivity: '#/components/schemas/CopyActivity'
+    Result:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Result code
+        uuid:
+          type: string
+          description: Result unique identifier
+        data:
+          type: object
+          description: list of named parameters for current message
+          additionalProperties:
+            type: string
+    TestResult:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Result'
+      properties:
+        code:
+          $ref: "#/components/schemas/TestResultCode"
+    TestResultCode:
+      type: string
+      description: Result code
+      enum:
+        - APPROVED
+        - MANUAL_APPROVAL_REQUIRED

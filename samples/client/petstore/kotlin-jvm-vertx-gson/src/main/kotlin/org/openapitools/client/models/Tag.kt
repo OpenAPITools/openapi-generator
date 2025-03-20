@@ -34,5 +34,8 @@ data class Tag (
     @SerializedName("name")
     val name: kotlin.String? = null
 
-)
+) {
+
+
+}
 

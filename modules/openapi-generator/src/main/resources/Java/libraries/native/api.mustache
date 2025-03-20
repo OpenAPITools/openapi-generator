@@ -4,6 +4,7 @@ package {{package}};
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiResponse;
+import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
 
 {{#imports}}
@@ -13,6 +14,11 @@ import {{import}};
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
 {{#hasFormParamsInSpec}}
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -59,7 +65,7 @@ public class {{classname}} {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public {{classname}}() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public {{classname}}(ApiClient apiClient) {
@@ -158,7 +164,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    {{#returnType}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
@@ -221,7 +227,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
@@ -266,22 +272,46 @@ public class {{classname}} {
         }
         {{/vendorExtensions.x-java-text-plain-string}}
         {{^vendorExtensions.x-java-text-plain-string}}
-        return new ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}>(
-          localVarResponse.statusCode(),
-          localVarResponse.headers().map(),
-          {{#returnType}}
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}) // closes the InputStream
-          {{/returnType}}
-          {{^returnType}}
-          null
-          {{/returnType}}
+        {{#returnType}}
+        {{! Fix for https://github.com/OpenAPITools/openapi-generator/issues/13968 }}
+        {{! This part had a bugfix for an empty response in the past, but this part of that PR was reverted because it was not doing anything. }}
+        {{! Keep this documentation here, because the problem is not obvious. }}
+        {{! `InputStream.available()` was used, but that only works for inputstreams that are already in memory, it will not give the right result if it is a remote stream. We only work with remote streams here. }}
+        {{! https://github.com/OpenAPITools/openapi-generator/pull/13993/commits/3e!37411d2acef0311c82e6d941a8e40b3bc0b6da }}
+        {{! The `available` method would work with a `PushbackInputStream`, because we could read 1 byte to check if it exists then push it back so Jackson can read it again. The issue with that is that it will also insert an ascii character for "head of input" and that will break Jackson as it does not handle special whitespace characters. }}
+        {{! A fix for that problem is to read it into a string and remove those characters, but if we need to read it before giving it to jackson to fix the string then just reading it into a string as is to do an emptiness check is the cleaner solution. }}
+        {{! We could also manipulate the inputstream to remove that bad character, but string manipulation is easier to read and this codepath is not asyncronus so we do not gain anything by reading the stream later. }}
+        {{! This fix does make it unsuitable for large amounts of data because `InputStream.readAllbytes` is not meant for it, but a synchronous client is already not the right tool for that.}}
+        if (localVarResponse.body() == null) {
+          return new ApiResponse<{{{returnType}}}>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
+        }
+
+        String responseBody = new String(localVarResponse.body().readAllBytes());
+        localVarResponse.body().close();
+
+        return new ApiResponse<{{{returnType}}}>(
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
         );
+        {{/returnType}}
+        {{^returnType}}
+        return new ApiResponse<{{{returnType}}}>(
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            null
+        );
+        {{/returnType}}
         {{/vendorExtensions.x-java-text-plain-string}}
       } finally {
         {{^returnType}}
         // Drain the InputStream
         while (localVarResponse.body().read() != -1) {
-            // Ignore
+          // Ignore
         }
         localVarResponse.body().close();
         {{/returnType}}
@@ -367,7 +397,10 @@ public class {{classname}} {
       }
             {{/isArray}}
             {{^isArray}}
-      localVarQueryStringJoiner.add({{paramName}}.toUrlQueryString("{{baseName}}"));
+      String queryString = {{paramName}}.toUrlQueryString("{{baseName}}");
+      if (!queryString.isBlank()) {
+        localVarQueryStringJoiner.add(queryString);
+      }
             {{/isArray}}
     }
         {{/isDeepObject}}
@@ -420,9 +453,9 @@ public class {{classname}} {
     }
     {{/headerParams}}
     {{#bodyParam}}
-    localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{mediaType}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
+    localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
     {{/bodyParam}}
-    localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{mediaType}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
+    localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
 
     {{#bodyParam}}
     {{#isString}}
@@ -536,6 +569,7 @@ public class {{classname}} {
     }
     return localVarRequestBuilder;
   }
+
   {{#vendorExtensions.x-group-parameters}}
   {{#hasParams}}
 
@@ -544,7 +578,7 @@ public class {{classname}} {
     private {{{dataType}}} {{paramName}}; // {{description}} (required)
     {{/requiredParams}}
     {{#optionalParams}}
-    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}
+    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
     {{/optionalParams}}
 
     private API{{operationId}}Request(Builder builder) {

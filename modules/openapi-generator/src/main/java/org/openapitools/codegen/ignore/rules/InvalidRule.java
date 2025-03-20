@@ -17,8 +17,11 @@
 
 package org.openapitools.codegen.ignore.rules;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class InvalidRule extends Rule {
     private final String reason;
 
@@ -37,7 +40,4 @@ public class InvalidRule extends Rule {
         return Operation.NOOP;
     }
 
-    public String getReason() {
-        return reason;
-    }
 }

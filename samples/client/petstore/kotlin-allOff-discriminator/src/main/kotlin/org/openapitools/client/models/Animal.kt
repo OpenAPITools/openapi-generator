@@ -30,5 +30,6 @@ interface Animal {
 
     @Json(name = "id")
     val id: java.util.UUID
+
 }
 

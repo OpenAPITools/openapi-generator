@@ -1,0 +1,1 @@
+{{#hasQueryParams}},{{/hasQueryParams}}{{#queryParams}}{{paramName}}{{#required}}{{^isMap}}{{^isArray}}.getOrElse({{#isString}}""{{/isString}}{{#isNumber}}0{{/isNumber}}{{#isBoolean}}false{{/isBoolean}}){{/isArray}}{{/isMap}}{{/required}}{{^-last}}, {{/-last}}{{/queryParams}}

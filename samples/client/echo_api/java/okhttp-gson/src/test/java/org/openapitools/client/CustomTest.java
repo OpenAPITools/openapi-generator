@@ -13,7 +13,7 @@
 
 package org.openapitools.client;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.*;
 import org.openapitools.client.model.*;
@@ -46,13 +46,13 @@ public class CustomTest {
                 photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
 
         Pet p = bodyApi.testEchoBodyPet(queryObject);
-        Assert.assertNotNull(p);
-        Assert.assertEquals("Hello World", p.getName());
-        Assert.assertEquals(Long.valueOf(12345L), p.getId());
+        Assertions.assertNotNull(p);
+        Assertions.assertEquals("Hello World", p.getName());
+        Assertions.assertEquals(Long.valueOf(12345L), p.getId());
 
         // response is empty body
         Pet p2 = bodyApi.testEchoBodyPet(null);
-        Assert.assertNull(p2);
+        Assertions.assertNull(p2);
     }
 
     /**
@@ -70,7 +70,7 @@ public class CustomTest {
 
         String response = api.testQueryStyleFormExplodeTrueObject(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_form/explode_true/object?id=12345&name=Hello%20World&category=class%20Category%20%7B%0A%20%20%20%20id%3A%20987%0A%20%20%20%20name%3A%20new%20category%0A%7D&photoUrls=http%3A%2F%2Fa.com&photoUrls=http%3A%2F%2Fb.com", p.path);
+        Assertions.assertEquals("/query/style_form/explode_true/object?id=12345&name=Hello%20World&category=class%20Category%20%7B%0A%20%20%20%20id%3A%20987%0A%20%20%20%20name%3A%20new%20category%0A%7D&photoUrls=http%3A%2F%2Fa.com&photoUrls=http%3A%2F%2Fb.com", p.path);
     }
 
     /**
@@ -88,7 +88,7 @@ public class CustomTest {
 
         String response = api.testQueryStyleDeepObjectExplodeTrueObject(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_deepObject/explode_true/object?query_object[id]=12345&query_object[name]=Hello%20World&query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com", p.path);
+        Assertions.assertEquals("/query/style_deepObject/explode_true/object?query_object[id]=12345&query_object[name]=Hello%20World&query_object[category][id]=987&query_object[category][name]=new%20category&query_object[photoUrls][0]=http%3A%2F%2Fa.com&query_object[photoUrls][1]=http%3A%2F%2Fb.com", p.path);
     }
 
     /**
@@ -106,7 +106,7 @@ public class CustomTest {
 
         String response = api.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_deepObject/explode_true/object/allOf?query_object[size]=small&query_object[color]=red&query_object[id]=12345&query_object[name]=Hello%20World", p.path);
+        Assertions.assertEquals("/query/style_deepObject/explode_true/object/allOf?query_object[size]=small&query_object[color]=red&query_object[id]=12345&query_object[name]=Hello%20World", p.path);
     }
 
     /**
@@ -124,6 +124,6 @@ public class CustomTest {
 
         String response = api.testQueryStyleFormExplodeTrueArrayString(q);
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
-        Assert.assertEquals("/query/style_form/explode_true/array_string?values=hello%20world%201&values=hello%20world%202", p.path);
+        Assertions.assertEquals("/query/style_form/explode_true/array_string?values=hello%20world%201&values=hello%20world%202", p.path);
     }
 }

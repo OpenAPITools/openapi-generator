@@ -111,10 +111,10 @@
         } else {
             // Use a for loop instead of forEach to avoid nested functions
             // Otherwise "return" will not work properly
-            for(var propt in currentNode){
-                if (currentNode.hasOwnProperty(propt)) {
-                    currentChild = currentNode[propt]
-                    if (id == propt) {
+            for(var property in currentNode){
+                if (currentNode.hasOwnProperty(property)) {
+                    currentChild = currentNode[property]
+                    if (id == property) {
                         return currentChild;
                     } else {
                         // Search in the current child
@@ -150,6 +150,12 @@
     defs["{{name}}"] = {{{modelJson}}};
     {{/model}}
     {{/models}}
+
+    {{#aliasModels}}
+      {{#model}}
+        defs["{{name}}"] = {{{modelJson}}};
+      {{/model}}
+    {{/aliasModels}}
 
     var errs = {};
     {{#swagger.vendorExtensions.x-shared-errors}}
@@ -445,48 +451,51 @@
 
 
                             <div class="tab-content" id="responses-{{baseName}}-{{nickname}}-{{code}}-wrapper" style='margin-bottom: 10px;'>
-                              {{#schema}}
-                                <div class="tab-pane active" id="responses-{{baseName}}-{{nickname}}-{{code}}-schema">
-                                  <div id="responses-{{baseName}}-{{nickname}}-schema-{{code}}" class="exampleStyle">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {{{jsonSchema}}};
-                                        var schema = findNode('schema',schemaWrapper).schema;
-                                        if (!schema) {
-                                          schema = schemaWrapper.schema;
-                                        }
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
+                              <div class="tab-pane active" id="responses-{{baseName}}-{{nickname}}-{{code}}-schema">
+                                <div id="responses-{{baseName}}-{{nickname}}-schema-{{code}}" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {{{jsonSchema}}};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
                                           Object.keys(schema.properties).forEach( (item) => {
                                             if (schema.properties[item].$ref != null) {
                                               schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
                                             }
                                           });
-                                        } else if (schema.items != null && schema.items.$ref != null) {
-                                            schema.items = defsParser.$refs.get(schema.items.$ref);
-                                        } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
                                         }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
 
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-{{baseName}}-{{nickname}}-{{code}}-schema-data').val(JSON.stringify(schema));
-                                        var result = $('#responses-{{baseName}}-{{nickname}}-schema-{{code}}');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-{{baseName}}-{{nickname}}-{{code}}-schema-data' type='hidden' value=''></input>
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-{{baseName}}-{{nickname}}-{{code}}-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-{{baseName}}-{{nickname}}-schema-{{code}}');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
                                 </div>
-                                {{#examples}}
-                                  <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-{{code}}-example">
-                                    <pre class="prettyprint"><code class="json">{{example}}</code></pre>
-                                  </div>
-                                {{/examples}}
-                              {{/schema}}
+                                <input id='responses-{{baseName}}-{{nickname}}-{{code}}-schema-data' type='hidden' value=''></input>
+                              </div>
+                              {{#examples}}
+                                <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-{{code}}-example">
+                                  <pre class="prettyprint"><code class="json">{{example}}</code></pre>
+                                </div>
+                              {{/examples}}
                               {{#hasHeaders}}
                                   <div class="tab-pane" id="responses-{{nickname}}-{{code}}-headers">
                                       <table>
@@ -498,7 +507,7 @@
                                           </tr>
                                           {{#headers}}
                                               <tr>
-                                                  <td>{{name}}</td>
+                                                  <td>{{baseName}}</td>
                                                   <td>{{#datatype}}{{dataType}}{{/datatype}}</td>
                                                   <td>{{dataFormat}}</td>
                                                   <td>{{description}}</td>

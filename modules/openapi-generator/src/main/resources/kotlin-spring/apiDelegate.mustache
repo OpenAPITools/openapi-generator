@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.core.io.Resource
+{{#appendRequestToHandler}}
+import org.springframework.http.server.reactive.ServerHttpRequest
+{{/appendRequestToHandler}}
 {{#reactive}}
 import kotlinx.coroutines.flow.Flow
 {{/reactive}}
@@ -30,10 +32,10 @@ interface {{classname}}Delegate {
     /**
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{/isFile}}{{#isFile}}Resource?{{/isFile}}{{^-last}},
-        {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}{{#isBodyParam}}Flow<{{{baseType}}}>{{/isBodyParam}}{{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{/isArray}}{{/reactive}}{{^-last}},
+        {{/-last}}{{/allParams}}): {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}}{{^skipDefaultDelegateInterface}} {
         {{>methodBody}}
-    }
+    }{{/skipDefaultDelegateInterface}}
 
 {{/operation}}
 }

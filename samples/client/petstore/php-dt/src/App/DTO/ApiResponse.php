@@ -13,22 +13,19 @@ class ApiResponse
     /**
      * @DTA\Data(field="code", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $code;
+    public ?int $code = null;
 
     /**
      * @DTA\Data(field="type", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $type;
+    public ?string $type = null;
 
     /**
      * @DTA\Data(field="message", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $message;
+    public ?string $message = null;
 
 }

@@ -44,7 +44,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun deleteOrder(orderId: kotlin.String): Mono<Unit> {
         return deleteOrderWithHttpInfo(orderId = orderId)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)

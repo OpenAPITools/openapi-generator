@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.ignore.rules;
 
+import lombok.Getter;
+
 import java.util.List;
 
 public abstract class Rule {
@@ -24,7 +26,7 @@ public abstract class Rule {
     public enum Operation {EXCLUDE, INCLUDE, NOOP, EXCLUDE_AND_TERMINATE}
 
     // The original rule
-    private final String definition;
+    @Getter private final String definition;
 
     private final List<Part> syntax;
 
@@ -35,12 +37,8 @@ public abstract class Rule {
 
     public abstract Boolean matches(String relativePath);
 
-    public String getDefinition() {
-        return this.definition;
-    }
-
     protected String getPattern() {
-        if(syntax == null) return this.definition;
+        if (syntax == null) return this.definition;
 
         StringBuilder sb = new StringBuilder();
         for (Part current : syntax) {
@@ -77,7 +75,7 @@ public abstract class Rule {
 
     public Operation evaluate(String relativePath) {
         if (Boolean.TRUE.equals(matches(relativePath))) {
-            if(Boolean.TRUE.equals(this.getNegated())) {
+            if (Boolean.TRUE.equals(this.getNegated())) {
                 return this.getIncludeOperation();
             }
             return this.getExcludeOperation();
@@ -85,8 +83,13 @@ public abstract class Rule {
         return Operation.NOOP;
     }
 
-    protected Operation getIncludeOperation(){ return Operation.INCLUDE; }
-    protected Operation getExcludeOperation(){ return Operation.EXCLUDE; }
+    protected Operation getIncludeOperation() {
+        return Operation.INCLUDE;
+    }
+
+    protected Operation getExcludeOperation() {
+        return Operation.EXCLUDE;
+    }
 
     public static Rule create(String definition) {
         // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore

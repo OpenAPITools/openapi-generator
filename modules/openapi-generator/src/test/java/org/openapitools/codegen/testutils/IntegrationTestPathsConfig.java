@@ -17,9 +17,12 @@
 
 package org.openapitools.codegen.testutils;
 
+import lombok.Getter;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Getter
 public class IntegrationTestPathsConfig {
     private static final Path INTEGRATION_TEST_PATH = Paths.get("target/test-classes/integrationtests").toAbsolutePath();
     private final Path outputPath;
@@ -38,19 +41,4 @@ public class IntegrationTestPathsConfig {
         ignoreFilePath = INTEGRATION_TEST_PATH.resolve(ignoreFileLocation);
     }
 
-    public Path getOutputPath() {
-        return outputPath;
-    }
-
-    public Path getSpecPath() {
-        return specPath;
-    }
-
-    public Path getExpectedPath() {
-        return expectedPath;
-    }
-
-    public Path getIgnoreFilePath() {
-        return ignoreFilePath;
-    }
 }

@@ -37,7 +37,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -49,53 +48,55 @@ import org.openapitools.client.JSON;
 /**
  * EquilateralTriangle
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class EquilateralTriangle {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
+  @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String SERIALIZED_NAME_TRIANGLE_TYPE = "triangleType";
   @SerializedName(SERIALIZED_NAME_TRIANGLE_TYPE)
+  @javax.annotation.Nonnull
   private String triangleType;
 
   public EquilateralTriangle() {
   }
 
-  public EquilateralTriangle shapeType(String shapeType) {
+  public EquilateralTriangle shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
   }
 
-   /**
+  /**
    * Get shapeType
    * @return shapeType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getShapeType() {
     return shapeType;
   }
 
-  public void setShapeType(String shapeType) {
+  public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
 
 
-  public EquilateralTriangle triangleType(String triangleType) {
+  public EquilateralTriangle triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;
   }
 
-   /**
+  /**
    * Get triangleType
    * @return triangleType
-  **/
+   */
   @javax.annotation.Nonnull
   public String getTriangleType() {
     return triangleType;
   }
 
-  public void setTriangleType(String triangleType) {
+  public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }
 
@@ -202,12 +203,12 @@ public class EquilateralTriangle {
     openapiRequiredFields.add("triangleType");
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to EquilateralTriangle
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to EquilateralTriangle
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!EquilateralTriangle.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
@@ -258,7 +259,12 @@ public class EquilateralTriangle {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }
@@ -297,22 +303,22 @@ public class EquilateralTriangle {
     }
   }
 
- /**
-  * Create an instance of EquilateralTriangle given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of EquilateralTriangle
-  * @throws IOException if the JSON string is invalid with respect to EquilateralTriangle
-  */
+  /**
+   * Create an instance of EquilateralTriangle given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of EquilateralTriangle
+   * @throws IOException if the JSON string is invalid with respect to EquilateralTriangle
+   */
   public static EquilateralTriangle fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, EquilateralTriangle.class);
   }
 
- /**
-  * Convert an instance of EquilateralTriangle to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of EquilateralTriangle to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }
