@@ -630,17 +630,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
-
-        if (useBeanValidation) {
-            if (additionalProperties.containsKey(USE_SPRING_BUILT_IN_VALIDATION)) {
-                this.useSpringBuiltInValidation = Boolean.parseBoolean(
-                        additionalProperties.get(USE_SPRING_BUILT_IN_VALIDATION).toString()
-                );
-            } else {
-                this.useSpringBuiltInValidation = false;
-            }
-            additionalProperties.put(USE_SPRING_BUILT_IN_VALIDATION, useSpringBuiltInValidation);
-        }
     }
 
     private boolean containsEnums() {
