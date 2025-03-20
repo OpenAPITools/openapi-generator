@@ -26,7 +26,7 @@ import okhttp3.Headers
 
     @Singleton
     class UserApiController @Inject constructor(
-        private val UserApi : UserApi
+        private val userApi: UserApi
     ) : UserApi, WebAction {
 
         @Post("/user")
@@ -35,7 +35,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun createUser(@RequestBody(required = false) user: User) =
-            UserApi.createUser(user)
+            userApi.createUser(user)
 
         @Post("/user/createWithArray")
         @Description("Creates list of users with given input array")
@@ -43,7 +43,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun createUsersWithArrayInput(@RequestBody(required = false) user: kotlin.Array<User>) =
-            UserApi.createUsersWithArrayInput(user)
+            userApi.createUsersWithArrayInput(user)
 
         @Post("/user/createWithList")
         @Description("Creates list of users with given input array")
@@ -51,14 +51,14 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun createUsersWithListInput(@RequestBody(required = false) user: kotlin.Array<User>) =
-            UserApi.createUsersWithListInput(user)
+            userApi.createUsersWithListInput(user)
 
         @Delete("/user/{username}")
         @Description("Delete user")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun deleteUser(@PathParam("username") username: kotlin.String) =
-            UserApi.deleteUser(username)
+            userApi.deleteUser(username)
 
         @Get("/user/{username}")
         @Description("Get user by user name")
@@ -66,7 +66,7 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun getUserByName(@PathParam("username") username: kotlin.String) =
-            UserApi.getUserByName(username)
+            userApi.getUserByName(username)
 
         @Get("/user/login")
         @Description("Logs user into the system")
@@ -74,14 +74,14 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun loginUser(@QueryParam username: kotlin.String,@QueryParam password: kotlin.String) =
-            UserApi.loginUser(username, password)
+            userApi.loginUser(username, password)
 
         @Get("/user/logout")
         @Description("Logs out current logged in user session")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun logoutUser() =
-            UserApi.logoutUser()
+            userApi.logoutUser()
 
         @Put("/user/{username}")
         @Description("Updated user")
@@ -89,5 +89,5 @@ import okhttp3.Headers
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
         @Suppress("unused")
         override fun updateUser(@PathParam("username") username: kotlin.String,@RequestBody(required = false) user: User) =
-            UserApi.updateUser(username, user)
+            userApi.updateUser(username, user)
     }

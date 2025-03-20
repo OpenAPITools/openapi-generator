@@ -344,7 +344,7 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: 
+ - **Content-Type**: MediaTypes.APPLICATION_FORM_URLENCODED
  - **Accept**: Not defined
 
 <a name="uploadFile"></a>
