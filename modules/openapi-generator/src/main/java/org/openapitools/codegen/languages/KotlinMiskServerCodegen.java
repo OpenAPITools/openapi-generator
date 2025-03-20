@@ -161,7 +161,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
     }
 
     private String mapMediaType(String mediaType) {
-        return MEDIA_MAPPING.get(mediaType);
+        return MEDIA_MAPPING.getOrDefault(mediaType, mediaType);
     }
 
     private final static Map<String, String> MEDIA_MAPPING = getMappings();
@@ -174,6 +174,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         result.put("*/*", "MediaTypes.ALL");
         result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
         result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
+        result.put("application/pdf", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");
         result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
         result.put("text/css", "MediaTypes.TEXT_CSS");
