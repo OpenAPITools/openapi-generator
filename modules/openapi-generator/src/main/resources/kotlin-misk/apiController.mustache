@@ -35,14 +35,11 @@ import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import okhttp3.Headers
 
-{{#useBeanValidation}}
-    @Validated
-{{/useBeanValidation}}
 {{#operations}}
     @Singleton
     class {{classname}}Controller @Inject constructor(
-        private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
-    ) : {{classname}}, WebAction {
+        //private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
+    ) : WebAction {
     {{#operation}}
 
         @{{httpMethod}}("{{path}}")
@@ -50,8 +47,9 @@ import okhttp3.Headers
         @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
         @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        override fun {{operationId}}({{#allParams}}{{#isQueryParam}}@QueryParam {{{paramName}}}: {{>optionalDataType}}{{/isQueryParam}}{{#isPathParam}}@PathParam("{{baseName}}") {{{paramName}}}: {{>optionalDataType}}{{/isPathParam}}{{#isHeaderParam}} @RequestHeaders headers: Headers{{/isHeaderParam}}{{#isCookieParam}}{{{paramName}}}: HttpCall{{/isCookieParam}}{{#isBodyParam}}@RequestBody {{{paramName}}}: {{>optionalDataType}}{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}) =
-            {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}) {
+            TODO()
+        }
     {{/operation}}
     }
 {{/operations}}

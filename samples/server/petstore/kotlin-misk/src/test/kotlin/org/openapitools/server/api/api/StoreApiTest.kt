@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 @MiskTest(startService = true)
 internal class StoreApiTest {
 
-    @Inject private lateinit var StoreApi : StoreApi
+    @Inject private lateinit var StoreApi : StoreApiController
 
     /**
      * To test StoreApiController.deleteOrder

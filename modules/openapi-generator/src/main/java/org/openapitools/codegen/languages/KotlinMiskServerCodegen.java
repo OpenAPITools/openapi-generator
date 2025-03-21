@@ -106,8 +106,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("apiController.mustache", "Controller.kt");
-        apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
-        apiTemplateFiles.put("apiInterface.mustache", ".kt");
+        //apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
+        //apiTemplateFiles.put("apiInterface.mustache", ".kt");
         modelTemplateFiles.put("model.mustache", ".kt");
 
         apiPackage = rootPackage + ".api";

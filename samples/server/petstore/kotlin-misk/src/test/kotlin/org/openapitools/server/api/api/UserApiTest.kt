@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 @MiskTest(startService = true)
 internal class UserApiTest {
 
-    @Inject private lateinit var UserApi : UserApi
+    @Inject private lateinit var UserApi : UserApiController
 
     /**
      * To test UserApiController.createUser

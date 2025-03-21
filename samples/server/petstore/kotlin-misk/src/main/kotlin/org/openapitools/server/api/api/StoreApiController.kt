@@ -2,20 +2,19 @@ package org.openapitools.server.api.api
 
 import org.openapitools.server.api.model.Order
 
-    import javax.validation.Valid
-    import javax.validation.constraints.DecimalMax
-    import javax.validation.constraints.DecimalMin
-    import javax.validation.constraints.Email
-    import javax.validation.constraints.Max
-    import javax.validation.constraints.Min
-    import javax.validation.constraints.NotNull
-    import javax.validation.constraints.Pattern
-    import javax.validation.constraints.Size
+import javax.validation.Valid
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 
-// TODO("Only import what we need")
 import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
@@ -33,37 +32,40 @@ import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import okhttp3.Headers
 
-    @Validated
     @Singleton
     class StoreApiController @Inject constructor(
-        private val storeApi: StoreApi
-    ) : StoreApi, WebAction {
+        //private val storeApi: StoreApi
+    ) : WebAction {
 
         @Delete("/store/order/{orderId}")
         @Description("Delete purchase order by ID")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) =
-            storeApi.deleteOrder(orderId)
+        fun deleteOrder( @PathParam("orderId") orderId: kotlin.String) {
+            TODO()
+        }
 
         @Get("/store/inventory")
         @Description("Returns pet inventories by status")
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        override fun getInventory() =
-            storeApi.getInventory()
+        fun getInventory() {
+            TODO()
+        }
 
         @Get("/store/order/{orderId}")
         @Description("Find purchase order by ID")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        override fun getOrderById(@PathParam("orderId") orderId: kotlin.Long) =
-            storeApi.getOrderById(orderId)
+        fun getOrderById(@Min(1L) @Max(5L)  @PathParam("orderId") orderId: kotlin.Long) {
+            TODO()
+        }
 
         @Post("/store/order")
         @Description("Place an order for a pet")
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        override fun placeOrder(@RequestBody order: Order) =
-            storeApi.placeOrder(order)
+        fun placeOrder(@Valid @RequestBody order: Order) {
+            TODO()
+        }
     }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 @MiskTest(startService = true)
 internal class PetApiTest {
 
-    @Inject private lateinit var PetApi : PetApi
+    @Inject private lateinit var PetApi : PetApiController
 
     /**
      * To test PetApiController.addPet
