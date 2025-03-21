@@ -19,6 +19,7 @@ import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
 import misk.web.HttpCall
+import misk.web.Patch
 import misk.web.PathParam
 import misk.web.Post
 import misk.web.Put
@@ -40,7 +41,7 @@ import okhttp3.Headers
         @Delete("/store/order/{orderId}")
         @Description("Delete purchase order by ID")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun deleteOrder( @PathParam("orderId") orderId: kotlin.String) {
+        fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
             TODO()
         }
 
@@ -56,7 +57,7 @@ import okhttp3.Headers
         @Description("Find purchase order by ID")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun getOrderById(@Min(1L) @Max(5L)  @PathParam("orderId") orderId: kotlin.Long): Order {
+        fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
             TODO()
         }
 
