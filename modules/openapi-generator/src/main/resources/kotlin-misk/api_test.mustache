@@ -21,7 +21,7 @@ internal class {{classname}}Test {
     @Test
     fun `should handle {{operationId}}`() {
         {{#allParams}}
-        val {{{paramName}}}: {{>optionalDataType}} = TODO()
+        val {{{paramName}}} = TODO()
         {{/allParams}}
         val response{{#returnType}}: {{{returnType}}}{{/returnType}} = {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     }

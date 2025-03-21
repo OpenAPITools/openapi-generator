@@ -21,7 +21,7 @@ data class {{classname}}(
     {{#description}}
     /** {{description}} */
     {{/description}}
-    val {{name}}: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
+    val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{^-last}},{{/-last}}
     {{/vars}}
 )
 {{/isEnum}}
