@@ -3,6 +3,13 @@ package {{package}}
 import {{javaxPackage}}.inject.Inject
 import misk.testing.MiskTest
 import org.junit.jupiter.api.Test
+
+import misk.web.HttpCall
+import misk.web.PathParam
+import misk.web.QueryParam
+import misk.web.RequestBody
+import misk.web.RequestHeaders
+
 {{#imports}}import {{import}}
 {{/imports}}
 import okhttp3.Headers

@@ -1,26 +1,30 @@
 package {{package}}
 
 {{#useBeanValidation}}
-    import {{javaxPackage}}.validation.Valid
-    import {{javaxPackage}}.validation.constraints.DecimalMax
-    import {{javaxPackage}}.validation.constraints.DecimalMin
-    import {{javaxPackage}}.validation.constraints.Email
-    import {{javaxPackage}}.validation.constraints.Max
-    import {{javaxPackage}}.validation.constraints.Min
-    import {{javaxPackage}}.validation.constraints.NotNull
-    import {{javaxPackage}}.validation.constraints.Pattern
-    import {{javaxPackage}}.validation.constraints.Size
+import {{javaxPackage}}.validation.Valid
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
 {{/useBeanValidation}}
-
+import misk.web.HttpCall
+import misk.web.PathParam
+import misk.web.QueryParam
+import misk.web.RequestBody
+import misk.web.RequestHeaders
+import okhttp3.Headers
 {{#imports}}import {{import}}
 {{/imports}}
-import okhttp3.Headers
 
 {{#operations}}
 interface {{classname}} {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}}
 {{/operation}}
 }
 {{/operations}}

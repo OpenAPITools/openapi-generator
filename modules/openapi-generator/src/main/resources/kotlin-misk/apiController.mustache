@@ -1,8 +1,7 @@
 package {{package}}
 
-{{#imports}}import {{import}}
-{{/imports}}
-
+import {{javaxPackage}}.inject.Inject
+import {{javaxPackage}}.inject.Singleton
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid
 import {{javaxPackage}}.validation.constraints.DecimalMax
@@ -14,10 +13,6 @@ import {{javaxPackage}}.validation.constraints.NotNull
 import {{javaxPackage}}.validation.constraints.Pattern
 import {{javaxPackage}}.validation.constraints.Size
 {{/useBeanValidation}}
-
-import {{javaxPackage}}.inject.Inject
-import {{javaxPackage}}.inject.Singleton
-
 import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
@@ -35,22 +30,27 @@ import misk.web.actions.WebAction
 import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import okhttp3.Headers
+{{#imports}}import {{import}}
+{{/imports}}
 
 {{#operations}}
-    @Singleton
-    class {{classname}}Controller @Inject constructor(
-        private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
-    ) : WebAction implements {{classname}} {
-    {{#operation}}
+/**
+ * Generated file, please change {{classname}}Controller.
+ */
+@Singleton
+class {{classname}}Controller @Inject constructor(
+    private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
+) : WebAction, {{classname}} {
+{{#operation}}
 
-        @{{httpMethod}}("{{path}}")
-        @Description("{{{summary}}}"){{#hasConsumes}}
-        @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
-        @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
-        @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
-            TODO()
-        }
-    {{/operation}}
+    @{{httpMethod}}("{{path}}")
+    @Description("{{{summary}}}"){{#hasConsumes}}
+    @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
+    @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
+    @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
+    override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+        TODO()
     }
+{{/operation}}
+}
 {{/operations}}
