@@ -646,3 +646,27 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FIX_DUPLICATED_OPERATIONID=true
 ```
+
+- `SET_BEARER_AUTH_FOR_NAME`: When set to the name of an openapi 2.0 securityDefinition, that securityDefinition will be converted to the openapi 3.0 bearerAuth securityScheme.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/2_0/globalSecurity.json -o /tmp/java-okhttp/ --openapi-normalizer SET_BEARER_AUTH_FOR_NAME=api_key
+```
+Transforms this securityDefinition:
+```
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+  },
+```
+Into this securityScheme:
+```
+  securitySchemes:
+    api_key:
+      scheme: bearer
+      type: http
+```

@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
@@ -941,5 +942,27 @@ public class OpenAPINormalizerTest {
         ApiResponse apiResponse2 = openAPI.getComponents().getResponses().get("JustAnotherResponse");
         assertEquals(((Schema) apiResponse2.getContent().get("application/json").getSchema().getProperties().get("uuid")).getType(), "integer");
         assertEquals(((Schema) apiResponse2.getContent().get("application/json").getSchema().getProperties().get("label")).getType(), "string");
+    }
+
+    @Test
+    public void testOpenAPINormalizerBearerAuthSpec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/globalSecurity.json");
+        SecurityScheme scheme = openAPI.getComponents().getSecuritySchemes().get("api_key");
+        assertEquals(scheme.getType(), SecurityScheme.Type.APIKEY);
+        assertEquals(scheme.getScheme(), null);
+        assertEquals(scheme.getName(), "api_key");
+        assertEquals(scheme.getIn(), SecurityScheme.In.HEADER);
+
+        Map<String, String> inputRules = Map.of(
+                "SET_BEARER_AUTH_FOR_NAME", "api_key"
+        );
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        SecurityScheme scheme2 = openAPI.getComponents().getSecuritySchemes().get("api_key");
+        assertEquals(scheme.getType(), SecurityScheme.Type.HTTP);
+        assertEquals(scheme.getScheme(), "bearer");
+        assertEquals(scheme.getName(), null);
+        assertEquals(scheme.getIn(), null);
     }
 }

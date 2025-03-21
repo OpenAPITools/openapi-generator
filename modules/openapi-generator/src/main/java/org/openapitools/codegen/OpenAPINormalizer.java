@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -101,6 +102,10 @@ public class OpenAPINormalizer {
     String fixDuplicatedOperationId;
     HashSet<String> operationIdSet = new HashSet<>();
 
+    // when set to true, if a securityScheme is found with the specified name, it will be converted to bearerAuth
+    final String SET_BEARER_AUTH_FOR_NAME = "SET_BEARER_AUTH_FOR_NAME";
+    String bearerAuthSecuritySchemeName;
+
     // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
     // by adding x-unsigned to the schema
     final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
@@ -167,6 +172,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SET_TAGS_TO_OPERATIONID);
         ruleNames.add(SET_TAGS_TO_VENDOR_EXTENSION);
         ruleNames.add(FIX_DUPLICATED_OPERATIONID);
+        ruleNames.add(SET_BEARER_AUTH_FOR_NAME);
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
@@ -301,6 +307,11 @@ public class OpenAPINormalizer {
                 LOGGER.error("SET_PRIMITIVE_TYPES_TO_NULLABLE rule must be in the form of `string|integer|number|boolean`, e.g. `string`, `integer|number`: {}", inputRules.get(SET_PRIMITIVE_TYPES_TO_NULLABLE));
             }
         }
+
+        bearerAuthSecuritySchemeName = inputRules.get(SET_BEARER_AUTH_FOR_NAME);
+        if (bearerAuthSecuritySchemeName != null) {
+            rules.put(SET_BEARER_AUTH_FOR_NAME, true);
+        }
     }
 
     /**
@@ -322,6 +333,7 @@ public class OpenAPINormalizer {
 
         normalizeInfo();
         normalizePaths();
+        normalizeComponentsSecuritySchemes();
         normalizeComponentsSchemas();
         normalizeComponentsResponses();
     }
@@ -548,6 +560,36 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Normalizes securitySchemes in components
+     */
+    private void normalizeComponentsSecuritySchemes() {
+         if (StringUtils.isEmpty(bearerAuthSecuritySchemeName)) {
+             return;
+         }
+
+        Map<String, SecurityScheme> schemes = openAPI.getComponents().getSecuritySchemes();
+        if (schemes == null) {
+            return;
+        }
+
+        for (String schemeKey : schemes.keySet()) {
+            if (schemeKey.equals(bearerAuthSecuritySchemeName)) {
+                SecurityScheme scheme = schemes.get(schemeKey);
+                scheme.setType(SecurityScheme.Type.HTTP);
+                scheme.setScheme("bearer");
+                scheme.setIn(null);
+                scheme.setName(null);
+                scheme.setBearerFormat(null);
+                scheme.setFlows(null);
+                scheme.setOpenIdConnectUrl(null);
+                scheme.setExtensions(null);
+                scheme.set$ref(null);
+                schemes.put(schemeKey, scheme);
+            }
+        }
+    }
+
+    /**
      * Normalizes schemas in components
      */
     private void normalizeComponentsSchemas() {
@@ -560,7 +602,7 @@ public class OpenAPINormalizer {
         for (String schemaName : schemaNames) {
             Schema schema = schemas.get(schemaName);
             if (schema == null) {
-                LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
+                LOGGER.warn("{} not found in openapi/components/schemas.", schemaName);
             } else {
                 // remove x-internal if needed
                 if (schema.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
@@ -1052,7 +1094,6 @@ public class OpenAPINormalizer {
             operation.setOperationId(uniqueName);
         }
     }
-
 
     /**
      * If the schema contains anyOf/oneOf and properties, remove oneOf/anyOf as these serve as rules to
