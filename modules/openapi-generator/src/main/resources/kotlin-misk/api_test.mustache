@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 @MiskTest(startService = true)
 internal class {{classname}}Test {
 
-    @Inject private lateinit var {{classname}} : {{classname}}Controller
+    @Inject private lateinit var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}Controller
 
     {{#operations}}
     {{#operation}}
@@ -23,7 +23,7 @@ internal class {{classname}}Test {
         {{#allParams}}
         val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
-        val response{{#returnType}}: {{{returnType}}}{{/returnType}} = {{classname}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        val response{{#returnType}}: {{{returnType}}}{{/returnType}} = {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     }
 
     {{/operation}}
