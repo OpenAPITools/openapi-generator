@@ -81,7 +81,7 @@ import okhttp3.Headers
         @Description("Logs user into the system")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun loginUser( @QueryParam(value = "username") username: kotlin.String, @QueryParam(value = "password") password: kotlin.String): kotlin.String {
+        fun loginUser( @QueryParam(value = "username") username: kotlin.String,  @QueryParam(value = "password") password: kotlin.String): kotlin.String {
             TODO()
         }
 
@@ -96,7 +96,7 @@ import okhttp3.Headers
         @Description("Updated user")
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun updateUser(@PathParam("username") username: kotlin.String,@Valid @RequestBody user: User) {
+        fun updateUser(@PathParam("username") username: kotlin.String, @Valid @RequestBody user: User) {
             TODO()
         }
     }

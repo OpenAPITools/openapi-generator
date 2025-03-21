@@ -51,7 +51,7 @@ import okhttp3.Headers
         @Delete("/pet/{petId}")
         @Description("Deletes a pet")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun deletePet(@PathParam("petId") petId: kotlin.Long,apiKey: Headers) {
+        fun deletePet(@PathParam("petId") petId: kotlin.Long, apiKey: Headers) {
             TODO()
         }
 
@@ -92,7 +92,7 @@ import okhttp3.Headers
         @Description("Updates a pet in the store with form data")
         @RequestContentType(MediaTypes.APPLICATION_FORM_URLENCODED)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,@Valid@QueryParam("name") name: kotlin.String?,@Valid@QueryParam("status") status: kotlin.String?) {
+        fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "name") name: kotlin.String? , @QueryParam(value = "status") status: kotlin.String? ) {
             TODO()
         }
 
@@ -101,7 +101,7 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> multipart/form-data */ )
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun uploadFile(@PathParam("petId") petId: kotlin.Long,@Valid@QueryParam("additionalMetadata") additionalMetadata: kotlin.String?,): ModelApiResponse {
+        fun uploadFile(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , @Valid file: HttpCall): ModelApiResponse {
             TODO()
         }
     }
