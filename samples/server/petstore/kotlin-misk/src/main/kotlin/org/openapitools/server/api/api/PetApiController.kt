@@ -3,15 +3,15 @@ package org.openapitools.server.api.api
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
-import .validation.Valid
-import .validation.constraints.DecimalMax
-import .validation.constraints.DecimalMin
-import .validation.constraints.Email
-import .validation.constraints.Max
-import .validation.constraints.Min
-import .validation.constraints.NotNull
-import .validation.constraints.Pattern
-import .validation.constraints.Size
+import jakarta.validation.Valid
+import jakarta.validation.constraints.DecimalMax
+import jakarta.validation.constraints.DecimalMin
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -37,7 +37,7 @@ import okhttp3.Headers
     @Singleton
     class PetApiController @Inject constructor(
         private val petApi: PetApi
-    ) : WebAction, PetApi {
+    ) : WebAction implements PetApi {
 
         @Post("/pet")
         @Description("Add a new pet to the store")

@@ -8,7 +8,7 @@ group = "org.openapitools"
 version = "1.0.0-SNAPSHOT"
 
 dependencies {
-    implementation("jakarta.validation:validation-api:3.1.1")
+    implementation("jakarta.validation:jakarta.validation-api:3.1.1")
     implementation("com.squareup.misk:misk:2025.02.11.123913-8a41324")
     //implementation("com.squareup.wire:wire-runtime:5.2.1")
 

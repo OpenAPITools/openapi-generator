@@ -139,6 +139,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
+        applyJakartaPackage();
+
         String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         String moduleFileName = moduleClassName + ".kt";
         supportingFiles.add(new SupportingFile("miskModule.mustache", apiModuleFolder, moduleFileName));

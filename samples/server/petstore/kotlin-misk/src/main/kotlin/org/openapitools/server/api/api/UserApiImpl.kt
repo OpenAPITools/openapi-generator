@@ -2,6 +2,16 @@ package org.openapitools.server.api.api
 
 import org.openapitools.server.api.model.User
 
+import jakarta.validation.Valid
+import jakarta.validation.constraints.DecimalMax
+import jakarta.validation.constraints.DecimalMin
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
+
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import okhttp3.Headers
