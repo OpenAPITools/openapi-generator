@@ -5,6 +5,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -28,17 +29,19 @@ import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
+public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
+
+    private static final String ROOT_PACKAGE = "rootPackage";
+    private static final String MODULE_CLASS_NAME = "moduleClassName";
+
+    private boolean useBeanValidation = true;
 
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
+
     @Setter protected String moduleClassName = "OpenApiModule";
-
-    public static final String ROOT_PACKAGE = "rootPackage";
-    public static final String PROJECT_NAME = "projectName";
-    public static final String MODULE_CLASS_NAME = "moduleClassName";
-
-    final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -57,6 +60,8 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
 
     public KotlinMiskServerCodegen() {
         super();
+
+        addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -129,6 +134,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         }
         additionalProperties.put(MODULE_CLASS_NAME, moduleClassName);
 
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
         String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         String moduleFileName = moduleClassName + ".kt";
         supportingFiles.add(new SupportingFile("miskModule.mustache", apiModuleFolder, moduleFileName));
@@ -160,8 +170,17 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
         return objs;
     }
 
+    @Override
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
+    }
+
+    public boolean getUseBeanValidation() {
+        return this.useBeanValidation;
+    }
+
     private String mapMediaType(String mediaType) {
-        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> " + mediaType + "*/ ");
+        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> " + mediaType + " */ ");
     }
 
     private final static Map<String, String> MEDIA_MAPPING = getMappings();
