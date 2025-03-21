@@ -2,6 +2,15 @@ package org.openapitools.server.api.api
 
 import org.openapitools.server.api.model.User
 
+    import javax.validation.Valid
+    import javax.validation.constraints.DecimalMax
+    import javax.validation.constraints.DecimalMin
+    import javax.validation.constraints.Email
+    import javax.validation.constraints.Max
+    import javax.validation.constraints.Min
+    import javax.validation.constraints.NotNull
+    import javax.validation.constraints.Pattern
+    import javax.validation.constraints.Size
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -24,6 +33,7 @@ import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import okhttp3.Headers
 
+    @Validated
     @Singleton
     class UserApiController @Inject constructor(
         private val userApi: UserApi
@@ -33,30 +43,26 @@ import okhttp3.Headers
         @Description("Create user")
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun createUser(@RequestBody(required = false) user: User) =
+        override fun createUser(@RequestBody user: User) =
             userApi.createUser(user)
 
         @Post("/user/createWithArray")
         @Description("Creates list of users with given input array")
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun createUsersWithArrayInput(@RequestBody(required = false) user: kotlin.Array<User>) =
+        override fun createUsersWithArrayInput(@RequestBody user: kotlin.Array<User>) =
             userApi.createUsersWithArrayInput(user)
 
         @Post("/user/createWithList")
         @Description("Creates list of users with given input array")
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun createUsersWithListInput(@RequestBody(required = false) user: kotlin.Array<User>) =
+        override fun createUsersWithListInput(@RequestBody user: kotlin.Array<User>) =
             userApi.createUsersWithListInput(user)
 
         @Delete("/user/{username}")
         @Description("Delete user")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun deleteUser(@PathParam("username") username: kotlin.String) =
             userApi.deleteUser(username)
 
@@ -64,7 +70,6 @@ import okhttp3.Headers
         @Description("Get user by user name")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun getUserByName(@PathParam("username") username: kotlin.String) =
             userApi.getUserByName(username)
 
@@ -72,14 +77,12 @@ import okhttp3.Headers
         @Description("Logs user into the system")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun loginUser(@QueryParam username: kotlin.String,@QueryParam password: kotlin.String) =
             userApi.loginUser(username, password)
 
         @Get("/user/logout")
         @Description("Logs out current logged in user session")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun logoutUser() =
             userApi.logoutUser()
 
@@ -87,7 +90,6 @@ import okhttp3.Headers
         @Description("Updated user")
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun updateUser(@PathParam("username") username: kotlin.String,@RequestBody(required = false) user: User) =
+        override fun updateUser(@PathParam("username") username: kotlin.String,@RequestBody user: User) =
             userApi.updateUser(username, user)
     }

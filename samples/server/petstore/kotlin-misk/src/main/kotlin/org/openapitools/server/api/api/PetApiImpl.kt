@@ -14,35 +14,35 @@ import okhttp3.Headers
 class PetApiImpl @Inject constructor(
 ): PetApi {
 
-    override fun addPet(pet: Pet): Pet {
+    override fun addPet(pet: Pet)  {
         TODO()
     }
 
-    override fun deletePet(petId: kotlin.Long, headers: Headers) {
+    override fun deletePet(petId: kotlin.Long, headers: Headers)  {
         TODO()
     }
 
-    override fun findPetsByStatus(status: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
+    override fun findPetsByStatus(status: kotlin.Array<kotlin.String>)  {
         TODO()
     }
 
-    override fun findPetsByTags(tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
+    override fun findPetsByTags(tags: kotlin.Array<kotlin.String>)  {
         TODO()
     }
 
-    override fun getPetById(petId: kotlin.Long): Pet {
+    override fun getPetById(petId: kotlin.Long)  {
         TODO()
     }
 
-    override fun updatePet(pet: Pet): Pet {
+    override fun updatePet(pet: Pet)  {
         TODO()
     }
 
-    override fun updatePetWithForm(petId: kotlin.Long, , ) {
+    override fun updatePetWithForm(petId: kotlin.Long, , )  {
         TODO()
     }
 
-    override fun uploadFile(petId: kotlin.Long, , ): ModelApiResponse {
+    override fun uploadFile(petId: kotlin.Long, , )  {
         TODO()
     }
 }

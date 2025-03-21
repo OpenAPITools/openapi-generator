@@ -20,21 +20,20 @@ package {{package}}
 {{/swagger1AnnotationLibrary}}
 
 {{#useBeanValidation}}
-    import {{javaxPackage}}.validation.Valid
-    import {{javaxPackage}}.validation.constraints.DecimalMax
-    import {{javaxPackage}}.validation.constraints.DecimalMin
-    import {{javaxPackage}}.validation.constraints.Email
-    import {{javaxPackage}}.validation.constraints.Max
-    import {{javaxPackage}}.validation.constraints.Min
-    import {{javaxPackage}}.validation.constraints.NotNull
-    import {{javaxPackage}}.validation.constraints.Pattern
-    import {{javaxPackage}}.validation.constraints.Size
+import {{javaxPackage}}.validation.Valid
+import {{javaxPackage}}.validation.constraints.DecimalMax
+import {{javaxPackage}}.validation.constraints.DecimalMin
+import {{javaxPackage}}.validation.constraints.Email
+import {{javaxPackage}}.validation.constraints.Max
+import {{javaxPackage}}.validation.constraints.Min
+import {{javaxPackage}}.validation.constraints.NotNull
+import {{javaxPackage}}.validation.constraints.Pattern
+import {{javaxPackage}}.validation.constraints.Size
 {{/useBeanValidation}}
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 
-// TODO("Only import what we need")
 import misk.web.Delete
 import misk.web.Description
 import misk.web.Get
@@ -55,9 +54,6 @@ import okhttp3.Headers
 {{#useBeanValidation}}
     @Validated
 {{/useBeanValidation}}
-{{#swagger1AnnotationLibrary}}
-    @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
-{{/swagger1AnnotationLibrary}}
 {{#operations}}
     @Singleton
     class {{classname}}Controller @Inject constructor(
@@ -70,8 +66,7 @@ import okhttp3.Headers
         @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
         @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun {{operationId}}({{#allParams}}{{#isQueryParam}}@QueryParam {{{paramName}}}: {{>optionalDataType}}{{/isQueryParam}}{{#isPathParam}}@PathParam("{{baseName}}") {{{paramName}}}: {{>optionalDataType}}{{/isPathParam}}{{#isHeaderParam}} @RequestHeaders headers: Headers{{/isHeaderParam}}{{#isCookieParam}}{{{paramName}}}: HttpCall{{/isCookieParam}}{{#isBodyParam}}@RequestBody(required = {{^required}}false{{/required}}{{#required}}false{{/required}}) {{{paramName}}}: {{>optionalDataType}}{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}) =
+        override fun {{operationId}}({{#allParams}}{{#isQueryParam}}@QueryParam {{{paramName}}}: {{>optionalDataType}}{{/isQueryParam}}{{#isPathParam}}@PathParam("{{baseName}}") {{{paramName}}}: {{>optionalDataType}}{{/isPathParam}}{{#isHeaderParam}} @RequestHeaders headers: Headers{{/isHeaderParam}}{{#isCookieParam}}{{{paramName}}}: HttpCall{{/isCookieParam}}{{#isBodyParam}}@RequestBody {{{paramName}}}: {{>optionalDataType}}{{/isBodyParam}}{{^-last}},{{/-last}}{{/allParams}}) =
             {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
     {{/operation}}
     }

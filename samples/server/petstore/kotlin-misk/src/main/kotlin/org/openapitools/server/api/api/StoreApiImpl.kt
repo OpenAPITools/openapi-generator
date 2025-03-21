@@ -13,19 +13,19 @@ import okhttp3.Headers
 class StoreApiImpl @Inject constructor(
 ): StoreApi {
 
-    override fun deleteOrder(orderId: kotlin.String) {
+    override fun deleteOrder(orderId: kotlin.String)  {
         TODO()
     }
 
-    override fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
+    override fun getInventory()  {
         TODO()
     }
 
-    override fun getOrderById(orderId: kotlin.Long): Order {
+    override fun getOrderById(orderId: kotlin.Long)  {
         TODO()
     }
 
-    override fun placeOrder(order: Order): Order {
+    override fun placeOrder(order: Order)  {
         TODO()
     }
 }

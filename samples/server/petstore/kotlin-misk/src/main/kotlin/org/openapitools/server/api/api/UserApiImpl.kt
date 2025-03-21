@@ -13,35 +13,35 @@ import okhttp3.Headers
 class UserApiImpl @Inject constructor(
 ): UserApi {
 
-    override fun createUser(user: User) {
+    override fun createUser(user: User)  {
         TODO()
     }
 
-    override fun createUsersWithArrayInput(user: kotlin.Array<User>) {
+    override fun createUsersWithArrayInput(user: kotlin.Array<User>)  {
         TODO()
     }
 
-    override fun createUsersWithListInput(user: kotlin.Array<User>) {
+    override fun createUsersWithListInput(user: kotlin.Array<User>)  {
         TODO()
     }
 
-    override fun deleteUser(username: kotlin.String) {
+    override fun deleteUser(username: kotlin.String)  {
         TODO()
     }
 
-    override fun getUserByName(username: kotlin.String): User {
+    override fun getUserByName(username: kotlin.String)  {
         TODO()
     }
 
-    override fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String {
+    override fun loginUser(username: kotlin.String, password: kotlin.String)  {
         TODO()
     }
 
-    override fun logoutUser() {
+    override fun logoutUser()  {
         TODO()
     }
 
-    override fun updateUser(username: kotlin.String, user: User) {
+    override fun updateUser(username: kotlin.String, user: User)  {
         TODO()
     }
 }

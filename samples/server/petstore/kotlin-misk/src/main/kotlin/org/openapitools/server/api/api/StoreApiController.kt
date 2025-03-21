@@ -2,6 +2,15 @@ package org.openapitools.server.api.api
 
 import org.openapitools.server.api.model.Order
 
+    import javax.validation.Valid
+    import javax.validation.constraints.DecimalMax
+    import javax.validation.constraints.DecimalMin
+    import javax.validation.constraints.Email
+    import javax.validation.constraints.Max
+    import javax.validation.constraints.Min
+    import javax.validation.constraints.NotNull
+    import javax.validation.constraints.Pattern
+    import javax.validation.constraints.Size
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -24,6 +33,7 @@ import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import okhttp3.Headers
 
+    @Validated
     @Singleton
     class StoreApiController @Inject constructor(
         private val storeApi: StoreApi
@@ -32,7 +42,6 @@ import okhttp3.Headers
         @Delete("/store/order/{orderId}")
         @Description("Delete purchase order by ID")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) =
             storeApi.deleteOrder(orderId)
 
@@ -40,7 +49,6 @@ import okhttp3.Headers
         @Description("Returns pet inventories by status")
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun getInventory() =
             storeApi.getInventory()
 
@@ -48,7 +56,6 @@ import okhttp3.Headers
         @Description("Find purchase order by ID")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun getOrderById(@PathParam("orderId") orderId: kotlin.Long) =
             storeApi.getOrderById(orderId)
 
@@ -57,7 +64,6 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun placeOrder(@RequestBody(required = false) order: Order) =
+        override fun placeOrder(@RequestBody order: Order) =
             storeApi.placeOrder(order)
     }

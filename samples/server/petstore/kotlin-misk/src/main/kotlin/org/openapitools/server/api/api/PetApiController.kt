@@ -3,6 +3,15 @@ package org.openapitools.server.api.api
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
+    import javax.validation.Valid
+    import javax.validation.constraints.DecimalMax
+    import javax.validation.constraints.DecimalMin
+    import javax.validation.constraints.Email
+    import javax.validation.constraints.Max
+    import javax.validation.constraints.Min
+    import javax.validation.constraints.NotNull
+    import javax.validation.constraints.Pattern
+    import javax.validation.constraints.Size
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
@@ -25,6 +34,7 @@ import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import okhttp3.Headers
 
+    @Validated
     @Singleton
     class PetApiController @Inject constructor(
         private val petApi: PetApi
@@ -35,14 +45,12 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun addPet(@RequestBody(required = false) pet: Pet) =
+        override fun addPet(@RequestBody pet: Pet) =
             petApi.addPet(pet)
 
         @Delete("/pet/{petId}")
         @Description("Deletes a pet")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun deletePet(@PathParam("petId") petId: kotlin.Long, @RequestHeaders headers: Headers) =
             petApi.deletePet(petId, apiKey)
 
@@ -50,7 +58,6 @@ import okhttp3.Headers
         @Description("Finds Pets by status")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun findPetsByStatus(@QueryParam status: kotlin.Array<kotlin.String>) =
             petApi.findPetsByStatus(status)
 
@@ -58,7 +65,6 @@ import okhttp3.Headers
         @Description("Finds Pets by tags")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun findPetsByTags(@QueryParam tags: kotlin.Array<kotlin.String>) =
             petApi.findPetsByTags(tags)
 
@@ -66,7 +72,6 @@ import okhttp3.Headers
         @Description("Find pet by ID")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun getPetById(@PathParam("petId") petId: kotlin.Long) =
             petApi.getPetById(petId)
 
@@ -75,24 +80,21 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
-        override fun updatePet(@RequestBody(required = false) pet: Pet) =
+        override fun updatePet(@RequestBody pet: Pet) =
             petApi.updatePet(pet)
 
         @Post("/pet/{petId}")
         @Description("Updates a pet in the store with form data")
         @RequestContentType(MediaTypes.APPLICATION_FORM_URLENCODED)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long,,) =
             petApi.updatePetWithForm(petId, name, status)
 
         @Post("/pet/{petId}/uploadImage")
         @Description("uploads an image")
-        @RequestContentType()
+        @RequestContentType(MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> multipart/form-data */ )
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        @Suppress("unused")
         override fun uploadFile(@PathParam("petId") petId: kotlin.Long,,) =
             petApi.uploadFile(petId, additionalMetadata, file)
     }
