@@ -72,7 +72,7 @@ import okhttp3.Headers
         @Description("Get user by user name")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun getUserByName( @PathParam("username") username: kotlin.String) {
+        fun getUserByName( @PathParam("username") username: kotlin.String): User {
             TODO()
         }
 
@@ -80,7 +80,7 @@ import okhttp3.Headers
         @Description("Logs user into the system")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun loginUser( @QueryParam(value = "username") username: kotlin.String, @QueryParam(value = "password") password: kotlin.String) {
+        fun loginUser( @QueryParam(value = "username") username: kotlin.String, @QueryParam(value = "password") password: kotlin.String): kotlin.String {
             TODO()
         }
 

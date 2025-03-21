@@ -43,14 +43,14 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun addPet(@Valid @RequestBody pet: Pet) {
+        fun addPet(@Valid @RequestBody pet: Pet): Pet {
             TODO()
         }
 
         @Delete("/pet/{petId}")
         @Description("Deletes a pet")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun deletePet( @PathParam("petId") petId: kotlin.Long, apiKey: Headers) {
+        fun deletePet( @PathParam("petId") petId: kotlin.Long,apiKey: Headers) {
             TODO()
         }
 
@@ -58,7 +58,7 @@ import okhttp3.Headers
         @Description("Finds Pets by status")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun findPetsByStatus( @QueryParam(value = "status") status: kotlin.Array<kotlin.String>) {
+        fun findPetsByStatus( @QueryParam(value = "status") status: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
             TODO()
         }
 
@@ -66,7 +66,7 @@ import okhttp3.Headers
         @Description("Finds Pets by tags")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun findPetsByTags( @QueryParam(value = "tags") tags: kotlin.Array<kotlin.String>) {
+        fun findPetsByTags( @QueryParam(value = "tags") tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
             TODO()
         }
 
@@ -74,7 +74,7 @@ import okhttp3.Headers
         @Description("Find pet by ID")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun getPetById( @PathParam("petId") petId: kotlin.Long) {
+        fun getPetById( @PathParam("petId") petId: kotlin.Long): Pet {
             TODO()
         }
 
@@ -83,7 +83,7 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun updatePet(@Valid @RequestBody pet: Pet) {
+        fun updatePet(@Valid @RequestBody pet: Pet): Pet {
             TODO()
         }
 
@@ -100,7 +100,7 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> multipart/form-data */ )
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun uploadFile( @PathParam("petId") petId: kotlin.Long,@Valid@QueryParam("additionalMetadata") additionalMetadata: kotlin.String?,) {
+        fun uploadFile( @PathParam("petId") petId: kotlin.Long,@Valid@QueryParam("additionalMetadata") additionalMetadata: kotlin.String?,): ModelApiResponse {
             TODO()
         }
     }

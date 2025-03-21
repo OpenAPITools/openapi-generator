@@ -4,6 +4,7 @@ import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 import jakarta.inject.Inject
 import misk.testing.MiskTest
+import okhttp3.Headers
 
 import org.junit.jupiter.api.Test
 
@@ -85,7 +86,7 @@ internal class PetApiTest {
     fun `should handle uploadFile`() {
         val petId: kotlin.Long = TODO()
         val additionalMetadata: kotlin.String? = TODO()
-        val file: HttpCall = TODO()
+        val file: Headers = TODO()
         val response: ModelApiResponse = PetApi.uploadFile(petId, additionalMetadata, file)
     }
 
