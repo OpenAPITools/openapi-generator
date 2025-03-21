@@ -3,15 +3,15 @@ package org.openapitools.server.api.api
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
-import javax.validation.Valid
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
+import .validation.Valid
+import .validation.constraints.DecimalMax
+import .validation.constraints.DecimalMin
+import .validation.constraints.Email
+import .validation.constraints.Max
+import .validation.constraints.Min
+import .validation.constraints.NotNull
+import .validation.constraints.Pattern
+import .validation.constraints.Size
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton

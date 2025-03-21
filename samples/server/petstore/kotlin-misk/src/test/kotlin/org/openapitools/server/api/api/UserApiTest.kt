@@ -17,7 +17,7 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle createUser`() {
-        val user: User = TODO()
+        val user = TODO()
         val response = userApi.createUser(user)
     }
 
@@ -26,7 +26,7 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle createUsersWithArrayInput`() {
-        val user: kotlin.Array<User> = TODO()
+        val user = TODO()
         val response = userApi.createUsersWithArrayInput(user)
     }
 
@@ -35,7 +35,7 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle createUsersWithListInput`() {
-        val user: kotlin.Array<User> = TODO()
+        val user = TODO()
         val response = userApi.createUsersWithListInput(user)
     }
 
@@ -44,7 +44,7 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle deleteUser`() {
-        val username: kotlin.String = TODO()
+        val username = TODO()
         val response = userApi.deleteUser(username)
     }
 
@@ -53,7 +53,7 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle getUserByName`() {
-        val username: kotlin.String = TODO()
+        val username = TODO()
         val response: User = userApi.getUserByName(username)
     }
 
@@ -62,8 +62,8 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle loginUser`() {
-        val username: kotlin.String = TODO()
-        val password: kotlin.String = TODO()
+        val username = TODO()
+        val password = TODO()
         val response: kotlin.String = userApi.loginUser(username, password)
     }
 
@@ -80,8 +80,8 @@ internal class UserApiTest {
      */
     @Test
     fun `should handle updateUser`() {
-        val username: kotlin.String = TODO()
-        val user: User = TODO()
+        val username = TODO()
+        val user = TODO()
         val response = userApi.updateUser(username, user)
     }
 

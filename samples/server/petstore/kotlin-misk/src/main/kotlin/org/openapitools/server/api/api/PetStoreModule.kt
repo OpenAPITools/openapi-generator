@@ -2,7 +2,7 @@ package org.openapitools.server.api.api
 
 import misk.inject.KAbstractModule
 import misk.web.WebActionModule
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 import org.openapitools.server.api.api.PetApiController
 import org.openapitools.server.api.api.StoreApiController
 import org.openapitools.server.api.api.UserApiController
