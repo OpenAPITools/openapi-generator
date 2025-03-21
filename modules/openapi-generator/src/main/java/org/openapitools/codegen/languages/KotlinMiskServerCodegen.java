@@ -31,10 +31,10 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
+    public static final String MODULE_CLASS_NAME = "moduleClassName";
 
+    private final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
     private static final String ROOT_PACKAGE = "rootPackage";
-    private static final String MODULE_CLASS_NAME = "moduleClassName";
 
     private boolean useBeanValidation = true;
 
