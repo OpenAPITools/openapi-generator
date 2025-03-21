@@ -175,7 +175,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyApplicationOctetstreamBinary(File body) throws ApiException {
+  public String testBodyApplicationOctetstreamBinary(@javax.annotation.Nullable File body) throws ApiException {
     ApiResponse<String> localVarResponse = testBodyApplicationOctetstreamBinaryWithHttpInfo(body);
     return localVarResponse.getData();
   }
@@ -187,7 +187,7 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body) throws ApiException {
+  public ApiResponse<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@javax.annotation.Nullable File body) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testBodyApplicationOctetstreamBinaryRequestBuilder(body);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -224,7 +224,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBodyApplicationOctetstreamBinaryRequestBuilder(File body) throws ApiException {
+  private HttpRequest.Builder testBodyApplicationOctetstreamBinaryRequestBuilder(@javax.annotation.Nullable File body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -257,7 +257,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws ApiException {
+  public String testBodyMultipartFormdataArrayOfBinary(@javax.annotation.Nonnull List<File> files) throws ApiException {
     ApiResponse<String> localVarResponse = testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files);
     return localVarResponse.getData();
   }
@@ -269,7 +269,7 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<File> files) throws ApiException {
+  public ApiResponse<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@javax.annotation.Nonnull List<File> files) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testBodyMultipartFormdataArrayOfBinaryRequestBuilder(files);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -306,7 +306,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBodyMultipartFormdataArrayOfBinaryRequestBuilder(List<File> files) throws ApiException {
+  private HttpRequest.Builder testBodyMultipartFormdataArrayOfBinaryRequestBuilder(@javax.annotation.Nonnull List<File> files) throws ApiException {
     // verify the required parameter 'files' is set
     if (files == null) {
       throw new ApiException(400, "Missing the required parameter 'files' when calling testBodyMultipartFormdataArrayOfBinary");
@@ -372,7 +372,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testBodyMultipartFormdataSingleBinary(File myFile) throws ApiException {
+  public String testBodyMultipartFormdataSingleBinary(@javax.annotation.Nullable File myFile) throws ApiException {
     ApiResponse<String> localVarResponse = testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
     return localVarResponse.getData();
   }
@@ -384,7 +384,7 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws ApiException {
+  public ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@javax.annotation.Nullable File myFile) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testBodyMultipartFormdataSingleBinaryRequestBuilder(myFile);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -421,7 +421,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testBodyMultipartFormdataSingleBinaryRequestBuilder(File myFile) throws ApiException {
+  private HttpRequest.Builder testBodyMultipartFormdataSingleBinaryRequestBuilder(@javax.annotation.Nullable File myFile) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -481,7 +481,7 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
+  public Pet testEchoBodyAllOfPet(@javax.annotation.Nullable Pet pet) throws ApiException {
     ApiResponse<Pet> localVarResponse = testEchoBodyAllOfPetWithHttpInfo(pet);
     return localVarResponse.getData();
   }
@@ -493,7 +493,7 @@ public class BodyApi {
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws ApiException {
+  public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testEchoBodyAllOfPetRequestBuilder(pet);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -533,7 +533,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyAllOfPetRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testEchoBodyAllOfPetRequestBuilder(@javax.annotation.Nullable Pet pet) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -566,7 +566,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyFreeFormObjectResponseString(Object body) throws ApiException {
+  public String testEchoBodyFreeFormObjectResponseString(@javax.annotation.Nullable Object body) throws ApiException {
     ApiResponse<String> localVarResponse = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body);
     return localVarResponse.getData();
   }
@@ -578,7 +578,7 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body) throws ApiException {
+  public ApiResponse<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@javax.annotation.Nullable Object body) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testEchoBodyFreeFormObjectResponseStringRequestBuilder(body);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -615,7 +615,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyFreeFormObjectResponseStringRequestBuilder(Object body) throws ApiException {
+  private HttpRequest.Builder testEchoBodyFreeFormObjectResponseStringRequestBuilder(@javax.annotation.Nullable Object body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -648,7 +648,7 @@ public class BodyApi {
    * @return Pet
    * @throws ApiException if fails to make API call
    */
-  public Pet testEchoBodyPet(Pet pet) throws ApiException {
+  public Pet testEchoBodyPet(@javax.annotation.Nullable Pet pet) throws ApiException {
     ApiResponse<Pet> localVarResponse = testEchoBodyPetWithHttpInfo(pet);
     return localVarResponse.getData();
   }
@@ -660,7 +660,7 @@ public class BodyApi {
    * @return ApiResponse&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws ApiException {
+  public ApiResponse<Pet> testEchoBodyPetWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetRequestBuilder(pet);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -700,7 +700,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyPetRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testEchoBodyPetRequestBuilder(@javax.annotation.Nullable Pet pet) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -733,7 +733,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyPetResponseString(Pet pet) throws ApiException {
+  public String testEchoBodyPetResponseString(@javax.annotation.Nullable Pet pet) throws ApiException {
     ApiResponse<String> localVarResponse = testEchoBodyPetResponseStringWithHttpInfo(pet);
     return localVarResponse.getData();
   }
@@ -745,7 +745,7 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws ApiException {
+  public ApiResponse<String> testEchoBodyPetResponseStringWithHttpInfo(@javax.annotation.Nullable Pet pet) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testEchoBodyPetResponseStringRequestBuilder(pet);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -782,7 +782,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyPetResponseStringRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder testEchoBodyPetResponseStringRequestBuilder(@javax.annotation.Nullable Pet pet) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -815,7 +815,7 @@ public class BodyApi {
    * @return StringEnumRef
    * @throws ApiException if fails to make API call
    */
-  public StringEnumRef testEchoBodyStringEnum(String body) throws ApiException {
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
     ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(body);
     return localVarResponse.getData();
   }
@@ -827,7 +827,7 @@ public class BodyApi {
    * @return ApiResponse&lt;StringEnumRef&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws ApiException {
+  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testEchoBodyStringEnumRequestBuilder(body);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -867,7 +867,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyStringEnumRequestBuilder(String body) throws ApiException {
+  private HttpRequest.Builder testEchoBodyStringEnumRequestBuilder(@javax.annotation.Nullable String body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -900,7 +900,7 @@ public class BodyApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEchoBodyTagResponseString(Tag tag) throws ApiException {
+  public String testEchoBodyTagResponseString(@javax.annotation.Nullable Tag tag) throws ApiException {
     ApiResponse<String> localVarResponse = testEchoBodyTagResponseStringWithHttpInfo(tag);
     return localVarResponse.getData();
   }
@@ -912,7 +912,7 @@ public class BodyApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws ApiException {
+  public ApiResponse<String> testEchoBodyTagResponseStringWithHttpInfo(@javax.annotation.Nullable Tag tag) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testEchoBodyTagResponseStringRequestBuilder(tag);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -949,7 +949,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyTagResponseStringRequestBuilder(Tag tag) throws ApiException {
+  private HttpRequest.Builder testEchoBodyTagResponseStringRequestBuilder(@javax.annotation.Nullable Tag tag) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

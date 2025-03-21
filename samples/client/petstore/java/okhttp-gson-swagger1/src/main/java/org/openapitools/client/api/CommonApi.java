@@ -91,7 +91,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call addPetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call addPetCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -139,7 +139,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call addPetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call addPetValidateBeforeCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new ApiException("Missing the required parameter 'pet' when calling addPet(Async)");
@@ -163,7 +163,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public Pet addPet(Pet pet) throws ApiException {
+    public Pet addPet(@javax.annotation.Nonnull Pet pet) throws ApiException {
         ApiResponse<Pet> localVarResp = addPetWithHttpInfo(pet);
         return localVarResp.getData();
     }
@@ -182,7 +182,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Pet> addPetWithHttpInfo(Pet pet) throws ApiException {
+    public ApiResponse<Pet> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
         okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -203,7 +203,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call addPetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
+    public okhttp3.Call addPetAsync(@javax.annotation.Nonnull Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -223,7 +223,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUserCall(User user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUserCall(@javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -268,7 +268,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUserValidateBeforeCall(User user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUserValidateBeforeCall(@javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling createUser(Async)");
@@ -290,7 +290,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public void createUser(User user) throws ApiException {
+    public void createUser(@javax.annotation.Nonnull User user) throws ApiException {
         createUserWithHttpInfo(user);
     }
 
@@ -307,7 +307,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
+    public ApiResponse<Void> createUserWithHttpInfo(@javax.annotation.Nonnull User user) throws ApiException {
         okhttp3.Call localVarCall = createUserValidateBeforeCall(user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -326,7 +326,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUserAsync(User user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUserAsync(@javax.annotation.Nonnull User user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createUserValidateBeforeCall(user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -345,7 +345,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithArrayInputCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -390,7 +390,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling createUsersWithArrayInput(Async)");
@@ -412,7 +412,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public void createUsersWithArrayInput(List<User> user) throws ApiException {
+    public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
         createUsersWithArrayInputWithHttpInfo(user);
     }
 
@@ -429,7 +429,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
+    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws ApiException {
         okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -448,7 +448,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithArrayInputAsync(List<User> user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputAsync(@javax.annotation.Nonnull List<User> user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -467,7 +467,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithListInputCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -512,7 +512,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUsersWithListInputValidateBeforeCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling createUsersWithListInput(Async)");
@@ -534,7 +534,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public void createUsersWithListInput(List<User> user) throws ApiException {
+    public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
         createUsersWithListInputWithHttpInfo(user);
     }
 
@@ -551,7 +551,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
+    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws ApiException {
         okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -570,7 +570,7 @@ public class CommonApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithListInputAsync(List<User> user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputAsync(@javax.annotation.Nonnull List<User> user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -590,7 +590,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteOrderCall(String orderId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteOrderCall(@javax.annotation.Nonnull String orderId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -635,7 +635,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteOrderValidateBeforeCall(String orderId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteOrderValidateBeforeCall(@javax.annotation.Nonnull String orderId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling deleteOrder(Async)");
@@ -658,7 +658,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public void deleteOrder(String orderId) throws ApiException {
+    public void deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
         deleteOrderWithHttpInfo(orderId);
     }
 
@@ -676,7 +676,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+    public ApiResponse<Void> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws ApiException {
         okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -696,7 +696,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteOrderAsync(String orderId, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteOrderAsync(@javax.annotation.Nonnull String orderId, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -716,7 +716,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deletePetCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deletePetCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -766,7 +766,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deletePetValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling deletePet(Async)");
@@ -789,7 +789,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public void deletePet(Long petId, String apiKey) throws ApiException {
+    public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
         deletePetWithHttpInfo(petId, apiKey);
     }
 
@@ -807,7 +807,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+    public ApiResponse<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
         okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -827,7 +827,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deletePetAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -847,7 +847,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteUserCall(String username, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteUserCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -892,7 +892,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteUserValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteUserValidateBeforeCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling deleteUser(Async)");
@@ -915,7 +915,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public void deleteUser(String username) throws ApiException {
+    public void deleteUser(@javax.annotation.Nonnull String username) throws ApiException {
         deleteUserWithHttpInfo(username);
     }
 
@@ -933,7 +933,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
+    public ApiResponse<Void> deleteUserWithHttpInfo(@javax.annotation.Nonnull String username) throws ApiException {
         okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -953,7 +953,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteUserAsync(String username, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteUserAsync(@javax.annotation.Nonnull String username, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -973,7 +973,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call findPetsByStatusCall(List<String> status, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call findPetsByStatusCall(@javax.annotation.Nonnull List<String> status, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1023,7 +1023,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByStatusValidateBeforeCall(@javax.annotation.Nonnull List<String> status, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'status' is set
         if (status == null) {
             throw new ApiException("Missing the required parameter 'status' when calling findPetsByStatus(Async)");
@@ -1047,7 +1047,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
+    public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws ApiException {
         ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status);
         return localVarResp.getData();
     }
@@ -1066,7 +1066,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+    public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws ApiException {
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1087,7 +1087,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
+    public okhttp3.Call findPetsByStatusAsync(@javax.annotation.Nonnull List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, _callback);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
@@ -1110,7 +1110,7 @@ public class CommonApi {
      * @deprecated
      */
     @Deprecated
-    public okhttp3.Call findPetsByTagsCall(List<String> tags, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call findPetsByTagsCall(@javax.annotation.Nonnull List<String> tags, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1161,7 +1161,7 @@ public class CommonApi {
 
     @Deprecated
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByTagsValidateBeforeCall(List<String> tags, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call findPetsByTagsValidateBeforeCall(@javax.annotation.Nonnull List<String> tags, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'tags' is set
         if (tags == null) {
             throw new ApiException("Missing the required parameter 'tags' when calling findPetsByTags(Async)");
@@ -1187,7 +1187,7 @@ public class CommonApi {
      * @deprecated
      */
     @Deprecated
-    public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+    public List<Pet> findPetsByTags(@javax.annotation.Nonnull List<String> tags) throws ApiException {
         ApiResponse<List<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags);
         return localVarResp.getData();
     }
@@ -1208,7 +1208,7 @@ public class CommonApi {
      * @deprecated
      */
     @Deprecated
-    public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
+    public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull List<String> tags) throws ApiException {
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1231,7 +1231,7 @@ public class CommonApi {
      * @deprecated
      */
     @Deprecated
-    public okhttp3.Call findPetsByTagsAsync(List<String> tags, final ApiCallback<List<Pet>> _callback) throws ApiException {
+    public okhttp3.Call findPetsByTagsAsync(@javax.annotation.Nonnull List<String> tags, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, _callback);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
@@ -1370,7 +1370,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getOrderByIdCall(Long orderId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getOrderByIdCall(@javax.annotation.Nonnull Long orderId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1417,7 +1417,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getOrderByIdValidateBeforeCall(Long orderId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getOrderByIdValidateBeforeCall(@javax.annotation.Nonnull Long orderId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new ApiException("Missing the required parameter 'orderId' when calling getOrderById(Async)");
@@ -1442,7 +1442,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public Order getOrderById(Long orderId) throws ApiException {
+    public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
         ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId);
         return localVarResp.getData();
     }
@@ -1462,7 +1462,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+    public ApiResponse<Order> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws ApiException {
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1484,7 +1484,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getOrderByIdAsync(Long orderId, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call getOrderByIdAsync(@javax.annotation.Nonnull Long orderId, final ApiCallback<Order> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
@@ -1506,7 +1506,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPetByIdCall(Long petId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getPetByIdCall(@javax.annotation.Nonnull Long petId, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1553,7 +1553,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getPetByIdValidateBeforeCall(@javax.annotation.Nonnull Long petId, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling getPetById(Async)");
@@ -1578,7 +1578,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public Pet getPetById(Long petId) throws ApiException {
+    public Pet getPetById(@javax.annotation.Nonnull Long petId) throws ApiException {
         ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId);
         return localVarResp.getData();
     }
@@ -1598,7 +1598,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+    public ApiResponse<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws ApiException {
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1620,7 +1620,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getPetByIdAsync(Long petId, final ApiCallback<Pet> _callback) throws ApiException {
+    public okhttp3.Call getPetByIdAsync(@javax.annotation.Nonnull Long petId, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -1642,7 +1642,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getUserByNameCall(String username, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getUserByNameCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1689,7 +1689,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getUserByNameValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getUserByNameValidateBeforeCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling getUserByName(Async)");
@@ -1714,7 +1714,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public User getUserByName(String username) throws ApiException {
+    public User getUserByName(@javax.annotation.Nonnull String username) throws ApiException {
         ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username);
         return localVarResp.getData();
     }
@@ -1734,7 +1734,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
+    public ApiResponse<User> getUserByNameWithHttpInfo(@javax.annotation.Nonnull String username) throws ApiException {
         okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, null);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1756,7 +1756,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getUserByNameAsync(String username, final ApiCallback<User> _callback) throws ApiException {
+    public okhttp3.Call getUserByNameAsync(@javax.annotation.Nonnull String username, final ApiCallback<User> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, _callback);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
@@ -1778,7 +1778,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call loginUserCall(String username, String password, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call loginUserCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1832,7 +1832,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call loginUserValidateBeforeCall(String username, String password, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call loginUserValidateBeforeCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling loginUser(Async)");
@@ -1862,7 +1862,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public String loginUser(String username, String password) throws ApiException {
+    public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
         ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password);
         return localVarResp.getData();
     }
@@ -1882,7 +1882,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
+    public ApiResponse<String> loginUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
         okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1904,7 +1904,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call loginUserAsync(String username, String password, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call loginUserAsync(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -2037,7 +2037,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderCall(Order order, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call placeOrderCall(@javax.annotation.Nonnull Order order, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -2084,7 +2084,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call placeOrderValidateBeforeCall(Order order, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call placeOrderValidateBeforeCall(@javax.annotation.Nonnull Order order, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'order' is set
         if (order == null) {
             throw new ApiException("Missing the required parameter 'order' when calling placeOrder(Async)");
@@ -2108,7 +2108,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public Order placeOrder(Order order) throws ApiException {
+    public Order placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
         ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(order);
         return localVarResp.getData();
     }
@@ -2127,7 +2127,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
+    public ApiResponse<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws ApiException {
         okhttp3.Call localVarCall = placeOrderValidateBeforeCall(order, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -2148,7 +2148,7 @@ public class CommonApi {
         <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call placeOrderAsync(Order order, final ApiCallback<Order> _callback) throws ApiException {
+    public okhttp3.Call placeOrderAsync(@javax.annotation.Nonnull Order order, final ApiCallback<Order> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = placeOrderValidateBeforeCall(order, _callback);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
@@ -2173,7 +2173,7 @@ public class CommonApi {
      * API documentation for the updatePet operation
      * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
-    public okhttp3.Call updatePetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updatePetCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -2221,7 +2221,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetValidateBeforeCall(@javax.annotation.Nonnull Pet pet, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'pet' is set
         if (pet == null) {
             throw new ApiException("Missing the required parameter 'pet' when calling updatePet(Async)");
@@ -2249,7 +2249,7 @@ public class CommonApi {
      * API documentation for the updatePet operation
      * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
-    public Pet updatePet(Pet pet) throws ApiException {
+    public Pet updatePet(@javax.annotation.Nonnull Pet pet) throws ApiException {
         ApiResponse<Pet> localVarResp = updatePetWithHttpInfo(pet);
         return localVarResp.getData();
     }
@@ -2272,7 +2272,7 @@ public class CommonApi {
      * API documentation for the updatePet operation
      * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
-    public ApiResponse<Pet> updatePetWithHttpInfo(Pet pet) throws ApiException {
+    public ApiResponse<Pet> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
         okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -2297,7 +2297,7 @@ public class CommonApi {
      * API documentation for the updatePet operation
      * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      */
-    public okhttp3.Call updatePetAsync(Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
+    public okhttp3.Call updatePetAsync(@javax.annotation.Nonnull Pet pet, final ApiCallback<Pet> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, _callback);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
@@ -2319,7 +2319,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -2373,7 +2373,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetWithFormValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling updatePetWithForm(Async)");
@@ -2397,7 +2397,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
+    public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
         updatePetWithFormWithHttpInfo(petId, name, status);
     }
 
@@ -2416,7 +2416,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+    public ApiResponse<Void> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
         okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -2437,7 +2437,7 @@ public class CommonApi {
         <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -2458,7 +2458,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateUserCall(String username, User user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateUserCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -2504,7 +2504,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateUserValidateBeforeCall(String username, User user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateUserValidateBeforeCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling updateUser(Async)");
@@ -2533,7 +2533,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public void updateUser(String username, User user) throws ApiException {
+    public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
         updateUserWithHttpInfo(username, user);
     }
 
@@ -2552,7 +2552,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
+    public ApiResponse<Void> updateUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
         okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -2573,7 +2573,7 @@ public class CommonApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateUserAsync(String username, User user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updateUserAsync(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -2594,7 +2594,7 @@ public class CommonApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call uploadFileCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -2649,7 +2649,7 @@ public class CommonApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new ApiException("Missing the required parameter 'petId' when calling uploadFile(Async)");
@@ -2674,7 +2674,7 @@ public class CommonApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+    public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
         ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, _file);
         return localVarResp.getData();
     }
@@ -2694,7 +2694,7 @@ public class CommonApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -2716,7 +2716,7 @@ public class CommonApi {
         <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileAsync(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, _file, _callback);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();

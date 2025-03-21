@@ -86,7 +86,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUserCall(User user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUserCall(@javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -131,7 +131,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUserValidateBeforeCall(User user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUserValidateBeforeCall(@javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling createUser(Async)");
@@ -153,7 +153,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public void createUser(User user) throws ApiException {
+    public void createUser(@javax.annotation.Nonnull User user) throws ApiException {
         createUserWithHttpInfo(user);
     }
 
@@ -170,7 +170,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
+    public ApiResponse<Void> createUserWithHttpInfo(@javax.annotation.Nonnull User user) throws ApiException {
         okhttp3.Call localVarCall = createUserValidateBeforeCall(user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -189,7 +189,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUserAsync(User user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUserAsync(@javax.annotation.Nonnull User user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createUserValidateBeforeCall(user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -208,7 +208,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithArrayInputCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -253,7 +253,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling createUsersWithArrayInput(Async)");
@@ -275,7 +275,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public void createUsersWithArrayInput(List<User> user) throws ApiException {
+    public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
         createUsersWithArrayInputWithHttpInfo(user);
     }
 
@@ -292,7 +292,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
+    public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws ApiException {
         okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -311,7 +311,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithArrayInputAsync(List<User> user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputAsync(@javax.annotation.Nonnull List<User> user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -330,7 +330,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithListInputCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -375,7 +375,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createUsersWithListInputValidateBeforeCall(@javax.annotation.Nonnull List<User> user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling createUsersWithListInput(Async)");
@@ -397,7 +397,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public void createUsersWithListInput(List<User> user) throws ApiException {
+    public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
         createUsersWithListInputWithHttpInfo(user);
     }
 
@@ -414,7 +414,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
+    public ApiResponse<Void> createUsersWithListInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws ApiException {
         okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -433,7 +433,7 @@ public class UserApi {
         <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createUsersWithListInputAsync(List<User> user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputAsync(@javax.annotation.Nonnull List<User> user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -453,7 +453,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteUserCall(String username, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call deleteUserCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -498,7 +498,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteUserValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call deleteUserValidateBeforeCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling deleteUser(Async)");
@@ -521,7 +521,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public void deleteUser(String username) throws ApiException {
+    public void deleteUser(@javax.annotation.Nonnull String username) throws ApiException {
         deleteUserWithHttpInfo(username);
     }
 
@@ -539,7 +539,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
+    public ApiResponse<Void> deleteUserWithHttpInfo(@javax.annotation.Nonnull String username) throws ApiException {
         okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -559,7 +559,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteUserAsync(String username, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call deleteUserAsync(@javax.annotation.Nonnull String username, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
@@ -580,7 +580,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getUserByNameCall(String username, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getUserByNameCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -627,7 +627,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getUserByNameValidateBeforeCall(String username, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getUserByNameValidateBeforeCall(@javax.annotation.Nonnull String username, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling getUserByName(Async)");
@@ -652,7 +652,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public User getUserByName(String username) throws ApiException {
+    public User getUserByName(@javax.annotation.Nonnull String username) throws ApiException {
         ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username);
         return localVarResp.getData();
     }
@@ -672,7 +672,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
+    public ApiResponse<User> getUserByNameWithHttpInfo(@javax.annotation.Nonnull String username) throws ApiException {
         okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, null);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -694,7 +694,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getUserByNameAsync(String username, final ApiCallback<User> _callback) throws ApiException {
+    public okhttp3.Call getUserByNameAsync(@javax.annotation.Nonnull String username, final ApiCallback<User> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, _callback);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
@@ -716,7 +716,7 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call loginUserCall(String username, String password, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call loginUserCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -770,7 +770,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call loginUserValidateBeforeCall(String username, String password, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call loginUserValidateBeforeCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling loginUser(Async)");
@@ -800,7 +800,7 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public String loginUser(String username, String password) throws ApiException {
+    public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
         ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password);
         return localVarResp.getData();
     }
@@ -820,7 +820,7 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
+    public ApiResponse<String> loginUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
         okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -842,7 +842,7 @@ public class UserApi {
         <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call loginUserAsync(String username, String password, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call loginUserAsync(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -976,7 +976,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateUserCall(String username, User user, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call updateUserCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1022,7 +1022,7 @@ public class UserApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateUserValidateBeforeCall(String username, User user, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updateUserValidateBeforeCall(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new ApiException("Missing the required parameter 'username' when calling updateUser(Async)");
@@ -1051,7 +1051,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public void updateUser(String username, User user) throws ApiException {
+    public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
         updateUserWithHttpInfo(username, user);
     }
 
@@ -1070,7 +1070,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
+    public ApiResponse<Void> updateUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
         okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, user, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1091,7 +1091,7 @@ public class UserApi {
         <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call updateUserAsync(String username, User user, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updateUserAsync(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);

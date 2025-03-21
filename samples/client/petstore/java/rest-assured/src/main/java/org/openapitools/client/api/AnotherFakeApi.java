@@ -127,7 +127,7 @@ public class AnotherFakeApi {
          * @param body (Client) client model (required)
          * @return operation
          */
-        public Call123testSpecialTagsOper body(Client body) {
+        public Call123testSpecialTagsOper body(@javax.annotation.Nonnull Client body) {
             reqSpec.setBody(body);
             return this;
         }
