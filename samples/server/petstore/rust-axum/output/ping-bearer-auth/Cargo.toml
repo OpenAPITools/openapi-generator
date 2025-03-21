@@ -19,7 +19,7 @@ conversion = [
 [dependencies]
 async-trait = "0.1"
 axum = { version = "0.8", features = ["multipart"] }
-axum-extra = { version = "0.10", features = ["cookie"] }
+axum-extra = { version = "0.10", features = ["cookie", "query"] }
 base64 = "0.22"
 bytes = "1"
 chrono = { version = "0.4", features = ["serde"] }
@@ -32,8 +32,8 @@ http = "1"
 lazy_static = "1"
 regex = "1"
 serde = { version = "1", features = ["derive"] }
+serde_html_form = "0.2"
 serde_json = { version = "1", features = ["raw_value"] }
-serde_urlencoded = "0.7"
 tokio = { version = "1", default-features = false, features = [
     "signal",
     "rt-multi-thread",

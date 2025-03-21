@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -127,7 +127,7 @@ async fn any_of_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::AnyOfGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::AnyOfGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -253,7 +253,7 @@ async fn callback_with_header_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::CallbackWithHeaderPostQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::CallbackWithHeaderPostQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -314,7 +314,7 @@ async fn complex_query_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::ComplexQueryParamGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::ComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -505,7 +505,7 @@ async fn get_with_boolean_parameter<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::GetWithBooleanParameterQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::GetWithBooleanParameterQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -566,7 +566,7 @@ async fn json_complex_query_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::JsonComplexQueryParamGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::JsonComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1247,7 +1247,7 @@ async fn paramget_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::ParamgetGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::ParamgetGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1381,7 +1381,7 @@ async fn register_callback_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::RegisterCallbackPostQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::RegisterCallbackPostQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where

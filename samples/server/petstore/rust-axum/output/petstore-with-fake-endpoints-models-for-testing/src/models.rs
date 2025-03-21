@@ -34,8 +34,8 @@ pub struct TestEnumParametersQueryParams {
     /// Query parameter enum test (string array)
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_query_string_array")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub enum_query_string_array: Option<Vec<String>>,
+    #[serde(default)]
+    pub enum_query_string_array: Vec<String>,
     /// Query parameter enum test (string)
     /// Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "enum_query_string")]

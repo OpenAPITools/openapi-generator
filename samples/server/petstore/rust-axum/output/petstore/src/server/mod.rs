@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -269,7 +269,7 @@ async fn find_pets_by_status<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::FindPetsByStatusQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::FindPetsByStatusQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -350,7 +350,7 @@ async fn find_pets_by_tags<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::FindPetsByTagsQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::FindPetsByTagsQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1551,7 +1551,7 @@ async fn login_user<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::LoginUserQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::LoginUserQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
