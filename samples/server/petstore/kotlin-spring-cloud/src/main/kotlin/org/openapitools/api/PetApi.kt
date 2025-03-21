@@ -99,7 +99,7 @@ interface PetApi {
             value = ["/pet/{petId}"],
             consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "name", required = false) name: kotlin.String? , @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
+    fun updatePetWithForm( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "name", required = false) name: kotlin.String? , @Valid @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -110,7 +110,7 @@ interface PetApi {
             produces = ["application/json"],
             consumes = ["multipart/form-data"]
     )
-    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
+    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }
