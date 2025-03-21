@@ -6,19 +6,19 @@ import okhttp3.Headers
 
 interface PetApi {
 
-    fun addPet(pet: Pet): Pet
+    fun addPet(@Valid @RequestBody pet: Pet): Pet {
 
-    fun deletePet(petId: kotlin.Long, headers: Headers)
+    fun deletePet(@PathParam("petId") petId: kotlin.Long, apiKey: Headers) {
 
-    fun findPetsByStatus(status: kotlin.Array<kotlin.String>): kotlin.Array<Pet>
+    fun findPetsByStatus( @QueryParam(value = "status") status: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
 
-    fun findPetsByTags(tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet>
+    fun findPetsByTags( @QueryParam(value = "tags") tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
 
-    fun getPetById(petId: kotlin.Long): Pet
+    fun getPetById(@PathParam("petId") petId: kotlin.Long): Pet {
 
-    fun updatePet(pet: Pet): Pet
+    fun updatePet(@Valid @RequestBody pet: Pet): Pet {
 
-    fun updatePetWithForm(petId: kotlin.Long, , )
+    fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "name") name: kotlin.String? , @QueryParam(value = "status") status: kotlin.String? ) {
 
-    fun uploadFile(petId: kotlin.Long, , ): ModelApiResponse
+    fun uploadFile(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , @Valid file: HttpCall): ModelApiResponse {
 }

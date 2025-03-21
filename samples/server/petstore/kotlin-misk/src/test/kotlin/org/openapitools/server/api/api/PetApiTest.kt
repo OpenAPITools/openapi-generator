@@ -1,17 +1,16 @@
 package org.openapitools.server.api.api
 
-import org.openapitools.server.api.model.ModelApiResponse
-import org.openapitools.server.api.model.Pet
 import jakarta.inject.Inject
 import misk.testing.MiskTest
-import okhttp3.Headers
-
 import org.junit.jupiter.api.Test
+import org.openapitools.server.api.model.ModelApiResponse
+import org.openapitools.server.api.model.Pet
+import okhttp3.Headers
 
 @MiskTest(startService = true)
 internal class PetApiTest {
 
-    @Inject private lateinit var petApi: PetApiController
+    @Inject private lateinit var petApi: PetApi
 
     /**
      * To test PetApiController.addPet

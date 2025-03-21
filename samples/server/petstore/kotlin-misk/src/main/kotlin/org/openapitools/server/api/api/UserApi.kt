@@ -5,19 +5,19 @@ import okhttp3.Headers
 
 interface UserApi {
 
-    fun createUser(user: User)
+    fun createUser(@Valid @RequestBody user: User) {
 
-    fun createUsersWithArrayInput(user: kotlin.Array<User>)
+    fun createUsersWithArrayInput(@Valid @RequestBody user: kotlin.Array<User>) {
 
-    fun createUsersWithListInput(user: kotlin.Array<User>)
+    fun createUsersWithListInput(@Valid @RequestBody user: kotlin.Array<User>) {
 
-    fun deleteUser(username: kotlin.String)
+    fun deleteUser(@PathParam("username") username: kotlin.String) {
 
-    fun getUserByName(username: kotlin.String): User
+    fun getUserByName(@PathParam("username") username: kotlin.String): User {
 
-    fun loginUser(username: kotlin.String, password: kotlin.String): kotlin.String
+    fun loginUser( @QueryParam(value = "username") username: kotlin.String,  @QueryParam(value = "password") password: kotlin.String): kotlin.String {
 
-    fun logoutUser()
+    fun logoutUser() {
 
-    fun updateUser(username: kotlin.String, user: User)
+    fun updateUser(@PathParam("username") username: kotlin.String, @Valid @RequestBody user: User) {
 }

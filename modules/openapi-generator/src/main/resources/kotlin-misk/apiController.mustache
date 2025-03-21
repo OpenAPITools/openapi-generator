@@ -39,8 +39,8 @@ import okhttp3.Headers
 {{#operations}}
     @Singleton
     class {{classname}}Controller @Inject constructor(
-        //private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
-    ) : WebAction {
+        private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
+    ) : WebAction, {{classname}} {
     {{#operation}}
 
         @{{httpMethod}}("{{path}}")
@@ -48,7 +48,7 @@ import okhttp3.Headers
         @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
         @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+        override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
             TODO()
         }
     {{/operation}}

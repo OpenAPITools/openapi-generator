@@ -14,35 +14,35 @@ import okhttp3.Headers
 class PetApiImpl @Inject constructor(
 ): PetApi {
 
-    override fun addPet(pet: Pet): Pet {
+    override fun addPet(@Valid @RequestBody pet: Pet): Pet {
         TODO()
     }
 
-    override fun deletePet(petId: kotlin.Long, headers: Headers) {
+    override fun deletePet(@PathParam("petId") petId: kotlin.Long, apiKey: Headers) {
         TODO()
     }
 
-    override fun findPetsByStatus(status: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
+    override fun findPetsByStatus( @QueryParam(value = "status") status: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
         TODO()
     }
 
-    override fun findPetsByTags(tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
+    override fun findPetsByTags( @QueryParam(value = "tags") tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
         TODO()
     }
 
-    override fun getPetById(petId: kotlin.Long): Pet {
+    override fun getPetById(@PathParam("petId") petId: kotlin.Long): Pet {
         TODO()
     }
 
-    override fun updatePet(pet: Pet): Pet {
+    override fun updatePet(@Valid @RequestBody pet: Pet): Pet {
         TODO()
     }
 
-    override fun updatePetWithForm(petId: kotlin.Long, , ) {
+    override fun updatePetWithForm(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "name") name: kotlin.String? , @QueryParam(value = "status") status: kotlin.String? ) {
         TODO()
     }
 
-    override fun uploadFile(petId: kotlin.Long, , ): ModelApiResponse {
+    override fun uploadFile(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , @Valid file: HttpCall): ModelApiResponse {
         TODO()
     }
 }

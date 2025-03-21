@@ -1,17 +1,16 @@
 package {{package}}
 
-{{#imports}}import {{import}}
-{{/imports}}
 import jakarta.inject.Inject
 import misk.testing.MiskTest
-import okhttp3.Headers
-
 import org.junit.jupiter.api.Test
+{{#imports}}import {{import}}
+{{/imports}}
+import okhttp3.Headers
 
 @MiskTest(startService = true)
 internal class {{classname}}Test {
 
-    @Inject private lateinit var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}Controller
+    @Inject private lateinit var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
 
     {{#operations}}
     {{#operation}}

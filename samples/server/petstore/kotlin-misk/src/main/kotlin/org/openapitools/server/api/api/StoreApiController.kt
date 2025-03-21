@@ -35,13 +35,13 @@ import okhttp3.Headers
 
     @Singleton
     class StoreApiController @Inject constructor(
-        //private val storeApi: StoreApi
-    ) : WebAction {
+        private val storeApi: StoreApi
+    ) : WebAction, StoreApi {
 
         @Delete("/store/order/{orderId}")
         @Description("Delete purchase order by ID")
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
+        override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
             TODO()
         }
 
@@ -49,7 +49,7 @@ import okhttp3.Headers
         @Description("Returns pet inventories by status")
         @ResponseContentType(MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
+        override fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
             TODO()
         }
 
@@ -57,7 +57,7 @@ import okhttp3.Headers
         @Description("Find purchase order by ID")
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
+        override fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
             TODO()
         }
 
@@ -66,7 +66,7 @@ import okhttp3.Headers
         @RequestContentType(MediaTypes.APPLICATION_JSON)
         @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
         @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-        fun placeOrder(@Valid @RequestBody order: Order): Order {
+        override fun placeOrder(@Valid @RequestBody order: Order): Order {
             TODO()
         }
     }

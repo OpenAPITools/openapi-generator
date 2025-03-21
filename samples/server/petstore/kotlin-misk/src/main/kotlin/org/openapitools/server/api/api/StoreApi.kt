@@ -5,11 +5,11 @@ import okhttp3.Headers
 
 interface StoreApi {
 
-    fun deleteOrder(orderId: kotlin.String)
+    fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
 
-    fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int>
+    fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
 
-    fun getOrderById(orderId: kotlin.Long): Order
+    fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
 
-    fun placeOrder(order: Order): Order
+    fun placeOrder(@Valid @RequestBody order: Order): Order {
 }

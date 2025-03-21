@@ -13,7 +13,7 @@ import okhttp3.Headers
 class StoreApiImpl @Inject constructor(
 ): StoreApi {
 
-    override fun deleteOrder(orderId: kotlin.String) {
+    override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
         TODO()
     }
 
@@ -21,11 +21,11 @@ class StoreApiImpl @Inject constructor(
         TODO()
     }
 
-    override fun getOrderById(orderId: kotlin.Long): Order {
+    override fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
         TODO()
     }
 
-    override fun placeOrder(order: Order): Order {
+    override fun placeOrder(@Valid @RequestBody order: Order): Order {
         TODO()
     }
 }

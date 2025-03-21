@@ -1,16 +1,15 @@
 package org.openapitools.server.api.api
 
-import org.openapitools.server.api.model.User
 import jakarta.inject.Inject
 import misk.testing.MiskTest
-import okhttp3.Headers
-
 import org.junit.jupiter.api.Test
+import org.openapitools.server.api.model.User
+import okhttp3.Headers
 
 @MiskTest(startService = true)
 internal class UserApiTest {
 
-    @Inject private lateinit var userApi: UserApiController
+    @Inject private lateinit var userApi: UserApi
 
     /**
      * To test UserApiController.createUser
