@@ -161,7 +161,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen {
     }
 
     private String mapMediaType(String mediaType) {
-        return MEDIA_MAPPING.getOrDefault(mediaType, mediaType);
+        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> " + mediaType + "*/ ");
     }
 
     private final static Map<String, String> MEDIA_MAPPING = getMappings();
