@@ -3476,4 +3476,84 @@ public class JavaClientCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
+
+    @DataProvider(name = "allJavaClients")
+    public Object[][] allJavaClients() {
+        return new Object[][] {
+                { JavaClientCodegen.FEIGN },
+                { JavaClientCodegen.GOOGLE_API_CLIENT },
+                { JavaClientCodegen.JERSEY2 },
+                { JavaClientCodegen.JERSEY3 },
+                { JavaClientCodegen.NATIVE },
+                { JavaClientCodegen.OKHTTP_GSON },
+                { JavaClientCodegen.RESTEASY },
+                { JavaClientCodegen.RESTTEMPLATE },
+                { JavaClientCodegen.WEBCLIENT },
+                { JavaClientCodegen.RESTCLIENT },
+                { JavaClientCodegen.REST_ASSURED },
+                { JavaClientCodegen.RETROFIT_2 },
+                { JavaClientCodegen.VERTX },
+                { JavaClientCodegen.MICROPROFILE },
+                { JavaClientCodegen.APACHE }
+        };
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithAnyOfCausedCompileError(String client) {
+        if(JavaClientCodegen.MICROPROFILE.equals(client))
+        {
+            // MikroProfile currently does not support anyOf
+            return;
+        }
+
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/java/petstore.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setLibrary(client);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        validateJavaSourceFiles(files);
+    }
+
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterface_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_17419.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOutputDir(output.toString());
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLibrary(client);
+
+        final ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Details.java"),
+                "public interface Details {"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/InlineDetails.java"),
+                "implements Details"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/ReferencedDetails.java"),
+                "implements Details"
+        );
+
+    }
+
 }
