@@ -25,7 +25,7 @@ import okhttp3.Headers
 {{#operations}}
 @Singleton
 class {{classname}}Impl @Inject constructor(
-): {{classname}} {
+) implements {{classname}} {
 {{#operation}}
 
     override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
