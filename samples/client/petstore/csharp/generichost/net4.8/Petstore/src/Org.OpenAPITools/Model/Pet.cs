@@ -283,16 +283,13 @@ namespace Org.OpenAPITools.Model
                             name = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "photoUrls":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                photoUrls = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                            photoUrls = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "category":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                category = new Option<Category>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions));
+                            category = new Option<Category>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "id":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "status":
                             string statusRawValue = utf8JsonReader.GetString();
@@ -300,8 +297,7 @@ namespace Org.OpenAPITools.Model
                                 status = new Option<Pet.StatusEnum?>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
                             break;
                         case "tags":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions));
+                            tags = new Option<List<Tag>>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
