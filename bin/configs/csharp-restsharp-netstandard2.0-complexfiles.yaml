@@ -1,8 +1,7 @@
-generatorName: csharp
-library: restsharp
+generatorName: csharp-restsharp
 outputDir: samples/client/others/csharp-complex-files
 inputSpec: modules/openapi-generator/src/test/resources/3_0/form-multipart-binary-array.yaml
-templateDir: modules/openapi-generator/src/main/resources/csharp
+templateDir: modules/openapi-generator/src/main/resources/csharp-restsharp
 additionalProperties:
   packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
   targetFramework: netstandard2.0
