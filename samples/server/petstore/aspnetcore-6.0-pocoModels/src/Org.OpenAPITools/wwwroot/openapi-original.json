@@ -822,7 +822,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/TestNullable"
+                  "$ref" : "#/components/schemas/NullableClass"
                 }
               }
             },
@@ -872,18 +872,101 @@
         "enum" : [ "A", "B" ],
         "type" : "string"
       },
-      "TestNullable" : {
+      "NullableClass" : {
+        "additionalProperties" : {
+          "nullable" : true,
+          "type" : "object"
+        },
         "example" : {
-          "nullableName" : "nullableName",
-          "name" : "name"
+          "number_prop" : 6.027456183070403,
+          "datetime_prop" : "2000-01-23T04:56:07.000+00:00",
+          "object_nullable_prop" : {
+            "key" : "{}"
+          },
+          "boolean_prop" : true,
+          "object_and_items_nullable_prop" : {
+            "key" : "{}"
+          },
+          "string_prop" : "string_prop",
+          "array_nullable_prop" : [ "{}", "{}" ],
+          "integer_prop" : 0,
+          "array_and_items_nullable_prop" : [ "{}", "{}" ],
+          "object_items_nullable" : {
+            "key" : "{}"
+          },
+          "date_prop" : "2000-01-23",
+          "array_items_nullable" : [ "{}", "{}" ]
         },
         "properties" : {
-          "name" : {
-            "type" : "string"
+          "integer_prop" : {
+            "nullable" : true,
+            "type" : "integer"
           },
-          "nullableName" : {
+          "number_prop" : {
+            "nullable" : true,
+            "type" : "number"
+          },
+          "boolean_prop" : {
+            "nullable" : true,
+            "type" : "boolean"
+          },
+          "string_prop" : {
             "nullable" : true,
             "type" : "string"
+          },
+          "date_prop" : {
+            "format" : "date",
+            "nullable" : true,
+            "type" : "string"
+          },
+          "datetime_prop" : {
+            "format" : "date-time",
+            "nullable" : true,
+            "type" : "string"
+          },
+          "array_nullable_prop" : {
+            "items" : {
+              "type" : "object"
+            },
+            "nullable" : true,
+            "type" : "array"
+          },
+          "array_and_items_nullable_prop" : {
+            "items" : {
+              "nullable" : true,
+              "type" : "object"
+            },
+            "nullable" : true,
+            "type" : "array"
+          },
+          "array_items_nullable" : {
+            "items" : {
+              "nullable" : true,
+              "type" : "object"
+            },
+            "type" : "array"
+          },
+          "object_nullable_prop" : {
+            "additionalProperties" : {
+              "type" : "object"
+            },
+            "nullable" : true,
+            "type" : "object"
+          },
+          "object_and_items_nullable_prop" : {
+            "additionalProperties" : {
+              "nullable" : true,
+              "type" : "object"
+            },
+            "nullable" : true,
+            "type" : "object"
+          },
+          "object_items_nullable" : {
+            "additionalProperties" : {
+              "nullable" : true,
+              "type" : "object"
+            },
+            "type" : "object"
           }
         },
         "type" : "object"
