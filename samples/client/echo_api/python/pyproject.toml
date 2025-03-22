@@ -10,7 +10,7 @@ keywords = ["OpenAPI", "OpenAPI-Generator", "Echo Server API"]
 include = ["openapi_client/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 
 urllib3 = ">= 2.1.0, < 3.0.0"
 python-dateutil = ">= 2.8.2"
