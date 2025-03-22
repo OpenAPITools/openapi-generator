@@ -90,6 +90,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'StringFormattedAsDecimalRequired'
+        /// </summary>
+        [Fact]
+        public void StringFormattedAsDecimalRequiredTest()
+        {
+            // TODO unit test for the property 'StringFormattedAsDecimalRequired'
+        }
+
+        /// <summary>
         /// Test the property 'Binary'
         /// </summary>
         [Fact]
@@ -240,6 +249,15 @@ namespace Org.OpenAPITools.Test.Model
         public void StringTest()
         {
             // TODO unit test for the property 'String'
+        }
+
+        /// <summary>
+        /// Test the property 'StringFormattedAsDecimal'
+        /// </summary>
+        [Fact]
+        public void StringFormattedAsDecimalTest()
+        {
+            // TODO unit test for the property 'StringFormattedAsDecimal'
         }
 
         /// <summary>
