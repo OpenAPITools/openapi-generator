@@ -42,6 +42,7 @@ jobs:
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
+          - samples/server/petstore/kotlin-misk
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:

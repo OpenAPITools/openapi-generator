@@ -47,6 +47,7 @@ jobs:
           - samples/server/others/kotlin-server/jaxrs-spec
           - samples/server/others/kotlin-server/jaxrs-spec-array-response
           - samples/server/petstore/kotlin-spring-cloud
+          - samples/server/petstore/kotlin-misk
           # comment out due to gradle build failure
           #- samples/server/petstore/kotlin-spring-default
           # no build.gradle file
