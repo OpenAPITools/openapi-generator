@@ -6,7 +6,7 @@ package {{#lambda.lowercase}}{{{packageName}}}.{{{apiPackage}}}.{{{classname}}};
 import "google/protobuf/empty.proto";
 {{#imports}}
 {{#import}}
-import public "{{{modelPackage}}}/{{{.}}}.proto";
+import public "{{{import}}}.proto";
 {{/import}}
 {{/imports}}
 

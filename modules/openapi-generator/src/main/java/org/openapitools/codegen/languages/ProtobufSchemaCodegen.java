@@ -912,7 +912,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        return underscore(name);
+        if ("".equals(modelPackage())) {
+            return name;
+        } else {
+            return modelPackage() + "/" + underscore(name);
+        }
     }
 
     @Override
