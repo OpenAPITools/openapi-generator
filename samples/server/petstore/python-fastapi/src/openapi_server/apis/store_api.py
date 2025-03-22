@@ -45,6 +45,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     tags=["store"],
     summary="Delete purchase order by ID",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def delete_order(
     orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")] = Path(..., description="ID of the order that needs to be deleted"),
@@ -63,6 +64,7 @@ async def delete_order(
     tags=["store"],
     summary="Returns pet inventories by status",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def get_inventory(
     token_api_key: TokenModel = Security(
@@ -85,6 +87,7 @@ async def get_inventory(
     tags=["store"],
     summary="Find purchase order by ID",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def get_order_by_id(
     orderId: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")] = Path(..., description="ID of pet that needs to be fetched", ge=1, le=5),
@@ -104,6 +107,7 @@ async def get_order_by_id(
     tags=["store"],
     summary="Place an order for a pet",
     response_model_by_alias=True,
+    response_model_exclude_unset=True,
 )
 async def place_order(
     order: Annotated[Order, Field(description="order placed for purchasing the pet")] = Body(None, description="order placed for purchasing the pet"),
