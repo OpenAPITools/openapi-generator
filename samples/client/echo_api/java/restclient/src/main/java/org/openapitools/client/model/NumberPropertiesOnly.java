@@ -126,6 +126,7 @@ public class NumberPropertiesOnly {
     this._double = _double;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

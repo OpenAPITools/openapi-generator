@@ -64,6 +64,7 @@ public class SpecialModelName {
     this.$specialPropertyName = $specialPropertyName;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
