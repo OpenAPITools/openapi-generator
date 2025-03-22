@@ -1,0 +1,13 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-api-response-examples
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/api-response-examples_issue17610.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: springboot-api-response-examples
+  documentationProvider: springdoc
+  useSpringBoot3: true
+  java8: true
+  delegatePattern: true
+  useBeanValidation: true
+  hideGenerationTimestamp: "true"
