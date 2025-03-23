@@ -4,7 +4,7 @@ name          := "scala-lagom-server"
 
 organization  := "org.openapitools"
 
-scalaVersion  := "2.11.8"
+scalaVersion  := "2.11.12"
 
 val playJsonDerivedCodecs = "org.julienrf" %% "play-json-derived-codecs" % "3.3"
 
