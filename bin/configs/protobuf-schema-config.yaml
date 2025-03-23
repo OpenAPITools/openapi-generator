@@ -7,3 +7,8 @@ additionalProperties:
   addJsonNameAnnotation: true
   numberedFieldNumberList: true
   startEnumsWithUnspecified: true
+  wrapComplexType: false
+typeMappings:
+  object: "google.protobuf.Struct"
+importMappings:
+  google.protobuf.Struct: "google/protobuf/struct"

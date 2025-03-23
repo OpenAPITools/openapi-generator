@@ -677,13 +677,13 @@ use {{invokerPackage}}\ObjectSerializer;
             $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
             foreach ($paramFiles as $paramFile) {
                 $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue($paramFile),
+                    ObjectSerializer::toFormValue('{{baseName}}', $paramFile)['{{baseName}}'],
                     'rb'
                 );
             }
             {{/isFile}}
             {{^isFile}}
-            $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('{{baseName}}', ${{paramName}}));
             {{/isFile}}
         }
         {{/formParams}}

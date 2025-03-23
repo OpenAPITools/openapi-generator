@@ -10,19 +10,48 @@ import FoundationNetworking
 #endif
 @preconcurrency import PromiseKit
 
-extension Bool: QueryStringEncodable {}
-extension Float: QueryStringEncodable {}
-extension Int: QueryStringEncodable {}
-extension Int32: QueryStringEncodable {}
-extension Int64: QueryStringEncodable {}
-extension Double: QueryStringEncodable {}
-extension Decimal: QueryStringEncodable {}
-extension String: QueryStringEncodable {}
-extension URL: QueryStringEncodable {}
-extension UUID: QueryStringEncodable {}
-
 extension QueryStringEncodable {
     @_disfavoredOverload
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Bool: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Float: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Int: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Int32: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Int64: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Double: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension Decimal: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension String: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension URL: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+}
+
+extension UUID: QueryStringEncodable {
     func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
 }
 
