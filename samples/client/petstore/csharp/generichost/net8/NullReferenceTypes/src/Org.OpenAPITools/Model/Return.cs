@@ -171,8 +171,7 @@ namespace Org.OpenAPITools.Model
                             varAbstract = new Option<string?>(utf8JsonReader.GetString());
                             break;
                         case "return":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varReturn = new Option<int?>(utf8JsonReader.GetInt32());
+                            varReturn = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "unsafe":
                             varUnsafe = new Option<string?>(utf8JsonReader.GetString()!);
