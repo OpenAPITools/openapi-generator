@@ -96,7 +96,7 @@ interface PetApi {
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus( @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByStatus(status)
     }
 
@@ -116,7 +116,7 @@ interface PetApi {
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags( @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByTags(tags)
     }
 

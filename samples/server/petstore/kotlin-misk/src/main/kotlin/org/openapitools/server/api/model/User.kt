@@ -2,13 +2,13 @@ package org.openapitools.server.api.model
 
 
 data class User(
-    val id: kotlin.Long?,
-    val username: kotlin.String?,
-    val firstName: kotlin.String?,
-    val lastName: kotlin.String?,
-    val email: kotlin.String?,
-    val password: kotlin.String?,
-    val phone: kotlin.String?,
+    val id: kotlin.Long? = null,
+    val username: kotlin.String? = null,
+    val firstName: kotlin.String? = null,
+    val lastName: kotlin.String? = null,
+    val email: kotlin.String? = null,
+    val password: kotlin.String? = null,
+    val phone: kotlin.String? = null,
     /** User Status */
-    val userStatus: kotlin.Int?
+    val userStatus: kotlin.Int? = null
 )
