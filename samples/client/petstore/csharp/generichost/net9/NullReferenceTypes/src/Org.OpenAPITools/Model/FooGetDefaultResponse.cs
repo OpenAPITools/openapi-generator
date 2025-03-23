@@ -128,8 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "string":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varString = new Option<Foo?>(JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            varString = new Option<Foo?>(JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
