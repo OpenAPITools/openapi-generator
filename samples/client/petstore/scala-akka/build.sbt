@@ -28,4 +28,4 @@ scalacOptions := Seq(
   "-feature"
 )
 
-publishArtifact in (Compile, packageDoc) := false
+Compile / packageDoc / publishArtifact := false
