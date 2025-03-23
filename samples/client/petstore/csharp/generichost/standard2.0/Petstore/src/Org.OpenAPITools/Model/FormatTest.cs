@@ -36,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="date">date</param>
         /// <param name="number">number</param>
         /// <param name="password">password</param>
+        /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired</param>
         /// <param name="binary">binary</param>
         /// <param name="dateTime">dateTime</param>
         /// <param name="decimal">decimal</param>
@@ -53,16 +54,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
         /// <param name="string">string</param>
+        /// <param name="stringFormattedAsDecimal">stringFormattedAsDecimal</param>
         /// <param name="unsignedInteger">unsignedInteger</param>
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(byte[] @byte, DateTime date, decimal number, string password, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] @byte, DateTime date, decimal number, string password, decimal stringFormattedAsDecimalRequired, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> @decimal = default, Option<double?> @double = default, Option<float?> @float = default, Option<int?> int32 = default, Option<int?> int32Range = default, Option<long?> int64 = default, Option<long?> int64Negative = default, Option<long?> int64NegativeExclusive = default, Option<long?> int64Positive = default, Option<long?> int64PositiveExclusive = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> @string = default, Option<decimal?> stringFormattedAsDecimal = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             Byte = @byte;
             Date = date;
             Number = number;
             Password = password;
+            StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
             BinaryOption = binary;
             DateTimeOption = dateTime;
             DecimalOption = @decimal;
@@ -80,6 +83,7 @@ namespace Org.OpenAPITools.Model
             PatternWithDigitsOption = patternWithDigits;
             PatternWithDigitsAndDelimiterOption = patternWithDigitsAndDelimiter;
             StringOption = @string;
+            StringFormattedAsDecimalOption = stringFormattedAsDecimal;
             UnsignedIntegerOption = unsignedInteger;
             UnsignedLongOption = unsignedLong;
             UuidOption = uuid;
@@ -112,6 +116,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonPropertyName("password")]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or Sets StringFormattedAsDecimalRequired
+        /// </summary>
+        [JsonPropertyName("string_formatted_as_decimal_required")]
+        public decimal StringFormattedAsDecimalRequired { get; set; }
 
         /// <summary>
         /// Used to track the state of Binary
@@ -339,6 +349,19 @@ namespace Org.OpenAPITools.Model
         public string String { get { return this.StringOption; } set { this.StringOption = new Option<string>(value); } }
 
         /// <summary>
+        /// Used to track the state of StringFormattedAsDecimal
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<decimal?> StringFormattedAsDecimalOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets StringFormattedAsDecimal
+        /// </summary>
+        [JsonPropertyName("string_formatted_as_decimal")]
+        public decimal? StringFormattedAsDecimal { get { return this.StringFormattedAsDecimalOption; } set { this.StringFormattedAsDecimalOption = new Option<decimal?>(value); } }
+
+        /// <summary>
         /// Used to track the state of UnsignedInteger
         /// </summary>
         [JsonIgnore]
@@ -396,6 +419,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  StringFormattedAsDecimalRequired: ").Append(StringFormattedAsDecimalRequired).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Decimal: ").Append(Decimal).Append("\n");
@@ -413,6 +437,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
             sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  StringFormattedAsDecimal: ").Append(StringFormattedAsDecimal).Append("\n");
             sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Uuid: ").Append(Uuid).Append("\n");
@@ -628,6 +653,7 @@ namespace Org.OpenAPITools.Model
             Option<DateTime?> date = default;
             Option<decimal?> number = default;
             Option<string> password = default;
+            Option<decimal?> stringFormattedAsDecimalRequired = default;
             Option<System.IO.Stream> binary = default;
             Option<DateTime?> dateTime = default;
             Option<decimal?> varDecimal = default;
@@ -645,6 +671,7 @@ namespace Org.OpenAPITools.Model
             Option<string> patternWithDigits = default;
             Option<string> patternWithDigitsAndDelimiter = default;
             Option<string> varString = default;
+            Option<decimal?> stringFormattedAsDecimal = default;
             Option<uint?> unsignedInteger = default;
             Option<ulong?> unsignedLong = default;
             Option<Guid?> uuid = default;
@@ -675,6 +702,9 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "password":
                             password = new Option<string>(utf8JsonReader.GetString());
+                            break;
+                        case "string_formatted_as_decimal_required":
+                            stringFormattedAsDecimalRequired = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         case "binary":
                             binary = new Option<System.IO.Stream>(JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions));
@@ -727,6 +757,9 @@ namespace Org.OpenAPITools.Model
                         case "string":
                             varString = new Option<string>(utf8JsonReader.GetString());
                             break;
+                        case "string_formatted_as_decimal":
+                            stringFormattedAsDecimal = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                            break;
                         case "unsigned_integer":
                             unsignedInteger = new Option<uint?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (uint?)null : utf8JsonReader.GetUInt32());
                             break;
@@ -754,6 +787,9 @@ namespace Org.OpenAPITools.Model
             if (!password.IsSet)
                 throw new ArgumentException("Property is required for class FormatTest.", nameof(password));
 
+            if (!stringFormattedAsDecimalRequired.IsSet)
+                throw new ArgumentException("Property is required for class FormatTest.", nameof(stringFormattedAsDecimalRequired));
+
             if (varByte.IsSet && varByte.Value == null)
                 throw new ArgumentNullException(nameof(varByte), "Property is not nullable for class FormatTest.");
 
@@ -765,6 +801,9 @@ namespace Org.OpenAPITools.Model
 
             if (password.IsSet && password.Value == null)
                 throw new ArgumentNullException(nameof(password), "Property is not nullable for class FormatTest.");
+
+            if (stringFormattedAsDecimalRequired.IsSet && stringFormattedAsDecimalRequired.Value == null)
+                throw new ArgumentNullException(nameof(stringFormattedAsDecimalRequired), "Property is not nullable for class FormatTest.");
 
             if (binary.IsSet && binary.Value == null)
                 throw new ArgumentNullException(nameof(binary), "Property is not nullable for class FormatTest.");
@@ -817,6 +856,9 @@ namespace Org.OpenAPITools.Model
             if (varString.IsSet && varString.Value == null)
                 throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FormatTest.");
 
+            if (stringFormattedAsDecimal.IsSet && stringFormattedAsDecimal.Value == null)
+                throw new ArgumentNullException(nameof(stringFormattedAsDecimal), "Property is not nullable for class FormatTest.");
+
             if (unsignedInteger.IsSet && unsignedInteger.Value == null)
                 throw new ArgumentNullException(nameof(unsignedInteger), "Property is not nullable for class FormatTest.");
 
@@ -826,7 +868,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, stringFormattedAsDecimalRequired.Value.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -882,6 +924,8 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteString("password", formatTest.Password);
 
+            writer.WriteString("string_formatted_as_decimal_required", formatTest.StringFormattedAsDecimalRequired.ToString());
+
             if (formatTest.BinaryOption.IsSet)
             {
                 writer.WritePropertyName("binary");
@@ -936,6 +980,9 @@ namespace Org.OpenAPITools.Model
 
             if (formatTest.StringOption.IsSet)
                 writer.WriteString("string", formatTest.String);
+
+            if (formatTest.StringFormattedAsDecimalOption.IsSet)
+                writer.WriteString("string_formatted_as_decimal", formatTest.StringFormattedAsDecimal.ToString());
 
             if (formatTest.UnsignedIntegerOption.IsSet)
                 writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value.Value);
