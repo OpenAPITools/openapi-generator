@@ -1707,6 +1707,7 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
+        // test deduction
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"), "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)", "@JsonSubTypes.Type(value = Dog.class),", "@JsonSubTypes.Type(value = Cat.class)");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Foo.java"), "public class Foo extends Entity implements FooRefOrValue");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/FooRef.java"), "public class FooRef extends EntityRef implements FooRefOrValue");
