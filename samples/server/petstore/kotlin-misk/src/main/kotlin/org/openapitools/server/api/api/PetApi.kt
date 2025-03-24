@@ -13,8 +13,7 @@ import misk.web.HttpCall
 import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
-import misk.web.RequestHeaders
-import okhttp3.Headers
+import misk.web.RequestHeader
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
@@ -22,7 +21,7 @@ interface PetApi {
 
     fun addPet(@Valid @RequestBody pet: Pet): Pet
 
-    fun deletePet(@PathParam("petId") petId: kotlin.Long, apiKey: Headers)
+    fun deletePet(@PathParam("petId") petId: kotlin.Long, @RequestHeader(value = "api_key") apiKey: kotlin.String?)
 
     fun findPetsByStatus( @QueryParam(value = "status") status: kotlin.Array<kotlin.String>): kotlin.Array<Pet>
 

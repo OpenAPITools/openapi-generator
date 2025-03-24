@@ -1,1 +1,1 @@
-{{#isHeaderParam}}{{#useBeanValidation}}{{>beanValidationCore}}{{/useBeanValidation}}{{{paramName}}}: Headers{{/isHeaderParam}}
+{{#isHeaderParam}}{{#useBeanValidation}}{{>beanValidationCore}}{{/useBeanValidation}}@RequestHeader(value = "{{baseName}}") {{{paramName}}}: {{>optionalDataType}}{{/isHeaderParam}}

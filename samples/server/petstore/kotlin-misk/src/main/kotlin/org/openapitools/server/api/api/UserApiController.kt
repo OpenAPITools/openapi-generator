@@ -22,12 +22,11 @@ import misk.web.Put
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestContentType
-import misk.web.RequestHeaders
+import misk.web.RequestHeader
 import misk.web.ResponseContentType
 import misk.web.actions.WebAction
 import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
-import okhttp3.Headers
 import org.openapitools.server.api.model.User
 
 /**

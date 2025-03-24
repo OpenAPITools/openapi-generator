@@ -22,12 +22,11 @@ import misk.web.Put
 import misk.web.QueryParam
 import misk.web.RequestBody
 import misk.web.RequestContentType
-import misk.web.RequestHeaders
+import misk.web.RequestHeader
 import misk.web.ResponseContentType
 import misk.web.actions.WebAction
 import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
-import okhttp3.Headers
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
@@ -51,7 +50,7 @@ class PetApiController @Inject constructor(
     @Delete("/pet/{petId}")
     @Description("Deletes a pet")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun deletePet(@PathParam("petId") petId: kotlin.Long, apiKey: Headers) {
+    override fun deletePet(@PathParam("petId") petId: kotlin.Long, @RequestHeader(value = "api_key") apiKey: kotlin.String?) {
         TODO()
     }
 

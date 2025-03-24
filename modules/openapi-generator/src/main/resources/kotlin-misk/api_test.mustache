@@ -8,11 +8,10 @@ import misk.web.HttpCall
 import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
-import misk.web.RequestHeaders
+import misk.web.RequestHeader
 
 {{#imports}}import {{import}}
 {{/imports}}
-import okhttp3.Headers
 
 @MiskTest(startService = true)
 internal class {{classname}}Test {

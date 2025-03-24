@@ -15,8 +15,7 @@ import misk.web.HttpCall
 import misk.web.PathParam
 import misk.web.QueryParam
 import misk.web.RequestBody
-import misk.web.RequestHeaders
-import okhttp3.Headers
+import misk.web.RequestHeader
 import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
@@ -31,7 +30,7 @@ class PetApiImpl @Inject constructor(
         TODO()
     }
 
-    override fun deletePet(@PathParam("petId") petId: kotlin.Long, apiKey: Headers) {
+    override fun deletePet(@PathParam("petId") petId: kotlin.Long, @RequestHeader(value = "api_key") apiKey: kotlin.String?) {
         TODO()
     }
 
