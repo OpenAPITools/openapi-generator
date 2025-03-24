@@ -13,8 +13,6 @@ export enum {{classname}} {
 }
 {{/stringEnums}}
 {{^stringEnums}}
-export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
-
 export const {{classname}} = {
 {{#allowableValues}}
 {{#enumVars}}
@@ -22,9 +20,11 @@ export const {{classname}} = {
 
     /**
      * {{.}}
-     */{{/enumDescription}}
-    {{name}}: {{{value}}} as {{classname}}{{^-last}},{{/-last}}
+     */
+{{/enumDescription}}
+    {{name}}: {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
-};
+} as const;
+export type {{classname}} = typeof {{classname}}[keyof typeof {{classname}}];
 {{/stringEnums}}
