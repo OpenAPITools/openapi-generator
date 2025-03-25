@@ -96,7 +96,7 @@ public class StoreApi {
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> deleteOrder(String orderId) throws ApiException {
+  public CompletableFuture<Void> deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
       return memberVarHttpClient.sendAsync(
@@ -120,7 +120,7 @@ public class StoreApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
       return memberVarHttpClient.sendAsync(
@@ -143,7 +143,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder deleteOrderRequestBuilder(String orderId) throws ApiException {
+  private HttpRequest.Builder deleteOrderRequestBuilder(@javax.annotation.Nonnull String orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
@@ -262,7 +262,7 @@ public class StoreApi {
    * @return CompletableFuture&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Order> getOrderById(Long orderId) throws ApiException {
+  public CompletableFuture<Order> getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
       return memberVarHttpClient.sendAsync(
@@ -293,7 +293,7 @@ public class StoreApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Order&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Order>> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+  public CompletableFuture<ApiResponse<Order>> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
       return memberVarHttpClient.sendAsync(
@@ -324,7 +324,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder getOrderByIdRequestBuilder(Long orderId) throws ApiException {
+  private HttpRequest.Builder getOrderByIdRequestBuilder(@javax.annotation.Nonnull Long orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
@@ -356,7 +356,7 @@ public class StoreApi {
    * @return CompletableFuture&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Order> placeOrder(Order order) throws ApiException {
+  public CompletableFuture<Order> placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
       return memberVarHttpClient.sendAsync(
@@ -387,7 +387,7 @@ public class StoreApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Order&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Order>> placeOrderWithHttpInfo(Order order) throws ApiException {
+  public CompletableFuture<ApiResponse<Order>> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(order);
       return memberVarHttpClient.sendAsync(
@@ -418,7 +418,7 @@ public class StoreApi {
     }
   }
 
-  private HttpRequest.Builder placeOrderRequestBuilder(Order order) throws ApiException {
+  private HttpRequest.Builder placeOrderRequestBuilder(@javax.annotation.Nonnull Order order) throws ApiException {
     // verify the required parameter 'order' is set
     if (order == null) {
       throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");

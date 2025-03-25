@@ -59,7 +59,7 @@ public class FakeClassnameTags123Api {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client testClassname(Client client) throws ApiException {
+  public Client testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
     return testClassnameWithHttpInfo(client).getData();
   }
 
@@ -76,7 +76,7 @@ public class FakeClassnameTags123Api {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
     // Check required parameters
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");

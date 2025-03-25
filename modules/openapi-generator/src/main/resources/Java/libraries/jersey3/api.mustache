@@ -86,7 +86,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#returnType}}return {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}.getData(){{/returnType}};
   }
   {{/vendorExtensions.x-group-parameters}}
@@ -121,7 +121,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
+  public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{{returnType}}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException {
     {{#hasRequiredParams}}
     // Check required parameters
     {{#allParams}}
@@ -205,10 +205,11 @@ public class {{classname}} {
 
   public class API{{operationId}}Request {
     {{#allParams}}
+    {{>nullable_var_annotations}}
     private {{{dataType}}} {{paramName}};
     {{/allParams}}
 
-    private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) {
+    private API{{operationId}}Request({{#pathParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) {
       {{#pathParams}}
       this.{{paramName}} = {{paramName}};
       {{/pathParams}}
@@ -221,7 +222,7 @@ public class {{classname}} {
      * @param {{paramName}} {{description}} ({{^required}}optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}{{/required}}{{#required}}required{{/required}})
      * @return API{{operationId}}Request
      */
-    public API{{operationId}}Request {{paramName}}({{{dataType}}} {{paramName}}) {
+    public API{{operationId}}Request {{paramName}}({{>nullable_var_annotations}} {{{dataType}}} {{paramName}}) {
       this.{{paramName}} = {{paramName}};
       return this;
     }
@@ -287,7 +288,7 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public API{{operationId}}Request {{operationId}}({{#pathParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) throws ApiException {
+  public API{{operationId}}Request {{operationId}}({{#pathParams}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/pathParams}}) throws ApiException {
     return new API{{operationId}}Request({{#pathParams}}{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}});
   }
   {{/vendorExtensions.x-group-parameters}}
