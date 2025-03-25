@@ -58,7 +58,7 @@ interface PetApi {
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus( @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -68,7 +68,7 @@ interface PetApi {
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags( @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
