@@ -26,7 +26,7 @@ import {
     {{classname}},
     Configuration{{#allParams}}{{#isModel}},
     {{{dataType}}}{{/isModel}}{{/allParams}}
-} from '{{{npmName}}}';
+} from '{{#npmName}}{{.}}{{/npmName}}{{^npmName}}./api{{/npmName}}';
 
 const configuration = new Configuration();
 const apiInstance = new {{classname}}(configuration);
