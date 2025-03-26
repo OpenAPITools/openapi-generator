@@ -1,19 +1,3 @@
-/*
- * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.openapitools.codegen.languages;
 
 import lombok.Setter;
@@ -57,8 +41,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
-    @Setter
-    protected String moduleClassName = "OpenApiModule";
+    @Setter protected String moduleClassName = "OpenApiModule";
 
     @Override
     public CodegenType getTag() {
@@ -199,30 +182,36 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     }
 
     private String mapMediaType(String mediaType) {
-        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> " + mediaType + " */ ");
+        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* @todo(unknown) -> " + mediaType + " */ ");
     }
 
     private final static Map<String, String> MEDIA_MAPPING = getMappings();
 
     private static Map<String, String> getMappings() {
+        // add new values in order
         Map<String, String> result = new HashMap<>();
-        result.put("application/json", "MediaTypes.APPLICATION_JSON");
-        result.put("application/xml", "MediaTypes.APPLICATION_XML");
-        result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
         result.put("*/*", "MediaTypes.ALL");
-        result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
+
+        result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
+        result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
+        result.put("application/json", "MediaTypes.APPLICATION_JSON");
         result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/pdf", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");
-        result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
+        result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
+        result.put("application/xml", "MediaTypes.APPLICATION_XML");
+        result.put("application/zip", "MediaTypes.APPLICATION_ZIP");
+
+        result.put("image/gif", "MediaTypes.IMAGE_GIF");
+        result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
+        result.put("image/png", "MediaTypes.IMAGE_PNG");
+        result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
+        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
+
         result.put("text/css", "MediaTypes.TEXT_CSS");
         result.put("text/html", "MediaTypes.TEXT_HTML");
         result.put("text/plain", "MediaTypes.TEXT_PLAIN_UTF8");
-        result.put("image/png", "MediaTypes.IMAGE_PNG");
-        result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
-        result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
-        result.put("image/gif", "MediaTypes.IMAGE_GIF");
-        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
+
         return result;
     }
 }
