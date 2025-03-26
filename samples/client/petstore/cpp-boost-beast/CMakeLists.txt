@@ -6,8 +6,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Boost 1.66.0 REQUIRED)
+find_package(Boost 1.66 REQUIRED COMPONENTS unit_test_framework)
+if (NOT Boost_FOUND)
+    message(FATAL_ERROR "Cannot find Boost libraries")
+endif ()
 
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 # Coverage
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")

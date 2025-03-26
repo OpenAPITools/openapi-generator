@@ -20,11 +20,14 @@ using namespace org::openapitools::client::api;
 
 namespace {
 struct fixture {
-    fixture() = default;
+
+    explicit fixture()
+        : client(std::make_shared<HttpClientImpl>("localhost", "8080"))
+    {}
 
     ~fixture() = default;
 
-    std::shared_ptr<HttpClient> client = std::make_shared<HttpClientImpl>("localhost", "8080");
+    std::shared_ptr<HttpClient> client;
 };
 }
 
@@ -183,13 +186,13 @@ BOOST_AUTO_TEST_CASE(getPetById_std_exception) {
         BOOST_REQUIRE_THROW(api.getPetById(0), std::exception);
 }
 
-    BOOST_AUTO_TEST_CASE(getPetById_int_exception) {
-        client->setExceptionType(ExceptionType::INT);
-        auto baseClient = std::static_pointer_cast<HttpClient>(client);
-        PetApi api(baseClient);
+BOOST_AUTO_TEST_CASE(getPetById_int_exception) {
+    client->setExceptionType(ExceptionType::INT);
+    auto baseClient = std::static_pointer_cast<HttpClient>(client);
+    PetApi api(baseClient);
 
-        BOOST_REQUIRE_THROW(api.getPetById(0), int);
-    }
+    BOOST_REQUIRE_THROW(api.getPetById(0), int);
+}
 
 
 BOOST_AUTO_TEST_SUITE_END()

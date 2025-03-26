@@ -21,6 +21,9 @@ target_link_libraries(api_tests
             client
             ${Boost_LIBRARIES})
 
+target_compile_definitions(api_tests
+        PUBLIC
+            BOOST_TEST_DYN_LINK)
 
 add_test(NAME api_tests
         COMMAND_EXPAND_LISTS

@@ -15,6 +15,8 @@ fi
 
 
 echo Starting imposter
+# NOTE: as of version 4.5.2, imposter default values have changed
+# https://github.com/imposter-project/imposter-jvm-engine/commit/06abdf394ccb94d6d9b9c3b2e2eb424940386e20
 imposter up -p 8080 ./imposter_config &
 pid=$!
 
@@ -33,6 +35,9 @@ set +x
 sleep 5
 
 echo Running tests: "$@"
+set +e
 "$@"
+ec=$?
 
 imposter down
+exit $ec

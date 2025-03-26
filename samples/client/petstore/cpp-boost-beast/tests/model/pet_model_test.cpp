@@ -1,6 +1,10 @@
 #define BOOST_TEST_INCLUDED
 #include <list>
 #include "../ApprovalTests.hpp"
+// silence warning from json_parser.hpp
+#ifndef BOOST_BIND_GLOBAL_PLACEHOLDERS
+# define BOOST_BIND_GLOBAL_PLACEHOLDERS
+#endif
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/test/data/test_case.hpp>

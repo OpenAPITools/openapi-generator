@@ -42,5 +42,7 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC boost_system ssl crypto)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC model api ${CMAKE_CURRENT_LIST_DIR})
 
+# silence warnings from boost/property_tree/json_parser.hpp
+target_compile_definitions(${LIBRARY_NAME} PRIVATE BOOST_BIND_GLOBAL_PLACEHOLDERS)
 
 install(TARGETS ${LIBRARY_NAME} RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)

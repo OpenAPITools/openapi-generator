@@ -23,5 +23,8 @@ target_link_libraries(model_tests
             client
             ${Boost_LIBRARIES})
 
+target_compile_definitions(api_tests
+        PUBLIC
+            BOOST_TEST_DYN_LINK)
 
 add_test(NAME model_tests COMMAND model_tests)
