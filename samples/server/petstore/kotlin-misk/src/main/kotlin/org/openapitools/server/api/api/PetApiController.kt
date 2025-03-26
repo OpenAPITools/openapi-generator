@@ -97,7 +97,7 @@ class PetApiController @Inject constructor(
 
     @Post("/pet/{petId}/uploadImage")
     @Description("uploads an image")
-    @RequestContentType(MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> multipart/form-data */ )
+    @RequestContentType(MediaTypes.FORM_DATA)
     @ResponseContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     override fun uploadFile(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , @Valid file: HttpCall): ModelApiResponse {
