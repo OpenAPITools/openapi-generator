@@ -97,10 +97,7 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
  * Merge configuration options into a configuration.
  */
 export function mergeConfiguration(conf: Configuration, options?: Configuration): Configuration {
-    if (options) {
-        conf = options;
-    }
-    return conf;
+    return options || conf;
 }
 
 /**

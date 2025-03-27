@@ -97,16 +97,15 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
  * Merge configuration options into a configuration.
  */
 export function mergeConfiguration(conf: Configuration, options?: ConfigurationOptions): Configuration {
-    let allMiddleware: Middleware[] = mergeMiddleware(conf.middleware, options?.middleware, options?.middlewareMergeStrategy);
-    if (options) {
-        conf = {
-          baseServer: options.baseServer || conf.baseServer,
-          httpApi: options.httpApi || conf.httpApi,
-          authMethods: options.authMethods || conf.authMethods,
-          middleware: allMiddleware,
-        };
+    if (!options) {
+        return conf;
     }
-    return conf;
+    return {
+        baseServer: options.baseServer || conf.baseServer,
+        httpApi: options.httpApi || conf.httpApi,
+        authMethods: options.authMethods || conf.authMethods,
+        middleware: mergeMiddleware(conf.middleware, options?.middleware, options?.middlewareMergeStrategy),
+    };
 }
 
 function mergeMiddleware(staticMiddleware: Middleware[], calltimeMiddleware?: Middleware[], strategy?: "append" | "prepend" | "replace") {
