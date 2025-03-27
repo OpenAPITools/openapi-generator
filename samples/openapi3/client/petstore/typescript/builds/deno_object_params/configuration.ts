@@ -97,7 +97,7 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
  * Merge configuration options into a configuration.
  */
 export function mergeConfiguration(conf: Configuration, options?: ConfigurationOptions): Configuration {
-    let allMiddleware: Middleware[] = [];
+    let allMiddleware: Middleware[] = conf.middleware;
     if (options && options.middleware) {
         const middlewareMergeStrategy = options.middlewareMergeStrategy || "replace" // default to replace behavior
         // call-time middleware provided
@@ -122,7 +122,7 @@ export function mergeConfiguration(conf: Configuration, options?: ConfigurationO
           baseServer: options.baseServer || conf.baseServer,
           httpApi: options.httpApi || conf.httpApi,
           authMethods: options.authMethods || conf.authMethods,
-          middleware: allMiddleware || conf.middleware
+          middleware: allMiddleware,
         };
     }
     return conf;
@@ -132,16 +132,16 @@ export function mergeConfiguration(conf: Configuration, options?: ConfigurationO
  * Convert Promise-based configuration options to Observable-based configuration options.
  */
 export function wrapOptions(options?: PromiseConfigurationOptions): StandardConfigurationOptions | undefined {
-    if (options) {
-        return {
-            baseServer: options.baseServer,
-            httpApi: options.httpApi,
-            middleware: options.middleware?.map(
-              m => new PromiseMiddlewareWrapper(m)
-            ),
-            middlewareMergeStrategy: options.middlewareMergeStrategy,
-            authMethods: options.authMethods,
-        }
+    if (!options) {
+        return;
     }
-    return;
+    return {
+        baseServer: options.baseServer,
+        httpApi: options.httpApi,
+        middleware: options.middleware?.map(
+          m => new PromiseMiddlewareWrapper(m)
+        ),
+        middlewareMergeStrategy: options.middlewareMergeStrategy,
+        authMethods: options.authMethods,
+    }
 }
