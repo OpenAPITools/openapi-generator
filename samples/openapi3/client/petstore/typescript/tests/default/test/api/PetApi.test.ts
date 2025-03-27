@@ -103,6 +103,24 @@ describe("PetApi", () => {
     expect(CallOrder).deep.equal(['base-pre', 'base-post'])
   })
 
+  it("should keep middleware when options are given without middleware", async () => {
+    let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+    const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] });
+    const petApi = new petstore.PetApi(configuration);
+    const callTimeAppendedRightPet = await petApi.getPetById(pet.id, {});
+    expect(callTimeAppendedRightPet).to.deep.equal(pet);
+    expect(CallOrder).deep.equal(['base-pre', 'base-post'])
+  })
+
+  it("should replace middleware when options contain an empty array of middlewares", async () => {
+    let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+    const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] });
+    const petApi = new petstore.PetApi(configuration);
+    const callTimeAppendedRightPet = await petApi.getPetById(pet.id, { middleware: [] });
+    expect(callTimeAppendedRightPet).to.deep.equal(pet);
+    expect(CallOrder).deep.equal([])
+  })
+
   it("replace Middleware call order", async () => {
     let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
     const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] })
