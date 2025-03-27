@@ -96,26 +96,26 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
 /**
  * Merge configuration options into a configuration.
  */
-export function mergeConfiguration(_config: Configuration, _options?: Configuration): Configuration {
-    if (_options) {
-        _config = _options;
+export function mergeConfiguration(conf: Configuration, options?: Configuration): Configuration {
+    if (options) {
+        conf = options;
     }
-    return _config;
+    return conf;
 }
 
 /**
  * Convert Promise-based configuration options to Observable-based configuration options.
  */
-export function wrapOptions(_options?: PromiseConfigurationOptions): StandardConfigurationOptions | undefined {
-    if (_options) {
+export function wrapOptions(options?: PromiseConfigurationOptions): StandardConfigurationOptions | undefined {
+    if (options) {
         return {
-            baseServer: _options.baseServer,
-            httpApi: _options.httpApi,
-            middleware: _options.middleware?.map(
+            baseServer: options.baseServer,
+            httpApi: options.httpApi,
+            middleware: options.middleware?.map(
               m => new PromiseMiddlewareWrapper(m)
             ),
-            middlewareMergeStrategy: _options.middlewareMergeStrategy,
-            authMethods: _options.authMethods,
+            middlewareMergeStrategy: options.middlewareMergeStrategy,
+            authMethods: options.authMethods,
         }
     }
     return;
