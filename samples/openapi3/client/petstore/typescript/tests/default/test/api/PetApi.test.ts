@@ -84,9 +84,8 @@ describe("PetApi", () => {
     const wrongId = pet.id + 100
     const configuration = petstore.createConfiguration({ promiseMiddleware: [overridePetIDMiddleware(wrongId)] })
     const petApi = new petstore.PetApi(configuration)
-    let overridenWrongPet;
     try {
-      overridenWrongPet = await petApi.getPetById(pet.id)
+      void await petApi.getPetById(pet.id)
     } catch (err) {
       expect(err.code).to.equal(404);
       expect(err.message).to.include("Pet not found");
