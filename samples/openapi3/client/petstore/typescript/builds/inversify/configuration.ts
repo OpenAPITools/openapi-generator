@@ -104,3 +104,21 @@ export function mergeConfiguration(_config: Configuration, _options?: Configurat
     allMiddleware = _config?.middleware;
     return _config;
 }
+
+/**
+ * Convert Promise-based configuration options to Observable-based configuration options.
+ */
+export function wrapOptions(_options?: PromiseConfigurationOptions): StandardConfigurationOptions | undefined {
+      if (_options){
+          return {
+              baseServer: _options.baseServer,
+              httpApi: _options.httpApi,
+              middleware: _options.middleware?.map(
+                  m => new PromiseMiddlewareWrapper(m)
+              ),
+              middlewareMergeStrategy: _options.middlewareMergeStrategy,
+              authMethods: _options.authMethods
+          }
+      }
+      return;
+}
