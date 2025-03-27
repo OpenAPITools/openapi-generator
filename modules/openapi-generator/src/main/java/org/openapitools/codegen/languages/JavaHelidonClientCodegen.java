@@ -280,8 +280,8 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+    public CodegenOperation fromOperation(String path, String httpMethod,Integer contentTypeIndex, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, contentTypeIndex, operation, servers);
         // We use two templates, one for the API interface and one for the impl class.
         // Add to the normal imports for this operation only those imports used in both
         // the API and the impl. Create a vendor extension on the operation to record the
