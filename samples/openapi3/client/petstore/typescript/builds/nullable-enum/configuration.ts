@@ -96,19 +96,19 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
 /**
  * Merge configuration options into a configuration.
  */
-export function mergeConfiguration(_config: Configuration, _options?: ConfigurationOptions): Configuration {
+export function mergeConfiguration(conf: Configuration, options?: ConfigurationOptions): Configuration {
     let allMiddleware: Middleware[] = [];
-    if (_options && _options.middleware) {
-        const middlewareMergeStrategy = _options.middlewareMergeStrategy || "replace" // default to replace behavior
+    if (options && options.middleware) {
+        const middlewareMergeStrategy = options.middlewareMergeStrategy || "replace" // default to replace behavior
         // call-time middleware provided
-        const calltimeMiddleware: Middleware[] = _options.middleware;
+        const calltimeMiddleware: Middleware[] = options.middleware;
 
         switch(middlewareMergeStrategy) {
         case "append":
-            allMiddleware = _config.middleware.concat(calltimeMiddleware);
+            allMiddleware = conf.middleware.concat(calltimeMiddleware);
             break;
         case "prepend":
-            allMiddleware = calltimeMiddleware.concat(_config.middleware)
+            allMiddleware = calltimeMiddleware.concat(conf.middleware)
             break;
         case "replace":
             allMiddleware = calltimeMiddleware
@@ -117,30 +117,30 @@ export function mergeConfiguration(_config: Configuration, _options?: Configurat
             throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`);
         }
     }
-    if (_options) {
-        _config = {
-          baseServer: _options.baseServer || _config.baseServer,
-          httpApi: _options.httpApi || _config.httpApi,
-          authMethods: _options.authMethods || _config.authMethods,
-          middleware: allMiddleware || _config.middleware
+    if (options) {
+        conf = {
+          baseServer: options.baseServer || conf.baseServer,
+          httpApi: options.httpApi || conf.httpApi,
+          authMethods: options.authMethods || conf.authMethods,
+          middleware: allMiddleware || conf.middleware
         };
     }
-    return _config;
+    return conf;
 }
 
 /**
  * Convert Promise-based configuration options to Observable-based configuration options.
  */
-export function wrapOptions(_options?: PromiseConfigurationOptions): StandardConfigurationOptions | undefined {
-    if (_options) {
+export function wrapOptions(options?: PromiseConfigurationOptions): StandardConfigurationOptions | undefined {
+    if (options) {
         return {
-            baseServer: _options.baseServer,
-            httpApi: _options.httpApi,
-            middleware: _options.middleware?.map(
+            baseServer: options.baseServer,
+            httpApi: options.httpApi,
+            middleware: options.middleware?.map(
               m => new PromiseMiddlewareWrapper(m)
             ),
-            middlewareMergeStrategy: _options.middlewareMergeStrategy,
-            authMethods: _options.authMethods,
+            middlewareMergeStrategy: options.middlewareMergeStrategy,
+            authMethods: options.authMethods,
         }
     }
     return;
