@@ -103,15 +103,17 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
 /**
  * Merge configuration options into a configuration.
  */
-export function mergeConfiguration(_config: Configuration, _options?: Configuration{{^useInversify}}Options{{/useInversify}}): Configuration {
-    let allMiddleware: Middleware[] = [];
-    {{#useInversify}}
+{{#useInversify}}
+export function mergeConfiguration(_config: Configuration, _options?: Configuration): Configuration {
     if (_options) {
         _config = _options;
     }
-    allMiddleware = _config?.middleware;
-    {{/useInversify}}
-    {{^useInversify}}
+    return _config;
+}
+{{/useInversify}}
+{{^useInversify}}
+export function mergeConfiguration(_config: Configuration, _options?: ConfigurationOptions): Configuration {
+    let allMiddleware: Middleware[] = [];
     if (_options && _options.middleware) {
         const middlewareMergeStrategy = _options.middlewareMergeStrategy || "replace" // default to replace behavior
         // call-time middleware provided
@@ -139,9 +141,9 @@ export function mergeConfiguration(_config: Configuration, _options?: Configurat
           middleware: allMiddleware || _config.middleware
         };
     }
-    {{/useInversify}}
     return _config;
 }
+{{/useInversify}}
 
 /**
  * Convert Promise-based configuration options to Observable-based configuration options.
