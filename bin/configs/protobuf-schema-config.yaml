@@ -8,6 +8,7 @@ additionalProperties:
   numberedFieldNumberList: true
   startEnumsWithUnspecified: true
   wrapComplexType: false
+  supportMultipleResponses: true
   aggregateModelsName: data
 typeMappings:
   object: "google.protobuf.Struct"
