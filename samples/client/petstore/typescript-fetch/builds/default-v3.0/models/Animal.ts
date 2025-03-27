@@ -82,7 +82,7 @@ export function AnimalToJSONTyped(value?: Animal | null, ignoreDiscriminator: bo
             case 'DOG':
                 return DogToJSONTyped(value as Dog, ignoreDiscriminator);
             default:
-                throw new Error(`No variant of Animal exists with 'className=${value['className']}'`);
+                return value;
         }
     }
 
