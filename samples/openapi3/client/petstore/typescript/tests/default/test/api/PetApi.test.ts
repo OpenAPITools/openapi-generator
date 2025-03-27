@@ -1,5 +1,5 @@
 import * as petstore from 'ts-petstore-client'
-import { Middleware, RequestContext, ResponseContext } from 'ts-petstore-client'
+import { Middleware, RequestContext, ResponseContext, wrapHttpLibrary } from 'ts-petstore-client'
 
 import { expect } from "chai";
 import * as fs from 'fs';
@@ -156,6 +156,31 @@ describe("PetApi", () => {
     const petApi = new petstore.PetApi(configuration)
     const callTimeAppendedRightPet = await petApi.getPetById(wrongId, { middleware: [overridePetIDMiddleware(wrongId)], middlewareMergeStrategy: 'prepend' })
     expect(callTimeAppendedRightPet).to.deep.equal(pet);
+  })
+
+  it("should override http api from option", async () => {
+    const configuration = petstore.createConfiguration();
+    const petApi = new petstore.PetApi(configuration);
+
+    let overriddenCalls = 0;
+    const mockHttpLibrary = {
+      async send(): Promise<ResponseContext> {
+        overriddenCalls++;
+        return new ResponseContext(200, {
+          "content-type": "application/json",
+        }, {
+          async text() {
+            return "{}";
+          },
+          async binary() {
+            throw new Error("Unexpected usage of mock body as binary.");
+          }
+        });
+      }
+    };
+
+    await petApi.getPetById(pet.id, { httpApi: wrapHttpLibrary(mockHttpLibrary) });
+    expect(overriddenCalls).to.equal(1);
   })
 
   it("deletePet", async () => {
