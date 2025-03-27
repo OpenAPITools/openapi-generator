@@ -92,3 +92,38 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
     }
     return configuration;
 }
+
+/**
+ * Merge configuration options into a configuration.
+ */
+export function mergeConfiguration(_config: Configuration, _options?: ConfigurationOptions): Configuration {
+    let allMiddleware: Middleware[] = [];
+    if (_options && _options.middleware){
+      const middlewareMergeStrategy = _options.middlewareMergeStrategy || 'replace' // default to replace behavior
+      // call-time middleware provided
+      const calltimeMiddleware: Middleware[] = _options.middleware;
+
+      switch(middlewareMergeStrategy){
+      case 'append':
+        allMiddleware = _config.middleware.concat(calltimeMiddleware);
+        break;
+      case 'prepend':
+        allMiddleware = calltimeMiddleware.concat(_config.middleware)
+        break;
+      case 'replace':
+        allMiddleware = calltimeMiddleware
+        break;
+      default: 
+        throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`)
+      }
+    }
+    if (_options){
+      _config = {
+        baseServer: _options.baseServer || _config.baseServer,
+        httpApi: _options.httpApi || _config.httpApi,
+        authMethods: _options.authMethods || _config.authMethods,
+        middleware: allMiddleware || _config.middleware
+      };
+    }
+    return _config;
+}

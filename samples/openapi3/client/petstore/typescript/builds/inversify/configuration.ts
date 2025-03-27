@@ -92,3 +92,15 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
     }
     return configuration;
 }
+
+/**
+ * Merge configuration options into a configuration.
+ */
+export function mergeConfiguration(_config: Configuration, _options?: Configuration): Configuration {
+    let allMiddleware: Middleware[] = [];
+    if (_options){
+      _config = _options;
+    }
+    allMiddleware = _config?.middleware;
+    return _config;
+}
