@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration, ConfigurationOptions, PromiseConfigurationOptions } from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { AdditionalPropertiesClass } from '../models/AdditionalPropertiesClass';
@@ -69,19 +69,7 @@ export class PromiseAnotherFakeApi {
      * @param client client model
      */
     public _123testSpecialTagsWithHttpInfo(client: Client, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Client>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api._123testSpecialTagsWithHttpInfo(client, observableOptions);
+        const result = this.api._123testSpecialTagsWithHttpInfo(client, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -91,19 +79,7 @@ export class PromiseAnotherFakeApi {
      * @param client client model
      */
     public _123testSpecialTags(client: Client, _options?: PromiseConfigurationOptions): Promise<Client> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api._123testSpecialTags(client, observableOptions);
+        const result = this.api._123testSpecialTags(client, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -129,38 +105,14 @@ export class PromiseDefaultApi {
     /**
      */
     public fooGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fooGetWithHttpInfo(observableOptions);
+        const result = this.api.fooGetWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
     /**
      */
     public fooGet(_options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fooGet(observableOptions);
+        const result = this.api.fooGet(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -187,19 +139,7 @@ export class PromiseFakeApi {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
     public fakeBigDecimalMapWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<FakeBigDecimalMap200Response>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeBigDecimalMapWithHttpInfo(observableOptions);
+        const result = this.api.fakeBigDecimalMapWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -207,19 +147,7 @@ export class PromiseFakeApi {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
     public fakeBigDecimalMap(_options?: PromiseConfigurationOptions): Promise<FakeBigDecimalMap200Response> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeBigDecimalMap(observableOptions);
+        const result = this.api.fakeBigDecimalMap(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -227,19 +155,7 @@ export class PromiseFakeApi {
      * Health check endpoint
      */
     public fakeHealthGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<HealthCheckResult>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeHealthGetWithHttpInfo(observableOptions);
+        const result = this.api.fakeHealthGetWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -247,19 +163,7 @@ export class PromiseFakeApi {
      * Health check endpoint
      */
     public fakeHealthGet(_options?: PromiseConfigurationOptions): Promise<HealthCheckResult> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeHealthGet(observableOptions);
+        const result = this.api.fakeHealthGet(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -270,19 +174,7 @@ export class PromiseFakeApi {
      * @param [header1] header parameter
      */
     public fakeHttpSignatureTestWithHttpInfo(pet: Pet, query1?: string, header1?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1, observableOptions);
+        const result = this.api.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -293,19 +185,7 @@ export class PromiseFakeApi {
      * @param [header1] header parameter
      */
     public fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeHttpSignatureTest(pet, query1, header1, observableOptions);
+        const result = this.api.fakeHttpSignatureTest(pet, query1, header1, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -314,19 +194,7 @@ export class PromiseFakeApi {
      * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerializeWithHttpInfo(body?: boolean, _options?: PromiseConfigurationOptions): Promise<HttpInfo<boolean>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterBooleanSerializeWithHttpInfo(body, observableOptions);
+        const result = this.api.fakeOuterBooleanSerializeWithHttpInfo(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -335,19 +203,7 @@ export class PromiseFakeApi {
      * @param [body] Input boolean as post body
      */
     public fakeOuterBooleanSerialize(body?: boolean, _options?: PromiseConfigurationOptions): Promise<boolean> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterBooleanSerialize(body, observableOptions);
+        const result = this.api.fakeOuterBooleanSerialize(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -356,19 +212,7 @@ export class PromiseFakeApi {
      * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerializeWithHttpInfo(outerComposite?: OuterComposite, _options?: PromiseConfigurationOptions): Promise<HttpInfo<OuterComposite>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterCompositeSerializeWithHttpInfo(outerComposite, observableOptions);
+        const result = this.api.fakeOuterCompositeSerializeWithHttpInfo(outerComposite, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -377,19 +221,7 @@ export class PromiseFakeApi {
      * @param [outerComposite] Input composite as post body
      */
     public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: PromiseConfigurationOptions): Promise<OuterComposite> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterCompositeSerialize(outerComposite, observableOptions);
+        const result = this.api.fakeOuterCompositeSerialize(outerComposite, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -398,19 +230,7 @@ export class PromiseFakeApi {
      * @param [body] Input number as post body
      */
     public fakeOuterNumberSerializeWithHttpInfo(body?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<number>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterNumberSerializeWithHttpInfo(body, observableOptions);
+        const result = this.api.fakeOuterNumberSerializeWithHttpInfo(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -419,19 +239,7 @@ export class PromiseFakeApi {
      * @param [body] Input number as post body
      */
     public fakeOuterNumberSerialize(body?: number, _options?: PromiseConfigurationOptions): Promise<number> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterNumberSerialize(body, observableOptions);
+        const result = this.api.fakeOuterNumberSerialize(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -440,19 +248,7 @@ export class PromiseFakeApi {
      * @param [body] Input string as post body
      */
     public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterStringSerializeWithHttpInfo(body, observableOptions);
+        const result = this.api.fakeOuterStringSerializeWithHttpInfo(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -461,19 +257,7 @@ export class PromiseFakeApi {
      * @param [body] Input string as post body
      */
     public fakeOuterStringSerialize(body?: string, _options?: PromiseConfigurationOptions): Promise<string> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakeOuterStringSerialize(body, observableOptions);
+        const result = this.api.fakeOuterStringSerialize(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -482,19 +266,7 @@ export class PromiseFakeApi {
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
     public fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: PromiseConfigurationOptions): Promise<HttpInfo<OuterObjectWithEnumProperty>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty, observableOptions);
+        const result = this.api.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -503,19 +275,7 @@ export class PromiseFakeApi {
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
     public fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: PromiseConfigurationOptions): Promise<OuterObjectWithEnumProperty> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, observableOptions);
+        const result = this.api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -524,19 +284,7 @@ export class PromiseFakeApi {
      * @param body image to upload
      */
     public testBodyWithBinaryWithHttpInfo(body: HttpFile, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testBodyWithBinaryWithHttpInfo(body, observableOptions);
+        const result = this.api.testBodyWithBinaryWithHttpInfo(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -545,19 +293,7 @@ export class PromiseFakeApi {
      * @param body image to upload
      */
     public testBodyWithBinary(body: HttpFile, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testBodyWithBinary(body, observableOptions);
+        const result = this.api.testBodyWithBinary(body, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -566,19 +302,7 @@ export class PromiseFakeApi {
      * @param fileSchemaTestClass
      */
     public testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass: FileSchemaTestClass, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, observableOptions);
+        const result = this.api.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -587,19 +311,7 @@ export class PromiseFakeApi {
      * @param fileSchemaTestClass
      */
     public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testBodyWithFileSchema(fileSchemaTestClass, observableOptions);
+        const result = this.api.testBodyWithFileSchema(fileSchemaTestClass, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -608,19 +320,7 @@ export class PromiseFakeApi {
      * @param user
      */
     public testBodyWithQueryParamsWithHttpInfo(query: string, user: User, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testBodyWithQueryParamsWithHttpInfo(query, user, observableOptions);
+        const result = this.api.testBodyWithQueryParamsWithHttpInfo(query, user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -629,19 +329,7 @@ export class PromiseFakeApi {
      * @param user
      */
     public testBodyWithQueryParams(query: string, user: User, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testBodyWithQueryParams(query, user, observableOptions);
+        const result = this.api.testBodyWithQueryParams(query, user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -651,19 +339,7 @@ export class PromiseFakeApi {
      * @param client client model
      */
     public testClientModelWithHttpInfo(client: Client, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Client>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testClientModelWithHttpInfo(client, observableOptions);
+        const result = this.api.testClientModelWithHttpInfo(client, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -673,19 +349,7 @@ export class PromiseFakeApi {
      * @param client client model
      */
     public testClientModel(client: Client, _options?: PromiseConfigurationOptions): Promise<Client> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testClientModel(client, observableOptions);
+        const result = this.api.testClientModel(client, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -708,19 +372,7 @@ export class PromiseFakeApi {
      * @param [callback] None
      */
     public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, observableOptions);
+        const result = this.api.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -743,19 +395,7 @@ export class PromiseFakeApi {
      * @param [callback] None
      */
     public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, observableOptions);
+        const result = this.api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -773,19 +413,7 @@ export class PromiseFakeApi {
      * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParametersWithHttpInfo(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, observableOptions);
+        const result = this.api.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -803,19 +431,7 @@ export class PromiseFakeApi {
      * @param [enumFormString] Form parameter enum test (string)
      */
     public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, observableOptions);
+        const result = this.api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -830,19 +446,7 @@ export class PromiseFakeApi {
      * @param [int64Group] Integer in group parameters
      */
     public testGroupParametersWithHttpInfo(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, observableOptions);
+        const result = this.api.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -857,19 +461,7 @@ export class PromiseFakeApi {
      * @param [int64Group] Integer in group parameters
      */
     public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, observableOptions);
+        const result = this.api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -879,19 +471,7 @@ export class PromiseFakeApi {
      * @param requestBody request body
      */
     public testInlineAdditionalPropertiesWithHttpInfo(requestBody: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testInlineAdditionalPropertiesWithHttpInfo(requestBody, observableOptions);
+        const result = this.api.testInlineAdditionalPropertiesWithHttpInfo(requestBody, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -901,19 +481,7 @@ export class PromiseFakeApi {
      * @param requestBody request body
      */
     public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testInlineAdditionalProperties(requestBody, observableOptions);
+        const result = this.api.testInlineAdditionalProperties(requestBody, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -924,19 +492,7 @@ export class PromiseFakeApi {
      * @param param2 field2
      */
     public testJsonFormDataWithHttpInfo(param: string, param2: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testJsonFormDataWithHttpInfo(param, param2, observableOptions);
+        const result = this.api.testJsonFormDataWithHttpInfo(param, param2, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -947,19 +503,7 @@ export class PromiseFakeApi {
      * @param param2 field2
      */
     public testJsonFormData(param: string, param2: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testJsonFormData(param, param2, observableOptions);
+        const result = this.api.testJsonFormData(param, param2, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -974,19 +518,7 @@ export class PromiseFakeApi {
      * @param [language]
      */
     public testQueryParameterCollectionFormatWithHttpInfo(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language, observableOptions);
+        const result = this.api.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1001,19 +533,7 @@ export class PromiseFakeApi {
      * @param [language]
      */
     public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, observableOptions);
+        const result = this.api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1042,19 +562,7 @@ export class PromiseFakeClassnameTags123Api {
      * @param client client model
      */
     public testClassnameWithHttpInfo(client: Client, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Client>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testClassnameWithHttpInfo(client, observableOptions);
+        const result = this.api.testClassnameWithHttpInfo(client, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1064,19 +572,7 @@ export class PromiseFakeClassnameTags123Api {
      * @param client client model
      */
     public testClassname(client: Client, _options?: PromiseConfigurationOptions): Promise<Client> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.testClassname(client, observableOptions);
+        const result = this.api.testClassname(client, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1105,19 +601,7 @@ export class PromisePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public addPetWithHttpInfo(pet: Pet, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.addPetWithHttpInfo(pet, observableOptions);
+        const result = this.api.addPetWithHttpInfo(pet, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1127,19 +611,7 @@ export class PromisePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public addPet(pet: Pet, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.addPet(pet, observableOptions);
+        const result = this.api.addPet(pet, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1150,19 +622,7 @@ export class PromisePetApi {
      * @param [apiKey]
      */
     public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.deletePetWithHttpInfo(petId, apiKey, observableOptions);
+        const result = this.api.deletePetWithHttpInfo(petId, apiKey, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1173,19 +633,7 @@ export class PromisePetApi {
      * @param [apiKey]
      */
     public deletePet(petId: number, apiKey?: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.deletePet(petId, apiKey, observableOptions);
+        const result = this.api.deletePet(petId, apiKey, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1195,19 +643,7 @@ export class PromisePetApi {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<Pet>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.findPetsByStatusWithHttpInfo(status, observableOptions);
+        const result = this.api.findPetsByStatusWithHttpInfo(status, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1217,19 +653,7 @@ export class PromisePetApi {
      * @param status Status values that need to be considered for filter
      */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: PromiseConfigurationOptions): Promise<Array<Pet>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.findPetsByStatus(status, observableOptions);
+        const result = this.api.findPetsByStatus(status, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1239,19 +663,7 @@ export class PromisePetApi {
      * @param tags Tags to filter by
      */
     public findPetsByTagsWithHttpInfo(tags: Set<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Set<Pet>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.findPetsByTagsWithHttpInfo(tags, observableOptions);
+        const result = this.api.findPetsByTagsWithHttpInfo(tags, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1261,19 +673,7 @@ export class PromisePetApi {
      * @param tags Tags to filter by
      */
     public findPetsByTags(tags: Set<string>, _options?: PromiseConfigurationOptions): Promise<Set<Pet>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.findPetsByTags(tags, observableOptions);
+        const result = this.api.findPetsByTags(tags, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1283,19 +683,7 @@ export class PromisePetApi {
      * @param petId ID of pet to return
      */
     public getPetByIdWithHttpInfo(petId: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Pet>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getPetByIdWithHttpInfo(petId, observableOptions);
+        const result = this.api.getPetByIdWithHttpInfo(petId, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1305,19 +693,7 @@ export class PromisePetApi {
      * @param petId ID of pet to return
      */
     public getPetById(petId: number, _options?: PromiseConfigurationOptions): Promise<Pet> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getPetById(petId, observableOptions);
+        const result = this.api.getPetById(petId, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1327,19 +703,7 @@ export class PromisePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public updatePetWithHttpInfo(pet: Pet, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.updatePetWithHttpInfo(pet, observableOptions);
+        const result = this.api.updatePetWithHttpInfo(pet, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1349,19 +713,7 @@ export class PromisePetApi {
      * @param pet Pet object that needs to be added to the store
      */
     public updatePet(pet: Pet, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.updatePet(pet, observableOptions);
+        const result = this.api.updatePet(pet, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1373,19 +725,7 @@ export class PromisePetApi {
      * @param [status] Updated status of the pet
      */
     public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.updatePetWithFormWithHttpInfo(petId, name, status, observableOptions);
+        const result = this.api.updatePetWithFormWithHttpInfo(petId, name, status, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1397,19 +737,7 @@ export class PromisePetApi {
      * @param [status] Updated status of the pet
      */
     public updatePetWithForm(petId: number, name?: string, status?: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.updatePetWithForm(petId, name, status, observableOptions);
+        const result = this.api.updatePetWithForm(petId, name, status, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1421,19 +749,7 @@ export class PromisePetApi {
      * @param [file] file to upload
      */
     public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: PromiseConfigurationOptions): Promise<HttpInfo<ApiResponse>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.uploadFileWithHttpInfo(petId, additionalMetadata, file, observableOptions);
+        const result = this.api.uploadFileWithHttpInfo(petId, additionalMetadata, file, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1445,19 +761,7 @@ export class PromisePetApi {
      * @param [file] file to upload
      */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: PromiseConfigurationOptions): Promise<ApiResponse> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.uploadFile(petId, additionalMetadata, file, observableOptions);
+        const result = this.api.uploadFile(petId, additionalMetadata, file, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1469,19 +773,7 @@ export class PromisePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFileWithHttpInfo(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<ApiResponse>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, observableOptions);
+        const result = this.api.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1493,19 +785,7 @@ export class PromisePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      */
     public uploadFileWithRequiredFile(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: PromiseConfigurationOptions): Promise<ApiResponse> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, observableOptions);
+        const result = this.api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1534,19 +814,7 @@ export class PromiseStoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrderWithHttpInfo(orderId: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.deleteOrderWithHttpInfo(orderId, observableOptions);
+        const result = this.api.deleteOrderWithHttpInfo(orderId, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1556,19 +824,7 @@ export class PromiseStoreApi {
      * @param orderId ID of the order that needs to be deleted
      */
     public deleteOrder(orderId: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.deleteOrder(orderId, observableOptions);
+        const result = this.api.deleteOrder(orderId, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1577,19 +833,7 @@ export class PromiseStoreApi {
      * Returns pet inventories by status
      */
     public getInventoryWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: number; }>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getInventoryWithHttpInfo(observableOptions);
+        const result = this.api.getInventoryWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1598,19 +842,7 @@ export class PromiseStoreApi {
      * Returns pet inventories by status
      */
     public getInventory(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: number; }> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getInventory(observableOptions);
+        const result = this.api.getInventory(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1620,19 +852,7 @@ export class PromiseStoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderByIdWithHttpInfo(orderId: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Order>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getOrderByIdWithHttpInfo(orderId, observableOptions);
+        const result = this.api.getOrderByIdWithHttpInfo(orderId, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1642,19 +862,7 @@ export class PromiseStoreApi {
      * @param orderId ID of pet that needs to be fetched
      */
     public getOrderById(orderId: number, _options?: PromiseConfigurationOptions): Promise<Order> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getOrderById(orderId, observableOptions);
+        const result = this.api.getOrderById(orderId, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1664,19 +872,7 @@ export class PromiseStoreApi {
      * @param order order placed for purchasing the pet
      */
     public placeOrderWithHttpInfo(order: Order, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Order>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.placeOrderWithHttpInfo(order, observableOptions);
+        const result = this.api.placeOrderWithHttpInfo(order, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1686,19 +882,7 @@ export class PromiseStoreApi {
      * @param order order placed for purchasing the pet
      */
     public placeOrder(order: Order, _options?: PromiseConfigurationOptions): Promise<Order> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.placeOrder(order, observableOptions);
+        const result = this.api.placeOrder(order, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1727,19 +911,7 @@ export class PromiseUserApi {
      * @param user Created user object
      */
     public createUserWithHttpInfo(user: User, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.createUserWithHttpInfo(user, observableOptions);
+        const result = this.api.createUserWithHttpInfo(user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1749,19 +921,7 @@ export class PromiseUserApi {
      * @param user Created user object
      */
     public createUser(user: User, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.createUser(user, observableOptions);
+        const result = this.api.createUser(user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1771,19 +931,7 @@ export class PromiseUserApi {
      * @param user List of user object
      */
     public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.createUsersWithArrayInputWithHttpInfo(user, observableOptions);
+        const result = this.api.createUsersWithArrayInputWithHttpInfo(user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1793,19 +941,7 @@ export class PromiseUserApi {
      * @param user List of user object
      */
     public createUsersWithArrayInput(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.createUsersWithArrayInput(user, observableOptions);
+        const result = this.api.createUsersWithArrayInput(user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1815,19 +951,7 @@ export class PromiseUserApi {
      * @param user List of user object
      */
     public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.createUsersWithListInputWithHttpInfo(user, observableOptions);
+        const result = this.api.createUsersWithListInputWithHttpInfo(user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1837,19 +961,7 @@ export class PromiseUserApi {
      * @param user List of user object
      */
     public createUsersWithListInput(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.createUsersWithListInput(user, observableOptions);
+        const result = this.api.createUsersWithListInput(user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1859,19 +971,7 @@ export class PromiseUserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUserWithHttpInfo(username: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.deleteUserWithHttpInfo(username, observableOptions);
+        const result = this.api.deleteUserWithHttpInfo(username, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1881,19 +981,7 @@ export class PromiseUserApi {
      * @param username The name that needs to be deleted
      */
     public deleteUser(username: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.deleteUser(username, observableOptions);
+        const result = this.api.deleteUser(username, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1903,19 +991,7 @@ export class PromiseUserApi {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByNameWithHttpInfo(username: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<User>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getUserByNameWithHttpInfo(username, observableOptions);
+        const result = this.api.getUserByNameWithHttpInfo(username, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1925,19 +1001,7 @@ export class PromiseUserApi {
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
     public getUserByName(username: string, _options?: PromiseConfigurationOptions): Promise<User> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.getUserByName(username, observableOptions);
+        const result = this.api.getUserByName(username, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1948,19 +1012,7 @@ export class PromiseUserApi {
      * @param password The password for login in clear text
      */
     public loginUserWithHttpInfo(username: string, password: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.loginUserWithHttpInfo(username, password, observableOptions);
+        const result = this.api.loginUserWithHttpInfo(username, password, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1971,19 +1023,7 @@ export class PromiseUserApi {
      * @param password The password for login in clear text
      */
     public loginUser(username: string, password: string, _options?: PromiseConfigurationOptions): Promise<string> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.loginUser(username, password, observableOptions);
+        const result = this.api.loginUser(username, password, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -1992,19 +1032,7 @@ export class PromiseUserApi {
      * Logs out current logged in user session
      */
     public logoutUserWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.logoutUserWithHttpInfo(observableOptions);
+        const result = this.api.logoutUserWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -2013,19 +1041,7 @@ export class PromiseUserApi {
      * Logs out current logged in user session
      */
     public logoutUser(_options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.logoutUser(observableOptions);
+        const result = this.api.logoutUser(wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -2036,19 +1052,7 @@ export class PromiseUserApi {
      * @param user Updated user object
      */
     public updateUserWithHttpInfo(username: string, user: User, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.updateUserWithHttpInfo(username, user, observableOptions);
+        const result = this.api.updateUserWithHttpInfo(username, user, wrapOptions(_options));
         return result.toPromise();
     }
 
@@ -2059,19 +1063,7 @@ export class PromiseUserApi {
      * @param user Updated user object
      */
     public updateUser(username: string, user: User, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.updateUser(username, user, observableOptions);
+        const result = this.api.updateUser(username, user, wrapOptions(_options));
         return result.toPromise();
     }
 
