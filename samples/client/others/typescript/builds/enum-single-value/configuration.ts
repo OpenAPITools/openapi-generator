@@ -97,40 +97,31 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
  * Merge configuration options into a configuration.
  */
 export function mergeConfiguration(conf: Configuration, options?: ConfigurationOptions): Configuration {
-    let allMiddleware: Middleware[] = mergeMiddleware(conf.middleware, options?.middleware, options?.middlewareMergeStrategy);
-    if (options) {
-        conf = {
-          baseServer: options.baseServer || conf.baseServer,
-          httpApi: options.httpApi || conf.httpApi,
-          authMethods: options.authMethods || conf.authMethods,
-          middleware: allMiddleware,
-        };
+    if (!options) {
+        return conf;
     }
-    return conf;
+    return {
+        baseServer: options.baseServer || conf.baseServer,
+        httpApi: options.httpApi || conf.httpApi,
+        authMethods: options.authMethods || conf.authMethods,
+        middleware: mergeMiddleware(conf.middleware, options?.middleware, options?.middlewareMergeStrategy),
+    };
 }
 
 function mergeMiddleware(staticMiddleware: Middleware[], calltimeMiddleware?: Middleware[], strategy?: "append" | "prepend" | "replace") {
-    let allMiddleware: Middleware[] = staticMiddleware;
-    if (calltimeMiddleware) {
-        const middlewareMergeStrategy = strategy || "replace" // default to replace behavior
-        // call-time middleware provided
-        const calltimeMiddleware: Middleware[] = calltimeMiddleware;
-
-        switch(middlewareMergeStrategy) {
-        case "append":
-            allMiddleware = staticMiddleware.concat(calltimeMiddleware);
-            break;
-        case "prepend":
-            allMiddleware = calltimeMiddleware.concat(staticMiddleware)
-            break;
-        case "replace":
-            allMiddleware = calltimeMiddleware
-            break;
-        default:
-            throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`);
-        }
+    if (!calltimeMiddleware) {
+        return staticMiddleware;
     }
-    return allMiddleware;
+    // default to replace behavior
+    switch(strategy ?? "replace") {
+        case "append":
+            return staticMiddleware.concat(calltimeMiddleware);
+        case "prepend":
+            return calltimeMiddleware.concat(staticMiddleware)
+        case "replace":
+            return calltimeMiddleware
+    }
+    throw new Error(`Unrecognized middleware merge strategy '${strategy}'`)
 }
 
 /**
