@@ -3,11 +3,11 @@
 
 ## Enum
 
-* `FOOVar` (value: `'FOO'`)
+* `FOO_XEnumVarname` (value: `'FOO'`)
 
-* `BarVar` (value: `'Bar'`)
+* `BarVar_XEnumVarname` (value: `'Bar'`)
 
-* `bazVar` (value: `'baz'`)
+* `bazVar_XEnumVarname` (value: `'baz'`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

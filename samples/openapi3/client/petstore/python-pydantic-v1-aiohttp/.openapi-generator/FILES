@@ -252,6 +252,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_enum_number_vendor_ext.py
-test/test_enum_string_vendor_ext.py
 tox.ini

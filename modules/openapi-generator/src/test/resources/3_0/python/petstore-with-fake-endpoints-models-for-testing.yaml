@@ -2340,9 +2340,9 @@ components:
         - 'Description for Bar'
         - 'Description for baz'
       x-enum-varnames:
-        - FOOVar
-        - BarVar
-        - bazVar
+        - FOO_XEnumVarname
+        - BarVar_XEnumVarname
+        - bazVar_XEnumVarname
     OuterEnumDefaultValue:
       type: string
       enum:

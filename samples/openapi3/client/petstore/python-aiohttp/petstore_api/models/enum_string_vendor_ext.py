@@ -26,9 +26,9 @@ class EnumStringVendorExt(str, Enum):
     """
     allowed enum values
     """
-    FOOVar = 'FOO'
-    BarVar = 'Bar'
-    bazVar = 'baz'
+    FOO_XEnumVarname = 'FOO'
+    BarVar_XEnumVarname = 'Bar'
+    bazVar_XEnumVarname = 'baz'
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
