@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration, ConfigurationOptions, PromiseConfigurationOptions, wrapOptions } from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { List } from '../models/List';
@@ -21,16 +21,14 @@ export class PromiseDefaultApi {
     /**
      */
     public listWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<ListPaged>> {
-        let observableOptions: undefined | ConfigurationOptions = wrapOptions(_options);
-        const result = this.api.listWithHttpInfo(observableOptions);
+        const result = this.api.listWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
     /**
      */
     public list(_options?: PromiseConfigurationOptions): Promise<ListPaged> {
-        let observableOptions: undefined | ConfigurationOptions = wrapOptions(_options);
-        const result = this.api.list(observableOptions);
+        const result = this.api.list(wrapOptions(_options));
         return result.toPromise();
     }
 
