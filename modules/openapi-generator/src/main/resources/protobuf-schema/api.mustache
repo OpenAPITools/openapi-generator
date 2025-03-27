@@ -42,5 +42,14 @@ message {{operationId}}Response {
 }
 
 {{/vendorExtensions.x-grpc-response}}
+{{#supportMultipleResponses}}
+message {{operationId}}Response {
+    oneof response {
+    {{#responses}}
+        {{{vendorExtensions.x-oneOf-response-type}}} {{vendorExtensions.x-oneOf-response-name}}_{{code}} = {{vendorExtensions.x-oneOf-response-index}};
+    {{/responses}}
+    }
+}
+{{/supportMultipleResponses}}
 {{/operation}}
 {{/operations}}
