@@ -19,7 +19,7 @@ internal class PetApiTest {
     @Inject private lateinit var petApi: PetApi
 
     /**
-     * To test PetApiController.addPet
+     * To test PetApiAction.addPet
      */
     @Test
     fun `should handle addPet`() {
@@ -28,7 +28,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.deletePet
+     * To test PetApiAction.deletePet
      */
     @Test
     fun `should handle deletePet`() {
@@ -38,7 +38,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.findPetsByStatus
+     * To test PetApiAction.findPetsByStatus
      */
     @Test
     fun `should handle findPetsByStatus`() {
@@ -47,7 +47,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.findPetsByTags
+     * To test PetApiAction.findPetsByTags
      */
     @Test
     fun `should handle findPetsByTags`() {
@@ -56,7 +56,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.getPetById
+     * To test PetApiAction.getPetById
      */
     @Test
     fun `should handle getPetById`() {
@@ -65,7 +65,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.updatePet
+     * To test PetApiAction.updatePet
      */
     @Test
     fun `should handle updatePet`() {
@@ -74,7 +74,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.updatePetWithForm
+     * To test PetApiAction.updatePetWithForm
      */
     @Test
     fun `should handle updatePetWithForm`() {
@@ -85,7 +85,7 @@ internal class PetApiTest {
     }
 
     /**
-     * To test PetApiController.uploadFile
+     * To test PetApiAction.uploadFile
      */
     @Test
     fun `should handle uploadFile`() {

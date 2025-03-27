@@ -395,6 +395,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> multipart/form-data */ 
+ - **Content-Type**: MediaTypes.FORM_DATA
  - **Accept**: MediaTypes.APPLICATION_JSON
 

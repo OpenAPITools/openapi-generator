@@ -18,7 +18,7 @@ internal class UserApiTest {
     @Inject private lateinit var userApi: UserApi
 
     /**
-     * To test UserApiController.createUser
+     * To test UserApiAction.createUser
      */
     @Test
     fun `should handle createUser`() {
@@ -27,7 +27,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.createUsersWithArrayInput
+     * To test UserApiAction.createUsersWithArrayInput
      */
     @Test
     fun `should handle createUsersWithArrayInput`() {
@@ -36,7 +36,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.createUsersWithListInput
+     * To test UserApiAction.createUsersWithListInput
      */
     @Test
     fun `should handle createUsersWithListInput`() {
@@ -45,7 +45,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.deleteUser
+     * To test UserApiAction.deleteUser
      */
     @Test
     fun `should handle deleteUser`() {
@@ -54,7 +54,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.getUserByName
+     * To test UserApiAction.getUserByName
      */
     @Test
     fun `should handle getUserByName`() {
@@ -63,7 +63,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.loginUser
+     * To test UserApiAction.loginUser
      */
     @Test
     fun `should handle loginUser`() {
@@ -73,7 +73,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.logoutUser
+     * To test UserApiAction.logoutUser
      */
     @Test
     fun `should handle logoutUser`() {
@@ -81,7 +81,7 @@ internal class UserApiTest {
     }
 
     /**
-     * To test UserApiController.updateUser
+     * To test UserApiAction.updateUser
      */
     @Test
     fun `should handle updateUser`() {

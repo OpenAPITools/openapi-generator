@@ -34,10 +34,10 @@ import misk.web.mediatype.MediaTypes
 
 {{#operations}}
 /**
- * Generated file, please change {{classname}}Controller.
+ * Generated file, please change {{classname}}Impl.
  */
 @Singleton
-class {{classname}}Controller @Inject constructor(
+class {{classname}}Action @Inject constructor(
     private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
 ) : WebAction, {{classname}} {
 {{#operation}}

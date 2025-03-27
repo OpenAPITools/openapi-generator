@@ -18,7 +18,7 @@ internal class StoreApiTest {
     @Inject private lateinit var storeApi: StoreApi
 
     /**
-     * To test StoreApiController.deleteOrder
+     * To test StoreApiAction.deleteOrder
      */
     @Test
     fun `should handle deleteOrder`() {
@@ -27,7 +27,7 @@ internal class StoreApiTest {
     }
 
     /**
-     * To test StoreApiController.getInventory
+     * To test StoreApiAction.getInventory
      */
     @Test
     fun `should handle getInventory`() {
@@ -35,7 +35,7 @@ internal class StoreApiTest {
     }
 
     /**
-     * To test StoreApiController.getOrderById
+     * To test StoreApiAction.getOrderById
      */
     @Test
     fun `should handle getOrderById`() {
@@ -44,7 +44,7 @@ internal class StoreApiTest {
     }
 
     /**
-     * To test StoreApiController.placeOrder
+     * To test StoreApiAction.placeOrder
      */
     @Test
     fun `should handle placeOrder`() {

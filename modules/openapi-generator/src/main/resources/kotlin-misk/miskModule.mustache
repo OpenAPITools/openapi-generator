@@ -6,7 +6,7 @@ import {{javaxPackage}}.inject.Singleton
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-import {{apiPackage}}.{{classname}}Controller
+import {{apiPackage}}.{{classname}}Action
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
@@ -17,7 +17,7 @@ class {{moduleClassName}} : KAbstractModule() {
         {{#apiInfo}}
         {{#apis}}
         {{#operations}}
-        install(WebActionModule.create<{{classname}}Controller>())
+        install(WebActionModule.create<{{classname}}Action>())
         {{/operations}}
         {{/apis}}
         {{/apiInfo}}
