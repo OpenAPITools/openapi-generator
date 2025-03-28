@@ -45,8 +45,12 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/person/display/{personId}`;
+        urlPath = urlPath.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId'])));
+
         const response = await this.request({
-            path: `/person/display/{personId}`.replace(`{${"personId"}}`, encodeURIComponent(String(requestParameters['personId']))),
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
