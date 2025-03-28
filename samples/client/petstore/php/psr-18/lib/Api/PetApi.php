@@ -2771,6 +2771,278 @@ class PetApi
         return $this->createRequest('POST', $uri, $headers, $httpBody);
     }
 
+    /**
+     * Operation uploadImageFullFormDataNested
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \OpenAPI\Client\Model\PetWithFile $pet pet (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\ApiResponse
+     */
+    public function uploadImageFullFormDataNested($pet_id, $pet = null)
+    {
+        list($response) = $this->uploadImageFullFormDataNestedWithHttpInfo($pet_id, $pet);
+        return $response;
+    }
+
+    /**
+     * Operation uploadImageFullFormDataNestedWithHttpInfo
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \OpenAPI\Client\Model\PetWithFile $pet (optional)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function uploadImageFullFormDataNestedWithHttpInfo($pet_id, $pet = null)
+    {
+        $request = $this->uploadImageFullFormDataNestedRequest($pet_id, $pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\ApiResponse';
+            if ($returnType === '\SplFileObject') {
+                $content = $response->getBody(); //stream goes to serializer
+            } else {
+                $content = (string) $response->getBody();
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\ApiResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation uploadImageFullFormDataNestedAsync
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \OpenAPI\Client\Model\PetWithFile $pet (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function uploadImageFullFormDataNestedAsync($pet_id, $pet = null)
+    {
+        return $this->uploadImageFullFormDataNestedAsyncWithHttpInfo($pet_id, $pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation uploadImageFullFormDataNestedAsyncWithHttpInfo
+     *
+     * uploads an image attached to a Pet object as formdata
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \OpenAPI\Client\Model\PetWithFile $pet (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function uploadImageFullFormDataNestedAsyncWithHttpInfo($pet_id, $pet = null)
+    {
+        $returnType = '\OpenAPI\Client\Model\ApiResponse';
+        $request = $this->uploadImageFullFormDataNestedRequest($pet_id, $pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'uploadImageFullFormDataNested'
+     *
+     * @param  int $pet_id ID of pet to update (required)
+     * @param  \OpenAPI\Client\Model\PetWithFile $pet (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function uploadImageFullFormDataNestedRequest($pet_id, $pet = null)
+    {
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet_id when calling uploadImageFullFormDataNested'
+            );
+        }
+
+        $resourcePath = '/pet/{petId}/uploadImageFullFormDataNested';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+        // path params
+        if ($pet_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'petId' . '}',
+                ObjectSerializer::toPathValue($pet_id),
+                $resourcePath
+            );
+        }
+
+        // form params
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'pet' => $pet,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'multipart/form-data',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires OAuth (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
 
     /**
      * @param string $method
