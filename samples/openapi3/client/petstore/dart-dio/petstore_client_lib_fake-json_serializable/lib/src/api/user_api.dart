@@ -24,14 +24,14 @@ class UserApi {
   /// * [user] - Created user object
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUser({ 
+  Future<Response<void>> createUser({
     required User user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -83,20 +83,20 @@ _bodyData=jsonEncode(user);
   }
 
   /// Creates list of users with given input array
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [user] - List of user object
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUsersWithArrayInput({ 
+  Future<Response<void>> createUsersWithArrayInput({
     required List<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -148,20 +148,20 @@ _bodyData=jsonEncode(user);
   }
 
   /// Creates list of users with given input array
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [user] - List of user object
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> createUsersWithListInput({ 
+  Future<Response<void>> createUsersWithListInput({
     required List<User> user,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -219,14 +219,14 @@ _bodyData=jsonEncode(user);
   /// * [username] - The name that needs to be deleted
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deleteUser({ 
+  Future<Response<void>> deleteUser({
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -260,20 +260,20 @@ _bodyData=jsonEncode(user);
   }
 
   /// Get user by user name
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [username] - The name that needs to be fetched. Use user1 for testing.
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [User] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<User>> getUserByName({ 
+  Future<Response<User>> getUserByName({
     required String username,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -331,21 +331,21 @@ _responseData = rawData == null ? null : deserialize<User, User>(rawData, 'User'
   }
 
   /// Logs user into the system
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [username] - The user name for login
   /// * [password] - The password for login in clear text
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<String>> loginUser({ 
+  Future<Response<String>> loginUser({
     required String username,
     required String password,
     CancelToken? cancelToken,
@@ -410,19 +410,19 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
   }
 
   /// Logs out current logged in user session
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> logoutUser({ 
+  Future<Response<void>> logoutUser({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -462,14 +462,14 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
   /// * [user] - Updated user object
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> updateUser({ 
+  Future<Response<void>> updateUser({
     required String username,
     required User user,
     CancelToken? cancelToken,
