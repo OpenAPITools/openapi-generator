@@ -333,7 +333,7 @@ class ObjectSerializer
      *
      * @return array [key => value] of formdata
      */
-    public static function toFormValue(string $key, mixed $value)
+    public static function toFormValue(string $key, $value)
     {
         if ($value instanceof \SplFileObject) {
             return [$key => $value->getRealPath()];
