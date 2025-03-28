@@ -74,12 +74,15 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [Addressable](doc/Addressable.md)
+ - [Animal](doc/Animal.md)
  - [Apple](doc/Apple.md)
  - [Banana](doc/Banana.md)
  - [Bar](doc/Bar.md)
  - [BarCreate](doc/BarCreate.md)
  - [BarRef](doc/BarRef.md)
  - [BarRefOrValue](doc/BarRefOrValue.md)
+ - [Cat](doc/Cat.md)
+ - [Dog](doc/Dog.md)
  - [Entity](doc/Entity.md)
  - [EntityRef](doc/EntityRef.md)
  - [Extensible](doc/Extensible.md)
