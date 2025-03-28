@@ -148,7 +148,9 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
         throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
         {{/vendorExtensions.x-is-parent}}
     }
-    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
+    result.oneOf = oneOfFactory(
+      OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult)
+    )<{{#mappedModels}}{{modelName}}{{^-last}}, {{/-last}}{{/mappedModels}}{{#vendorExtensions.x-is-parent}}{{#mappedModels}}, {{/mappedModels}}${{classname}}{{/vendorExtensions.x-is-parent}}>();
     {{/discriminator}}
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{^hasDiscriminatorWithNonEmptyMapping}}
@@ -173,7 +175,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     {{! has no probs at all, pass the serialized as is }}
     oneOfDataSrc = serialized;
     {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
-    result.oneOf = serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOf;
+    result.oneOf = oneOfFactory(serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOfDynamic)<{{#composedSchemas}}{{#oneOf}}{{{datatypeWithEnum}}}{{^-last}}, {{/-last}}{{/oneOf}}{{/composedSchemas}}>();
     {{/hasDiscriminatorWithNonEmptyMapping}}
     return result.build();
     {{/-first}}
@@ -225,7 +227,9 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
         throw UnsupportedError("Couldn't deserialize anyOf for the discriminator value: ${discValue}");
         {{/vendorExtensions.x-is-parent}}
     }
-    result.anyOf = AnyOfDynamic(values: {anyOfTypes.indexOf(anyOfType): anyOfResult}, types: anyOfTypes);
+    result.anyOf = anyOfFactory(
+      AnyOfDynamic(values: {anyOfTypes.indexOf(anyOfType): anyOfResult}, types: anyOfTypes)
+    )<{{#mappedModels}}{{modelName}}{{^-last}}, {{/-last}}{{/mappedModels}}{{#vendorExtensions.x-is-parent}}{{#mappedModels}}, {{/mappedModels}}${{classname}}{{/vendorExtensions.x-is-parent}}>();
     {{/discriminator}}
     {{/hasDiscriminatorWithNonEmptyMapping}}
     {{^hasDiscriminatorWithNonEmptyMapping}}
@@ -250,7 +254,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     {{! has no probs at all, pass the serialized as is }}
     anyOfDataSrc = serialized;
     {{/vendorExtensions.x-has-self-and-ancestor-only-props}}
-    result.anyOf = serializers.deserialize(anyOfDataSrc, specifiedType: targetType) as AnyOf;
+    result.anyOf = anyOfFactory(serializers.deserialize(anyOfDataSrc, specifiedType: targetType) as AnyOfDynamic)<{{#composedSchemas}}{{#anyOf}}{{{datatypeWithEnum}}}{{^-last}}, {{/-last}}{{/anyOf}}{{/composedSchemas}}>();
     {{/hasDiscriminatorWithNonEmptyMapping}}
     return result.build();
     {{/-first}}

@@ -6,6 +6,7 @@
 import 'package:openapi/src/model/apple.dart';
 import 'package:openapi/src/model/banana.dart';
 import 'package:openapi/src/model/fruit_type.dart';
+import 'package:openapi/src/serializers_util.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:one_of/one_of.dart';
@@ -25,7 +26,7 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
   // enum fruitTypeEnum {  APPLE,  BANANA,  };
 
   /// One Of [Apple], [Banana]
-  OneOf get oneOf;
+  OneOf2<Apple, Banana> get oneOf;
 
   static const String discriminatorFieldName = r'fruitType';
 
@@ -159,7 +160,9 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
       default:
         throw UnsupportedError("Couldn't deserialize oneOf for the discriminator value: ${discValue}");
     }
-    result.oneOf = OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult);
+    result.oneOf = oneOfFactory(
+      OneOfDynamic(typeIndex: oneOfTypes.indexOf(oneOfType), types: oneOfTypes, value: oneOfResult)
+    )<Apple, Banana>();
     return result.build();
   }
 }
