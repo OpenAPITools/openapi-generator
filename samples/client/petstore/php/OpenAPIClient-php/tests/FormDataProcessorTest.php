@@ -112,6 +112,23 @@ class FormDataProcessorTest extends TestCase
         ];
 
         yield [
+            'data'     => ['nested' => ['pet' => $pet]],
+            'expected' => [
+                'nested[pet][id]'             => $data['id'],
+                'nested[pet][name]'           => $data['name'],
+                'nested[pet][photo_urls][0]'  => $data['photo_urls'][0],
+                'nested[pet][photo_urls][1]'  => $data['photo_urls'][1],
+                'nested[pet][status]'         => $data['status'],
+                'nested[pet][category][id]'   => (string) $data['category']['id'],
+                'nested[pet][category][name]' => $data['category']['name'],
+                'nested[pet][tags][0][id]'    => (string) $data['tags'][0]['id'],
+                'nested[pet][tags][0][name]'  => $data['tags'][0]['name'],
+                'nested[pet][tags][1][id]'    => (string) $data['tags'][1]['id'],
+                'nested[pet][tags][1][name]'  => $data['tags'][1]['name'],
+            ],
+        ];
+
+        yield [
             'data'     => ['key' => new DateTime('2021-10-06T20:17:16')],
             'expected' => ['key' => '2021-10-06T20:17:16+00:00'],
         ];
@@ -151,6 +168,25 @@ class FormDataProcessorTest extends TestCase
         $this->assertTrue($formDataProcessor->has_file);
     }
 
+    public function testHasFileNested(): void
+    {
+        $filepath = realpath(__DIR__ . '/../.openapi-generator/VERSION');
+        $file = new SplFileObject($filepath);
+
+        $pet = new Model\PetWithFile([]);
+        $pet->setId(123)
+            ->setName('Spike')
+            ->setFile($file);
+
+        $formDataProcessor = new FormDataProcessor();
+
+        $this->assertFalse($formDataProcessor->has_file);
+        $formData = $formDataProcessor->prepare(['nested' => ['pet' => $pet]]);
+
+        $this->assertIsResource($formData['nested']['pet']['file'][0]);
+        $this->assertTrue($formDataProcessor->has_file);
+    }
+
     public function testHasFileMultiple(): void
     {
         $filepath = realpath(__DIR__ . '/../.openapi-generator/VERSION');
@@ -167,6 +203,25 @@ class FormDataProcessorTest extends TestCase
         $formData = $formDataProcessor->prepare(['pet' => $pet]);
 
         $this->assertIsResource($formData['pet']['multiple_files'][0]);
+        $this->assertTrue($formDataProcessor->has_file);
+    }
+
+    public function testHasFileMultipleNested(): void
+    {
+        $filepath = realpath(__DIR__ . '/../.openapi-generator/VERSION');
+        $file = new SplFileObject($filepath);
+
+        $pet = new Model\PetWithFile([]);
+        $pet->setId(123)
+            ->setName('Spike')
+            ->setMultipleFiles([$file]);
+
+        $formDataProcessor = new FormDataProcessor();
+
+        $this->assertFalse($formDataProcessor->has_file);
+        $formData = $formDataProcessor->prepare(['nested' => ['pet' => $pet]]);
+
+        $this->assertIsResource($formData['nested']['pet']['multiple_files'][0]);
         $this->assertTrue($formDataProcessor->has_file);
     }
 }
