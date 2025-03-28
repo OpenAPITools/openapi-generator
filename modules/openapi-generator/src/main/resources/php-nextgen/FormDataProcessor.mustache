@@ -1,7 +1,7 @@
 <?php
 /**
  * FormDataProcessor
- * PHP version 7.4
+ * PHP version 8.1
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -25,14 +25,6 @@ use Psr\Http\Message\StreamInterface;
 use SplFileObject;
 use {{modelPackage}}\ModelInterface;
 
-/**
- * FormDataProcessor Class Doc Comment
- *
- * @category Class
- * @package  {{invokerPackage}}
- * @author   OpenAPI Generator team
- * @link     https://openapi-generator.tech
- */
 class FormDataProcessor
 {
     /**
@@ -85,16 +77,16 @@ class FormDataProcessor
         ];
 
         if ($start === '') {
-            $currentPrefix    = '';
-            $currentSuffix    = '';
+            $currentPrefix = '';
+            $currentSuffix = '';
             $currentSuffixEnd = false;
         } elseif (array_is_list($source)) {
-            $currentPrefix    = $opt['prefix-list'];
-            $currentSuffix    = $opt['suffix-list'];
+            $currentPrefix = $opt['prefix-list'];
+            $currentSuffix = $opt['suffix-list'];
             $currentSuffixEnd = $opt['suffix-list-end'];
         } else {
-            $currentPrefix    = $opt['prefix'];
-            $currentSuffix    = $opt['suffix'];
+            $currentPrefix = $opt['prefix'];
+            $currentSuffix = $opt['suffix'];
             $currentSuffixEnd = $opt['suffix-end'];
         }
 
@@ -102,7 +94,7 @@ class FormDataProcessor
         $result = [];
 
         foreach ($source as $key => $val) {
-            $currentName .= $currentPrefix.$key;
+            $currentName .= $currentPrefix . $key;
 
             if (is_array($val) && !empty($val)) {
                 $currentName .= $currentSuffix;
@@ -125,8 +117,10 @@ class FormDataProcessor
      * formdata must be limited to scalars or arrays of scalar values,
      * or a resource for a file upload. Here we iterate through all available
      * data and identify how to handle each scenario
+     *
+     * @param string|bool|array|DateTime|ArrayAccess|SplFileObject $value
      */
-    protected function makeFormSafe($value)
+    protected function makeFormSafe(mixed $value)
     {
         if ($value instanceof SplFileObject) {
             return $this->processFiles([$value])[0];
@@ -171,7 +165,7 @@ class FormDataProcessor
                 continue;
             }
 
-            if (strpos($type, '\SplFileObject') !== false) {
+            if (str_contains($type, '\SplFileObject')) {
                 $file = is_array($value) ? $value : [$value];
                 $result[$name] = $this->processFiles($file);
 
