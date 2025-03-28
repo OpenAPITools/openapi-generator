@@ -639,7 +639,7 @@ class ObjectSerializer
     private static function flattenArray(
         mixed $source,
         array &$destination,
-        string $start = '',
+        string $start = ''
     ) {
         $opt = [
             'prefix'          => '[',
