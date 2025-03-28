@@ -36,6 +36,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
+use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
 
@@ -2226,13 +2227,15 @@ class PetApi
         }
 
         // form params
-        if ($name !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
-        }
-        // form params
-        if ($status !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('status', $status));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'name' => $name,
+            'status' => $status,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -2558,21 +2561,15 @@ class PetApi
         }
 
         // form params
-        if ($additional_metadata !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('additionalMetadata', $additional_metadata));
-        }
-        // form params
-        if ($file !== null) {
-            $multipart = true;
-            $formParams['file'] = [];
-            $paramFiles = is_array($file) ? $file : [$file];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['file'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue('file', $paramFile)['file'],
-                    'rb'
-                );
-            }
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'additional_metadata' => $additional_metadata,
+            'file' => $file,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $multipart = true;
         $headers = $this->headerSelector->selectHeaders(
@@ -2905,21 +2902,15 @@ class PetApi
         }
 
         // form params
-        if ($additional_metadata !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('additionalMetadata', $additional_metadata));
-        }
-        // form params
-        if ($required_file !== null) {
-            $multipart = true;
-            $formParams['requiredFile'] = [];
-            $paramFiles = is_array($required_file) ? $required_file : [$required_file];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['requiredFile'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue('requiredFile', $paramFile)['requiredFile'],
-                    'rb'
-                );
-            }
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'additional_metadata' => $additional_metadata,
+            'required_file' => $required_file,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $multipart = true;
         $headers = $this->headerSelector->selectHeaders(
@@ -3294,53 +3285,21 @@ class PetApi
         }
 
         // form params
-        if ($id !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('id', $id));
-        }
-        // form params
-        if ($category !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('category', $category));
-        }
-        // form params
-        if ($name !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
-        }
-        // form params
-        if ($photo_urls !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('photoUrls', $photo_urls));
-        }
-        // form params
-        if ($tags !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('tags', $tags));
-        }
-        // form params
-        if ($status !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('status', $status));
-        }
-        // form params
-        if ($file !== null) {
-            $multipart = true;
-            $formParams['file'] = [];
-            $paramFiles = is_array($file) ? $file : [$file];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['file'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue('file', $paramFile)['file'],
-                    'rb'
-                );
-            }
-        }
-        // form params
-        if ($multiple_files !== null) {
-            $multipart = true;
-            $formParams['multiple_files'] = [];
-            $paramFiles = is_array($multiple_files) ? $multiple_files : [$multiple_files];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['multiple_files'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue('multiple_files', $paramFile)['multiple_files'],
-                    'rb'
-                );
-            }
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'id' => $id,
+            'category' => $category,
+            'name' => $name,
+            'photo_urls' => $photo_urls,
+            'tags' => $tags,
+            'status' => $status,
+            'file' => $file,
+            'multiple_files' => $multiple_files,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $multipart = true;
         $headers = $this->headerSelector->selectHeaders(

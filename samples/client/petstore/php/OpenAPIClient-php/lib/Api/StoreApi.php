@@ -36,6 +36,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
+use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\HeaderSelector;
 use OpenAPI\Client\ObjectSerializer;
 

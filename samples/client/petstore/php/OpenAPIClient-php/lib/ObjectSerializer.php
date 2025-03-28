@@ -28,7 +28,6 @@
 
 namespace OpenAPI\Client;
 
-use ArrayAccess;
 use GuzzleHttp\Psr7\Utils;
 use OpenAPI\Client\Model\ModelInterface;
 
@@ -325,35 +324,6 @@ class ObjectSerializer
     }
 
     /**
-     * Take value and turn it into an array suitable for inclusion in
-     * the http body (form parameter). If it's a string, pass through unchanged
-     * If it's a datetime object, format it in ISO8601
-     *
-     * @param string|bool|array|DateTime|ArrayAccess|\SplFileObject $value the value of the form parameter
-     *
-     * @return array [key => value] of formdata
-     */
-    public static function toFormValue(string $key, mixed $value)
-    {
-        if ($value instanceof \SplFileObject) {
-            return [$key => $value->getRealPath()];
-        } elseif (is_array($value) || $value instanceof ArrayAccess) {
-            $flattened = [];
-            $result = [];
-
-            self::flattenArray(json_decode(json_encode($value), true), $flattened);
-
-            foreach ($flattened as $k => $v) {
-                $result["{$key}{$k}"] = self::toString($v);
-            }
-
-            return $result;
-        } else {
-            return [$key => self::toString($value)];
-        }
-    }
-
-    /**
      * Take value and turn it into a string suitable for inclusion in
      * the parameter. If it's a string, pass through unchanged
      * If it's a datetime object, format it in ISO8601
@@ -625,82 +595,5 @@ class ObjectSerializer
         }
 
         return $qs ? (string) substr($qs, 0, -1) : '';
-    }
-
-    /**
-     * Flattens an array of Model object and generates an array compatible
-     * with formdata - a single-level array where the keys use bracket
-     * notation to signify nested data.
-     *
-     * @param \ArrayAccess|array $source
-     *
-     * credit: https://github.com/FranBar1966/FlatPHP
-     */
-    private static function flattenArray(
-        mixed $source,
-        array &$destination,
-        string $start = '',
-    ) {
-        $opt = [
-            'prefix'          => '[',
-            'suffix'          => ']',
-            'suffix-end'      => true,
-            'prefix-list'     => '[',
-            'suffix-list'     => ']',
-            'suffix-list-end' => true,
-        ];
-
-        if (!is_array($source)) {
-            $source = (array) $source;
-        }
-
-        /**
-         * array_is_list only in PHP >= 8.1
-         *
-         * credit: https://www.php.net/manual/en/function.array-is-list.php#127044
-         */
-        if (!function_exists('array_is_list')) {
-            function array_is_list(array $array)
-            {
-                $i = -1;
-
-                foreach ($array as $k => $v) {
-                    ++$i;
-                    if ($k !== $i) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        if (array_is_list($source)) {
-            $currentPrefix    = $opt['prefix-list'];
-            $currentSuffix    = $opt['suffix-list'];
-            $currentSuffixEnd = $opt['suffix-list-end'];
-        } else {
-            $currentPrefix    = $opt['prefix'];
-            $currentSuffix    = $opt['suffix'];
-            $currentSuffixEnd = $opt['suffix-end'];
-        }
-
-        $currentName = $start;
-
-        foreach ($source as $key => $val) {
-            $currentName .= $currentPrefix.$key;
-
-            if (is_array($val) && !empty($val)) {
-                $currentName .= "{$currentSuffix}";
-                self::flattenArray($val, $destination, $currentName);
-            } else {
-                if ($currentSuffixEnd) {
-                    $currentName .= $currentSuffix;
-                }
-                $destination[$currentName] = self::toString($val);
-            }
-
-            $currentName = $start;
-        }
     }
 }
