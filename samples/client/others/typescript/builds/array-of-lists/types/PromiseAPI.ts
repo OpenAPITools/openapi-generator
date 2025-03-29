@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration, ConfigurationOptions, PromiseConfigurationOptions } from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { List } from '../models/List';
@@ -21,38 +21,14 @@ export class PromiseDefaultApi {
     /**
      */
     public listWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<ListPaged>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.listWithHttpInfo(observableOptions);
+        const result = this.api.listWithHttpInfo(wrapOptions(_options));
         return result.toPromise();
     }
 
     /**
      */
     public list(_options?: PromiseConfigurationOptions): Promise<ListPaged> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
-        const result = this.api.list(observableOptions);
+        const result = this.api.list(wrapOptions(_options));
         return result.toPromise();
     }
 
