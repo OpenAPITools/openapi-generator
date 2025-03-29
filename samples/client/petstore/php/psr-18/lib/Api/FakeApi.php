@@ -2686,6 +2686,262 @@ class FakeApi
     }
 
     /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint($pet)
+    {
+        list($response) = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsync
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsync($pet)
+    {
+        return $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
      * Operation fakeWith400ResponseEndpoint
      *
      * test endpoint with 400 response http code with dataType
@@ -3162,6 +3418,262 @@ class FakeApi
         }
 
         $resourcePath = '/fake/with_4xx_range_response/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpoint
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpoint($pet)
+    {
+        list($response) = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsync
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsync($pet)
+    {
+        return $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_4xx_range_response_no_4xx_datatype/endpoint';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];

@@ -83,8 +83,10 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
 *FakeApi* | [**fakeWith400And4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseendpoint) | **POST** /fake/with_400_and_4xx_range_response/endpoint | test endpoint with 400 and 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseno4xxdatatypeendpoint) | **POST** /fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400 and 400-499 range response http code without dataType
 *FakeApi* | [**fakeWith400ResponseEndpoint**](docs/Api/FakeApi.md#fakewith400responseendpoint) | **POST** /fake/with_400_response/endpoint | test endpoint with 400 response http code with dataType
 *FakeApi* | [**fakeWith4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseendpoint) | **POST** /fake/with_4xx_range_response/endpoint | test endpoint with 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith4xxRangeResponseNo4xxDatatypeEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseno4xxdatatypeendpoint) | **POST** /fake/with_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400-499 range response http code without dataType
 *FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 

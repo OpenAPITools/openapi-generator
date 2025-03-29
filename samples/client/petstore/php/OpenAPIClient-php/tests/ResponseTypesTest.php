@@ -136,6 +136,22 @@ class ResponseTypesTest extends TestCase
         $this->assertEquals($responseContent['response_code'], $result->getResponseCode());
     }
 
+    public function testErrorRangeResponseWithoutDataType()
+    {
+        $responseCode = mt_rand(400, 499);
+        $responseContent = [];
+        $this->expectExceptionCode($responseCode);
+        $this->expectException(ApiException::class);
+
+        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode($responseContent)));
+        $api = new FakeApi($this->fakeHttpClient);
+
+        $pet = new Model\Pet([]);
+        $pet->setId(1234);
+
+        $api->fakeWith4xxRangeResponseNo4xxDatatypeEndpoint($pet);
+    }
+
     public function testError400ResponseWithDataType()
     {
         $responseCode = 400;
@@ -172,5 +188,21 @@ class ResponseTypesTest extends TestCase
 
         $this->assertInstanceOf(Model\ErrorResponse::class, $result);
         $this->assertEquals($responseContent['response_code'], $result->getResponseCode());
+    }
+
+    public function testErrorRangeAnd400ResponseWithoutDataType()
+    {
+        $responseCode = mt_rand(400, 499);
+        $responseContent = [];
+        $this->expectExceptionCode($responseCode);
+        $this->expectException(ApiException::class);
+
+        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode($responseContent)));
+        $api = new FakeApi($this->fakeHttpClient);
+
+        $pet = new Model\Pet([]);
+        $pet->setId(1234);
+
+        $api->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint($pet);
     }
 }
