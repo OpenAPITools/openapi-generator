@@ -149,6 +149,30 @@ class FormDataProcessorTest extends TestCase
         ];
     }
 
+    public function testNullValueIgnored(): void
+    {
+        $data = [
+            'id'         => '1234',
+            'name'       => 'Spike',
+            'photo_urls' => null,
+            'status'     => null,
+            'category'   => null,
+            'tags'       => null,
+        ];
+
+        $expected = [
+            'id'   => $data['id'],
+            'name' => $data['name'],
+        ];
+
+        $formDataProcessor = new FormDataProcessor();
+        $formData = $formDataProcessor->prepare($data);
+
+        $result = $formDataProcessor::flatten($formData);
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function testHasFile(): void
     {
         $filepath = realpath(__DIR__ . '/../.openapi-generator/VERSION');
