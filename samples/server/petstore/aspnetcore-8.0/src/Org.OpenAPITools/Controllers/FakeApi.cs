@@ -36,18 +36,18 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/fake/nullable_example_test")]
         [ValidateModelState]
         [SwaggerOperation("FakeNullableExampleTest")]
-        [SwaggerResponse(statusCode: 200, type: typeof(TestNullable), description: "Successful operation")]
+        [SwaggerResponse(statusCode: 200, type: typeof(NullableClass), description: "Successful operation")]
         public virtual IActionResult FakeNullableExampleTest()
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(TestNullable));
+            // return StatusCode(200, default(NullableClass));
             string exampleJson = null;
-            exampleJson = "{\n  \"nullableName\" : \"nullableName\",\n  \"name\" : \"name\"\n}";
+            exampleJson = "{\n  \"number_prop\" : 6.027456183070403,\n  \"datetime_prop\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"object_nullable_prop\" : {\n    \"key\" : \"{}\"\n  },\n  \"boolean_prop\" : true,\n  \"object_and_items_nullable_prop\" : {\n    \"key\" : \"{}\"\n  },\n  \"string_prop\" : \"string_prop\",\n  \"array_nullable_prop\" : [ \"{}\", \"{}\" ],\n  \"integer_prop\" : 0,\n  \"array_and_items_nullable_prop\" : [ \"{}\", \"{}\" ],\n  \"object_items_nullable\" : {\n    \"key\" : \"{}\"\n  },\n  \"date_prop\" : \"2000-01-23\",\n  \"array_items_nullable\" : [ \"{}\", \"{}\" ]\n}";
             
             var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<TestNullable>(exampleJson)
-            : default(TestNullable);
+            ? JsonConvert.DeserializeObject<NullableClass>(exampleJson)
+            : default(NullableClass);
             //TODO: Change the data returned
             return new ObjectResult(example);
         }
