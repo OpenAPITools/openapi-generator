@@ -71,7 +71,6 @@ lib/Api/StoreApi.php
 lib/Api/UserApi.php
 lib/ApiException.php
 lib/Configuration.php
-lib/FormDataProcessor.php
 lib/HeaderSelector.php
 lib/Model/AdditionalPropertiesClass.php
 lib/Model/AllOfWithSingleRef.php
