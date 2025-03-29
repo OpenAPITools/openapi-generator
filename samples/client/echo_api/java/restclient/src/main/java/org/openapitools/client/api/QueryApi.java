@@ -61,7 +61,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEnumRefStringRequestCreation(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws RestClientResponseException {
+    private ResponseSpec testEnumRefStringRequestCreation(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -96,7 +96,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws RestClientResponseException {
+    public String testEnumRefString(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEnumRefStringRequestCreation(enumNonrefStringQuery, enumRefStringQuery).body(localVarReturnType);
     }
@@ -110,7 +110,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEnumRefStringWithHttpInfo(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws RestClientResponseException {
+    public ResponseEntity<String> testEnumRefStringWithHttpInfo(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEnumRefStringRequestCreation(enumNonrefStringQuery, enumRefStringQuery).toEntity(localVarReturnType);
     }
@@ -124,7 +124,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEnumRefStringWithResponseSpec(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws RestClientResponseException {
+    public ResponseSpec testEnumRefStringWithResponseSpec(@jakarta.annotation.Nullable String enumNonrefStringQuery, @jakarta.annotation.Nullable StringEnumRef enumRefStringQuery) throws RestClientResponseException {
         return testEnumRefStringRequestCreation(enumNonrefStringQuery, enumRefStringQuery);
     }
     /**
@@ -137,7 +137,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryDatetimeDateStringRequestCreation(Instant datetimeQuery, LocalDate dateQuery, String stringQuery) throws RestClientResponseException {
+    private ResponseSpec testQueryDatetimeDateStringRequestCreation(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -174,7 +174,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryDatetimeDateString(Instant datetimeQuery, LocalDate dateQuery, String stringQuery) throws RestClientResponseException {
+    public String testQueryDatetimeDateString(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryDatetimeDateStringRequestCreation(datetimeQuery, dateQuery, stringQuery).body(localVarReturnType);
     }
@@ -189,7 +189,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryDatetimeDateStringWithHttpInfo(Instant datetimeQuery, LocalDate dateQuery, String stringQuery) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryDatetimeDateStringWithHttpInfo(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryDatetimeDateStringRequestCreation(datetimeQuery, dateQuery, stringQuery).toEntity(localVarReturnType);
     }
@@ -204,7 +204,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryDatetimeDateStringWithResponseSpec(Instant datetimeQuery, LocalDate dateQuery, String stringQuery) throws RestClientResponseException {
+    public ResponseSpec testQueryDatetimeDateStringWithResponseSpec(@jakarta.annotation.Nullable Instant datetimeQuery, @jakarta.annotation.Nullable LocalDate dateQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         return testQueryDatetimeDateStringRequestCreation(datetimeQuery, dateQuery, stringQuery);
     }
     /**
@@ -217,7 +217,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryIntegerBooleanStringRequestCreation(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws RestClientResponseException {
+    private ResponseSpec testQueryIntegerBooleanStringRequestCreation(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -254,7 +254,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws RestClientResponseException {
+    public String testQueryIntegerBooleanString(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryIntegerBooleanStringRequestCreation(integerQuery, booleanQuery, stringQuery).body(localVarReturnType);
     }
@@ -269,7 +269,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryIntegerBooleanStringWithHttpInfo(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryIntegerBooleanStringWithHttpInfo(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryIntegerBooleanStringRequestCreation(integerQuery, booleanQuery, stringQuery).toEntity(localVarReturnType);
     }
@@ -284,7 +284,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryIntegerBooleanStringWithResponseSpec(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws RestClientResponseException {
+    public ResponseSpec testQueryIntegerBooleanStringWithResponseSpec(@jakarta.annotation.Nullable Integer integerQuery, @jakarta.annotation.Nullable Boolean booleanQuery, @jakarta.annotation.Nullable String stringQuery) throws RestClientResponseException {
         return testQueryIntegerBooleanStringRequestCreation(integerQuery, booleanQuery, stringQuery);
     }
     /**
@@ -295,7 +295,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(Pet queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -333,7 +333,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject) throws RestClientResponseException {
+    public String testQueryStyleDeepObjectExplodeTrueObject(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -346,7 +346,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Pet queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -359,7 +359,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectWithResponseSpec(Pet queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectWithResponseSpec(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         return testQueryStyleDeepObjectExplodeTrueObjectRequestCreation(queryObject);
     }
     /**
@@ -370,7 +370,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -403,7 +403,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
+    public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -416,7 +416,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -429,7 +429,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfWithResponseSpec(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleDeepObjectExplodeTrueObjectAllOfWithResponseSpec(@jakarta.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws RestClientResponseException {
         return testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestCreation(queryObject);
     }
     /**
@@ -440,7 +440,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(List<Integer> queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -473,7 +473,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws RestClientResponseException {
+    public String testQueryStyleFormExplodeFalseArrayInteger(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -486,7 +486,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<Integer> queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -499,7 +499,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerWithResponseSpec(List<Integer> queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleFormExplodeFalseArrayIntegerWithResponseSpec(@jakarta.annotation.Nullable List<Integer> queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeFalseArrayIntegerRequestCreation(queryObject);
     }
     /**
@@ -510,7 +510,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeFalseArrayStringRequestCreation(List<String> queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeFalseArrayStringRequestCreation(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -543,7 +543,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws RestClientResponseException {
+    public String testQueryStyleFormExplodeFalseArrayString(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeFalseArrayStringRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -556,7 +556,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<String> queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeFalseArrayStringRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -569,7 +569,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleFormExplodeFalseArrayStringWithResponseSpec(List<String> queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleFormExplodeFalseArrayStringWithResponseSpec(@jakarta.annotation.Nullable List<String> queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeFalseArrayStringRequestCreation(queryObject);
     }
     /**
@@ -580,7 +580,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeTrueArrayStringRequestCreation(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeTrueArrayStringRequestCreation(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -613,7 +613,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
+    public String testQueryStyleFormExplodeTrueArrayString(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeTrueArrayStringRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -626,7 +626,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeTrueArrayStringRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -639,7 +639,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleFormExplodeTrueArrayStringWithResponseSpec(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleFormExplodeTrueArrayStringWithResponseSpec(@jakarta.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueArrayStringRequestCreation(queryObject);
     }
     /**
@@ -650,7 +650,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeTrueObjectRequestCreation(Pet queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeTrueObjectRequestCreation(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -688,7 +688,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeTrueObject(Pet queryObject) throws RestClientResponseException {
+    public String testQueryStyleFormExplodeTrueObject(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeTrueObjectRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -701,7 +701,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(Pet queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectWithHttpInfo(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeTrueObjectRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -714,7 +714,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleFormExplodeTrueObjectWithResponseSpec(Pet queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleFormExplodeTrueObjectWithResponseSpec(@jakarta.annotation.Nullable Pet queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueObjectRequestCreation(queryObject);
     }
     /**
@@ -725,7 +725,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(DataQuery queryObject) throws RestClientResponseException {
+    private ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -758,7 +758,7 @@ public class QueryApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws RestClientResponseException {
+    public String testQueryStyleFormExplodeTrueObjectAllOf(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(queryObject).body(localVarReturnType);
     }
@@ -771,7 +771,7 @@ public class QueryApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery queryObject) throws RestClientResponseException {
+    public ResponseEntity<String> testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(queryObject).toEntity(localVarReturnType);
     }
@@ -784,7 +784,7 @@ public class QueryApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfWithResponseSpec(DataQuery queryObject) throws RestClientResponseException {
+    public ResponseSpec testQueryStyleFormExplodeTrueObjectAllOfWithResponseSpec(@jakarta.annotation.Nullable DataQuery queryObject) throws RestClientResponseException {
         return testQueryStyleFormExplodeTrueObjectAllOfRequestCreation(queryObject);
     }
 }

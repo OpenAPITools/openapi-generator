@@ -54,7 +54,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec call123testSpecialTagsRequestCreation(Client client) throws RestClientResponseException {
+    private ResponseSpec call123testSpecialTagsRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -91,7 +91,7 @@ public class AnotherFakeApi {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Client call123testSpecialTags(Client client) throws RestClientResponseException {
+    public Client call123testSpecialTags(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return call123testSpecialTagsRequestCreation(client).body(localVarReturnType);
     }
@@ -104,7 +104,7 @@ public class AnotherFakeApi {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(Client client) throws RestClientResponseException {
+    public ResponseEntity<Client> call123testSpecialTagsWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return call123testSpecialTagsRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -117,7 +117,7 @@ public class AnotherFakeApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec call123testSpecialTagsWithResponseSpec(Client client) throws RestClientResponseException {
+    public ResponseSpec call123testSpecialTagsWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         return call123testSpecialTagsRequestCreation(client);
     }
 }

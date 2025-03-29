@@ -57,7 +57,7 @@ public class UserApi {
      * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUserRequestCreation(User user) throws WebClientResponseException {
+    private ResponseSpec createUserRequestCreation(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         Object postBody = user;
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -91,7 +91,7 @@ public class UserApi {
      * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUser(User user) throws WebClientResponseException {
+    public Mono<Void> createUser(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return createUserRequestCreation(user).bodyToMono(localVarReturnType);
     }
@@ -103,7 +103,7 @@ public class UserApi {
      * @param user Created user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> createUserWithHttpInfo(User user) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> createUserWithHttpInfo(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return createUserRequestCreation(user).toEntity(localVarReturnType);
     }
@@ -116,7 +116,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUserWithResponseSpec(User user) throws WebClientResponseException {
+    public ResponseSpec createUserWithResponseSpec(@jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         return createUserRequestCreation(user);
     }
 
@@ -127,7 +127,7 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithArrayInputRequestCreation(List<User> user) throws WebClientResponseException {
+    private ResponseSpec createUsersWithArrayInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         Object postBody = user;
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -161,7 +161,7 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUsersWithArrayInput(List<User> user) throws WebClientResponseException {
+    public Mono<Void> createUsersWithArrayInput(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return createUsersWithArrayInputRequestCreation(user).bodyToMono(localVarReturnType);
     }
@@ -173,7 +173,7 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> createUsersWithArrayInputWithHttpInfo(List<User> user) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> createUsersWithArrayInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return createUsersWithArrayInputRequestCreation(user).toEntity(localVarReturnType);
     }
@@ -186,7 +186,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUsersWithArrayInputWithResponseSpec(List<User> user) throws WebClientResponseException {
+    public ResponseSpec createUsersWithArrayInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         return createUsersWithArrayInputRequestCreation(user);
     }
 
@@ -197,7 +197,7 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec createUsersWithListInputRequestCreation(List<User> user) throws WebClientResponseException {
+    private ResponseSpec createUsersWithListInputRequestCreation(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         Object postBody = user;
         // verify the required parameter 'user' is set
         if (user == null) {
@@ -231,7 +231,7 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createUsersWithListInput(List<User> user) throws WebClientResponseException {
+    public Mono<Void> createUsersWithListInput(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return createUsersWithListInputRequestCreation(user).bodyToMono(localVarReturnType);
     }
@@ -243,7 +243,7 @@ public class UserApi {
      * @param user List of user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> createUsersWithListInputWithHttpInfo(List<User> user) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> createUsersWithListInputWithHttpInfo(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return createUsersWithListInputRequestCreation(user).toEntity(localVarReturnType);
     }
@@ -256,7 +256,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec createUsersWithListInputWithResponseSpec(List<User> user) throws WebClientResponseException {
+    public ResponseSpec createUsersWithListInputWithResponseSpec(@jakarta.annotation.Nonnull List<User> user) throws WebClientResponseException {
         return createUsersWithListInputRequestCreation(user);
     }
 
@@ -268,7 +268,7 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteUserRequestCreation(String username) throws WebClientResponseException {
+    private ResponseSpec deleteUserRequestCreation(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -303,7 +303,7 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deleteUser(String username) throws WebClientResponseException {
+    public Mono<Void> deleteUser(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deleteUserRequestCreation(username).bodyToMono(localVarReturnType);
     }
@@ -316,7 +316,7 @@ public class UserApi {
      * @param username The name that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> deleteUserWithHttpInfo(String username) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> deleteUserWithHttpInfo(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deleteUserRequestCreation(username).toEntity(localVarReturnType);
     }
@@ -330,7 +330,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deleteUserWithResponseSpec(String username) throws WebClientResponseException {
+    public ResponseSpec deleteUserWithResponseSpec(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         return deleteUserRequestCreation(username);
     }
 
@@ -344,7 +344,7 @@ public class UserApi {
      * @return User
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getUserByNameRequestCreation(String username) throws WebClientResponseException {
+    private ResponseSpec getUserByNameRequestCreation(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -383,7 +383,7 @@ public class UserApi {
      * @return User
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<User> getUserByName(String username) throws WebClientResponseException {
+    public Mono<User> getUserByName(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<User>() {};
         return getUserByNameRequestCreation(username).bodyToMono(localVarReturnType);
     }
@@ -398,7 +398,7 @@ public class UserApi {
      * @return ResponseEntity&lt;User&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<User>> getUserByNameWithHttpInfo(String username) throws WebClientResponseException {
+    public Mono<ResponseEntity<User>> getUserByNameWithHttpInfo(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         ParameterizedTypeReference<User> localVarReturnType = new ParameterizedTypeReference<User>() {};
         return getUserByNameRequestCreation(username).toEntity(localVarReturnType);
     }
@@ -413,7 +413,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getUserByNameWithResponseSpec(String username) throws WebClientResponseException {
+    public ResponseSpec getUserByNameWithResponseSpec(@jakarta.annotation.Nonnull String username) throws WebClientResponseException {
         return getUserByNameRequestCreation(username);
     }
 
@@ -427,7 +427,7 @@ public class UserApi {
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec loginUserRequestCreation(String username, String password) throws WebClientResponseException {
+    private ResponseSpec loginUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -471,7 +471,7 @@ public class UserApi {
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<String> loginUser(String username, String password) throws WebClientResponseException {
+    public Mono<String> loginUser(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
         return loginUserRequestCreation(username, password).bodyToMono(localVarReturnType);
     }
@@ -486,7 +486,7 @@ public class UserApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<String>> loginUserWithHttpInfo(String username, String password) throws WebClientResponseException {
+    public Mono<ResponseEntity<String>> loginUserWithHttpInfo(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
         return loginUserRequestCreation(username, password).toEntity(localVarReturnType);
     }
@@ -501,7 +501,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec loginUserWithResponseSpec(String username, String password) throws WebClientResponseException {
+    public ResponseSpec loginUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull String password) throws WebClientResponseException {
         return loginUserRequestCreation(username, password);
     }
 
@@ -574,7 +574,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec updateUserRequestCreation(String username, User user) throws WebClientResponseException {
+    private ResponseSpec updateUserRequestCreation(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         Object postBody = user;
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -616,7 +616,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> updateUser(String username, User user) throws WebClientResponseException {
+    public Mono<Void> updateUser(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return updateUserRequestCreation(username, user).bodyToMono(localVarReturnType);
     }
@@ -630,7 +630,7 @@ public class UserApi {
      * @param user Updated user object
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(String username, User user) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> updateUserWithHttpInfo(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return updateUserRequestCreation(username, user).toEntity(localVarReturnType);
     }
@@ -645,7 +645,7 @@ public class UserApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec updateUserWithResponseSpec(String username, User user) throws WebClientResponseException {
+    public ResponseSpec updateUserWithResponseSpec(@jakarta.annotation.Nonnull String username, @jakarta.annotation.Nonnull User user) throws WebClientResponseException {
         return updateUserRequestCreation(username, user);
     }
 }

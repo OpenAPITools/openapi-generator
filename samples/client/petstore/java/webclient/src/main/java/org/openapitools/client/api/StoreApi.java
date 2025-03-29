@@ -57,7 +57,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteOrderRequestCreation(String orderId) throws WebClientResponseException {
+    private ResponseSpec deleteOrderRequestCreation(@javax.annotation.Nonnull String orderId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -92,7 +92,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deleteOrder(String orderId) throws WebClientResponseException {
+    public Mono<Void> deleteOrder(@javax.annotation.Nonnull String orderId) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deleteOrderRequestCreation(orderId).bodyToMono(localVarReturnType);
     }
@@ -105,7 +105,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Void>> deleteOrderWithHttpInfo(String orderId) throws WebClientResponseException {
+    public Mono<ResponseEntity<Void>> deleteOrderWithHttpInfo(@javax.annotation.Nonnull String orderId) throws WebClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
         return deleteOrderRequestCreation(orderId).toEntity(localVarReturnType);
     }
@@ -119,7 +119,7 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deleteOrderWithResponseSpec(String orderId) throws WebClientResponseException {
+    public ResponseSpec deleteOrderWithResponseSpec(@javax.annotation.Nonnull String orderId) throws WebClientResponseException {
         return deleteOrderRequestCreation(orderId);
     }
 
@@ -198,7 +198,7 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getOrderByIdRequestCreation(Long orderId) throws WebClientResponseException {
+    private ResponseSpec getOrderByIdRequestCreation(@javax.annotation.Nonnull Long orderId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -237,7 +237,7 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> getOrderById(Long orderId) throws WebClientResponseException {
+    public Mono<Order> getOrderById(@javax.annotation.Nonnull Long orderId) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return getOrderByIdRequestCreation(orderId).bodyToMono(localVarReturnType);
     }
@@ -252,7 +252,7 @@ public class StoreApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Order>> getOrderByIdWithHttpInfo(Long orderId) throws WebClientResponseException {
+    public Mono<ResponseEntity<Order>> getOrderByIdWithHttpInfo(@javax.annotation.Nonnull Long orderId) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return getOrderByIdRequestCreation(orderId).toEntity(localVarReturnType);
     }
@@ -267,7 +267,7 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws WebClientResponseException {
+    public ResponseSpec getOrderByIdWithResponseSpec(@javax.annotation.Nonnull Long orderId) throws WebClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
 
@@ -280,7 +280,7 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec placeOrderRequestCreation(Order order) throws WebClientResponseException {
+    private ResponseSpec placeOrderRequestCreation(@javax.annotation.Nonnull Order order) throws WebClientResponseException {
         Object postBody = order;
         // verify the required parameter 'order' is set
         if (order == null) {
@@ -318,7 +318,7 @@ public class StoreApi {
      * @return Order
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> placeOrder(Order order) throws WebClientResponseException {
+    public Mono<Order> placeOrder(@javax.annotation.Nonnull Order order) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return placeOrderRequestCreation(order).bodyToMono(localVarReturnType);
     }
@@ -332,7 +332,7 @@ public class StoreApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(Order order) throws WebClientResponseException {
+    public Mono<ResponseEntity<Order>> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order order) throws WebClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<Order>() {};
         return placeOrderRequestCreation(order).toEntity(localVarReturnType);
     }
@@ -346,7 +346,7 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec placeOrderWithResponseSpec(Order order) throws WebClientResponseException {
+    public ResponseSpec placeOrderWithResponseSpec(@javax.annotation.Nonnull Order order) throws WebClientResponseException {
         return placeOrderRequestCreation(order);
     }
 }

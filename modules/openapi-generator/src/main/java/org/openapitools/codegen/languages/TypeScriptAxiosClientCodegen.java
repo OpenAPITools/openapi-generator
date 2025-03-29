@@ -31,6 +31,7 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -58,6 +59,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected String axiosVersion = DEFAULT_AXIOS_VERSION;
 
     private String tsModelPackage = "";
+
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
 
     public TypeScriptAxiosClientCodegen() {
         super();
@@ -126,6 +130,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put("tsApiPackage", tsApiPackage);
         additionalProperties.put("apiRelativeToRoot", apiRelativeToRoot);
         additionalProperties.put("modelRelativeToRoot", modelRelativeToRoot);
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
@@ -274,6 +283,16 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
         return objs;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
     }
 
     /**

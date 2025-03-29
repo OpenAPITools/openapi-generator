@@ -2,7 +2,7 @@
 /**
  * ObjectSerializer
  *
- * PHP version 7.4
+ * PHP version 8.1
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -333,7 +333,7 @@ class ObjectSerializer
      *
      * @return array [key => value] of formdata
      */
-    public static function toFormValue(string $key, mixed $value)
+    public static function toFormValue(string $key, $value)
     {
         if ($value instanceof \SplFileObject) {
             return [$key => $value->getRealPath()];
@@ -637,9 +637,9 @@ class ObjectSerializer
      * credit: https://github.com/FranBar1966/FlatPHP
      */
     private static function flattenArray(
-        mixed $source,
+        $source,
         array &$destination,
-        string $start = '',
+        string $start = ''
     ) {
         $opt = [
             'prefix'          => '[',

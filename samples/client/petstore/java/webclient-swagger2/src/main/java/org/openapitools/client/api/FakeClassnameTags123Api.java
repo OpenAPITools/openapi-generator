@@ -57,7 +57,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClassnameRequestCreation(Client client) throws WebClientResponseException {
+    private ResponseSpec testClassnameRequestCreation(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -94,7 +94,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClassname(Client client) throws WebClientResponseException {
+    public Mono<Client> testClassname(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClassnameRequestCreation(client).bodyToMono(localVarReturnType);
     }
@@ -107,7 +107,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseEntity&lt;Client&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(Client client) throws WebClientResponseException {
+    public Mono<ResponseEntity<Client>> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<Client>() {};
         return testClassnameRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -120,7 +120,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testClassnameWithResponseSpec(Client client) throws WebClientResponseException {
+    public ResponseSpec testClassnameWithResponseSpec(@javax.annotation.Nonnull Client client) throws WebClientResponseException {
         return testClassnameRequestCreation(client);
     }
 }
