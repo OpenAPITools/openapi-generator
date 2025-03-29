@@ -30,7 +30,7 @@ public class PythonFastapiCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
 
-        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "/src", IMPL_PKG, "__init__.py"));
+        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "/src", "/nodesc", IMPL_PKG, "__init__.py"));
     }
 
     @Test
