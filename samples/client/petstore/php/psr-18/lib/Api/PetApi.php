@@ -702,6 +702,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet[]',
+                        $request,
                         $response,
                     );
             }
@@ -723,6 +724,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet[]',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -961,6 +963,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet[]',
+                        $request,
                         $response,
                     );
             }
@@ -982,6 +985,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet[]',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1221,6 +1225,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet',
+                        $request,
                         $response,
                     );
             }
@@ -1242,6 +1247,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1961,6 +1967,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
                         $response,
                     );
             }
@@ -1982,6 +1989,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\ApiResponse',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2247,6 +2255,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
                         $response,
                     );
             }
@@ -2268,6 +2277,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\ApiResponse',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2551,6 +2561,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
                         $response,
                     );
             }
@@ -2572,6 +2583,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\ApiResponse',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2901,6 +2913,7 @@ class PetApi
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response
     ): array {
         if ($dataType === '\SplFileObject') {

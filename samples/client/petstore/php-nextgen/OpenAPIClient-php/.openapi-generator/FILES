@@ -129,4 +129,3 @@ src/Model/Tag.php
 src/Model/TestInlineFreeformAdditionalPropertiesRequest.php
 src/Model/User.php
 src/ObjectSerializer.php
-tests/Model/ErrorResponseTest.php

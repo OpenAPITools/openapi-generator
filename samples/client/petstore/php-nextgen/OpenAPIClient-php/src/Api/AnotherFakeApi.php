@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
@@ -189,6 +190,7 @@ class AnotherFakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Client',
+                        $request,
                         $response,
                     );
             }
@@ -209,6 +211,7 @@ class AnotherFakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Client',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -421,6 +424,7 @@ class AnotherFakeApi
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response,
     ): array {
         if (in_array($dataType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {

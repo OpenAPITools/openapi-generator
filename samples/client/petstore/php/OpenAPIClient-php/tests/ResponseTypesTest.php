@@ -117,10 +117,14 @@ class ResponseTypesTest extends TestCase
         $this->api->getPetById(123);
     }
 
-    public function testRangeResponse()
+    public function testErrorRangeResponseWithDataType()
     {
         $responseCode = mt_rand(400, 499);
-        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode([])));
+        $responseContent = [
+            'response_code' => $responseCode,
+            'error'         => 'Some random error',
+        ];
+        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode($responseContent)));
         $api = new FakeApi($this->fakeHttpClient);
 
         $pet = new Model\Pet([]);
@@ -128,14 +132,45 @@ class ResponseTypesTest extends TestCase
 
         $result = $api->fakeWith4xxRangeResponseEndpoint($pet);
 
-        $this->assertInstanceOf(Pet::class, $result);
+        $this->assertInstanceOf(Model\ErrorResponse::class, $result);
+        $this->assertEquals($responseContent['response_code'], $result->getResponseCode());
+    }
 
+    public function testError400ResponseWithDataType()
+    {
+        $responseCode = 400;
+        $responseContent = [
+            'response_code' => $responseCode,
+            'error'         => 'Some random error',
+        ];
+        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode($responseContent)));
+        $api = new FakeApi($this->fakeHttpClient);
 
-        $this->expectExceptionCode(404);
-        $this->expectException(\OpenAPI\Client\ApiException::class);
-        $statusCode = 404;
+        $pet = new Model\Pet([]);
+        $pet->setId(1234);
 
-        $this->fakeHttpClient->setResponse(new Response($statusCode, [], '{}'));
-        $this->api->getPetById(123);
+        $result = $api->fakeWith400ResponseEndpoint($pet);
+
+        $this->assertInstanceOf(Model\ErrorResponse::class, $result);
+        $this->assertEquals($responseContent['response_code'], $result->getResponseCode());
+    }
+
+    public function testErrorRangeAnd400ResponseWithDataType()
+    {
+        $responseCode = mt_rand(400, 499);
+        $responseContent = [
+            'response_code' => $responseCode,
+            'error'         => 'Some random error',
+        ];
+        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode($responseContent)));
+        $api = new FakeApi($this->fakeHttpClient);
+
+        $pet = new Model\Pet([]);
+        $pet->setId(1234);
+
+        $result = $api->fakeWith400And4xxRangeResponseEndpoint($pet);
+
+        $this->assertInstanceOf(Model\ErrorResponse::class, $result);
+        $this->assertEquals($responseContent['response_code'], $result->getResponseCode());
     }
 }

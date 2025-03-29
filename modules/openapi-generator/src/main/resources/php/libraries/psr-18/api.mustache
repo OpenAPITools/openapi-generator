@@ -275,6 +275,7 @@ use function sprintf;
                 {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
                     return $this->handleResponseWithDataType(
                         '{{{dataType}}}',
+                        $request,
                         $response,
                     );{{/isRange}}
             {{/dataType}}
@@ -286,6 +287,7 @@ use function sprintf;
             {{#responses}}{{#dataType}}{{#isRange}}{{^isWildcard}}if ($this->responseWithinRangeCode('{{code}}', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '{{{dataType}}}',
+                    $request,
                     $response,
                 );
             }{{/isWildcard}}{{/isRange}}{{/dataType}}{{/responses}}
@@ -305,6 +307,7 @@ use function sprintf;
 
             return $this->handleResponseWithDataType(
                 '{{{returnType}}}',
+                $request,
                 $response,
             );
             {{/returnType}}
@@ -789,6 +792,7 @@ use function sprintf;
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response
     ): array {
         if ($dataType === '\SplFileObject') {

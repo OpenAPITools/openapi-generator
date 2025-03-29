@@ -26,6 +26,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
@@ -296,6 +297,7 @@ use {{invokerPackage}}\ObjectSerializer;
                 {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
                     return $this->handleResponseWithDataType(
                         '{{{dataType}}}',
+                        $request,
                         $response,
                     );{{/isRange}}
             {{/dataType}}
@@ -307,6 +309,7 @@ use {{invokerPackage}}\ObjectSerializer;
             if ($this->responseWithinRangeCode('{{code}}', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '{{{dataType}}}',
+                    $request,
                     $response,
                 );
             }{{/isWildcard}}{{/isRange}}{{/dataType}}{{/responses}}
@@ -326,6 +329,7 @@ use {{invokerPackage}}\ObjectSerializer;
 
             return $this->handleResponseWithDataType(
                 '{{{returnType}}}',
+                $request,
                 $response,
             );
             {{/returnType}}
@@ -912,6 +916,7 @@ use {{invokerPackage}}\ObjectSerializer;
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response,
     ): array {
         if (in_array($dataType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {

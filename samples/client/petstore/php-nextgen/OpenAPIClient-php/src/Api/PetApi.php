@@ -35,6 +35,7 @@ use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
@@ -853,6 +854,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet[]',
+                        $request,
                         $response,
                     );
             }
@@ -873,6 +875,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet[]',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1138,6 +1141,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet[]',
+                        $request,
                         $response,
                     );
             }
@@ -1158,6 +1162,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet[]',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1424,6 +1429,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet',
+                        $request,
                         $response,
                     );
             }
@@ -1444,6 +1450,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2368,6 +2375,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
                         $response,
                     );
             }
@@ -2388,6 +2396,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\ApiResponse',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2690,6 +2699,7 @@ class PetApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
                         $response,
                     );
             }
@@ -2710,6 +2720,7 @@ class PetApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\ApiResponse',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2965,6 +2976,7 @@ class PetApi
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response,
     ): array {
         if (in_array($dataType, ['\SplFileObject', '\Psr\Http\Message\StreamInterface'])) {

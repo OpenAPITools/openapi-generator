@@ -445,6 +445,7 @@ class StoreApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         'array<string,int>',
+                        $request,
                         $response,
                     );
             }
@@ -466,6 +467,7 @@ class StoreApi
 
             return $this->handleResponseWithDataType(
                 'array<string,int>',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -689,6 +691,7 @@ class StoreApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Order',
+                        $request,
                         $response,
                     );
             }
@@ -710,6 +713,7 @@ class StoreApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Order',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -952,6 +956,7 @@ class StoreApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Order',
+                        $request,
                         $response,
                     );
             }
@@ -973,6 +978,7 @@ class StoreApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Order',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1211,6 +1217,7 @@ class StoreApi
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response
     ): array {
         if ($dataType === '\SplFileObject') {

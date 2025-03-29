@@ -236,6 +236,7 @@ class AnotherFakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Client',
+                        $request,
                         $response,
                     );
             }
@@ -257,6 +258,7 @@ class AnotherFakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Client',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -495,6 +497,7 @@ class AnotherFakeApi
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response
     ): array {
         if ($dataType === '\SplFileObject') {

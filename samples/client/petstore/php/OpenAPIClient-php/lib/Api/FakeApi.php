@@ -34,6 +34,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
@@ -257,6 +258,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\FakeBigDecimalMap200Response',
+                        $request,
                         $response,
                     );
             }
@@ -278,6 +280,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\FakeBigDecimalMap200Response',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -505,6 +508,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\EnumClass',
+                        $request,
                         $response,
                     );
             }
@@ -526,6 +530,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\EnumClass',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -808,6 +813,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\HealthCheckResult',
+                        $request,
                         $response,
                     );
             }
@@ -829,6 +835,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\HealthCheckResult',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1294,6 +1301,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         'bool',
+                        $request,
                         $response,
                     );
             }
@@ -1315,6 +1323,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 'bool',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1545,6 +1554,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\OuterComposite',
+                        $request,
                         $response,
                     );
             }
@@ -1566,6 +1576,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\OuterComposite',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -1796,6 +1807,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         'float',
+                        $request,
                         $response,
                     );
             }
@@ -1817,6 +1829,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 'float',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2047,6 +2060,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         'string',
+                        $request,
                         $response,
                     );
             }
@@ -2068,6 +2082,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 'string',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2298,6 +2313,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\OuterObjectWithEnumProperty',
+                        $request,
                         $response,
                     );
             }
@@ -2319,6 +2335,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\OuterObjectWithEnumProperty',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2559,11 +2576,13 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet',
+                        $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ErrorResponse',
+                        $request,
                         $response,
                     );
                 
@@ -2572,6 +2591,7 @@ class FakeApi
             if ($this->responseWithinRangeCode('4xx', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '\OpenAPI\Client\Model\ErrorResponse',
+                    $request,
                     $response,
                 );
             }
@@ -2591,6 +2611,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -2853,11 +2874,13 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet',
+                        $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\ErrorResponse',
+                        $request,
                         $response,
                     );
             }
@@ -2879,6 +2902,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -3131,6 +3155,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Pet',
+                        $request,
                         $response,
                     );
                 
@@ -3139,6 +3164,7 @@ class FakeApi
             if ($this->responseWithinRangeCode('4xx', $statusCode)) {
                 return $this->handleResponseWithDataType(
                     '\OpenAPI\Client\Model\ErrorResponse',
+                    $request,
                     $response,
                 );
             }
@@ -3158,6 +3184,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Pet',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -4565,6 +4592,7 @@ class FakeApi
                 case 200:
                     return $this->handleResponseWithDataType(
                         '\OpenAPI\Client\Model\Client',
+                        $request,
                         $response,
                     );
             }
@@ -4586,6 +4614,7 @@ class FakeApi
 
             return $this->handleResponseWithDataType(
                 '\OpenAPI\Client\Model\Client',
+                $request,
                 $response,
             );
         } catch (ApiException $e) {
@@ -7049,6 +7078,7 @@ class FakeApi
 
     private function handleResponseWithDataType(
         string $dataType,
+        RequestInterface $request,
         ResponseInterface $response
     ): array {
         if ($dataType === '\SplFileObject') {
