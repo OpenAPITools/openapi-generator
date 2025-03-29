@@ -14,6 +14,7 @@ package petstore.services.petservice;
 
 import "google/protobuf/empty.proto";
 import public "models/api_response.proto";
+import public "models/error.proto";
 import public "models/pet.proto";
 
 service PetService {

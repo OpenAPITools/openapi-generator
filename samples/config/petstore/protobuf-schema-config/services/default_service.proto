@@ -16,9 +16,9 @@ import "google/protobuf/empty.proto";
 import public "models/data.proto";
 
 service DefaultService {
-  rpc PetsGet (PetsGetRequest) returns (google.protobuf.Empty);
+  rpc PetsGet (PetsGetRequest) returns (PetsGetResponse);
 
-  rpc PetsPost (PetsPostRequest) returns (google.protobuf.Empty);
+  rpc PetsPost (PetsPostRequest) returns (PetsPostResponse);
 
 }
 
@@ -27,8 +27,18 @@ message PetsGetRequest {
 
 }
 
+message PetsGetResponse {
+    oneof response {
+        google.protobuf.Empty empty_200 = 1;
+    }
+}
 message PetsPostRequest {
   PetsPostRequest pets_post_request = 1;
 
 }
 
+message PetsPostResponse {
+    oneof response {
+        google.protobuf.Empty empty_200 = 1;
+    }
+}
