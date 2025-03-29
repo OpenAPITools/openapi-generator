@@ -536,7 +536,7 @@ No authorization required
 ## `fakeWith400And4xxRangeResponseEndpoint()`
 
 ```php
-fakeWith400And4xxRangeResponseEndpoint($pet)
+fakeWith400And4xxRangeResponseEndpoint($pet): \OpenAPI\Client\Model\Pet
 ```
 
 test endpoint with 400 and 400-499 range response http code with dataType
@@ -557,7 +557,8 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->fakeWith400And4xxRangeResponseEndpoint($pet);
+    $result = $apiInstance->fakeWith400And4xxRangeResponseEndpoint($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeWith400And4xxRangeResponseEndpoint: ', $e->getMessage(), PHP_EOL;
 }
@@ -571,7 +572,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -589,7 +590,7 @@ No authorization required
 ## `fakeWith400ResponseEndpoint()`
 
 ```php
-fakeWith400ResponseEndpoint($pet)
+fakeWith400ResponseEndpoint($pet): \OpenAPI\Client\Model\Pet
 ```
 
 test endpoint with 400 response http code with dataType
@@ -610,7 +611,8 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->fakeWith400ResponseEndpoint($pet);
+    $result = $apiInstance->fakeWith400ResponseEndpoint($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeWith400ResponseEndpoint: ', $e->getMessage(), PHP_EOL;
 }
@@ -624,7 +626,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 
@@ -642,7 +644,7 @@ No authorization required
 ## `fakeWith4xxRangeResponseEndpoint()`
 
 ```php
-fakeWith4xxRangeResponseEndpoint($pet)
+fakeWith4xxRangeResponseEndpoint($pet): \OpenAPI\Client\Model\Pet
 ```
 
 test endpoint with 400-499 range response http code with dataType
@@ -663,7 +665,8 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
 $pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->fakeWith4xxRangeResponseEndpoint($pet);
+    $result = $apiInstance->fakeWith4xxRangeResponseEndpoint($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeWith4xxRangeResponseEndpoint: ', $e->getMessage(), PHP_EOL;
 }
@@ -677,7 +680,7 @@ try {
 
 ### Return type
 
-void (empty response body)
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
 
 ### Authorization
 

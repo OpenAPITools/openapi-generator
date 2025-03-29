@@ -1403,6 +1403,10 @@ paths:
       responses:
         200:
           description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
           content:
@@ -1420,6 +1424,10 @@ paths:
       responses:
         200:
           description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '4xx':
           description: Range of HTTP code 400-499
           content:
@@ -1437,6 +1445,10 @@ paths:
       responses:
         200:
           description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid status value
           content:
