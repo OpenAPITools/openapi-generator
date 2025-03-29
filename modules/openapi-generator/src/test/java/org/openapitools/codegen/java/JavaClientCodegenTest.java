@@ -3779,4 +3779,35 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterfaceShouldntGenerateOneOfExample_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(client)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/oneOf.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        // must only check if the library generates the doc
+        if(Files.exists(output.resolve("docs/TestResponse.md")))
+        {
+            TestUtils.assertFileNotContains(
+                    output.resolve("docs/TestResponse.md"),
+                    "## Example",
+                    "exampleTestResponse.setActualInstance(exampleTestA);"
+            );
+        }
+
+    }
+
 }
