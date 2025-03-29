@@ -25,6 +25,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\ResponseInterface;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\HeaderSelector;
@@ -262,37 +263,22 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/-first}}
             {{#dataType}}
                 {{^isRange}}{{^isWildcard}}case {{code}}:{{/isWildcard}}{{#isWildcard}}default:{{/isWildcard}}
-                    if ('{{{dataType}}}' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('{{{dataType}}}' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '{{{dataType}}}', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];{{/isRange}}
+                    return $this->handleResponseWithDataType(
+                        '{{{dataType}}}',
+                        $response,
+                    );{{/isRange}}
             {{/dataType}}
             {{#-last}}
             }
             {{/-last}}
             {{/responses}}
+
+            {{#responses}}{{#dataType}}{{#isRange}}{{^isWildcard}}if ($this->responseWithinRangeCode('{{code}}', $statusCode)) {
+                return $this->handleResponseWithDataType(
+                    '{{{dataType}}}',
+                    $response,
+                );
+            }{{/isWildcard}}{{/isRange}}{{/dataType}}{{/responses}}
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -307,39 +293,15 @@ use {{invokerPackage}}\ObjectSerializer;
                 );
             }
 
-            $returnType = '{{{returnType}}}';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
+            return $this->handleResponseWithDataType(
+                '{{{returnType}}}',
+                $response,
+            );
             {{/returnType}}
             {{^returnType}}
 
             return [null, $statusCode, $response->getHeaders()];
             {{/returnType}}
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
         {{#responses}}
@@ -351,10 +313,21 @@ use {{invokerPackage}}\ObjectSerializer;
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;{{/isRange}}
+                    throw $e;{{/isRange}}
             {{/dataType}}
         {{/responses}}
             }
+        {{#responses}}{{#dataType}}{{#isRange}}{{^isWildcard}}
+            if ($this->responseWithinRangeCode('{{code}}', $e->getCode())) {
+                $data = ObjectSerializer::deserialize(
+                    $e->getResponseBody(),
+                    '{{{dataType}}}',
+                    $e->getResponseHeaders()
+                );
+                $e->setResponseObject($data);
+                throw $e;
+            }{{/isWildcard}}{{/isRange}}{{/dataType}}{{/responses}}
+
             throw $e;
         }
     }
@@ -858,6 +831,48 @@ use {{invokerPackage}}\ObjectSerializer;
         }
 
         return $options;
+    }
+
+    private function handleResponseWithDataType(
+        string $dataType,
+        ResponseInterface $response
+    ): array {
+        if ($dataType === '\SplFileObject') {
+            $content = $response->getBody(); //stream goes to serializer
+        } else {
+            $content = (string) $response->getBody();
+            if ($dataType !== 'string') {
+                try {
+                    $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    throw new ApiException(
+                        sprintf(
+                            'Error JSON decoding server response (%s)',
+                            $request->getUri()
+                        ),
+                        $response->getStatusCode(),
+                        $response->getHeaders(),
+                        $content
+                    );
+                }
+            }
+        }
+
+        return [
+            ObjectSerializer::deserialize($content, $dataType, []),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        ];
+    }
+
+    private function responseWithinRangeCode(
+        string $rangeCode,
+        int $statusCode
+    ): bool {
+        $left = (int) ($rangeCode[0].'00');
+        $right = (int) ($rangeCode[0].'99');
+
+        return $statusCode >= $left && $statusCode <= $right;
     }
 }
 {{/operations}}

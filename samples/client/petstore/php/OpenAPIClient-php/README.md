@@ -82,6 +82,9 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fakeWith400And4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith400and4xxrangeresponseendpoint) | **POST** /fake/with_400_and_4xx_range_response/endpoint | test endpoint with 400 and 400-499 range response http code with dataType
+*FakeApi* | [**fakeWith400ResponseEndpoint**](docs/Api/FakeApi.md#fakewith400responseendpoint) | **POST** /fake/with_400_response/endpoint | test endpoint with 400 response http code with dataType
+*FakeApi* | [**fakeWith4xxRangeResponseEndpoint**](docs/Api/FakeApi.md#fakewith4xxrangeresponseendpoint) | **POST** /fake/with_4xx_range_response/endpoint | test endpoint with 400-499 range response http code with dataType
 *FakeApi* | [**getParameterNameMapping**](docs/Api/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
 *FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
@@ -140,6 +143,7 @@ Class | Method | HTTP request | Description
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
 - [EnumWithNameAndDescription](docs/Model/EnumWithNameAndDescription.md)
+- [ErrorResponse](docs/Model/ErrorResponse.md)
 - [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
