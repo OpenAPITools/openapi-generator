@@ -3745,4 +3745,38 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test(dataProvider = "allJavaClients")
+    public void testClientWithUseOneOfInterfaceWithoutDiscriminator_issue_17419(String client) {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(client)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/oneOf.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestResponse.java"),
+                "public interface TestResponse {"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestA.java"),
+                "implements TestResponse"
+        );
+        TestUtils.assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestB.java"),
+                "implements TestResponse"
+        );
+
+    }
+
 }
