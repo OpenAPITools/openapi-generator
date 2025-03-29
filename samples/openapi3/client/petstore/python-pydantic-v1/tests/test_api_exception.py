@@ -19,6 +19,7 @@ from .util import id_gen
 
 HOST = 'http://localhost/v2'
 
+
 class ApiExceptionTests(unittest.TestCase):
 
     def setUp(self):
