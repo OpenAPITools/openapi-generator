@@ -38,6 +38,7 @@ use GuzzleHttp\Promise\PromiseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**

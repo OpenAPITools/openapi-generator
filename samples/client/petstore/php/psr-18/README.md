@@ -119,6 +119,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**uploadFile**](docs/Api/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 *PetApi* | [**uploadFileWithRequiredFile**](docs/Api/PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *PetApi* | [**uploadImageFullFormData**](docs/Api/PetApi.md#uploadimagefullformdata) | **POST** /pet/{petId}/uploadImageFullFormData | uploads an image attached to a Pet object as formdata
+*PetApi* | [**uploadImageFullFormDataNested**](docs/Api/PetApi.md#uploadimagefullformdatanested) | **POST** /pet/{petId}/uploadImageFullFormDataNested | uploads an image attached to a Pet object as formdata
 *StoreApi* | [**deleteOrder**](docs/Api/StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**getInventory**](docs/Api/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**getOrderById**](docs/Api/StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -177,6 +178,7 @@ Class | Method | HTTP request | Description
 - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
+- [PetWithFile](docs/Model/PetWithFile.md)
 - [PropertyNameMapping](docs/Model/PropertyNameMapping.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SingleRefType](docs/Model/SingleRefType.md)
