@@ -13,60 +13,46 @@ use crate::{header, types::*};
 use crate::{apis, models};
 
 /// Setup API Server.
-pub fn new<I, A, E, C>(api_impl: I) -> Router
+pub fn new<I, A, E>(api_impl: I) -> Router
 where
     I: AsRef<A> + Clone + Send + Sync + 'static,
-    A: apis::default::Default<E, Claims = C>
-        + apis::ApiAuthBasic<Claims = C>
-        + Send
-        + Sync
-        + 'static,
+    A: apis::default::Default<E> + Send + Sync + 'static,
     E: std::fmt::Debug + Send + Sync + 'static,
-    C: Send + Sync + 'static,
 {
     // build our application with a route
     Router::new()
-        .route("/ping", get(ping_get::<I, A, E, C>))
+        .route("/endpoint", get(endpoint_get::<I, A, E>))
         .with_state(api_impl)
 }
 
 #[tracing::instrument(skip_all)]
-fn ping_get_validation() -> std::result::Result<(), ValidationErrors> {
-    Ok(())
+fn endpoint_get_validation(
+    query_params: models::EndpointGetQueryParams,
+) -> std::result::Result<(models::EndpointGetQueryParams,), ValidationErrors> {
+    query_params.validate()?;
+
+    Ok((query_params,))
 }
-/// PingGet - GET /ping
+/// EndpointGet - GET /endpoint
 #[tracing::instrument(skip_all)]
-async fn ping_get<I, A, E, C>(
+async fn endpoint_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    headers: HeaderMap,
+    QueryExtra(query_params): QueryExtra<models::EndpointGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
     I: AsRef<A> + Send + Sync,
-    A: apis::default::Default<E, Claims = C> + apis::ApiAuthBasic<Claims = C> + Send + Sync,
+    A: apis::default::Default<E> + Send + Sync,
     E: std::fmt::Debug + Send + Sync + 'static,
 {
-    // Authentication
-    let claims_in_auth_header = api_impl
-        .as_ref()
-        .extract_claims_from_auth_header(apis::BasicAuthKind::Bearer, &headers, "authorization")
-        .await;
-    let claims = None.or(claims_in_auth_header);
-    let Some(claims) = claims else {
-        return Response::builder()
-            .status(StatusCode::UNAUTHORIZED)
-            .body(Body::empty())
-            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR);
-    };
-
     #[allow(clippy::redundant_closure)]
-    let validation = tokio::task::spawn_blocking(move || ping_get_validation())
+    let validation = tokio::task::spawn_blocking(move || endpoint_get_validation(query_params))
         .await
         .unwrap();
 
-    let Ok(()) = validation else {
+    let Ok((query_params,)) = validation else {
         return Response::builder()
             .status(StatusCode::BAD_REQUEST)
             .body(Body::from(validation.unwrap_err().to_string()))
@@ -75,15 +61,15 @@ where
 
     let result = api_impl
         .as_ref()
-        .ping_get(&method, &host, &cookies, &claims)
+        .endpoint_get(&method, &host, &cookies, &query_params)
         .await;
 
     let mut response = Response::builder();
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::PingGetResponse::Status201_OK => {
-                let mut response = response.status(201);
+            apis::default::EndpointGetResponse::Status200_OK => {
+                let mut response = response.status(200);
                 response.body(Body::empty())
             }
         },
