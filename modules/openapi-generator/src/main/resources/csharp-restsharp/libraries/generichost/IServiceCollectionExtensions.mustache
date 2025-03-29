@@ -1,0 +1,69 @@
+{{>partial_header}}
+{{#nrt}}
+#nullable enable
+
+{{/nrt}}
+using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using {{packageName}}.{{clientPackage}};
+
+namespace {{packageName}}.Extensions
+{
+    /// <summary>
+    /// Extension methods for IServiceCollection
+    /// </summary>
+    {{>visibility}} static class IServiceCollectionExtensions
+    {
+        {{^hasAuthMethods}}
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="services"></param>
+        public static void Add{{apiName}}(this IServiceCollection services)
+        {
+            HostConfiguration config = new{{^net70OrLater}} HostConfiguration{{/net70OrLater}}(services);
+            Add{{apiName}}(services, config);
+        }
+
+        {{/hasAuthMethods}}
+        /// <summary>
+        /// Add the api to your host builder.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        public static void Add{{apiName}}(this IServiceCollection services, Action<HostConfiguration> options)
+        {
+            HostConfiguration config = new{{^net70OrLater}} HostConfiguration{{/net70OrLater}}(services);
+            options(config);
+            Add{{apiName}}(services, config);
+        }
+
+        internal static void Add{{apiName}}(IServiceCollection services, HostConfiguration host)
+        {
+            if (!host.HttpClientsAdded)
+                host.Add{{apiName}}HttpClients();
+
+            services.AddSingleton<CookieContainer>();
+
+            // ensure that a token provider was provided for this token type
+            // if not, default to RateLimitProvider
+            var containerServices = services.Where(s => s.ServiceType.IsGenericType &&
+                s.ServiceType.GetGenericTypeDefinition().IsAssignableFrom(typeof(TokenContainer<>))).ToArray();
+
+            foreach(var containerService in containerServices)
+            {
+                var tokenType = containerService.ServiceType.GenericTypeArguments[0];
+
+                var provider = services.FirstOrDefault(s => s.ServiceType.IsAssignableFrom(typeof(TokenProvider<>).MakeGenericType(tokenType)));
+
+                if (provider == null)
+                {
+                    services.AddSingleton(typeof(RateLimitProvider<>).MakeGenericType(tokenType));
+                    services.AddSingleton(typeof(TokenProvider<>).MakeGenericType(tokenType), 
+                        s => s.GetRequiredService(typeof(RateLimitProvider<>).MakeGenericType(tokenType)));
+                }
+            }
+        }
+    }
+}

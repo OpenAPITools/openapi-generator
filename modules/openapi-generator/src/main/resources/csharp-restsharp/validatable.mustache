@@ -1,0 +1,135 @@
+{{#discriminator}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
+{{/discriminator}}
+{{^discriminator}}
+  {{#parent}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
+  {{/parent}}
+  {{^parent}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+  {{/parent}}
+{{/discriminator}}
+            {{#parent}}
+            {{^isArray}}
+            {{^isMap}}
+            foreach (var x in {{#discriminator}}base.{{/discriminator}}BaseValidate(validationContext))
+            {
+                yield return x;
+            }
+            {{/isMap}}
+            {{/isArray}}
+            {{/parent}}
+            {{#vars}}
+            {{#hasValidation}}
+            {{^isEnum}}
+            {{#maxLength}}
+            // {{{name}}} ({{{dataType}}}) maxLength
+            if (this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/maxLength}}
+            {{#minLength}}
+            // {{{name}}} ({{{dataType}}}) minLength
+            if (this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/minLength}}
+            {{#maximum}}
+            // {{{name}}} ({{{dataType}}}) maximum
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}<={{/exclusiveMaximum}}{{^exclusiveMaximum}}>{{/exclusiveMaximum}} ({{{dataType}}}){{maximum}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{maximum}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/maximum}}
+            {{#minimum}}
+            // {{{name}}} ({{{dataType}}}) minimum
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} {{#exclusiveMaximum}}>={{/exclusiveMaximum}}{{^exclusiveMaximum}}<{{/exclusiveMaximum}} ({{{dataType}}}){{minimum}})
+            {
+                yield return new ValidationResult("Invalid value for {{{name}}}, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{minimum}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/minimum}}
+            {{#pattern}}
+            {{^isByteArray}}
+            {{#vendorExtensions.x-is-value-type}}
+            {{#isNullable}}
+            if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null){
+                {{#lambda.trimTrailingWithNewLine}}
+                {{#lambda.indent4}}
+                {{>ValidateRegex}}
+                {{/lambda.indent4}}
+
+                {{/lambda.trimTrailingWithNewLine}}
+            }
+
+            {{/isNullable}}
+            {{^isNullable}}
+            {{#lambda.trimTrailingWithNewLine}}
+            {{#lambda.indent3}}
+            {{>ValidateRegex}}
+            {{/lambda.indent3}}
+
+            {{/lambda.trimTrailingWithNewLine}}
+            {{/isNullable}}
+            {{/vendorExtensions.x-is-value-type}}
+            {{^vendorExtensions.x-is-value-type}}
+            if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null) {
+                {{#lambda.trimTrailingWithNewLine}}
+                {{#lambda.indent4}}
+                {{>ValidateRegex}}
+                {{/lambda.indent4}}
+
+                {{/lambda.trimTrailingWithNewLine}}
+            }
+
+            {{/vendorExtensions.x-is-value-type}}
+            {{/isByteArray}}
+            {{/pattern}}
+            {{/isEnum}}
+            {{/hasValidation}}
+            {{/vars}}
+            yield break;
+        }
