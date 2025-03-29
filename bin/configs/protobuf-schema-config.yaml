@@ -8,3 +8,8 @@ additionalProperties:
   numberedFieldNumberList: true
   startEnumsWithUnspecified: true
   wrapComplexType: false
+  aggregateModelsName: data
+typeMappings:
+  object: "google.protobuf.Struct"
+importMappings:
+  google.protobuf.Struct: "google/protobuf/struct"

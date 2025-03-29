@@ -96,7 +96,7 @@ export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignor
             case 'remote-authenticated':
                 return RemoteAuthenticatedUserDtoToJSONTyped(value as RemoteAuthenticatedUserDto, ignoreDiscriminator);
             default:
-                throw new Error(`No variant of AbstractUserDto exists with 'type=${value['type']}'`);
+                return value;
         }
     }
 

@@ -26,12 +26,12 @@ export interface Pet {
     status?: Pet.StatusEnum;
 }
 export namespace Pet {
-    export type StatusEnum = 'available' | 'pending' | 'sold';
     export const StatusEnum = {
-        Available: 'available' as StatusEnum,
-        Pending: 'pending' as StatusEnum,
-        Sold: 'sold' as StatusEnum
-    };
+        Available: 'available',
+        Pending: 'pending',
+        Sold: 'sold'
+    } as const;
+    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 }
 
 

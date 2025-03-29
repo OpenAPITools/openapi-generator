@@ -13,8 +13,7 @@ syntax = "proto3";
 package petstore.services.defaultservice;
 
 import "google/protobuf/empty.proto";
-import public "models/pets_get_request.proto";
-import public "models/pets_post_request.proto";
+import public "models/data.proto";
 
 service DefaultService {
   rpc PetsGet (PetsGetRequest) returns (google.protobuf.Empty);

@@ -13,7 +13,7 @@ syntax = "proto3";
 package petstore.services.storeservice;
 
 import "google/protobuf/empty.proto";
-import public "models/order.proto";
+import public "models/data.proto";
 
 service StoreService {
   rpc DeleteOrder (DeleteOrderRequest) returns (google.protobuf.Empty);

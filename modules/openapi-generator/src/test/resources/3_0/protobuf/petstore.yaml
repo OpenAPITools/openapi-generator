@@ -669,6 +669,8 @@ components:
         complete:
           type: boolean
           default: false
+        meta:
+          type: object
       xml:
         name: Order
     Category:

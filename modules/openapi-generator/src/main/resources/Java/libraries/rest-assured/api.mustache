@@ -191,7 +191,7 @@ public class {{classname}} {
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
-        public {{operationIdCamelCase}}Oper body({{{dataType}}} {{paramName}}) {
+        public {{operationIdCamelCase}}Oper body({{>nullable_var_annotations}} {{{dataType}}} {{paramName}}) {
             reqSpec.setBody({{paramName}});
             return this;
         }
@@ -259,7 +259,7 @@ public class {{classname}} {
          * @param {{paramName}} ({{dataType}}) {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
          * @return operation
          */
-         public {{operationIdCamelCase}}Oper {{paramName}}MultiPart({{{dataType}}} {{paramName}}) {
+         public {{operationIdCamelCase}}Oper {{paramName}}MultiPart({{>nullable_var_annotations}} {{{dataType}}} {{paramName}}) {
             reqSpec.addMultiPart({{paramName}});
             return this;
          }

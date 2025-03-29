@@ -42,6 +42,8 @@ import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import com.google.common.base.CaseFormat;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -64,9 +66,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String WRAP_COMPLEX_TYPE = "wrapComplexType";
 
+    public static final String AGGREGATE_MODELS_NAME = "aggregateModelsName";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     @Setter protected String packageName = "openapitools";
+
+    @Setter protected String aggregateModelsName = null;
 
     private boolean numberedFieldNumberList = false;
 
@@ -186,6 +192,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
         addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
+        addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
     }
 
     @Override
@@ -226,6 +233,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(this.WRAP_COMPLEX_TYPE)) {
             this.wrapComplexType = convertPropertyToBooleanAndWriteBack(WRAP_COMPLEX_TYPE);
+        }
+
+        if (additionalProperties.containsKey(AGGREGATE_MODELS_NAME)) {
+            this.setAggregateModelsName((String) additionalProperties.get(AGGREGATE_MODELS_NAME));
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -650,7 +661,35 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
             }
         }
-        return objs;
+        return aggregateModelsName == null ? objs : aggregateModels(objs);
+    }
+
+    /**
+     * Aggregates all individual model definitions into a single entry.
+     *
+     * @param objs the original map of model names to their respective entries
+     * @return a new {@link Map} containing a single entry keyed by {@code aggregateModelsName} with
+     *         combined models and imports from all provided entries
+     */
+    public Map<String, ModelsMap> aggregateModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> objects = new HashMap<>();
+        ModelsMap aggregateObj = objs.values().stream()
+                .findFirst()
+                .orElse(new ModelsMap());
+
+        List<ModelMap> models = objs.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .collect(Collectors.toList());
+
+        Set<Map<String, String>> imports = objs.values().stream()
+                .flatMap(modelsMap -> modelsMap.getImports().stream())
+                .filter(importMap -> !importMap.get("import").startsWith("models/"))
+                .collect(Collectors.toSet());
+
+        aggregateObj.setModels(models);
+        aggregateObj.setImports(new ArrayList<>(imports));
+        objects.put(this.aggregateModelsName, aggregateObj);
+        return objects;
     }
 
     public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
@@ -907,12 +946,21 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             }
         }
 
+        if (this.aggregateModelsName != null) {
+            List<Map<String, String>> aggregate_imports = Collections.singletonList(Collections
+                    .singletonMap(IMPORT, toModelImport(this.aggregateModelsName)));
+            objs.setImports(aggregate_imports);
+        }
         return objs;
     }
 
     @Override
     public String toModelImport(String name) {
-        return underscore(name);
+        if ("".equals(modelPackage())) {
+            return name;
+        } else {
+            return modelPackage() + "/" + underscore(name);
+        }
     }
 
     @Override

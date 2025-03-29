@@ -41,7 +41,7 @@ public class AnotherFakeApi {
    * @return a {@code Client}
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags(Client client) throws ApiException {
+  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set

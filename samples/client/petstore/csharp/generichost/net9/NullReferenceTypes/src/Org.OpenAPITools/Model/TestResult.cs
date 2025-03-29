@@ -169,8 +169,7 @@ namespace Org.OpenAPITools.Model
                                 code = new Option<TestResultCode?>(TestResultCodeValueConverter.FromStringOrDefault(codeRawValue));
                             break;
                         case "data":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                data = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            data = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "uuid":
                             uuid = new Option<string?>(utf8JsonReader.GetString()!);
