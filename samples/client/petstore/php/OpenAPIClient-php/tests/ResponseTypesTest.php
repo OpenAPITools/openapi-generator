@@ -4,6 +4,8 @@ namespace OpenAPI\Client;
 
 use GuzzleHttp\Psr7\Response;
 use OpenAPI\Client\Api\PetApi;
+use OpenAPI\Client\Api\FakeApi;
+use OpenAPI\Client\Model\ErrorResponse;
 use OpenAPI\Client\Model\Pet;
 use PHPUnit\Framework\TestCase;
 
@@ -112,6 +114,28 @@ class ResponseTypesTest extends TestCase
         $this->expectException(\OpenAPI\Client\ApiException::class);
 
         $this->fakeHttpClient->setResponse(new Response($statusCode, [], $responseBody));
+        $this->api->getPetById(123);
+    }
+
+    public function testRangeResponse()
+    {
+        $responseCode = mt_rand(400, 499);
+        $this->fakeHttpClient->setResponse(new Response($responseCode, [], json_encode([])));
+        $api = new FakeApi($this->fakeHttpClient);
+
+        $pet = new Model\Pet([]);
+        $pet->setId(1234);
+
+        $result = $api->fakeWith4xxRangeResponseEndpoint($pet);
+
+        $this->assertInstanceOf(Pet::class, $result);
+
+
+        $this->expectExceptionCode(404);
+        $this->expectException(\OpenAPI\Client\ApiException::class);
+        $statusCode = 404;
+
+        $this->fakeHttpClient->setResponse(new Response($statusCode, [], '{}'));
         $this->api->getPetById(123);
     }
 }
