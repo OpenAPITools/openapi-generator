@@ -1053,4 +1053,24 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return GeneratorLanguage.PROTOBUF;
     }
 
+    @Override
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas){
+        super.addProperties(properties, required, schema, visitedSchemas);
+        if(schema.getAdditionalProperties() != null) {
+            String addtionalPropertiesName = "default_map";
+            if(schema.getTitle() != null) {
+                addtionalPropertiesName = schema.getTitle();
+            } else {
+                Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+                if (additionalProperties.getTitle() != null) {
+                    addtionalPropertiesName = additionalProperties.getTitle();
+                } else if (additionalProperties.get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(additionalProperties.get$ref());
+                    addtionalPropertiesName = toVarName(toModelName(ref));
+                }
+            }
+            properties.put(addtionalPropertiesName, schema);
+        }
+    }
+
 }

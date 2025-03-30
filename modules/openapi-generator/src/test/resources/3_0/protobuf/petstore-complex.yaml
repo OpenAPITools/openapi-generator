@@ -34,13 +34,22 @@ externalDocs:
 components:
   schemas:
     Dog:
-      type: object
-      properties:
-        bark:
-          type: boolean
-        breed:
-          type: string
-          enum: [ Dingo, Husky, Retriever, Shepherd ]
+      allOf:
+        - type: object
+          properties:
+            bark:
+              type: boolean
+            breed:
+              type: string
+              enum: [Dingo, Husky, Retriever, Shepherd]
+        - type: object
+          propertyNames:
+            title: field
+            type: string
+          additionalProperties:
+            title: pet
+            $ref: '#/components/schemas/Pet'
+          minProperties: 1
     Cat:
       type: object
       properties:
@@ -100,31 +109,26 @@ components:
           format: int64
         category:
           $ref: '#/components/schemas/Category'
-      name:
-        type: string
-      photoUrls:
-        type: array
-        xml:
-          name: photoUrl
-          wrapped: true
-        items:
+        name:
           type: string
-      tags:
-        type: array
-        xml:
-          name: tag
-          wrapped: true
-        items:
+        photoUrls:
           type: array
-          additionalProperties:
-            $ref: '#/components/schemas/Tag'
-      status:
-        type: string
-        description: pet status in the store
-        deprecated: true
-        enum:
-          - available
-          - pending
-          - sold
-      xml:
-        name: Pet
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          deprecated: true
+          enum:
+            - available
+            - pending
+            - sold
