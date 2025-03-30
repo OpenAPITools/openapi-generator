@@ -261,7 +261,7 @@ public class DefaultGenerator implements Generator {
                 if (version.atLeast("3.1.0")) {
                     config.openapiNormalizer().put("NORMALIZE_31SPEC", "true");
                 }
-                OpenAPINormalizer openapiNormalizer = new OpenAPINormalizer(openAPI, config.openapiNormalizer());
+                OpenAPINormalizer openapiNormalizer = OpenAPINormalizer.createNormalizer(openAPI, config.openapiNormalizer());
                 openapiNormalizer.normalize();
             }
         } catch (Exception e) {
