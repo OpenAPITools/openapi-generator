@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 README.md
 models/data.proto
 services/default_service.proto
