@@ -17,7 +17,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
@@ -85,7 +84,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     private boolean wrapComplexType = true;
 
-    private boolean supportMultipleResponses = false;
+    private boolean supportMultipleResponses = true;
 
     @Override
     public CodegenType getTag() {
@@ -245,8 +244,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             this.setAggregateModelsName((String) additionalProperties.get(AGGREGATE_MODELS_NAME));
         }
 
-        if(additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
+        if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
             this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
+        } else {
+            additionalProperties.put(this.SUPPORT_MULTIPLE_RESPONSES, this.supportMultipleResponses);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -530,7 +531,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                values.add(0, "UNSPECIFIED");
+                List<String> modifiableValues = new ArrayList<>(values);
+                modifiableValues.add(0, "UNSPECIFIED");
+                allowableValues.put("values", modifiableValues);
             }
         }
     }
@@ -964,11 +967,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     if (r.returnProperty == null) {
                         r.vendorExtensions.put("x-oneOf-response-type", "google.protobuf.Empty");
                         r.vendorExtensions.put("x-oneOf-response-name", "empty");
-                    } else if (r.isMap) {
+                    } else if (r.isMap && r.additionalProperties != null) {
                         r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.additionalProperties.dataType);
                         r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.additionalProperties));
                         LOGGER.warn("Mapping responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
-                    } else if (r.isArray) {
+                    } else if (r.isArray && r.items != null) {
                         r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.items.dataType);
                         r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.items));
                         LOGGER.warn("Array responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
@@ -983,9 +986,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         if (this.aggregateModelsName != null) {
+            List<Map<String, String>> imports = objs.getImports().stream()
+                    .filter(importMap -> !importMap.get("import").startsWith("models/"))
+                    .collect(Collectors.toList());
+
             List<Map<String, String>> aggregate_imports = Collections.singletonList(Collections
                     .singletonMap(IMPORT, toModelImport(this.aggregateModelsName)));
-            objs.setImports(aggregate_imports);
+            imports.addAll(aggregate_imports);
+            objs.setImports(imports);
         }
         return objs;
     }
