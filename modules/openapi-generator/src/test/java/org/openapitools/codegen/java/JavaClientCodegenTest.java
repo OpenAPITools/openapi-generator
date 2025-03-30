@@ -3810,4 +3810,32 @@ public class JavaClientCodegenTest {
 
     }
 
+    @Test
+    public void testOkHttpGsonClientWithUseOneOfInterfaceShouldntRegisterInterfaceAsTypeAdapter_issue_17419() {
+        // given
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(OKHTTP_GSON)
+                .setAdditionalProperties(Map.of("useOneOfInterfaces", "true"))
+                .setInputSpec("src/test/resources/3_0/typescript-fetch/oneOf.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final ClientOptInput input = configurator.toClientOptInput();
+
+        // when
+        List<File> files = new DefaultGenerator().opts(input).generate();
+
+        // then
+        validateJavaSourceFiles(files);
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/model/TestResponse.java"),
+                "CustomTypeAdapterFactory"
+        );
+        TestUtils.assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/JSON.java"),
+                "new org.openapitools.client.model.TestResponse.CustomTypeAdapterFactory()"
+        );
+    }
+
 }

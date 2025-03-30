@@ -131,7 +131,9 @@ public class JSON {
         {{#model}}
         {{^isEnum}}
         {{^hasChildren}}
+        {{^vendorExtensions.x-is-one-of-interface}}
         gsonBuilder.registerTypeAdapterFactory(new {{modelPackage}}.{{{classname}}}.CustomTypeAdapterFactory());
+        {{/vendorExtensions.x-is-one-of-interface}}
         {{/hasChildren}}
         {{/isEnum}}
         {{/model}}
