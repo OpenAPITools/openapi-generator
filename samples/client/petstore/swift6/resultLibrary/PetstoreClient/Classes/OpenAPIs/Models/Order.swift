@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal struct Order: Sendable, Codable, QueryStringEncodable {
+internal struct Order: Sendable, Codable {
 
-    internal enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+    internal enum Status: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

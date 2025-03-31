@@ -460,8 +460,7 @@ open class PetAPI {
             "status": status?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -533,8 +532,7 @@ open class PetAPI {
             "file": file?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -606,8 +604,7 @@ open class PetAPI {
             "requiredFile": requiredFile.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

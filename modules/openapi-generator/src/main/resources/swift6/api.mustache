@@ -301,8 +301,7 @@ extension {{projectName}}API {
                 {{/formParams}}
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
             {{/hasFormParams}}
             {{^hasFormParams}}
         let localVariableParameters: [String: any Sendable]? = nil

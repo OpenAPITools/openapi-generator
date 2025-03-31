@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct EnumArrays: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct EnumArrays: Sendable, Codable, Hashable {
 
-    public enum JustSymbol: String, Sendable, Codable, CaseIterable {
+    public enum JustSymbol: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
-    public enum ArrayEnum: String, Sendable, Codable, CaseIterable {
+    public enum ArrayEnum: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
     }

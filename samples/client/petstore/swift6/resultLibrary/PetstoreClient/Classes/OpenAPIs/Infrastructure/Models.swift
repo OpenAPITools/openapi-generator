@@ -9,7 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-protocol QueryStringEncodable {
+protocol CustomQueryStringEncodable {
     func encodeToQueryString(codableHelper: CodableHelper) -> String
 }
 

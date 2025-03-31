@@ -7,23 +7,23 @@
 
 import Foundation
 
-public struct EnumTest: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct EnumTest: Sendable, Codable, Hashable {
 
-    public enum EnumString: String, Sendable, Codable, CaseIterable {
+    public enum EnumString: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumStringRequired: String, Sendable, Codable, CaseIterable {
+    public enum EnumStringRequired: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
         case empty = ""
     }
-    public enum EnumInteger: Int, Sendable, Codable, CaseIterable {
+    public enum EnumInteger: Int, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case _1 = 1
         case number1 = -1
     }
-    public enum EnumNumber: Double, Sendable, Codable, CaseIterable {
+    public enum EnumNumber: Double, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case _11 = 1.1
         case number12 = -1.2
     }

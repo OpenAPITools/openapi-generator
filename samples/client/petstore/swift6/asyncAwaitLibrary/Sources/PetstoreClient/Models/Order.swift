@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct Order: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct Order: Sendable, Codable, Hashable {
 
-    public enum Status: String, Sendable, Codable, CaseIterable {
+    public enum Status: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

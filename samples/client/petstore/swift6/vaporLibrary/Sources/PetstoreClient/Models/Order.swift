@@ -10,7 +10,7 @@ import Vapor
 
 public final class Order: Content, Hashable {
 
-    public enum Status: String, Sendable, Content, Hashable, CaseIterable {
+    public enum Status: String, Sendable, CustomQueryStringEncodable, Content, Hashable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Capitalization: Sendable, Codable, QueryStringEncodable, Hashable {
+public struct Capitalization: Sendable, Codable, Hashable {
 
     public var smallCamel: String?
     public var capitalCamel: String?

@@ -7,9 +7,9 @@
 
 import Foundation
 
-@objcMembers public class Order: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class Order: NSObject, Codable {
 
-    public enum Status: String, Sendable, Codable, CaseIterable {
+    public enum Status: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class NumberOnly: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class NumberOnly: NSObject, Codable {
 
     public var justNumber: Double?
 

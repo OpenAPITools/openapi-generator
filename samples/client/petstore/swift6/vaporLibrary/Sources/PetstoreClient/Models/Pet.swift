@@ -10,7 +10,7 @@ import Vapor
 
 public final class Pet: Content, Hashable {
 
-    public enum Status: String, Sendable, Content, Hashable, CaseIterable {
+    public enum Status: String, Sendable, CustomQueryStringEncodable, Content, Hashable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

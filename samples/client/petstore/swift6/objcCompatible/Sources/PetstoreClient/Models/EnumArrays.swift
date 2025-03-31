@@ -7,13 +7,13 @@
 
 import Foundation
 
-@objcMembers public class EnumArrays: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class EnumArrays: NSObject, Codable {
 
-    public enum JustSymbol: String, Sendable, Codable, CaseIterable {
+    public enum JustSymbol: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
-    public enum ArrayEnum: String, Sendable, Codable, CaseIterable {
+    public enum ArrayEnum: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
     }

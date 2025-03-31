@@ -10,7 +10,7 @@ import FoundationNetworking
 #endif
 import Alamofire
 
-protocol QueryStringEncodable {
+protocol CustomQueryStringEncodable {
     func encodeToQueryString(codableHelper: CodableHelper) -> String
 }
 

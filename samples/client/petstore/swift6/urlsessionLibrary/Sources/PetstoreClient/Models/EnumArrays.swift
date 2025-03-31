@@ -12,13 +12,13 @@ public typealias EnumArrays = PetstoreClientAPI.EnumArrays
 
 extension PetstoreClientAPI {
 
-public final class EnumArrays: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
+public final class EnumArrays: @unchecked Sendable, Codable, Hashable {
 
-    public enum JustSymbol: String, Sendable, Codable, CaseIterable {
+    public enum JustSymbol: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
-    public enum ArrayEnum: String, Sendable, Codable, CaseIterable {
+    public enum ArrayEnum: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case fish = "fish"
         case crab = "crab"
     }

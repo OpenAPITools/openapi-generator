@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal struct MapTest: Sendable, Codable, QueryStringEncodable {
+internal struct MapTest: Sendable, Codable {
 
-    internal enum MapOfEnumString: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+    internal enum MapOfEnumString: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"
         case lower = "lower"
         case unknownDefaultOpenApi = "unknown_default_open_api"

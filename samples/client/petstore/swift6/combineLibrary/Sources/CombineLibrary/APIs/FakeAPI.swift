@@ -483,8 +483,7 @@ open class FakeAPI {
             "callback": callback?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -626,8 +625,7 @@ open class FakeAPI {
             "enum_form_string": enumFormString?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -825,8 +823,7 @@ open class FakeAPI {
             "param2": param2.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
         ]
 
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

@@ -7,8 +7,8 @@
 import Foundation
 
 internal struct APIHelper {
-    internal static func rejectNil(_ source: [String: (any Sendable)?]) -> [String: any Sendable]? {
-        let destination = source.reduce(into: [String: any Sendable]()) { result, item in
+    internal static func rejectNil<Key, Value>(_ source: [Key: Value?]) -> [Key: Value]? {
+        let destination = source.reduce(into: [Key: Value]()) { result, item in
             if let value = item.value {
                 result[item.key] = value
             }
@@ -20,7 +20,7 @@ internal struct APIHelper {
         return destination
     }
 
-    internal static func rejectNilHeaders(_ source: [String: (any Sendable)?]) -> [String: String] {
+    internal static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
         return source.reduce(into: [String: String]()) { result, item in
             if let collection = item.value as? [Any?] {
                 result[item.key] = collection
@@ -28,21 +28,6 @@ internal struct APIHelper {
                     .joined(separator: ",")
             } else if let value: Any = item.value {
                 result[item.key] = convertAnyToString(value)
-            }
-        }
-    }
-
-    internal static func convertBoolToString(_ source: [String: any Sendable]?) -> [String: any Sendable]? {
-        guard let source = source else {
-            return nil
-        }
-
-        return source.reduce(into: [String: any Sendable]()) { result, item in
-            switch item.value {
-            case let x as Bool:
-                result[item.key] = x.description
-            default:
-                result[item.key] = item.value
             }
         }
     }

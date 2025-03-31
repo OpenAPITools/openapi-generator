@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Cat: Sendable, Codable, QueryStringEncodable {
+internal struct Cat: Sendable, Codable {
 
     internal private(set) var className: String
     internal private(set) var color: String? = "red"

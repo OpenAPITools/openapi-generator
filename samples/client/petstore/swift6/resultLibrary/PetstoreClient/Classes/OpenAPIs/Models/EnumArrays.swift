@@ -7,14 +7,14 @@
 
 import Foundation
 
-internal struct EnumArrays: Sendable, Codable, QueryStringEncodable {
+internal struct EnumArrays: Sendable, Codable {
 
-    internal enum JustSymbol: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+    internal enum JustSymbol: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
         case unknownDefaultOpenApi = "unknown_default_open_api"
     }
-    internal enum ArrayEnum: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+    internal enum ArrayEnum: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case fish = "fish"
         case crab = "crab"
         case unknownDefaultOpenApi = "unknown_default_open_api"

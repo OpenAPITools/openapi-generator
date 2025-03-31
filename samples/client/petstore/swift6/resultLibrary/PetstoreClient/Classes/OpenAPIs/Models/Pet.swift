@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal struct Pet: Sendable, Codable, QueryStringEncodable, Hashable {
+internal struct Pet: Sendable, Codable, Hashable {
 
-    internal enum Status: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
+    internal enum Status: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

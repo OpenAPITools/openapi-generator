@@ -12,9 +12,9 @@ public typealias Order = PetstoreClientAPI.Order
 
 extension PetstoreClientAPI {
 
-public final class Order: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
+public final class Order: @unchecked Sendable, Codable, Hashable {
 
-    public enum Status: String, Sendable, Codable, CaseIterable {
+    public enum Status: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
         case delivered = "delivered"

@@ -9,57 +9,14 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension QueryStringEncodable {
-    @_disfavoredOverload
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Bool: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Float: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Int: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Int32: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Int64: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Double: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension Decimal: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension String: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension URL: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension UUID: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
-}
-
-extension RawRepresentable where RawValue: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: rawValue) }
+extension RawRepresentable where Self: CustomQueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String {
+        encodeIfPossible(rawValue, codableHelper: codableHelper)
+    }
 }
 
 private func encodeIfPossible<T>(_ object: T, codableHelper: CodableHelper) -> String {
-    if let encodableObject = object as? QueryStringEncodable {
+    if let encodableObject = object as? any CustomQueryStringEncodable {
         return encodableObject.encodeToQueryString(codableHelper: codableHelper)
     } else {
         return String(describing: object)
@@ -88,23 +45,14 @@ extension Dictionary {
     }
 }
 
-extension Data: QueryStringEncodable {
+extension Data: CustomQueryStringEncodable {
     func encodeToQueryString(codableHelper: CodableHelper) -> String {
         return self.base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
-extension Date: QueryStringEncodable {
+extension Date: CustomQueryStringEncodable {
     func encodeToQueryString(codableHelper: CodableHelper) -> String {
         return codableHelper.dateFormatter.string(from: self)
-    }
-}
-
-extension QueryStringEncodable where Self: Encodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String {
-        guard let data = try? codableHelper.jsonEncoder.encode(self) else {
-            fatalError("Could not encode to json: \(self)")
-        }
-        return data.encodeToQueryString(codableHelper: codableHelper)
     }
 }

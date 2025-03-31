@@ -72,7 +72,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String GENERATE_MODEL_ADDITIONAL_PROPERTIES = "generateModelAdditionalProperties";
     public static final String HASHABLE_MODELS = "hashableModels";
     public static final String IDENTIFIABLE_MODELS = "identifiableModels";
-    public static final String USE_JSON_ENCODABLE = "useJsonEncodable";
     public static final String MAP_FILE_BINARY_TO_DATA = "mapFileBinaryToData";
     public static final String USE_CUSTOM_DATE_WITHOUT_TIME = "useCustomDateWithoutTime";
     public static final String VALIDATABLE = "validatable";
@@ -114,8 +113,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean hashableModels = true;
     @Setter
     protected boolean identifiableModels = true;
-    @Setter
-    protected boolean useJsonEncodable = true;
     @Getter
     @Setter
     protected boolean mapFileBinaryToData = false;
@@ -333,10 +330,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
 
         cliOptions.add(new CliOption(IDENTIFIABLE_MODELS,
                 "Make models conform to Identifiable when an id is present (default: true)")
-                .defaultValue(Boolean.TRUE.toString()));
-
-        cliOptions.add(new CliOption(USE_JSON_ENCODABLE,
-                "Make models conform to JSONEncodable protocol (default: true)")
                 .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(MAP_FILE_BINARY_TO_DATA,
@@ -559,11 +552,6 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
             setIdentifiableModels(convertPropertyToBooleanAndWriteBack(IDENTIFIABLE_MODELS));
         }
         additionalProperties.put(IDENTIFIABLE_MODELS, identifiableModels);
-
-        if (additionalProperties.containsKey(USE_JSON_ENCODABLE)) {
-            setUseJsonEncodable(convertPropertyToBooleanAndWriteBack(USE_JSON_ENCODABLE));
-        }
-        additionalProperties.put(USE_JSON_ENCODABLE, useJsonEncodable);
 
         if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_DATA)) {
             setMapFileBinaryToData(convertPropertyToBooleanAndWriteBack(MAP_FILE_BINARY_TO_DATA));

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class StringBooleanMap: NSObject, Codable, QueryStringEncodable {
+@objcMembers public class StringBooleanMap: NSObject, Codable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {

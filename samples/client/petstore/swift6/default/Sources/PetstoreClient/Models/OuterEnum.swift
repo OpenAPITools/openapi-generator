@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum OuterEnum: String, Sendable, Codable, CaseIterable {
+public enum OuterEnum: String, Sendable, CustomQueryStringEncodable, Codable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case shipped = "delivered"

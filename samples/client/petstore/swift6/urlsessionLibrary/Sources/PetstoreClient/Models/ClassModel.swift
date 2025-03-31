@@ -13,7 +13,7 @@ public typealias ClassModel = PetstoreClientAPI.ClassModel
 extension PetstoreClientAPI {
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public final class ClassModel: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
+public final class ClassModel: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var _class: String?
 
