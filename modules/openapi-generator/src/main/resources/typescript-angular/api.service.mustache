@@ -275,7 +275,8 @@ export class {{classname}} extends BaseService {
 
     {{/isResponseFile}}
         let localVarPath = `{{{path}}}`;
-        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}('{{httpMethod}}', `${this.configuration.basePath}${localVarPath}`,
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}('{{httpMethod}}', `${basePath}${localVarPath}`,
             {
     {{#httpContextInOptions}}
                 context: localVarHttpContext,
@@ -297,7 +298,7 @@ export class {{classname}} extends BaseService {
     {{^isResponseFile}}
                 responseType: <any>responseType_,
     {{/isResponseFile}}
-                withCredentials: this.configuration.withCredentials,
+                ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
                 observe: observe,
     {{#httpTransferCacheInOptions}}
