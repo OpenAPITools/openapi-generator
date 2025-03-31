@@ -31,10 +31,11 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "whatwg-fetch": "^3.0.0",
-    "es6-promise": "^4.2.4"
+    "es6-promise": "^4.2.4",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
+    "@types/node": "^22.13.14",
     "typescript": "^4.0"
   }
 }
