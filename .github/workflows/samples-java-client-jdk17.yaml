@@ -28,6 +28,7 @@ jobs:
           - samples/client/petstore/java/restclient-nullable-arrays
           - samples/client/petstore/java/restclient-swagger2
           - samples/client/petstore/java/restclient-useSingleRequestParameter
+          - samples/client/petstore/java/restclient-useSingleRequestParameter-static
           - samples/client/petstore/java/webclient-useSingleRequestParameter
     steps:
       - uses: actions/checkout@v4
