@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// FooCategory : A category for a pet
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct FooCategory {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
