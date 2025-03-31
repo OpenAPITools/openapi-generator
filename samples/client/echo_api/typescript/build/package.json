@@ -31,7 +31,10 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "whatwg-fetch": "^3.0.0",
+    "node-fetch": "^2.6.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/node": "*",
+    "form-data": "^2.5.0",
     "es6-promise": "^4.2.4"
   },
   "devDependencies": {

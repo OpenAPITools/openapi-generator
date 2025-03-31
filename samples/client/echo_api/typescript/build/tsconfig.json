@@ -23,7 +23,6 @@
       "es6"
       ,"ES2017.Object"
       ,"ES2021.String"
-      ,"dom"
     ],
   },
   "exclude": [
