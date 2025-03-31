@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions } from '../configuration'
+import type { Middleware } from '../middleware';
 
 import { Bird } from '../models/Bird';
 import { Category } from '../models/Category';
@@ -35,7 +36,7 @@ export class ObjectAuthApi {
      * To test HTTP basic authentication
      * @param param the request object
      */
-    public testAuthHttpBasicWithHttpInfo(param: AuthApiTestAuthHttpBasicRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testAuthHttpBasicWithHttpInfo(param: AuthApiTestAuthHttpBasicRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testAuthHttpBasicWithHttpInfo( options).toPromise();
     }
 
@@ -44,7 +45,7 @@ export class ObjectAuthApi {
      * To test HTTP basic authentication
      * @param param the request object
      */
-    public testAuthHttpBasic(param: AuthApiTestAuthHttpBasicRequest = {}, options?: Configuration): Promise<string> {
+    public testAuthHttpBasic(param: AuthApiTestAuthHttpBasicRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testAuthHttpBasic( options).toPromise();
     }
 
@@ -53,7 +54,7 @@ export class ObjectAuthApi {
      * To test HTTP bearer authentication
      * @param param the request object
      */
-    public testAuthHttpBearerWithHttpInfo(param: AuthApiTestAuthHttpBearerRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testAuthHttpBearerWithHttpInfo(param: AuthApiTestAuthHttpBearerRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testAuthHttpBearerWithHttpInfo( options).toPromise();
     }
 
@@ -62,7 +63,7 @@ export class ObjectAuthApi {
      * To test HTTP bearer authentication
      * @param param the request object
      */
-    public testAuthHttpBearer(param: AuthApiTestAuthHttpBearerRequest = {}, options?: Configuration): Promise<string> {
+    public testAuthHttpBearer(param: AuthApiTestAuthHttpBearerRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testAuthHttpBearer( options).toPromise();
     }
 
@@ -169,7 +170,7 @@ export class ObjectBodyApi {
      * Test binary (gif) response body
      * @param param the request object
      */
-    public testBinaryGifWithHttpInfo(param: BodyApiTestBinaryGifRequest = {}, options?: Configuration): Promise<HttpInfo<HttpFile>> {
+    public testBinaryGifWithHttpInfo(param: BodyApiTestBinaryGifRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<HttpFile>> {
         return this.api.testBinaryGifWithHttpInfo( options).toPromise();
     }
 
@@ -178,7 +179,7 @@ export class ObjectBodyApi {
      * Test binary (gif) response body
      * @param param the request object
      */
-    public testBinaryGif(param: BodyApiTestBinaryGifRequest = {}, options?: Configuration): Promise<HttpFile> {
+    public testBinaryGif(param: BodyApiTestBinaryGifRequest = {}, options?: ConfigurationOptions): Promise<HttpFile> {
         return this.api.testBinaryGif( options).toPromise();
     }
 
@@ -187,7 +188,7 @@ export class ObjectBodyApi {
      * Test body parameter(s)
      * @param param the request object
      */
-    public testBodyApplicationOctetstreamBinaryWithHttpInfo(param: BodyApiTestBodyApplicationOctetstreamBinaryRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testBodyApplicationOctetstreamBinaryWithHttpInfo(param: BodyApiTestBodyApplicationOctetstreamBinaryRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testBodyApplicationOctetstreamBinaryWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -196,7 +197,7 @@ export class ObjectBodyApi {
      * Test body parameter(s)
      * @param param the request object
      */
-    public testBodyApplicationOctetstreamBinary(param: BodyApiTestBodyApplicationOctetstreamBinaryRequest = {}, options?: Configuration): Promise<string> {
+    public testBodyApplicationOctetstreamBinary(param: BodyApiTestBodyApplicationOctetstreamBinaryRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testBodyApplicationOctetstreamBinary(param.body,  options).toPromise();
     }
 
@@ -205,7 +206,7 @@ export class ObjectBodyApi {
      * Test array of binary in multipart mime
      * @param param the request object
      */
-    public testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(param: BodyApiTestBodyMultipartFormdataArrayOfBinaryRequest, options?: Configuration): Promise<HttpInfo<string>> {
+    public testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(param: BodyApiTestBodyMultipartFormdataArrayOfBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(param.files,  options).toPromise();
     }
 
@@ -214,7 +215,7 @@ export class ObjectBodyApi {
      * Test array of binary in multipart mime
      * @param param the request object
      */
-    public testBodyMultipartFormdataArrayOfBinary(param: BodyApiTestBodyMultipartFormdataArrayOfBinaryRequest, options?: Configuration): Promise<string> {
+    public testBodyMultipartFormdataArrayOfBinary(param: BodyApiTestBodyMultipartFormdataArrayOfBinaryRequest, options?: ConfigurationOptions): Promise<string> {
         return this.api.testBodyMultipartFormdataArrayOfBinary(param.files,  options).toPromise();
     }
 
@@ -223,7 +224,7 @@ export class ObjectBodyApi {
      * Test single binary in multipart mime
      * @param param the request object
      */
-    public testBodyMultipartFormdataSingleBinaryWithHttpInfo(param: BodyApiTestBodyMultipartFormdataSingleBinaryRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testBodyMultipartFormdataSingleBinaryWithHttpInfo(param: BodyApiTestBodyMultipartFormdataSingleBinaryRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testBodyMultipartFormdataSingleBinaryWithHttpInfo(param.myFile,  options).toPromise();
     }
 
@@ -232,7 +233,7 @@ export class ObjectBodyApi {
      * Test single binary in multipart mime
      * @param param the request object
      */
-    public testBodyMultipartFormdataSingleBinary(param: BodyApiTestBodyMultipartFormdataSingleBinaryRequest = {}, options?: Configuration): Promise<string> {
+    public testBodyMultipartFormdataSingleBinary(param: BodyApiTestBodyMultipartFormdataSingleBinaryRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testBodyMultipartFormdataSingleBinary(param.myFile,  options).toPromise();
     }
 
@@ -241,7 +242,7 @@ export class ObjectBodyApi {
      * Test body parameter(s)
      * @param param the request object
      */
-    public testEchoBodyAllOfPetWithHttpInfo(param: BodyApiTestEchoBodyAllOfPetRequest = {}, options?: Configuration): Promise<HttpInfo<Pet>> {
+    public testEchoBodyAllOfPetWithHttpInfo(param: BodyApiTestEchoBodyAllOfPetRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<Pet>> {
         return this.api.testEchoBodyAllOfPetWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -250,7 +251,7 @@ export class ObjectBodyApi {
      * Test body parameter(s)
      * @param param the request object
      */
-    public testEchoBodyAllOfPet(param: BodyApiTestEchoBodyAllOfPetRequest = {}, options?: Configuration): Promise<Pet> {
+    public testEchoBodyAllOfPet(param: BodyApiTestEchoBodyAllOfPetRequest = {}, options?: ConfigurationOptions): Promise<Pet> {
         return this.api.testEchoBodyAllOfPet(param.pet,  options).toPromise();
     }
 
@@ -259,7 +260,7 @@ export class ObjectBodyApi {
      * Test free form object
      * @param param the request object
      */
-    public testEchoBodyFreeFormObjectResponseStringWithHttpInfo(param: BodyApiTestEchoBodyFreeFormObjectResponseStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testEchoBodyFreeFormObjectResponseStringWithHttpInfo(param: BodyApiTestEchoBodyFreeFormObjectResponseStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testEchoBodyFreeFormObjectResponseStringWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -268,7 +269,7 @@ export class ObjectBodyApi {
      * Test free form object
      * @param param the request object
      */
-    public testEchoBodyFreeFormObjectResponseString(param: BodyApiTestEchoBodyFreeFormObjectResponseStringRequest = {}, options?: Configuration): Promise<string> {
+    public testEchoBodyFreeFormObjectResponseString(param: BodyApiTestEchoBodyFreeFormObjectResponseStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testEchoBodyFreeFormObjectResponseString(param.body,  options).toPromise();
     }
 
@@ -277,7 +278,7 @@ export class ObjectBodyApi {
      * Test body parameter(s)
      * @param param the request object
      */
-    public testEchoBodyPetWithHttpInfo(param: BodyApiTestEchoBodyPetRequest = {}, options?: Configuration): Promise<HttpInfo<Pet>> {
+    public testEchoBodyPetWithHttpInfo(param: BodyApiTestEchoBodyPetRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<Pet>> {
         return this.api.testEchoBodyPetWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -286,7 +287,7 @@ export class ObjectBodyApi {
      * Test body parameter(s)
      * @param param the request object
      */
-    public testEchoBodyPet(param: BodyApiTestEchoBodyPetRequest = {}, options?: Configuration): Promise<Pet> {
+    public testEchoBodyPet(param: BodyApiTestEchoBodyPetRequest = {}, options?: ConfigurationOptions): Promise<Pet> {
         return this.api.testEchoBodyPet(param.pet,  options).toPromise();
     }
 
@@ -295,7 +296,7 @@ export class ObjectBodyApi {
      * Test empty response body
      * @param param the request object
      */
-    public testEchoBodyPetResponseStringWithHttpInfo(param: BodyApiTestEchoBodyPetResponseStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testEchoBodyPetResponseStringWithHttpInfo(param: BodyApiTestEchoBodyPetResponseStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testEchoBodyPetResponseStringWithHttpInfo(param.pet,  options).toPromise();
     }
 
@@ -304,7 +305,7 @@ export class ObjectBodyApi {
      * Test empty response body
      * @param param the request object
      */
-    public testEchoBodyPetResponseString(param: BodyApiTestEchoBodyPetResponseStringRequest = {}, options?: Configuration): Promise<string> {
+    public testEchoBodyPetResponseString(param: BodyApiTestEchoBodyPetResponseStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testEchoBodyPetResponseString(param.pet,  options).toPromise();
     }
 
@@ -313,7 +314,7 @@ export class ObjectBodyApi {
      * Test string enum response body
      * @param param the request object
      */
-    public testEchoBodyStringEnumWithHttpInfo(param: BodyApiTestEchoBodyStringEnumRequest = {}, options?: Configuration): Promise<HttpInfo<StringEnumRef>> {
+    public testEchoBodyStringEnumWithHttpInfo(param: BodyApiTestEchoBodyStringEnumRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<StringEnumRef>> {
         return this.api.testEchoBodyStringEnumWithHttpInfo(param.body,  options).toPromise();
     }
 
@@ -322,7 +323,7 @@ export class ObjectBodyApi {
      * Test string enum response body
      * @param param the request object
      */
-    public testEchoBodyStringEnum(param: BodyApiTestEchoBodyStringEnumRequest = {}, options?: Configuration): Promise<StringEnumRef> {
+    public testEchoBodyStringEnum(param: BodyApiTestEchoBodyStringEnumRequest = {}, options?: ConfigurationOptions): Promise<StringEnumRef> {
         return this.api.testEchoBodyStringEnum(param.body,  options).toPromise();
     }
 
@@ -331,7 +332,7 @@ export class ObjectBodyApi {
      * Test empty json (request body)
      * @param param the request object
      */
-    public testEchoBodyTagResponseStringWithHttpInfo(param: BodyApiTestEchoBodyTagResponseStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testEchoBodyTagResponseStringWithHttpInfo(param: BodyApiTestEchoBodyTagResponseStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testEchoBodyTagResponseStringWithHttpInfo(param.tag,  options).toPromise();
     }
 
@@ -340,7 +341,7 @@ export class ObjectBodyApi {
      * Test empty json (request body)
      * @param param the request object
      */
-    public testEchoBodyTagResponseString(param: BodyApiTestEchoBodyTagResponseStringRequest = {}, options?: Configuration): Promise<string> {
+    public testEchoBodyTagResponseString(param: BodyApiTestEchoBodyTagResponseStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testEchoBodyTagResponseString(param.tag,  options).toPromise();
     }
 
@@ -440,7 +441,7 @@ export class ObjectFormApi {
      * Test form parameter(s)
      * @param param the request object
      */
-    public testFormIntegerBooleanStringWithHttpInfo(param: FormApiTestFormIntegerBooleanStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testFormIntegerBooleanStringWithHttpInfo(param: FormApiTestFormIntegerBooleanStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testFormIntegerBooleanStringWithHttpInfo(param.integerForm, param.booleanForm, param.stringForm,  options).toPromise();
     }
 
@@ -449,7 +450,7 @@ export class ObjectFormApi {
      * Test form parameter(s)
      * @param param the request object
      */
-    public testFormIntegerBooleanString(param: FormApiTestFormIntegerBooleanStringRequest = {}, options?: Configuration): Promise<string> {
+    public testFormIntegerBooleanString(param: FormApiTestFormIntegerBooleanStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testFormIntegerBooleanString(param.integerForm, param.booleanForm, param.stringForm,  options).toPromise();
     }
 
@@ -458,7 +459,7 @@ export class ObjectFormApi {
      * Test form parameter(s) for multipart schema
      * @param param the request object
      */
-    public testFormObjectMultipartWithHttpInfo(param: FormApiTestFormObjectMultipartRequest, options?: Configuration): Promise<HttpInfo<string>> {
+    public testFormObjectMultipartWithHttpInfo(param: FormApiTestFormObjectMultipartRequest, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testFormObjectMultipartWithHttpInfo(param.marker,  options).toPromise();
     }
 
@@ -467,7 +468,7 @@ export class ObjectFormApi {
      * Test form parameter(s) for multipart schema
      * @param param the request object
      */
-    public testFormObjectMultipart(param: FormApiTestFormObjectMultipartRequest, options?: Configuration): Promise<string> {
+    public testFormObjectMultipart(param: FormApiTestFormObjectMultipartRequest, options?: ConfigurationOptions): Promise<string> {
         return this.api.testFormObjectMultipart(param.marker,  options).toPromise();
     }
 
@@ -476,7 +477,7 @@ export class ObjectFormApi {
      * Test form parameter(s) for oneOf schema
      * @param param the request object
      */
-    public testFormOneofWithHttpInfo(param: FormApiTestFormOneofRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testFormOneofWithHttpInfo(param: FormApiTestFormOneofRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testFormOneofWithHttpInfo(param.form1, param.form2, param.form3, param.form4, param.id, param.name,  options).toPromise();
     }
 
@@ -485,7 +486,7 @@ export class ObjectFormApi {
      * Test form parameter(s) for oneOf schema
      * @param param the request object
      */
-    public testFormOneof(param: FormApiTestFormOneofRequest = {}, options?: Configuration): Promise<string> {
+    public testFormOneof(param: FormApiTestFormOneofRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testFormOneof(param.form1, param.form2, param.form3, param.form4, param.id, param.name,  options).toPromise();
     }
 
@@ -544,7 +545,7 @@ export class ObjectHeaderApi {
      * Test header parameter(s)
      * @param param the request object
      */
-    public testHeaderIntegerBooleanStringEnumsWithHttpInfo(param: HeaderApiTestHeaderIntegerBooleanStringEnumsRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testHeaderIntegerBooleanStringEnumsWithHttpInfo(param: HeaderApiTestHeaderIntegerBooleanStringEnumsRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testHeaderIntegerBooleanStringEnumsWithHttpInfo(param.integerHeader, param.booleanHeader, param.stringHeader, param.enumNonrefStringHeader, param.enumRefStringHeader,  options).toPromise();
     }
 
@@ -553,7 +554,7 @@ export class ObjectHeaderApi {
      * Test header parameter(s)
      * @param param the request object
      */
-    public testHeaderIntegerBooleanStringEnums(param: HeaderApiTestHeaderIntegerBooleanStringEnumsRequest = {}, options?: Configuration): Promise<string> {
+    public testHeaderIntegerBooleanStringEnums(param: HeaderApiTestHeaderIntegerBooleanStringEnumsRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testHeaderIntegerBooleanStringEnums(param.integerHeader, param.booleanHeader, param.stringHeader, param.enumNonrefStringHeader, param.enumRefStringHeader,  options).toPromise();
     }
 
@@ -605,7 +606,7 @@ export class ObjectPathApi {
      * Test path parameter(s)
      * @param param the request object
      */
-    public testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(param: PathApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest, options?: Configuration): Promise<HttpInfo<string>> {
+    public testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(param: PathApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(param.pathString, param.pathInteger, param.enumNonrefStringPath, param.enumRefStringPath,  options).toPromise();
     }
 
@@ -614,7 +615,7 @@ export class ObjectPathApi {
      * Test path parameter(s)
      * @param param the request object
      */
-    public testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(param: PathApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest, options?: Configuration): Promise<string> {
+    public testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(param: PathApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest, options?: ConfigurationOptions): Promise<string> {
         return this.api.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(param.pathString, param.pathInteger, param.enumNonrefStringPath, param.enumRefStringPath,  options).toPromise();
     }
 
@@ -770,7 +771,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testEnumRefStringWithHttpInfo(param: QueryApiTestEnumRefStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testEnumRefStringWithHttpInfo(param: QueryApiTestEnumRefStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testEnumRefStringWithHttpInfo(param.enumNonrefStringQuery, param.enumRefStringQuery,  options).toPromise();
     }
 
@@ -779,7 +780,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testEnumRefString(param: QueryApiTestEnumRefStringRequest = {}, options?: Configuration): Promise<string> {
+    public testEnumRefString(param: QueryApiTestEnumRefStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testEnumRefString(param.enumNonrefStringQuery, param.enumRefStringQuery,  options).toPromise();
     }
 
@@ -788,7 +789,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryDatetimeDateStringWithHttpInfo(param: QueryApiTestQueryDatetimeDateStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryDatetimeDateStringWithHttpInfo(param: QueryApiTestQueryDatetimeDateStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryDatetimeDateStringWithHttpInfo(param.datetimeQuery, param.dateQuery, param.stringQuery,  options).toPromise();
     }
 
@@ -797,7 +798,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryDatetimeDateString(param: QueryApiTestQueryDatetimeDateStringRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryDatetimeDateString(param: QueryApiTestQueryDatetimeDateStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryDatetimeDateString(param.datetimeQuery, param.dateQuery, param.stringQuery,  options).toPromise();
     }
 
@@ -806,7 +807,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryIntegerBooleanStringWithHttpInfo(param: QueryApiTestQueryIntegerBooleanStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryIntegerBooleanStringWithHttpInfo(param: QueryApiTestQueryIntegerBooleanStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryIntegerBooleanStringWithHttpInfo(param.integerQuery, param.booleanQuery, param.stringQuery,  options).toPromise();
     }
 
@@ -815,7 +816,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryIntegerBooleanString(param: QueryApiTestQueryIntegerBooleanStringRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryIntegerBooleanString(param: QueryApiTestQueryIntegerBooleanStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryIntegerBooleanString(param.integerQuery, param.booleanQuery, param.stringQuery,  options).toPromise();
     }
 
@@ -824,7 +825,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -833,7 +834,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleDeepObjectExplodeTrueObject(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleDeepObjectExplodeTrueObject(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleDeepObjectExplodeTrueObject(param.queryObject,  options).toPromise();
     }
 
@@ -842,7 +843,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -851,7 +852,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleDeepObjectExplodeTrueObjectAllOf(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleDeepObjectExplodeTrueObjectAllOf(param: QueryApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleDeepObjectExplodeTrueObjectAllOf(param.queryObject,  options).toPromise();
     }
 
@@ -860,7 +861,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeFalseArrayIntegerRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeFalseArrayIntegerRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -869,7 +870,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeFalseArrayInteger(param: QueryApiTestQueryStyleFormExplodeFalseArrayIntegerRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleFormExplodeFalseArrayInteger(param: QueryApiTestQueryStyleFormExplodeFalseArrayIntegerRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleFormExplodeFalseArrayInteger(param.queryObject,  options).toPromise();
     }
 
@@ -878,7 +879,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeFalseArrayStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeFalseArrayStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -887,7 +888,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeFalseArrayString(param: QueryApiTestQueryStyleFormExplodeFalseArrayStringRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleFormExplodeFalseArrayString(param: QueryApiTestQueryStyleFormExplodeFalseArrayStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleFormExplodeFalseArrayString(param.queryObject,  options).toPromise();
     }
 
@@ -896,7 +897,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeTrueArrayStringRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeTrueArrayStringRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -905,7 +906,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeTrueArrayString(param: QueryApiTestQueryStyleFormExplodeTrueArrayStringRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleFormExplodeTrueArrayString(param: QueryApiTestQueryStyleFormExplodeTrueArrayStringRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleFormExplodeTrueArrayString(param.queryObject,  options).toPromise();
     }
 
@@ -914,7 +915,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeTrueObjectWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeTrueObjectRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleFormExplodeTrueObjectWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeTrueObjectRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleFormExplodeTrueObjectWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -923,7 +924,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeTrueObject(param: QueryApiTestQueryStyleFormExplodeTrueObjectRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleFormExplodeTrueObject(param: QueryApiTestQueryStyleFormExplodeTrueObjectRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleFormExplodeTrueObject(param.queryObject,  options).toPromise();
     }
 
@@ -932,7 +933,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeTrueObjectAllOfRequest = {}, options?: Configuration): Promise<HttpInfo<string>> {
+    public testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(param: QueryApiTestQueryStyleFormExplodeTrueObjectAllOfRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
         return this.api.testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(param.queryObject,  options).toPromise();
     }
 
@@ -941,7 +942,7 @@ export class ObjectQueryApi {
      * Test query parameter(s)
      * @param param the request object
      */
-    public testQueryStyleFormExplodeTrueObjectAllOf(param: QueryApiTestQueryStyleFormExplodeTrueObjectAllOfRequest = {}, options?: Configuration): Promise<string> {
+    public testQueryStyleFormExplodeTrueObjectAllOf(param: QueryApiTestQueryStyleFormExplodeTrueObjectAllOfRequest = {}, options?: ConfigurationOptions): Promise<string> {
         return this.api.testQueryStyleFormExplodeTrueObjectAllOf(param.queryObject,  options).toPromise();
     }
 

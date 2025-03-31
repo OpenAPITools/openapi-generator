@@ -1,6 +1,5 @@
 .gitattributes
 .gitignore
-.openapi-generator-ignore
 AuthApi.md
 BodyApi.md
 FormApi.md
