@@ -42,3 +42,40 @@ pub mod foo_user;
 pub use self::foo_user::FooUser;
 pub mod foo_vehicle;
 pub use self::foo_vehicle::FooVehicle;
+use serde::{Deserialize, Deserializer, Serializer};
+use serde_with::{de::DeserializeAsWrap, ser::SerializeAsWrap, DeserializeAs, SerializeAs};
+use std::marker::PhantomData;
+
+pub(crate) struct DoubleOption<T>(PhantomData<T>);
+
+impl<T, TAs> SerializeAs<Option<Option<T>>> for DoubleOption<TAs>
+where
+    TAs: SerializeAs<T>,
+{
+    fn serialize_as<S>(values: &Option<Option<T>>, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match values {
+            None => serializer.serialize_unit(),
+            Some(None) => serializer.serialize_none(),
+            Some(Some(v)) => serializer.serialize_some(&SerializeAsWrap::<T, TAs>::new(v)),
+        }
+    }
+}
+
+impl<'de, T, TAs> DeserializeAs<'de, Option<Option<T>>> for DoubleOption<TAs>
+where
+    TAs: DeserializeAs<'de, T>,
+    T: std::fmt::Debug,
+{
+    fn deserialize_as<D>(deserializer: D) -> Result<Option<Option<T>>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        Ok(Some(
+            DeserializeAsWrap::<Option<T>, Option<TAs>>::deserialize(deserializer)?
+                .into_inner(),
+        ))
+    }
+}
