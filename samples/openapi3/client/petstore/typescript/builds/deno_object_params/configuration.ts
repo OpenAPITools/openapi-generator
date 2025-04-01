@@ -119,8 +119,9 @@ function mergeMiddleware(staticMiddleware: Middleware[], calltimeMiddleware?: Mi
             return calltimeMiddleware.concat(staticMiddleware)
         case "replace":
             return calltimeMiddleware
+        default:
+            throw new Error(`Unrecognized middleware merge strategy '${strategy}'`)
     }
-    throw new Error(`Unrecognized middleware merge strategy '${strategy}'`)
 }
 
 /**
