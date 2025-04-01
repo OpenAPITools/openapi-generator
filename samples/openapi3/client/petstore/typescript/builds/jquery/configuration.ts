@@ -108,12 +108,11 @@ export function mergeConfiguration(conf: Configuration, options?: ConfigurationO
     };
 }
 
-function mergeMiddleware(staticMiddleware: Middleware[], calltimeMiddleware?: Middleware[], strategy?: "append" | "prepend" | "replace") {
+function mergeMiddleware(staticMiddleware: Middleware[], calltimeMiddleware?: Middleware[], strategy: "append" | "prepend" | "replace" = "replace") {
     if (!calltimeMiddleware) {
         return staticMiddleware;
     }
-    // default to replace behavior
-    switch(strategy ?? "replace") {
+    switch(strategy) {
         case "append":
             return staticMiddleware.concat(calltimeMiddleware);
         case "prepend":
