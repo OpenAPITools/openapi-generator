@@ -1,0 +1,37 @@
+---
+servers:
+- url: "http://localhost:8080"
+openapi: "3.0.0"
+paths:
+  /pet:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1pet"
+  /user/{username}:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1user~1{username}"
+  /pet/findByStatus:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1pet~1findByStatus"
+  /user/createWithList:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1user~1createWithList"
+  /pet/{petId}/uploadImage:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1pet~1{petId}~1uploadImage"
+  /store/inventory:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1store~1inventory"
+  /user/login:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1user~1login"
+  /user:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1user"
+  /user/createWithArray:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1user~1createWithArray"
+  /pet/findByTags:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1pet~1findByTags"
+  /store/order:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1store~1order"
+  /user/logout:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1user~1logout"
+  /pet/{petId}:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1pet~1{petId}"
+  /store/order/{orderId}:
+    $ref: "./src\\main\\resources\\petstore.yaml#/paths/~1store~1order~1{orderId}"
+info:
+  title: "merged spec"
+  description: "merged spec"
+  version: "1.0.0"
