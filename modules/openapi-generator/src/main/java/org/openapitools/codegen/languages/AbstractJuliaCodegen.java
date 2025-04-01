@@ -454,29 +454,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         return input.replace("\"", "\\\"");
     }
 
-    protected String escapeRegex(String pattern) {
-        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
-        pattern = pattern.replaceAll("^/", "");
-        pattern = pattern.replaceAll("/$", "");
-        return pattern;
-    }
-
-    /**
-     * Convert OpenAPI Parameter object to Codegen Parameter object
-     *
-     * @param imports set of imports for library/package/module
-     * @param param   OpenAPI parameter object
-     * @return Codegen Parameter object
-     */
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
-        if (parameter.pattern != null) {
-            parameter.pattern = escapeRegex(parameter.pattern);
-        }
-        return parameter;
-    }
-
     /**
      * Convert OAS Property schema to Codegen Property object.
      * <p>
@@ -497,9 +474,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         // if the name needs any escaping, we set it to var"name"
         if (needsVarEscape(property.name)) {
             property.name = "var\"" + property.name + "\"";
-        }
-        if (property.pattern != null) {
-            property.pattern = escapeRegex(property.pattern);
         }
         return property;
     }
@@ -531,15 +505,17 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         }
     }
 
-    // The DefaultCodegen.toRegularExpression method returns regex in a format
-    // that is unsuitable for use in Julia. This method changes the regex to
-    // a suitable format.
-    private void changeRegexEscape(List<CodegenParameter> paramsList) {
-        for (CodegenParameter param : paramsList) {
-            if (param.pattern != null) {
-                param.pattern = escapeRegex(param.pattern);
-            }
+    @Override
+    public String toRegularExpression(String pattern) {
+        if (pattern == null) {
+            return pattern;
         }
+
+        pattern = escapeText(pattern);
+        // escapeText unnecessarily escapes `\` such that `\.` in the regex ends up as `\\.` for example.
+        // we need to restore it back by converting `\\` to `\`
+        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
+        return pattern;
     }
 
     /**
@@ -572,13 +548,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         changeParamNames(op.pathParams, reservedNames);
         changeParamNames(op.queryParams, reservedNames);
         changeParamNames(op.formParams, reservedNames);
-
-        changeRegexEscape(op.allParams);
-        changeRegexEscape(op.bodyParams);
-        changeRegexEscape(op.headerParams);
-        changeRegexEscape(op.pathParams);
-        changeRegexEscape(op.queryParams);
-        changeRegexEscape(op.formParams);
 
         return op;
     }
