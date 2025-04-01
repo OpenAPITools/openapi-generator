@@ -127,7 +127,12 @@ dependencies {
     implementation "io.github.openfeign:feign-jackson:$feign_version"
     {{/jackson}}
     implementation "io.github.openfeign:feign-slf4j:$feign_version"
+    {{#feign-okhttp}}
     implementation "io.github.openfeign:feign-okhttp:$feign_version"
+    {{/feign-okhttp}}
+	{{#feign-hc5}}
+	implementation "io.github.openfeign:feign-hc5:$feign_version"
+	{{/feign-hc5}}
     implementation "io.github.openfeign.form:feign-form:$feign_form_version"
     {{#jackson}}
     {{#joda}}
