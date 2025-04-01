@@ -380,6 +380,8 @@ class ObjectSerializer
      */
     public static function serializeCollection(array $collection, string $style, bool $allowCollectionFormatMulti = false): string
     {
+        $collection = array_map([self::class, 'sanitizeForSerialization'], $collection);
+
         if ($allowCollectionFormatMulti && ('multi' === $style)) {
             // http_build_query() almost does the job for us. We just
             // need to fix the result of multidimensional arrays.
