@@ -531,6 +531,14 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         }
     }
 
+    private void changeRegexEscape(List<CodegenParameter> paramsList) {
+        for (CodegenParameter param : paramsList) {
+            if (param.pattern != null) {
+                param.pattern = escapeRegex(param.pattern);
+            }
+        }
+    }
+
     /**
      * Convert OAS Operation object to Codegen Operation object
      *
@@ -561,6 +569,13 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         changeParamNames(op.pathParams, reservedNames);
         changeParamNames(op.queryParams, reservedNames);
         changeParamNames(op.formParams, reservedNames);
+
+        changeRegexEscape(op.allParams);
+        changeRegexEscape(op.bodyParams);
+        changeRegexEscape(op.headerParams);
+        changeRegexEscape(op.pathParams);
+        changeRegexEscape(op.queryParams);
+        changeRegexEscape(op.formParams);
 
         return op;
     }
