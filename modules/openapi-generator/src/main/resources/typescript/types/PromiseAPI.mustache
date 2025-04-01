@@ -55,7 +55,8 @@ export class Promise{{classname}} {
      {{/allParams}}
      */
     public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: {{#useInversify}}Configuration{{/useInversify}}{{^useInversify}}PromiseConfigurationOptions{{/useInversify}}): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
-        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}{{#useInversify}}_options{{/useInversify}}{{^useInversify}}wrapOptions(_options){{/useInversify}});
+        const observableOptions = {{#useInversify}}_options{{/useInversify}}{{^useInversify}}wrapOptions(_options){{/useInversify}};
+        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}observableOptions);
         return result.toPromise();
     }
 
@@ -71,7 +72,8 @@ export class Promise{{classname}} {
      {{/allParams}}
      */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: {{#useInversify}}Configuration{{/useInversify}}{{^useInversify}}PromiseConfigurationOptions{{/useInversify}}): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
-        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}{{#useInversify}}_options{{/useInversify}}{{^useInversify}}wrapOptions(_options){{/useInversify}});
+        const observableOptions = {{#useInversify}}_options{{/useInversify}}{{^useInversify}}wrapOptions(_options){{/useInversify}};
+        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}observableOptions);
         return result.toPromise();
     }
 

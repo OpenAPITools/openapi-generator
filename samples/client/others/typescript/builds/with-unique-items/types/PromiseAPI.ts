@@ -20,14 +20,16 @@ export class PromiseDefaultApi {
     /**
      */
     public uniqueItemsWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Response>> {
-        const result = this.api.uniqueItemsWithHttpInfo(wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uniqueItemsWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
     public uniqueItems(_options?: PromiseConfigurationOptions): Promise<Response> {
-        const result = this.api.uniqueItems(wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uniqueItems(observableOptions);
         return result.toPromise();
     }
 

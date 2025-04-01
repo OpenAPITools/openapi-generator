@@ -27,7 +27,8 @@ export class PromiseDefaultApi {
      * @param [filePostRequest]
      */
     public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        const result = this.api.filePostWithHttpInfo(filePostRequest, wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.filePostWithHttpInfo(filePostRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -35,7 +36,8 @@ export class PromiseDefaultApi {
      * @param [filePostRequest]
      */
     public filePost(filePostRequest?: FilePostRequest, _options?: PromiseConfigurationOptions): Promise<void> {
-        const result = this.api.filePost(filePostRequest, wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.filePost(filePostRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -43,7 +45,8 @@ export class PromiseDefaultApi {
      * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -51,7 +54,8 @@ export class PromiseDefaultApi {
      * @param [petsFilteredPatchRequest]
      */
     public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: PromiseConfigurationOptions): Promise<void> {
-        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -59,7 +63,8 @@ export class PromiseDefaultApi {
      * @param [petsPatchRequest]
      */
     public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -67,7 +72,8 @@ export class PromiseDefaultApi {
      * @param [petsPatchRequest]
      */
     public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: PromiseConfigurationOptions): Promise<void> {
-        const result = this.api.petsPatch(petsPatchRequest, wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsPatch(petsPatchRequest, observableOptions);
         return result.toPromise();
     }
 

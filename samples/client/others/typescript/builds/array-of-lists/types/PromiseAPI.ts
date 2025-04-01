@@ -21,14 +21,16 @@ export class PromiseDefaultApi {
     /**
      */
     public listWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<ListPaged>> {
-        const result = this.api.listWithHttpInfo(wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.listWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
     public list(_options?: PromiseConfigurationOptions): Promise<ListPaged> {
-        const result = this.api.list(wrapOptions(_options));
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.list(observableOptions);
         return result.toPromise();
     }
 
