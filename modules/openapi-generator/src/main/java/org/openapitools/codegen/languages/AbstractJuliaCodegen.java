@@ -531,6 +531,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         }
     }
 
+    // The DefaultCodegen.toRegularExpression method returns regex in a format
+    // that is unsuitable for use in Julia. This method changes the regex to
+    // a suitable format.
     private void changeRegexEscape(List<CodegenParameter> paramsList) {
         for (CodegenParameter param : paramsList) {
             if (param.pattern != null) {
