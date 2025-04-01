@@ -5,16 +5,16 @@ import { BaseServerConfiguration, server1 } from "./servers";
 import { configureAuthMethods, AuthMethods, AuthMethodsConfiguration } from "./auth/auth";
 
 export interface Configuration<M = Middleware> {
-  readonly baseServer: BaseServerConfiguration;
-  readonly httpApi: HttpLibrary;
-  readonly middleware: M[];
-  readonly authMethods: AuthMethods;
+    readonly baseServer: BaseServerConfiguration;
+    readonly httpApi: HttpLibrary;
+    readonly middleware: M[];
+    readonly authMethods: AuthMethods;
 }
 
 // Additional option specific to middleware merge strategy
 export interface MiddlewareMergeOptions {
-  // default is `'replace'` for backwards compatibility
-  middlewareMergeStrategy?: 'replace' | 'append' | 'prepend';
+    // default is `"replace"` for backwards compatibility
+    middlewareMergeStrategy?: "replace" | "append" | "prepend";
 }
 
 // Unify configuration options using Partial plus extra merge strategy
