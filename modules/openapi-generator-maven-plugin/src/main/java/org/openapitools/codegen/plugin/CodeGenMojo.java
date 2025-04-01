@@ -117,6 +117,24 @@ public class CodeGenMojo extends AbstractMojo {
     private String mergedFileName;
 
     /**
+     * Name that will appear in the info section of the merged spec
+     */
+    @Parameter(name = "mergedFileInfoName", property = "openapi.generator.maven.plugin.mergedFileInfoName", defaultValue = "merged spec")
+    private String mergedFileInfoName;
+
+    /**
+     * Description that will appear in the info section of the merged spec
+     */
+    @Parameter(name = "mergedFileInfoDescription", property = "openapi.generator.maven.plugin.mergedFileInfoDescription", defaultValue = "merged spec")
+    private String mergedFileInfoDescription;
+
+    /**
+     * Version that will appear in the info section of the merged spec
+     */
+    @Parameter(name = "mergedFileInfoVersion", property = "openapi.generator.maven.plugin.mergedFileInfoVersion", defaultValue = "1.0.0")
+    private String mergedFileInfoVersion;
+
+    /**
      * Git host, e.g. gitlab.com.
      */
     @Parameter(name = "gitHost", property = "openapi.generator.maven.plugin.gitHost")
@@ -545,7 +563,8 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
+            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName,
+                    mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion)
                     .buildMergedSpec();
             LOGGER.info("Merge input spec would be used - {}", inputSpec);
         }
