@@ -116,7 +116,7 @@ export function wrapOptions(options?: PromiseConfigurationOptions): StandardConf
             ),
             middlewareMergeStrategy: options.middlewareMergeStrategy,
             authMethods: options.authMethods,
-        }
+        };
     }
     return;
 }
