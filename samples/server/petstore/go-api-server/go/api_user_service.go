@@ -27,6 +27,17 @@ func NewUserAPIService() *UserAPIService {
 	return &UserAPIService{}
 }
 
+// CreateUserNullable - Create user
+func (s *UserAPIService) CreateUserNullable(ctx context.Context, userNullable *UserNullable) (ImplResponse, error) {
+	// TODO - update CreateUserNullable with the required logic for this service method.
+	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(0, {}) or use other options such as http.Ok ...
+	// return Response(0, nil),nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("CreateUserNullable method not implemented")
+}
+
 // CreateUser - Create user
 func (s *UserAPIService) CreateUser(ctx context.Context, user User) (ImplResponse, error) {
 	// TODO - update CreateUser with the required logic for this service method.

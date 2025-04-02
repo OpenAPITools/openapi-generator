@@ -7,4 +7,6 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: rust-axum-validation-test
   disableValidator: "true"
+globalProperties:
+  skipFormModel: false
 enablePostProcessFile: true

@@ -26,7 +26,7 @@ import {{packageName}}.infrastructure.CollectionFormats.*
 * can pass that to the request queue like:
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
-class {{classname}} (
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class {{classname}} (
     private val context: Context,
     private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)
@@ -37,6 +37,7 @@ class {{classname}} (
 
     {{#operation}}
     /**
+     * {{{httpMethod}}} {{{path}}}
      * {{summary}}
      * {{notes}}
      {{#allParams}}* @param {{{paramName}}} {{description}}{{^required}} (optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{#required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}{{/required}}
@@ -45,7 +46,7 @@ class {{classname}} (
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
-    suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}{{#operationAuthMethod}}, opAuthHeaderFactory = () -> map<String, String>{{/operationAuthMethod}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}suspend fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{#-last}}{{#operationAuthMethod}}, opAuthHeaderFactory = () -> map<String, String>{{/operationAuthMethod}}){{/-last}}{{/allParams}}: {{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#bodyParam}}
         val body: Any? = {{paramName}}
         {{/bodyParam}}

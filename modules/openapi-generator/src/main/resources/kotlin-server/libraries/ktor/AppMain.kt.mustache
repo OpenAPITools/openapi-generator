@@ -1,7 +1,6 @@
 package {{packageName}}
 
 import io.ktor.server.application.*
-import io.ktor.serialization.gson.*
 import io.ktor.http.*
 {{#featureResources}}
 import io.ktor.server.resources.*
@@ -30,23 +29,16 @@ import java.util.concurrent.TimeUnit
 {{/featureMetrics}}
 import io.ktor.server.routing.*
 {{#hasAuthMethods}}
+import io.ktor.serialization.kotlinx.json.json
 import com.typesafe.config.ConfigFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.server.config.HoconApplicationConfig
 import io.ktor.server.auth.*
-import org.openapitools.server.infrastructure.*
+import {{packageName}}.infrastructure.*
 {{/hasAuthMethods}}
 {{#generateApis}}{{#apiInfo}}{{#apis}}import {{apiPackage}}.{{classname}}
 {{/apis}}{{/apiInfo}}{{/generateApis}}
-
-{{#hasAuthMethods}}
-internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
-
-object HTTP {
-    val client = HttpClient(Apache)
-}
-{{/hasAuthMethods}}
 
 fun Application.main() {
     install(DefaultHeaders)
@@ -62,7 +54,7 @@ fun Application.main() {
     {{/featureMetrics}}
 {{#generateApis}}
     install(ContentNegotiation) {
-        register(ContentType.Application.Json, GsonConverter())
+        json()
     }
     {{#featureAutoHead}}
     install(AutoHeadResponse) // see https://ktor.io/docs/autoheadresponse.html
@@ -125,7 +117,7 @@ fun Application.main() {
     {{/authMethods}}
     }
     {{/hasAuthMethods}}
-    install(Routing) {
+    routing {
     {{#apiInfo}}
     {{#apis}}
     {{#operations}}
@@ -134,6 +126,5 @@ fun Application.main() {
     {{/apis}}
     {{/apiInfo}}
     }
-
 {{/generateApis}}
 }

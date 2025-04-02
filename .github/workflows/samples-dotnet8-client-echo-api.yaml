@@ -1,0 +1,33 @@
+name: Samples C# .Net 8 Client Echo API
+
+on:
+  push:
+    paths:
+      - samples/client/echo_api/csharp/restsharp/net8/**
+  pull_request:
+    paths:
+      - samples/client/echo_api/csharp/restsharp/net8/**
+jobs:
+  build:
+    name: Build .Net clients
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # clients
+          - samples/client/echo_api/csharp/restsharp/net8/EchoApi
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.3.1
+        with:
+          dotnet-version: '8.0.x'
+      - name: Run echo server
+        run: |
+          git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
+          (cd http-echo-server && npm install && npm start &)
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: |
+          dotnet build Org.OpenAPITools.sln
+          dotnet test Org.OpenAPITools.sln

@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -27,38 +28,38 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("format_test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FormatTest {
 
-  private Integer integer;
+  private @Nullable Integer integer;
 
-  private Integer int32;
+  private @Nullable Integer int32;
 
-  private Long int64;
+  private @Nullable Long int64;
 
   private BigDecimal number;
 
-  private Float _float;
+  private @Nullable Float _float;
 
-  private Double _double;
+  private @Nullable Double _double;
 
-  private String string;
+  private @Nullable String string;
 
   private byte[] _byte;
 
-  private org.springframework.core.io.Resource binary;
+  private @Nullable org.springframework.core.io.Resource binary;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private @Nullable OffsetDateTime dateTime;
 
-  private UUID uuid;
+  private @Nullable UUID uuid;
 
   private String password;
 
-  private BigDecimal bigDecimal;
+  private @Nullable BigDecimal bigDecimal;
 
   public FormatTest() {
     super();
@@ -77,7 +78,7 @@ public class FormatTest {
   /**
    * Constructor with all args parameters
    */
-  public FormatTest(Integer integer, Integer int32, Long int64, BigDecimal number, Float _float, Double _double, String string, byte[] _byte, org.springframework.core.io.Resource binary, LocalDate date, OffsetDateTime dateTime, UUID uuid, String password, BigDecimal bigDecimal) {
+  public FormatTest(@Nullable Integer integer, @Nullable Integer int32, @Nullable Long int64, BigDecimal number, @Nullable Float _float, @Nullable Double _double, @Nullable String string, byte[] _byte, @Nullable org.springframework.core.io.Resource binary, LocalDate date, @Nullable OffsetDateTime dateTime, @Nullable UUID uuid, String password, @Nullable BigDecimal bigDecimal) {
       this.integer = integer;
       this.int32 = int32;
       this.int64 = int64;

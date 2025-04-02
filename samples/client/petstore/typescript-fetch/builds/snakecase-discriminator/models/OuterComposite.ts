@@ -62,11 +62,11 @@ export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-  export function OuterCompositeToJSON(json: any): OuterComposite {
-      return OuterCompositeToJSONTyped(json, false);
-  }
+export function OuterCompositeToJSON(json: any): OuterComposite {
+    return OuterCompositeToJSONTyped(json, false);
+}
 
-  export function OuterCompositeToJSONTyped(value?: OuterComposite | null, ignoreDiscriminator: boolean = false): any {
+export function OuterCompositeToJSONTyped(value?: OuterComposite | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

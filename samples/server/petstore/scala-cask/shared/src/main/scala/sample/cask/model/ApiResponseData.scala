@@ -20,7 +20,8 @@ import scala.util.*
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
-/** ApiResponseData a data transfer object, primarily for simple json serialisation.
+
+        /** ApiResponseData a data transfer object, primarily for simple json serialisation.
   * It has no validation - there may be nulls, values out of range, etc
   */
 case class ApiResponseData(
@@ -39,7 +40,7 @@ case class ApiResponseData(
   }
 
   def validationErrors(path : Seq[Field], failFast : Boolean) : Seq[ValidationError] = {
-    val errors = scala.collection.mutable.ListBuffer[ValidationError]()
+    val _allValidationErrors = scala.collection.mutable.ListBuffer[ValidationError]()
         // ================== code validation ==================
         
         
@@ -58,9 +59,12 @@ case class ApiResponseData(
         
         
 
-    errors.toSeq
+    _allValidationErrors.toSeq
   }
 
+  /**
+   * @return the validated model within a Try (if successful)
+   */
   def validated(failFast : Boolean = false) : scala.util.Try[ApiResponse] = {
     validationErrors(Vector(), failFast) match {
       case Seq() => Success(asModel)
@@ -71,24 +75,17 @@ case class ApiResponseData(
   /** use 'validated' to check validation */
   def asModel : ApiResponse = {
     ApiResponse(
-        code = Option(
-        code
-        )
-        ,
-        `type` = Option(
-        `type`
-        )
-        ,
-        message = Option(
-        message
-        )
-        
+        code = Option(code) /* 1 */,
+        `type` = Option(`type`) /* 1 */,
+        message = Option(message) /* 1 */
     
     )
   }
 }
 
 object ApiResponseData {
+
+  def validated(d8a : ApiResponseData, failFast : Boolean) : scala.util.Try[ApiResponse] = d8a.validated(failFast)
 
   def fromJson(jason : ujson.Value) : ApiResponseData = try {
         val data = read[ApiResponseData](jason)

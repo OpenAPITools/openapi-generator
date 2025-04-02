@@ -36,6 +36,7 @@ internal class RequestBuilder<T> {
         self.requiresAuthentication = requiresAuthentication
 
         addHeaders(PetstoreClientAPI.customHeaders)
+        addCredential()
     }
 
     internal func addHeaders(_ aHeaders: [String: String]) {
@@ -56,9 +57,8 @@ internal class RequestBuilder<T> {
         return self
     }
 
-    internal func addCredential() -> Self {
+    internal func addCredential() {
         credential = PetstoreClientAPI.credential
-        return self
     }
 }
 

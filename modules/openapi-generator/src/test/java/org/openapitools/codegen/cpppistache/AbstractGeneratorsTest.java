@@ -16,12 +16,19 @@
 
 package org.openapitools.codegen.cpppistache;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.*;
-
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConfigLoader;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Abstract test class to make one or multiple generators generate files for one specific input spec
@@ -29,6 +36,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 public abstract class AbstractGeneratorsTest {
     /**
      * Test each with a given input spec
+     *
      * @param inputSpec The input spec to use
      * @return Map of generator and files
      * @throws IOException if the test directory cannot be created
@@ -46,8 +54,9 @@ public abstract class AbstractGeneratorsTest {
 
     /**
      * Test each with a given input spec
+     *
      * @param generatorName the generator name to use
-     * @param inputSpec The input spec to use
+     * @param inputSpec     The input spec to use
      * @return List of generated files
      * @throws IOException if the test directory cannot be created
      */
@@ -59,9 +68,9 @@ public abstract class AbstractGeneratorsTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-           .setGeneratorName(generatorName)
-           .setInputSpec(inputSpec)
-           .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName(generatorName)
+                .setInputSpec(inputSpec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();

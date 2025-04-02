@@ -1,4 +1,4 @@
-import * as nock from 'nock';
+import nock from 'nock';
 
 export const BASE_URL = 'http://localhost:1234';
 

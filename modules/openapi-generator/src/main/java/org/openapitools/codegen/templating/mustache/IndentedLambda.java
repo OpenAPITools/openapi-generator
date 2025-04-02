@@ -81,7 +81,7 @@ public class IndentedLambda implements Mustache.Lambda {
     /**
      * Constructs a new instance of {@link IndentedLambda}
      *
-     * @param prefixSpaceCount The number of indented characters to apply as a prefix to a fragment.
+     * @param prefixSpaceCount   The number of indented characters to apply as a prefix to a fragment.
      * @param indentionCodePoint Code point of the single character used for indentation.
      * @param prefix             An optional prefix to prepend before the line (useful for multi-line comments).
      * @param indentFirstLine    Whether to indent the first line or not. Usually this is handled by the template already.

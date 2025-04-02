@@ -7,13 +7,38 @@
  *)
 
 type t = {
-    id: int64 option [@default None];
-    pet_id: int64 option [@default None];
-    quantity: int32 option [@default None];
-    ship_date: string option [@default None];
+      id: int64
+          
+           option [@default None]
+        
+        ; [@key "id"]
+      pet_id: int64
+          
+           option [@default None]
+        
+        ; [@key "petId"]
+      quantity: int32
+          
+           option [@default None]
+        
+        ; [@key "quantity"]
+      ship_date: string
+          
+           option [@default None]
+        
+        ; [@key "shipDate"]
     (* Order Status *)
-    status: Enums.status option [@default None];
-    complete: bool option [@default None];
+      status: Enums.status
+           option [@default
+            
+            None
+          ]
+        ; [@key "status"]
+      complete: bool
+          
+           option [@default None]
+        
+        ; [@key "complete"]
 } [@@deriving yojson { strict = false }, show ];;
 
 (** An order for a pets from the pet store *)

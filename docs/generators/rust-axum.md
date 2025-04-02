@@ -198,7 +198,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Body|✓|OAS2
 |FormUnencoded|✓|OAS2
 |FormMultipart|✓|OAS2
-|Cookie|✗|OAS3
+|Cookie|✓|OAS3
 
 ### Schema Support Feature
 | Name | Supported | Defined By |
@@ -209,7 +209,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |Union|✗|OAS3
 |allOf|✗|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature
@@ -219,10 +219,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ApiKey|✓|OAS2,OAS3
 |OpenIDConnect|✗|OAS3
 |BearerToken|✓|OAS3
-|OAuth2_Implicit|✓|OAS2,OAS3
-|OAuth2_Password|✓|OAS2,OAS3
-|OAuth2_ClientCredentials|✓|OAS2,OAS3
-|OAuth2_AuthorizationCode|✓|OAS2,OAS3
+|OAuth2_Implicit|✗|OAS2,OAS3
+|OAuth2_Password|✗|OAS2,OAS3
+|OAuth2_ClientCredentials|✗|OAS2,OAS3
+|OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
 |AWSV4Signature|✗|ToolingExtension
 

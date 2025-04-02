@@ -5,6 +5,7 @@ templateDir: modules/openapi-generator/src/main/resources/swift5
 generateAliasAsModel: true
 additionalProperties:
   podAuthors: ""
+  identifiableModels: false
   podSummary: PetstoreClient
   objcCompatible: true
   projectName: PetstoreClient

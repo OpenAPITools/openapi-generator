@@ -27,6 +27,35 @@
     "name" : "user"
   } ],
   "paths" : {
+    "/complex-types" : {
+      "post" : {
+        "operationId" : "oneOfRequestAndResponse",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/oneOfRequestAndResponse_request"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/oneOfRequestAndResponse_200_response"
+                }
+              }
+            },
+            "description" : "Success"
+          }
+        },
+        "summary" : "Example route with 'oneOf' content and response",
+        "tags" : [ "complexRoute" ]
+      }
+    },
     "/pet" : {
       "post" : {
         "description" : "",
@@ -981,6 +1010,154 @@
         "title" : "An uploaded response",
         "type" : "object"
       },
+      "ComplexRequest" : {
+        "additionalProperties" : {
+          "description" : "Additional properties are allowed beyond the defined fields",
+          "type" : "object"
+        },
+        "properties" : {
+          "type" : {
+            "enum" : [ "someEnum" ],
+            "type" : "string"
+          },
+          "requiredField" : {
+            "description" : "A required string field",
+            "type" : "string"
+          },
+          "stringField" : {
+            "description" : "String with length constraints",
+            "maxLength" : 100,
+            "minLength" : 5,
+            "type" : "string"
+          },
+          "integerField" : {
+            "description" : "Integer with a range from 1 to 100",
+            "maximum" : 100,
+            "minimum" : 1,
+            "type" : "integer"
+          },
+          "numberField" : {
+            "description" : "Number with exclusive minimum and maximum constraints",
+            "type" : "number"
+          },
+          "booleanField" : {
+            "description" : "A boolean field",
+            "type" : "boolean"
+          },
+          "emailField" : {
+            "description" : "A valid email address",
+            "format" : "email",
+            "type" : "string"
+          },
+          "uuidField" : {
+            "description" : "A valid UUID",
+            "format" : "uuid",
+            "type" : "string"
+          },
+          "dateField" : {
+            "description" : "A date field (YYYY-MM-DD)",
+            "format" : "date",
+            "type" : "string"
+          },
+          "dateTimeField" : {
+            "description" : "A date-time field (RFC 3339 format)",
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "arrayField" : {
+            "description" : "An array of strings with min and max items constraints",
+            "items" : {
+              "type" : "string"
+            },
+            "maxItems" : 10,
+            "minItems" : 1,
+            "type" : "array"
+          },
+          "enumField" : {
+            "description" : "A string field with enum validation",
+            "enum" : [ "value1", "value2", "value3" ],
+            "type" : "string"
+          },
+          "nestedObject" : {
+            "$ref" : "#/components/schemas/ComplexRequest_nestedObject"
+          },
+          "arrayOfObjectsField" : {
+            "items" : {
+              "$ref" : "#/components/schemas/ComplexRequest_arrayOfObjectsField_inner"
+            },
+            "type" : "array"
+          },
+          "patternField" : {
+            "description" : "A string field with regex pattern validation",
+            "pattern" : "^[a-zA-Z0-9]{3,10}$",
+            "type" : "string"
+          },
+          "nullableField" : {
+            "description" : "A string field that allows null values",
+            "nullable" : true,
+            "type" : "string"
+          }
+        },
+        "required" : [ "requiredField", "type" ],
+        "type" : "object"
+      },
+      "AllOfRequest" : {
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "age" : {
+            "type" : "integer"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/AllOfRequest_details"
+          }
+        },
+        "required" : [ "age", "name" ],
+        "type" : "object"
+      },
+      "SomeResponse1" : {
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "message", "status" ],
+        "type" : "object"
+      },
+      "SomeResponse2" : {
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "created_at" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/SomeResponse2_details"
+          }
+        },
+        "required" : [ "created_at", "id" ],
+        "type" : "object"
+      },
+      "oneOfRequestAndResponse_request" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/ComplexRequest"
+        }, {
+          "$ref" : "#/components/schemas/AllOfRequest"
+        } ]
+      },
+      "oneOfRequestAndResponse_200_response" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/SomeResponse1"
+        }, {
+          "$ref" : "#/components/schemas/SomeResponse2"
+        } ]
+      },
       "updatePetWithForm_request" : {
         "properties" : {
           "name" : {
@@ -1003,6 +1180,59 @@
           "file" : {
             "description" : "file to upload",
             "format" : "binary",
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "ComplexRequest_nestedObject" : {
+        "properties" : {
+          "nestedField1" : {
+            "description" : "A field within a nested object",
+            "type" : "string"
+          },
+          "nestedField2" : {
+            "description" : "Another field in a nested object",
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "ComplexRequest_arrayOfObjectsField_inner" : {
+        "description" : "An array of objects",
+        "properties" : {
+          "objectField1" : {
+            "type" : "string"
+          },
+          "objectField2" : {
+            "type" : "integer"
+          }
+        },
+        "type" : "object"
+      },
+      "AllOfRequest_details" : {
+        "allOf" : [ {
+          "properties" : {
+            "address" : {
+              "type" : "string"
+            }
+          },
+          "type" : "object"
+        }, {
+          "properties" : {
+            "contact_number" : {
+              "type" : "string"
+            }
+          },
+          "type" : "object"
+        } ]
+      },
+      "SomeResponse2_details" : {
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "status" : {
             "type" : "string"
           }
         },

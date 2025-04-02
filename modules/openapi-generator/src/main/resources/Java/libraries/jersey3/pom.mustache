@@ -379,6 +379,15 @@
             <artifactId>jersey-apache-connector</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        {{#useReflectionEqualsHashCode}}
+        <!-- For equals and hashCode using reflection -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3-version}</version>
+        </dependency>
+        {{/useReflectionEqualsHashCode}}
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -408,6 +417,9 @@
         {{#hasOAuthMethods}}
         <scribejava-apis-version>8.3.3</scribejava-apis-version>
         {{/hasOAuthMethods}}
+        {{#useReflectionEqualsHashCode}}
+        <commons-lang3-version>3.17.0</commons-lang3-version>
+        {{/useReflectionEqualsHashCode}}
         <spotless.version>2.21.0</spotless.version>
     </properties>
 </project>

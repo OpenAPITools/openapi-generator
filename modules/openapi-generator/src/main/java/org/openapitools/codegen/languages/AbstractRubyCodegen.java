@@ -261,7 +261,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         }
         // only process files with rb extension
         if ("rb".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {rubyPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{rubyPostProcessFile, file.toString()});
         }
     }
 

@@ -10,8 +10,6 @@ Method | HTTP request | Description
 # **foo_get**
 > FooGetDefaultResponse foo_get()
 
-
-
 ### Example
 
 

@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FormApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -61,7 +62,7 @@ public class FormApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public FormApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public FormApi(ApiClient apiClient) {
@@ -96,7 +97,7 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
     ApiResponse<String> localVarResponse = testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm);
     return localVarResponse.getData();
   }
@@ -110,7 +111,7 @@ public class FormApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testFormIntegerBooleanStringRequestBuilder(integerForm, booleanForm, stringForm);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -147,7 +148,7 @@ public class FormApi {
     }
   }
 
-  private HttpRequest.Builder testFormIntegerBooleanStringRequestBuilder(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  private HttpRequest.Builder testFormIntegerBooleanStringRequestBuilder(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -194,7 +195,7 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
     ApiResponse<String> localVarResponse = testFormObjectMultipartWithHttpInfo(marker);
     return localVarResponse.getData();
   }
@@ -206,7 +207,7 @@ public class FormApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+  public ApiResponse<String> testFormObjectMultipartWithHttpInfo(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testFormObjectMultipartRequestBuilder(marker);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -243,7 +244,7 @@ public class FormApi {
     }
   }
 
-  private HttpRequest.Builder testFormObjectMultipartRequestBuilder(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+  private HttpRequest.Builder testFormObjectMultipartRequestBuilder(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
     // verify the required parameter 'marker' is set
     if (marker == null) {
       throw new ApiException(400, "Missing the required parameter 'marker' when calling testFormObjectMultipart");
@@ -311,7 +312,7 @@ public class FormApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
     ApiResponse<String> localVarResponse = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name);
     return localVarResponse.getData();
   }
@@ -328,7 +329,7 @@ public class FormApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testFormOneofWithHttpInfo(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+  public ApiResponse<String> testFormOneofWithHttpInfo(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testFormOneofRequestBuilder(form1, form2, form3, form4, id, name);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -365,7 +366,7 @@ public class FormApi {
     }
   }
 
-  private HttpRequest.Builder testFormOneofRequestBuilder(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+  private HttpRequest.Builder testFormOneofRequestBuilder(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 

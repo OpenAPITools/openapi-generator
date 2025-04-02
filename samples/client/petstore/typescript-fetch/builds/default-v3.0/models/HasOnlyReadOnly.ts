@@ -55,11 +55,11 @@ export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-  export function HasOnlyReadOnlyToJSON(json: any): HasOnlyReadOnly {
-      return HasOnlyReadOnlyToJSONTyped(json, false);
-  }
+export function HasOnlyReadOnlyToJSON(json: any): HasOnlyReadOnly {
+    return HasOnlyReadOnlyToJSONTyped(json, false);
+}
 
-  export function HasOnlyReadOnlyToJSONTyped(value?: Omit<HasOnlyReadOnly, 'bar'|'foo'> | null, ignoreDiscriminator: boolean = false): any {
+export function HasOnlyReadOnlyToJSONTyped(value?: Omit<HasOnlyReadOnly, 'bar'|'foo'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -421,4 +421,9 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
+    }
 }

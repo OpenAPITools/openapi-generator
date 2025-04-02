@@ -15,7 +15,7 @@ import Foundation
 /// an appropriate padding in order to transform to GMT+0 which is the assumed timezone in ISO 8601. 
 /// When decoding, GMT+0 can be assumed (again: ISO8601) so there is no padding necessary and wrappedDate 
 /// can be used safely.
-public struct OpenAPIDateWithoutTime: Codable, Hashable, Equatable {
+public struct OpenAPIDateWithoutTime: Sendable, Codable, Hashable, Equatable {
     public let wrappedDate: Date
     public let timezone: TimeZone
     
@@ -76,8 +76,8 @@ public struct OpenAPIDateWithoutTime: Codable, Hashable, Equatable {
     }
 }
 
-extension OpenAPIDateWithoutTime: JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any {
+extension OpenAPIDateWithoutTime: QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String {
         return OpenISO8601DateFormatter.withoutTime.string(from: self.normalizedWrappedDate())
     }
 }

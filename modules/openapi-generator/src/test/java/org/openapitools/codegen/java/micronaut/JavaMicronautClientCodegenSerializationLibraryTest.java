@@ -12,7 +12,7 @@ public class JavaMicronautClientCodegenSerializationLibraryTest extends Abstract
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.jackson.name());
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
-                                          CodegenConstants.MODELS);
+                CodegenConstants.MODELS);
 
         // Model does not contain micronaut serde annotation
         String micronautSerDeAnnotation = "@io.micronaut.serde.annotation.Serdeable";
@@ -29,6 +29,7 @@ public class JavaMicronautClientCodegenSerializationLibraryTest extends Abstract
 
     /**
      * Checks micronaut-serde-jackson limitation.
+     *
      * @see <a href="https://micronaut-projects.github.io/micronaut-serialization/latest/guide/index.html#jacksonAnnotations"></a>
      */
     @Test
@@ -36,7 +37,7 @@ public class JavaMicronautClientCodegenSerializationLibraryTest extends Abstract
         JavaMicronautClientCodegen codegen = new JavaMicronautClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, JavaMicronautAbstractCodegen.SERIALIZATION_LIBRARY_TYPE.micronaut_serde_jackson.name());
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
-                                          CodegenConstants.MODELS);
+                CodegenConstants.MODELS);
 
         // Model contains micronaut serde annotation
         String micronautSerDeAnnotation = "@io.micronaut.serde.annotation.Serdeable";

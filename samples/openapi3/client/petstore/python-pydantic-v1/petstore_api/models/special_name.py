@@ -38,7 +38,7 @@ class SpecialName(BaseModel):
         if value is None:
             return value
 
-        if value not in ('available', 'pending', 'sold'):
+        if value not in ('available', 'pending', 'sold',):
             raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Client: Codable, JSONEncodable, Hashable {
+public struct Client: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var client: String?
 

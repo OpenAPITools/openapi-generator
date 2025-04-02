@@ -37,9 +37,10 @@ public class AbstractJavaCodegenExampleValuesTest {
      * In TEST-NG, test class (and its fields) is only constructed once (vs. for every test in Jupiter),
      * using @BeforeMethod to have a fresh codegen mock for each test
      */
-    @BeforeMethod void mockAbstractCodegen() {
+    @BeforeMethod
+    void mockAbstractCodegen() {
         codegen = Mockito.mock(
-            AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
+                AbstractJavaCodegen.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );
     }
 

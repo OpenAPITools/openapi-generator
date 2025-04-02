@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.io.File;
@@ -54,7 +55,7 @@ import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -65,7 +66,7 @@ public class PetApi {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public PetApi() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public PetApi(ApiClient apiClient) {
@@ -97,7 +98,7 @@ public class PetApi {
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> addPet(Pet pet) throws ApiException {
+  public CompletableFuture<Void> addPet(@javax.annotation.Nonnull Pet pet) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(pet);
       return memberVarHttpClient.sendAsync(
@@ -121,7 +122,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> addPetWithHttpInfo(Pet pet) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(pet);
       return memberVarHttpClient.sendAsync(
@@ -144,7 +145,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder addPetRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder addPetRequestBuilder(@javax.annotation.Nonnull Pet pet) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
@@ -182,7 +183,7 @@ public class PetApi {
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> deletePet(Long petId, String apiKey) throws ApiException {
+  public CompletableFuture<Void> deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = deletePetRequestBuilder(petId, apiKey);
       return memberVarHttpClient.sendAsync(
@@ -207,7 +208,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = deletePetRequestBuilder(petId, apiKey);
       return memberVarHttpClient.sendAsync(
@@ -230,7 +231,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder deletePetRequestBuilder(Long petId, String apiKey) throws ApiException {
+  private HttpRequest.Builder deletePetRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
@@ -265,7 +266,7 @@ public class PetApi {
    * @return CompletableFuture&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<List<Pet>> findPetsByStatus(List<String> status) throws ApiException {
+  public CompletableFuture<List<Pet>> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByStatusRequestBuilder(status);
       return memberVarHttpClient.sendAsync(
@@ -296,7 +297,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<List<Pet>>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+  public CompletableFuture<ApiResponse<List<Pet>>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByStatusRequestBuilder(status);
       return memberVarHttpClient.sendAsync(
@@ -327,7 +328,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder findPetsByStatusRequestBuilder(List<String> status) throws ApiException {
+  private HttpRequest.Builder findPetsByStatusRequestBuilder(@javax.annotation.Nonnull List<String> status) throws ApiException {
     // verify the required parameter 'status' is set
     if (status == null) {
       throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
@@ -375,7 +376,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public CompletableFuture<List<Pet>> findPetsByTags(List<String> tags) throws ApiException {
+  public CompletableFuture<List<Pet>> findPetsByTags(@javax.annotation.Nonnull List<String> tags) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
       return memberVarHttpClient.sendAsync(
@@ -408,7 +409,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public CompletableFuture<ApiResponse<List<Pet>>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
+  public CompletableFuture<ApiResponse<List<Pet>>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull List<String> tags) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
       return memberVarHttpClient.sendAsync(
@@ -439,7 +440,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder findPetsByTagsRequestBuilder(List<String> tags) throws ApiException {
+  private HttpRequest.Builder findPetsByTagsRequestBuilder(@javax.annotation.Nonnull List<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
@@ -485,7 +486,7 @@ public class PetApi {
    * @return CompletableFuture&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Pet> getPetById(Long petId) throws ApiException {
+  public CompletableFuture<Pet> getPetById(@javax.annotation.Nonnull Long petId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getPetByIdRequestBuilder(petId);
       return memberVarHttpClient.sendAsync(
@@ -516,7 +517,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Pet>> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+  public CompletableFuture<ApiResponse<Pet>> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getPetByIdRequestBuilder(petId);
       return memberVarHttpClient.sendAsync(
@@ -547,7 +548,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder getPetByIdRequestBuilder(Long petId) throws ApiException {
+  private HttpRequest.Builder getPetByIdRequestBuilder(@javax.annotation.Nonnull Long petId) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
@@ -579,7 +580,7 @@ public class PetApi {
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> updatePet(Pet pet) throws ApiException {
+  public CompletableFuture<Void> updatePet(@javax.annotation.Nonnull Pet pet) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(pet);
       return memberVarHttpClient.sendAsync(
@@ -603,7 +604,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> updatePetWithHttpInfo(Pet pet) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(pet);
       return memberVarHttpClient.sendAsync(
@@ -626,7 +627,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder updatePetRequestBuilder(Pet pet) throws ApiException {
+  private HttpRequest.Builder updatePetRequestBuilder(@javax.annotation.Nonnull Pet pet) throws ApiException {
     // verify the required parameter 'pet' is set
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
@@ -665,7 +666,7 @@ public class PetApi {
    * @return CompletableFuture&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> updatePetWithForm(Long petId, String name, String status) throws ApiException {
+  public CompletableFuture<Void> updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = updatePetWithFormRequestBuilder(petId, name, status);
       return memberVarHttpClient.sendAsync(
@@ -691,7 +692,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Void>> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+  public CompletableFuture<ApiResponse<Void>> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = updatePetWithFormRequestBuilder(petId, name, status);
       return memberVarHttpClient.sendAsync(
@@ -714,7 +715,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder updatePetWithFormRequestBuilder(Long petId, String name, String status) throws ApiException {
+  private HttpRequest.Builder updatePetWithFormRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
@@ -765,7 +766,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+  public CompletableFuture<ModelApiResponse> uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, _file);
       return memberVarHttpClient.sendAsync(
@@ -798,7 +799,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;ModelApiResponse&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+  public CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, _file);
       return memberVarHttpClient.sendAsync(
@@ -829,7 +830,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder uploadFileRequestBuilder(Long petId, String additionalMetadata, File _file) throws ApiException {
+  private HttpRequest.Builder uploadFileRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
@@ -897,7 +898,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public CompletableFuture<ModelApiResponse> uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = uploadFileWithRequiredFileRequestBuilder(petId, requiredFile, additionalMetadata);
       return memberVarHttpClient.sendAsync(
@@ -930,7 +931,7 @@ public class PetApi {
    * @return CompletableFuture&lt;ApiResponse&lt;ModelApiResponse&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = uploadFileWithRequiredFileRequestBuilder(petId, requiredFile, additionalMetadata);
       return memberVarHttpClient.sendAsync(
@@ -961,7 +962,7 @@ public class PetApi {
     }
   }
 
-  private HttpRequest.Builder uploadFileWithRequiredFileRequestBuilder(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  private HttpRequest.Builder uploadFileWithRequiredFileRequestBuilder(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
     // verify the required parameter 'petId' is set
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");

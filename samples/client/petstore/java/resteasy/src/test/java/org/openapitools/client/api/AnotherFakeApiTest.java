@@ -15,9 +15,9 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * API tests for AnotherFakeApi
  */
-public class AnotherFakeApiTest {
+class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
 
@@ -42,7 +42,7 @@ public class AnotherFakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void call123testSpecialTagsTest() throws ApiException {
+    void call123testSpecialTagsTest() throws ApiException {
         //
         //Client client = null;
         //

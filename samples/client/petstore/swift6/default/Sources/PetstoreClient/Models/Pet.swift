@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct Pet: Codable, JSONEncodable, Hashable {
+public struct Pet: Sendable, Codable, QueryStringEncodable, Hashable {
 
-    public enum Status: String, Codable, CaseIterable {
+    public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"
         case pending = "pending"
         case sold = "sold"
     }
-    static let photoUrlsRule = ArrayRule(minItems: nil, maxItems: nil, uniqueItems: true)
+    public static let photoUrlsRule = ArrayRule(minItems: nil, maxItems: nil, uniqueItems: true)
     public var id: Int64?
     public var category: Category?
     public var name: String
@@ -54,3 +54,6 @@ public struct Pet: Codable, JSONEncodable, Hashable {
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Pet: Identifiable {}

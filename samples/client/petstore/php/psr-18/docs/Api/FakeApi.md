@@ -669,7 +669,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `Psr18ClientDiscovery` will be used to find http client. For instance `GuzzleHttp\Client` implements that interface
     new GuzzleHttp\Client()
 );
-$body = "/path/to/file.txt"; // \SplFileObject | image to upload
+$body = '/path/to/file.txt'; // \SplFileObject | image to upload
 
 try {
     $apiInstance->testBodyWithBinary($body);
@@ -905,9 +905,9 @@ $int32 = 56; // int | None
 $int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = 'string_example'; // string | None
-$binary = "/path/to/file.txt"; // \SplFileObject | None
-$date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
-$date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
+$binary = '/path/to/file.txt'; // \SplFileObject | None
+$date = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | None
+$date_time = new \DateTime('2013-10-20T19:20:30+01:00'); // \DateTime | None
 $password = 'password_example'; // string | None
 $callback = 'callback_example'; // string | None
 

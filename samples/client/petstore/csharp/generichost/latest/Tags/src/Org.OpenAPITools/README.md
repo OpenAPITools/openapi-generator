@@ -6,7 +6,7 @@
 ```ps1
 $properties = @(
     'apiName=Api',
-    'targetFramework=net8.0',
+    'targetFramework=net9.0',
     'validatable=true',
     'nullableReferenceTypes=true',
     'hideGenerationTimestamp=true',
@@ -61,7 +61,7 @@ namespace YourProject
         {
             var host = CreateHostBuilder(args).Build();
             var api = host.Services.GetRequiredService<IAPIKEYSApi>();
-            GetApiKeysId_1ApiResponse apiResponse = await api.GetApiKeysId_1Async("todo");
+            GetApiKeysIdApiResponse apiResponse = await api.GetApiKeysIdAsync("todo");
             object model = apiResponse.Ok();
         }
 
@@ -129,7 +129,7 @@ Authentication schemes defined for the API:
 
 ## Build
 - SDK version: 1.0.0
-- Generator version: 7.10.0-SNAPSHOT
+- Generator version: 7.13.0-SNAPSHOT
 - Build package: org.openapitools.codegen.languages.CSharpClientCodegen
 
 ## Api Information
@@ -181,7 +181,7 @@ Authentication schemes defined for the API:
 - returnICollection: false
 - sortParamsByRequiredFlag: 
 - sourceFolder: src
-- targetFramework: net8.0
+- targetFramework: net9.0
 - useCollection: false
 - useDateTimeOffset: false
 - useOneOfDiscriminatorLookup: false

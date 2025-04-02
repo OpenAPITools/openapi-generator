@@ -16,7 +16,7 @@ class ApiClientFactory implements PM\ServiceFactoryInterface
         $this->configKey = $configKey;
     }
 
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ApiClient
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): ApiClient
     {
         $config = new OAGAC\ApiClientOptions(\array_merge($this->getServiceConfig($container), $options ?? []));
         return new ApiClient(

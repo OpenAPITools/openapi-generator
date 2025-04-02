@@ -116,6 +116,9 @@ ext {
     {{#hasHttpSignatureMethods}}
     tomitribe_http_signatures_version = "1.7"
     {{/hasHttpSignatureMethods}}
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
@@ -146,6 +149,9 @@ dependencies {
     {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
     {{/useBeanValidation}}
+    {{#useReflectionEqualsHashCode}}
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/useReflectionEqualsHashCode}}
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"

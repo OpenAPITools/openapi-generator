@@ -175,6 +175,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Boolean getStringEnums() {
         return this.stringEnums;
     }
+
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
     }
@@ -477,7 +478,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", convertUsingFileNamingConvention(im));
                 tsImports.add(tsImport);
             }
         }
@@ -686,13 +687,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         this.addOperationModelImportInformation(operations);
+        this.escapeOperationIds(operations);
         this.updateOperationParameterForEnum(operations);
         if (this.getSagasAndRecords()) {
             this.updateOperationParameterForSagaAndRecords(operations);
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
-        this.escapeOperationIds(operations);
+
         return operations;
     }
 
@@ -1604,5 +1606,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             return sb.toString();
         }
+    }
+
+    @Override
+    protected String getLicenseNameDefaultValue() {
+        return null;
     }
 }

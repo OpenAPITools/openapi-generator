@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public enum OuterEnum: String, Content, Hashable, CaseIterable {
+public enum OuterEnum: String, Sendable, Content, Hashable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
     case delivered = "delivered"

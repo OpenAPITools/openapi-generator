@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -19,10 +20,10 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "File", description = "Must be named `File` for test.")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class File {
 
-  private String sourceURI;
+  private @Nullable String sourceURI;
 
   public File sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;

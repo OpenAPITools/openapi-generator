@@ -636,4 +636,98 @@ class ObjectSerializerTest extends TestCase
         $tag = $tags[0];
         $this->assertInstanceOf(Tag::class, $tag);
     }
+
+    /**
+     * @dataProvider providerToFormValue
+     */
+    public function testToFormValue(
+        mixed $data,
+        mixed $expected,
+    ): void {
+        $result = ObjectSerializer::toFormValue('key', $data);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    public function providerToFormValue(): iterable
+    {
+        yield [
+            'data'     => new DateTime('2021-10-06T20:17:16'),
+            'expected' => ['key' => '2021-10-06T20:17:16+00:00'],
+        ];
+
+        yield [
+            'data'     => true,
+            'expected' => ['key' => 'true'],
+        ];
+
+        yield [
+            'data'     => false,
+            'expected' => ['key' => 'false'],
+        ];
+
+        yield [
+            'data'     => 'some value',
+            'expected' => ['key' => 'some value'],
+        ];
+
+        $filepath = realpath(__DIR__ . '/../.openapi-generator/VERSION');
+        $file = new \SplFileObject($filepath);
+
+        yield [
+            'data'     => $file,
+            'expected' => ['key' => $filepath],
+        ];
+
+        $id = 1234;
+        $name = 'Spike';
+
+        $category = (new Model\Category())
+            ->setId(12345)
+            ->setName("Category_Name");
+
+        $tags_1 = (new Model\Tag())
+            ->setId(12345)
+            ->setName("tag_1");
+
+        $tags_2 = (new Model\Tag())
+            ->setId(98765)
+            ->setName("tag_2");
+
+        $tags = [
+            $tags_1,
+            $tags_2,
+        ];
+
+        $photo_urls = [
+            "https://example.com/picture_1.jpg",
+            "https://example.com/picture_2.jpg",
+        ];
+        $status = Model\Pet::STATUS_AVAILABLE;
+
+        $pet = new Model\Pet([]);
+        $pet->setId($id)
+            ->setName($name)
+            ->setPhotoUrls($photo_urls)
+            ->setStatus($status)
+            ->setCategory($category)
+            ->setTags($tags);
+
+        yield [
+            'data'     => $pet,
+            'expected' => [
+                'key[id]'             => "{$id}",
+                'key[name]'           => $name,
+                'key[photoUrls][0]'   => $photo_urls[0],
+                'key[photoUrls][1]'   => $photo_urls[1],
+                'key[status]'         => $status,
+                'key[category][id]'   => "{$category->getId()}",
+                'key[category][name]' => $category->getName(),
+                'key[tags][0][id]'    => "{$tags_1->getId()}",
+                'key[tags][0][name]'  => $tags_1->getName(),
+                'key[tags][1][id]'    => "{$tags_2->getId()}",
+                'key[tags][1][name]'  => $tags_2->getName(),
+            ],
+        ];
+    }
 }

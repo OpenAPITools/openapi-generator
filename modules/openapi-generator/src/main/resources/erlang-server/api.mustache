@@ -90,7 +90,7 @@ prepare_validator(SchemaVer) ->
     prepare_validator(get_openapi_path(), SchemaVer).
 
 -doc """
-Loads the JSON schema and the desired validation draft into a `t:jesse_state:state()`.
+Loads the JSON schema and the desired validation draft into a `t:jesse_state:state/0`.
 """.
 -spec prepare_validator(file:name_all(), binary()) -> jesse_state:state().
 prepare_validator(OpenApiPath, SchemaVer) ->
@@ -179,7 +179,7 @@ populate_request_params(_, [], Req, _, Model) ->
 populate_request_params(OperationID, [ReqParamName | T], Req0, ValidatorState, Model0) ->
     case populate_request_param(OperationID, ReqParamName, Req0, ValidatorState) of
         {ok, V, Req} ->
-            Model = maps:put(ReqParamName, V, Model0),
+            Model = Model0#{ReqParamName => V},
             populate_request_params(OperationID, T, Req, ValidatorState, Model);
         Error ->
             Error

@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: Example Hello API
+  description: ''
+  version: v1
+servers:
+  - url: http://localhost
+    description: Global Endpoint
+paths: {}
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      properties:
+        message:
+          type: string

@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.dart;
 
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.DartClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -24,11 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.DartClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 public class DartClientCodegenTest {
 
@@ -68,7 +68,7 @@ public class DartClientCodegenTest {
         List<String> reservedWordsList = new ArrayList<String>();
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream("src/main/resources/dart/dart-keywords.txt"), StandardCharsets.UTF_8));
-            while(reader.ready()) {
+            while (reader.ready()) {
                 reservedWordsList.add(reader.readLine());
             }
             reader.close();
@@ -79,10 +79,21 @@ public class DartClientCodegenTest {
 
         Assert.assertTrue(reservedWordsList.size() > 20);
         Assert.assertEquals(codegen.reservedWords().size(), reservedWordsList.size());
-        for(String keyword : reservedWordsList) {
+        for (String keyword : reservedWordsList) {
             // reserved words are stored in lowercase
             Assert.assertTrue(codegen.reservedWords().contains(keyword.toLowerCase(Locale.ROOT)), String.format(Locale.ROOT, "%s, part of %s, was not found in %s", keyword, reservedWordsList, codegen.reservedWords().toString()));
         }
     }
 
+
+    @Test(description = "Enum value with quotes (#17582)")
+    public void testEnumPropertyWithQuotes() {
+        final DartClientCodegen codegen = new DartClientCodegen();
+
+        Assert.assertEquals(codegen.toEnumValue("enum-value", "string"), "'enum-value'");
+        Assert.assertEquals(codegen.toEnumValue("won't fix", "string"), "'won\\'t fix'");
+        Assert.assertEquals(codegen.toEnumValue("\"", "string"), "'\\\"'");
+        Assert.assertEquals(codegen.toEnumValue("1.0", "number"), "1.0");
+        Assert.assertEquals(codegen.toEnumValue("1", "int"), "1");
+    }
 }

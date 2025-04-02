@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 {{#apis}}
 {{#operations}}
 {{#operation}}
-  add_openapi_route '{{httpMethod}}', '{{basePathWithoutHost}}{{path}}', controller_name: '{{classVarName}}', action_name: {{#isRestfulIndex}}'index'{{/isRestfulIndex}}{{#isRestfulCreate}}'create'{{/isRestfulCreate}}{{#isRestfulUpdate}}'update'{{/isRestfulUpdate}}{{#isRestfulShow}}'show'{{/isRestfulShow}}{{#isRestfulDestroy}}'destroy'{{/isRestfulDestroy}}{{^isRestful}}'{{nickname}}'{{/isRestful}}
+  add_openapi_route '{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', controller_name: '{{classVarName}}', action_name: {{#isRestfulIndex}}'index'{{/isRestfulIndex}}{{#isRestfulCreate}}'create'{{/isRestfulCreate}}{{#isRestfulUpdate}}'update'{{/isRestfulUpdate}}{{#isRestfulShow}}'show'{{/isRestfulShow}}{{#isRestfulDestroy}}'destroy'{{/isRestfulDestroy}}{{^isRestful}}'{{nickname}}'{{/isRestful}}
 {{/operation}}
 {{/operations}}
 {{/apis}}

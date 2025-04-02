@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { AdditionalPropertiesClass } from '../models/AdditionalPropertiesClass';
 import { AllOfWithSingleRef } from '../models/AllOfWithSingleRef';
@@ -67,8 +68,9 @@ export class PromiseAnotherFakeApi {
      * To test special tags
      * @param client client model
      */
-    public _123testSpecialTagsWithHttpInfo(client: Client, _options?: Configuration): Promise<HttpInfo<Client>> {
-        const result = this.api._123testSpecialTagsWithHttpInfo(client, _options);
+    public _123testSpecialTagsWithHttpInfo(client: Client, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Client>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api._123testSpecialTagsWithHttpInfo(client, observableOptions);
         return result.toPromise();
     }
 
@@ -77,8 +79,9 @@ export class PromiseAnotherFakeApi {
      * To test special tags
      * @param client client model
      */
-    public _123testSpecialTags(client: Client, _options?: Configuration): Promise<Client> {
-        const result = this.api._123testSpecialTags(client, _options);
+    public _123testSpecialTags(client: Client, _options?: PromiseConfigurationOptions): Promise<Client> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api._123testSpecialTags(client, observableOptions);
         return result.toPromise();
     }
 
@@ -103,15 +106,17 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public fooGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.fooGetWithHttpInfo(_options);
+    public fooGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fooGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public fooGet(_options?: Configuration): Promise<void> {
-        const result = this.api.fooGet(_options);
+    public fooGet(_options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fooGet(observableOptions);
         return result.toPromise();
     }
 
@@ -137,32 +142,36 @@ export class PromiseFakeApi {
     /**
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
-    public fakeBigDecimalMapWithHttpInfo(_options?: Configuration): Promise<HttpInfo<FakeBigDecimalMap200Response>> {
-        const result = this.api.fakeBigDecimalMapWithHttpInfo(_options);
+    public fakeBigDecimalMapWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<FakeBigDecimalMap200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeBigDecimalMapWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
-    public fakeBigDecimalMap(_options?: Configuration): Promise<FakeBigDecimalMap200Response> {
-        const result = this.api.fakeBigDecimalMap(_options);
+    public fakeBigDecimalMap(_options?: PromiseConfigurationOptions): Promise<FakeBigDecimalMap200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeBigDecimalMap(observableOptions);
         return result.toPromise();
     }
 
     /**
      * Health check endpoint
      */
-    public fakeHealthGetWithHttpInfo(_options?: Configuration): Promise<HttpInfo<HealthCheckResult>> {
-        const result = this.api.fakeHealthGetWithHttpInfo(_options);
+    public fakeHealthGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<HealthCheckResult>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeHealthGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      * Health check endpoint
      */
-    public fakeHealthGet(_options?: Configuration): Promise<HealthCheckResult> {
-        const result = this.api.fakeHealthGet(_options);
+    public fakeHealthGet(_options?: PromiseConfigurationOptions): Promise<HealthCheckResult> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeHealthGet(observableOptions);
         return result.toPromise();
     }
 
@@ -172,8 +181,9 @@ export class PromiseFakeApi {
      * @param [query1] query parameter
      * @param [header1] header parameter
      */
-    public fakeHttpSignatureTestWithHttpInfo(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1, _options);
+    public fakeHttpSignatureTestWithHttpInfo(pet: Pet, query1?: string, header1?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeHttpSignatureTestWithHttpInfo(pet, query1, header1, observableOptions);
         return result.toPromise();
     }
 
@@ -183,8 +193,9 @@ export class PromiseFakeApi {
      * @param [query1] query parameter
      * @param [header1] header parameter
      */
-    public fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: Configuration): Promise<void> {
-        const result = this.api.fakeHttpSignatureTest(pet, query1, header1, _options);
+    public fakeHttpSignatureTest(pet: Pet, query1?: string, header1?: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeHttpSignatureTest(pet, query1, header1, observableOptions);
         return result.toPromise();
     }
 
@@ -192,8 +203,9 @@ export class PromiseFakeApi {
      * Test serialization of outer boolean types
      * @param [body] Input boolean as post body
      */
-    public fakeOuterBooleanSerializeWithHttpInfo(body?: boolean, _options?: Configuration): Promise<HttpInfo<boolean>> {
-        const result = this.api.fakeOuterBooleanSerializeWithHttpInfo(body, _options);
+    public fakeOuterBooleanSerializeWithHttpInfo(body?: boolean, _options?: PromiseConfigurationOptions): Promise<HttpInfo<boolean>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterBooleanSerializeWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
@@ -201,8 +213,9 @@ export class PromiseFakeApi {
      * Test serialization of outer boolean types
      * @param [body] Input boolean as post body
      */
-    public fakeOuterBooleanSerialize(body?: boolean, _options?: Configuration): Promise<boolean> {
-        const result = this.api.fakeOuterBooleanSerialize(body, _options);
+    public fakeOuterBooleanSerialize(body?: boolean, _options?: PromiseConfigurationOptions): Promise<boolean> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterBooleanSerialize(body, observableOptions);
         return result.toPromise();
     }
 
@@ -210,8 +223,9 @@ export class PromiseFakeApi {
      * Test serialization of object with outer number type
      * @param [outerComposite] Input composite as post body
      */
-    public fakeOuterCompositeSerializeWithHttpInfo(outerComposite?: OuterComposite, _options?: Configuration): Promise<HttpInfo<OuterComposite>> {
-        const result = this.api.fakeOuterCompositeSerializeWithHttpInfo(outerComposite, _options);
+    public fakeOuterCompositeSerializeWithHttpInfo(outerComposite?: OuterComposite, _options?: PromiseConfigurationOptions): Promise<HttpInfo<OuterComposite>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterCompositeSerializeWithHttpInfo(outerComposite, observableOptions);
         return result.toPromise();
     }
 
@@ -219,8 +233,9 @@ export class PromiseFakeApi {
      * Test serialization of object with outer number type
      * @param [outerComposite] Input composite as post body
      */
-    public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: Configuration): Promise<OuterComposite> {
-        const result = this.api.fakeOuterCompositeSerialize(outerComposite, _options);
+    public fakeOuterCompositeSerialize(outerComposite?: OuterComposite, _options?: PromiseConfigurationOptions): Promise<OuterComposite> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterCompositeSerialize(outerComposite, observableOptions);
         return result.toPromise();
     }
 
@@ -228,8 +243,9 @@ export class PromiseFakeApi {
      * Test serialization of outer number types
      * @param [body] Input number as post body
      */
-    public fakeOuterNumberSerializeWithHttpInfo(body?: number, _options?: Configuration): Promise<HttpInfo<number>> {
-        const result = this.api.fakeOuterNumberSerializeWithHttpInfo(body, _options);
+    public fakeOuterNumberSerializeWithHttpInfo(body?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<number>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterNumberSerializeWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
@@ -237,8 +253,9 @@ export class PromiseFakeApi {
      * Test serialization of outer number types
      * @param [body] Input number as post body
      */
-    public fakeOuterNumberSerialize(body?: number, _options?: Configuration): Promise<number> {
-        const result = this.api.fakeOuterNumberSerialize(body, _options);
+    public fakeOuterNumberSerialize(body?: number, _options?: PromiseConfigurationOptions): Promise<number> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterNumberSerialize(body, observableOptions);
         return result.toPromise();
     }
 
@@ -246,8 +263,9 @@ export class PromiseFakeApi {
      * Test serialization of outer string types
      * @param [body] Input string as post body
      */
-    public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: Configuration): Promise<HttpInfo<string>> {
-        const result = this.api.fakeOuterStringSerializeWithHttpInfo(body, _options);
+    public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterStringSerializeWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
@@ -255,8 +273,9 @@ export class PromiseFakeApi {
      * Test serialization of outer string types
      * @param [body] Input string as post body
      */
-    public fakeOuterStringSerialize(body?: string, _options?: Configuration): Promise<string> {
-        const result = this.api.fakeOuterStringSerialize(body, _options);
+    public fakeOuterStringSerialize(body?: string, _options?: PromiseConfigurationOptions): Promise<string> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakeOuterStringSerialize(body, observableOptions);
         return result.toPromise();
     }
 
@@ -264,8 +283,9 @@ export class PromiseFakeApi {
      * Test serialization of enum (int) properties with examples
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
-    public fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: Configuration): Promise<HttpInfo<OuterObjectWithEnumProperty>> {
-        const result = this.api.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty, _options);
+    public fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: PromiseConfigurationOptions): Promise<HttpInfo<OuterObjectWithEnumProperty>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty, observableOptions);
         return result.toPromise();
     }
 
@@ -273,8 +293,9 @@ export class PromiseFakeApi {
      * Test serialization of enum (int) properties with examples
      * @param outerObjectWithEnumProperty Input enum (int) as post body
      */
-    public fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: Configuration): Promise<OuterObjectWithEnumProperty> {
-        const result = this.api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, _options);
+    public fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty: OuterObjectWithEnumProperty, _options?: PromiseConfigurationOptions): Promise<OuterObjectWithEnumProperty> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, observableOptions);
         return result.toPromise();
     }
 
@@ -282,8 +303,9 @@ export class PromiseFakeApi {
      * For this test, the body has to be a binary file.
      * @param body image to upload
      */
-    public testBodyWithBinaryWithHttpInfo(body: HttpFile, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testBodyWithBinaryWithHttpInfo(body, _options);
+    public testBodyWithBinaryWithHttpInfo(body: HttpFile, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testBodyWithBinaryWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
 
@@ -291,8 +313,9 @@ export class PromiseFakeApi {
      * For this test, the body has to be a binary file.
      * @param body image to upload
      */
-    public testBodyWithBinary(body: HttpFile, _options?: Configuration): Promise<void> {
-        const result = this.api.testBodyWithBinary(body, _options);
+    public testBodyWithBinary(body: HttpFile, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testBodyWithBinary(body, observableOptions);
         return result.toPromise();
     }
 
@@ -300,8 +323,9 @@ export class PromiseFakeApi {
      * For this test, the body for this request must reference a schema named `File`.
      * @param fileSchemaTestClass
      */
-    public testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, _options);
+    public testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass: FileSchemaTestClass, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass, observableOptions);
         return result.toPromise();
     }
 
@@ -309,8 +333,9 @@ export class PromiseFakeApi {
      * For this test, the body for this request must reference a schema named `File`.
      * @param fileSchemaTestClass
      */
-    public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: Configuration): Promise<void> {
-        const result = this.api.testBodyWithFileSchema(fileSchemaTestClass, _options);
+    public testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testBodyWithFileSchema(fileSchemaTestClass, observableOptions);
         return result.toPromise();
     }
 
@@ -318,8 +343,9 @@ export class PromiseFakeApi {
      * @param query
      * @param user
      */
-    public testBodyWithQueryParamsWithHttpInfo(query: string, user: User, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testBodyWithQueryParamsWithHttpInfo(query, user, _options);
+    public testBodyWithQueryParamsWithHttpInfo(query: string, user: User, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testBodyWithQueryParamsWithHttpInfo(query, user, observableOptions);
         return result.toPromise();
     }
 
@@ -327,8 +353,9 @@ export class PromiseFakeApi {
      * @param query
      * @param user
      */
-    public testBodyWithQueryParams(query: string, user: User, _options?: Configuration): Promise<void> {
-        const result = this.api.testBodyWithQueryParams(query, user, _options);
+    public testBodyWithQueryParams(query: string, user: User, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testBodyWithQueryParams(query, user, observableOptions);
         return result.toPromise();
     }
 
@@ -337,8 +364,9 @@ export class PromiseFakeApi {
      * To test \"client\" model
      * @param client client model
      */
-    public testClientModelWithHttpInfo(client: Client, _options?: Configuration): Promise<HttpInfo<Client>> {
-        const result = this.api.testClientModelWithHttpInfo(client, _options);
+    public testClientModelWithHttpInfo(client: Client, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Client>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testClientModelWithHttpInfo(client, observableOptions);
         return result.toPromise();
     }
 
@@ -347,8 +375,9 @@ export class PromiseFakeApi {
      * To test \"client\" model
      * @param client client model
      */
-    public testClientModel(client: Client, _options?: Configuration): Promise<Client> {
-        const result = this.api.testClientModel(client, _options);
+    public testClientModel(client: Client, _options?: PromiseConfigurationOptions): Promise<Client> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testClientModel(client, observableOptions);
         return result.toPromise();
     }
 
@@ -370,8 +399,9 @@ export class PromiseFakeApi {
      * @param [password] None
      * @param [callback] None
      */
-    public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
+    public testEndpointParametersWithHttpInfo(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, observableOptions);
         return result.toPromise();
     }
 
@@ -393,8 +423,9 @@ export class PromiseFakeApi {
      * @param [password] None
      * @param [callback] None
      */
-    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: Configuration): Promise<void> {
-        const result = this.api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, _options);
+    public testEndpointParameters(number: number, _double: number, patternWithoutDelimiter: string, _byte: string, integer?: number, int32?: number, int64?: number, _float?: number, string?: string, binary?: HttpFile, date?: string, dateTime?: Date, password?: string, callback?: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, callback, observableOptions);
         return result.toPromise();
     }
 
@@ -411,8 +442,9 @@ export class PromiseFakeApi {
      * @param [enumFormStringArray] Form parameter enum test (string array)
      * @param [enumFormString] Form parameter enum test (string)
      */
-    public testEnumParametersWithHttpInfo(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options);
+    public testEnumParametersWithHttpInfo(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, observableOptions);
         return result.toPromise();
     }
 
@@ -429,8 +461,9 @@ export class PromiseFakeApi {
      * @param [enumFormStringArray] Form parameter enum test (string array)
      * @param [enumFormString] Form parameter enum test (string)
      */
-    public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: Configuration): Promise<void> {
-        const result = this.api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, _options);
+    public testEnumParameters(enumHeaderStringArray?: Array<'>' | '$'>, enumHeaderString?: '_abc' | '-efg' | '(xyz)', enumQueryStringArray?: Array<'>' | '$'>, enumQueryString?: '_abc' | '-efg' | '(xyz)', enumQueryInteger?: 1 | -2, enumQueryDouble?: 1.1 | -1.2, enumQueryModelArray?: Array<EnumClass>, enumFormStringArray?: Array<string>, enumFormString?: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString, observableOptions);
         return result.toPromise();
     }
 
@@ -444,8 +477,9 @@ export class PromiseFakeApi {
      * @param [booleanGroup] Boolean in group parameters
      * @param [int64Group] Integer in group parameters
      */
-    public testGroupParametersWithHttpInfo(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options);
+    public testGroupParametersWithHttpInfo(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, observableOptions);
         return result.toPromise();
     }
 
@@ -459,8 +493,9 @@ export class PromiseFakeApi {
      * @param [booleanGroup] Boolean in group parameters
      * @param [int64Group] Integer in group parameters
      */
-    public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: Configuration): Promise<void> {
-        const result = this.api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _options);
+    public testGroupParameters(requiredStringGroup: number, requiredBooleanGroup: boolean, requiredInt64Group: number, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, observableOptions);
         return result.toPromise();
     }
 
@@ -469,8 +504,9 @@ export class PromiseFakeApi {
      * test inline additionalProperties
      * @param requestBody request body
      */
-    public testInlineAdditionalPropertiesWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testInlineAdditionalPropertiesWithHttpInfo(requestBody, _options);
+    public testInlineAdditionalPropertiesWithHttpInfo(requestBody: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testInlineAdditionalPropertiesWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
 
@@ -479,8 +515,9 @@ export class PromiseFakeApi {
      * test inline additionalProperties
      * @param requestBody request body
      */
-    public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: Configuration): Promise<void> {
-        const result = this.api.testInlineAdditionalProperties(requestBody, _options);
+    public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testInlineAdditionalProperties(requestBody, observableOptions);
         return result.toPromise();
     }
 
@@ -490,8 +527,9 @@ export class PromiseFakeApi {
      * @param param field1
      * @param param2 field2
      */
-    public testJsonFormDataWithHttpInfo(param: string, param2: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testJsonFormDataWithHttpInfo(param, param2, _options);
+    public testJsonFormDataWithHttpInfo(param: string, param2: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testJsonFormDataWithHttpInfo(param, param2, observableOptions);
         return result.toPromise();
     }
 
@@ -501,8 +539,9 @@ export class PromiseFakeApi {
      * @param param field1
      * @param param2 field2
      */
-    public testJsonFormData(param: string, param2: string, _options?: Configuration): Promise<void> {
-        const result = this.api.testJsonFormData(param, param2, _options);
+    public testJsonFormData(param: string, param2: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testJsonFormData(param, param2, observableOptions);
         return result.toPromise();
     }
 
@@ -516,8 +555,9 @@ export class PromiseFakeApi {
      * @param allowEmpty
      * @param [language]
      */
-    public testQueryParameterCollectionFormatWithHttpInfo(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language, _options);
+    public testQueryParameterCollectionFormatWithHttpInfo(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, allowEmpty, language, observableOptions);
         return result.toPromise();
     }
 
@@ -531,8 +571,9 @@ export class PromiseFakeApi {
      * @param allowEmpty
      * @param [language]
      */
-    public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: Configuration): Promise<void> {
-        const result = this.api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, _options);
+    public testQueryParameterCollectionFormat(pipe: Array<string>, ioutil: Array<string>, http: Array<string>, url: Array<string>, context: Array<string>, allowEmpty: string, language?: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, observableOptions);
         return result.toPromise();
     }
 
@@ -560,8 +601,9 @@ export class PromiseFakeClassnameTags123Api {
      * To test class name in snake case
      * @param client client model
      */
-    public testClassnameWithHttpInfo(client: Client, _options?: Configuration): Promise<HttpInfo<Client>> {
-        const result = this.api.testClassnameWithHttpInfo(client, _options);
+    public testClassnameWithHttpInfo(client: Client, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Client>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testClassnameWithHttpInfo(client, observableOptions);
         return result.toPromise();
     }
 
@@ -570,8 +612,9 @@ export class PromiseFakeClassnameTags123Api {
      * To test class name in snake case
      * @param client client model
      */
-    public testClassname(client: Client, _options?: Configuration): Promise<Client> {
-        const result = this.api.testClassname(client, _options);
+    public testClassname(client: Client, _options?: PromiseConfigurationOptions): Promise<Client> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.testClassname(client, observableOptions);
         return result.toPromise();
     }
 
@@ -599,8 +642,9 @@ export class PromisePetApi {
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
-    public addPetWithHttpInfo(pet: Pet, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.addPetWithHttpInfo(pet, _options);
+    public addPetWithHttpInfo(pet: Pet, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.addPetWithHttpInfo(pet, observableOptions);
         return result.toPromise();
     }
 
@@ -609,8 +653,9 @@ export class PromisePetApi {
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, _options?: Configuration): Promise<void> {
-        const result = this.api.addPet(pet, _options);
+    public addPet(pet: Pet, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.addPet(pet, observableOptions);
         return result.toPromise();
     }
 
@@ -620,8 +665,9 @@ export class PromisePetApi {
      * @param petId Pet id to delete
      * @param [apiKey]
      */
-    public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.deletePetWithHttpInfo(petId, apiKey, _options);
+    public deletePetWithHttpInfo(petId: number, apiKey?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deletePetWithHttpInfo(petId, apiKey, observableOptions);
         return result.toPromise();
     }
 
@@ -631,8 +677,9 @@ export class PromisePetApi {
      * @param petId Pet id to delete
      * @param [apiKey]
      */
-    public deletePet(petId: number, apiKey?: string, _options?: Configuration): Promise<void> {
-        const result = this.api.deletePet(petId, apiKey, _options);
+    public deletePet(petId: number, apiKey?: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deletePet(petId, apiKey, observableOptions);
         return result.toPromise();
     }
 
@@ -641,8 +688,9 @@ export class PromisePetApi {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<HttpInfo<Array<Pet>>> {
-        const result = this.api.findPetsByStatusWithHttpInfo(status, _options);
+    public findPetsByStatusWithHttpInfo(status: Array<'available' | 'pending' | 'sold'>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<Pet>>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.findPetsByStatusWithHttpInfo(status, observableOptions);
         return result.toPromise();
     }
 
@@ -651,8 +699,9 @@ export class PromisePetApi {
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: Configuration): Promise<Array<Pet>> {
-        const result = this.api.findPetsByStatus(status, _options);
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, _options?: PromiseConfigurationOptions): Promise<Array<Pet>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.findPetsByStatus(status, observableOptions);
         return result.toPromise();
     }
 
@@ -661,8 +710,9 @@ export class PromisePetApi {
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTagsWithHttpInfo(tags: Set<string>, _options?: Configuration): Promise<HttpInfo<Set<Pet>>> {
-        const result = this.api.findPetsByTagsWithHttpInfo(tags, _options);
+    public findPetsByTagsWithHttpInfo(tags: Set<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Set<Pet>>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.findPetsByTagsWithHttpInfo(tags, observableOptions);
         return result.toPromise();
     }
 
@@ -671,8 +721,9 @@ export class PromisePetApi {
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTags(tags: Set<string>, _options?: Configuration): Promise<Set<Pet>> {
-        const result = this.api.findPetsByTags(tags, _options);
+    public findPetsByTags(tags: Set<string>, _options?: PromiseConfigurationOptions): Promise<Set<Pet>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.findPetsByTags(tags, observableOptions);
         return result.toPromise();
     }
 
@@ -681,8 +732,9 @@ export class PromisePetApi {
      * Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetByIdWithHttpInfo(petId: number, _options?: Configuration): Promise<HttpInfo<Pet>> {
-        const result = this.api.getPetByIdWithHttpInfo(petId, _options);
+    public getPetByIdWithHttpInfo(petId: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Pet>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getPetByIdWithHttpInfo(petId, observableOptions);
         return result.toPromise();
     }
 
@@ -691,8 +743,9 @@ export class PromisePetApi {
      * Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetById(petId: number, _options?: Configuration): Promise<Pet> {
-        const result = this.api.getPetById(petId, _options);
+    public getPetById(petId: number, _options?: PromiseConfigurationOptions): Promise<Pet> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getPetById(petId, observableOptions);
         return result.toPromise();
     }
 
@@ -701,8 +754,9 @@ export class PromisePetApi {
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
-    public updatePetWithHttpInfo(pet: Pet, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.updatePetWithHttpInfo(pet, _options);
+    public updatePetWithHttpInfo(pet: Pet, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.updatePetWithHttpInfo(pet, observableOptions);
         return result.toPromise();
     }
 
@@ -711,8 +765,9 @@ export class PromisePetApi {
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, _options?: Configuration): Promise<void> {
-        const result = this.api.updatePet(pet, _options);
+    public updatePet(pet: Pet, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.updatePet(pet, observableOptions);
         return result.toPromise();
     }
 
@@ -723,8 +778,9 @@ export class PromisePetApi {
      * @param [name] Updated name of the pet
      * @param [status] Updated status of the pet
      */
-    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.updatePetWithFormWithHttpInfo(petId, name, status, _options);
+    public updatePetWithFormWithHttpInfo(petId: number, name?: string, status?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.updatePetWithFormWithHttpInfo(petId, name, status, observableOptions);
         return result.toPromise();
     }
 
@@ -735,8 +791,9 @@ export class PromisePetApi {
      * @param [name] Updated name of the pet
      * @param [status] Updated status of the pet
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string, _options?: Configuration): Promise<void> {
-        const result = this.api.updatePetWithForm(petId, name, status, _options);
+    public updatePetWithForm(petId: number, name?: string, status?: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.updatePetWithForm(petId, name, status, observableOptions);
         return result.toPromise();
     }
 
@@ -747,8 +804,9 @@ export class PromisePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      * @param [file] file to upload
      */
-    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<HttpInfo<ApiResponse>> {
-        const result = this.api.uploadFileWithHttpInfo(petId, additionalMetadata, file, _options);
+    public uploadFileWithHttpInfo(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: PromiseConfigurationOptions): Promise<HttpInfo<ApiResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uploadFileWithHttpInfo(petId, additionalMetadata, file, observableOptions);
         return result.toPromise();
     }
 
@@ -759,8 +817,9 @@ export class PromisePetApi {
      * @param [additionalMetadata] Additional data to pass to server
      * @param [file] file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: Configuration): Promise<ApiResponse> {
-        const result = this.api.uploadFile(petId, additionalMetadata, file, _options);
+    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, _options?: PromiseConfigurationOptions): Promise<ApiResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uploadFile(petId, additionalMetadata, file, observableOptions);
         return result.toPromise();
     }
 
@@ -771,8 +830,9 @@ export class PromisePetApi {
      * @param requiredFile file to upload
      * @param [additionalMetadata] Additional data to pass to server
      */
-    public uploadFileWithRequiredFileWithHttpInfo(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: Configuration): Promise<HttpInfo<ApiResponse>> {
-        const result = this.api.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, _options);
+    public uploadFileWithRequiredFileWithHttpInfo(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<ApiResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -783,8 +843,9 @@ export class PromisePetApi {
      * @param requiredFile file to upload
      * @param [additionalMetadata] Additional data to pass to server
      */
-    public uploadFileWithRequiredFile(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: Configuration): Promise<ApiResponse> {
-        const result = this.api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, _options);
+    public uploadFileWithRequiredFile(petId: number, requiredFile: HttpFile, additionalMetadata?: string, _options?: PromiseConfigurationOptions): Promise<ApiResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -812,8 +873,9 @@ export class PromiseStoreApi {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrderWithHttpInfo(orderId: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.deleteOrderWithHttpInfo(orderId, _options);
+    public deleteOrderWithHttpInfo(orderId: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deleteOrderWithHttpInfo(orderId, observableOptions);
         return result.toPromise();
     }
 
@@ -822,8 +884,9 @@ export class PromiseStoreApi {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder(orderId: string, _options?: Configuration): Promise<void> {
-        const result = this.api.deleteOrder(orderId, _options);
+    public deleteOrder(orderId: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deleteOrder(orderId, observableOptions);
         return result.toPromise();
     }
 
@@ -831,8 +894,9 @@ export class PromiseStoreApi {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public getInventoryWithHttpInfo(_options?: Configuration): Promise<HttpInfo<{ [key: string]: number; }>> {
-        const result = this.api.getInventoryWithHttpInfo(_options);
+    public getInventoryWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: number; }>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getInventoryWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
@@ -840,8 +904,9 @@ export class PromiseStoreApi {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public getInventory(_options?: Configuration): Promise<{ [key: string]: number; }> {
-        const result = this.api.getInventory(_options);
+    public getInventory(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: number; }> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getInventory(observableOptions);
         return result.toPromise();
     }
 
@@ -850,8 +915,9 @@ export class PromiseStoreApi {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderByIdWithHttpInfo(orderId: number, _options?: Configuration): Promise<HttpInfo<Order>> {
-        const result = this.api.getOrderByIdWithHttpInfo(orderId, _options);
+    public getOrderByIdWithHttpInfo(orderId: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Order>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getOrderByIdWithHttpInfo(orderId, observableOptions);
         return result.toPromise();
     }
 
@@ -860,8 +926,9 @@ export class PromiseStoreApi {
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number, _options?: Configuration): Promise<Order> {
-        const result = this.api.getOrderById(orderId, _options);
+    public getOrderById(orderId: number, _options?: PromiseConfigurationOptions): Promise<Order> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getOrderById(orderId, observableOptions);
         return result.toPromise();
     }
 
@@ -870,8 +937,9 @@ export class PromiseStoreApi {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public placeOrderWithHttpInfo(order: Order, _options?: Configuration): Promise<HttpInfo<Order>> {
-        const result = this.api.placeOrderWithHttpInfo(order, _options);
+    public placeOrderWithHttpInfo(order: Order, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Order>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.placeOrderWithHttpInfo(order, observableOptions);
         return result.toPromise();
     }
 
@@ -880,8 +948,9 @@ export class PromiseStoreApi {
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public placeOrder(order: Order, _options?: Configuration): Promise<Order> {
-        const result = this.api.placeOrder(order, _options);
+    public placeOrder(order: Order, _options?: PromiseConfigurationOptions): Promise<Order> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.placeOrder(order, observableOptions);
         return result.toPromise();
     }
 
@@ -909,8 +978,9 @@ export class PromiseUserApi {
      * Create user
      * @param user Created user object
      */
-    public createUserWithHttpInfo(user: User, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.createUserWithHttpInfo(user, _options);
+    public createUserWithHttpInfo(user: User, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createUserWithHttpInfo(user, observableOptions);
         return result.toPromise();
     }
 
@@ -919,8 +989,9 @@ export class PromiseUserApi {
      * Create user
      * @param user Created user object
      */
-    public createUser(user: User, _options?: Configuration): Promise<void> {
-        const result = this.api.createUser(user, _options);
+    public createUser(user: User, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createUser(user, observableOptions);
         return result.toPromise();
     }
 
@@ -929,8 +1000,9 @@ export class PromiseUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.createUsersWithArrayInputWithHttpInfo(user, _options);
+    public createUsersWithArrayInputWithHttpInfo(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createUsersWithArrayInputWithHttpInfo(user, observableOptions);
         return result.toPromise();
     }
 
@@ -939,8 +1011,9 @@ export class PromiseUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, _options?: Configuration): Promise<void> {
-        const result = this.api.createUsersWithArrayInput(user, _options);
+    public createUsersWithArrayInput(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createUsersWithArrayInput(user, observableOptions);
         return result.toPromise();
     }
 
@@ -949,8 +1022,9 @@ export class PromiseUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.createUsersWithListInputWithHttpInfo(user, _options);
+    public createUsersWithListInputWithHttpInfo(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createUsersWithListInputWithHttpInfo(user, observableOptions);
         return result.toPromise();
     }
 
@@ -959,8 +1033,9 @@ export class PromiseUserApi {
      * Creates list of users with given input array
      * @param user List of user object
      */
-    public createUsersWithListInput(user: Array<User>, _options?: Configuration): Promise<void> {
-        const result = this.api.createUsersWithListInput(user, _options);
+    public createUsersWithListInput(user: Array<User>, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createUsersWithListInput(user, observableOptions);
         return result.toPromise();
     }
 
@@ -969,8 +1044,9 @@ export class PromiseUserApi {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUserWithHttpInfo(username: string, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.deleteUserWithHttpInfo(username, _options);
+    public deleteUserWithHttpInfo(username: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deleteUserWithHttpInfo(username, observableOptions);
         return result.toPromise();
     }
 
@@ -979,8 +1055,9 @@ export class PromiseUserApi {
      * Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUser(username: string, _options?: Configuration): Promise<void> {
-        const result = this.api.deleteUser(username, _options);
+    public deleteUser(username: string, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.deleteUser(username, observableOptions);
         return result.toPromise();
     }
 
@@ -989,8 +1066,9 @@ export class PromiseUserApi {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public getUserByNameWithHttpInfo(username: string, _options?: Configuration): Promise<HttpInfo<User>> {
-        const result = this.api.getUserByNameWithHttpInfo(username, _options);
+    public getUserByNameWithHttpInfo(username: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<User>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getUserByNameWithHttpInfo(username, observableOptions);
         return result.toPromise();
     }
 
@@ -999,8 +1077,9 @@ export class PromiseUserApi {
      * Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public getUserByName(username: string, _options?: Configuration): Promise<User> {
-        const result = this.api.getUserByName(username, _options);
+    public getUserByName(username: string, _options?: PromiseConfigurationOptions): Promise<User> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getUserByName(username, observableOptions);
         return result.toPromise();
     }
 
@@ -1010,8 +1089,9 @@ export class PromiseUserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUserWithHttpInfo(username: string, password: string, _options?: Configuration): Promise<HttpInfo<string>> {
-        const result = this.api.loginUserWithHttpInfo(username, password, _options);
+    public loginUserWithHttpInfo(username: string, password: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.loginUserWithHttpInfo(username, password, observableOptions);
         return result.toPromise();
     }
 
@@ -1021,8 +1101,9 @@ export class PromiseUserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser(username: string, password: string, _options?: Configuration): Promise<string> {
-        const result = this.api.loginUser(username, password, _options);
+    public loginUser(username: string, password: string, _options?: PromiseConfigurationOptions): Promise<string> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.loginUser(username, password, observableOptions);
         return result.toPromise();
     }
 
@@ -1030,8 +1111,9 @@ export class PromiseUserApi {
      * 
      * Logs out current logged in user session
      */
-    public logoutUserWithHttpInfo(_options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.logoutUserWithHttpInfo(_options);
+    public logoutUserWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.logoutUserWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
@@ -1039,8 +1121,9 @@ export class PromiseUserApi {
      * 
      * Logs out current logged in user session
      */
-    public logoutUser(_options?: Configuration): Promise<void> {
-        const result = this.api.logoutUser(_options);
+    public logoutUser(_options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.logoutUser(observableOptions);
         return result.toPromise();
     }
 
@@ -1050,8 +1133,9 @@ export class PromiseUserApi {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public updateUserWithHttpInfo(username: string, user: User, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.updateUserWithHttpInfo(username, user, _options);
+    public updateUserWithHttpInfo(username: string, user: User, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.updateUserWithHttpInfo(username, user, observableOptions);
         return result.toPromise();
     }
 
@@ -1061,8 +1145,9 @@ export class PromiseUserApi {
      * @param username name that need to be deleted
      * @param user Updated user object
      */
-    public updateUser(username: string, user: User, _options?: Configuration): Promise<void> {
-        const result = this.api.updateUser(username, user, _options);
+    public updateUser(username: string, user: User, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.updateUser(username, user, observableOptions);
         return result.toPromise();
     }
 

@@ -69,7 +69,7 @@ func (dst *AnyOfPrimitiveType) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src *AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
+func (src AnyOfPrimitiveType) MarshalJSON() ([]byte, error) {
 	if src.OneOfPrimitiveTypeChild != nil {
 		return json.Marshal(&src.OneOfPrimitiveTypeChild)
 	}

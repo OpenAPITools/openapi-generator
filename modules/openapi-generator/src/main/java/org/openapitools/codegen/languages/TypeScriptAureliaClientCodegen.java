@@ -27,7 +27,7 @@ import org.openapitools.codegen.model.OperationsMap;
 
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
 

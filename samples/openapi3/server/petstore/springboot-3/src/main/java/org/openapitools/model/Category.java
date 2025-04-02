@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -26,12 +27,12 @@ import jakarta.annotation.Generated;
 @JacksonXmlRootElement(localName = "Category")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Category {
 
-  private Long id;
+  private @Nullable Long id;
 
-  private String name;
+  private @Nullable String name;
 
   public Category() {
     super();
@@ -40,7 +41,7 @@ public class Category {
   /**
    * Constructor with all args parameters
    */
-  public Category(Long id, String name) {
+  public Category(@Nullable Long id, @Nullable String name) {
       this.id = id;
       this.name = name;
   }

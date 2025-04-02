@@ -66,7 +66,7 @@ if(hasProperty('target') && target == 'android') {
 
     task sourcesJar(type: Jar) {
         from android.sourceSets.main.java.srcDirs
-        classifier = 'sources'
+        archiveClassifier = 'sources'
     }
 
     artifacts {
@@ -97,12 +97,12 @@ if(hasProperty('target') && target == 'android') {
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+        archiveClassifier = 'sources'
         from sourceSets.main.allSource
     }
 
     task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
+        archiveClassifier = 'javadoc'
         from javadoc.destinationDir
     }
 
@@ -126,6 +126,9 @@ ext {
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "5.10.2"
+    {{#useReflectionEqualsHashCode}}
+    commons_lang3_version = "3.17.0"
+    {{/useReflectionEqualsHashCode}}
 }
 
 dependencies {
@@ -148,6 +151,9 @@ dependencies {
     {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
     {{/useBeanValidation}}
+    {{#useReflectionEqualsHashCode}}
+    implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
+    {{/useReflectionEqualsHashCode}}
     testImplementation "junit:junit:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"

@@ -40,7 +40,7 @@ class BearerTokenHandler: RequestInterceptor, @unchecked Sendable {
         let dummyBearerToken = "..."
         
         bearerToken = dummyBearerToken
-        OpenAPIClient.shared.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
+        PetstoreClientAPIConfiguration.shared.customHeaders["Authorization"] = "Bearer \(dummyBearerToken)"
         
         completionHandler(true)
     }

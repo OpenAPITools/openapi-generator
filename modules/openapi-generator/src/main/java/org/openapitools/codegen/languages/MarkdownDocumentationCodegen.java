@@ -112,7 +112,9 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return null; }
+    public GeneratorLanguage generatorLanguage() {
+        return null;
+    }
 
     @Override
     public String escapeUnsafeCharacters(String input) {

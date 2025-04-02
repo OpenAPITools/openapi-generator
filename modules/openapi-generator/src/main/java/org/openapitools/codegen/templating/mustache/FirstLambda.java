@@ -25,12 +25,12 @@ import java.util.Arrays;
 
 /**
  * Split text by 2 spaces and then return the first entry
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("first", new FirstLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#first}}{{name}}{{/first}}

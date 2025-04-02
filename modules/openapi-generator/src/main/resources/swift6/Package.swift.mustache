@@ -25,13 +25,13 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         {{#useAlamofire}}
-        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.9.1")),
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.10.2")),
         {{/useAlamofire}}
         {{#usePromiseKit}}
         .package(url: "https://github.com/mxcl/PromiseKit", .upToNextMajor(from: "8.1.2")),
         {{/usePromiseKit}}
         {{#useRxSwift}}
-        .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.7.1")),
+        .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.8.0")),
         {{/useRxSwift}}
         {{#useVapor}}
         .package(url: "https://github.com/vapor/vapor", from: "4.0.0")

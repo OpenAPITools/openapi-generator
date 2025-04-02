@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class AdditionalPropertiesClass: NSObject, Codable, JSONEncodable {
+@objcMembers public class AdditionalPropertiesClass: NSObject, Codable, QueryStringEncodable {
 
     public var mapString: [String: String]?
     public var mapMapString: [String: [String: String]]?

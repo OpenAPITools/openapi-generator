@@ -33,5 +33,7 @@ public class EverythingRule extends Rule {
     }
 
     @Override
-    protected Operation getExcludeOperation(){ return Operation.EXCLUDE_AND_TERMINATE; }
+    protected Operation getExcludeOperation() {
+        return Operation.EXCLUDE_AND_TERMINATE;
+    }
 }

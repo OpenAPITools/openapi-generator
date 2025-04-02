@@ -10,7 +10,7 @@ import Vapor
 
 public final class MapTest: Content, Hashable {
 
-    public enum MapOfEnumString: String, Content, Hashable, CaseIterable {
+    public enum MapOfEnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
         case lower = "lower"
     }

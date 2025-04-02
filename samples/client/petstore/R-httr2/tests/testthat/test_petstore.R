@@ -23,7 +23,7 @@ test_that("Test toJSON toJSONString fromJSON fromJSONString", {
 
   # tests for other pet objects
   pet0 <- Pet$new()
-  jsonpet <- pet0$toJSON()
+  jsonpet <- pet0$toSimpleType()
   pet2 <- pet0$fromJSON(
     jsonlite::toJSON(jsonpet, auto_unbox = TRUE)
   )
@@ -49,7 +49,7 @@ test_that("Test toJSON toJSONString fromJSON fromJSONString", {
     ),
     status = "available"
   )
-  jsonpet <- pet1$toJSON()
+  jsonpet <- pet1$toSimpleType()
   pet2 <- pet1$fromJSON(
     jsonlite::toJSON(jsonpet, auto_unbox = TRUE)
   )
@@ -71,7 +71,7 @@ test_that("Test toJSON toJSONString fromJSON fromJSONString", {
 test_that("Test Category", {
   c1 <- Category$new(id = 450, name = "test_cat")
   c2 <- Category$new()
-  c2$fromJSON(jsonlite::toJSON(c1$toJSON(), auto_unbox = TRUE))
+  c2$fromJSON(jsonlite::toJSON(c1$toSimpleType(), auto_unbox = TRUE))
   expect_equal(c1, c2)
   c2$fromJSONString(c1$toJSONString())
   expect_equal(c1, c2)

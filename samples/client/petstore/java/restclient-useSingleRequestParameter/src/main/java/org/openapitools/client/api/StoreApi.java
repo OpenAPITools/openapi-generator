@@ -11,19 +11,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -44,10 +44,6 @@ public class StoreApi {
         this.apiClient = apiClient;
     }
 
-// It has a single param!
-/*
-* orderId
-*/
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -56,7 +52,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec deleteOrderRequestCreation(String orderId) throws RestClientResponseException {
+    private ResponseSpec deleteOrderRequestCreation(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -91,7 +87,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public void deleteOrder(String orderId) throws RestClientResponseException {
+    public void deleteOrder(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         deleteOrderRequestCreation(orderId).body(localVarReturnType);
     }
@@ -104,7 +100,7 @@ public class StoreApi {
      * @param orderId ID of the order that needs to be deleted
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> deleteOrderWithHttpInfo(String orderId) throws RestClientResponseException {
+    public ResponseEntity<Void> deleteOrderWithHttpInfo(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
         ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<>() {};
         return deleteOrderRequestCreation(orderId).toEntity(localVarReturnType);
     }
@@ -118,7 +114,7 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec deleteOrderWithResponseSpec(String orderId) throws RestClientResponseException {
+    public ResponseSpec deleteOrderWithResponseSpec(@jakarta.annotation.Nonnull String orderId) throws RestClientResponseException {
         return deleteOrderRequestCreation(orderId);
     }
     /**
@@ -185,10 +181,6 @@ public class StoreApi {
     public ResponseSpec getInventoryWithResponseSpec() throws RestClientResponseException {
         return getInventoryRequestCreation();
     }
-// It has a single param!
-/*
-* orderId
-*/
     /**
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
@@ -199,7 +191,7 @@ public class StoreApi {
      * @return Order
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec getOrderByIdRequestCreation(Long orderId) throws RestClientResponseException {
+    private ResponseSpec getOrderByIdRequestCreation(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -238,7 +230,7 @@ public class StoreApi {
      * @return Order
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Order getOrderById(Long orderId) throws RestClientResponseException {
+    public Order getOrderById(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getOrderByIdRequestCreation(orderId).body(localVarReturnType);
     }
@@ -253,7 +245,7 @@ public class StoreApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Order> getOrderByIdWithHttpInfo(Long orderId) throws RestClientResponseException {
+    public ResponseEntity<Order> getOrderByIdWithHttpInfo(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return getOrderByIdRequestCreation(orderId).toEntity(localVarReturnType);
     }
@@ -268,13 +260,9 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec getOrderByIdWithResponseSpec(Long orderId) throws RestClientResponseException {
+    public ResponseSpec getOrderByIdWithResponseSpec(@jakarta.annotation.Nonnull Long orderId) throws RestClientResponseException {
         return getOrderByIdRequestCreation(orderId);
     }
-// It has a single param!
-/*
-* order
-*/
     /**
      * Place an order for a pet
      * 
@@ -284,7 +272,7 @@ public class StoreApi {
      * @return Order
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec placeOrderRequestCreation(Order order) throws RestClientResponseException {
+    private ResponseSpec placeOrderRequestCreation(@jakarta.annotation.Nonnull Order order) throws RestClientResponseException {
         Object postBody = order;
         // verify the required parameter 'order' is set
         if (order == null) {
@@ -322,7 +310,7 @@ public class StoreApi {
      * @return Order
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Order placeOrder(Order order) throws RestClientResponseException {
+    public Order placeOrder(@jakarta.annotation.Nonnull Order order) throws RestClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return placeOrderRequestCreation(order).body(localVarReturnType);
     }
@@ -336,7 +324,7 @@ public class StoreApi {
      * @return ResponseEntity&lt;Order&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Order> placeOrderWithHttpInfo(Order order) throws RestClientResponseException {
+    public ResponseEntity<Order> placeOrderWithHttpInfo(@jakarta.annotation.Nonnull Order order) throws RestClientResponseException {
         ParameterizedTypeReference<Order> localVarReturnType = new ParameterizedTypeReference<>() {};
         return placeOrderRequestCreation(order).toEntity(localVarReturnType);
     }
@@ -350,7 +338,7 @@ public class StoreApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec placeOrderWithResponseSpec(Order order) throws RestClientResponseException {
+    public ResponseSpec placeOrderWithResponseSpec(@jakarta.annotation.Nonnull Order order) throws RestClientResponseException {
         return placeOrderRequestCreation(order);
     }
 }

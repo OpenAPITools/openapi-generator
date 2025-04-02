@@ -19,7 +19,8 @@ package org.openapitools.codegen.ignore.rules;
 
 import lombok.Getter;
 
-@Getter class Part {
+@Getter
+class Part {
     private final IgnoreLineParser.Token token;
     private final String value;
 

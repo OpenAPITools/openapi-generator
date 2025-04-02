@@ -8,7 +8,7 @@
 import Foundation
 
 /** Must be named &#x60;File&#x60; for test. */
-@objcMembers public class File: NSObject, Codable, JSONEncodable {
+@objcMembers public class File: NSObject, Codable, QueryStringEncodable {
 
     /** Test capitalization */
     public var sourceURI: String?

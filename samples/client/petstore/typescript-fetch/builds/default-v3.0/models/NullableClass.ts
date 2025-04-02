@@ -127,11 +127,11 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-  export function NullableClassToJSON(json: any): NullableClass {
-      return NullableClassToJSONTyped(json, false);
-  }
+export function NullableClassToJSON(json: any): NullableClass {
+    return NullableClassToJSONTyped(json, false);
+}
 
-  export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {
+export function NullableClassToJSONTyped(value?: NullableClass | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

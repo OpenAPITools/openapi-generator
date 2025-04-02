@@ -28,6 +28,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateModelAdditionalProperties|Generate model additional properties (default: true)| |true|
 |hashableModels|Make hashable models (default: true)| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|identifiableModels|Make models conform to Identifiable when an id is present (default: true)| |true|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |library|Library template (sub-template) to use|<dl><dt>**urlsession**</dt><dd>[DEFAULT] HTTP client: URLSession</dd><dt>**alamofire**</dt><dd>HTTP client: Alamofire</dd><dt>**vapor**</dt><dd>HTTP client: Vapor</dd></dl>|urlsession|
 |mapFileBinaryToData|Map File and Binary to Data (default: false)| |false|
@@ -57,7 +58,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useCustomDateWithoutTime|Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)| |false|
 |useJsonEncodable|Make models conform to JSONEncodable protocol (default: true)| |true|
 |useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: true).| |null|
-|validatable|Make validation rules and validator for model properies (default: true)| |true|
+|validatable|Make validation rules and validator for model properties (default: true)| |true|
 
 ## IMPORT MAPPING
 

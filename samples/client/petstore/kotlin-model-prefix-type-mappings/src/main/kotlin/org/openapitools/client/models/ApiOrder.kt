@@ -102,7 +102,7 @@ data class ApiOrder (
     companion object {
         var openapiFields = HashSet<String>()
         var openapiRequiredFields = HashSet<String>()
-      
+
         init {
             // a set of all properties/fields (JSON key names)
             openapiFields.add("id")
@@ -113,7 +113,7 @@ data class ApiOrder (
             openapiFields.add("complete")
 
         }
-      
+
        /**
         * Validates the JSON Element and throws an exception if issues found
         *

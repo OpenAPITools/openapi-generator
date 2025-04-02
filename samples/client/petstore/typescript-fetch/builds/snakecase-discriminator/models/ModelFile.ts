@@ -48,11 +48,11 @@ export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-  export function ModelFileToJSON(json: any): ModelFile {
-      return ModelFileToJSONTyped(json, false);
-  }
+export function ModelFileToJSON(json: any): ModelFile {
+    return ModelFileToJSONTyped(json, false);
+}
 
-  export function ModelFileToJSONTyped(value?: ModelFile | null, ignoreDiscriminator: boolean = false): any {
+export function ModelFileToJSONTyped(value?: ModelFile | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 public class DryRunTemplateManagerTest {
     @Test

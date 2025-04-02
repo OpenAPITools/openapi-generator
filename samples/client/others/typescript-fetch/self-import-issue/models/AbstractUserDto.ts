@@ -80,11 +80,11 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-  export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
-      return AbstractUserDtoToJSONTyped(json, false);
-  }
+export function AbstractUserDtoToJSON(json: any): AbstractUserDto {
+    return AbstractUserDtoToJSONTyped(json, false);
+}
 
-  export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
+export function AbstractUserDtoToJSONTyped(value?: AbstractUserDto | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -96,7 +96,7 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
             case 'remote-authenticated':
                 return RemoteAuthenticatedUserDtoToJSONTyped(value as RemoteAuthenticatedUserDto, ignoreDiscriminator);
             default:
-                throw new Error(`No variant of AbstractUserDto exists with 'type=${value['type']}'`);
+                return value;
         }
     }
 

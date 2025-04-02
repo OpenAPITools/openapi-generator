@@ -75,11 +75,11 @@ export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-  export function EnumArraysToJSON(json: any): EnumArrays {
-      return EnumArraysToJSONTyped(json, false);
-  }
+export function EnumArraysToJSON(json: any): EnumArrays {
+    return EnumArraysToJSONTyped(json, false);
+}
 
-  export function EnumArraysToJSONTyped(value?: EnumArrays | null, ignoreDiscriminator: boolean = false): any {
+export function EnumArraysToJSONTyped(value?: EnumArrays | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

@@ -71,8 +71,8 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
-    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
+    required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -112,7 +112,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
 
-        let modifiedRequest = try encoding.encode(originalRequest, with: parameters)
+        let modifiedRequest = try encoding.encode(request: originalRequest, with: parameters)
 
         return modifiedRequest
     }
@@ -150,29 +150,53 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
         do {
             let request = try createURLRequest(urlSession: urlSession, method: xMethod, encoding: encoding, headers: headers)
 
-            openAPIClient.interceptor.intercept(urlRequest: request, urlSession: urlSession, openAPIClient: openAPIClient) { result in
+            apiConfiguration.interceptor.intercept(urlRequest: request, urlSession: urlSession, requestBuilder: self) { result in
 
                 switch result {
                 case .success(let modifiedRequest):
                     let dataTask = urlSession.dataTaskFromProtocol(with: modifiedRequest) { data, response, error in
-                    self.cleanupRequest()
-                        if let response, let error {
-                            self.openAPIClient.interceptor.retry(urlRequest: modifiedRequest, urlSession: urlSession, openAPIClient: self.openAPIClient, data: data, response: response, error: error) { retry in
-                                switch retry {
-                                case .retry:
-                                    self.execute(completion: completion)
+                        self.cleanupRequest()
 
-                                case .dontRetry:
-                                    self.openAPIClient.apiResponseQueue.async {
-                                        self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                                    }
-                                }
-                            }
-                        } else {
-                            self.openAPIClient.apiResponseQueue.async {
-                                self.processRequestResponse(urlRequest: request, data: data, response: response, error: error, completion: completion)
-                            }
+                        if let error = error {
+                            self.retryRequest(
+                                urlRequest: modifiedRequest,
+                                urlSession: urlSession,
+                                statusCode: -1,
+                                data: data,
+                                response: response,
+                                error: error,
+                                completion: completion
+                            )
+                            return
                         }
+
+                        guard let httpResponse = response as? HTTPURLResponse else {
+                            self.retryRequest(
+                                urlRequest: modifiedRequest,
+                                urlSession: urlSession,
+                                statusCode: -2,
+                                data: data,
+                                response: response,
+                                error: DecodableRequestBuilderError.nilHTTPResponse,
+                                completion: completion
+                            )
+                            return
+                        }
+
+                        guard self.apiConfiguration.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
+                            self.retryRequest(
+                                urlRequest: modifiedRequest,
+                                urlSession: urlSession,
+                                statusCode: httpResponse.statusCode,
+                                data: data,
+                                response: httpResponse,
+                                error: DecodableRequestBuilderError.unsuccessfulHTTPStatusCode,
+                                completion: completion
+                            )
+                            return
+                        }
+
+                        self.processRequestResponse(urlRequest: request, data: data, httpResponse: httpResponse, error: error, completion: completion)
                     }
 
                     self.onProgressReady?(dataTask.progress)
@@ -184,13 +208,13 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                     dataTask.resume()
 
                 case .failure(let error):
-                    self.openAPIClient.apiResponseQueue.async {
+                    self.apiConfiguration.apiResponseQueue.async {
                         completion(.failure(ErrorResponse.error(415, nil, nil, error)))
                     }
                 }
             }
         } catch {
-            self.openAPIClient.apiResponseQueue.async {
+            self.apiConfiguration.apiResponseQueue.async {
                 completion(.failure(ErrorResponse.error(415, nil, nil, error)))
             }
         }
@@ -204,22 +228,21 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
         }
     }
 
-    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    private func retryRequest(urlRequest: URLRequest, urlSession: URLSessionProtocol, statusCode: Int, data: Data?, response: URLResponse?, error: Error, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+        self.apiConfiguration.interceptor.retry(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
+            switch retry {
+            case .retry:
+                self.execute(completion: completion)
 
-        if let error = error {
-            completion(.failure(ErrorResponse.error(-1, data, response, error)))
-            return
+            case .dontRetry:
+                self.apiConfiguration.apiResponseQueue.async {
+                    completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
+                }
+            }
         }
+    }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
-            return
-        }
-
-        guard openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
-            return
-        }
+    fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, httpResponse: HTTPURLResponse, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         switch T.self {
         case is Void.Type:
@@ -234,7 +257,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func buildHeaders() -> [String: String] {
         var httpHeaders: [String: String] = [:]
-        for (key, value) in openAPIClient.customHeaders {
+        for (key, value) in apiConfiguration.customHeaders {
             httpHeaders[key] = value
         }
         for (key, value) in headers {
@@ -297,22 +320,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T>, @unchecked Sendable {
-    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, response: URLResponse?, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
-
-        if let error = error {
-            completion(.failure(ErrorResponse.error(-1, data, response, error)))
-            return
-        }
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            completion(.failure(ErrorResponse.error(-2, data, response, DecodableRequestBuilderError.nilHTTPResponse)))
-            return
-        }
-
-        guard openAPIClient.successfulStatusCodeRange.contains(httpResponse.statusCode) else {
-            completion(.failure(ErrorResponse.error(httpResponse.statusCode, data, response, DecodableRequestBuilderError.unsuccessfulHTTPStatusCode)))
-            return
-        }
+    override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, httpResponse: HTTPURLResponse, error: Error?, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         switch T.self {
         case is String.Type:
@@ -353,9 +361,9 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                 completion(.success(Response(response: httpResponse, body: filePath as! T, bodyData: data)))
 
             } catch let requestParserError as DownloadException {
-                completion(.failure(ErrorResponse.error(400, data, response, requestParserError)))
+                completion(.failure(ErrorResponse.error(400, data, httpResponse, requestParserError)))
             } catch {
-                completion(.failure(ErrorResponse.error(400, data, response, error)))
+                completion(.failure(ErrorResponse.error(400, data, httpResponse, error)))
             }
 
         case is Void.Type:
@@ -372,18 +380,18 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
                 if let expressibleByNilLiteralType = T.self as? ExpressibleByNilLiteral.Type {
                     completion(.success(Response(response: httpResponse, body: expressibleByNilLiteralType.init(nilLiteral: ()) as! T, bodyData: data)))
                 } else {
-                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, response, DecodableRequestBuilderError.emptyDataResponse)))
+                    completion(.failure(ErrorResponse.error(httpResponse.statusCode, nil, httpResponse, DecodableRequestBuilderError.emptyDataResponse)))
                 }
                 return
             }
 
-            let decodeResult = openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
+            let decodeResult = apiConfiguration.codableHelper.decode(T.self, from: unwrappedData)
 
             switch decodeResult {
             case let .success(decodableObj):
                 completion(.success(Response(response: httpResponse, body: decodableObj, bodyData: unwrappedData)))
             case let .failure(error):
-                completion(.failure(ErrorResponse.error(httpResponse.statusCode, unwrappedData, response, error)))
+                completion(.failure(ErrorResponse.error(httpResponse.statusCode, unwrappedData, httpResponse, error)))
             }
         }
     }
@@ -423,13 +431,13 @@ fileprivate final class SessionDelegate: NSObject, URLSessionTaskDelegate {
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest
+    func encode(request: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest
 }
 
 private class URLEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(request: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
-        var urlRequest = urlRequest
+        var urlRequest = request
 
         guard let parameters = parameters else { return urlRequest }
 
@@ -454,9 +462,9 @@ private class FormDataEncoding: ParameterEncoding {
         self.contentTypeForFormPart = contentTypeForFormPart
     }
 
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(request: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
-        var urlRequest = urlRequest
+        var urlRequest = request
 
         guard let parameters = parameters, !parameters.isEmpty else {
             return urlRequest
@@ -623,17 +631,29 @@ private class FormDataEncoding: ParameterEncoding {
 }
 
 private class FormURLEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(request: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
-        var urlRequest = urlRequest
+        var urlRequest = request
 
         var requestBodyComponents = URLComponents()
-        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
+        
+        /// `httpBody` needs to be percent encoded
+        /// -> https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST
+        /// "application/x-www-form-urlencoded: [...] Non-alphanumeric characters in both keys and values are percent-encoded"
+        let percentEncodedQueryItems = queryItems?.compactMap { queryItem in
+            return URLQueryItem(
+                name: queryItem.name.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.name,
+                value: queryItem.value?.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? queryItem.value)
+        }
+        requestBodyComponents.queryItems = percentEncodedQueryItems
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         }
 
+        /// We can't use `requestBodyComponents.percentEncodedQuery` since this does NOT percent encode the `+` sign
+        /// that is why we do the percent encoding manually for each key/value pair
         urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
         return urlRequest
@@ -641,9 +661,9 @@ private class FormURLEncoding: ParameterEncoding {
 }
 
 private class OctetStreamEncoding: ParameterEncoding {
-    func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+    func encode(request: URLRequest, with parameters: [String: any Sendable]?) throws -> URLRequest {
 
-        var urlRequest = urlRequest
+        var urlRequest = request
 
         guard let body = parameters?["body"] else { return urlRequest }
 
@@ -692,19 +712,19 @@ extension JSONDataEncoding: ParameterEncoding {}
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol OpenAPIInterceptor {
-    func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, Error>) -> Void)
+    func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, Error>) -> Void)
 
-    func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void)
+    func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse?, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void)
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class DefaultOpenAPIInterceptor: OpenAPIInterceptor {
     public init() {}
     
-    public func intercept(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
+    public func intercept<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, completion: @escaping (Result<URLRequest, any Error>) -> Void) {
         completion(.success(urlRequest))
     }
     
-    public func retry(urlRequest: URLRequest, urlSession: URLSessionProtocol, openAPIClient: OpenAPIClient, data: Data?, response: URLResponse, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
+    public func retry<T>(urlRequest: URLRequest, urlSession: URLSessionProtocol, requestBuilder: RequestBuilder<T>, data: Data?, response: URLResponse?, error: Error, completion: @escaping (OpenAPIInterceptorRetry) -> Void) {
         completion(.dontRetry)
     }
 }

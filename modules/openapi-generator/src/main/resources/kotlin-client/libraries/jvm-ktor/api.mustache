@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 {{/jackson}}
 
 {{#operations}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}open class {{classname}}(
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class {{classname}}(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
@@ -43,6 +43,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
     {{#operation}}
         /**
+        * {{{httpMethod}}} {{{path}}}
         * {{summary}}
         * {{notes}}
         {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
@@ -51,7 +52,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
         {{#returnType}}
             @Suppress("UNCHECKED_CAST")
         {{/returnType}}
-        open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
 
             val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
@@ -134,7 +135,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
+            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},

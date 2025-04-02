@@ -13,39 +13,43 @@
 
 // this model was generated using model.mustache
 package sample.cask.model
+
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/
 import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
+
+        
 case class Category(
-  id: Option[Long] = None ,
-  name: Option[String] = None 
+    id: Option[Long] = None ,
+    name: Option[String] = None 
 
 
 ) {
 
-  def asJsonString: String = asData.asJsonString
-  def asJson: ujson.Value = asData.asJson
+def asJsonString: String = asData.asJsonString
+def asJson: ujson.Value = asData.asJson
 
-  def asData : CategoryData = {
-    CategoryData(
-            id = id.getOrElse(0),
-            name = name.getOrElse("")
-        
-    )
-  }
+def asData : CategoryData = {
+CategoryData(
+    id = id.getOrElse(0) /*  1 */,
+    name = name.getOrElse("") /*  1 */
+
+)
+}
 }
 
 object Category {
-    given RW[Category] = summon[RW[ujson.Value]].bimap[Category](_.asJson, json => read[CategoryData](json).asModel)
+given RW[Category] = summon[RW[ujson.Value]].bimap[Category](_.asJson, json => read[CategoryData](json).asModel)
 
-    enum Fields(val fieldName : String) extends Field(fieldName) {
-            case id extends Fields("id")
-            case name extends Fields("name")
-    }
+enum Fields(val fieldName : String) extends Field(fieldName) {
+    case id extends Fields("id")
+    case name extends Fields("name")
+}
 
 
 }
+
 

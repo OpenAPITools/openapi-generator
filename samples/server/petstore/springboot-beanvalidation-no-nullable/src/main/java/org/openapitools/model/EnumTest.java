@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
+import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -22,7 +23,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -62,7 +63,7 @@ public class EnumTest {
     }
   }
 
-  private EnumStringEnum enumString;
+  private @Nullable EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -138,7 +139,7 @@ public class EnumTest {
     }
   }
 
-  private EnumIntegerEnum enumInteger;
+  private @Nullable EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -175,9 +176,9 @@ public class EnumTest {
     }
   }
 
-  private EnumNumberEnum enumNumber;
+  private @Nullable EnumNumberEnum enumNumber;
 
-  private OuterEnum outerEnum;
+  private @Nullable OuterEnum outerEnum;
 
   public EnumTest() {
     super();

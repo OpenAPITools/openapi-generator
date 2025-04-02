@@ -40,10 +40,35 @@ PetMap <- R6::R6Class(
     },
 
     #' @description
-    #' To JSON String
-    #'
-    #' @return PetMap in JSON format
+    #' Convert to an R object. This method is deprecated. Use `toSimpleType()` instead.
     toJSON = function() {
+      .Deprecated(new = "toSimpleType", msg = "Use the '$toSimpleType()' method instead since that is more clearly named. Use '$toJSONString()' to get a JSON string")
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert to a List
+    #'
+    #' Convert the R6 object to a list to work more easily with other tooling.
+    #'
+    #' @return PetMap as a base R list.
+    #' @examples
+    #' # convert array of PetMap (x) to a data frame
+    #' \dontrun{
+    #' library(purrr)
+    #' library(tibble)
+    #' df <- x |> map(\(y)y$toList()) |> map(as_tibble) |> list_rbind()
+    #' df
+    #' }
+    toList = function() {
+      return(self$toSimpleType())
+    },
+
+    #' @description
+    #' Convert PetMap to a base R type
+    #'
+    #' @return A base R type, e.g. a list or numeric/character array.
+    toSimpleType = function() {
       PetMapObject <- list()
       if (!is.null(self$`pet`)) {
         PetMapObject[["pet"]] <-
@@ -53,7 +78,7 @@ PetMap <- R6::R6Class(
         PetMapObject[[key]] <- self$additional_properties[[key]]
       }
 
-      PetMapObject
+      return(PetMapObject)
     },
 
     #' @description
@@ -78,26 +103,16 @@ PetMap <- R6::R6Class(
 
     #' @description
     #' To JSON String
-    #'
+    #' 
+    #' @param ... Parameters passed to `jsonlite::toJSON`
     #' @return PetMap in JSON format
-    toJSONString = function() {
-      jsoncontent <- c(
-        if (!is.null(self$`pet`)) {
-          sprintf(
-          '"pet":
-            %s
-          ',
-          jsonlite::toJSON(lapply(self$`pet`, function(x){ x }), auto_unbox = TRUE, digits = NA)
-          )
-        }
-      )
-      jsoncontent <- paste(jsoncontent, collapse = ",")
-      json_string <- as.character(jsonlite::minify(paste("{", jsoncontent, "}", sep = "")))
-      json_obj <- jsonlite::fromJSON(json_string)
+    toJSONString = function(...) {
+      simple <- self$toSimpleType()
       for (key in names(self$additional_properties)) {
-        json_obj[[key]] <- self$additional_properties[[key]]
+        simple[[key]] <- self$additional_properties[[key]]
       }
-      json_string <- as.character(jsonlite::minify(jsonlite::toJSON(json_obj, auto_unbox = TRUE, digits = NA)))
+      json <- jsonlite::toJSON(simple, auto_unbox = TRUE, digits = NA, ...)
+      return(as.character(jsonlite::minify(json)))
     },
 
     #' @description

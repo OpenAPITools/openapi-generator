@@ -3,7 +3,9 @@
     /// </summary>
     [DataContract(Name = "{{{name}}}")]
     {{#discriminator}}
+    {{#mappedModels.size}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{/mappedModels.size}}
     {{#mappedModels}}
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{^vendorExtensions.x-discriminator-value}}{{{mappingName}}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{.}}}{{/vendorExtensions.x-discriminator-value}}")]
     {{/mappedModels}}

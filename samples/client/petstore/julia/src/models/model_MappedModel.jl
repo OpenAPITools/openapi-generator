@@ -32,9 +32,11 @@ function check_required(o::MappedModel)
 end
 
 function OpenAPI.validate_property(::Type{ MappedModel }, name::Symbol, val)
+
     if name === Symbol("another_property")
         OpenAPI.validate_param(name, "MappedModel", :format, val, "int32")
     end
+
     if name === Symbol("uuid_default_value")
         OpenAPI.validate_param(name, "MappedModel", :format, val, "uuid")
     end

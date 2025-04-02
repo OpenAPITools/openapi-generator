@@ -3,15 +3,60 @@
 - filename: "samples/client/petstore/csharp/restsharp/standard2.0/Petstore/src/Org.OpenAPITools.Test/JSONComposedSchemaTests.cs"
   sha256: e323c7e646a0ceb6d1d8f34f287175ac666fdbbe057791b45d138de3d9582666
 - filename: "samples/client/petstore/csharp/restsharp/standard2.0/Petstore/src/Org.OpenAPITools.Test/Api/PetApiTests.cs"
-  sha256: 7dad88554fe630d25c787cae05305d302d5e34ca810aee4fa23f20055f9188e1
+  sha256: b98a6043573332de4f049db50b36bce7b5fada8511769da97f6561066a0f8c5c
 - filename: "samples/client/petstore/csharp/restsharp/standard2.0/Petstore/src/Org.OpenAPITools.Test/linux-logo.png"
   sha256: 0a67c32728197e942b13bdda064b73793f12f5c795f1e5cf35a3adf69c973230
-# java okhttp gson test files
+# java test files
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ClientTest.java"
   sha256: 325fdd5d7e2c97790c0fb44f712ab7b2ba022d7e1a5b0056f47b07f342682b6d
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java"
   sha256: e673d9928c8eb848262d0116fe0d28db832e128671a810a7c966d06d90cb9b63
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/api/PetApiTest.java"
-  sha256: 0d64cdc11809a7b5b952ccdad2bd91bd0045b3894d6fabf3e368fa0be12b8217
+  sha256: 8b1b8f2a2ad00ccb090873a94a5f73e328b98317d2ec715f53bd7a1accb2a023
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java"
   sha256: a1f8a70bf7b0c382a8def5bacf7b1fb189e687fabb40235aa799001e0597f545
+- filename: "samples/client/echo_api/java/apache-httpclient/src/test/java/org/openapitools/client/api/AuthApiTest.java"
+  sha256: 26f2dd90f9075e51add1cd7e88869a1e9345d9dbacf01199c1bf8a49395a8648
+- filename: "samples/client/echo_api/java/feign-gson/src/test/java/org/openapitools/client/api/AuthApiTest.java"
+  sha256: b45d2ff04ad65e39a4d67a86a37d1a406e125df392f51ef0484d6c8da8b10454
+- filename: "samples/client/echo_api/java/okhttp-gson/src/test/java/org/openapitools/client/api/AuthApiTest.java"
+  sha256: 761d101afddb8920f640c91741b5e7af56ebd753c80d537e0aaa4e1021887666
+- filename: "samples/client/echo_api/java/resteasy/src/test/java/org/openapitools/client/api/BodyApiTest.java"
+  sha256: 04715cabbe9bd27ff98dd56e3db489ebc9ffbf98d9af104a6707b0a40ab4f8fe
+- filename: "samples/client/echo_api/java/resttemplate/src/test/java/org/openapitools/client/api/AuthApiTest.java"
+  sha256: 38193bbad7f3eef087bc1474352e484178b14a2b8c0e0ba0cd4e4960516a14f9
+- filename: "samples/client/petstore/java/resttemplate/src/test/java/org/openapitools/client/JacksonTest.java"
+  sha256: 90e511a75178f26c8b73a6c77d16d7f134c51f959e8c72191bbe935b08436b22
+- filename: "samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: 24c6a39a9d7327d397dc038c368a19c84f14ed96a69fe28d53719b3eaf0a725c
+- filename: "samples/client/petstore/java/jersey3/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: 5e9f471d34310f94895751bb96cc79583376f043593c3a387c82077c70f8102f
+- filename: "samples/client/petstore/java/jersey3/src/test/java/org/openapitools/client/model/MammalTest.java"
+  sha256: 67a9e63e13ebddac21cb236aa015edce30f5d3bd8d6adcf50044cad00d48c45e
+- filename: "samples/client/petstore/java/jersey3/src/test/java/org/openapitools/client/model/ZebraTest.java"
+  sha256: 15eeb6d8a9a79d0f1930b861540d9c5780d6c49ea4fdb68269ac3e7ec481e142
+- filename: "samples/client/petstore/java/okhttp-gson-3.1/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: d8f7fff724f81e666daf115cc25f8347e1fda4e861aa30df0dae3fa50c91404c
+- filename: "samples/client/petstore/java/okhttp-gson-dynamicOperations/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: 0cc079be64fe261b46f89976be2cbfad4fe5173dbe0d4b45303570299b0b5ecc
+- filename: "samples/client/petstore/java/okhttp-gson-dynamicOperations/src/test/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnlyTest.java"
+  sha256: 3c41eb12d126f90392d97e3250b53ea9dce1663fb714a19339445b9da734d634
+- filename: "samples/client/petstore/java/resteasy/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: 68ed9228c99ecf2ff3842074242d3be7565da3b702b7f46008a5e119ef15c167
+- filename: "samples/openapi3/client/petstore/java/jersey2-java8-special-characters/src/test/java/org/openapitools/client/model/MySchemaNameCharactersTest.java"
+  sha256: f0a82dd21d10f199bc403241fc9c7f4a8fa5e2d1646fd06f7941c2e528a1da45
+- filename: "samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: 5e9f471d34310f94895751bb96cc79583376f043593c3a387c82077c70f8102f
+- filename: "samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model/MammalTest.java"
+  sha256: 67a9e63e13ebddac21cb236aa015edce30f5d3bd8d6adcf50044cad00d48c45e
+- filename: "samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model/ZebraTest.java"
+  sha256: 15eeb6d8a9a79d0f1930b861540d9c5780d6c49ea4fdb68269ac3e7ec481e142
+- filename: "samples/client/petstore/java/webclient/src/test/java/org/openapitools/client/JacksonTest.java"
+  sha256: 45cdaba3d2adc212cd4f0184ad475419a95e2326254c2ef84175e210c922b2f3
+- filename: "samples/client/petstore/java/feign/src/test/java/org/openapitools/client/JacksonTest.java"
+  sha256: 45cdaba3d2adc212cd4f0184ad475419a95e2326254c2ef84175e210c922b2f3
+# rust axum test files
+- filename: "samples/server/petstore/rust-axum/output/rust-axum-oneof/tests/oneof_with_discriminator.rs"
+  sha256: 2d4f5a069fdcb3057bb078d5e75b3de63cd477b97725e457079df24bd2c30600
+- filename: "samples/server/petstore/rust-axum/output/openapi-v3/tests/oneof_untagged.rs"
+  sha256: e72fbf81a9849dc7abb7e2169f2fc355c8b1cf991c0e2ffc083126abd9e966e7

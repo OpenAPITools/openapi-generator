@@ -16,39 +16,12 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.CodegenConstants.API_NAME_PREFIX;
-import static org.openapitools.codegen.CodegenConstants.API_NAME_PREFIX_DESC;
-import static org.openapitools.codegen.CodegenConstants.API_PACKAGE;
-import static org.openapitools.codegen.CodegenConstants.API_PACKAGE_DESC;
-import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE;
-import static org.openapitools.codegen.CodegenConstants.MODEL_PACKAGE_DESC;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.IJsonSchemaValidationProperties;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -60,9 +33,11 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
+import java.io.File;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.CodegenConstants.*;
 
 public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String CHECK_REQUIRED_PARAMS_NOT_NULL = "checkRequiredParamsNotNull";
@@ -485,7 +460,7 @@ public class N4jsClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
-     String modelImportName = toModelFilename(name);
+        String modelImportName = toModelFilename(name);
         if ("".equals(modelPackage())) {
             return modelImportName;
         } else {

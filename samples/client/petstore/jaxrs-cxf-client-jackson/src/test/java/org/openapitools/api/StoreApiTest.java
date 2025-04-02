@@ -39,23 +39,23 @@ import java.util.Map;
  *
  * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
- * API tests for StoreApi 
+ * API tests for StoreApi
  */
 public class StoreApiTest {
 
 
     private StoreApi api;
-    
+
     @Before
     public void setup() {
         JacksonJsonProvider provider = new JacksonJsonProvider();
         List providers = new ArrayList();
         providers.add(provider);
-        
+
         api = JAXRSClientFactory.create("http://petstore.swagger.io/v2", StoreApi.class, providers);
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
-        
-        ClientConfiguration config = WebClient.getConfig(client); 
+
+        ClientConfiguration config = WebClient.getConfig(client);
     }
 
     
@@ -73,8 +73,8 @@ public class StoreApiTest {
         //api.deleteOrder(orderId);
         
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -90,8 +90,8 @@ public class StoreApiTest {
         //Map<String, Integer> response = api.getInventory();
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -108,8 +108,8 @@ public class StoreApiTest {
         //Order response = api.getOrderById(orderId);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
     /**
@@ -124,8 +124,8 @@ public class StoreApiTest {
         //Order response = api.placeOrder(body);
         //assertNotNull(response);
         // TODO: test validations
-        
-        
+
+
     }
     
 }

@@ -1,6 +1,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.model.StringEnumRef;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -30,11 +31,13 @@ class HeaderApiTest {
      * Test header parameter(s)
      */
     @Test
-    void testHeaderIntegerBooleanStringTest() {
+    void testHeaderIntegerBooleanStringEnumsTest() {
         Integer integerHeader = null;
         Boolean booleanHeader = null;
         String stringHeader = null;
-        // String response = api.testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader);
+        String enumNonrefStringHeader = null;
+        StringEnumRef enumRefStringHeader = null;
+        // String response = api.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
 
         // TODO: test validations
     }

@@ -28,8 +28,8 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 }
 
 open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
-    required public init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, openAPIClient: OpenAPIClient = OpenAPIClient.shared) {
-        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, openAPIClient: openAPIClient)
+    required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+        super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -40,7 +40,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = buildHeaders()
         return Alamofire.Session(configuration: configuration,
-                                 interceptor: openAPIClient.interceptor)
+                                 interceptor: apiConfiguration.interceptor)
     }
 
     /**
@@ -86,7 +86,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
     }
 
     @discardableResult
-    override open func execute(completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+    override open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let managerId = UUID().uuidString
         // Create a new manager for each request to customize its request header
         let manager = createAlamofireSession()
@@ -163,21 +163,21 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
         return requestTask
     }
 
-    fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    fileprivate func processRequest(request: DataRequest, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
 
-        let cleanupRequest = {
+        let cleanupRequest = { @Sendable in
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: apiConfiguration.successfulStatusCodeRange)
 
         switch T.self {
         case is Void.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -257,21 +257,21 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
 
 open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
-    override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+    override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {
             request.authenticate(with: credential)
         }
 
-        let cleanupRequest = {
+        let cleanupRequest = { @Sendable in
             AlamofireRequestBuilderConfiguration.shared.managerStore[managerId] = nil
         }
 
-        let validatedRequest = request.validate(statusCode: openAPIClient.successfulStatusCodeRange)
+        let validatedRequest = request.validate(statusCode: apiConfiguration.successfulStatusCodeRange)
 
         switch T.self {
         case is String.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.stringResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.stringResponseSerializer,
                           completionHandler: { stringResponse in
                 cleanupRequest()
 
@@ -284,8 +284,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is URL.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -332,8 +332,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                 return
             })
         case is Void.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { voidResponse in
                 cleanupRequest()
 
@@ -346,8 +346,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         case is Data.Type:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -360,8 +360,8 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
 
             })
         default:
-            validatedRequest.response(queue: openAPIClient.apiResponseQueue,
-                          responseSerializer: openAPIClient.dataResponseSerializer,
+            validatedRequest.response(queue: apiConfiguration.apiResponseQueue,
+                          responseSerializer: apiConfiguration.dataResponseSerializer,
                           completionHandler: { dataResponse in
                 cleanupRequest()
 
@@ -384,7 +384,7 @@ open class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuild
                     return
                 }
 
-                let decodeResult = self.openAPIClient.codableHelper.decode(T.self, from: unwrappedData)
+                let decodeResult = self.apiConfiguration.codableHelper.decode(T.self, from: unwrappedData)
 
                 switch decodeResult {
                 case let .success(decodableObj):
@@ -415,6 +415,6 @@ extension JSONDataEncoding: ParameterEncoding {
     public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
         let urlRequest = try urlRequest.asURLRequest()
 
-        return encode(urlRequest, with: parameters)
+        return encode(request: urlRequest, with: parameters)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Client: Codable, JSONEncodable {
+internal struct Client: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var client: String?
 

@@ -37,7 +37,7 @@ public class OptionUtils {
             if (ix > 0 && ix <= tuple.length() - 1) {
                 final Pair<String, String> pair = Pair.of(tuple.substring(0, ix), tuple.substring(ix + 1));
                 results.add(pair);
-            } else if (ix < 0){
+            } else if (ix < 0) {
                 final Pair<String, String> pair = Pair.of(tuple, "");
                 results.add(pair);
             }
@@ -50,11 +50,11 @@ public class OptionUtils {
 
         List<String> results = new ArrayList<String>();
 
-        if(input != null && !input.isEmpty()) {
+        if (input != null && !input.isEmpty()) {
             String[] tokens = input.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
             for (String value : tokens) {
-                if(isNotEmpty(value))
-                results.add(value);
+                if (isNotEmpty(value))
+                    results.add(value);
             }
         }
 

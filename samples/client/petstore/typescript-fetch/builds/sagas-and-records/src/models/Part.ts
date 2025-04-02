@@ -57,11 +57,11 @@ export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part
     };
 }
 
-  export function PartToJSON(json: any): Part {
-      return PartToJSONTyped(json, false);
-  }
+export function PartToJSON(json: any): Part {
+    return PartToJSONTyped(json, false);
+}
 
-  export function PartToJSONTyped(value?: Part | null, ignoreDiscriminator: boolean = false): any {
+export function PartToJSONTyped(value?: Part | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

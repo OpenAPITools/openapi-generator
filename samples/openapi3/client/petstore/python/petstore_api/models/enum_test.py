@@ -37,12 +37,14 @@ class EnumTest(BaseModel):
     enum_number: Optional[StrictFloat] = None
     enum_number_vendor_ext: Optional[StrictInt] = None
     enum_string_vendor_ext: Optional[StrictStr] = None
+    enum_string_single_member: Optional[StrictStr] = None
+    enum_integer_single_member: Optional[StrictInt] = None
     outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=OuterEnumDefaultValue.PLACED, alias="outerEnumDefaultValue")
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=OuterEnumIntegerDefaultValue.NUMBER_0, alias="outerEnumIntegerDefaultValue")
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_number_vendor_ext", "enum_string_vendor_ext", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
+    __properties: ClassVar[List[str]] = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_number_vendor_ext", "enum_string_vendor_ext", "enum_string_single_member", "enum_integer_single_member", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
 
     @field_validator('enum_string')
     def enum_string_validate_enum(cls, value):
@@ -109,6 +111,26 @@ class EnumTest(BaseModel):
 
         if value not in set(['FOO', 'Bar', 'baz']):
             raise ValueError("must be one of enum values ('FOO', 'Bar', 'baz')")
+        return value
+
+    @field_validator('enum_string_single_member')
+    def enum_string_single_member_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set(['abc']):
+            raise ValueError("must be one of enum values ('abc')")
+        return value
+
+    @field_validator('enum_integer_single_member')
+    def enum_integer_single_member_validate_enum(cls, value):
+        """Validates the enum"""
+        if value is None:
+            return value
+
+        if value not in set([100]):
+            raise ValueError("must be one of enum values (100)")
         return value
 
     model_config = ConfigDict(
@@ -181,6 +203,8 @@ class EnumTest(BaseModel):
             "enum_number": obj.get("enum_number"),
             "enum_number_vendor_ext": obj.get("enum_number_vendor_ext"),
             "enum_string_vendor_ext": obj.get("enum_string_vendor_ext"),
+            "enum_string_single_member": obj.get("enum_string_single_member"),
+            "enum_integer_single_member": obj.get("enum_integer_single_member"),
             "outerEnum": obj.get("outerEnum"),
             "outerEnumInteger": obj.get("outerEnumInteger"),
             "outerEnumDefaultValue": obj.get("outerEnumDefaultValue") if obj.get("outerEnumDefaultValue") is not None else OuterEnumDefaultValue.PLACED,

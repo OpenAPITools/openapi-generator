@@ -41,7 +41,7 @@ import org.openapitools.client.ApiClient;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.10.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable
@@ -335,32 +335,32 @@ public class Order {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `petId` to the URL query string
     if (getPetId() != null) {
-      joiner.add(String.format("%spetId%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPetId()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%spetId%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPetId()))));
     }
 
     // add `quantity` to the URL query string
     if (getQuantity() != null) {
-      joiner.add(String.format("%squantity%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getQuantity()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%squantity%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuantity()))));
     }
 
     // add `shipDate` to the URL query string
     if (getShipDate() != null) {
-      joiner.add(String.format("%sshipDate%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getShipDate()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sshipDate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShipDate()))));
     }
 
     // add `status` to the URL query string
     if (getStatus() != null) {
-      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStatus()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStatus()))));
     }
 
     // add `complete` to the URL query string
     if (getComplete() != null) {
-      joiner.add(String.format("%scomplete%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getComplete()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%scomplete%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getComplete()))));
     }
 
     return joiner.toString();
