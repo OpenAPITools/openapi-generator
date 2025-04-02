@@ -76,10 +76,10 @@ public class ApiClient {
     {{#jackson}}
     objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
-    			{{#feign-okhttp}}
+                {{#feign-okhttp}}
                 .client(new OkHttpClient())
                 {{/feign-okhttp}}
-				{{#feign-hc5}}
+                {{#feign-hc5}}
                 .client(new ApacheHttp5Client())
                 {{/feign-hc5}}
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
