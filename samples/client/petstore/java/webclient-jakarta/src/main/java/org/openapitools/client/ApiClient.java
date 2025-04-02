@@ -113,7 +113,7 @@ public class ApiClient extends JavaTimeFormatter {
         this.dateFormat = createDefaultDateFormat();
         this.objectMapper = createDefaultObjectMapper(this.dateFormat);
         this.webClient = buildWebClient(this.objectMapper);
-        this.init();
+        this.authentications = buildAuthentications();
     }
 
     public ApiClient(WebClient webClient) {
@@ -132,7 +132,7 @@ public class ApiClient extends JavaTimeFormatter {
         this.webClient = webClient;
         this.dateFormat = format;
         this.objectMapper = createDefaultObjectMapper(format);
-        this.init();
+        this.authentications = buildAuthentications();
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -154,16 +154,16 @@ public class ApiClient extends JavaTimeFormatter {
         return mapper;
     }
 
-    protected void init() {
+    protected static Map<String, Authentication> buildAuthentications() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<String, Authentication>();
+        Map<String, Authentication> authentications = new HashMap<>();
         authentications.put("petstore_auth", new OAuth());
         authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
         authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
         authentications.put("http_basic_test", new HttpBasicAuth());
         authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
+        return Collections.unmodifiableMap(authentications);
     }
 
     /**
