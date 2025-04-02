@@ -397,7 +397,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
-            if (ModelUtils.isArraySchema(mapValueSchema) || ModelUtils.isMapSchema(mapValueSchema)) {
+            if (ModelUtils.isArraySchema(mapValueSchema) || (!ModelUtils.isMapSchema(mapValueSchema) && !ModelUtils.isModel(mapValueSchema))) {
                 Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
                 schema.setAdditionalProperties(innerSchema);
 
@@ -405,7 +405,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isArraySchema(schema) && ModelUtils.getSchemaItems(schema) != null) {
             Schema arrayItemSchema = ModelUtils.getSchemaItems(schema);
             arrayItemSchema = ModelUtils.getReferencedSchema(openAPI, arrayItemSchema);
-            if (ModelUtils.isMapSchema(arrayItemSchema) || ModelUtils.isArraySchema(arrayItemSchema)) {
+            if ((ModelUtils.isMapSchema(arrayItemSchema) && !ModelUtils.isModel(arrayItemSchema)) || ModelUtils.isArraySchema(arrayItemSchema)) {
                 Schema innerSchema = generateNestedSchema(arrayItemSchema, visitedSchemas);
                 schema.setItems(innerSchema);
             }
@@ -418,7 +418,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
                     newOneOfs.add(innerSchema);
-                } else if (ModelUtils.isMapSchema(oneOfSchema)) {
+                } else if (ModelUtils.isMapSchema(oneOfSchema) && !ModelUtils.isModel(oneOfSchema)) {
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
                     newOneOfs.add(innerSchema);
