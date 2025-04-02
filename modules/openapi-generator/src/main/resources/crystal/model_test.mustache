@@ -9,7 +9,7 @@ require "time"
 # Please update as you see appropriate
 {{#models}}
 {{#model}}
-describe {{moduleName}}::{{classname}} do
+Spectator.describe {{moduleName}}::{{classname}} do
 {{^oneOf}}
 
   describe "test an instance of {{classname}}" do
