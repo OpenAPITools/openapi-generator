@@ -66,7 +66,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |microprofileFramework|Framework for microprofile. Possible values &quot;kumuluzee&quot;| |null|
+|microprofileGlobalExceptionMapper|Should ApiExceptionMapper be annotated with @Provider making it a global exception mapper| |true|
 |microprofileMutiny|Whether to use async types for microprofile (currently only Smallrye Mutiny is supported).| |null|
+|microprofileRegisterExceptionMapper|Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).| |true|
 |microprofileRestClientVersion|Version of MicroProfile Rest Client API.| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
 |openApiNullable|Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.| |true|
