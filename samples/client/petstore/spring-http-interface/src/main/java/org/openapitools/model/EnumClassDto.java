@@ -27,7 +27,7 @@ public enum EnumClassDto {
   
   _XYZ_("(xyz)");
 
-  private String value;
+  private final String value;
 
   EnumClassDto(String value) {
     this.value = value;
