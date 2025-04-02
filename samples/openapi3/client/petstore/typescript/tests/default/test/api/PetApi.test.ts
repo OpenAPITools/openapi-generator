@@ -1,5 +1,5 @@
 import * as petstore from 'ts-petstore-client'
-import { Middleware, RequestContext, ResponseContext } from 'ts-petstore-client'
+import { Middleware, RequestContext, ResponseContext, wrapHttpLibrary } from 'ts-petstore-client'
 
 import { expect } from "chai";
 import * as fs from 'fs';
@@ -103,6 +103,24 @@ describe("PetApi", () => {
     expect(CallOrder).deep.equal(['base-pre', 'base-post'])
   })
 
+  it("should keep middleware when options are given without middleware", async () => {
+    let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+    const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] });
+    const petApi = new petstore.PetApi(configuration);
+    const callTimeAppendedRightPet = await petApi.getPetById(pet.id, {});
+    expect(callTimeAppendedRightPet).to.deep.equal(pet);
+    expect(CallOrder).deep.equal(['base-pre', 'base-post'])
+  })
+
+  it("should replace middleware when options contain an empty array of middlewares", async () => {
+    let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
+    const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] });
+    const petApi = new petstore.PetApi(configuration);
+    const callTimeAppendedRightPet = await petApi.getPetById(pet.id, { middleware: [] });
+    expect(callTimeAppendedRightPet).to.deep.equal(pet);
+    expect(CallOrder).deep.equal([])
+  })
+
   it("replace Middleware call order", async () => {
     let { CallOrder, BaseMiddleware, CalltimeMiddleware } = MiddlewareCallTracker()
     const configuration = petstore.createConfiguration({ promiseMiddleware: [BaseMiddleware] })
@@ -138,6 +156,31 @@ describe("PetApi", () => {
     const petApi = new petstore.PetApi(configuration)
     const callTimeAppendedRightPet = await petApi.getPetById(wrongId, { middleware: [overridePetIDMiddleware(wrongId)], middlewareMergeStrategy: 'prepend' })
     expect(callTimeAppendedRightPet).to.deep.equal(pet);
+  })
+
+  it("should override http api from option", async () => {
+    const configuration = petstore.createConfiguration();
+    const petApi = new petstore.PetApi(configuration);
+
+    let overriddenCalls = 0;
+    const mockHttpLibrary = {
+      async send(): Promise<ResponseContext> {
+        overriddenCalls++;
+        return new ResponseContext(200, {
+          "content-type": "application/json",
+        }, {
+          async text() {
+            return "{}";
+          },
+          async binary() {
+            throw new Error("Unexpected usage of mock body as binary.");
+          }
+        });
+      }
+    };
+
+    await petApi.getPetById(pet.id, { httpApi: wrapHttpLibrary(mockHttpLibrary) });
+    expect(overriddenCalls).to.equal(1);
   })
 
   it("deletePet", async () => {

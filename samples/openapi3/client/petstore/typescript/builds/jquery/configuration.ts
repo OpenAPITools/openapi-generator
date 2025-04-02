@@ -5,16 +5,16 @@ import { BaseServerConfiguration, server1 } from "./servers";
 import { configureAuthMethods, AuthMethods, AuthMethodsConfiguration } from "./auth/auth";
 
 export interface Configuration<M = Middleware> {
-  readonly baseServer: BaseServerConfiguration;
-  readonly httpApi: HttpLibrary;
-  readonly middleware: M[];
-  readonly authMethods: AuthMethods;
+    readonly baseServer: BaseServerConfiguration;
+    readonly httpApi: HttpLibrary;
+    readonly middleware: M[];
+    readonly authMethods: AuthMethods;
 }
 
 // Additional option specific to middleware merge strategy
 export interface MiddlewareMergeOptions {
-  // default is `'replace'` for backwards compatibility
-  middlewareMergeStrategy?: 'replace' | 'append' | 'prepend';
+    // default is `"replace"` for backwards compatibility
+    middlewareMergeStrategy?: "replace" | "append" | "prepend";
 }
 
 // Unify configuration options using Partial plus extra merge strategy
@@ -97,35 +97,31 @@ export function createConfiguration(conf: ConfigurationParameters = {}): Configu
  * Merge configuration options into a configuration.
  */
 export function mergeConfiguration(conf: Configuration, options?: ConfigurationOptions): Configuration {
-    let allMiddleware: Middleware[] = [];
-    if (options && options.middleware) {
-        const middlewareMergeStrategy = options.middlewareMergeStrategy || "replace" // default to replace behavior
-        // call-time middleware provided
-        const calltimeMiddleware: Middleware[] = options.middleware;
+    if (!options) {
+        return conf;
+    }
+    return {
+        baseServer: options.baseServer || conf.baseServer,
+        httpApi: options.httpApi || conf.httpApi,
+        authMethods: options.authMethods || conf.authMethods,
+        middleware: mergeMiddleware(conf.middleware, options?.middleware, options?.middlewareMergeStrategy),
+    };
+}
 
-        switch(middlewareMergeStrategy) {
+function mergeMiddleware(staticMiddleware: Middleware[], calltimeMiddleware?: Middleware[], strategy: "append" | "prepend" | "replace" = "replace") {
+    if (!calltimeMiddleware) {
+        return staticMiddleware;
+    }
+    switch(strategy) {
         case "append":
-            allMiddleware = conf.middleware.concat(calltimeMiddleware);
-            break;
+            return staticMiddleware.concat(calltimeMiddleware);
         case "prepend":
-            allMiddleware = calltimeMiddleware.concat(conf.middleware)
-            break;
+            return calltimeMiddleware.concat(staticMiddleware)
         case "replace":
-            allMiddleware = calltimeMiddleware
-            break;
+            return calltimeMiddleware
         default:
-            throw new Error(`unrecognized middleware merge strategy '${middlewareMergeStrategy}'`);
-        }
+            throw new Error(`Unrecognized middleware merge strategy '${strategy}'`)
     }
-    if (options) {
-        conf = {
-          baseServer: options.baseServer || conf.baseServer,
-          httpApi: options.httpApi || conf.httpApi,
-          authMethods: options.authMethods || conf.authMethods,
-          middleware: allMiddleware || conf.middleware
-        };
-    }
-    return conf;
 }
 
 /**
