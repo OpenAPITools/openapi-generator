@@ -81,8 +81,11 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/fake/enum-request-inline`;
+
         const response = await this.request({
-            path: `/fake/enum-request-inline`,
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -121,8 +124,11 @@ export class DefaultApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+
+        let urlPath = `/fake/enum-request-ref`;
+
         const response = await this.request({
-            path: `/fake/enum-request-ref`,
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -147,8 +153,11 @@ export class DefaultApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+
+        let urlPath = `/fake/enum-request-inline`;
+
         const response = await this.request({
-            path: `/fake/enum-request-inline`,
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -174,8 +183,11 @@ export class DefaultApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+
+        let urlPath = `/fake/enum-request-ref`;
+
         const response = await this.request({
-            path: `/fake/enum-request-ref`,
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
