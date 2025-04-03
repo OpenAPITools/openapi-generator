@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-describe Petstore::ApiClient do
+Spectator.describe Petstore::ApiClient do
   describe "#update_params_for_auth!" do
     describe "oauth2" do
       it "should add 'Authorization' to header" do
@@ -13,8 +13,8 @@ describe Petstore::ApiClient do
         api_client = Petstore::ApiClient.new(config)
         api_client.update_params_for_auth!(header_params, query_params, ["petstore_auth"])
 
-        header_params["Authorization"].should eq "Bearer xxx"
-        query_params.size.should eq 0
+        expect(header_params["Authorization"]).to eq "Bearer xxx"
+        expect(query_params.size).to eq 0
       end
     end
 
@@ -30,8 +30,8 @@ describe Petstore::ApiClient do
           api_client = Petstore::ApiClient.new(config)
           api_client.update_params_for_auth!(header_params, query_params, ["api_key"])
 
-          header_params["api_key"].should eq "xxx"
-          query_params.empty?.should be_true
+          expect(header_params["api_key"]).to eq "xxx"
+          expect(query_params.empty?).to be_true
         end
       end
 
@@ -47,8 +47,8 @@ describe Petstore::ApiClient do
           api_client = Petstore::ApiClient.new(config)
           api_client.update_params_for_auth!(header_params, query_params, ["api_key"])
 
-          header_params["api_key"].should eq "Token xxx"
-          query_params.empty?.should be_true
+          expect(header_params["api_key"]).to eq "Token xxx"
+          expect(query_params.empty?).to be_true
         end
       end
     end
