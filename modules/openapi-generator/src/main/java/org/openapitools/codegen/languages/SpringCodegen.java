@@ -685,7 +685,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
-        if (!interfaceOnly && SPRING_BOOT.equals(library) && containsEnums()) {
+        if (SPRING_BOOT.equals(library) && containsEnums()) {
             supportingFiles.add(new SupportingFile("converter.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "EnumConverterConfiguration.java"));
         }
