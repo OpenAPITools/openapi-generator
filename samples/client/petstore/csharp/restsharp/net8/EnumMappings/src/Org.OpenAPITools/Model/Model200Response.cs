@@ -48,13 +48,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public int Name { get; set; }
+        public int? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string Class { get; set; }
+        public string? Class { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -115,7 +115,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                if (this.Name != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                }
                 if (this.Class != null)
                 {
                     hashCode = (hashCode * 59) + this.Class.GetHashCode();
