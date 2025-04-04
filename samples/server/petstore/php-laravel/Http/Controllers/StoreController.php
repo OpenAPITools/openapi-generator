@@ -73,6 +73,7 @@ class StoreController extends Controller
             $apiResult = $this->api->deleteOrder($orderId);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -115,6 +116,7 @@ class StoreController extends Controller
             $apiResult = $this->api->getInventory();
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -161,6 +163,7 @@ class StoreController extends Controller
             $apiResult = $this->api->getOrderById($orderId);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -209,6 +212,7 @@ class StoreController extends Controller
             $apiResult = $this->api->placeOrder($order);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
