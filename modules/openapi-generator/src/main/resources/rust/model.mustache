@@ -148,6 +148,8 @@ pub struct {{{classname}}} {
     ### Option End (and trailing comma)
     }}{{#isNullable}}>{{/isNullable}}{{^required}}>{{/required}},
 {{/vars}}
+    #[serde(flatten)]
+    pub additional_properties: std::collections::HashMap<String, serde_json::Value>,
 }
 
 impl {{{classname}}} {
@@ -169,6 +171,7 @@ impl {{{classname}}} {
             {{#vars}}
             {{{name}}}{{^required}}: None{{/required}}{{#required}}{{#isModel}}{{^avoidBoxedModels}}: {{^isNullable}}Box::new({{{name}}}){{/isNullable}}{{#isNullable}}if let Some(x) = {{{name}}} {Some(Box::new(x))} else {None}{{/isNullable}}{{/avoidBoxedModels}}{{/isModel}}{{/required}},
             {{/vars}}
+            additional_properties: std::collections::HashMap::new(),
         }
     }
 }
