@@ -13,6 +13,11 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**fakeWith400And4xxRangeResponseEndpoint()**](FakeApi.md#fakeWith400And4xxRangeResponseEndpoint) | **POST** /fake/with_400_and_4xx_range_response/endpoint | test endpoint with 400 and 400-499 range response http code with dataType |
+| [**fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint()**](FakeApi.md#fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint) | **POST** /fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400 and 400-499 range response http code without dataType |
+| [**fakeWith400ResponseEndpoint()**](FakeApi.md#fakeWith400ResponseEndpoint) | **POST** /fake/with_400_response/endpoint | test endpoint with 400 response http code with dataType |
+| [**fakeWith4xxRangeResponseEndpoint()**](FakeApi.md#fakeWith4xxRangeResponseEndpoint) | **POST** /fake/with_4xx_range_response/endpoint | test endpoint with 400-499 range response http code with dataType |
+| [**fakeWith4xxRangeResponseNo4xxDatatypeEndpoint()**](FakeApi.md#fakeWith4xxRangeResponseNo4xxDatatypeEndpoint) | **POST** /fake/with_4xx_range_response_no_4xx_datatype/endpoint | test endpoint with 400-499 range response http code without dataType |
 | [**getParameterNameMapping()**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
 | [**testAdditionalPropertiesReference()**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
 | [**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
@@ -525,6 +530,276 @@ No authorization required
 
 - **Content-Type**: `application/json`
 - **Accept**: `*/*`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeWith400And4xxRangeResponseEndpoint()`
+
+```php
+fakeWith400And4xxRangeResponseEndpoint($pet): \OpenAPI\Client\Model\Pet
+```
+
+test endpoint with 400 and 400-499 range response http code with dataType
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+
+try {
+    $result = $apiInstance->fakeWith400And4xxRangeResponseEndpoint($pet);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeWith400And4xxRangeResponseEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`, `application/xml`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint()`
+
+```php
+fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint($pet): \OpenAPI\Client\Model\Pet
+```
+
+test endpoint with 400 and 400-499 range response http code without dataType
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+
+try {
+    $result = $apiInstance->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint($pet);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`, `application/xml`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeWith400ResponseEndpoint()`
+
+```php
+fakeWith400ResponseEndpoint($pet): \OpenAPI\Client\Model\Pet
+```
+
+test endpoint with 400 response http code with dataType
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+
+try {
+    $result = $apiInstance->fakeWith400ResponseEndpoint($pet);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeWith400ResponseEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`, `application/xml`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeWith4xxRangeResponseEndpoint()`
+
+```php
+fakeWith4xxRangeResponseEndpoint($pet): \OpenAPI\Client\Model\Pet
+```
+
+test endpoint with 400-499 range response http code with dataType
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+
+try {
+    $result = $apiInstance->fakeWith4xxRangeResponseEndpoint($pet);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeWith4xxRangeResponseEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`, `application/xml`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fakeWith4xxRangeResponseNo4xxDatatypeEndpoint()`
+
+```php
+fakeWith4xxRangeResponseNo4xxDatatypeEndpoint($pet): \OpenAPI\Client\Model\Pet
+```
+
+test endpoint with 400-499 range response http code without dataType
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+
+try {
+    $result = $apiInstance->fakeWith4xxRangeResponseNo4xxDatatypeEndpoint($pet);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeWith4xxRangeResponseNo4xxDatatypeEndpoint: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store | |
+
+### Return type
+
+[**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`, `application/xml`
+- **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
 [[Back to Model list]](../../README.md#models)

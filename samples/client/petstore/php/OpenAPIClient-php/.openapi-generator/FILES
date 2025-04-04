@@ -28,6 +28,7 @@ docs/Model/EnumArrays.md
 docs/Model/EnumClass.md
 docs/Model/EnumTest.md
 docs/Model/EnumWithNameAndDescription.md
+docs/Model/ErrorResponse.md
 docs/Model/FakeBigDecimalMap200Response.md
 docs/Model/File.md
 docs/Model/FileSchemaTestClass.md
@@ -89,6 +90,7 @@ lib/Model/EnumArrays.php
 lib/Model/EnumClass.php
 lib/Model/EnumTest.php
 lib/Model/EnumWithNameAndDescription.php
+lib/Model/ErrorResponse.php
 lib/Model/FakeBigDecimalMap200Response.php
 lib/Model/File.php
 lib/Model/FileSchemaTestClass.php
