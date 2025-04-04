@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(body: Client) -> Observable<Client>
+    open func call123testSpecialTags(body: Client) -> Observable<Client>
 ```
 
 To test special tags

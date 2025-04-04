@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **testClassname**
 ```swift
-    open class func testClassname( body: Client) -> Promise<Client>
+    open func testClassname( body: Client) -> Promise<Client>
 ```
 
 To test class name in snake case
@@ -24,7 +24,7 @@ import PetstoreClient
 let body = Client(client: "client_example") // Client | client model
 
 // To test class name in snake case
-FakeClassnameTags123API.testClassname(body: body).then {
+FakeClassnameTags123API().testClassname(body: body).then {
          // when the promise is fulfilled
      }.always {
          // regardless of whether the promise is fulfilled, or rejected
