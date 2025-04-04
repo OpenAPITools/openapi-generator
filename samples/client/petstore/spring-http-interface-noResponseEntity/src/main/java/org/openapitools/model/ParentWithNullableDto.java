@@ -43,7 +43,7 @@ public class ParentWithNullableDto {
   public enum TypeEnum {
     CHILD_WITH_NULLABLE("ChildWithNullable");
 
-    private String value;
+    private final String value;
 
     TypeEnum(String value) {
       this.value = value;

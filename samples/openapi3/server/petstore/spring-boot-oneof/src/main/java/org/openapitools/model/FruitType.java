@@ -27,7 +27,7 @@ public enum FruitType {
   
   BANANA("BANANA");
 
-  private String value;
+  private final String value;
 
   FruitType(String value) {
     this.value = value;

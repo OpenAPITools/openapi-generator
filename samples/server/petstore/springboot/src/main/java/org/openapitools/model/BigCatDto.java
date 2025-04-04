@@ -43,7 +43,7 @@ public class BigCatDto extends CatDto {
     
     JAGUARS("jaguars");
 
-    private String value;
+    private final String value;
 
     KindEnum(String value) {
       this.value = value;

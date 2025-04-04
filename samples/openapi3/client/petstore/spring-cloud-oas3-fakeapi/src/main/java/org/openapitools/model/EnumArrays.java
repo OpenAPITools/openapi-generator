@@ -34,7 +34,7 @@ public class EnumArrays {
     
     DOLLAR("$");
 
-    private String value;
+    private final String value;
 
     JustSymbolEnum(String value) {
       this.value = value;
@@ -71,7 +71,7 @@ public class EnumArrays {
     
     CRAB("crab");
 
-    private String value;
+    private final String value;
 
     ArrayEnumEnum(String value) {
       this.value = value;
