@@ -63,13 +63,13 @@ secrecy = "0.8.0"
 {{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
-reqwest = { version = "^0.12", features = ["json", "blocking", "multipart"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "blocking", "multipart"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
-reqwest = { version = "^0.12", features = ["json", "multipart"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
@@ -82,7 +82,7 @@ google-cloud-token = "^0.1"
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
-reqwest = { version = "^0.12", features = ["json", "multipart"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
@@ -97,6 +97,9 @@ mockall = { version = "^0.13", optional = true}
 bon = { version = "2.3", optional = true }
 {{/useBonBuilder}}
 [features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls-tls"]
 {{#mockall}}
 mockall = ["dep:mockall"]
 {{/mockall}}
