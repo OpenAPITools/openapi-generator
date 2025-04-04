@@ -74,6 +74,7 @@ jobs:
           - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
+          - samples/client/petstore/java/feign-hc5
           - samples/client/petstore/java/feign-no-nullable
           - samples/client/petstore/java/okhttp-gson-awsv4signature
           - samples/openapi3/client/petstore/java/jersey2-java8-special-characters
