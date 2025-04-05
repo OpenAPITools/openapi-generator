@@ -14,7 +14,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -209,5 +211,33 @@ public class TypeScriptClientCodegenTest {
                         "    STRING2 = '^&*\uD83C\uDF63'",
                 "}"
         );
+    }
+
+    @Test(description = "Verify useErasableSyntax config parameter generates erasable code")
+    public void testUseErasableSyntaxConfig() throws IOException {
+        boolean[] options = {true, false};
+        for (boolean useErasableSyntax : options) {
+            final File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+            output.deleteOnExit();
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript")
+                .setInputSpec("src/test/resources/3_0/composed-schemas.yaml")
+                .addAdditionalProperty("useErasableSyntax", useErasableSyntax)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            final DefaultGenerator generator = new DefaultGenerator();
+            final List<File> files = generator.opts(clientOptInput).generate();
+            files.forEach(File::deleteOnExit);
+
+            Path serverConfigurationPath = Paths.get(output + "/apis/baseapi.ts");
+            TestUtils.assertFileExists(serverConfigurationPath);
+            if (useErasableSyntax) {
+                TestUtils.assertFileContains(serverConfigurationPath, "this.configuration = config;"); // Check for erasable syntax
+            } else {
+                TestUtils.assertFileNotContains(serverConfigurationPath, "this.configuration = config;"); // Check for non-erasable syntax
+            }
+        }
     }
 }
