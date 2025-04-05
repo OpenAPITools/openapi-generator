@@ -385,9 +385,9 @@ namespace Org.OpenAPITools.Client
 
             using (request)
             {
-                if (configuration.Timeout > 0)
+                if (configuration.Timeout > TimeSpan.Zero)
                 {
-                    request.timeout = (int)Math.Ceiling(configuration.Timeout / 1000.0f);
+                    request.timeout = (int)Math.Ceiling(configuration.Timeout.TotalSeconds);
                 }
 
                 if (configuration.Proxy != null)
@@ -408,21 +408,34 @@ namespace Org.OpenAPITools.Client
 
                 InterceptRequest(request, path, options, configuration);
 
+        #if UNITY_2020_2_OR_NEWER
+                // For Unity 2020.2 and newer, use UnityWebRequest.Result.
                 var asyncOp = request.SendWebRequest();
-
-                TaskCompletionSource<UnityWebRequest.Result> tsc = new TaskCompletionSource<UnityWebRequest.Result>();
-                asyncOp.completed += (_) => tsc.TrySetResult(request.result);
-
+                TaskCompletionSource<UnityWebRequest.Result> tcs = new TaskCompletionSource<UnityWebRequest.Result>();
+                asyncOp.completed += (_) => tcs.TrySetResult(request.result);
                 using (var tokenRegistration = cancellationToken.Register(request.Abort, true))
                 {
-                    await tsc.Task;
+                    await tcs.Task;
                 }
-                
+
                 if (request.result == UnityWebRequest.Result.ConnectionError ||
                     request.result == UnityWebRequest.Result.DataProcessingError)
                 {
                     throw new ConnectionException(request);
                 }
+        #else
+                // For Unity 2019 and earlier, await the operation directly.
+                var asyncOp = request.SendWebRequest();
+                using (var tokenRegistration = cancellationToken.Register(request.Abort, true))
+                {
+                    await asyncOp;
+                }
+
+                if (request.isNetworkError || request.isHttpError)
+                {
+                    throw new ConnectionException(request);
+                }
+        #endif
 
                 object responseData = deserializer.Deserialize<T>(request);
 
