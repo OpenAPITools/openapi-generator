@@ -153,7 +153,7 @@ defmodule OpenapiPetstore.Connection do
 
     tesla_options = Application.get_env(:tesla, __MODULE__, [])
     middleware = Keyword.get(tesla_options, :middleware, [])
-    json_engine = Keyword.get(tesla_options, :json, Jason)
+    json_engine = Keyword.get(tesla_options, :json, JSON)
 
     user_agent =
       Keyword.get(

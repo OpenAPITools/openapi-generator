@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :uuid,
     :id,

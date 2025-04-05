@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.MapTest do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :map_map_of_string,
     :map_of_enum_string,

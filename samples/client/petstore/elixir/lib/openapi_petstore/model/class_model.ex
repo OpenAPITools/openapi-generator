@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ClassModel do
   Model for testing model with \"_class\" property
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :_class
   ]

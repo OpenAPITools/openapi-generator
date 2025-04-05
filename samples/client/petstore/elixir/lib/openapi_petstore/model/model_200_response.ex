@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Model200Response do
   Model for testing model name starting with number
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :name,
     :class

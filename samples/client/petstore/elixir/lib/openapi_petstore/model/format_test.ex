@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.FormatTest do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :integer,
     :int32,

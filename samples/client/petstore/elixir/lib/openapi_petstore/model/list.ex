@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.List do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :"123-list"
   ]

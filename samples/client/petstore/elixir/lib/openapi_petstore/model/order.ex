@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Order do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :id,
     :petId,

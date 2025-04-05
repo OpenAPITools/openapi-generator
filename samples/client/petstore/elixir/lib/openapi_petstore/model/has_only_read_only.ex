@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.HasOnlyReadOnly do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :bar,
     :foo

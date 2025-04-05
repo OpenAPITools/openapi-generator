@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Dog do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :className,
     :color,

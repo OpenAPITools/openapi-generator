@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Return do
   Model for testing reserved words
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :return
   ]

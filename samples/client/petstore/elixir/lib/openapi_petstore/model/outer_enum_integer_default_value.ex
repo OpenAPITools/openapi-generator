@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterEnumIntegerDefaultValue do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     
   ]

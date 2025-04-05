@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ParentWithNullable do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :type,
     :nullableProperty

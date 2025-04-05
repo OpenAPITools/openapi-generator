@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :map_property,
     :map_of_map_property

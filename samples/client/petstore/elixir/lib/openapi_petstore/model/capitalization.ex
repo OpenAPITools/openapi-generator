@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Capitalization do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :smallCamel,
     :CapitalCamel,

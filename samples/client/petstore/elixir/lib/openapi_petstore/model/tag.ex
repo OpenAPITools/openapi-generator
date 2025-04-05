@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Tag do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :id,
     :name

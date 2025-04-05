@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :just_symbol,
     :array_enum

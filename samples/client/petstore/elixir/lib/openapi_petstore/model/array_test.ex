@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :array_of_string,
     :array_array_of_integer,
