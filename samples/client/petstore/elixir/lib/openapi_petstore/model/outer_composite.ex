@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :my_number,
     :my_string,
