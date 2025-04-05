@@ -1,0 +1,57 @@
+---
+openapi: 3.0.3
+info:
+  title: Test
+  version: 1.0.0-SNAPSHOT
+paths:
+  /test:
+    get:
+      parameters:
+        - name: order_by
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/OrderBy'
+      responses:
+        "200":
+          description: OK
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                name:
+                  type: string
+              required:
+                - username
+                - name
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+
+components:
+  schemas:
+    OrderBy:
+      type: string
+      enum:
+        - name
+        - username
+    ValidationErrorResponse:
+      type: object
+      properties:
+        attr:
+          enum:
+          - name
+          - username
+          type: string
+          description: The attribute that caused the validation error
