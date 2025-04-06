@@ -81,6 +81,10 @@ public class OpenAPINormalizer {
 
     // when set to true, boolean enum will be converted to just boolean
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
+    
+    // when set to true, oneOf with multiple enum schemas will be merged into a single enum schema
+    // even if one of them is an object
+    final String SIMPLIFY_ONEOF_ENUM = "SIMPLIFY_ONEOF_ENUM";
 
     // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
@@ -159,6 +163,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF);
         ruleNames.add(SIMPLIFY_BOOLEAN_ENUM);
+        ruleNames.add(SIMPLIFY_ONEOF_ENUM);
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
         ruleNames.add(SET_TAGS_TO_OPERATIONID);
@@ -176,6 +181,7 @@ public class OpenAPINormalizer {
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
+        rules.put(SIMPLIFY_ONEOF_ENUM, true);
 
         processRules(inputRules);
 
@@ -787,6 +793,9 @@ public class OpenAPINormalizer {
     private Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
+        
+        // try to merge enum schemas
+        schema = processSimplifyOneOfEnum(schema, visitedSchemas);
 
         // if it's still a oneOf, loop through the sub-schemas
         if (schema.getOneOf() != null) {
@@ -1303,6 +1312,113 @@ public class OpenAPINormalizer {
                 bs.setEnum(null);
             }
         }
+    }
+    
+    /**
+     * If the schema is oneOf with multiple enum schemas, merge them into a single enum schema
+     * even if one of them is an object.
+     *
+     * @param schema Schema
+     * @param visitedSchemas a set of visited schemas
+     * @return Schema
+     */
+    private Schema processSimplifyOneOfEnum(Schema schema, Set<Schema> visitedSchemas) {
+        if (!getRule(SIMPLIFY_ONEOF_ENUM)) {
+            return schema;
+        }
+
+        List<Schema> oneOfSchemas = schema.getOneOf();
+        if (oneOfSchemas == null || oneOfSchemas.size() <= 1) {
+            return schema;
+        }
+
+        // Check if all schemas are either objects or have enums
+        boolean allEnumSchemas = true;
+        List<Object> allEnumValues = new ArrayList<>();
+        StringSchema mergedSchema = null;
+        
+        for (Schema subSchema : oneOfSchemas) {
+            subSchema = ModelUtils.getReferencedSchema(openAPI, subSchema);
+            
+            if (subSchema instanceof StringSchema && ((StringSchema)subSchema).getEnum() != null) {
+                if (mergedSchema == null) {
+                    // Use the first StringSchema as our template
+                    mergedSchema = new StringSchema();
+                    mergedSchema.setDescription(schema.getDescription());
+                    mergedSchema.setExample(schema.getExample());
+                    mergedSchema.setExamples(schema.getExamples());
+                    mergedSchema.setNullable(schema.getNullable());
+                    mergedSchema.setDefault(schema.getDefault());
+                    mergedSchema.setDeprecated(schema.getDeprecated());
+                }
+                // Add all enum values from this schema
+                allEnumValues.addAll(((StringSchema)subSchema).getEnum());
+            } else if (ModelUtils.isObjectSchema(subSchema)) {
+                // If it's an object, we'll consider it valid for merging
+                // but we need to extract its type name as an enum value
+                
+                // Get schema name or create a placeholder
+                String objectEnumValue = determineObjectEnumName(subSchema);
+                if (objectEnumValue != null) {
+                    if (mergedSchema == null) {
+                        mergedSchema = new StringSchema();
+                        mergedSchema.setDescription(schema.getDescription());
+                        mergedSchema.setExample(schema.getExample());
+                        mergedSchema.setExamples(schema.getExamples());
+                        mergedSchema.setNullable(schema.getNullable());
+                        mergedSchema.setDefault(schema.getDefault());
+                        mergedSchema.setDeprecated(schema.getDeprecated());
+                    }
+                    allEnumValues.add(objectEnumValue);
+                } else {
+                    // If we can't determine a name, we can't merge
+                    allEnumSchemas = false;
+                    break;
+                }
+            } else {
+                // This schema is not an enum or object, can't merge
+                allEnumSchemas = false;
+                break;
+            }
+        }
+
+        if (allEnumSchemas && mergedSchema != null && !allEnumValues.isEmpty()) {
+            // Remove duplicates and convert to strings
+            Set<String> uniqueEnumValues = new LinkedHashSet<>();
+            for (Object value : allEnumValues) {
+                uniqueEnumValues.add(value.toString());
+            }
+            mergedSchema.setEnum(new ArrayList<>(uniqueEnumValues));
+            
+            LOGGER.debug("Merged {} oneOf enum schemas into a single enum schema with values: {}", 
+                         oneOfSchemas.size(), uniqueEnumValues);
+            
+            return mergedSchema;
+        }
+
+        return schema;
+    }
+    
+    /**
+     * Determines a meaningful enum value name for an object schema
+     * 
+     * @param schema The object schema to determine a name for
+     * @return A string representing the object name, or null if can't be determined
+     */
+    private String determineObjectEnumName(Schema schema) {
+        // Try to use title first
+        if (schema.getTitle() != null) {
+            return schema.getTitle();
+        }
+        
+        // Try to use type or $ref name
+        if (schema.get$ref() != null) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            return ref;
+        }
+        
+        // If no clear name, use a generic placeholder for an object
+        return "object";
     }
 
     /**
