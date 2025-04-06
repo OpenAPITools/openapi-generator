@@ -2220,6 +2220,30 @@ public class ModelUtils {
     }
 
     /**
+     * Simplifies the schema by removing the oneOfAnyOf if the oneOfAnyOf only contains a single non-null sub-schema
+     *
+     * @param openAPI OpenAPI
+     * @param schema Schema
+     * @param subSchemas The oneOf or AnyOf schemas
+     * @return The simplified schema
+     */
+    public static Schema simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
+        if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
+            schema.setNullable(true);
+        }
+
+        // if only one element left, simplify to just the element (schema)
+        if (subSchemas.size() == 1) {
+            if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
+                subSchemas.get(0).setNullable(true);
+            }
+            return subSchemas.get(0);
+        }
+
+        return schema;
+    }
+
+    /**
      * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
      * Return true if the schema's type is 'null' or not specified
