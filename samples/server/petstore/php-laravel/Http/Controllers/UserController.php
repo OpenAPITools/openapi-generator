@@ -70,6 +70,7 @@ class UserController extends Controller
             $apiResult = $this->api->createUser($user);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -110,6 +111,7 @@ class UserController extends Controller
             $apiResult = $this->api->createUsersWithArrayInput($user);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -150,6 +152,7 @@ class UserController extends Controller
             $apiResult = $this->api->createUsersWithListInput($user);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -193,6 +196,7 @@ class UserController extends Controller
             $apiResult = $this->api->deleteUser($username);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -240,6 +244,7 @@ class UserController extends Controller
             $apiResult = $this->api->getUserByName($username);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -298,6 +303,7 @@ class UserController extends Controller
             $apiResult = $this->api->loginUser($username, $password);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -340,6 +346,7 @@ class UserController extends Controller
             $apiResult = $this->api->logoutUser();
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
@@ -381,6 +388,7 @@ class UserController extends Controller
             $apiResult = $this->api->updateUser($username, $user);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 
