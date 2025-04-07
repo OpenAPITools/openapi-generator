@@ -70,19 +70,19 @@ constructor({ accessToken, apiKeys, basePath, credentials, encodeParam, encoder,
         if (apiKeys) {
             this.apiKeys = apiKeys;
         }
-        if (username) {
+        if (username !== undefined) {
             this.username = username;
         }
-        if (password) {
+        if (password !== undefined) {
             this.password = password;
         }
-        if (accessToken) {
+        if (accessToken !== undefined) {
             this.accessToken = accessToken;
         }
-        if (basePath) {
+        if (basePath !== undefined) {
             this.basePath = basePath;
         }
-        if (withCredentials) {
+        if (withCredentials !== undefined) {
             this.withCredentials = withCredentials;
         }
         if (encoder) {
