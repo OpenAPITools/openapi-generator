@@ -68,6 +68,7 @@ class DefaultController extends Controller
             $apiResult = $this->api->fooGet();
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 

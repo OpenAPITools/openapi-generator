@@ -333,10 +333,11 @@ export function exists(json: any, key: string) {
 
 {{^withoutRuntimeChecks}}
 export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {}
-  );
+    const result: { [key: string]: any } = {};
+    for (const key of Object.keys(data)) {
+        result[key] = fn(data[key]);
+    }
+    return result;
 }
 {{/withoutRuntimeChecks}}
 

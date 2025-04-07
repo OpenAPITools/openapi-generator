@@ -214,7 +214,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
                     defaultValue = defaultValue.replace("\\", "\\\\")
-                            .replace("'", "\'");
+                            .replace("'", "\\'");
                     if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
                         return "'''" + defaultValue + "'''";
                     } else {

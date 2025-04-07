@@ -70,6 +70,7 @@ class AnotherFakeController extends Controller
             $apiResult = $this->api->call123TestSpecialTags($client);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 

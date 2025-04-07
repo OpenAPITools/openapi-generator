@@ -30,10 +30,10 @@ import misk.web.mediatype.MediaTypes
 import org.openapitools.server.api.model.User
 
 /**
- * Generated file, please change UserApiController.
+ * Generated file, please change UserApiImpl.
  */
 @Singleton
-class UserApiController @Inject constructor(
+class UserApiAction @Inject constructor(
     private val userApi: UserApi
 ) : WebAction, UserApi {
 
