@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 # **fakeOuterBooleanSerialize**
 ```swift
-    open class func fakeOuterBooleanSerialize(body: Bool? = nil) -> Observable<Bool>
+    open func fakeOuterBooleanSerialize(body: Bool? = nil) -> Observable<Bool>
 ```
 
 
@@ -60,7 +60,7 @@ No authorization required
 
 # **fakeOuterCompositeSerialize**
 ```swift
-    open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Observable<OuterComposite>
+    open func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Observable<OuterComposite>
 ```
 
 
@@ -100,7 +100,7 @@ No authorization required
 
 # **fakeOuterNumberSerialize**
 ```swift
-    open class func fakeOuterNumberSerialize(body: Double? = nil) -> Observable<Double>
+    open func fakeOuterNumberSerialize(body: Double? = nil) -> Observable<Double>
 ```
 
 
@@ -140,7 +140,7 @@ No authorization required
 
 # **fakeOuterStringSerialize**
 ```swift
-    open class func fakeOuterStringSerialize(body: String? = nil) -> Observable<String>
+    open func fakeOuterStringSerialize(body: String? = nil) -> Observable<String>
 ```
 
 
@@ -180,7 +180,7 @@ No authorization required
 
 # **testBodyWithFileSchema**
 ```swift
-    open class func testBodyWithFileSchema(body: FileSchemaTestClass) -> Observable<Void>
+    open func testBodyWithFileSchema(body: FileSchemaTestClass) -> Observable<Void>
 ```
 
 
@@ -220,7 +220,7 @@ No authorization required
 
 # **testBodyWithQueryParams**
 ```swift
-    open class func testBodyWithQueryParams(query: String, body: User) -> Observable<Void>
+    open func testBodyWithQueryParams(query: String, body: User) -> Observable<Void>
 ```
 
 
@@ -260,7 +260,7 @@ No authorization required
 
 # **testClientModel**
 ```swift
-    open class func testClientModel(body: Client) -> Observable<Client>
+    open func testClientModel(body: Client) -> Observable<Client>
 ```
 
 To test \"client\" model
@@ -300,7 +300,7 @@ No authorization required
 
 # **testEndpointParameters**
 ```swift
-    open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void>
+    open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Observable<Void>
 ```
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -366,7 +366,7 @@ Void (empty response body)
 
 # **testEnumParameters**
 ```swift
-    open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void>
+    open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void>
 ```
 
 To test enum parameters
@@ -420,7 +420,7 @@ No authorization required
 
 # **testGroupParameters**
 ```swift
-    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Observable<Void>
+    open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Observable<Void>
 ```
 
 Fake endpoint to test group parameters (optional)
@@ -470,7 +470,7 @@ No authorization required
 
 # **testInlineAdditionalProperties**
 ```swift
-    open class func testInlineAdditionalProperties(param: [String: String]) -> Observable<Void>
+    open func testInlineAdditionalProperties(param: [String: String]) -> Observable<Void>
 ```
 
 test inline additionalProperties
@@ -508,7 +508,7 @@ No authorization required
 
 # **testJsonFormData**
 ```swift
-    open class func testJsonFormData(param: String, param2: String) -> Observable<Void>
+    open func testJsonFormData(param: String, param2: String) -> Observable<Void>
 ```
 
 test json serialization of form data
