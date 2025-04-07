@@ -11,6 +11,5 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/openapitools/openapi-generator'
   s.summary = 'PetstoreClient'
   s.source_files = 'Sources/PetstoreClient/**/*.swift'
-  # TODO: Alamofire versions 5.10.0 and above are not currently supported. If you need a newer version, please consider submitting a Pull Request with the required changes.
-  s.dependency 'Alamofire', '5.9.1'
+  s.dependency 'Alamofire', '~> 5.10'
 end

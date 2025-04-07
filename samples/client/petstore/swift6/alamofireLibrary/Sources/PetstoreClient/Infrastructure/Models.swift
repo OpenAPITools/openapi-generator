@@ -10,8 +10,8 @@ import FoundationNetworking
 #endif
 import Alamofire
 
-protocol JSONEncodable {
-    func encodeToJSON(codableHelper: CodableHelper) -> Any
+protocol QueryStringEncodable {
+    func encodeToQueryString(codableHelper: CodableHelper) -> String
 }
 
 /// An enum where the last case value can be used as a default catch-all.
@@ -119,9 +119,9 @@ extension Response : Sendable where T : Sendable {}
 /// Type-erased ResponseSerializer
 ///
 /// This is needed in order to use `ResponseSerializer` as a Type in `Configuration`. Obsolete with `any` keyword in Swift >= 5.7
-public struct AnyResponseSerializer<T>: ResponseSerializer {
+public struct AnyResponseSerializer<T: Sendable>: ResponseSerializer {
     
-    let _serialize: (URLRequest?, HTTPURLResponse?, Data?, Error?) throws -> T
+    let _serialize: @Sendable (URLRequest?, HTTPURLResponse?, Data?, Error?) throws -> T
     
     public init<V: ResponseSerializer>(_ delegatee: V) where V.SerializedObject == T {
         _serialize = delegatee.serialize

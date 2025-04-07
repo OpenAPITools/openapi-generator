@@ -125,7 +125,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser( @RequestParam(value = "username", required = true) username: kotlin.String, @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 

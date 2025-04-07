@@ -31,7 +31,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.URLPathUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,8 +70,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.DEPRECATED)
-            .build();
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code" + File.separator + "javaVertXServer";

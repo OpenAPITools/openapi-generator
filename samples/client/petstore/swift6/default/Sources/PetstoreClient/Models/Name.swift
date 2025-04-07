@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-public struct Name: Sendable, Codable, JSONEncodable, Hashable {
+public struct Name: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var name: Int
     public var snakeCase: Int?

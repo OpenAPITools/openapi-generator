@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct FormatTest: Sendable, Codable, JSONEncodable {
+internal struct FormatTest: Sendable, Codable, QueryStringEncodable {
 
     internal static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
     internal static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)

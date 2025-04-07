@@ -252,7 +252,7 @@ public class Swift5ClientCodegenTest {
             List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertTrue(files.size() > 0, "No files generated");
         } finally {
-           output.deleteOnExit();
+            output.deleteOnExit();
         }
     }
 

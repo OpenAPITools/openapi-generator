@@ -42,7 +42,7 @@ import org.openapitools.client.ApiClient;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @javax.annotation.Nullable
@@ -299,7 +299,7 @@ public class MapTest {
       for (String _key : getMapMapOfString().keySet()) {
         joiner.add(String.format("%smap_map_of_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapMapOfString().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapMapOfString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapMapOfString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapMapOfString().get(_key)))));
       }
     }
 
@@ -308,7 +308,7 @@ public class MapTest {
       for (String _key : getMapOfEnumString().keySet()) {
         joiner.add(String.format("%smap_of_enum_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getMapOfEnumString().get(_key), URLEncoder.encode(ApiClient.valueToString(getMapOfEnumString().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getMapOfEnumString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapOfEnumString().get(_key)))));
       }
     }
 
@@ -317,7 +317,7 @@ public class MapTest {
       for (String _key : getDirectMap().keySet()) {
         joiner.add(String.format("%sdirect_map%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getDirectMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getDirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getDirectMap().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getDirectMap().get(_key)))));
       }
     }
 
@@ -326,7 +326,7 @@ public class MapTest {
       for (String _key : getIndirectMap().keySet()) {
         joiner.add(String.format("%sindirect_map%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, _key, containerSuffix),
-            getIndirectMap().get(_key), URLEncoder.encode(ApiClient.valueToString(getIndirectMap().get(_key)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            getIndirectMap().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getIndirectMap().get(_key)))));
       }
     }
 

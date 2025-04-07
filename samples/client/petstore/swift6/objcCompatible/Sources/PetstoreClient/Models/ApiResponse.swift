@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ApiResponse: NSObject, Codable, JSONEncodable {
+@objcMembers public class ApiResponse: NSObject, Codable, QueryStringEncodable {
 
     public var code: Int?
     public var codeNum: NSNumber? {

@@ -372,9 +372,9 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
     /**
      * Generate additional model definitions for containers in specified schema
      *
-     * @param openAPI OpenAPI object
+     * @param openAPI        OpenAPI object
      * @param visitedSchemas Set of Schemas that have been processed already
-     * @param schema  OAS schema to process
+     * @param schema         OAS schema to process
      */
     protected void generateContainerSchemas(OpenAPI openAPI, Set<Schema> visitedSchemas, Schema schema) {
         if (visitedSchemas.contains(schema)) {

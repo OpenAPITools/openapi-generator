@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-internal struct Name: Sendable, Codable, JSONEncodable {
+internal struct Name: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var name: Int
     internal private(set) var snakeCase: NullEncodable<Int> = .encodeValue(11033)

@@ -43,7 +43,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @javax.annotation.Nullable
@@ -188,7 +188,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
     // add `someProperty` to the URL query string
     if (getSomeProperty() != null) {
-      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSomeProperty()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%ssomeProperty%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSomeProperty()))));
     }
 
     return joiner.toString();

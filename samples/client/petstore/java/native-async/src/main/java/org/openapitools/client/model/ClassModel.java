@@ -35,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   @javax.annotation.Nullable
@@ -142,7 +142,7 @@ public class ClassModel {
 
     // add `_class` to the URL query string
     if (getPropertyClass() != null) {
-      joiner.add(String.format("%s_class%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getPropertyClass()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%s_class%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPropertyClass()))));
     }
 
     return joiner.toString();

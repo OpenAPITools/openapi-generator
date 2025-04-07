@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct ArrayTest: Sendable, Codable, JSONEncodable {
+internal struct ArrayTest: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var arrayOfString: [String]?
     internal private(set) var arrayArrayOfInteger: [[Int64]]?

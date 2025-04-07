@@ -51,6 +51,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   public {{classname}}() {
   }
 
+  {{#generateJsonCreator}}
   {{#hasRequired}}
   @JsonCreator
   public {{classname}}(
@@ -73,6 +74,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   }
 
   {{/hasRequired}}
+  {{/generateJsonCreator}}
   {{#vars}}
   /**
    {{#description}}

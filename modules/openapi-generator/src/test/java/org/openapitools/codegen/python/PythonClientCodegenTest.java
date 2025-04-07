@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.python;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.google.common.collect.Sets;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -28,24 +27,25 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
-
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileExists;
-import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
+import static org.openapitools.codegen.TestUtils.assertFileExists;
 
 public class PythonClientCodegenTest {
 
@@ -139,7 +139,7 @@ public class PythonClientCodegenTest {
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
+        Assert.assertEquals("'Text containing \\'single\\' quote'", defaultValue);
     }
 
     @Test(description = "test backslash default")
@@ -408,7 +408,8 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(cm.parent, null);
         Assert.assertEquals(cm.imports.size(), 0);
     }
-    @Test(description ="check API example has input param(configuration) when it creates api_client")
+
+    @Test(description = "check API example has input param(configuration) when it creates api_client")
     public void apiExampleDocTest() throws Exception {
         final DefaultCodegen codegen = new PythonClientCodegen();
         final String outputPath = generateFiles(codegen, "src/test/resources/3_0/generic.yaml");

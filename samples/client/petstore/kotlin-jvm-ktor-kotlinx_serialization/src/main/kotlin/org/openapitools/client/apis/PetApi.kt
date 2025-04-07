@@ -35,6 +35,7 @@ import io.ktor.http.ParametersBuilder
     ) {
 
         /**
+        * POST /pet
         * Add a new pet to the store
         * 
          * @param pet Pet object that needs to be added to the store 
@@ -67,6 +68,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * DELETE /pet/{petId}
         * Deletes a pet
         * 
          * @param petId Pet id to delete 
@@ -101,6 +103,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /pet/findByStatus
         * Finds Pets by status
         * Multiple status values can be provided with comma separated strings
          * @param status Status values that need to be considered for filter 
@@ -135,6 +138,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /pet/findByTags
         * Finds Pets by tags
         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
          * @param tags Tags to filter by 
@@ -169,6 +173,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /pet/{petId}
         * Find pet by ID
         * Returns a single pet
          * @param petId ID of pet to return 
@@ -202,6 +207,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * PUT /pet
         * Update an existing pet
         * 
          * @param pet Pet object that needs to be added to the store 
@@ -234,6 +240,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * POST /pet/{petId}
         * Updates a pet in the store with form data
         * 
          * @param petId ID of pet that needs to be updated 
@@ -271,6 +278,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * POST /pet/{petId}/uploadImage
         * uploads an image
         * 
          * @param petId ID of pet to update 

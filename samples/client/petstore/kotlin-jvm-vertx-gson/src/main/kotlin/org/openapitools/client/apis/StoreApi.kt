@@ -36,6 +36,7 @@ import org.openapitools.client.infrastructure.*
 @Suppress ("UNUSED")
 class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken: String? = null, apiKey: MutableMap<String, String> = mutableMapOf(), apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), username: String? = null, password: String? = null, vertx: Vertx): ApiClient(basePath, accessToken, apiKey, apiKeyPrefix, username, password, vertx) {
     /**
+     * DELETE /store/order/{orderId}
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
@@ -66,6 +67,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * DELETE /store/order/{orderId}
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted
@@ -95,6 +97,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * GET /store/inventory
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
@@ -125,6 +128,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * GET /store/inventory
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      * @return ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>
@@ -161,6 +165,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * GET /store/order/{orderId}
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
@@ -192,6 +197,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * GET /store/order/{orderId}
      * Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * @param orderId ID of pet that needs to be fetched
@@ -222,6 +228,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * POST /store/order
      * Place an order for a pet
      * 
      * @param order order placed for purchasing the pet
@@ -253,6 +260,7 @@ class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessToken:
     }
 
     /**
+     * POST /store/order
      * Place an order for a pet
      * 
      * @param order order placed for purchasing the pet

@@ -12,7 +12,7 @@ public typealias List = PetstoreClientAPI.List
 
 extension PetstoreClientAPI {
 
-public final class List: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class List: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
 
     public private(set) var _123list: String?
 

@@ -14,20 +14,45 @@ use async_trait::async_trait;
 use mockall::automock;
 use reqwest;
 use std::sync::Arc;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
+use crate::apis::ContentType;
 
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait PetApi: Send + Sync {
+
+    /// POST /pet
+    ///
+    /// This is the description for the addPet operation
     async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>>;
+
+    /// DELETE /pet/{petId}
     async fn delete_pet<'pet_id, 'api_key>(&self, pet_id: i64, api_key: Option<&'api_key str>) -> Result<(), Error<DeletePetError>>;
+
+    /// GET /pet/findByStatus
+    ///
+    /// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
     async fn find_pets_by_status<'status, 'r_type>(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>>;
+
+    /// GET /pet/findByTags
+    ///
+    /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     async fn find_pets_by_tags<'tags>(&self, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>>;
+
+    /// GET /pet/{petId}
+    ///
+    /// Returns a single pet
     async fn get_pet_by_id<'pet_id>(&self, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>>;
+
+    /// PUT /pet
     async fn update_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>>;
+
+    /// POST /pet/{petId}
     async fn update_pet_with_form<'pet_id, 'name, 'status>(&self, pet_id: i64, name: Option<&'name str>, status: Option<&'status str>) -> Result<(), Error<UpdatePetWithFormError>>;
+
+    /// POST /pet/{petId}/uploadImage
     async fn upload_file<'pet_id, 'additional_metadata, 'file>(&self, pet_id: i64, additional_metadata: Option<&'additional_metadata str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>>;
 }
 
@@ -45,7 +70,7 @@ impl PetApiClient {
 
 #[async_trait]
 impl PetApi for PetApiClient {
-    /// 
+    /// This is the description for the addPet operation
     async fn add_pet<'pet>(&self, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
         let local_var_configuration = &self.configuration;
 
@@ -66,10 +91,20 @@ impl PetApi for PetApiClient {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::Pet`")))),
+            }
         } else {
             let local_var_entity: Option<AddPetError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -111,7 +146,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    /// Multiple status values can be provided with comma separated strings
+    /// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
     async fn find_pets_by_status<'status, 'r_type>(&self, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
         let local_var_configuration = &self.configuration;
 
@@ -141,10 +176,20 @@ impl PetApi for PetApiClient {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
+            }
         } else {
             let local_var_entity: Option<FindPetsByStatusError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -176,10 +221,20 @@ impl PetApi for PetApiClient {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
+            }
         } else {
             let local_var_entity: Option<FindPetsByTagsError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -212,10 +267,20 @@ impl PetApi for PetApiClient {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::Pet`")))),
+            }
         } else {
             let local_var_entity: Option<GetPetByIdError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -244,10 +309,20 @@ impl PetApi for PetApiClient {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::Pet`")))),
+            }
         } else {
             let local_var_entity: Option<UpdatePetError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
@@ -320,10 +395,20 @@ impl PetApi for PetApiClient {
         let local_var_resp = local_var_client.execute(local_var_req).await?;
 
         let local_var_status = local_var_resp.status();
+        let local_var_content_type = local_var_resp
+            .headers()
+            .get("content-type")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("application/octet-stream");
+        let local_var_content_type = super::ContentType::from(local_var_content_type);
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            match local_var_content_type {
+                ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ApiResponse`"))),
+                ContentType::Unsupported(local_var_unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{local_var_unknown_type}` content type response that cannot be converted to `models::ApiResponse`")))),
+            }
         } else {
             let local_var_entity: Option<UploadFileError> = serde_json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };

@@ -413,7 +413,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             setParamNaming((String) additionalProperties.get(CodegenConstants.PARAM_NAMING));
         }
 
-        setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
+        if (additionalProperties.containsKey(CodegenConstants.SUPPORTS_ES6)) {
+            setSupportsES6(convertPropertyToBooleanAndWriteBack(CodegenConstants.SUPPORTS_ES6));
+        }
 
         if (additionalProperties.containsKey(NULL_SAFE_ADDITIONAL_PROPS)) {
             setNullSafeAdditionalProps(Boolean.valueOf(additionalProperties.get(NULL_SAFE_ADDITIONAL_PROPS).toString()));
@@ -1108,7 +1110,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
         // only process files with ts extension
         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {tsPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{tsPostProcessFile, file.toString()});
         }
     }
 

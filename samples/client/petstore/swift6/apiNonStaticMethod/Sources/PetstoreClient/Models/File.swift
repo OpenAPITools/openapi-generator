@@ -8,7 +8,7 @@
 import Foundation
 
 /** Must be named &#x60;File&#x60; for test. */
-public struct File: Sendable, Codable, JSONEncodable, Hashable {
+public struct File: Sendable, Codable, QueryStringEncodable, Hashable {
 
     /** Test capitalization */
     public var sourceURI: String?

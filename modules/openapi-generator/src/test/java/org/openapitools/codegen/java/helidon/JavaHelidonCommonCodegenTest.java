@@ -17,15 +17,6 @@
 
 package org.openapitools.codegen.java.helidon;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
@@ -34,6 +25,15 @@ import org.openapitools.codegen.languages.JavaHelidonCommonCodegen;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class JavaHelidonCommonCodegenTest {
 
@@ -132,12 +132,12 @@ public class JavaHelidonCommonCodegenTest {
             expected = JavaHelidonCommonCodegen.chooseVersion(helidonVersion);
         }
         generator.opts(configurator.setAdditionalProperties(additionalProperties)
-                                       .toClientOptInput());
+                .toClientOptInput());
         List<File> files = generator.generate();
 
         TestUtils.ensureContainsFile(files, Paths.get(outputDir).toFile(), "pom.xml");
         TestUtils.assertFileContains(Paths.get(outputDir + "/pom.xml"),
-                                     String.format(Locale.ROOT, "<version>%s</version>", expected));
+                String.format(Locale.ROOT, "<version>%s</version>", expected));
     }
 
 }

@@ -14,14 +14,17 @@ use async_trait::async_trait;
 use mockall::automock;
 use reqwest;
 use std::sync::Arc;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
+use crate::apis::ContentType;
 
 #[cfg_attr(feature = "mockall", automock)]
 #[async_trait]
 pub trait FakeApi: Send + Sync {
-    async fn test_nullable_required_param<'user_name, 'dummy_required_nullable_param, 'uppercase>(&self, user_name: &'user_name str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, uppercase: Option<&'uppercase str>) -> Result<(), Error<TestNullableRequiredParamError>>;
+
+    /// GET /fake/user/{user_name}
+    async fn test_nullable_required_param<'user_name, 'dummy_required_nullable_param, 'any_type, 'uppercase, 'content>(&self, user_name: &'user_name str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, any_type: &'any_type str, uppercase: Option<&'uppercase str>, content: Option<&'content str>) -> Result<(), Error<TestNullableRequiredParamError>>;
 }
 
 pub struct FakeApiClient {
@@ -39,7 +42,7 @@ impl FakeApiClient {
 #[async_trait]
 impl FakeApi for FakeApiClient {
     /// 
-    async fn test_nullable_required_param<'user_name, 'dummy_required_nullable_param, 'uppercase>(&self, user_name: &'user_name str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, uppercase: Option<&'uppercase str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+    async fn test_nullable_required_param<'user_name, 'dummy_required_nullable_param, 'any_type, 'uppercase, 'content>(&self, user_name: &'user_name str, dummy_required_nullable_param: Option<&'dummy_required_nullable_param str>, any_type: &'any_type str, uppercase: Option<&'uppercase str>, content: Option<&'content str>) -> Result<(), Error<TestNullableRequiredParamError>> {
         let local_var_configuration = &self.configuration;
 
         let local_var_client = &local_var_configuration.client;
@@ -47,6 +50,10 @@ impl FakeApi for FakeApiClient {
         let local_var_uri_str = format!("{}/fake/user/{user_name}", local_var_configuration.base_path, user_name=crate::apis::urlencode(user_name));
         let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+        if let Some(ref local_var_str) = content {
+            local_var_req_builder = local_var_req_builder.query(&[("content", &local_var_str.to_string())]);
+        }
+        local_var_req_builder = local_var_req_builder.query(&[("anyType", &any_type.to_string())]);
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
         }

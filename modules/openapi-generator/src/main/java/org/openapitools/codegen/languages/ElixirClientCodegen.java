@@ -716,7 +716,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     }
 
-    @Getter @Setter class ExtendedCodegenOperation extends CodegenOperation {
+    @Getter
+    @Setter
+    class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
 

@@ -6,7 +6,8 @@ import lombok.Setter;
 import java.util.Optional;
 import java.util.Set;
 
-@Getter @Setter
+@Getter
+@Setter
 public class SpecValidationException extends RuntimeException {
 
     private Set<String> errors;
@@ -100,8 +101,8 @@ public class SpecValidationException extends RuntimeException {
 
         StringBuilder sb = new StringBuilder();
         sb.append(System.lineSeparator())
-            .append("Errors: ")
-            .append(System.lineSeparator());
+                .append("Errors: ")
+                .append(System.lineSeparator());
 
         Optional.ofNullable(errors).ifPresent(_errors -> {
             for (String msg : errors) {

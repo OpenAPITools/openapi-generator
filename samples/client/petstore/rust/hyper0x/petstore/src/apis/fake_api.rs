@@ -36,15 +36,20 @@ impl<C: hyper::client::connect::Connect> FakeApiClient<C>
 }
 
 pub trait FakeApi {
-    fn test_nullable_required_param(&self, user_name: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn test_nullable_required_param(&self, user_name: &str, dummy_required_nullable_param: Option<&str>, any_type: &str, uppercase: Option<&str>, content: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>FakeApi for FakeApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn test_nullable_required_param(&self, user_name: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn test_nullable_required_param(&self, user_name: &str, dummy_required_nullable_param: Option<&str>, any_type: &str, uppercase: Option<&str>, content: Option<&str>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/fake/user/{user_name}".to_string())
         ;
+        if let Some(ref s) = content {
+            let query_value = s.to_string();
+            req = req.with_query_param("content".to_string(), query_value);
+        }
+        req = req.with_query_param("anyType".to_string(), any_type.to_string());
         req = req.with_path_param("user_name".to_string(), user_name.to_string());
         match dummy_required_nullable_param {
             Some(param_value) => { req = req.with_header_param("dummy_required_nullable_param".to_string(), param_value.to_string()); },

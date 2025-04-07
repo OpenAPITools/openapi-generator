@@ -414,19 +414,19 @@ public class JavaValidationArrayPrimitivesTest {
     }
 
     @DataProvider(name = "typeMappings")
-    public Object[] typeMappings(){
+    public Object[] typeMappings() {
         return new Object[][]{
-                {Collections.emptyMap(), "@Valid MyItem" },
-                { Map.of("array", "List"), "@Valid MyItem" },
-                { Map.of("array", "Set"), "@Valid MyItem" },
-                { Collections.emptyMap(), "@Valid MyItem" },
-                { Map.of( "MyItem", "com.mycompany.MyItem"), "com.mycompany.@Valid MyItem"},
-                { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "com.mycompany.@Valid MyContainer<java.lang.String>"}
+                {Collections.emptyMap(), "@Valid MyItem"},
+                {Map.of("array", "List"), "@Valid MyItem"},
+                {Map.of("array", "Set"), "@Valid MyItem"},
+                {Collections.emptyMap(), "@Valid MyItem"},
+                {Map.of("MyItem", "com.mycompany.MyItem"), "com.mycompany.@Valid MyItem"},
+                {Map.of("MyItem", "com.mycompany.MyContainer<java.lang.String>"), "com.mycompany.@Valid MyContainer<java.lang.String>"}
         };
     }
 
     @Test(dataProvider = "typeMappings")
-    public void typeMappingsForCollections(Map<String,String> typeMappings, String expectedMyItemArgument) throws IOException {
+    public void typeMappingsForCollections(Map<String, String> typeMappings, String expectedMyItemArgument) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -447,7 +447,7 @@ public class JavaValidationArrayPrimitivesTest {
         Map<String, File> files = generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        String arrayMapping= typeMappings.getOrDefault("array", "List");
+        String arrayMapping = typeMappings.getOrDefault("array", "List");
         // @Valid@Size(min = 5) is not nice, but not related to this fix
         // adding a space would probably break many other tests
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
@@ -471,7 +471,7 @@ public class JavaValidationArrayPrimitivesTest {
         JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<" + myItem + ">>",
-                        arrayMapping + "<"+ expectedMyItemArgument + ">");
+                        arrayMapping + "<" + expectedMyItemArgument + ">");
 
         if (!typeMappings.containsKey("array")) {
             // the mapping to Set is done automatically with uniqueItems: true

@@ -1,0 +1,36 @@
+package {{package}}
+
+import {{javaxPackage}}.inject.Inject
+import misk.testing.MiskTest
+import org.junit.jupiter.api.Test
+
+import misk.web.HttpCall
+import misk.web.PathParam
+import misk.web.QueryParam
+import misk.web.RequestBody
+import misk.web.RequestHeader
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+@MiskTest(startService = true)
+internal class {{classname}}Test {
+
+    @Inject private lateinit var {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
+
+    {{#operations}}
+    {{#operation}}
+    /**
+     * To test {{classname}}Action.{{operationId}}
+     */
+    @Test
+    fun `should handle {{operationId}}`() {
+        {{#allParams}}
+        val {{{paramName}}} = TODO()
+        {{/allParams}}
+        val response{{#returnType}}: {{{returnType}}}{{/returnType}} = {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+    }
+
+    {{/operation}}
+    {{/operations}}
+}

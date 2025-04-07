@@ -175,6 +175,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Boolean getStringEnums() {
         return this.stringEnums;
     }
+
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
     }
@@ -686,13 +687,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         this.addOperationModelImportInformation(operations);
+        this.escapeOperationIds(operations);
         this.updateOperationParameterForEnum(operations);
         if (this.getSagasAndRecords()) {
             this.updateOperationParameterForSagaAndRecords(operations);
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
-        this.escapeOperationIds(operations);
+
         return operations;
     }
 

@@ -47,10 +47,10 @@ internal class PetstoreClientAPIConfiguration: @unchecked Sendable {
     internal static let shared = PetstoreClientAPIConfiguration()
 }
 
-internal class RequestBuilder<T>: @unchecked Sendable {
+internal class RequestBuilder<T>: @unchecked Sendable, Identifiable {
     internal var credential: URLCredential?
     internal var headers: [String: String]
-    internal let parameters: [String: Any]?
+    internal let parameters: [String: any Sendable]?
     internal let method: String
     internal let URLString: String
     internal let requestTask: RequestTask = RequestTask()
@@ -60,7 +60,7 @@ internal class RequestBuilder<T>: @unchecked Sendable {
     /// Optional block to obtain a reference to the request's progress instance when available.
     internal var onProgressReady: ((Progress) -> Void)?
 
-    required internal init(method: String, URLString: String, parameters: [String: Any]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+    required internal init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters

@@ -383,7 +383,6 @@ public class FeatureSet {
          * Includes the defined {@link ClientModificationFeature} to the new/existing set of supported features.
          *
          * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeClientModificationFeatures(ClientModificationFeature... clientModificationFeature) {
@@ -395,7 +394,6 @@ public class FeatureSet {
          * Excludes the defined {@link ClientModificationFeature} from the set of supported features.
          *
          * @param clientModificationFeature One or more {@code clientModificationFeature} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeClientModificationFeatures(ClientModificationFeature... clientModificationFeature) {
@@ -422,7 +420,6 @@ public class FeatureSet {
          * Includes the defined {@link DataTypeFeature} to the new/existing set of supported features.
          *
          * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeDataTypeFeatures(DataTypeFeature... dataTypeFeature) {
@@ -434,7 +431,6 @@ public class FeatureSet {
          * Excludes the defined {@link DataTypeFeature} from the set of supported features.
          *
          * @param dataTypeFeature One or more {@code dataTypeFeature} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeDataTypeFeatures(DataTypeFeature... dataTypeFeature) {
@@ -461,7 +457,6 @@ public class FeatureSet {
          * Includes the defined {@link DocumentationFeature} to the new/existing set of supported features.
          *
          * @param documentationFeature One or more {@code documentationFeature} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeDocumentationFeatures(DocumentationFeature... documentationFeature) {
@@ -473,7 +468,6 @@ public class FeatureSet {
          * Excludes the defined {@link DocumentationFeature} from the set of supported features.
          *
          * @param documentationFeature One or more {@code documentationFeature} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeDocumentationFeatures(DocumentationFeature... documentationFeature) {
@@ -500,7 +494,6 @@ public class FeatureSet {
          * Includes the defined {@link SchemaSupportFeature} to the new/existing set of supported features.
          *
          * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeSchemaSupportFeatures(SchemaSupportFeature... schemaSupportFeature) {
@@ -512,7 +505,6 @@ public class FeatureSet {
          * Excludes the defined {@link SchemaSupportFeature} from the set of supported features.
          *
          * @param schemaSupportFeature One or more {@code schemaSupportFeature} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeSchemaSupportFeatures(SchemaSupportFeature... schemaSupportFeature) {
@@ -539,7 +531,6 @@ public class FeatureSet {
          * Includes the defined {@link ParameterFeature} to the new/existing set of supported features.
          *
          * @param parameterFeature One or more {@code parameterFeature} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeParameterFeatures(ParameterFeature... parameterFeature) {
@@ -551,7 +542,6 @@ public class FeatureSet {
          * Excludes the defined {@link ParameterFeature} from the set of supported features.
          *
          * @param parameterFeature One or more {@code parameterFeature} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeParameterFeatures(ParameterFeature... parameterFeature) {
@@ -578,7 +568,6 @@ public class FeatureSet {
          * Includes the defined {@link SecurityFeature} to the new/existing set of supported features.
          *
          * @param securityFeature One or more {@code securityFeature} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeSecurityFeatures(SecurityFeature... securityFeature) {
@@ -590,7 +579,6 @@ public class FeatureSet {
          * Excludes the defined {@link SecurityFeature} from the set of supported features.
          *
          * @param securityFeature One or more {@code securityFeature} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeSecurityFeatures(SecurityFeature... securityFeature) {
@@ -617,7 +605,6 @@ public class FeatureSet {
          * Includes the defined {@link GlobalFeature} to the new/existing set of supported features.
          *
          * @param globalFeature One or more {@code globalFeatures} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeGlobalFeatures(GlobalFeature... globalFeature) {
@@ -629,7 +616,6 @@ public class FeatureSet {
          * Excludes the defined {@link GlobalFeature} from the set of supported features.
          *
          * @param globalFeature One or more {@code globalFeatures} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeGlobalFeatures(GlobalFeature... globalFeature) {
@@ -656,7 +642,6 @@ public class FeatureSet {
          * Includes the defined {@link WireFormatFeature} to the new/existing set of supported features.
          *
          * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are included in the set.
-         *
          * @return a reference to this Builder
          */
         public Builder includeWireFormatFeatures(WireFormatFeature... wireFormatFeature) {
@@ -672,7 +657,6 @@ public class FeatureSet {
          * </p>
          *
          * @param wireFormatFeature One or more {@code wireFormatFeatures} to ensure are excluded from the set.
-         *
          * @return a reference to this Builder
          */
         public Builder excludeWireFormatFeatures(WireFormatFeature... wireFormatFeature) {

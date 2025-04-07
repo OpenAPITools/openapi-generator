@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing reserved words */
-internal struct Return: Sendable, Codable, JSONEncodable {
+internal struct Return: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var _return: Int?
 

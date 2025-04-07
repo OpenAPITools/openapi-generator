@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Tag: Sendable, Codable, JSONEncodable, Hashable {
+internal struct Tag: Sendable, Codable, QueryStringEncodable, Hashable {
 
     internal private(set) var id: Int64?
     internal private(set) var name: String?

@@ -42,7 +42,7 @@ public class GenerateBatchTest {
 
     @DataProvider(name = "customIncludeDeserializerFiles")
     public Object[][] customIncludeDeserializerFiles() {
-        return new Object[][] {
+        return new Object[][]{
                 {JAXRS_DATELIB_J8_JSON},
                 {JAXRS_DATELIB_J8_YAML},
                 {JAXRS_DATELIB_J8_JSON_INCLUDE_YAML},
@@ -89,7 +89,7 @@ public class GenerateBatchTest {
 
     @SuppressWarnings("unused")
     @Test(
-            expectedExceptions = { RuntimeException.class },
+            expectedExceptions = {RuntimeException.class},
             expectedExceptionsMessageRegExp = "Unable to deserialize config file: .*"
     )
     public void testInvalidDeserializerWithIncludeOption() {

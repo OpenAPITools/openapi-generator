@@ -34,7 +34,7 @@ import io.github.threetenjaxb.core.*;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 @XmlRootElement(name = "ModelList")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelList")
@@ -73,6 +73,7 @@ public class ModelList {
   public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
+
 
   @Override
   public boolean equals(Object o) {
