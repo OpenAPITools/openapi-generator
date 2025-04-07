@@ -749,11 +749,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         
         if (isLibrary(FEIGN)) {
-        	additionalProperties.put("feign-okhttp", "true");
+            additionalProperties.put("feign-okhttp", "true");
         } else if (isLibrary(FEIGN_HC5)) {
-        	additionalProperties.put("feign-hc5", "true");
-        	setTemplateDir(FEIGN);
-        	setLibrary(FEIGN);
+            additionalProperties.put("feign-hc5", "true");
+            setTemplateDir(FEIGN);
+            setLibrary(FEIGN);
         }
 
         // authentication related files
