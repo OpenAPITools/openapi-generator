@@ -127,6 +127,9 @@ module {{moduleName}}
       # resource path
       local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
       {{#queryParams}}
@@ -170,6 +173,7 @@ module {{moduleName}}
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
