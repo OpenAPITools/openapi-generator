@@ -3,6 +3,7 @@
   {{/description}}
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
+    include YAML::Serializable
 
     {{#hasRequired}}
     # Required properties
