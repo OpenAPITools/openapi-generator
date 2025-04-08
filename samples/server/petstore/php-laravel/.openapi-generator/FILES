@@ -60,7 +60,6 @@ Model/NullableClass.php
 Model/NumberOnly.php
 Model/ObjectWithDeprecatedFields.php
 Model/Order.php
-Model/OrderPaymentMethod.php
 Model/OrderStatus.php
 Model/OuterComposite.php
 Model/OuterEnum.php

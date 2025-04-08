@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -34,8 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_QUANTITY,
   Order.JSON_PROPERTY_SHIP_DATE,
   Order.JSON_PROPERTY_STATUS,
-  Order.JSON_PROPERTY_COMPLETE,
-  Order.JSON_PROPERTY_PAYMENT_METHOD
+  Order.JSON_PROPERTY_COMPLETE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Order {
@@ -100,59 +98,19 @@ public class Order {
   @javax.annotation.Nullable
   private Boolean complete = false;
 
-  /**
-   * Various payment methods
-   */
-  public enum PaymentMethodEnum {
-    NUMBER_1(new BigDecimal("1")),
-    
-    NUMBER_2(new BigDecimal("2"));
-
-    private BigDecimal value;
-
-    PaymentMethodEnum(BigDecimal value) {
-      this.value = value;
-    }
-
-    @JsonValue
-    public BigDecimal getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static PaymentMethodEnum fromValue(BigDecimal value) {
-      for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
-        if (b.value.equals(value)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
-    }
-  }
-
-  public static final String JSON_PROPERTY_PAYMENT_METHOD = "paymentMethod";
-  @javax.annotation.Nullable
-  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
-
   public Order() {
   }
 
   /**
    * Constructor with all args parameters
    */
-  public Order(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_PET_ID) Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) Boolean complete, @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD) PaymentMethodEnum paymentMethod) {
+  public Order(@JsonProperty(JSON_PROPERTY_ID) Long id, @JsonProperty(JSON_PROPERTY_PET_ID) Long petId, @JsonProperty(JSON_PROPERTY_QUANTITY) Integer quantity, @JsonProperty(JSON_PROPERTY_SHIP_DATE) OffsetDateTime shipDate, @JsonProperty(JSON_PROPERTY_STATUS) StatusEnum status, @JsonProperty(JSON_PROPERTY_COMPLETE) Boolean complete) {
     this.id = id;
     this.petId = petId;
     this.quantity = quantity;
     this.shipDate = shipDate;
     this.status = status;
     this.complete = complete;
-    this.paymentMethod = paymentMethod;
   }
 
   public Order id(@javax.annotation.Nullable Long id) {
@@ -305,31 +263,6 @@ public class Order {
     this.complete = complete;
   }
 
-  public Order paymentMethod(@javax.annotation.Nullable PaymentMethodEnum paymentMethod) {
-    
-    this.paymentMethod = paymentMethod;
-    return this;
-  }
-
-  /**
-   * Various payment methods
-   * @return paymentMethod
-   */
-  @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public PaymentMethodEnum getPaymentMethod() {
-    return paymentMethod;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setPaymentMethod(@javax.annotation.Nullable PaymentMethodEnum paymentMethod) {
-    this.paymentMethod = paymentMethod;
-  }
-
 
   @Override
   public boolean equals(Object o) {
@@ -345,13 +278,12 @@ public class Order {
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
         Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete) &&
-        Objects.equals(this.paymentMethod, order.paymentMethod);
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete, paymentMethod);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
 
   @Override
@@ -364,7 +296,6 @@ public class Order {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
-    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -416,10 +347,6 @@ public class Order {
       this.instance.complete = complete;
       return this;
     }
-    public Order.Builder paymentMethod(PaymentMethodEnum paymentMethod) {
-      this.instance.paymentMethod = paymentMethod;
-      return this;
-    }
 
 
     /**
@@ -459,8 +386,7 @@ public class Order {
       .quantity(getQuantity())
       .shipDate(getShipDate())
       .status(getStatus())
-      .complete(getComplete())
-      .paymentMethod(getPaymentMethod());
+      .complete(getComplete());
   }
 
 

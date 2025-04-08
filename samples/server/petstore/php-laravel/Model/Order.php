@@ -51,9 +51,6 @@ class Order
     *
     * 
     * @param bool $complete
-    *
-    * 
-    * @param \OpenAPI\Server\Model\OrderPaymentMethod $paymentMethod
     */
 
     public function __construct(
@@ -63,7 +60,6 @@ class Order
         public \DateTime $shipDate,
         public \OpenAPI\Server\Model\OrderStatus $status,
         public bool $complete = false,
-        public \OpenAPI\Server\Model\OrderPaymentMethod $paymentMethod,
     ) {}
 }
 
