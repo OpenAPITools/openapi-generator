@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Name do
   Model for testing model name same as property name
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :name,
     :snake_case,

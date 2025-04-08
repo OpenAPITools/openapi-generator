@@ -22,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |aggregateModelsName|Aggregated model filename. If set, all generated models will be combined into this single file.| |null|
 |numberedFieldNumberList|Field numbers in order.| |false|
 |startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
+|supportMultipleResponses|Support multiple responses| |true|
 |wrapComplexType|Generate Additional message for complex type| |true|
 
 ## IMPORT MAPPING
