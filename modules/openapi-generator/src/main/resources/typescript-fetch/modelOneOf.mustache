@@ -1,5 +1,5 @@
 {{#hasImports}}
-{{#oneOf}}
+{{#imports}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     instanceOf{{{.}}},
@@ -7,7 +7,7 @@ import {
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
-{{/oneOf}}
+{{/imports}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
@@ -31,11 +31,40 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOf}}
+    {{#oneOfStringEnums}}
+    if (json === "{{{.}}}") {
+        return json;
+    }
+    {{/oneOfStringEnums}}
+    {{#hasStringOneOf}}
+    if (json instanceof String) {
+        return json as {{classname}};
+    }
+    {{/hasStringOneOf}}
+    if (!(json instanceof Object)){
+        return {} as any;
+    }
+    {{#hasStringArrayOneOf}}
+    if (Array.isArray(json) && json.every(item => item instanceof String)) {
+        return json as Array<string>;
+    }
+    {{/hasStringArrayOneOf}}
+    {{#oneOfModels}}
     if (instanceOf{{{.}}}(json)) {
         return {{{.}}}FromJSONTyped(json, true);
     }
-    {{/oneOf}}
+    {{/oneOfModels}}
+    {{#oneOfArrays}}
+    {{#-first}}
+    if (Array.isArray(json) && json.every(item => item instanceof Object)) {
+    {{/-first}}
+        if (json.every(item => instanceOf{{{.}}}(item as Object))) {
+            return json.map(value => {{{.}}}FromJSONTyped(value, true));
+        }
+    {{#-last}}
+    }
+    {{/-last}}
+    {{/oneOfArrays}}
 
     return {} as any;
 {{/discriminator}}
@@ -61,11 +90,40 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
 {{/discriminator}}
 
 {{^discriminator}}
-    {{#oneOf}}
+    {{#oneOfStringEnums}}
+    if (value === "{{{.}}}") {
+        return value;
+    }
+    {{/oneOfStringEnums}}
+    {{#hasStringOneOf}}
+    if (value instanceof String) {
+        return value;
+    }
+    {{/hasStringOneOf}}
+    if (!(value instanceof Object)){
+        return {};
+    }
+    {{#hasStringArrayOneOf}}
+    if (Array.isArray(value) && value.every(item => item instanceof String)) {
+        return value;
+    }
+    {{/hasStringArrayOneOf}}
+    {{#oneOfModels}}
     if (instanceOf{{{.}}}(value)) {
         return {{{.}}}ToJSON(value as {{{.}}});
     }
-    {{/oneOf}}
+    {{/oneOfModels}}
+    {{#oneOfArrays}}
+    {{#-first}}
+    if (Array.isArray(value) && value.every(item => item instanceof Object)) {
+    {{/-first}}
+        if (value.every(item => instanceOf{{{.}}}(item as Object))) {
+            return value.map(value => {{{.}}}ToJSON(value as {{{.}}}));
+        }
+    {{#-last}}
+    }
+    {{/-last}}
+    {{/oneOfArrays}}
 
     return {};
 {{/discriminator}}
