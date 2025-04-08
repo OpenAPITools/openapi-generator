@@ -66,6 +66,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String WRAP_COMPLEX_TYPE = "wrapComplexType";
 
+    public static final String SIMPLE_ENUM_NAME = "enumSimpleName";
+
     public static final String AGGREGATE_MODELS_NAME = "aggregateModelsName";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
@@ -81,6 +83,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean addJsonNameAnnotation = false;
 
     private boolean wrapComplexType = true;
+
+    private boolean simpleEnumName = false;
 
     @Override
     public CodegenType getTag() {
@@ -192,6 +196,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
         addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
+        addSwitch(SIMPLE_ENUM_NAME, "Use a simple name for enums", simpleEnumName);
         addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
     }
 
@@ -219,20 +224,24 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
+        if (additionalProperties.containsKey(NUMBERED_FIELD_NUMBER_LIST)) {
             this.numberedFieldNumberList = convertPropertyToBooleanAndWriteBack(NUMBERED_FIELD_NUMBER_LIST);
         }
 
-        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNSPECIFIED)) {
+        if (additionalProperties.containsKey(START_ENUMS_WITH_UNSPECIFIED)) {
             this.startEnumsWithUnspecified = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNSPECIFIED);
         }
 
-        if (additionalProperties.containsKey(this.ADD_JSON_NAME_ANNOTATION)) {
+        if (additionalProperties.containsKey(ADD_JSON_NAME_ANNOTATION)) {
             this.addJsonNameAnnotation = convertPropertyToBooleanAndWriteBack(ADD_JSON_NAME_ANNOTATION);
         }
 
-        if (additionalProperties.containsKey(this.WRAP_COMPLEX_TYPE)) {
+        if (additionalProperties.containsKey(WRAP_COMPLEX_TYPE)) {
             this.wrapComplexType = convertPropertyToBooleanAndWriteBack(WRAP_COMPLEX_TYPE);
+        }
+
+        if (additionalProperties.containsKey(SIMPLE_ENUM_NAME)) {
+            this.simpleEnumName = convertPropertyToBooleanAndWriteBack(SIMPLE_ENUM_NAME);
         }
 
         if (additionalProperties.containsKey(AGGREGATE_MODELS_NAME)) {
@@ -489,16 +498,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
             for (Map<String, Object> value : enumVars) {
                 String name = (String) value.get("name");
-                value.put("name", prefix + "_" + name);
-                value.put("value", "\"" + prefix + "_" + name + "\"");
-
+                value.put("name", simpleEnumName ? name : prefix + "_" + name);
+                value.put("value", simpleEnumName ? name : "\"" + prefix + "_" + name + "\"");
             }
         }
 
         if (allowableValues.containsKey("values")) {
             List<Object> values = (List<Object>) allowableValues.get("values");
             for (Object value : values) {
-                value = prefix + "_" + String.valueOf(value);
+                value = simpleEnumName ? value : prefix + "_" + value;
             }
         }
     }
