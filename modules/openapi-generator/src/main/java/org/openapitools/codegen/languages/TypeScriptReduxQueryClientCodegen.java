@@ -32,7 +32,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientCodegen {
 
@@ -146,9 +145,13 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             }
             if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                cm.imports = cm.imports.stream()
-                        .filter(cm.oneOf::contains)
-                        .collect(Collectors.toCollection(TreeSet::new));
+                TreeSet<String> oneOfRefs = new TreeSet<>();
+                for (String im : cm.imports) {
+                    if (cm.oneOf.contains(im)) {
+                        oneOfRefs.add(im);
+                    }
+                }
+                cm.imports = oneOfRefs;
             }
         }
 

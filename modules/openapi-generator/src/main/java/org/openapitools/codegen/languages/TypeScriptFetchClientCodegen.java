@@ -796,12 +796,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
-        cm.oneOfStringEnums = oneOfsList.stream()
-                .filter(CodegenProperty::getIsEnum)
-                .map(CodegenProperty::getAllowableValuesList)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toCollection(TreeSet::new));
-
         cm.oneOfArrays = oneOfsList.stream()
                 .filter(CodegenProperty::getIsArray)
                 .map(CodegenProperty::getComplexType)
@@ -1500,8 +1494,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         @Getter @Setter
         public Set<String> oneOfModels = new TreeSet<>();
-        @Getter @Setter
-        public Set<String> oneOfStringEnums = new TreeSet<>();
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
 

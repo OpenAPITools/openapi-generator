@@ -961,19 +961,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isEnum = isEnum;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> getAllowableValuesList() {
-        return Optional.ofNullable(this.getAllowableValues())
-                .map(allowableValues -> allowableValues.get("values"))
-                .flatMap(valuesList -> {
-                    try {
-                        return Optional.ofNullable((List<String>)valuesList);
-                    } catch (ClassCastException e) {
-                        return Optional.empty();
-                    }
-                })
-                .orElse(Collections.emptyList());
-    }
 
     @Override
     public String toString() {
