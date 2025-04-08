@@ -45,8 +45,8 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return {} as any;
     }
     {{#hasStringArrayOneOf}}
-    if (Array.isArray(json) && json.every(item => item instanceof String)) {
-        return json as Array<string>;
+    if (Array.isArray(json) && json.every(item => typeof item === 'string')) {
+        return json;
     }
     {{/hasStringArrayOneOf}}
     {{#oneOfModels}}
@@ -56,9 +56,9 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/oneOfModels}}
     {{#oneOfArrays}}
     {{#-first}}
-    if (Array.isArray(json) && json.every(item => item instanceof Object)) {
+    if (Array.isArray(json) && json.every(item => typeof item === 'object')) {
     {{/-first}}
-        if (json.every(item => instanceOf{{{.}}}(item as Object))) {
+        if (json.every(item => instanceOf{{{.}}}(item))) {
             return json.map(value => {{{.}}}FromJSONTyped(value, true));
         }
     {{#-last}}
@@ -104,7 +104,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
         return {};
     }
     {{#hasStringArrayOneOf}}
-    if (Array.isArray(value) && value.every(item => item instanceof String)) {
+    if (Array.isArray(value) && value.every(item => typeof item === 'string')) {
         return value;
     }
     {{/hasStringArrayOneOf}}
@@ -115,9 +115,9 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     {{/oneOfModels}}
     {{#oneOfArrays}}
     {{#-first}}
-    if (Array.isArray(value) && value.every(item => item instanceof Object)) {
+    if (Array.isArray(value) && value.every(item => typeof item === 'object')) {
     {{/-first}}
-        if (value.every(item => instanceOf{{{.}}}(item as Object))) {
+        if (value.every(item => instanceOf{{{.}}}(item))) {
             return value.map(value => {{{.}}}ToJSON(value as {{{.}}}));
         }
     {{#-last}}
