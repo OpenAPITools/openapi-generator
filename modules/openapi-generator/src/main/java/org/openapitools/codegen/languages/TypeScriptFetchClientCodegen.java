@@ -783,9 +783,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        cm.hasStringOneOf = cm.oneOf.contains("string");
-        cm.hasStringArrayOneOf = cm.oneOf.contains("Array<string>");
-
         List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
@@ -1497,8 +1494,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
 
-        public boolean hasStringOneOf;
-        public boolean hasStringArrayOneOf;
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
