@@ -422,7 +422,7 @@ public class InlineModelResolver {
                         // For example, there may be an `description` only schema that is used to override the descrption.
                         // In these cases, we can simply discard those schemas.
                         List<Schema> nonMetadataOnlySchemas = (List<Schema>) schema.getAllOf().stream()
-                                .filter(v -> isMetadataOnlySchema((Schema) v))
+                                .filter(v -> ModelUtils.isMetadataOnlySchema((Schema) v))
                                 .collect(Collectors.toList());
 
                         if (nonMetadataOnlySchemas.size() == 1) {
@@ -483,31 +483,6 @@ public class InlineModelResolver {
                 }
             }
         }
-    }
-
-    /**
-     * Returns true if a schema is only metadata and not an actual type.
-     * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
-     * 
-     * @param schema the schema
-     * @return       if the schema is only metadata and not an actual type
-     */
-    boolean isMetadataOnlySchema(Schema schema) {
-        return schema.get$ref() != null ||
-                schema.getProperties() != null ||
-                schema.getType() != null ||
-                schema.getAdditionalProperties() != null ||
-                schema.getAllOf() != null ||
-                schema.getAnyOf() != null ||
-                schema.getOneOf() != null ||
-                schema.getPrefixItems() != null ||
-                schema.getItems() != null ||
-                schema.getTypes() != null ||
-                schema.getPatternProperties() != null ||
-                schema.getContains() != null ||
-                schema.get$dynamicAnchor() != null ||
-                schema.get$anchor() != null ||
-                schema.getContentSchema() != null;
     }
 
     /**
