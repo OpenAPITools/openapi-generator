@@ -2108,6 +2108,8 @@ public class FakeApi {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+     * @param enumFormDouble Form parameter enum test (double) (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -2119,7 +2121,7 @@ public class FakeApi {
         <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumParametersCall(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEnumParametersCall(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable Integer enumFormInteger, @javax.annotation.Nullable Double enumFormDouble, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -2150,6 +2152,14 @@ public class FakeApi {
 
         if (enumFormString != null) {
             localVarFormParams.put("enum_form_string", enumFormString);
+        }
+
+        if (enumFormInteger != null) {
+            localVarFormParams.put("enum_form_integer", enumFormInteger);
+        }
+
+        if (enumFormDouble != null) {
+            localVarFormParams.put("enum_form_double", enumFormDouble);
         }
 
         if (enumQueryStringArray != null) {
@@ -2198,8 +2208,8 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEnumParametersValidateBeforeCall(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, final ApiCallback _callback) throws ApiException {
-        return testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
+    private okhttp3.Call testEnumParametersValidateBeforeCall(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable Integer enumFormInteger, @javax.annotation.Nullable Double enumFormDouble, final ApiCallback _callback) throws ApiException {
+        return testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble, _callback);
 
     }
 
@@ -2214,6 +2224,8 @@ public class FakeApi {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+     * @param enumFormDouble Form parameter enum test (double) (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
@@ -2223,8 +2235,8 @@ public class FakeApi {
         <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
      </table>
      */
-    public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws ApiException {
-        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+    public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable Integer enumFormInteger, @javax.annotation.Nullable Double enumFormDouble) throws ApiException {
+        testEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble);
     }
 
     /**
@@ -2238,6 +2250,8 @@ public class FakeApi {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+     * @param enumFormDouble Form parameter enum test (double) (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -2248,8 +2262,8 @@ public class FakeApi {
         <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> testEnumParametersWithHttpInfo(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws ApiException {
-        okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null);
+    public ApiResponse<Void> testEnumParametersWithHttpInfo(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable Integer enumFormInteger, @javax.annotation.Nullable Double enumFormDouble) throws ApiException {
+        okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble, null);
         return localVarApiClient.execute(localVarCall);
     }
 
@@ -2264,6 +2278,8 @@ public class FakeApi {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+     * @param enumFormInteger Form parameter enum test (integer) (optional, default to 1)
+     * @param enumFormDouble Form parameter enum test (double) (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -2275,9 +2291,9 @@ public class FakeApi {
         <tr><td> 404 </td><td> Not found </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumParametersAsync(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testEnumParametersAsync(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString, @javax.annotation.Nullable Integer enumFormInteger, @javax.annotation.Nullable Double enumFormDouble, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
+        okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, enumFormInteger, enumFormDouble, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
