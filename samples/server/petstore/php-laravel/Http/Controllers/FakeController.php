@@ -739,6 +739,10 @@ class FakeController extends Controller
                 ],
                 'enumFormString' => [
                 ],
+                'enumFormInteger' => [
+                ],
+                'enumFormDouble' => [
+                ],
             ],
         );
 
@@ -764,8 +768,12 @@ class FakeController extends Controller
 
         $enumFormString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormString::class);
 
+        $enumFormInteger = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormInteger::class);
+
+        $enumFormDouble = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\TestEnumParametersRequestEnumFormDouble::class);
+
         try {
-            $apiResult = $this->api->testEnumParameters($enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble, $enumQueryModelArray, $enumFormStringArray, $enumFormString);
+            $apiResult = $this->api->testEnumParameters($enumHeaderStringArray, $enumHeaderString, $enumQueryStringArray, $enumQueryString, $enumQueryInteger, $enumQueryDouble, $enumQueryModelArray, $enumFormStringArray, $enumFormString, $enumFormInteger, $enumFormDouble);
         } catch (\Exception $exception) {
             // This shouldn't happen
             report($exception);

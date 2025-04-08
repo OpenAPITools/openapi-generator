@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
@@ -33,7 +34,8 @@ import javax.validation.Valid;
   Order.JSON_PROPERTY_QUANTITY,
   Order.JSON_PROPERTY_SHIP_DATE,
   Order.JSON_PROPERTY_STATUS,
-  Order.JSON_PROPERTY_COMPLETE
+  Order.JSON_PROPERTY_COMPLETE,
+  Order.JSON_PROPERTY_PAYMENT_METHOD
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class Order   {
@@ -97,6 +99,41 @@ public class Order   {
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   @JsonProperty(JSON_PROPERTY_COMPLETE)
   private Boolean complete = false;
+
+  /**
+   * Various payment methods
+   */
+  public enum PaymentMethodEnum {
+    NUMBER_1(new BigDecimal("1")),
+    
+    NUMBER_2(new BigDecimal("2"));
+
+    private BigDecimal value;
+
+    PaymentMethodEnum(BigDecimal value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PaymentMethodEnum fromValue(BigDecimal value) {
+      for (PaymentMethodEnum b : PaymentMethodEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PAYMENT_METHOD = "paymentMethod";
+  @JsonProperty(JSON_PROPERTY_PAYMENT_METHOD)
+  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
 
   public Order id(Long id) {
     this.id = id;
@@ -218,6 +255,26 @@ public class Order   {
     this.complete = complete;
   }
 
+  public Order paymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+    return this;
+  }
+
+  /**
+   * Various payment methods
+   * @return paymentMethod
+   **/
+  @JsonProperty(value = "paymentMethod")
+  @ApiModelProperty(example = "1", value = "Various payment methods")
+  
+  public PaymentMethodEnum getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -233,12 +290,13 @@ public class Order   {
         Objects.equals(this.quantity, order.quantity) &&
         Objects.equals(this.shipDate, order.shipDate) &&
         Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete);
+        Objects.equals(this.complete, order.complete) &&
+        Objects.equals(this.paymentMethod, order.paymentMethod);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, petId, quantity, shipDate, status, complete);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete, paymentMethod);
   }
 
   @Override
@@ -252,6 +310,7 @@ public class Order   {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
     sb.append("}");
     return sb.toString();
   }

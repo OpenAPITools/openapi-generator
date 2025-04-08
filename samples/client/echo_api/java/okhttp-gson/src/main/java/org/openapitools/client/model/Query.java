@@ -62,11 +62,11 @@ public class Query {
    */
   @JsonAdapter(OutcomesEnum.Adapter.class)
   public enum OutcomesEnum {
-    SUCCESS("SUCCESS"),
+    SUCCESS(String.valueOf("SUCCESS")),
     
-    FAILURE("FAILURE"),
+    FAILURE(String.valueOf("FAILURE")),
     
-    SKIPPED("SKIPPED");
+    SKIPPED(String.valueOf("SKIPPED"));
 
     private String value;
 

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 
@@ -59,6 +60,32 @@ public enum StatusEnum {
   private StatusEnum status;
 
   private Boolean complete = false;
+
+public enum PaymentMethodEnum {
+
+    NUMBER_1(BigDecimal.valueOf(new BigDecimal("1"))), NUMBER_2(BigDecimal.valueOf(new BigDecimal("2")));
+
+    BigDecimal value;
+
+    PaymentMethodEnum (BigDecimal v) {
+        value = v;
+    }
+
+    public BigDecimal value() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+}
+
+ /**
+   * Various payment methods
+  **/
+  private PaymentMethodEnum paymentMethod = PaymentMethodEnum.NUMBER_1;
 
  /**
    * Get id
@@ -180,6 +207,26 @@ public enum StatusEnum {
     return this;
   }
 
+ /**
+   * Various payment methods
+   * @return paymentMethod
+  **/
+  public PaymentMethodEnum getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  /**
+    * Set paymentMethod
+  **/
+  public void setPaymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+  }
+
+  public Order paymentMethod(PaymentMethodEnum paymentMethod) {
+    this.paymentMethod = paymentMethod;
+    return this;
+  }
+
 
   /**
     * Create a string representation of this pojo.
@@ -195,6 +242,7 @@ public enum StatusEnum {
     sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+    sb.append("    paymentMethod: ").append(toIndentedString(paymentMethod)).append("\n");
     sb.append("}");
     return sb.toString();
   }

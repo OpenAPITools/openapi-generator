@@ -1159,6 +1159,8 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
   /// * [enumQueryModelArray] 
   /// * [enumFormStringArray] - Form parameter enum test (string array)
   /// * [enumFormString] - Form parameter enum test (string)
+  /// * [enumFormInteger] - Form parameter enum test (integer)
+  /// * [enumFormDouble] - Form parameter enum test (double)
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -1178,6 +1180,8 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
     List<ModelEnumClass>? enumQueryModelArray,
     List<String>? enumFormStringArray,
     String? enumFormString,
+    int? enumFormInteger,
+    num? enumFormDouble,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,

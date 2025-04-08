@@ -131,10 +131,10 @@ public class StoreApiMockServer {
     }
 
     public static String getOrderById200ResponseSample1() {
-        return "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+        return "{ \"petId\" : 6, \"quantity\" : 1, \"paymentMethod\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
     }
     public static String getOrderById200ResponseSample2() {
-        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> <paymentMethod>1</paymentMethod> </Order>";
     }
 
 
@@ -180,14 +180,14 @@ public class StoreApiMockServer {
     }
 
     public static String placeOrder200ResponseSample1() {
-        return "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+        return "{ \"petId\" : 6, \"quantity\" : 1, \"paymentMethod\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
     }
     public static String placeOrder200ResponseSample2() {
-        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+        return "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> <paymentMethod>1</paymentMethod> </Order>";
     }
 
     public static String placeOrderRequestSample1() {
-        return "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+        return "{ \"petId\" : 6, \"quantity\" : 1, \"paymentMethod\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
     }
 
 

@@ -28,6 +28,9 @@ module Petstore
 
     attr_accessor :complete
 
+    # Various payment methods
+    attr_accessor :payment_method
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -58,7 +61,8 @@ module Petstore
         :'quantity' => :'quantity',
         :'ship_date' => :'shipDate',
         :'status' => :'status',
-        :'complete' => :'complete'
+        :'complete' => :'complete',
+        :'payment_method' => :'paymentMethod'
       }
     end
 
@@ -80,7 +84,8 @@ module Petstore
         :'quantity' => :'Integer',
         :'ship_date' => :'Time',
         :'status' => :'String',
-        :'complete' => :'Boolean'
+        :'complete' => :'Boolean',
+        :'payment_method' => :'Float'
       }
     end
 
@@ -131,6 +136,12 @@ module Petstore
       else
         self.complete = false
       end
+
+      if attributes.key?(:'payment_method')
+        self.payment_method = attributes[:'payment_method']
+      else
+        self.payment_method = PAYMENT_METHOD::N1
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -147,6 +158,8 @@ module Petstore
       warn '[DEPRECATED] the `valid?` method is obsolete'
       status_validator = EnumAttributeValidator.new('String', ["placed", "approved", "delivered"])
       return false unless status_validator.valid?(@status)
+      payment_method_validator = EnumAttributeValidator.new('Float', [1, 2])
+      return false unless payment_method_validator.valid?(@payment_method)
       true
     end
 
@@ -160,6 +173,16 @@ module Petstore
       @status = status
     end
 
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] payment_method Object to be assigned
+    def payment_method=(payment_method)
+      validator = EnumAttributeValidator.new('Float', [1, 2])
+      unless validator.valid?(payment_method)
+        fail ArgumentError, "invalid value for \"payment_method\", must be one of #{validator.allowable_values}."
+      end
+      @payment_method = payment_method
+    end
+
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
@@ -170,7 +193,8 @@ module Petstore
           quantity == o.quantity &&
           ship_date == o.ship_date &&
           status == o.status &&
-          complete == o.complete
+          complete == o.complete &&
+          payment_method == o.payment_method
     end
 
     # @see the `==` method
@@ -182,7 +206,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, pet_id, quantity, ship_date, status, complete].hash
+      [id, pet_id, quantity, ship_date, status, complete, payment_method].hash
     end
 
     # Builds the object from hash

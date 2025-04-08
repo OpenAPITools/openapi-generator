@@ -183,6 +183,10 @@ class FakeApi extends Controller
 
         $enum_form_string = $input['enum_form_string'];
 
+        $enum_form_integer = $input['enum_form_integer'];
+
+        $enum_form_double = $input['enum_form_double'];
+
 
         return response('How about implementing testEnumParameters as a get method ?');
     }
