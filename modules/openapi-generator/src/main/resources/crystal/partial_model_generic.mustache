@@ -3,6 +3,7 @@
   {{/description}}
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
+    include YAML::Serializable
 
     {{#hasRequired}}
     # Required properties
@@ -269,16 +270,16 @@
     {{/vars}}
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.same?(o)
-      self.class == o.class{{#vars}} &&
-          {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
+    def ==(other)
+      return true if self.same?(other)
+      self.class == other.class{{#vars}} &&
+          {{name}} == other.{{name}}{{/vars}}{{#parent}} && super(other){{/parent}}
     end
 
     # @see the `==` method
     # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
+    def eql?(other)
+      self == other
     end
 
     # Calculates hash code according to all attributes.

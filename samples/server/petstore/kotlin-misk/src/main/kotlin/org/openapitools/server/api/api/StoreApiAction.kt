@@ -30,10 +30,10 @@ import misk.web.mediatype.MediaTypes
 import org.openapitools.server.api.model.Order
 
 /**
- * Generated file, please change StoreApiController.
+ * Generated file, please change StoreApiImpl.
  */
 @Singleton
-class StoreApiController @Inject constructor(
+class StoreApiAction @Inject constructor(
     private val storeApi: StoreApi
 ) : WebAction, StoreApi {
 

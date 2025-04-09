@@ -924,6 +924,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 addSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir, authPackageDir);
                 supportingFiles.add(new SupportingFile("ConnectionException.mustache", clientPackageDir, "ConnectionException.cs"));
                 supportingFiles.add(new SupportingFile("UnexpectedResponseException.mustache", clientPackageDir, "UnexpectedResponseException.cs"));
+                supportingFiles.add(new SupportingFile("UnityWebRequestAwaiterExtension.mustache", clientPackageDir, "UnityWebRequestAwaiterExtension.cs"));
                 break;
             default: // generichost
                 addGenericHostSupportingFiles(clientPackageDir, packageFolder, excludeTests, testPackageFolder, testPackageName, modelPackageDir);
