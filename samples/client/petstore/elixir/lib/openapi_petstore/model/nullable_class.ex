@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.NullableClass do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :integer_prop,
     :number_prop,

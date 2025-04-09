@@ -41,6 +41,9 @@ module Petstore
       # resource path
       local_var_path = "/user"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -69,6 +72,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#create_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -100,6 +104,9 @@ module Petstore
       # resource path
       local_var_path = "/user/createWithArray"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -128,6 +135,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#create_users_with_array_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -159,6 +167,9 @@ module Petstore
       # resource path
       local_var_path = "/user/createWithList"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -187,6 +198,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#create_users_with_list_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -218,6 +230,9 @@ module Petstore
       # resource path
       local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -244,6 +259,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#delete_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -275,6 +291,9 @@ module Petstore
       # resource path
       local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -303,6 +322,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#get_user_by_name\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -345,6 +365,9 @@ module Petstore
       # resource path
       local_var_path = "/user/login"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
       query_params["username"] = username.to_s unless username.nil?
@@ -375,6 +398,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#login_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -399,6 +423,9 @@ module Petstore
       end
       # resource path
       local_var_path = "/user/logout"
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
 
       # query parameters
       query_params = Hash(String, String).new
@@ -426,6 +453,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#logout_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -463,6 +491,9 @@ module Petstore
       # resource path
       local_var_path = "/user/{username}".sub("{" + "username" + "}", URI.encode_path(username.to_s).gsub("%2F", "/"))
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -491,6 +522,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#update_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}

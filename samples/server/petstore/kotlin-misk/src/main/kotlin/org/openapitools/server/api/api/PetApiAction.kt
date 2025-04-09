@@ -31,10 +31,10 @@ import org.openapitools.server.api.model.ModelApiResponse
 import org.openapitools.server.api.model.Pet
 
 /**
- * Generated file, please change PetApiController.
+ * Generated file, please change PetApiImpl.
  */
 @Singleton
-class PetApiController @Inject constructor(
+class PetApiAction @Inject constructor(
     private val petApi: PetApi
 ) : WebAction, PetApi {
 
@@ -97,7 +97,7 @@ class PetApiController @Inject constructor(
 
     @Post("/pet/{petId}/uploadImage")
     @Description("uploads an image")
-    @RequestContentType(MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> multipart/form-data */ )
+    @RequestContentType(MediaTypes.FORM_DATA)
     @ResponseContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
     override fun uploadFile(@PathParam("petId") petId: kotlin.Long, @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , @Valid file: HttpCall): ModelApiResponse {

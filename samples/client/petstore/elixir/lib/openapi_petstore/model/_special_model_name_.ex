@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.SpecialModelName do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :"$special[property.name]"
   ]
