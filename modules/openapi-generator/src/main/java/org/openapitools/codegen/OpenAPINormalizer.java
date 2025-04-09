@@ -716,32 +716,9 @@ public class OpenAPINormalizer {
      * @return Schema
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
-        if (schema == null) {
+        if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
-
-        if (StringUtils.isNotEmpty(schema.get$ref())) {
-            // no need to process $ref
-            return schema;
-        }
-
-        if (visitedSchemas.contains(schema)) {
-            return schema; // skip due to circular reference
-        } else {
-            visitedSchemas.add(schema);
-        }
-
-        return doNormalizeSchema(schema, visitedSchemas);
-    }
-
-    /**
-     * Normalizes a schema that was not visited before
-     *
-     * @param schema         Schema
-     * @param visitedSchemas a set of visited schemas
-     * @return Schema
-     */
-    protected Schema doNormalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             normalizeSchema(result.getItems(), visitedSchemas);
@@ -794,8 +771,34 @@ public class OpenAPINormalizer {
         } else {
             throw new RuntimeException("Unknown schema type found in normalizer: " + schema);
         }
-
         return schema;
+    }
+
+    /**
+     * Check if normalization is needed.
+     *
+     * No normalization needed if the schema is null or is a $ref or already processed.
+     *
+     * @param schema         Schema
+     * @param visitedSchemas a set of visited schemas
+     * @return false if normalization is needed
+     */
+    protected boolean skipNormalization(Schema schema, Set<Schema> visitedSchemas) {
+        if (schema == null) {
+            return true;
+        }
+
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            // no need to process $ref
+            return true;
+        }
+
+        if (visitedSchemas.contains(schema)) {
+            return true; // skip due to circular reference
+        } else {
+            visitedSchemas.add(schema);
+            return false;
+        }
     }
 
     protected Schema normalizeArraySchema(Schema schema) {

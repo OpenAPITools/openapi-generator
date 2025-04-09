@@ -975,16 +975,19 @@ public class OpenAPINormalizerTest {
         assertEquals(requiredProperties.getRequired(), null);
     }
 
-    static class RemoveRequiredNormalizer extends OpenAPINormalizer {
+    public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
 
         public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
             super(openAPI, inputRules);
         }
 
         @Override
-        protected Schema doNormalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+        public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+            if (skipNormalization(schema, visitedSchemas)) {
+                return schema;
+            }
             schema.setRequired(null);
-            return super.doNormalizeSchema(schema, visitedSchemas);
+            return normalizeSchema(schema, visitedSchemas);
         }
     }
 }
