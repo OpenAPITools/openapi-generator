@@ -4,6 +4,9 @@ package {{packageName}}
 import (
 	"net/http"
 {{#routers}}
+    {{#stdmux}}
+    "fmt"
+    {{/stdmux}}
 	{{#mux}}
 	"github.com/gorilla/mux"
 	{{#featureCORS}}
@@ -33,10 +36,32 @@ type Routes map[string]Route
 type Router interface {
 	Routes() Routes
 }
-
-// NewRouter creates a new router for any number of api routers
-func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}}chi.Router{{/chi}}{{/routers}} {
 {{#routers}}
+{{#stdmux}}
+{{#featureCORS}}
+func CORS(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+        if r.Method == http.MethodOptions {
+            w.WriteHeader(http.StatusNoContent)
+            return
+        }
+
+        next.ServeHTTP(w, r)
+    })
+}
+{{/featureCORS}}
+{{/stdmux}}
+{{/routers}}
+// NewRouter creates a new router for any number of api routers
+func NewRouter(routers ...Router) {{#routers}}{{#stdmux}}*http.ServeMux{{/stdmux}}{{#mux}}*mux.Router{{/mux}}{{#chi}}chi.Router{{/chi}}{{/routers}} {
+{{#routers}}
+    {{#stdmux}}
+    router := http.NewServeMux()
+    {{/stdmux}}
 	{{#mux}}
 	router := mux.NewRouter().StrictSlash(true)
 	{{/mux}}
@@ -49,9 +74,16 @@ func NewRouter(routers ...Router) {{#routers}}{{#mux}}*mux.Router{{/mux}}{{#chi}
 	{{/chi}}
 {{/routers}}
 	for _, api := range routers {
-		for {{#routers}}{{#mux}}name{{/mux}}{{#chi}}_{{/chi}}{{/routers}}, route := range api.Routes() {
+		for {{#routers}}{{#stdmux}}name{{/stdmux}}{{#mux}}name{{/mux}}{{#chi}}_{{/chi}}{{/routers}}, route := range api.Routes() {
 			var handler http.Handler = route.HandlerFunc
 {{#routers}}
+    {{#stdmux}}
+            handler = Logger(handler, name)
+            {{#featureCORS}}
+            handler = CORS(handler)
+            {{/featureCORS}}
+            router.HandleFunc(fmt.Sprintf("%s %s", route.Method, route.Pattern), handler.ServeHTTP)
+    {{/stdmux}}
 	{{#mux}}
 			handler = Logger(handler, name)
 			{{#featureCORS}}
