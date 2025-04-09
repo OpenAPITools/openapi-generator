@@ -14,6 +14,7 @@ paths:
       parameters:
         - in: query
           name: pageQuery
+          required: true
           schema:
             type: object
             properties:
@@ -21,5 +22,14 @@ paths:
                 type: integer
                 format: int32
               limit:
+                type: integer
+                format: int32
+        - in: query
+          name: notRequired
+          required: false
+          schema:
+            type: object
+            properties:
+              foobar:
                 type: integer
                 format: int32
