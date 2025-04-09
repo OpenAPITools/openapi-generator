@@ -61,14 +61,14 @@ public class AppleReq {
    * @return cultivar
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getCultivar() {
     return cultivar;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CULTIVAR)
+  @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setCultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
@@ -85,14 +85,14 @@ public class AppleReq {
    * @return mealy
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getMealy() {
     return mealy;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MEALY)
+  @JsonProperty(value = JSON_PROPERTY_MEALY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMealy(@javax.annotation.Nullable Boolean mealy) {
     this.mealy = mealy;

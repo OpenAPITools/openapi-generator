@@ -47,7 +47,7 @@ public class FakeBigDecimalMap200Response  {
    * Get someId
    * @return someId
    **/
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public BigDecimal getSomeId() {
     return someId;
@@ -56,7 +56,7 @@ public class FakeBigDecimalMap200Response  {
   /**
    * Set someId
    */
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeId(BigDecimal someId) {
     this.someId = someId;
@@ -71,7 +71,7 @@ public class FakeBigDecimalMap200Response  {
    * Get someMap
    * @return someMap
    **/
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, BigDecimal> getSomeMap() {
     return someMap;
@@ -80,7 +80,7 @@ public class FakeBigDecimalMap200Response  {
   /**
    * Set someMap
    */
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeMap(Map<String, BigDecimal> someMap) {
     this.someMap = someMap;

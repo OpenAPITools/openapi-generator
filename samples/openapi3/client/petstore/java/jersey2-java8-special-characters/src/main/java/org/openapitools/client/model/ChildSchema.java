@@ -65,7 +65,7 @@ public class ChildSchema extends Parent {
    * @return prop1
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROP1)
+  @JsonProperty(value = JSON_PROPERTY_PROP1, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getProp1() {
@@ -73,7 +73,7 @@ public class ChildSchema extends Parent {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROP1)
+  @JsonProperty(value = JSON_PROPERTY_PROP1, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setProp1(@javax.annotation.Nullable String prop1) {
     this.prop1 = prop1;

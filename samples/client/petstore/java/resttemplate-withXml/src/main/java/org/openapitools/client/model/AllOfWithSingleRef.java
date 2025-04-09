@@ -64,7 +64,7 @@ public class AllOfWithSingleRef {
    * @return username
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "username")
 
@@ -73,7 +73,7 @@ public class AllOfWithSingleRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonProperty(value = JSON_PROPERTY_USERNAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "username")
   public void setUsername(@javax.annotation.Nullable String username) {
@@ -91,7 +91,7 @@ public class AllOfWithSingleRef {
    * @return singleRefType
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SINGLE_REF_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SingleRefType")
 
@@ -100,7 +100,7 @@ public class AllOfWithSingleRef {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SINGLE_REF_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "SingleRefType")
   public void setSingleRefType(@javax.annotation.Nullable SingleRefType singleRefType) {

@@ -81,7 +81,7 @@ public class Capitalization {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSmallCamel() {
@@ -89,7 +89,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallCamel(@jakarta.annotation.Nullable String smallCamel) {
     this.smallCamel = smallCamel;
@@ -107,7 +107,7 @@ public class Capitalization {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCapitalCamel() {
@@ -115,7 +115,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalCamel(@jakarta.annotation.Nullable String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -133,7 +133,7 @@ public class Capitalization {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSmallSnake() {
@@ -141,7 +141,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallSnake(@jakarta.annotation.Nullable String smallSnake) {
     this.smallSnake = smallSnake;
@@ -159,7 +159,7 @@ public class Capitalization {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getCapitalSnake() {
@@ -167,7 +167,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalSnake(@jakarta.annotation.Nullable String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -185,7 +185,7 @@ public class Capitalization {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getScAETHFlowPoints() {
@@ -193,7 +193,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setScAETHFlowPoints(@jakarta.annotation.Nullable String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -211,7 +211,7 @@ public class Capitalization {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getATTNAME() {
@@ -219,7 +219,7 @@ public class Capitalization {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setATTNAME(@jakarta.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;

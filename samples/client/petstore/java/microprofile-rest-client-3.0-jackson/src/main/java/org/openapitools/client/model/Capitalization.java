@@ -66,7 +66,7 @@ public class Capitalization  {
    * Get smallCamel
    * @return smallCamel
    **/
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSmallCamel() {
     return smallCamel;
@@ -75,7 +75,7 @@ public class Capitalization  {
   /**
    * Set smallCamel
    */
-  @JsonProperty(JSON_PROPERTY_SMALL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -90,7 +90,7 @@ public class Capitalization  {
    * Get capitalCamel
    * @return capitalCamel
    **/
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCapitalCamel() {
     return capitalCamel;
@@ -99,7 +99,7 @@ public class Capitalization  {
   /**
    * Set capitalCamel
    */
-  @JsonProperty(JSON_PROPERTY_CAPITAL_CAMEL)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_CAMEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -114,7 +114,7 @@ public class Capitalization  {
    * Get smallSnake
    * @return smallSnake
    **/
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getSmallSnake() {
     return smallSnake;
@@ -123,7 +123,7 @@ public class Capitalization  {
   /**
    * Set smallSnake
    */
-  @JsonProperty(JSON_PROPERTY_SMALL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_SMALL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -138,7 +138,7 @@ public class Capitalization  {
    * Get capitalSnake
    * @return capitalSnake
    **/
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getCapitalSnake() {
     return capitalSnake;
@@ -147,7 +147,7 @@ public class Capitalization  {
   /**
    * Set capitalSnake
    */
-  @JsonProperty(JSON_PROPERTY_CAPITAL_SNAKE)
+  @JsonProperty(value = JSON_PROPERTY_CAPITAL_SNAKE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -162,7 +162,7 @@ public class Capitalization  {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    **/
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -171,7 +171,7 @@ public class Capitalization  {
   /**
    * Set scAETHFlowPoints
    */
-  @JsonProperty(JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS)
+  @JsonProperty(value = JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -186,7 +186,7 @@ public class Capitalization  {
    * Name of the pet 
    * @return ATT_NAME
    **/
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getATTNAME() {
     return ATT_NAME;
@@ -195,7 +195,7 @@ public class Capitalization  {
   /**
    * Set ATT_NAME
    */
-  @JsonProperty(JSON_PROPERTY_A_T_T_N_A_M_E)
+  @JsonProperty(value = JSON_PROPERTY_A_T_T_N_A_M_E, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;

@@ -100,7 +100,7 @@ public class BigCat extends Cat {
    * @return kind
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonProperty(value = JSON_PROPERTY_KIND, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public KindEnum getKind() {
@@ -108,7 +108,7 @@ public class BigCat extends Cat {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_KIND)
+  @JsonProperty(value = JSON_PROPERTY_KIND, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setKind(@javax.annotation.Nullable KindEnum kind) {
     this.kind = kind;

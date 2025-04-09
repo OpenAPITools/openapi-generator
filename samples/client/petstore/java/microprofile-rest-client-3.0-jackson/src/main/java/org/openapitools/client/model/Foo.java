@@ -38,7 +38,7 @@ public class Foo  {
    * Get bar
    * @return bar
    **/
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -47,7 +47,7 @@ public class Foo  {
   /**
    * Set bar
    */
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBar(String bar) {
     this.bar = bar;

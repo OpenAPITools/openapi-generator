@@ -53,7 +53,7 @@ public class ReadOnlyFirst  {
    * Get bar
    * @return bar
    **/
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -64,7 +64,7 @@ public class ReadOnlyFirst  {
    * Get baz
    * @return baz
    **/
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBaz() {
     return baz;
@@ -73,7 +73,7 @@ public class ReadOnlyFirst  {
   /**
    * Set baz
    */
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(String baz) {
     this.baz = baz;

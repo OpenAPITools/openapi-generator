@@ -106,7 +106,7 @@ public class ParentWithNullable {
    * @return type
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public TypeEnum getType() {
@@ -114,7 +114,7 @@ public class ParentWithNullable {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TYPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setType(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
@@ -137,14 +137,14 @@ public class ParentWithNullable {
         return nullableProperty.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getNullableProperty_JsonNullable() {
     return nullableProperty;
   }
   
-  @JsonProperty(JSON_PROPERTY_NULLABLE_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_PROPERTY, required = false)
   public void setNullableProperty_JsonNullable(JsonNullable<String> nullableProperty) {
     this.nullableProperty = nullableProperty;
   }
