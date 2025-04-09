@@ -297,7 +297,7 @@ import java.text.DateFormat
             val localVariableBody = 
                         formData {
                         additionalMetadata?.apply { append("additionalMetadata", additionalMetadata) }
-                        file?.apply { append("file", file) }
+                        file?.apply { append(file) }
                         }
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
