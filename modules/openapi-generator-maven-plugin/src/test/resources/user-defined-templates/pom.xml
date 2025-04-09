@@ -22,46 +22,6 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>OpenAPI Generator Configuration Test</name>
     <url>https://openapi-generator.tech/</url>
-    <profiles>
-        <profile>
-            <id>file</id>
-            <properties>
-                <inputSpec>${basedir}/src/main/resources/petstore.yaml</inputSpec>
-            </properties>
-        </profile>
-        <profile>
-            <id>resource</id>
-            <properties>
-                <inputSpec>petstore-on-classpath.yaml</inputSpec>
-            </properties>
-        </profile>
-        <profile>
-            <id>resource-external-ref</id>
-            <properties>
-                <!-- Directory schemas inside schema-external-ref to not shadow JARs schema directory   -->
-                <inputSpec>schema-external-ref/petstore-on-classpath.yaml</inputSpec>
-            </properties>
-        </profile>
-        <profile>
-            <id>jar</id>
-            <properties>
-                <inputSpec>jar:file:${basedir}/local-repo/petstore/schema/1/schema-1.jar!/petstore.yaml</inputSpec>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>petstore</groupId>
-                    <artifactId>schema</artifactId>
-                    <version>1</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>user-templates</id>
-            <properties>
-                <inputSpec>${basedir}/src/main/resources/petstore.yaml</inputSpec>
-            </properties>
-        </profile>
-    </profiles>
     <build>
         <finalName>common-maven</finalName>
         <plugins>
@@ -69,7 +29,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <configuration>
-                    <inputSpec>${inputSpec}</inputSpec>
+                    <inputSpec>${basedir}/src/main/resources/petstore.yaml</inputSpec>
                     <generatorName>java</generatorName>
                     <configOptions>
                         <dateLibrary>joda</dateLibrary>
@@ -82,6 +42,10 @@
                     <invokerPackage>remote.org.openapitools.client</invokerPackage>
                     <collapsedSpec>petstore-full-spec</collapsedSpec>
                     <includeCollapsedSpecInArtifacts>true</includeCollapsedSpecInArtifacts>
+                    <templateDirectory>${basedir}/templates</templateDirectory>
+                    <userDefinedTemplateFiles>
+                        <userDefinedTemplateFile>templateFile=modeltest.mustache,templateType=models,destinationFilename=Custom.java</userDefinedTemplateFile>
+                    </userDefinedTemplateFiles>
                 </configuration>
                 <executions>
                     <execution>

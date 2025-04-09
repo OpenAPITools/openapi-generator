@@ -159,6 +159,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String templateResourcePath;
 
     /**
+     * Specifies userDefinedTemplates relative to templateDir, see Customizing for more info
+     */
+    @Parameter(name = "userDefinedTemplateFiles")
+    private List<String> userDefinedTemplateFiles;
+
+    /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
      */
     @Parameter(name = "engine", defaultValue = "mustache", property = "openapi.generator.maven.plugin.engine")
@@ -730,6 +736,7 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setApiNameSuffix(apiNameSuffix);
             }
 
+
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
             }
@@ -942,6 +949,10 @@ public class CodeGenMojo extends AbstractMojo {
                 if (value != null) {
                     configurator.addGlobalProperty(key, value);
                 }
+            }
+
+            if(userDefinedTemplateFiles != null && userDefinedTemplateFiles.size() > 0) {
+                applyUserDefinedTemplateFilesKvpList(userDefinedTemplateFiles, configurator);
             }
 
             final ClientOptInput input = configurator.toClientOptInput();
