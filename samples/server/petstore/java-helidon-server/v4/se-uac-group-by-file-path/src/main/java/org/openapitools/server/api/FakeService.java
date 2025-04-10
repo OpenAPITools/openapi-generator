@@ -682,6 +682,14 @@ public abstract class FakeService implements HttpService {
         // Parameter: enum_form_string
         Optional<String> enumFormString = testEnumParametersOp.enumFormString(request, formParams, validator);
 
+
+        // Parameter: enum_form_integer
+        Optional<Integer> enumFormInteger = testEnumParametersOp.enumFormInteger(request, formParams, validator);
+
+
+        // Parameter: enum_form_double
+        Optional<BigDecimal> enumFormDouble = testEnumParametersOp.enumFormDouble(request, formParams, validator);
+
         validator.execute();
 
         handleTestEnumParameters(request, response, 
@@ -693,7 +701,9 @@ public abstract class FakeService implements HttpService {
                     enumQueryDouble, 
                     enumQueryModelArray, 
                     enumFormStringArray, 
-                    enumFormString);
+                    enumFormString, 
+                    enumFormInteger, 
+                    enumFormDouble);
     }
 
     /**
@@ -710,6 +720,8 @@ public abstract class FakeService implements HttpService {
      * @param enumQueryModelArray enumQueryModelArray 
      * @param enumFormStringArray Form parameter enum test (string array) 
      * @param enumFormString Form parameter enum test (string) 
+     * @param enumFormInteger Form parameter enum test (integer) 
+     * @param enumFormDouble Form parameter enum test (double) 
      */
     protected abstract void handleTestEnumParameters(ServerRequest request, ServerResponse response, 
                 List<String> enumHeaderStringArray, 
@@ -720,7 +732,9 @@ public abstract class FakeService implements HttpService {
                 Optional<Double> enumQueryDouble, 
                 List<EnumClass> enumQueryModelArray, 
                 List<String> enumFormStringArray, 
-                Optional<String> enumFormString);
+                Optional<String> enumFormString, 
+                Optional<Integer> enumFormInteger, 
+                Optional<BigDecimal> enumFormDouble);
 
     /**
      * DELETE /fake : Fake endpoint to test group parameters (optional).
@@ -2981,6 +2995,47 @@ public abstract class FakeService implements HttpService {
                      List.of("_abc",
                              "-efg",
                              "(xyz)")));
+        }
+
+        /**
+         * Prepares the enumFormInteger parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return enumFormInteger parameter value
+         */
+        protected Optional<Integer> enumFormInteger(ServerRequest request, Parameters formParams, ValidatorUtils.Validator validator) {
+            return formParams
+                .first("enum_form_integer")
+                .asOptional()
+                .or(() -> Optional.of("1"))
+                .map(Integer::valueOf)
+                .map(v -> validator.check("enum_form_integer",
+                     v,
+                     List.of(1,
+                             -1,
+                             0)));
+        }
+
+        /**
+         * Prepares the enumFormDouble parameter.
+         *
+         * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
+         * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
+         * @return enumFormDouble parameter value
+         */
+        protected Optional<BigDecimal> enumFormDouble(ServerRequest request, Parameters formParams, ValidatorUtils.Validator validator) {
+            return formParams
+                .first("enum_form_double")
+                .asOptional()
+                .or(() -> Optional.of("1.1"))
+                .map(BigDecimal::new)
+                .map(v -> validator.check("enum_form_double",
+                     v,
+                     List.of(new BigDecimal("1.1"),
+                             new BigDecimal("-1.1"),
+                             new BigDecimal("0.1"),
+                             new BigDecimal("0.0"))));
         }
 
         /**

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -83,6 +84,14 @@ class OrderTest {
     @Test
     void completeTest() {
         // TODO: test complete
+    }
+
+    /**
+     * Test the property 'paymentMethod'
+     */
+    @Test
+    void paymentMethodTest() {
+        // TODO: test paymentMethod
     }
 
 }
