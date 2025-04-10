@@ -719,6 +719,8 @@ public class OpenAPINormalizer {
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
+        markSchemaAsVisited(schema, visitedSchemas);
+
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             normalizeSchema(result.getItems(), visitedSchemas);
@@ -774,6 +776,7 @@ public class OpenAPINormalizer {
         return schema;
     }
 
+
     /**
      * Check if normalization is needed.
      *
@@ -796,8 +799,19 @@ public class OpenAPINormalizer {
         if (visitedSchemas.contains(schema)) {
             return true; // skip due to circular reference
         } else {
-            visitedSchemas.add(schema);
             return false;
+        }
+    }
+
+    /**
+     * Add the schema to the collection of visited schemas.
+     *
+     * @param schema schema to add
+     * @param visitedSchemas current visited schemas
+     */
+    protected void markSchemaAsVisited(Schema schema, Set<Schema> visitedSchemas) {
+        if (schema != null) {
+            visitedSchemas.add(schema);
         }
     }
 

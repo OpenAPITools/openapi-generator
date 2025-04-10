@@ -987,7 +987,7 @@ public class OpenAPINormalizerTest {
                 return schema;
             }
             schema.setRequired(null);
-            return normalizeSchema(schema, visitedSchemas);
+            return super.normalizeSchema(schema, visitedSchemas);
         }
     }
 }
