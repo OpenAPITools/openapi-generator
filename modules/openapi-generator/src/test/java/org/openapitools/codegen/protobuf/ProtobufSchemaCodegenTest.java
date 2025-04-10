@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
-import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.SIMPLE_ENUM_NAME;
+import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.USE_SIMPLIFIED_ENUM_NAMES;
 import static org.testng.Assert.assertEquals;
 
 public class ProtobufSchemaCodegenTest {
@@ -169,7 +169,7 @@ public class ProtobufSchemaCodegenTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
-        codegen.additionalProperties().put(SIMPLE_ENUM_NAME, simpleEnumValue);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, simpleEnumValue);
         codegen.processOpts();
         codegen.postProcessModels(createCodegenModelWrapper(cm));
 

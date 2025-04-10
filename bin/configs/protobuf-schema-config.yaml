@@ -10,7 +10,7 @@ additionalProperties:
   wrapComplexType: false
   supportMultipleResponses: false
   aggregateModelsName: data
-  enumSimpleName: true
+  useSimplifiedEnumNames: true
 typeMappings:
   object: "google.protobuf.Struct"
 importMappings:
