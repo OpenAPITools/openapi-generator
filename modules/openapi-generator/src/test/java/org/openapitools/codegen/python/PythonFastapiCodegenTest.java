@@ -1,10 +1,10 @@
 package org.openapitools.codegen.python;
 
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.testng.annotations.Test;
-import org.openapitools.codegen.CodegenConstants;
 
 import java.io.File;
 import java.io.IOException;

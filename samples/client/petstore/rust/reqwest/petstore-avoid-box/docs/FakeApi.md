@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## test_nullable_required_param
 
-> test_nullable_required_param(user_name, dummy_required_nullable_param, uppercase, content)
+> test_nullable_required_param(user_name, dummy_required_nullable_param, any_type, uppercase, content)
 To test nullable required parameters
 
 
@@ -22,6 +22,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **user_name** | **String** | The name that needs to be fetched. Use user1 for testing. | [required] |
 **dummy_required_nullable_param** | Option<**String**> | To test nullable required parameters | [required] |
+**any_type** | **String** |  | [required] |
 **uppercase** | Option<**String**> | To test parameter names in upper case |  |
 **content** | Option<**String**> | To test escaping of parameters in rust code works |  |
 

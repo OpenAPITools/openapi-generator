@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class DefaultApi {
   private ApiClient apiClient;
 
@@ -59,7 +59,7 @@ public class DefaultApi {
        <tr><td> 200 </td><td> the response </td><td>  -  </td></tr>
      </table>
    */
-  public MySchemaNameCharacters testPost(MySchemaNameCharacters mySchemaNameCharacters) throws ApiException {
+  public MySchemaNameCharacters testPost(@javax.annotation.Nullable MySchemaNameCharacters mySchemaNameCharacters) throws ApiException {
     return testPostWithHttpInfo(mySchemaNameCharacters).getData();
   }
 
@@ -76,7 +76,7 @@ public class DefaultApi {
        <tr><td> 200 </td><td> the response </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<MySchemaNameCharacters> testPostWithHttpInfo(MySchemaNameCharacters mySchemaNameCharacters) throws ApiException {
+  public ApiResponse<MySchemaNameCharacters> testPostWithHttpInfo(@javax.annotation.Nullable MySchemaNameCharacters mySchemaNameCharacters) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("application/json");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
     GenericType<MySchemaNameCharacters> localVarReturnType = new GenericType<MySchemaNameCharacters>() {};

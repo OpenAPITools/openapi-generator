@@ -1339,6 +1339,111 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EnumClass'
+  /fake/with_400_response/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400 response http code with dataType
+      operationId: fake-with_400_response-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_4xx_range_response/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400-499 range response http code with dataType
+      operationId: fake-with_4xx_range_response-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '4xx':
+          description: Range of HTTP code 400-499
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_4xx_range_response_no_4xx_datatype/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400-499 range response http code without dataType
+      operationId: fake-with_4xx_range_response_no_4xx_datatype-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '4xx':
+          description: Range of HTTP code 400-499
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_400_and_4xx_range_response/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400 and 400-499 range response http code with dataType
+      operationId: fake-with_400_and_4xx_range_response-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '4xx':
+          description: Range of HTTP code 400-499
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  /fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint:
+    post:
+      tags:
+        - fake
+      summary: test endpoint with 400 and 400-499 range response http code without dataType
+      operationId: fake-with_400_and_4xx_range_response_no_4xx_datatype-endpoint
+      responses:
+        200:
+          description: Valid status value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+        '4xx':
+          description: Range of HTTP code 400-499
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2118,3 +2223,10 @@ components:
         - The word one
         - The digit two
         - The digit three prefixed by a space
+    ErrorResponse:
+      type: object
+      properties:
+        response_code:
+          type: integer
+        error:
+          type: string

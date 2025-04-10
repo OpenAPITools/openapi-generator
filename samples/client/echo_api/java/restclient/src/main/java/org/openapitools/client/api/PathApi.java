@@ -11,19 +11,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class PathApi {
     private ApiClient apiClient;
 
@@ -55,7 +55,7 @@ public class PathApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws RestClientResponseException {
+    private ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'pathString' is set
         if (pathString == null) {
@@ -110,7 +110,7 @@ public class PathApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws RestClientResponseException {
+    public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).body(localVarReturnType);
     }
@@ -126,7 +126,7 @@ public class PathApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws RestClientResponseException {
+    public ResponseEntity<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).toEntity(localVarReturnType);
     }
@@ -142,7 +142,7 @@ public class PathApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithResponseSpec(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws RestClientResponseException {
+    public ResponseSpec testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithResponseSpec(@jakarta.annotation.Nonnull String pathString, @jakarta.annotation.Nonnull Integer pathInteger, @jakarta.annotation.Nonnull String enumNonrefStringPath, @jakarta.annotation.Nonnull StringEnumRef enumRefStringPath) throws RestClientResponseException {
         return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestCreation(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
     }
 }

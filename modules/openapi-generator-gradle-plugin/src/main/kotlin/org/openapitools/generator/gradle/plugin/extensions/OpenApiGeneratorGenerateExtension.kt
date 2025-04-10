@@ -51,13 +51,27 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     /**
      * The Open API 2.0/3.x specification location.
+     *
+     * Be default, Gradle will treat the openApiGenerate task as up-to-date based only on this file, regardless of
+     * changes to any $ref referenced files. Use the `inputSpecRootDirectory` property to have Gradle track changes to
+     * an entire directory of spec files.
      */
     val inputSpec = project.objects.property<String>()
 
     /**
-     * Local root folder with spec files
+     * Local root folder with spec files.
+     *
+     * By default, a merged spec file will be generated based on the contents of the directory. To disable this, set the
+     * `inputSpecRootDirectorySkipMerge` property.
      */
     val inputSpecRootDirectory = project.objects.property<String>()
+
+    /**
+     * Skip bundling all spec files into a merged spec file, if true.
+     *
+     * Default false.
+     */
+    val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
 
     /**
      * The remote Open API 2.0/3.x specification URL location.
@@ -400,6 +414,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     @Suppress("MemberVisibilityCanBePrivate")
     fun applyDefaults() {
         releaseNote.set("Minor update")
+        inputSpecRootDirectorySkipMerge.set(false)
         modelNamePrefix.set("")
         modelNameSuffix.set("")
         apiNameSuffix.set("")

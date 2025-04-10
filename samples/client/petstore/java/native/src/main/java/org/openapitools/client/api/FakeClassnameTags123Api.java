@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
@@ -50,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -61,7 +62,7 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
 
   public FakeClassnameTags123Api() {
-    this(new ApiClient());
+    this(Configuration.getDefaultApiClient());
   }
 
   public FakeClassnameTags123Api(ApiClient apiClient) {
@@ -94,7 +95,7 @@ public class FakeClassnameTags123Api {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClassname(Client client) throws ApiException {
+  public Client testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
     ApiResponse<Client> localVarResponse = testClassnameWithHttpInfo(client);
     return localVarResponse.getData();
   }
@@ -106,7 +107,7 @@ public class FakeClassnameTags123Api {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
     HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -146,7 +147,7 @@ public class FakeClassnameTags123Api {
     }
   }
 
-  private HttpRequest.Builder testClassnameRequestBuilder(Client client) throws ApiException {
+  private HttpRequest.Builder testClassnameRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");

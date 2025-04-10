@@ -13,7 +13,7 @@ public typealias Return = PetstoreClientAPI.Return
 extension PetstoreClientAPI {
 
 /** Model for testing reserved words */
-public final class Return: @unchecked Sendable, Codable, JSONEncodable, Hashable {
+public final class Return: @unchecked Sendable, Codable, QueryStringEncodable, Hashable {
 
     public private(set) var _return: Int?
 

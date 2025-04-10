@@ -21,11 +21,7 @@ import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.FileSchema;
-import io.swagger.v3.oas.models.media.XML;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -38,11 +34,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.model.ApiInfoMap;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -591,7 +583,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         op.vendorExtensions.put("x-is-delete", isDelete);
 
         if (isDelete) {
-          additionalProperties.put("apiHasDeleteMethods", true);
+            additionalProperties.put("apiHasDeleteMethods", true);
         }
 
         if (!op.vendorExtensions.containsKey("x-must-use-response")) {
@@ -821,7 +813,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         operationList.sort((one, another) -> {
             int params_compare = ObjectUtils.compare(one.pathParams.size(), another.pathParams.size());
-                if (params_compare == 0) {
+            if (params_compare == 0) {
                 return ObjectUtils.compare(one.operationId, another.operationId);
             } else {
                 return params_compare;
@@ -863,7 +855,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         }
 
-        if (op.bodyParams.size() > 0 || op.formParams.size() > 0){
+        if (op.bodyParams.size() > 0 || op.formParams.size() > 0) {
             op.vendorExtensions.put("x-has-request-body", true);
         }
 
@@ -1583,7 +1575,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {commandPrefix, file.toString()});
+            this.executePostProcessor(new String[]{commandPrefix, file.toString()});
         }
     }
 

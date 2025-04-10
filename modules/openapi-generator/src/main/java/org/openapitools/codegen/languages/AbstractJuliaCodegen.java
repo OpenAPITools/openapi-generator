@@ -16,16 +16,24 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.base.CaseFormat;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.templating.mustache.EscapeChar;
+import org.openapitools.codegen.utils.CamelizeOption;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -33,26 +41,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.servers.Server;
-
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-
-import org.openapitools.codegen.utils.CamelizeOption;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.CaseFormat;
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
-import org.openapitools.codegen.templating.mustache.EscapeChar;
 
 public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected final Logger LOGGER = LoggerFactory.getLogger(AbstractJuliaCodegen.class);
@@ -72,22 +61,22 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     protected final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
     protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
     protected final List<String> UNQUOTED_DATATYPES = Arrays.asList(
-        "int",
-        "integer",
-        "long",
-        "short",
-        "byte",
-        "float",
-        "double",
-        "number",
-        "decimal",
-        "boolean",
-        "Int64",
-        "Int32",
-        "UInt8",
-        "Float32",
-        "Float64",
-        "Bool"
+            "int",
+            "integer",
+            "long",
+            "short",
+            "byte",
+            "float",
+            "double",
+            "number",
+            "decimal",
+            "boolean",
+            "Int64",
+            "Int32",
+            "UInt8",
+            "Float32",
+            "Float64",
+            "Bool"
     );
 
 
@@ -419,9 +408,9 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
                 Object _default_obj = schema.getDefault();
                 String _default;
                 if (_default_obj instanceof DateTime) {
-                    _default = DATE_TIME_FORMAT.format((DateTime)_default_obj);
+                    _default = DATE_TIME_FORMAT.format((DateTime) _default_obj);
                 } else if (_default_obj instanceof OffsetDateTime) {
-                    _default = OFFSET_DATE_TIME_FORMAT.format((OffsetDateTime)_default_obj);
+                    _default = OFFSET_DATE_TIME_FORMAT.format((OffsetDateTime) _default_obj);
                 } else {
                     _default = _default_obj.toString();
                 }
@@ -465,29 +454,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         return input.replace("\"", "\\\"");
     }
 
-    protected String escapeRegex(String pattern) {
-        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
-        pattern = pattern.replaceAll("^/", "");
-        pattern = pattern.replaceAll("/$", "");
-        return pattern;
-    }
-
-    /**
-     * Convert OpenAPI Parameter object to Codegen Parameter object
-     *
-     * @param imports set of imports for library/package/module
-     * @param param   OpenAPI parameter object
-     * @return Codegen Parameter object
-     */
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
-        if (parameter.pattern != null) {
-            parameter.pattern = escapeRegex(parameter.pattern);
-        }
-        return parameter;
-    }
-
     /**
      * Convert OAS Property schema to Codegen Property object.
      * <p>
@@ -508,9 +474,6 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
         // if the name needs any escaping, we set it to var"name"
         if (needsVarEscape(property.name)) {
             property.name = "var\"" + property.name + "\"";
-        }
-        if (property.pattern != null) {
-            property.pattern = escapeRegex(property.pattern);
         }
         return property;
     }
@@ -540,6 +503,19 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
                 param.paramName = param.paramName + "param";
             }
         }
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        if (pattern == null) {
+            return pattern;
+        }
+
+        pattern = escapeText(pattern);
+        // escapeText unnecessarily escapes `\` such that `\.` in the regex ends up as `\\.` for example.
+        // we need to restore it back by converting `\\` to `\`
+        pattern = pattern.replaceAll("\\\\\\\\", "\\\\");
+        return pattern;
     }
 
     /**

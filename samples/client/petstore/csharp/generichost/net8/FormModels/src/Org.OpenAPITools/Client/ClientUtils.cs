@@ -26,7 +26,7 @@ namespace Org.OpenAPITools.Client
     /// <summary>
     /// Utility functions providing some benefit to API client consumers.
     /// </summary>
-    public static class ClientUtils
+    public static partial class ClientUtils
     {
         /// <summary>
         /// An instance of CompareLogic.
@@ -128,17 +128,6 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-        /// Sanitize filename by removing the path
-        /// </summary>
-        /// <param name="filename">Filename</param>
-        /// <returns>Filename</returns>
-        public static string SanitizeFilename(string filename)
-        {
-            Match match = Regex.Match(filename, @".*[/\\](.*)$");
-            return match.Success ? match.Groups[1].Value : filename;
-        }
-
-        /// <summary>
         /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
         /// If parameter is a list, join the list with ",".
         /// Otherwise just return the string.
@@ -212,6 +201,8 @@ namespace Org.OpenAPITools.Client
                 return RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClassRequiredNullableEnumIntegerOnly).ToString();
             if (obj is RequiredClassRequiredNullableEnumString requiredClassRequiredNullableEnumString)
                 return RequiredClassRequiredNullableEnumStringValueConverter.ToJsonValue(requiredClassRequiredNullableEnumString);
+            if (obj is TestDescendantsObjectType testDescendantsObjectType)
+                return TestDescendantsObjectTypeValueConverter.ToJsonValue(testDescendantsObjectType);
             if (obj is TestEnumParametersEnumHeaderStringParameter testEnumParametersEnumHeaderStringParameter)
                 return TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter);
             if (obj is TestEnumParametersEnumQueryDoubleParameter testEnumParametersEnumQueryDoubleParameter)
@@ -222,6 +213,8 @@ namespace Org.OpenAPITools.Client
                 return TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString);
             if (obj is TestEnumParametersRequestEnumFormStringArrayInner testEnumParametersRequestEnumFormStringArrayInner)
                 return TestEnumParametersRequestEnumFormStringArrayInnerValueConverter.ToJsonValue(testEnumParametersRequestEnumFormStringArrayInner);
+            if (obj is TestResultCode testResultCode)
+                return TestResultCodeValueConverter.ToJsonValue(testResultCode);
             if (obj is ZebraType zebraType)
                 return ZebraTypeValueConverter.ToJsonValue(zebraType);
             if (obj is ZeroBasedEnum zeroBasedEnum)
@@ -340,7 +333,8 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
-        public static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+        [GeneratedRegex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")]
+        private static partial Regex JsonRegex();
 
         /// <summary>
         /// Check if the given MIME is a JSON MIME.
@@ -356,7 +350,7 @@ namespace Org.OpenAPITools.Client
         {
             if (string.IsNullOrWhiteSpace(mime)) return false;
 
-            return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
+            return JsonRegex().IsMatch(mime) || mime.Equals("application/json-patch+json");
         }
 
         /// <summary>

@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-public struct Model200Response: Sendable, Codable, JSONEncodable, Hashable {
+public struct Model200Response: Sendable, Codable, QueryStringEncodable, Hashable {
 
     public var name: Int?
     public var _class: String?

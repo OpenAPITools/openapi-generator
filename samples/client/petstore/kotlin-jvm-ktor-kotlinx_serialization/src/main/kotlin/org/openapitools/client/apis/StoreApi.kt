@@ -34,6 +34,7 @@ import io.ktor.http.ParametersBuilder
     ) {
 
         /**
+        * DELETE /store/order/{orderId}
         * Delete purchase order by ID
         * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
          * @param orderId ID of the order that needs to be deleted 
@@ -66,6 +67,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /store/inventory
         * Returns pet inventories by status
         * Returns a map of status codes to quantities
          * @return kotlin.collections.Map<kotlin.String, kotlin.Int>
@@ -98,6 +100,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * GET /store/order/{orderId}
         * Find purchase order by ID
         * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
          * @param orderId ID of pet that needs to be fetched 
@@ -131,6 +134,7 @@ import io.ktor.http.ParametersBuilder
             }
 
         /**
+        * POST /store/order
         * Place an order for a pet
         * 
          * @param order order placed for purchasing the pet 

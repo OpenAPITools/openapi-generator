@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FormApi {
   private ApiClient apiClient;
 
@@ -43,7 +43,7 @@ public class FormApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -87,7 +87,7 @@ if (stringForm != null)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'marker' is set
@@ -137,7 +137,7 @@ if (stringForm != null)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables

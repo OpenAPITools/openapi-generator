@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -49,7 +49,7 @@ public class UserApi {
     * @param body Created user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUser(User body) throws IOException {
+    public void createUser(@javax.annotation.Nonnull User body) throws IOException {
         createUserForHttpResponse(body);
     }
 
@@ -61,11 +61,11 @@ public class UserApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUser(User body, Map<String, Object> params) throws IOException {
+    public void createUser(@javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
         createUserForHttpResponse(body, params);
     }
 
-    public HttpResponse createUserForHttpResponse(User body) throws IOException {
+    public HttpResponse createUserForHttpResponse(@javax.annotation.Nonnull User body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUser");
@@ -95,7 +95,7 @@ public class UserApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse createUserForHttpResponse(User body, Map<String, Object> params) throws IOException {
+    public HttpResponse createUserForHttpResponse(@javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUser");
@@ -134,7 +134,7 @@ public class UserApi {
     * @param body List of user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithArrayInput(List<User> body) throws IOException {
+    public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> body) throws IOException {
         createUsersWithArrayInputForHttpResponse(body);
     }
 
@@ -145,11 +145,11 @@ public class UserApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithArrayInput(List<User> body, Map<String, Object> params) throws IOException {
+    public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> body, Map<String, Object> params) throws IOException {
         createUsersWithArrayInputForHttpResponse(body, params);
     }
 
-    public HttpResponse createUsersWithArrayInputForHttpResponse(List<User> body) throws IOException {
+    public HttpResponse createUsersWithArrayInputForHttpResponse(@javax.annotation.Nonnull List<User> body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithArrayInput");
@@ -179,7 +179,7 @@ public class UserApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse createUsersWithArrayInputForHttpResponse(List<User> body, Map<String, Object> params) throws IOException {
+    public HttpResponse createUsersWithArrayInputForHttpResponse(@javax.annotation.Nonnull List<User> body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithArrayInput");
@@ -218,7 +218,7 @@ public class UserApi {
     * @param body List of user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithListInput(List<User> body) throws IOException {
+    public void createUsersWithListInput(@javax.annotation.Nonnull List<User> body) throws IOException {
         createUsersWithListInputForHttpResponse(body);
     }
 
@@ -229,11 +229,11 @@ public class UserApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithListInput(List<User> body, Map<String, Object> params) throws IOException {
+    public void createUsersWithListInput(@javax.annotation.Nonnull List<User> body, Map<String, Object> params) throws IOException {
         createUsersWithListInputForHttpResponse(body, params);
     }
 
-    public HttpResponse createUsersWithListInputForHttpResponse(List<User> body) throws IOException {
+    public HttpResponse createUsersWithListInputForHttpResponse(@javax.annotation.Nonnull List<User> body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithListInput");
@@ -263,7 +263,7 @@ public class UserApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse createUsersWithListInputForHttpResponse(List<User> body, Map<String, Object> params) throws IOException {
+    public HttpResponse createUsersWithListInputForHttpResponse(@javax.annotation.Nonnull List<User> body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithListInput");
@@ -304,7 +304,7 @@ public class UserApi {
     * @param username The name that needs to be deleted
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void deleteUser(String username) throws IOException {
+    public void deleteUser(@javax.annotation.Nonnull String username) throws IOException {
         deleteUserForHttpResponse(username);
     }
 
@@ -317,11 +317,11 @@ public class UserApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void deleteUser(String username, Map<String, Object> params) throws IOException {
+    public void deleteUser(@javax.annotation.Nonnull String username, Map<String, Object> params) throws IOException {
         deleteUserForHttpResponse(username, params);
     }
 
-    public HttpResponse deleteUserForHttpResponse(String username) throws IOException {
+    public HttpResponse deleteUserForHttpResponse(@javax.annotation.Nonnull String username) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling deleteUser");
@@ -338,7 +338,7 @@ public class UserApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
-    public HttpResponse deleteUserForHttpResponse(String username, Map<String, Object> params) throws IOException {
+    public HttpResponse deleteUserForHttpResponse(@javax.annotation.Nonnull String username, Map<String, Object> params) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling deleteUser");
@@ -383,7 +383,7 @@ public class UserApi {
     * @return User
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public User getUserByName(String username) throws IOException {
+    public User getUserByName(@javax.annotation.Nonnull String username) throws IOException {
         HttpResponse response = getUserByNameForHttpResponse(username);
         TypeReference<User> typeRef = new TypeReference<User>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -399,13 +399,13 @@ public class UserApi {
     * @return User
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public User getUserByName(String username, Map<String, Object> params) throws IOException {
+    public User getUserByName(@javax.annotation.Nonnull String username, Map<String, Object> params) throws IOException {
         HttpResponse response = getUserByNameForHttpResponse(username, params);
         TypeReference<User> typeRef = new TypeReference<User>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse getUserByNameForHttpResponse(String username) throws IOException {
+    public HttpResponse getUserByNameForHttpResponse(@javax.annotation.Nonnull String username) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling getUserByName");
@@ -422,7 +422,7 @@ public class UserApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
-    public HttpResponse getUserByNameForHttpResponse(String username, Map<String, Object> params) throws IOException {
+    public HttpResponse getUserByNameForHttpResponse(@javax.annotation.Nonnull String username, Map<String, Object> params) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling getUserByName");
@@ -467,7 +467,7 @@ public class UserApi {
     * @return String
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public String loginUser(String username, String password) throws IOException {
+    public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws IOException {
         HttpResponse response = loginUserForHttpResponse(username, password);
         TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -483,13 +483,13 @@ public class UserApi {
     * @return String
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public String loginUser(String username, String password, Map<String, Object> params) throws IOException {
+    public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Map<String, Object> params) throws IOException {
         HttpResponse response = loginUserForHttpResponse(username, password, params);
         TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse loginUserForHttpResponse(String username, String password) throws IOException {
+    public HttpResponse loginUserForHttpResponse(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling loginUser");
@@ -527,7 +527,7 @@ public class UserApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
-    public HttpResponse loginUserForHttpResponse(String username, String password, Map<String, Object> params) throws IOException {
+    public HttpResponse loginUserForHttpResponse(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Map<String, Object> params) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling loginUser");
@@ -636,7 +636,7 @@ public class UserApi {
     * @param body Updated user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updateUser(String username, User body) throws IOException {
+    public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body) throws IOException {
         updateUserForHttpResponse(username, body);
     }
 
@@ -650,11 +650,11 @@ public class UserApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updateUser(String username, User body, Map<String, Object> params) throws IOException {
+    public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
         updateUserForHttpResponse(username, body, params);
     }
 
-    public HttpResponse updateUserForHttpResponse(String username, User body) throws IOException {
+    public HttpResponse updateUserForHttpResponse(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling updateUser");
@@ -674,7 +674,7 @@ public class UserApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
-      public HttpResponse updateUserForHttpResponse(String username, java.io.InputStream body, String mediaType) throws IOException {
+      public HttpResponse updateUserForHttpResponse(@javax.annotation.Nonnull String username, java.io.InputStream body, String mediaType) throws IOException {
           // verify the required parameter 'username' is set
               if (username == null) {
               throw new IllegalArgumentException("Missing the required parameter 'username' when calling updateUser");
@@ -696,7 +696,7 @@ public class UserApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
       }
 
-    public HttpResponse updateUserForHttpResponse(String username, User body, Map<String, Object> params) throws IOException {
+    public HttpResponse updateUserForHttpResponse(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling updateUser");

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface FormApi extends ApiClient.Api {
 
 
@@ -29,7 +29,7 @@ public interface FormApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: text/plain",
   })
-  String testFormIntegerBooleanString(@Param("integer_form") Integer integerForm, @Param("boolean_form") Boolean booleanForm, @Param("string_form") String stringForm);
+  String testFormIntegerBooleanString(@Param("integer_form") @javax.annotation.Nullable Integer integerForm, @Param("boolean_form") @javax.annotation.Nullable Boolean booleanForm, @Param("string_form") @javax.annotation.Nullable String stringForm);
 
   /**
    * Test form parameter(s)
@@ -45,7 +45,7 @@ public interface FormApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: text/plain",
   })
-  ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@Param("integer_form") Integer integerForm, @Param("boolean_form") Boolean booleanForm, @Param("string_form") String stringForm);
+  ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@Param("integer_form") @javax.annotation.Nullable Integer integerForm, @Param("boolean_form") @javax.annotation.Nullable Boolean booleanForm, @Param("string_form") @javax.annotation.Nullable String stringForm);
 
 
 
@@ -60,7 +60,7 @@ public interface FormApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: text/plain",
   })
-  String testFormObjectMultipart(@Param("marker") TestFormObjectMultipartRequestMarker marker);
+  String testFormObjectMultipart(@Param("marker") @javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker);
 
   /**
    * Test form parameter(s) for multipart schema
@@ -74,7 +74,7 @@ public interface FormApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: text/plain",
   })
-  ApiResponse<String> testFormObjectMultipartWithHttpInfo(@Param("marker") TestFormObjectMultipartRequestMarker marker);
+  ApiResponse<String> testFormObjectMultipartWithHttpInfo(@Param("marker") @javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker);
 
 
 
@@ -94,7 +94,7 @@ public interface FormApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: text/plain",
   })
-  String testFormOneof(@Param("form1") String form1, @Param("form2") Integer form2, @Param("form3") String form3, @Param("form4") Boolean form4, @Param("id") Long id, @Param("name") String name);
+  String testFormOneof(@Param("form1") @javax.annotation.Nullable String form1, @Param("form2") @javax.annotation.Nullable Integer form2, @Param("form3") @javax.annotation.Nullable String form3, @Param("form4") @javax.annotation.Nullable Boolean form4, @Param("id") @javax.annotation.Nullable Long id, @Param("name") @javax.annotation.Nullable String name);
 
   /**
    * Test form parameter(s) for oneOf schema
@@ -113,7 +113,7 @@ public interface FormApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: text/plain",
   })
-  ApiResponse<String> testFormOneofWithHttpInfo(@Param("form1") String form1, @Param("form2") Integer form2, @Param("form3") String form3, @Param("form4") Boolean form4, @Param("id") Long id, @Param("name") String name);
+  ApiResponse<String> testFormOneofWithHttpInfo(@Param("form1") @javax.annotation.Nullable String form1, @Param("form2") @javax.annotation.Nullable Integer form2, @Param("form3") @javax.annotation.Nullable String form3, @Param("form4") @javax.annotation.Nullable Boolean form4, @Param("id") @javax.annotation.Nullable Long id, @Param("name") @javax.annotation.Nullable String name);
 
 
 }

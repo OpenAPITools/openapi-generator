@@ -57,11 +57,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
 
-    String supportedElixirVersion = "1.10";
+    String supportedElixirVersion = "1.18";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 1.7\"}",
-            "{:jason, \"~> 1.4\"}",
             "{:ex_doc, \"~> 0.30\", only: :dev, runtime: false}",
             "{:dialyxir, \"~> 1.3\", only: [:dev, :test], runtime: false}");
 
@@ -694,7 +693,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
-            // Let Jason decode the entire response into a generic blob
+            // Decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
             }
@@ -716,7 +715,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     }
 
-    @Getter @Setter class ExtendedCodegenOperation extends CodegenOperation {
+    @Getter
+    @Setter
+    class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<>();
         private String replacedPathName;
 

@@ -35,7 +35,8 @@ public class ApiResponse {
     @Getter String type;
     @Getter String message;
 
-    public ApiResponse() {}
+    public ApiResponse() {
+    }
 
     public ApiResponse(int code, String message) {
         this.code = code;

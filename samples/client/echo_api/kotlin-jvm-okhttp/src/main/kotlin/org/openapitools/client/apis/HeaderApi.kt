@@ -64,6 +64,7 @@ class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory 
      }
 
     /**
+     * GET /header/integer/boolean/string/enums
      * Test header parameter(s)
      * Test header parameter(s)
      * @param integerHeader  (optional)
@@ -99,6 +100,7 @@ class HeaderApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory 
     }
 
     /**
+     * GET /header/integer/boolean/string/enums
      * Test header parameter(s)
      * Test header parameter(s)
      * @param integerHeader  (optional)

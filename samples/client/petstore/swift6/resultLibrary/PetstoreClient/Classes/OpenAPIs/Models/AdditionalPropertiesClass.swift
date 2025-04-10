@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct AdditionalPropertiesClass: Sendable, Codable, JSONEncodable {
+internal struct AdditionalPropertiesClass: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var mapString: [String: String]?
     internal private(set) var mapMapString: [String: [String: String]]?

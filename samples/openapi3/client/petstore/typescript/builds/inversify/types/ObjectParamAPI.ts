@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration } from '../configuration'
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';

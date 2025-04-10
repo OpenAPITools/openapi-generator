@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -26,12 +27,11 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.File;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -372,11 +372,11 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
         supportingFiles.add(new SupportingFile(
-            "README.mustache", "", "README.md"));
+                "README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile(
-            "postgresql_schema.mustache", "", "postgresql_schema.sql"));
+                "postgresql_schema.mustache", "", "postgresql_schema.sql"));
         supportingFiles.add(new SupportingFile(
-            "postgresql_schema_oauth2.mustache", "", "postgresql_schema_oauth2.sql"));
+                "postgresql_schema_oauth2.mustache", "", "postgresql_schema_oauth2.sql"));
     }
 
     @Override
@@ -497,7 +497,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -506,8 +506,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            String typeName = this.toTableName(model.getName()) 
-                      + "_" + this.toColumnName(property.getName());
+            String typeName = this.toTableName(model.getName())
+                    + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
             columnDefinition.put("colDataType", typeName);
             typeDefinition.put("typeName", typeName);
@@ -548,7 +548,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
 
         if (!columnDefinition.get("colDataType").equals("SERIAL")
                 && !columnDefinition.get("colDataType").equals("BIGSERIAL")) { // No default value for autoincremented
-                                                                               // IDs
+            // IDs
             if (Boolean.TRUE.equals(required)) {
                 columnDefinition.put("colNotNull", true);
             } else {
@@ -621,7 +621,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -630,8 +630,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            String typeName = this.toTableName(model.getName()) 
-                      + "_" + this.toColumnName(property.getName());
+            String typeName = this.toTableName(model.getName())
+                    + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
             columnDefinition.put("colDataType", typeName);
             typeDefinition.put("typeName", typeName);
@@ -727,7 +727,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -736,8 +736,8 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            String typeName = this.toTableName(model.getName()) 
-                      + "_" + this.toColumnName(property.getName());
+            String typeName = this.toTableName(model.getName())
+                    + "_" + this.toColumnName(property.getName());
             postgresqlSchema.put("typeDefinition", typeDefinition);
             columnDefinition.put("colDataType", typeName);
             typeDefinition.put("typeName", typeName);
@@ -826,7 +826,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -896,7 +896,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -966,7 +966,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -1044,7 +1044,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
         }
         columnDefinition.put("tblName", tableName);
         if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-                                               // reserved word
+            // reserved word
             columnDefinition.put("tblNameQuoted", true);
         } else {
             columnDefinition.put("tblNameQuoted", false);
@@ -1452,7 +1452,6 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * Slightly modified version of AbstractPhpCodegen.toSrcPath method.
      *
      * @param packageName package name
-     *
      * @return path
      */
     public String toSrcPath(String packageName) {

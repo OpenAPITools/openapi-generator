@@ -26,16 +26,17 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class OpenAPINormalizer {
     private OpenAPI openAPI;
@@ -91,11 +92,19 @@ public class OpenAPINormalizer {
     final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
     String setTagsToOperationId;
 
+    // when set to a string value, tags will be set to the value of the provided vendor extension
+    final String SET_TAGS_TO_VENDOR_EXTENSION = "SET_TAGS_TO_VENDOR_EXTENSION";
+    String setTagsToVendorExtension;
+
     // when set to true, tags in all operations will be set to operationId or "default" if operationId
     // is empty
     final String FIX_DUPLICATED_OPERATIONID = "FIX_DUPLICATED_OPERATIONID";
     String fixDuplicatedOperationId;
     HashSet<String> operationIdSet = new HashSet<>();
+
+    // when set to true, if a securityScheme is found with the specified name, it will be converted to bearerAuth
+    final String SET_BEARER_AUTH_FOR_NAME = "SET_BEARER_AUTH_FOR_NAME";
+    String bearerAuthSecuritySchemeName;
 
     // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
     // by adding x-unsigned to the schema
@@ -116,6 +125,9 @@ public class OpenAPINormalizer {
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
     HashSet<String> operationIdFilters = new HashSet<>();
+    HashSet<String> methodFilters = new HashSet<>();
+
+    HashSet<String> tagFilters = new HashSet<>();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -158,7 +170,9 @@ public class OpenAPINormalizer {
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
         ruleNames.add(SET_TAGS_TO_OPERATIONID);
+        ruleNames.add(SET_TAGS_TO_VENDOR_EXTENSION);
         ruleNames.add(FIX_DUPLICATED_OPERATIONID);
+        ruleNames.add(SET_BEARER_AUTH_FOR_NAME);
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
@@ -224,20 +238,35 @@ public class OpenAPINormalizer {
             rules.put(SET_TAGS_FOR_ALL_OPERATIONS, true);
         }
 
+        setTagsToVendorExtension = inputRules.get(SET_TAGS_TO_VENDOR_EXTENSION);
+        if (setTagsToVendorExtension != null) {
+            rules.put(SET_TAGS_TO_VENDOR_EXTENSION, true);
+        }
+
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
 
             String[] filterStrs = inputRules.get(FILTER).split(":");
             if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
             } else {
                 if ("operationId".equals(filterStrs[0])) {
                     operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
                             .filter(Objects::nonNull)
                             .map(String::trim)
                             .collect(Collectors.toCollection(HashSet::new));
+                } else if ("method".equals(filterStrs[0])) {
+                    methodFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
+                } else if ("tag".equals(filterStrs[0])) {
+                    tagFilters = Arrays.stream(filterStrs[1].split("[|]"))
+                            .filter(Objects::nonNull)
+                            .map(String::trim)
+                            .collect(Collectors.toCollection(HashSet::new));
                 } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
                 }
             }
         }
@@ -278,6 +307,11 @@ public class OpenAPINormalizer {
                 LOGGER.error("SET_PRIMITIVE_TYPES_TO_NULLABLE rule must be in the form of `string|integer|number|boolean`, e.g. `string`, `integer|number`: {}", inputRules.get(SET_PRIMITIVE_TYPES_TO_NULLABLE));
             }
         }
+
+        bearerAuthSecuritySchemeName = inputRules.get(SET_BEARER_AUTH_FOR_NAME);
+        if (bearerAuthSecuritySchemeName != null) {
+            rules.put(SET_BEARER_AUTH_FOR_NAME, true);
+        }
     }
 
     /**
@@ -299,6 +333,7 @@ public class OpenAPINormalizer {
 
         normalizeInfo();
         normalizePaths();
+        normalizeComponentsSecuritySchemes();
         normalizeComponentsSchemas();
         normalizeComponentsResponses();
     }
@@ -329,6 +364,27 @@ public class OpenAPINormalizer {
             PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
 
+            Map<String, Function<PathItem, Operation>> methodMap = Map.of(
+                    "get", PathItem::getGet,
+                    "put", PathItem::getPut,
+                    "head", PathItem::getHead,
+                    "post", PathItem::getPost,
+                    "delete", PathItem::getDelete,
+                    "patch", PathItem::getPatch,
+                    "options", PathItem::getOptions,
+                    "trace", PathItem::getTrace
+            );
+
+            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
+            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
+            methodMap.forEach((method, getter) -> {
+                Operation operation = getter.apply(path);
+                if (operation != null && !methodFilters.isEmpty()) {
+                    LOGGER.info("operation `{}` marked internal only (x-internal: `{}`) by the method FILTER", operation.getOperationId(), !methodFilters.contains(method));
+                    operation.addExtension("x-internal", !methodFilters.contains(method));
+                }
+            });
+
             // Include callback operation as well
             for (Operation operation : path.readOperations()) {
                 Map<String, Callback> callbacks = operation.getCallbacks();
@@ -348,7 +404,14 @@ public class OpenAPINormalizer {
                     if (operationIdFilters.contains(operation.getOperationId())) {
                         operation.addExtension("x-internal", false);
                     } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the FILTER", operation.getOperationId());
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
+                        operation.addExtension("x-internal", true);
+                    }
+                } else if (!tagFilters.isEmpty()) {
+                    if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
+                        operation.addExtension("x-internal", false);
+                    } else {
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
                         operation.addExtension("x-internal", true);
                     }
                 }
@@ -374,6 +437,8 @@ public class OpenAPINormalizer {
         processSetTagsForAllOperations(operation);
 
         processSetTagsToOperationId(operation);
+
+        processSetTagsToVendorExtension(operation);
 
         processFixDuplicatedOperationId(operation);
     }
@@ -495,6 +560,36 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Normalizes securitySchemes in components
+     */
+    private void normalizeComponentsSecuritySchemes() {
+         if (StringUtils.isEmpty(bearerAuthSecuritySchemeName)) {
+             return;
+         }
+
+        Map<String, SecurityScheme> schemes = openAPI.getComponents().getSecuritySchemes();
+        if (schemes == null) {
+            return;
+        }
+
+        for (String schemeKey : schemes.keySet()) {
+            if (schemeKey.equals(bearerAuthSecuritySchemeName)) {
+                SecurityScheme scheme = schemes.get(schemeKey);
+                scheme.setType(SecurityScheme.Type.HTTP);
+                scheme.setScheme("bearer");
+                scheme.setIn(null);
+                scheme.setName(null);
+                scheme.setBearerFormat(null);
+                scheme.setFlows(null);
+                scheme.setOpenIdConnectUrl(null);
+                scheme.setExtensions(null);
+                scheme.set$ref(null);
+                schemes.put(schemeKey, scheme);
+            }
+        }
+    }
+
+    /**
      * Normalizes schemas in components
      */
     private void normalizeComponentsSchemas() {
@@ -507,7 +602,7 @@ public class OpenAPINormalizer {
         for (String schemaName : schemaNames) {
             Schema schema = schemas.get(schemaName);
             if (schema == null) {
-                LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
+                LOGGER.warn("{} not found in openapi/components/schemas.", schemaName);
             } else {
                 // remove x-internal if needed
                 if (schema.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
@@ -534,7 +629,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-           for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
+        for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
             normalizeResponse(entry.getValue());
         }
     }
@@ -885,8 +980,7 @@ public class OpenAPINormalizer {
     }
 
     /**
-     * Keep only first tag in the operation if the operation has more than
-     * one tag.
+     * Remove/hide the x-internal in operations and model.
      *
      * @param operation Operation
      */
@@ -955,6 +1049,34 @@ public class OpenAPINormalizer {
         }
     }
 
+    /**
+     * Set the tag name to the value of the provided vendor extension
+     *
+     * @param operation Operation
+     */
+    private void processSetTagsToVendorExtension(Operation operation) {
+        if (StringUtils.isEmpty(setTagsToVendorExtension)) {
+            return;
+        }
+
+        if (operation.getExtensions() == null) {
+            return;
+        }
+
+        if (operation.getExtensions().containsKey(setTagsToVendorExtension)) {
+            operation.setTags(null);
+            Object argObj = operation.getExtensions().get(setTagsToVendorExtension);
+            if (argObj instanceof List) {
+                List<String> tags = (List<String>) argObj;
+                for (String tag : tags) {
+                    operation.addTagsItem(tag);
+                }
+            } else {
+                operation.addTagsItem(String.valueOf(argObj));
+            }
+        }
+    }
+
     private void processFixDuplicatedOperationId(Operation operation) {
         if (!getRule(FIX_DUPLICATED_OPERATIONID)) {
             return;
@@ -972,8 +1094,6 @@ public class OpenAPINormalizer {
             operation.setOperationId(uniqueName);
         }
     }
-
-
 
     /**
      * If the schema contains anyOf/oneOf and properties, remove oneOf/anyOf as these serve as rules to

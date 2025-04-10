@@ -45,6 +45,7 @@ class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /form/integer/boolean/string
      * Test form parameter(s)
      * Test form parameter(s)
      * @param integerForm  (optional)
@@ -78,6 +79,7 @@ class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /form/integer/boolean/string
      * Test form parameter(s)
      * Test form parameter(s)
      * @param integerForm  (optional)
@@ -125,6 +127,7 @@ class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /form/oneof
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
      * @param form1  (optional)
@@ -161,6 +164,7 @@ class FormApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = 
     }
 
     /**
+     * POST /form/oneof
      * Test form parameter(s) for oneOf schema
      * Test form parameter(s) for oneOf schema
      * @param form1  (optional)

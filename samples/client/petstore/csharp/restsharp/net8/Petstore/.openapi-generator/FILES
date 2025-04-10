@@ -28,6 +28,8 @@ docs/DanishPig.md
 docs/DateOnlyClass.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
+docs/Descendant1.md
+docs/Descendant2.md
 docs/Dog.md
 docs/Drawing.md
 docs/EntityBase.md
@@ -53,7 +55,6 @@ docs/List.md
 docs/LiteralStringClass.md
 docs/Mammal.md
 docs/MapTest.md
-docs/MixLog.md
 docs/MixedAnyOf.md
 docs/MixedAnyOfContent.md
 docs/MixedOneOf.md
@@ -86,6 +87,7 @@ docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
 docs/RequiredClass.md
+docs/Result.md
 docs/Return.md
 docs/RolesReportsHash.md
 docs/RolesReportsHashRole.md
@@ -99,7 +101,10 @@ docs/StoreApi.md
 docs/Tag.md
 docs/TestCollectionEndingWithWordList.md
 docs/TestCollectionEndingWithWordListObject.md
+docs/TestDescendants.md
 docs/TestInlineFreeformAdditionalPropertiesRequest.md
+docs/TestResult.md
+docs/TestResultCode.md
 docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
@@ -161,6 +166,8 @@ src/Org.OpenAPITools/Model/CopyActivity.cs
 src/Org.OpenAPITools/Model/DanishPig.cs
 src/Org.OpenAPITools/Model/DateOnlyClass.cs
 src/Org.OpenAPITools/Model/DeprecatedObject.cs
+src/Org.OpenAPITools/Model/Descendant1.cs
+src/Org.OpenAPITools/Model/Descendant2.cs
 src/Org.OpenAPITools/Model/Dog.cs
 src/Org.OpenAPITools/Model/Drawing.cs
 src/Org.OpenAPITools/Model/EntityBase.cs
@@ -184,7 +191,6 @@ src/Org.OpenAPITools/Model/List.cs
 src/Org.OpenAPITools/Model/LiteralStringClass.cs
 src/Org.OpenAPITools/Model/Mammal.cs
 src/Org.OpenAPITools/Model/MapTest.cs
-src/Org.OpenAPITools/Model/MixLog.cs
 src/Org.OpenAPITools/Model/MixedAnyOf.cs
 src/Org.OpenAPITools/Model/MixedAnyOfContent.cs
 src/Org.OpenAPITools/Model/MixedOneOf.cs
@@ -216,6 +222,7 @@ src/Org.OpenAPITools/Model/Quadrilateral.cs
 src/Org.OpenAPITools/Model/QuadrilateralInterface.cs
 src/Org.OpenAPITools/Model/ReadOnlyFirst.cs
 src/Org.OpenAPITools/Model/RequiredClass.cs
+src/Org.OpenAPITools/Model/Result.cs
 src/Org.OpenAPITools/Model/Return.cs
 src/Org.OpenAPITools/Model/RolesReportsHash.cs
 src/Org.OpenAPITools/Model/RolesReportsHashRole.cs
@@ -228,7 +235,10 @@ src/Org.OpenAPITools/Model/SpecialModelName.cs
 src/Org.OpenAPITools/Model/Tag.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordList.cs
 src/Org.OpenAPITools/Model/TestCollectionEndingWithWordListObject.cs
+src/Org.OpenAPITools/Model/TestDescendants.cs
 src/Org.OpenAPITools/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
+src/Org.OpenAPITools/Model/TestResult.cs
+src/Org.OpenAPITools/Model/TestResultCode.cs
 src/Org.OpenAPITools/Model/Triangle.cs
 src/Org.OpenAPITools/Model/TriangleInterface.cs
 src/Org.OpenAPITools/Model/User.cs

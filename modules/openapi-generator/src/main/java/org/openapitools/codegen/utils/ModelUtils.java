@@ -426,18 +426,18 @@ public class ModelUtils {
      * A ObjectSchema differs from a MapSchema in the following way:
      * - An ObjectSchema is not extensible, i.e. it has a fixed number of properties.
      * - A MapSchema is an object that can be extended with an arbitrary set of properties.
-     *   The payload may include dynamic properties.
+     * The payload may include dynamic properties.
      * <p>
      * For example, an OpenAPI schema is considered an ObjectSchema in the following scenarios:
      * <p>
-     *
-     *   type: object
-     *   additionalProperties: false
-     *   properties:
-     *     name:
-     *       type: string
-     *     address:
-     *       type: string
+     * <p>
+     * type: object
+     * additionalProperties: false
+     * properties:
+     * name:
+     * type: string
+     * address:
+     * type: string
      *
      * @param schema the OAS schema
      * @return true if the specified schema is an Object schema.
@@ -534,21 +534,21 @@ public class ModelUtils {
      * <p>
      * For example, an OpenAPI schema is considered a MapSchema in the following scenarios:
      * <p>
-     *
-     *   type: object
-     *   additionalProperties: true
-     *
-     *   type: object
-     *   additionalProperties:
-     *     type: object
-     *     properties:
-     *       code:
-     *         type: integer
-     *
-     *   allOf:
-     *     - $ref: '#/components/schemas/Class1'
-     *     - $ref: '#/components/schemas/Class2'
-     *   additionalProperties: true
+     * <p>
+     * type: object
+     * additionalProperties: true
+     * <p>
+     * type: object
+     * additionalProperties:
+     * type: object
+     * properties:
+     * code:
+     * type: integer
+     * <p>
+     * allOf:
+     * - $ref: '#/components/schemas/Class1'
+     * - $ref: '#/components/schemas/Class2'
+     * additionalProperties: true
      *
      * @param schema the OAS schema
      * @return true if the specified schema is a Map schema.
@@ -840,24 +840,24 @@ public class ModelUtils {
      * Examples:
      * <p>
      * components:
-     *   schemas:
-     *     arbitraryObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value cannot be 'null'.
-     *         It cannot be array, string, integer, number.
-     *     arbitraryNullableObject:
-     *       type: object
-     *       description: This is a free-form object.
-     *         The value must be a map of strings to values. The value can be 'null',
-     *         It cannot be array, string, integer, number.
-     *       nullable: true
-     *     arbitraryTypeValue:
-     *       description: This is NOT a free-form object.
-     *         The value can be any type except the 'null' value.
+     * schemas:
+     * arbitraryObject:
+     * type: object
+     * description: This is a free-form object.
+     * The value must be a map of strings to values. The value cannot be 'null'.
+     * It cannot be array, string, integer, number.
+     * arbitraryNullableObject:
+     * type: object
+     * description: This is a free-form object.
+     * The value must be a map of strings to values. The value can be 'null',
+     * It cannot be array, string, integer, number.
+     * nullable: true
+     * arbitraryTypeValue:
+     * description: This is NOT a free-form object.
+     * The value can be any type except the 'null' value.
      *
      * @param schema  potentially containing a '$ref'
-     * @param openAPI  document containing the Schema.
+     * @param openAPI document containing the Schema.
      * @return true if it's a free-form object
      */
     public static boolean isFreeFormObject(Schema schema, OpenAPI openAPI) {
@@ -999,8 +999,8 @@ public class ModelUtils {
     /**
      * Get the schema referenced by $ref to schema's properties, e.g. #/components/schemas/Pet/properties/category.
      *
-     * @param openAPI    specification being checked
-     * @param refString  schema reference
+     * @param openAPI   specification being checked
+     * @param refString schema reference
      * @return schema
      */
     public static Schema getSchemaFromRefToSchemaWithProperties(OpenAPI openAPI, String refString) {
@@ -1021,7 +1021,7 @@ public class ModelUtils {
     /**
      * Returns true if $ref to a reference to schema's properties, e.g. #/components/schemas/Pet/properties/category.
      *
-     * @param refString  schema reference
+     * @param refString schema reference
      * @return true if $ref to a reference to schema's properties
      */
     public static boolean isRefToSchemaWithProperties(String refString) {
@@ -1198,7 +1198,7 @@ public class ModelUtils {
     /**
      * Return the first defined Schema for a ApiResponse
      *
-     * @param openAPI OpenAPI spec.
+     * @param openAPI  OpenAPI spec.
      * @param response API response of the operation
      * @return firstSchema
      */
@@ -1218,13 +1218,13 @@ public class ModelUtils {
      * for the 'application/json' content type because it is listed first in the OAS.
      * <p>
      * responses:
-     *   '200':
-     *     content:
-     *       application/json:
-     *         schema:
-     *           $ref: '#/components/schemas/XYZ'
-     *       application/xml:
-     *          ...
+     * '200':
+     * content:
+     * application/json:
+     * schema:
+     * $ref: '#/components/schemas/XYZ'
+     * application/xml:
+     * ...
      *
      * @param content a 'content' section in the OAS specification.
      * @return the Schema.
@@ -1427,7 +1427,7 @@ public class ModelUtils {
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
      *
-     * @param schema  the input schema that may or may not have the additionalProperties keyword.
+     * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
      * properties are allowed.
      */
@@ -1540,19 +1540,19 @@ public class ModelUtils {
      * because 'Animal' specifies a discriminator.
      * <p>
      * animal:
-     *   type: object
-     *   discriminator:
-     *     propertyName: type
-     *   properties:
-     *     type: string
+     * type: object
+     * discriminator:
+     * propertyName: type
+     * properties:
+     * type: string
      *
      * <p>
      * dog:
-     *   allOf:
-     *      - $ref: '#/components/schemas/animal'
-     *      - type: object
-     *        properties:
-     *          breed: string
+     * allOf:
+     * - $ref: '#/components/schemas/animal'
+     * - type: object
+     * properties:
+     * breed: string
      *
      * @param composedSchema schema (alias or direct reference)
      * @param allSchemas     all schemas
@@ -1693,7 +1693,7 @@ public class ModelUtils {
      * If it's string, return true if it's non-empty.
      * If the return value is `true`, the schema is a parent.
      *
-     * @param schema    Schema
+     * @param schema Schema
      * @return boolean
      */
     public static boolean isExtensionParent(Schema schema) {
@@ -1760,9 +1760,9 @@ public class ModelUtils {
      * type is one of the elements under 'oneOf'.
      * <p>
      * OptionalOrder:
-     *   oneOf:
-     *     - type: 'null'
-     *     - $ref: '#/components/schemas/Order'
+     * oneOf:
+     * - type: 'null'
+     * - $ref: '#/components/schemas/Order'
      *
      * @param schema the OAS composed schema.
      * @return true if the composed schema is nullable.
@@ -2224,9 +2224,8 @@ public class ModelUtils {
      * <p>
      * Return true if the schema's type is 'null' or not specified
      *
-     * @param schema Schema
+     * @param schema  Schema
      * @param openAPI OpenAPI
-     *
      * @return true if schema is null type
      */
     public static boolean isNullTypeSchema(OpenAPI openAPI, Schema schema) {
@@ -2290,9 +2289,8 @@ public class ModelUtils {
      * <p>
      * Return true if the schema can be handled by OpenAPI Generator
      *
-     * @param schema Schema
+     * @param schema  Schema
      * @param openAPI OpenAPIs
-     *
      * @return true if schema is null type
      */
     public static boolean isUnsupportedSchema(OpenAPI openAPI, Schema schema) {

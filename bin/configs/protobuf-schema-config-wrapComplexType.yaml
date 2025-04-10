@@ -1,0 +1,9 @@
+generatorName: protobuf-schema
+outputDir: samples/config/petstore/protobuf-schema-config-complex
+inputSpec: modules/openapi-generator/src/test/resources/3_0/protobuf/petstore-complex.yaml
+templateDir: modules/openapi-generator/src/main/resources/protobuf-schema
+additionalProperties:
+  packageName: petstore
+  addJsonNameAnnotation: true
+  numberedFieldNumberList: true
+  startEnumsWithUnspecified: true

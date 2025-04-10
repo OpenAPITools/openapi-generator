@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -41,7 +41,7 @@ public class UserApi {
    * @param user Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUser(User user) throws ApiException {
+  public void createUser(@javax.annotation.Nonnull User user) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'user' is set
@@ -83,7 +83,7 @@ public class UserApi {
    * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithArrayInput(List<User> user) throws ApiException {
+  public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'user' is set
@@ -125,7 +125,7 @@ public class UserApi {
    * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithListInput(List<User> user) throws ApiException {
+  public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'user' is set
@@ -167,7 +167,7 @@ public class UserApi {
    * @param username The name that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteUser(String username) throws ApiException {
+  public void deleteUser(@javax.annotation.Nonnull String username) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
@@ -211,7 +211,7 @@ public class UserApi {
    * @return a {@code User}
    * @throws ApiException if fails to make API call
    */
-  public User getUserByName(String username) throws ApiException {
+  public User getUserByName(@javax.annotation.Nonnull String username) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
@@ -256,7 +256,7 @@ public class UserApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String loginUser(String username, String password) throws ApiException {
+  public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
@@ -342,7 +342,7 @@ public class UserApi {
    * @param user Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void updateUser(String username, User user) throws ApiException {
+  public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'username' is set

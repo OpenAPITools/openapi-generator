@@ -66,6 +66,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
      }
 
     /**
+     * GET /query/enum_ref_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param enumNonrefStringQuery  (optional)
@@ -98,6 +99,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/enum_ref_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param enumNonrefStringQuery  (optional)
@@ -148,6 +150,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/datetime/date/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param datetimeQuery  (optional)
@@ -181,6 +184,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/datetime/date/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param datetimeQuery  (optional)
@@ -236,6 +240,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/integer/boolean/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param integerQuery  (optional)
@@ -269,6 +274,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/integer/boolean/string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param integerQuery  (optional)
@@ -324,6 +330,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_deepObject/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -355,6 +362,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_deepObject/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -383,7 +391,24 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
+                    if (queryObject.id != null) {
+                        put("queryObject[id]", listOf(queryObject.id.toString()))
+                    }
+                    if (queryObject.name != null) {
+                        put("queryObject[name]", listOf(queryObject.name.toString()))
+                    }
+                    if (queryObject.category != null) {
+                        put("queryObject[category]", listOf(queryObject.category.toString()))
+                    }
+                    if (queryObject.photoUrls != null) {
+                        put("queryObject[photoUrls]", toMultiValue(queryObject.photoUrls.toList(), ""))
+                    }
+                    if (queryObject.tags != null) {
+                        put("queryObject[tags]", toMultiValue(queryObject.tags.toList(), ""))
+                    }
+                    if (queryObject.status != null) {
+                        put("queryObject[status]", listOf(queryObject.status.value))
+                    }
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -400,6 +425,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/array_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -431,6 +457,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/array_string
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -459,7 +486,9 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
+                    if (queryObject.propertyValues != null) {
+                        put("values", toMultiValue(queryObject.propertyValues.toList(), ""))
+                    }
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -476,6 +505,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -507,6 +537,7 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
     }
 
     /**
+     * GET /query/style_form/explode_true/object
      * Test query parameter(s)
      * Test query parameter(s)
      * @param queryObject  (optional)
@@ -535,7 +566,24 @@ class QueryApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory =
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
+                    if (queryObject.id != null) {
+                        put("id", listOf(queryObject.id.toString()))
+                    }
+                    if (queryObject.name != null) {
+                        put("name", listOf(queryObject.name.toString()))
+                    }
+                    if (queryObject.category != null) {
+                        put("category", listOf(queryObject.category.toString()))
+                    }
+                    if (queryObject.photoUrls != null) {
+                        put("photoUrls", toMultiValue(queryObject.photoUrls.toList(), ""))
+                    }
+                    if (queryObject.tags != null) {
+                        put("tags", toMultiValue(queryObject.tags.toList(), ""))
+                    }
+                    if (queryObject.status != null) {
+                        put("status", listOf(queryObject.status.value))
+                    }
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

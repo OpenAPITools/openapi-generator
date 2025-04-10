@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct NumberOnly: Sendable, Codable, JSONEncodable {
+internal struct NumberOnly: Sendable, Codable, QueryStringEncodable {
 
     internal private(set) var justNumber: Double?
 

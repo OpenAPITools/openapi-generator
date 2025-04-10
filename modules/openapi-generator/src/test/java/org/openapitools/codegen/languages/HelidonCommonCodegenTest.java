@@ -28,15 +28,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HelidonCommonCodegenTest {
 
     JavaHelidonCommonCodegen.VersionUtil test = JavaHelidonCommonCodegen.VersionUtil.instance();
-    
-    @Test void checkMajorVersionMatch() {
+
+    @Test
+    void checkMajorVersionMatch() {
         assertThat(test.chooseVersion("1", List.of("3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
-            .isEqualTo("1.2.3");
+                .isEqualTo("1.2.3");
     }
 
-    @Test void checkExactMatch() {
+    @Test
+    void checkExactMatch() {
         assertThat(test.chooseVersion("1.2.2", List.of("3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
-            .isEqualTo("1.2.2");
+                .isEqualTo("1.2.2");
     }
 
     @Test
@@ -44,23 +46,23 @@ public class HelidonCommonCodegenTest {
         // Simulate a network failure so the full list of valid versions is inaccessible and the user selects a version
         // that is not in the cached values or the hard-coded list.
         assertThat(test.chooseVersion("4.0.8", List.of("1.2.3", "2.5.6", "3.2.7", "4.0.9")))
-            .isEqualTo("4.0.8");
+                .isEqualTo("4.0.8");
     }
 
 
-
-    @Test void checkUseOfUnpublishedRelease() {
+    @Test
+    void checkUseOfUnpublishedRelease() {
         assertThat(test.chooseVersionBestMatchOrSelf("4.0.11-SNAPSHOT",
-                                                     List.of("4.0.10", "3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
+                List.of("4.0.10", "3.2.1", "3.2.0", "2.0.4", "1.2.3", "1.2.2", "1.1.0")))
                 .isEqualTo("4.0.11-SNAPSHOT");
     }
 
     @Test
     void checkCommonPathWithPathParams() {
         String[] paths = List.of("/users/{userId}/profile",
-                                 "/users/{userId}/problems",
-                                 "/users/{userEmail}",
-                                 "/users/{username}")
+                        "/users/{userId}/problems",
+                        "/users/{userEmail}",
+                        "/users/{username}")
                 .toArray(new String[0]);
 
         String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
@@ -70,8 +72,8 @@ public class HelidonCommonCodegenTest {
     @Test
     void checkCommonPathWithMultipleCommonLevels() {
         String[] paths = List.of("/users/a/x",
-                                 "/users/a/y",
-                                 "/users/a/z")
+                        "/users/a/y",
+                        "/users/a/z")
                 .toArray(new String[0]);
 
         String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
@@ -81,8 +83,8 @@ public class HelidonCommonCodegenTest {
     @Test
     void checkNoCommonSegments() {
         String[] paths = List.of("/a/x",
-                                 "/b/y",
-                                 "/c")
+                        "/b/y",
+                        "/c")
                 .toArray(new String[0]);
 
         String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);
@@ -98,9 +100,9 @@ public class HelidonCommonCodegenTest {
     @Test
     void checkMixedWithPathParam() {
         String[] paths = List.of("/store/order/{order_id}",
-                                 "/store/inventory",
-                                 "/store/order/{order_id}",
-                                 "/store/order")
+                        "/store/inventory",
+                        "/store/order/{order_id}",
+                        "/store/order")
                 .toArray(new String[0]);
 
         String commonPrefix = JavaHelidonCommonCodegen.commonPathPrefix(paths);

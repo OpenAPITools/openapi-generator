@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
   private ApiClient apiClient;
 
@@ -62,7 +62,7 @@ public class FakeClassnameTags123Api {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client testClassname(Client client) throws ApiException {
+  public Client testClassname(@jakarta.annotation.Nonnull Client client) throws ApiException {
     return testClassnameWithHttpInfo(client).getData();
   }
 
@@ -79,7 +79,7 @@ public class FakeClassnameTags123Api {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> testClassnameWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws ApiException {
     // Check required parameters
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");

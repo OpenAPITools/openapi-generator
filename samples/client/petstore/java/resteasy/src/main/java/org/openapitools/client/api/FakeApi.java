@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -130,7 +130,7 @@ public class FakeApi {
    * @param header1 header parameter (optional)
    * @throws ApiException if fails to make API call
    */
-  public void fakeHttpSignatureTest(Pet pet, String query1, String header1) throws ApiException {
+  public void fakeHttpSignatureTest(@javax.annotation.Nonnull Pet pet, @javax.annotation.Nullable String query1, @javax.annotation.Nullable String header1) throws ApiException {
     Object localVarPostBody = pet;
     
     // verify the required parameter 'pet' is set
@@ -176,7 +176,7 @@ public class FakeApi {
    * @return a {@code Boolean}
    * @throws ApiException if fails to make API call
    */
-  public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
+  public Boolean fakeOuterBooleanSerialize(@javax.annotation.Nullable Boolean body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -214,7 +214,7 @@ public class FakeApi {
    * @return a {@code OuterComposite}
    * @throws ApiException if fails to make API call
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
+  public OuterComposite fakeOuterCompositeSerialize(@javax.annotation.Nullable OuterComposite outerComposite) throws ApiException {
     Object localVarPostBody = outerComposite;
     
     // create path and map variables
@@ -252,7 +252,7 @@ public class FakeApi {
    * @return a {@code BigDecimal}
    * @throws ApiException if fails to make API call
    */
-  public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+  public BigDecimal fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -290,7 +290,7 @@ public class FakeApi {
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(String body) throws ApiException {
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
     Object localVarPostBody = body;
     
     // create path and map variables
@@ -328,7 +328,7 @@ public class FakeApi {
    * @return a {@code OuterObjectWithEnumProperty}
    * @throws ApiException if fails to make API call
    */
-  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException {
+  public OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@javax.annotation.Nonnull OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException {
     Object localVarPostBody = outerObjectWithEnumProperty;
     
     // verify the required parameter 'outerObjectWithEnumProperty' is set
@@ -370,7 +370,7 @@ public class FakeApi {
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException {
+  public void testAdditionalPropertiesReference(@javax.annotation.Nonnull Map<String, Object> requestBody) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set
@@ -412,7 +412,7 @@ public class FakeApi {
    * @param body image to upload (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithBinary(File body) throws ApiException {
+  public void testBodyWithBinary(@javax.annotation.Nullable File body) throws ApiException {
     Object localVarPostBody = body;
     
     // verify the required parameter 'body' is set
@@ -454,7 +454,7 @@ public class FakeApi {
    * @param fileSchemaTestClass  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+  public void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass fileSchemaTestClass) throws ApiException {
     Object localVarPostBody = fileSchemaTestClass;
     
     // verify the required parameter 'fileSchemaTestClass' is set
@@ -497,7 +497,7 @@ public class FakeApi {
    * @param user  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithQueryParams(String query, User user) throws ApiException {
+  public void testBodyWithQueryParams(@javax.annotation.Nonnull String query, @javax.annotation.Nonnull User user) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'query' is set
@@ -546,7 +546,7 @@ public class FakeApi {
    * @return a {@code Client}
    * @throws ApiException if fails to make API call
    */
-  public Client testClientModel(Client client) throws ApiException {
+  public Client testClientModel(@javax.annotation.Nonnull Client client) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
@@ -601,7 +601,7 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters(@javax.annotation.Nonnull BigDecimal number, @javax.annotation.Nonnull Double _double, @javax.annotation.Nonnull String patternWithoutDelimiter, @javax.annotation.Nonnull byte[] _byte, @javax.annotation.Nullable Integer integer, @javax.annotation.Nullable Integer int32, @javax.annotation.Nullable Long int64, @javax.annotation.Nullable Float _float, @javax.annotation.Nullable String string, @javax.annotation.Nullable File binary, @javax.annotation.Nullable LocalDate date, @javax.annotation.Nullable OffsetDateTime dateTime, @javax.annotation.Nullable String password, @javax.annotation.Nullable String paramCallback) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'number' is set
@@ -694,7 +694,7 @@ if (paramCallback != null)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @throws ApiException if fails to make API call
    */
-  public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<EnumClass> enumQueryModelArray, List<String> enumFormStringArray, String enumFormString) throws ApiException {
+  public void testEnumParameters(@javax.annotation.Nullable List<String> enumHeaderStringArray, @javax.annotation.Nullable String enumHeaderString, @javax.annotation.Nullable List<String> enumQueryStringArray, @javax.annotation.Nullable String enumQueryString, @javax.annotation.Nullable Integer enumQueryInteger, @javax.annotation.Nullable Double enumQueryDouble, @javax.annotation.Nullable List<EnumClass> enumQueryModelArray, @javax.annotation.Nullable List<String> enumFormStringArray, @javax.annotation.Nullable String enumFormString) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -749,7 +749,7 @@ if (enumFormString != null)
    * @param int64Group Integer in group parameters (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+  public void testGroupParameters(@javax.annotation.Nonnull Integer requiredStringGroup, @javax.annotation.Nonnull Boolean requiredBooleanGroup, @javax.annotation.Nonnull Long requiredInt64Group, @javax.annotation.Nullable Integer stringGroup, @javax.annotation.Nullable Boolean booleanGroup, @javax.annotation.Nullable Long int64Group) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'requiredStringGroup' is set
@@ -809,7 +809,7 @@ if (booleanGroup != null)
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+  public void testInlineAdditionalProperties(@javax.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set
@@ -851,7 +851,7 @@ if (booleanGroup != null)
    * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+  public void testInlineFreeformAdditionalProperties(@javax.annotation.Nonnull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
     Object localVarPostBody = testInlineFreeformAdditionalPropertiesRequest;
     
     // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
@@ -894,7 +894,7 @@ if (booleanGroup != null)
    * @param param2 field2 (required)
    * @throws ApiException if fails to make API call
    */
-  public void testJsonFormData(String param, String param2) throws ApiException {
+  public void testJsonFormData(@javax.annotation.Nonnull String param, @javax.annotation.Nonnull String param2) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'param' is set
@@ -945,7 +945,7 @@ if (param2 != null)
    * @param childWithNullable request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testNullable(ChildWithNullable childWithNullable) throws ApiException {
+  public void testNullable(@javax.annotation.Nonnull ChildWithNullable childWithNullable) throws ApiException {
     Object localVarPostBody = childWithNullable;
     
     // verify the required parameter 'childWithNullable' is set
@@ -993,7 +993,7 @@ if (param2 != null)
    * @param language  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) throws ApiException {
+  public void testQueryParameterCollectionFormat(@javax.annotation.Nonnull List<String> pipe, @javax.annotation.Nonnull List<String> ioutil, @javax.annotation.Nonnull List<String> http, @javax.annotation.Nonnull List<String> url, @javax.annotation.Nonnull List<String> context, @javax.annotation.Nonnull String allowEmpty, @javax.annotation.Nullable Map<String, String> language) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pipe' is set
@@ -1067,7 +1067,7 @@ if (param2 != null)
    * @param requestBody request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testStringMapReference(Map<String, String> requestBody) throws ApiException {
+  public void testStringMapReference(@javax.annotation.Nonnull Map<String, String> requestBody) throws ApiException {
     Object localVarPostBody = requestBody;
     
     // verify the required parameter 'requestBody' is set

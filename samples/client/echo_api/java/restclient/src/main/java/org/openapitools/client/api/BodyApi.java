@@ -14,19 +14,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.client.RestClient.ResponseSpec;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient.ResponseSpec;
+import org.springframework.web.client.RestClientResponseException;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class BodyApi {
     private ApiClient apiClient;
 
@@ -119,7 +119,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyApplicationOctetstreamBinaryRequestCreation(File body) throws RestClientResponseException {
+    private ResponseSpec testBodyApplicationOctetstreamBinaryRequestCreation(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -152,7 +152,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testBodyApplicationOctetstreamBinary(File body) throws RestClientResponseException {
+    public String testBodyApplicationOctetstreamBinary(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyApplicationOctetstreamBinaryRequestCreation(body).body(localVarReturnType);
     }
@@ -165,7 +165,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(File body) throws RestClientResponseException {
+    public ResponseEntity<String> testBodyApplicationOctetstreamBinaryWithHttpInfo(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyApplicationOctetstreamBinaryRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -178,7 +178,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyApplicationOctetstreamBinaryWithResponseSpec(File body) throws RestClientResponseException {
+    public ResponseSpec testBodyApplicationOctetstreamBinaryWithResponseSpec(@jakarta.annotation.Nullable File body) throws RestClientResponseException {
         return testBodyApplicationOctetstreamBinaryRequestCreation(body);
     }
     /**
@@ -189,7 +189,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyMultipartFormdataArrayOfBinaryRequestCreation(List<File> files) throws RestClientResponseException {
+    private ResponseSpec testBodyMultipartFormdataArrayOfBinaryRequestCreation(@jakarta.annotation.Nonnull List<File> files) throws RestClientResponseException {
         Object postBody = null;
         // verify the required parameter 'files' is set
         if (files == null) {
@@ -229,7 +229,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testBodyMultipartFormdataArrayOfBinary(List<File> files) throws RestClientResponseException {
+    public String testBodyMultipartFormdataArrayOfBinary(@jakarta.annotation.Nonnull List<File> files) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyMultipartFormdataArrayOfBinaryRequestCreation(files).body(localVarReturnType);
     }
@@ -242,7 +242,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<File> files) throws RestClientResponseException {
+    public ResponseEntity<String> testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(@jakarta.annotation.Nonnull List<File> files) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyMultipartFormdataArrayOfBinaryRequestCreation(files).toEntity(localVarReturnType);
     }
@@ -255,7 +255,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyMultipartFormdataArrayOfBinaryWithResponseSpec(List<File> files) throws RestClientResponseException {
+    public ResponseSpec testBodyMultipartFormdataArrayOfBinaryWithResponseSpec(@jakarta.annotation.Nonnull List<File> files) throws RestClientResponseException {
         return testBodyMultipartFormdataArrayOfBinaryRequestCreation(files);
     }
     /**
@@ -266,7 +266,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testBodyMultipartFormdataSingleBinaryRequestCreation(File myFile) throws RestClientResponseException {
+    private ResponseSpec testBodyMultipartFormdataSingleBinaryRequestCreation(@jakarta.annotation.Nullable File myFile) throws RestClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -302,7 +302,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testBodyMultipartFormdataSingleBinary(File myFile) throws RestClientResponseException {
+    public String testBodyMultipartFormdataSingleBinary(@jakarta.annotation.Nullable File myFile) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyMultipartFormdataSingleBinaryRequestCreation(myFile).body(localVarReturnType);
     }
@@ -315,7 +315,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws RestClientResponseException {
+    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@jakarta.annotation.Nullable File myFile) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testBodyMultipartFormdataSingleBinaryRequestCreation(myFile).toEntity(localVarReturnType);
     }
@@ -328,7 +328,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testBodyMultipartFormdataSingleBinaryWithResponseSpec(File myFile) throws RestClientResponseException {
+    public ResponseSpec testBodyMultipartFormdataSingleBinaryWithResponseSpec(@jakarta.annotation.Nullable File myFile) throws RestClientResponseException {
         return testBodyMultipartFormdataSingleBinaryRequestCreation(myFile);
     }
     /**
@@ -339,7 +339,7 @@ public class BodyApi {
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyAllOfPetRequestCreation(Pet pet) throws RestClientResponseException {
+    private ResponseSpec testEchoBodyAllOfPetRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         Object postBody = pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -372,7 +372,7 @@ public class BodyApi {
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Pet testEchoBodyAllOfPet(Pet pet) throws RestClientResponseException {
+    public Pet testEchoBodyAllOfPet(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyAllOfPetRequestCreation(pet).body(localVarReturnType);
     }
@@ -385,7 +385,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws RestClientResponseException {
+    public ResponseEntity<Pet> testEchoBodyAllOfPetWithHttpInfo(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyAllOfPetRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -398,7 +398,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyAllOfPetWithResponseSpec(Pet pet) throws RestClientResponseException {
+    public ResponseSpec testEchoBodyAllOfPetWithResponseSpec(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         return testEchoBodyAllOfPetRequestCreation(pet);
     }
     /**
@@ -409,7 +409,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyFreeFormObjectResponseStringRequestCreation(Object body) throws RestClientResponseException {
+    private ResponseSpec testEchoBodyFreeFormObjectResponseStringRequestCreation(@jakarta.annotation.Nullable Object body) throws RestClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -442,7 +442,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyFreeFormObjectResponseString(Object body) throws RestClientResponseException {
+    public String testEchoBodyFreeFormObjectResponseString(@jakarta.annotation.Nullable Object body) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyFreeFormObjectResponseStringRequestCreation(body).body(localVarReturnType);
     }
@@ -455,7 +455,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(Object body) throws RestClientResponseException {
+    public ResponseEntity<String> testEchoBodyFreeFormObjectResponseStringWithHttpInfo(@jakarta.annotation.Nullable Object body) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyFreeFormObjectResponseStringRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -468,7 +468,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyFreeFormObjectResponseStringWithResponseSpec(Object body) throws RestClientResponseException {
+    public ResponseSpec testEchoBodyFreeFormObjectResponseStringWithResponseSpec(@jakarta.annotation.Nullable Object body) throws RestClientResponseException {
         return testEchoBodyFreeFormObjectResponseStringRequestCreation(body);
     }
     /**
@@ -479,7 +479,7 @@ public class BodyApi {
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyPetRequestCreation(Pet pet) throws RestClientResponseException {
+    private ResponseSpec testEchoBodyPetRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         Object postBody = pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -512,7 +512,7 @@ public class BodyApi {
      * @return Pet
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Pet testEchoBodyPet(Pet pet) throws RestClientResponseException {
+    public Pet testEchoBodyPet(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyPetRequestCreation(pet).body(localVarReturnType);
     }
@@ -525,7 +525,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyPetWithHttpInfo(Pet pet) throws RestClientResponseException {
+    public ResponseEntity<Pet> testEchoBodyPetWithHttpInfo(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyPetRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -538,7 +538,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyPetWithResponseSpec(Pet pet) throws RestClientResponseException {
+    public ResponseSpec testEchoBodyPetWithResponseSpec(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         return testEchoBodyPetRequestCreation(pet);
     }
     /**
@@ -549,7 +549,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyPetResponseStringRequestCreation(Pet pet) throws RestClientResponseException {
+    private ResponseSpec testEchoBodyPetResponseStringRequestCreation(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         Object postBody = pet;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -582,7 +582,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyPetResponseString(Pet pet) throws RestClientResponseException {
+    public String testEchoBodyPetResponseString(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyPetResponseStringRequestCreation(pet).body(localVarReturnType);
     }
@@ -595,7 +595,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyPetResponseStringWithHttpInfo(Pet pet) throws RestClientResponseException {
+    public ResponseEntity<String> testEchoBodyPetResponseStringWithHttpInfo(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyPetResponseStringRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -608,7 +608,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyPetResponseStringWithResponseSpec(Pet pet) throws RestClientResponseException {
+    public ResponseSpec testEchoBodyPetResponseStringWithResponseSpec(@jakarta.annotation.Nullable Pet pet) throws RestClientResponseException {
         return testEchoBodyPetResponseStringRequestCreation(pet);
     }
     /**
@@ -619,7 +619,7 @@ public class BodyApi {
      * @return StringEnumRef
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyStringEnumRequestCreation(String body) throws RestClientResponseException {
+    private ResponseSpec testEchoBodyStringEnumRequestCreation(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -652,7 +652,7 @@ public class BodyApi {
      * @return StringEnumRef
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public StringEnumRef testEchoBodyStringEnum(String body) throws RestClientResponseException {
+    public StringEnumRef testEchoBodyStringEnum(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         ParameterizedTypeReference<StringEnumRef> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyStringEnumRequestCreation(body).body(localVarReturnType);
     }
@@ -665,7 +665,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;StringEnumRef&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws RestClientResponseException {
+    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         ParameterizedTypeReference<StringEnumRef> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyStringEnumRequestCreation(body).toEntity(localVarReturnType);
     }
@@ -678,7 +678,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyStringEnumWithResponseSpec(String body) throws RestClientResponseException {
+    public ResponseSpec testEchoBodyStringEnumWithResponseSpec(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
         return testEchoBodyStringEnumRequestCreation(body);
     }
     /**
@@ -689,7 +689,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyTagResponseStringRequestCreation(Tag tag) throws RestClientResponseException {
+    private ResponseSpec testEchoBodyTagResponseStringRequestCreation(@jakarta.annotation.Nullable Tag tag) throws RestClientResponseException {
         Object postBody = tag;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
@@ -722,7 +722,7 @@ public class BodyApi {
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String testEchoBodyTagResponseString(Tag tag) throws RestClientResponseException {
+    public String testEchoBodyTagResponseString(@jakarta.annotation.Nullable Tag tag) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyTagResponseStringRequestCreation(tag).body(localVarReturnType);
     }
@@ -735,7 +735,7 @@ public class BodyApi {
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> testEchoBodyTagResponseStringWithHttpInfo(Tag tag) throws RestClientResponseException {
+    public ResponseEntity<String> testEchoBodyTagResponseStringWithHttpInfo(@jakarta.annotation.Nullable Tag tag) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testEchoBodyTagResponseStringRequestCreation(tag).toEntity(localVarReturnType);
     }
@@ -748,7 +748,7 @@ public class BodyApi {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyTagResponseStringWithResponseSpec(Tag tag) throws RestClientResponseException {
+    public ResponseSpec testEchoBodyTagResponseStringWithResponseSpec(@jakarta.annotation.Nullable Tag tag) throws RestClientResponseException {
         return testEchoBodyTagResponseStringRequestCreation(tag);
     }
 }

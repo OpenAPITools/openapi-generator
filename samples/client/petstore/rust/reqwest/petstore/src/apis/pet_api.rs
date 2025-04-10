@@ -10,9 +10,9 @@
 
 
 use reqwest;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
-use super::{Error, configuration};
+use super::{Error, configuration, ContentType};
 
 
 /// struct for typed errors of method [`add_pet`]
@@ -82,7 +82,7 @@ pub enum UploadFileError {
 }
 
 
-/// 
+/// This is the description for the addPet operation
 pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_pet = pet;
@@ -102,10 +102,20 @@ pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Pet`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
@@ -146,7 +156,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
     }
 }
 
-/// Multiple status values can be provided with comma separated strings
+/// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
 pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_status = status;
@@ -176,10 +186,20 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
@@ -210,10 +230,20 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
@@ -245,10 +275,20 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Pet`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
@@ -276,10 +316,20 @@ pub fn update_pet(configuration: &configuration::Configuration, pet: models::Pet
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Pet`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
@@ -355,10 +405,20 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
     let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("application/octet-stream");
+    let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
         let content = resp.text()?;
-        serde_json::from_str(&content).map_err(Error::from)
+        match content_type {
+            ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ApiResponse`"))),
+            ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::ApiResponse`")))),
+        }
     } else {
         let content = resp.text()?;
         let entity: Option<UploadFileError> = serde_json::from_str(&content).ok();

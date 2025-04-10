@@ -34,11 +34,13 @@ pub struct TypeTesting {
     #[serde_as(as = "serde_with::base64::Base64")]
     #[serde(rename = "bytes")]
     pub bytes: Vec<u8>,
+    #[serde(rename = "decimal")]
+    pub decimal: String,
 }
 
 impl TypeTesting {
     /// Test handling of different field data types
-    pub fn new(int32: i32, int64: i64, float: f32, double: f64, string: String, boolean: bool, uuid: uuid::Uuid, bytes: Vec<u8>) -> TypeTesting {
+    pub fn new(int32: i32, int64: i64, float: f32, double: f64, string: String, boolean: bool, uuid: uuid::Uuid, bytes: Vec<u8>, decimal: String) -> TypeTesting {
         TypeTesting {
             int32,
             int64,
@@ -48,6 +50,7 @@ impl TypeTesting {
             boolean,
             uuid,
             bytes,
+            decimal,
         }
     }
 }

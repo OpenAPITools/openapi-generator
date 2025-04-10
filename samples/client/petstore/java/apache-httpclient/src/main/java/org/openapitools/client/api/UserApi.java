@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi extends BaseApi {
 
   public UserApi() {
@@ -48,7 +48,7 @@ public class UserApi extends BaseApi {
    * @param user Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUser(User user) throws ApiException {
+  public void createUser(@javax.annotation.Nonnull User user) throws ApiException {
     this.createUser(user, Collections.emptyMap());
   }
 
@@ -60,7 +60,7 @@ public class UserApi extends BaseApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void createUser(User user, Map<String, String> additionalHeaders) throws ApiException {
+  public void createUser(@javax.annotation.Nonnull User user, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'user' is set
@@ -119,7 +119,7 @@ public class UserApi extends BaseApi {
    * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithArrayInput(List<User> user) throws ApiException {
+  public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
     this.createUsersWithArrayInput(user, Collections.emptyMap());
   }
 
@@ -131,7 +131,7 @@ public class UserApi extends BaseApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithArrayInput(List<User> user, Map<String, String> additionalHeaders) throws ApiException {
+  public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'user' is set
@@ -190,7 +190,7 @@ public class UserApi extends BaseApi {
    * @param user List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithListInput(List<User> user) throws ApiException {
+  public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
     this.createUsersWithListInput(user, Collections.emptyMap());
   }
 
@@ -202,7 +202,7 @@ public class UserApi extends BaseApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithListInput(List<User> user, Map<String, String> additionalHeaders) throws ApiException {
+  public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'user' is set
@@ -261,7 +261,7 @@ public class UserApi extends BaseApi {
    * @param username The name that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteUser(String username) throws ApiException {
+  public void deleteUser(@javax.annotation.Nonnull String username) throws ApiException {
     this.deleteUser(username, Collections.emptyMap());
   }
 
@@ -273,7 +273,7 @@ public class UserApi extends BaseApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void deleteUser(String username, Map<String, String> additionalHeaders) throws ApiException {
+  public void deleteUser(@javax.annotation.Nonnull String username, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
@@ -334,7 +334,7 @@ public class UserApi extends BaseApi {
    * @return User
    * @throws ApiException if fails to make API call
    */
-  public User getUserByName(String username) throws ApiException {
+  public User getUserByName(@javax.annotation.Nonnull String username) throws ApiException {
     return this.getUserByName(username, Collections.emptyMap());
   }
 
@@ -347,7 +347,7 @@ public class UserApi extends BaseApi {
    * @return User
    * @throws ApiException if fails to make API call
    */
-  public User getUserByName(String username, Map<String, String> additionalHeaders) throws ApiException {
+  public User getUserByName(@javax.annotation.Nonnull String username, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
@@ -410,7 +410,7 @@ public class UserApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String loginUser(String username, String password) throws ApiException {
+  public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
     return this.loginUser(username, password, Collections.emptyMap());
   }
 
@@ -424,7 +424,7 @@ public class UserApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String loginUser(String username, String password, Map<String, String> additionalHeaders) throws ApiException {
+  public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'username' is set
@@ -556,7 +556,7 @@ public class UserApi extends BaseApi {
    * @param user Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void updateUser(String username, User user) throws ApiException {
+  public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
     this.updateUser(username, user, Collections.emptyMap());
   }
 
@@ -569,7 +569,7 @@ public class UserApi extends BaseApi {
    * @param additionalHeaders additionalHeaders for this call
    * @throws ApiException if fails to make API call
    */
-  public void updateUser(String username, User user, Map<String, String> additionalHeaders) throws ApiException {
+  public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = user;
     
     // verify the required parameter 'username' is set

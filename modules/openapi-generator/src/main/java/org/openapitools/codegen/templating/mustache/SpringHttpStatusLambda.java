@@ -9,12 +9,12 @@ import java.io.Writer;
 /**
  * Returns the Spring {@code org.springframework.http.HttpStatus} enumeration for the given status text.
  * It throws an IllegalArgumentException if the status text is handled by the Spring framework.
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#springHttpStatus}}{{statusCode}}{{/springHttpStatus}}
@@ -213,8 +213,8 @@ public class SpringHttpStatusLambda implements Mustache.Lambda {
                 writer.write(HTTP_STATUS_PREFIX + "VARIANT_ALSO_NEGOTIATES");
                 break;
             default:
-               throw new IllegalArgumentException("The given HTTP status code: " + httpCode
-                       + " is not supported by the 'org.springframework.http.HttpStatus' enum.");
+                throw new IllegalArgumentException("The given HTTP status code: " + httpCode
+                        + " is not supported by the 'org.springframework.http.HttpStatus' enum.");
         }
     }
 }

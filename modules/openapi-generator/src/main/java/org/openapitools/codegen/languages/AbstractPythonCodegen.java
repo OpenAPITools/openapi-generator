@@ -16,44 +16,14 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.escape;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
+import com.github.curiousoddman.rgxgen.RgxGen;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenMediaType;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.GeneratorLanguage;
-import org.openapitools.codegen.IJsonSchemaValidationProperties;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -63,14 +33,14 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.curiousoddman.rgxgen.RgxGen;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-
-
-
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 
 public abstract class AbstractPythonCodegen extends DefaultCodegen implements CodegenConfig {
@@ -244,7 +214,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 String defaultValue = String.valueOf(p.getDefault());
                 if (defaultValue != null) {
                     defaultValue = defaultValue.replace("\\", "\\\\")
-                            .replace("'", "\'");
+                            .replace("'", "\\'");
                     if (Pattern.compile("\r\n|\r|\n").matcher(defaultValue).find()) {
                         return "'''" + defaultValue + "'''";
                     } else {
@@ -364,7 +334,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         // only process files with py extension
         if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {pythonPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{pythonPostProcessFile, file.toString()});
         }
     }
 
@@ -884,12 +854,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             CodegenModel model = m.getModel();
 
             PydanticType pydantic = new PydanticType(
-                modelImports,
-                exampleImports,
-                postponedModelImports,
-                postponedExampleImports,
-                moduleImports,
-                model.classname
+                    modelImports,
+                    exampleImports,
+                    postponedModelImports,
+                    postponedExampleImports,
+                    moduleImports,
+                    model.classname
             );
 
             // handle null type in oneOf
@@ -934,9 +904,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray || cp.isMap){ // if array or map
+                        if (cp.isArray || cp.isMap) { // if array or map
                             modelImports.add(cp.items.dataType);
-                        }else{ // if model
+                        } else { // if model
                             modelImports.add(cp.getDataType());
                         }
                     }
@@ -948,7 +918,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add("typing", "ClassVar");
                 moduleImports.add("typing", "Dict");
                 moduleImports.add("typing", "Any");
-                if(this.disallowAdditionalPropertiesIfNotPresent || model.isAdditionalPropertiesTrue) {
+                if (this.disallowAdditionalPropertiesIfNotPresent || model.isAdditionalPropertiesTrue) {
                     moduleImports.add("typing", "List");
                 }
             }
@@ -1004,7 +974,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
 
             // remove the items of postponedModelImports in modelImports to avoid circular imports error
-            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()) {
                 modelImports.removeAll(postponedModelImports);
             }
 
@@ -1060,19 +1030,19 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
      *
      */
     private PythonType getPydanticType(CodegenProperty cp,
-                                   Set<String> modelImports,
-                                   Set<String> exampleImports,
-                                   Set<String> postponedModelImports,
-                                   Set<String> postponedExampleImports,
-                                   PythonImports moduleImports,
-                                   String classname) {
+                                       Set<String> modelImports,
+                                       Set<String> exampleImports,
+                                       Set<String> postponedModelImports,
+                                       Set<String> postponedExampleImports,
+                                       PythonImports moduleImports,
+                                       String classname) {
         PydanticType pt = new PydanticType(
-            modelImports,
-            exampleImports,
-            postponedModelImports,
-            postponedExampleImports,
-            moduleImports,
-            classname
+                modelImports,
+                exampleImports,
+                postponedModelImports,
+                postponedExampleImports,
+                moduleImports,
+                classname
         );
 
         return pt.getType(cp);
@@ -1240,12 +1210,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             for (CodegenParameter cp : params) {
                 PydanticType pydantic = new PydanticType(
-                    modelImports,
-                    exampleImports,
-                    postponedModelImports,
-                    postponedExampleImports,
-                    moduleImports,
-                    null
+                        modelImports,
+                        exampleImports,
+                        postponedModelImports,
+                        postponedExampleImports,
+                        moduleImports,
+                        null
                 );
                 String typing = pydantic.generatePythonType(cp);
                 cp.vendorExtensions.put("x-py-typing", typing);
@@ -1255,13 +1225,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!StringUtils.isEmpty(operation.returnType)) {
                 // Not interested in the result, only in the update of the imports
                 getPydanticType(
-                    operation.returnProperty,
-                    modelImports,
-                    exampleImports,
-                    postponedModelImports,
-                    postponedExampleImports,
-                    moduleImports,
-                    null
+                        operation.returnProperty,
+                        modelImports,
+                        exampleImports,
+                        postponedModelImports,
+                        postponedExampleImports,
+                        moduleImports,
+                        null
                 );
             }
 
@@ -1624,14 +1594,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // There can be no constraints nor annotations, in which case we
             // simply won't build a Field object.
             List<String> fieldParams = new ArrayList<>();
-            for (Map.Entry<String, Object> entry: this.constraints.entrySet()) {
+            for (Map.Entry<String, Object> entry : this.constraints.entrySet()) {
                 String ans = entry.getKey() + "=";
                 ans += entry.getValue().toString();
                 fieldParams.add(ans);
             }
 
             if (withAnnotations) {
-                for (Map.Entry<String, Object> entry: this.annotations.entrySet()) {
+                for (Map.Entry<String, Object> entry : this.annotations.entrySet()) {
                     String ans = entry.getKey() + "=";
                     ans += entry.getValue().toString();
                     fieldParams.add(ans);
@@ -1673,7 +1643,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     ants.add("default=" + defaultValue);
                 }
 
-                for (Map.Entry<String, Object> entry: this.annotations.entrySet()) {
+                for (Map.Entry<String, Object> entry : this.annotations.entrySet()) {
                     String ans = entry.getKey() + "=";
                     ans += entry.getValue().toString();
                     ants.add(ans);
@@ -1731,8 +1701,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             for (Map.Entry<String, Set<String>> entry : imports.entrySet()) {
                 String importLine = String.format(
-                    Locale.ROOT, "from %s import %s",
-                    entry.getKey(), StringUtils.join(entry.getValue(), ", "));
+                        Locale.ROOT, "from %s import %s",
+                        entry.getKey(), StringUtils.join(entry.getValue(), ", "));
                 results.add(importLine);
             }
 
@@ -1753,12 +1723,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         private String classname;
 
         public PydanticType(
-            Set<String> modelImports,
-            Set<String> exampleImports,
-            Set<String> postponedModelImports,
-            Set<String> postponedExampleImports,
-            PythonImports moduleImports,
-            String classname
+                Set<String> modelImports,
+                Set<String> exampleImports,
+                Set<String> postponedModelImports,
+                Set<String> postponedExampleImports,
+                PythonImports moduleImports,
+                String classname
         ) {
             this.modelImports = modelImports;
             this.exampleImports = exampleImports;
@@ -1773,7 +1743,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (cp.getMaxItems() != null) {
                 pt.constrain("max_length", cp.getMaxItems());
             }
-            if (cp.getMinItems()!= null) {
+            if (cp.getMinItems() != null) {
                 pt.constrain("min_length", cp.getMinItems());
             }
             if (cp.getUniqueItems()) {
@@ -2218,10 +2188,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (result == null) {
                 if (!cp.isPrimitiveType) {
                     // add model prefix
-                     hasModelsToImport = true;
-                     modelImports.add(cp.getDataType());
-                     exampleImports.add(cp.getDataType());
-                     result = new PythonType(cp.getDataType());
+                    hasModelsToImport = true;
+                    modelImports.add(cp.getDataType());
+                    exampleImports.add(cp.getDataType());
+                    result = new PythonType(cp.getDataType());
                 } else if (cp.getContent() != null) {
                     LinkedHashMap<String, CodegenMediaType> contents = cp.getContent();
                     for (String key : contents.keySet()) {

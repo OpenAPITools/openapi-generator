@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AnotherFakeApi {
   private ApiClient apiClient;
 
@@ -59,7 +59,7 @@ public class AnotherFakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public Client call123testSpecialTags(Client client) throws ApiException {
+  public Client call123testSpecialTags(@javax.annotation.Nonnull Client client) throws ApiException {
     return call123testSpecialTagsWithHttpInfo(client).getData();
   }
 
@@ -76,7 +76,7 @@ public class AnotherFakeApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
     // Check required parameters
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");

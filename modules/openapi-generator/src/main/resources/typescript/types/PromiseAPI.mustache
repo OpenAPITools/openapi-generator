@@ -1,5 +1,8 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http{{importFileExtension}}';
-import { Configuration} from '../configuration{{importFileExtension}}'
+import { Configuration{{^useInversify}}, PromiseConfigurationOptions, wrapOptions{{/useInversify}} } from '../configuration{{importFileExtension}}'
+{{^useInversify}}
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware{{importFileExtension}}';
+{{/useInversify}}
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
 import { AbstractConfiguration } from "../services/configuration";
@@ -51,8 +54,9 @@ export class Promise{{classname}} {
      * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
-    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
-        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}_options);
+    public {{nickname}}WithHttpInfo({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: {{#useInversify}}Configuration{{/useInversify}}{{^useInversify}}PromiseConfigurationOptions{{/useInversify}}): Promise<HttpInfo<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+        const observableOptions = {{#useInversify}}_options{{/useInversify}}{{^useInversify}}wrapOptions(_options){{/useInversify}};
+        const result = this.api.{{nickname}}WithHttpInfo({{#allParams}}{{paramName}}, {{/allParams}}observableOptions);
         return result.toPromise();
     }
 
@@ -67,8 +71,9 @@ export class Promise{{classname}} {
      * @param {{#required}}{{paramName}}{{/required}}{{^required}}[{{paramName}}]{{/required}}{{#description}} {{description}}{{/description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: Configuration): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
-        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}_options);
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}_options?: {{#useInversify}}Configuration{{/useInversify}}{{^useInversify}}PromiseConfigurationOptions{{/useInversify}}): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        const observableOptions = {{#useInversify}}_options{{/useInversify}}{{^useInversify}}wrapOptions(_options){{/useInversify}};
+        const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}observableOptions);
         return result.toPromise();
     }
 

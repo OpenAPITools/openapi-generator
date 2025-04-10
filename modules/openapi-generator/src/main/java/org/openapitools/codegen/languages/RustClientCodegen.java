@@ -17,39 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.VendorExtension;
-import org.openapitools.codegen.meta.features.ClientModificationFeature;
-import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.meta.features.ParameterFeature;
-import org.openapitools.codegen.meta.features.SchemaSupportFeature;
-import org.openapitools.codegen.meta.features.SecurityFeature;
-import org.openapitools.codegen.meta.features.WireFormatFeature;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+import joptsimple.internal.Strings;
+import lombok.AccessLevel;
+import lombok.Setter;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -60,17 +39,13 @@ import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Mustache.Lambda;
-import com.samskivert.mustache.Template;
-
-import io.swagger.v3.oas.models.media.Discriminator;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import joptsimple.internal.Strings;
-import lombok.AccessLevel;
-import lombok.Setter;
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -109,6 +84,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
+    // The API has at least one UUID type.
+    // If the API does not contain any UUIDs we do not need depend on the `uuid` crate
+    private boolean hasUUIDs = false;
 
     @Override
     public CodegenType getTag() {
@@ -203,6 +181,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
+        typeMapping.put("decimal", "String");
+
         // TODO(bcourtine): review file mapping.
         // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
         // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
@@ -252,6 +232,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
         supportedLibraries.put(REQWEST_TRAIT_LIBRARY, "HTTP client: Reqwest (trait based).");
+
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
@@ -334,6 +315,32 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     if (cp.baseName.equals(reserved_var_name)) {
                         cm.vars.remove(cp);
                         break;
+                    }
+                }
+
+                // Check if there are duplicate mappings in the discriminator
+                // ie.
+                // ```
+                // mappings:
+                //   student: '#/components/schemas/Person'
+                //   teacher: '#/components/schemas/Person'
+                //   car: '#/components/schemas/Vehicle'
+                // ```
+                //
+                // Should be mapped to an enum with `PersonStudent`, `PersonTeacher`, `Vehicle` to 2 `Person` enum variants. (a compiler error)
+                if (cm.discriminator.getMapping() != null) {
+                    if (hasDuplicateValues(cm.discriminator.getMapping())) {
+                        var inverted = invertMap(cm.discriminator.getMapping());
+                        for (var s : inverted.entrySet()) {
+                            if (s.getValue().size() > 1) {
+                                LOGGER.debug("Found duplicated enum model (" + s.getKey() + ") in model " + cm.name + ". Adding suffix to model names.");
+                                for (var m : cm.discriminator.getMappedModels()) {
+                                    if (s.getValue().contains(m.getMappingName())) {
+                                        m.setModelName(m.getModelName() + StringUtils.camelize(m.getMappingName()));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -629,6 +636,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             if (operation.pathParams != null && operation.pathParams.size() > 0) {
+
+                // For types with `isAnyType` we assume it's a `serde_json::Value` type.
+                // However for path, query, and headers it's unlikely to be JSON so we default to `String`.
+                // Note that we keep the default `serde_json::Value` for body parameters.
+                for (var param : operation.allParams) {
+                    if (param.isAnyType && (param.isPathParam || param.isQueryParam || param.isHeaderParam)) {
+                        param.dataType = "String";
+                        param.isPrimitiveType = true;
+                        param.isString = true;
+                    }
+                }
+
                 for (var pathParam : operation.pathParams) {
                     if (!pathParam.baseName.contains("-")) {
                         continue;
@@ -642,6 +661,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
 
+            for (var param : operation.allParams) {
+                if (!hasUUIDs && param.isUuid) {
+                    hasUUIDs = true;
+                    break;
+                }
+            }
+
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
@@ -652,6 +678,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             // add support for single request parameter using x-group-parameters
             if (!operation.vendorExtensions.containsKey("x-group-parameters") && useSingleRequestParameter) {
                 operation.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+            }
+
+            if (operation.producesTextPlain() && "String".equals(operation.returnType)) {
+                operation.vendorExtensions.put("x-supports-plain-text", Boolean.TRUE);
             }
 
             // update return type to conform to rust standard
@@ -705,7 +735,41 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }*/
         }
 
+        if (!hasUUIDs) {
+            for (var map : allModels) {
+                CodegenModel m = map.getModel();
+                if (m.getIsUuid() || hasUuidInProperties(m.vars)) {
+                    hasUUIDs = true;
+                    LOGGER.debug("found UUID in model: " + m.name);
+                    break;
+                }
+            }
+        }
+
+        this.additionalProperties.put("hasUUIDs", hasUUIDs);
         return objs;
+    }
+
+    /**
+     * Recursively searches for a model's properties for a UUID type field.
+     */
+    private boolean hasUuidInProperties(List<CodegenProperty> properties) {
+        for (CodegenProperty property : properties) {
+            if (property.isUuid) {
+                return true;
+            }
+            // Check nested properties
+            if (property.items != null && hasUuidInProperties(Collections.singletonList(property.items))) {
+                return true;
+            }
+            if (property.additionalProperties != null && hasUuidInProperties(Collections.singletonList(property.additionalProperties))) {
+                return true;
+            }
+            if (property.vars != null && hasUuidInProperties(property.vars)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -726,4 +790,18 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .put("lifetimeName", new ReplaceAllLambda("^r#", "r_"));
     }
 
+    public static <K, V> Map<V, List<K>> invertMap(Map<K, V> map) {
+        Map<V, List<K>> invertedMap = new HashMap<>();
+
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            invertedMap.computeIfAbsent(entry.getValue(), k -> new ArrayList<>()).add(entry.getKey());
+        }
+
+        return invertedMap;
+    }
+
+    public static <K, V> boolean hasDuplicateValues(Map<K, V> map) {
+        Set<V> uniqueValues = new HashSet<>(map.values());
+        return uniqueValues.size() < map.size();
+    }
 }

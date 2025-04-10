@@ -37,6 +37,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public GrandparentAnimal()
         {
+            PetType = this.GetType().Name;
             OnCreated();
         }
 
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public string PetType { get; } = "GrandparentAnimal";
+        public string PetType { get; }
 
         /// <summary>
         /// Gets or Sets additional properties

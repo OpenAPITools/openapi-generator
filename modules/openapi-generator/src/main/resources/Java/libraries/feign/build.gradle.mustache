@@ -110,7 +110,7 @@ ext {
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
-    feign_version = "10.12"
+    feign_version = "13.5"
     feign_form_version = "3.8.0"
     junit_version = "5.7.0"
     scribejava_version = "8.0.0"
@@ -127,7 +127,12 @@ dependencies {
     implementation "io.github.openfeign:feign-jackson:$feign_version"
     {{/jackson}}
     implementation "io.github.openfeign:feign-slf4j:$feign_version"
+    {{#feign-okhttp}}
     implementation "io.github.openfeign:feign-okhttp:$feign_version"
+    {{/feign-okhttp}}
+    {{#feign-hc5}}
+    implementation "io.github.openfeign:feign-hc5:$feign_version"
+    {{/feign-hc5}}
     implementation "io.github.openfeign.form:feign-form:$feign_form_version"
     {{#jackson}}
     {{#joda}}

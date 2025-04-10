@@ -27,7 +27,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
             return Object.assign({}, {{modelName}}FromJSONTyped(json, true), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
-            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${json['{{discriminator.propertyName}}']}'`);
+            return json;
     }
 {{/discriminator}}
 {{^discriminator}}
@@ -56,7 +56,7 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
             return Object.assign({}, {{modelName}}ToJSON(value), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
 {{/discriminator.mappedModels}}
         default:
-            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
+            return json;
     }
 {{/discriminator}}
 

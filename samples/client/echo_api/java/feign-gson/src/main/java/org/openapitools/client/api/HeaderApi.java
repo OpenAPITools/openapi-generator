@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface HeaderApi extends ApiClient.Api {
 
 
@@ -39,7 +39,7 @@ public interface HeaderApi extends ApiClient.Api {
     
     "enum_ref_string_header: {enumRefStringHeader}"
   })
-  String testHeaderIntegerBooleanStringEnums(@Param("integerHeader") Integer integerHeader, @Param("booleanHeader") Boolean booleanHeader, @Param("stringHeader") String stringHeader, @Param("enumNonrefStringHeader") String enumNonrefStringHeader, @Param("enumRefStringHeader") StringEnumRef enumRefStringHeader);
+  String testHeaderIntegerBooleanStringEnums(@Param("integerHeader") @javax.annotation.Nullable Integer integerHeader, @Param("booleanHeader") @javax.annotation.Nullable Boolean booleanHeader, @Param("stringHeader") @javax.annotation.Nullable String stringHeader, @Param("enumNonrefStringHeader") @javax.annotation.Nullable String enumNonrefStringHeader, @Param("enumRefStringHeader") @javax.annotation.Nullable StringEnumRef enumRefStringHeader);
 
   /**
    * Test header parameter(s)
@@ -65,7 +65,7 @@ public interface HeaderApi extends ApiClient.Api {
     
     "enum_ref_string_header: {enumRefStringHeader}"
   })
-  ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@Param("integerHeader") Integer integerHeader, @Param("booleanHeader") Boolean booleanHeader, @Param("stringHeader") String stringHeader, @Param("enumNonrefStringHeader") String enumNonrefStringHeader, @Param("enumRefStringHeader") StringEnumRef enumRefStringHeader);
+  ApiResponse<String> testHeaderIntegerBooleanStringEnumsWithHttpInfo(@Param("integerHeader") @javax.annotation.Nullable Integer integerHeader, @Param("booleanHeader") @javax.annotation.Nullable Boolean booleanHeader, @Param("stringHeader") @javax.annotation.Nullable String stringHeader, @Param("enumNonrefStringHeader") @javax.annotation.Nullable String enumNonrefStringHeader, @Param("enumRefStringHeader") @javax.annotation.Nullable StringEnumRef enumRefStringHeader);
 
 
 }

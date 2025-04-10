@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -49,7 +49,7 @@ public class StoreApi {
     * @param orderId ID of the order that needs to be deleted
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void deleteOrder(String orderId) throws IOException {
+    public void deleteOrder(@javax.annotation.Nonnull String orderId) throws IOException {
         deleteOrderForHttpResponse(orderId);
     }
 
@@ -62,11 +62,11 @@ public class StoreApi {
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void deleteOrder(String orderId, Map<String, Object> params) throws IOException {
+    public void deleteOrder(@javax.annotation.Nonnull String orderId, Map<String, Object> params) throws IOException {
         deleteOrderForHttpResponse(orderId, params);
     }
 
-    public HttpResponse deleteOrderForHttpResponse(String orderId) throws IOException {
+    public HttpResponse deleteOrderForHttpResponse(@javax.annotation.Nonnull String orderId) throws IOException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling deleteOrder");
@@ -83,7 +83,7 @@ public class StoreApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
-    public HttpResponse deleteOrderForHttpResponse(String orderId, Map<String, Object> params) throws IOException {
+    public HttpResponse deleteOrderForHttpResponse(@javax.annotation.Nonnull String orderId, Map<String, Object> params) throws IOException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling deleteOrder");
@@ -197,7 +197,7 @@ public class StoreApi {
     * @return Order
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Order getOrderById(Long orderId) throws IOException {
+    public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws IOException {
         HttpResponse response = getOrderByIdForHttpResponse(orderId);
         TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -214,13 +214,13 @@ public class StoreApi {
     * @return Order
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Order getOrderById(Long orderId, Map<String, Object> params) throws IOException {
+    public Order getOrderById(@javax.annotation.Nonnull Long orderId, Map<String, Object> params) throws IOException {
         HttpResponse response = getOrderByIdForHttpResponse(orderId, params);
         TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse getOrderByIdForHttpResponse(Long orderId) throws IOException {
+    public HttpResponse getOrderByIdForHttpResponse(@javax.annotation.Nonnull Long orderId) throws IOException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling getOrderById");
@@ -237,7 +237,7 @@ public class StoreApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
     }
 
-    public HttpResponse getOrderByIdForHttpResponse(Long orderId, Map<String, Object> params) throws IOException {
+    public HttpResponse getOrderByIdForHttpResponse(@javax.annotation.Nonnull Long orderId, Map<String, Object> params) throws IOException {
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'orderId' when calling getOrderById");
@@ -281,7 +281,7 @@ public class StoreApi {
     * @return Order
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Order placeOrder(Order body) throws IOException {
+    public Order placeOrder(@javax.annotation.Nonnull Order body) throws IOException {
         HttpResponse response = placeOrderForHttpResponse(body);
         TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -296,13 +296,13 @@ public class StoreApi {
     * @return Order
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Order placeOrder(Order body, Map<String, Object> params) throws IOException {
+    public Order placeOrder(@javax.annotation.Nonnull Order body, Map<String, Object> params) throws IOException {
         HttpResponse response = placeOrderForHttpResponse(body, params);
         TypeReference<Order> typeRef = new TypeReference<Order>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse placeOrderForHttpResponse(Order body) throws IOException {
+    public HttpResponse placeOrderForHttpResponse(@javax.annotation.Nonnull Order body) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");
@@ -332,7 +332,7 @@ public class StoreApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse placeOrderForHttpResponse(Order body, Map<String, Object> params) throws IOException {
+    public HttpResponse placeOrderForHttpResponse(@javax.annotation.Nonnull Order body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'body' is set
         if (body == null) {
             throw new IllegalArgumentException("Missing the required parameter 'body' when calling placeOrder");

@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructor]
         public EntityBase()
         {
+            Schema = this.GetType().Name;
             OnCreated();
         }
 
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public string Schema { get; } = "EntityBase";
+        public string Schema { get; }
 
         /// <summary>
         /// Gets or Sets additional properties

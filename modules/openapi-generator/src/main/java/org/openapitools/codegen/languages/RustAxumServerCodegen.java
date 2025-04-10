@@ -31,7 +31,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -85,6 +88,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     // Grouping (Method, Operation) by Path.
     private final Map<String, ArrayList<MethodOperation>> pathMethodOpMap = new HashMap<>();
     private boolean havingAuthMethods = false;
+    private boolean havingBasicAuthMethods = false;
 
     // Logger
     private final Logger LOGGER = LoggerFactory.getLogger(RustAxumServerCodegen.class);
@@ -98,7 +102,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         WireFormatFeature.Custom
                 ))
                 .securityFeatures(EnumSet.of(
-                        SecurityFeature.ApiKey
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken
+                ))
+                .schemaSupportFeatures(EnumSet.of(
+                        SchemaSupportFeature.Simple,
+                        SchemaSupportFeature.Composite,
+                        SchemaSupportFeature.oneOf
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.Info,
@@ -230,12 +241,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
-        supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("types.mustache", "src", "types.rs"));
         supportingFiles.add(new SupportingFile("header.mustache", "src", "header.rs"));
-        supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
+        supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("apis-mod.mustache", apiPackage().replace('.', File.separatorChar), "mod.rs"));
+        supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
+        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
     }
 
@@ -427,7 +438,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             for (CodegenParameter param : op.pathParams) {
                 // Replace {baseName} with {paramName} for format string
                 String paramSearch = "{" + param.baseName + "}";
-                String paramReplace = ":" + param.paramName;
+                String paramReplace = "{" + param.paramName + "}";
 
                 axumPath = axumPath.replace(paramSearch, paramReplace);
             }
@@ -607,8 +618,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     for (CodegenProperty model : csOneOf) {
                         // Generate a valid name for the enum variant.
                         // Mainly needed for primitive types.
-                        String[] modelParts = model.dataType.replace("<", "Of").replace(">", "").split("::");
-                        model.datatypeWithEnum = camelize(modelParts[modelParts.length - 1]);
+
+                        model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
+                                .replace("<", "Of").replace(">", ""));
 
                         // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
                         if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
@@ -777,6 +789,16 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     op.vendorExtensions.put("x-has-auth-methods", true);
                     hasAuthMethod = true;
+                } else if (s.isBasic) {
+                    op.vendorExtensions.put("x-has-basic-auth-methods", true);
+                    op.vendorExtensions.put("x-is-basic-bearer", s.isBasicBearer);
+                    op.vendorExtensions.put("x-api-auth-header-name", "authorization");
+
+                    op.vendorExtensions.put("x-has-auth-methods", true);
+                    hasAuthMethod = true;
+
+                    if (!this.havingBasicAuthMethods)
+                        this.havingBasicAuthMethods = true;
                 }
             }
         }
@@ -878,6 +900,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .collect(Collectors.toList());
         bundle.put("pathMethodOps", pathMethodOps);
         if (havingAuthMethods) bundle.put("havingAuthMethods", true);
+        if (havingBasicAuthMethods) bundle.put("havingBasicAuthMethods", true);
 
         return super.postProcessSupportingFileData(bundle);
     }

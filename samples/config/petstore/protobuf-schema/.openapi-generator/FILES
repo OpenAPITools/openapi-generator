@@ -1,11 +1,17 @@
 README.md
 models/api_response.proto
+models/cat.proto
 models/category.proto
+models/dog.proto
+models/error.proto
 models/order.proto
 models/other_test.proto
 models/pet.proto
+models/pets_get_request.proto
+models/pets_post_request.proto
 models/tag.proto
 models/user.proto
+services/default_service.proto
 services/pet_service.proto
 services/store_service.proto
 services/user_service.proto

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface PetApi extends ApiClient.Api {
 
 
@@ -29,7 +29,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void addPet(Pet body);
+  void addPet(@javax.annotation.Nonnull Pet body);
 
   /**
    * Add a new pet to the store
@@ -42,7 +42,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  ApiResponse<Void> addPetWithHttpInfo(Pet body);
+  ApiResponse<Void> addPetWithHttpInfo(@javax.annotation.Nonnull Pet body);
 
 
 
@@ -57,7 +57,7 @@ public interface PetApi extends ApiClient.Api {
     "Accept: application/json",
     "api_key: {apiKey}"
   })
-  void deletePet(@Param("petId") Long petId, @Param("apiKey") String apiKey);
+  void deletePet(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("apiKey") @javax.annotation.Nullable String apiKey);
 
   /**
    * Deletes a pet
@@ -71,7 +71,7 @@ public interface PetApi extends ApiClient.Api {
     "Accept: application/json",
     "api_key: {apiKey}"
   })
-  ApiResponse<Void> deletePetWithHttpInfo(@Param("petId") Long petId, @Param("apiKey") String apiKey);
+  ApiResponse<Void> deletePetWithHttpInfo(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("apiKey") @javax.annotation.Nullable String apiKey);
 
 
 
@@ -85,7 +85,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  List<Pet> findPetsByStatus(@Param("status") List<String> status);
+  List<Pet> findPetsByStatus(@Param("status") @javax.annotation.Nonnull List<String> status);
 
   /**
    * Finds Pets by status
@@ -98,7 +98,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@Param("status") List<String> status);
+  ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@Param("status") @javax.annotation.Nonnull List<String> status);
 
 
   /**
@@ -146,7 +146,7 @@ public interface PetApi extends ApiClient.Api {
    * <code>findPetsByStatus</code> method in a fluent style.
    */
   public static class FindPetsByStatusQueryParams extends HashMap<String, Object> {
-    public FindPetsByStatusQueryParams status(final List<String> value) {
+    public FindPetsByStatusQueryParams status(@javax.annotation.Nonnull final List<String> value) {
       put("status", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
@@ -164,7 +164,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  Set<Pet> findPetsByTags(@Param("tags") Set<String> tags);
+  Set<Pet> findPetsByTags(@Param("tags") @javax.annotation.Nonnull Set<String> tags);
 
   /**
    * Finds Pets by tags
@@ -179,7 +179,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@Param("tags") Set<String> tags);
+  ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(@Param("tags") @javax.annotation.Nonnull Set<String> tags);
 
 
   /**
@@ -231,7 +231,7 @@ public interface PetApi extends ApiClient.Api {
    * <code>findPetsByTags</code> method in a fluent style.
    */
   public static class FindPetsByTagsQueryParams extends HashMap<String, Object> {
-    public FindPetsByTagsQueryParams tags(final Set<String> value) {
+    public FindPetsByTagsQueryParams tags(@javax.annotation.Nonnull final Set<String> value) {
       put("tags", EncodingUtils.encodeCollection(value, "csv"));
       return this;
     }
@@ -247,7 +247,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  Pet getPetById(@Param("petId") Long petId);
+  Pet getPetById(@Param("petId") @javax.annotation.Nonnull Long petId);
 
   /**
    * Find pet by ID
@@ -260,7 +260,7 @@ public interface PetApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  ApiResponse<Pet> getPetByIdWithHttpInfo(@Param("petId") Long petId);
+  ApiResponse<Pet> getPetByIdWithHttpInfo(@Param("petId") @javax.annotation.Nonnull Long petId);
 
 
 
@@ -274,7 +274,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void updatePet(Pet body);
+  void updatePet(@javax.annotation.Nonnull Pet body);
 
   /**
    * Update an existing pet
@@ -287,7 +287,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  ApiResponse<Void> updatePetWithHttpInfo(Pet body);
+  ApiResponse<Void> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet body);
 
 
 
@@ -303,7 +303,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  void updatePetWithForm(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
+  void updatePetWithForm(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("name") @javax.annotation.Nullable String name, @Param("status") @javax.annotation.Nullable String status);
 
   /**
    * Updates a pet in the store with form data
@@ -318,7 +318,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  ApiResponse<Void> updatePetWithFormWithHttpInfo(@Param("petId") Long petId, @Param("name") String name, @Param("status") String status);
+  ApiResponse<Void> updatePetWithFormWithHttpInfo(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("name") @javax.annotation.Nullable String name, @Param("status") @javax.annotation.Nullable String status);
 
 
 
@@ -335,7 +335,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ModelApiResponse uploadFile(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("additionalMetadata") @javax.annotation.Nullable String additionalMetadata, @Param("file") @javax.annotation.Nullable File file);
 
   /**
    * uploads an image
@@ -351,7 +351,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("additionalMetadata") @javax.annotation.Nullable String additionalMetadata, @Param("file") @javax.annotation.Nullable File file);
 
 
 
@@ -368,7 +368,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ModelApiResponse uploadFileWithRequiredFile(@Param("petId") Long petId, @Param("requiredFile") File requiredFile, @Param("additionalMetadata") String additionalMetadata);
+  ModelApiResponse uploadFileWithRequiredFile(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("requiredFile") @javax.annotation.Nonnull File requiredFile, @Param("additionalMetadata") @javax.annotation.Nullable String additionalMetadata);
 
   /**
    * uploads an image (required)
@@ -384,7 +384,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@Param("petId") Long petId, @Param("requiredFile") File requiredFile, @Param("additionalMetadata") String additionalMetadata);
+  ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@Param("petId") @javax.annotation.Nonnull Long petId, @Param("requiredFile") @javax.annotation.Nonnull File requiredFile, @Param("additionalMetadata") @javax.annotation.Nullable String additionalMetadata);
 
 
 }

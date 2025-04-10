@@ -49,7 +49,7 @@ import org.openapitools.client.ApiClient;
   DefaultValue.JSON_PROPERTY_ARRAY_STRING_EXTENSION_NULLABLE,
   DefaultValue.JSON_PROPERTY_STRING_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class DefaultValue {
   public static final String JSON_PROPERTY_ARRAY_STRING_ENUM_REF_DEFAULT = "array_string_enum_ref_default";
   @javax.annotation.Nullable
@@ -503,7 +503,7 @@ public class DefaultValue {
         if (getArrayStringEnumRefDefault().get(i) != null) {
           joiner.add(String.format("%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
               "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-              URLEncoder.encode(ApiClient.valueToString(getArrayStringEnumRefDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+              ApiClient.urlEncode(ApiClient.valueToString(getArrayStringEnumRefDefault().get(i)))));
         }
       }
     }
@@ -513,7 +513,7 @@ public class DefaultValue {
       for (int i = 0; i < getArrayStringEnumDefault().size(); i++) {
         joiner.add(String.format("%sarray_string_enum_default%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayStringEnumDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayStringEnumDefault().get(i)))));
       }
     }
 
@@ -522,7 +522,7 @@ public class DefaultValue {
       for (int i = 0; i < getArrayStringDefault().size(); i++) {
         joiner.add(String.format("%sarray_string_default%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayStringDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayStringDefault().get(i)))));
       }
     }
 
@@ -531,7 +531,7 @@ public class DefaultValue {
       for (int i = 0; i < getArrayIntegerDefault().size(); i++) {
         joiner.add(String.format("%sarray_integer_default%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayIntegerDefault().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayIntegerDefault().get(i)))));
       }
     }
 
@@ -540,7 +540,7 @@ public class DefaultValue {
       for (int i = 0; i < getArrayString().size(); i++) {
         joiner.add(String.format("%sarray_string%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayString().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayString().get(i)))));
       }
     }
 
@@ -549,7 +549,7 @@ public class DefaultValue {
       for (int i = 0; i < getArrayStringNullable().size(); i++) {
         joiner.add(String.format("%sarray_string_nullable%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayStringNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayStringNullable().get(i)))));
       }
     }
 
@@ -558,13 +558,13 @@ public class DefaultValue {
       for (int i = 0; i < getArrayStringExtensionNullable().size(); i++) {
         joiner.add(String.format("%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
             "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(ApiClient.valueToString(getArrayStringExtensionNullable().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+            ApiClient.urlEncode(ApiClient.valueToString(getArrayStringExtensionNullable().get(i)))));
       }
     }
 
     // add `string_nullable` to the URL query string
     if (getStringNullable() != null) {
-      joiner.add(String.format("%sstring_nullable%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getStringNullable()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sstring_nullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStringNullable()))));
     }
 
     return joiner.toString();
