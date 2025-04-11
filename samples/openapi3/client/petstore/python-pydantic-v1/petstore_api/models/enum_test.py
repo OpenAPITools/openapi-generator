@@ -20,6 +20,8 @@ import json
 
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
+from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
+from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
@@ -34,16 +36,16 @@ class EnumTest(BaseModel):
     enum_integer_default: Optional[StrictInt] = 5
     enum_integer: Optional[StrictInt] = None
     enum_number: Optional[StrictFloat] = None
-    enum_number_vendor_ext: Optional[StrictInt] = None
-    enum_string_vendor_ext: Optional[StrictStr] = None
     enum_string_single_member: Optional[StrictStr] = None
     enum_integer_single_member: Optional[StrictInt] = None
     outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=None, alias="outerEnumDefaultValue")
     outer_enum_integer_default_value: Optional[OuterEnumIntegerDefaultValue] = Field(default=None, alias="outerEnumIntegerDefaultValue")
+    enum_number_vendor_ext: Optional[EnumNumberVendorExt] = Field(default=None, alias="enumNumberVendorExt")
+    enum_string_vendor_ext: Optional[EnumStringVendorExt] = Field(default=None, alias="enumStringVendorExt")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_number_vendor_ext", "enum_string_vendor_ext", "enum_string_single_member", "enum_integer_single_member", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue"]
+    __properties = ["enum_string", "enum_string_required", "enum_integer_default", "enum_integer", "enum_number", "enum_string_single_member", "enum_integer_single_member", "outerEnum", "outerEnumInteger", "outerEnumDefaultValue", "outerEnumIntegerDefaultValue", "enumNumberVendorExt", "enumStringVendorExt"]
 
     @validator('enum_string')
     def enum_string_validate_enum(cls, value):
@@ -90,26 +92,6 @@ class EnumTest(BaseModel):
 
         if value not in (1.1, -1.2,):
             raise ValueError("must be one of enum values (1.1, -1.2)")
-        return value
-
-    @validator('enum_number_vendor_ext')
-    def enum_number_vendor_ext_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in (42, 18, 56,):
-            raise ValueError("must be one of enum values (42, 18, 56)")
-        return value
-
-    @validator('enum_string_vendor_ext')
-    def enum_string_vendor_ext_validate_enum(cls, value):
-        """Validates the enum"""
-        if value is None:
-            return value
-
-        if value not in ('FOO', 'Bar', 'baz',):
-            raise ValueError("must be one of enum values ('FOO', 'Bar', 'baz')")
         return value
 
     @validator('enum_string_single_member')
@@ -184,14 +166,14 @@ class EnumTest(BaseModel):
             "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
             "enum_integer": obj.get("enum_integer"),
             "enum_number": obj.get("enum_number"),
-            "enum_number_vendor_ext": obj.get("enum_number_vendor_ext"),
-            "enum_string_vendor_ext": obj.get("enum_string_vendor_ext"),
             "enum_string_single_member": obj.get("enum_string_single_member"),
             "enum_integer_single_member": obj.get("enum_integer_single_member"),
             "outer_enum": obj.get("outerEnum"),
             "outer_enum_integer": obj.get("outerEnumInteger"),
             "outer_enum_default_value": obj.get("outerEnumDefaultValue"),
-            "outer_enum_integer_default_value": obj.get("outerEnumIntegerDefaultValue")
+            "outer_enum_integer_default_value": obj.get("outerEnumIntegerDefaultValue"),
+            "enum_number_vendor_ext": obj.get("enumNumberVendorExt"),
+            "enum_string_vendor_ext": obj.get("enumStringVendorExt")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
