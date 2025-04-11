@@ -13,10 +13,10 @@
   {{/allowableValues}}
 
 {{/vendorExtensions.x-self-only-props}}{{#anyOf}}{{#-first}}  /// Any Of {{#anyOf}}[{{{.}}}]{{^-last}}, {{/-last}}{{/anyOf}}
-  AnyOf get anyOf;
+  AnyOf{{anyOf.size}}<{{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}> get anyOf;
 
 {{/-first}}{{/anyOf}}{{#oneOf}}{{#-first}}  /// One Of {{#oneOf}}[{{{.}}}]{{^-last}}, {{/-last}}{{/oneOf}}
-  OneOf get oneOf;
+  OneOf{{oneOf.size}}<{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}> get oneOf;
 
 {{/-first}}{{/oneOf}}{{#discriminator}}  static const String discriminatorFieldName = r'{{propertyBaseName}}';{{#hasDiscriminatorWithNonEmptyMapping}}
 
