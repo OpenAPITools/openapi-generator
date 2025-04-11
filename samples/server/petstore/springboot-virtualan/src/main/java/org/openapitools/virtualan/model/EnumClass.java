@@ -29,7 +29,7 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
-  private String value;
+  private final String value;
 
   EnumClass(String value) {
     this.value = value;
