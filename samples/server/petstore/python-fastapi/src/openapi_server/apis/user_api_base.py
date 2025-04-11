@@ -17,6 +17,7 @@ class BaseUserApi:
     async def create_user(
         self,
         user: Annotated[User, Field(description="Created user object")],
+        token_api_key: str
     ) -> None:
         """This can only be done by the logged in user."""
         ...
@@ -25,6 +26,7 @@ class BaseUserApi:
     async def create_users_with_array_input(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
+        token_api_key: str
     ) -> None:
         """"""
         ...
@@ -33,6 +35,7 @@ class BaseUserApi:
     async def create_users_with_list_input(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
+        token_api_key: str
     ) -> None:
         """"""
         ...
@@ -41,6 +44,7 @@ class BaseUserApi:
     async def delete_user(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
+        token_api_key: str
     ) -> None:
         """This can only be done by the logged in user."""
         ...
@@ -48,7 +52,7 @@ class BaseUserApi:
 
     async def get_user_by_name(
         self,
-        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
+        username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")]
     ) -> User:
         """"""
         ...
@@ -56,8 +60,7 @@ class BaseUserApi:
 
     async def login_user(
         self,
-        username: Annotated[str, Field(strict=True, description="The user name for login")],
-        password: Annotated[StrictStr, Field(description="The password for login in clear text")],
+        username: Annotated[str, Field(strict=True, description="The user name for login")],        password: Annotated[StrictStr, Field(description="The password for login in clear text")]
     ) -> str:
         """"""
         ...
@@ -65,6 +68,8 @@ class BaseUserApi:
 
     async def logout_user(
         self,
+
+        token_api_key: str
     ) -> None:
         """"""
         ...
@@ -72,8 +77,8 @@ class BaseUserApi:
 
     async def update_user(
         self,
-        username: Annotated[StrictStr, Field(description="name that need to be deleted")],
-        user: Annotated[User, Field(description="Updated user object")],
+        username: Annotated[StrictStr, Field(description="name that need to be deleted")],        user: Annotated[User, Field(description="Updated user object")],
+        token_api_key: str
     ) -> None:
         """This can only be done by the logged in user."""
         ...
