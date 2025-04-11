@@ -30,4 +30,5 @@ components:
       - items:
           $ref: '#/components/schemas/OneOf1'
         type: array
+      - $ref: '#/components/schemas/OneOf1'
 

@@ -38,6 +38,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.ModelUtils.simplyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
 public class OpenAPINormalizer {
@@ -1266,17 +1267,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (oneOfSchemas.removeIf(oneOf -> ModelUtils.isNullTypeSchema(openAPI, oneOf))) {
-                schema.setNullable(true);
-
-                // if only one element left, simplify to just the element (schema)
-                if (oneOfSchemas.size() == 1) {
-                    if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
-                        ((Schema) oneOfSchemas.get(0)).setNullable(true);
-                    }
-                    return (Schema) oneOfSchemas.get(0);
-                }
-            }
+            schema = simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
 
             if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
                 // TODO convert oneOf const to enum
@@ -1403,17 +1394,7 @@ public class OpenAPINormalizer {
                 }
             }
 
-            if (anyOfSchemas.removeIf(anyOf -> ModelUtils.isNullTypeSchema(openAPI, anyOf))) {
-                schema.setNullable(true);
-            }
-
-            // if only one element left, simplify to just the element (schema)
-            if (anyOfSchemas.size() == 1) {
-                if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
-                    ((Schema) anyOfSchemas.get(0)).setNullable(true);
-                }
-                return (Schema) anyOfSchemas.get(0);
-            }
+            schema = simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, anyOfSchemas);
         }
 
         return schema;
