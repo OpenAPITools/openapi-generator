@@ -9,6 +9,14 @@ additionalProperties:
   startEnumsWithUnspecified: true
   wrapComplexType: false
   aggregateModelsName: data
+  customOptionsApi: |
+    option java_multiple_files = true;
+    option java_package = "com.example.tutorial.protos.api";
+    option java_outer_classname = "ExampleProtos";
+  customOptionsModel: |
+    option java_multiple_files = false;
+    option java_package = "com.example.tutorial.protos.model";
+    option java_outer_classname = "ExampleProtos";
 typeMappings:
   object: "google.protobuf.Struct"
 importMappings:
