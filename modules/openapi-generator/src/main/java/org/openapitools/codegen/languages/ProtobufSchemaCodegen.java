@@ -68,6 +68,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String AGGREGATE_MODELS_NAME = "aggregateModelsName";
 
+    public static final String CUSTOM_OPTIONS_API = "customOptionsApi";
+
+    public static final String CUSTOM_OPTIONS_MODEL = "customOptionsModel";
+
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
@@ -75,6 +79,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     @Setter protected String packageName = "openapitools";
 
     @Setter protected String aggregateModelsName = null;
+
+    @SuppressWarnings("unused")
+    @Setter protected String customOptionsApi = null;
+
+    @SuppressWarnings("unused")
+    @Setter protected String customOptionsModel = null;
 
     private boolean numberedFieldNumberList = false;
 
@@ -198,6 +208,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
         addSwitch(SUPPORT_MULTIPLE_RESPONSES, "Support multiple responses", supportMultipleResponses);
         addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
+        addOption(CUSTOM_OPTIONS_API, "Custom options for the api files.", null);
+        addOption(CUSTOM_OPTIONS_MODEL, "Custom options for the model files.", null);
     }
 
     @Override
@@ -244,6 +256,14 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             this.setAggregateModelsName((String) additionalProperties.get(AGGREGATE_MODELS_NAME));
         }
 
+        if (additionalProperties.containsKey(CUSTOM_OPTIONS_API)) {
+            this.setCustomOptionsApi((String) additionalProperties.get(CUSTOM_OPTIONS_API));
+        }
+
+        if (additionalProperties.containsKey(CUSTOM_OPTIONS_MODEL)) {
+            this.setCustomOptionsModel((String) additionalProperties.get(CUSTOM_OPTIONS_MODEL));
+        }
+          
         if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
             this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
         } else {

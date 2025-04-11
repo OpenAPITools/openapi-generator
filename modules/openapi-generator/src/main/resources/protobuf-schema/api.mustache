@@ -3,6 +3,9 @@ syntax = "proto3";
 
 package {{#lambda.lowercase}}{{{packageName}}}.{{{apiPackage}}}.{{{classname}}};{{/lambda.lowercase}}
 
+{{#customOptionsApi}}
+{{{.}}}
+{{/customOptionsApi}}
 import "google/protobuf/empty.proto";
 {{#imports}}
 {{#import}}
