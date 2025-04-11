@@ -8,6 +8,7 @@ additionalProperties:
   numberedFieldNumberList: true
   startEnumsWithUnspecified: true
   wrapComplexType: false
+  supportMultipleResponses: false
   aggregateModelsName: data
   customOptionsApi: |
     option java_multiple_files = true;

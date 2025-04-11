@@ -14,7 +14,10 @@ serde_repr = "^0.1"
 url = "^2.5"
 uuid = { version = "^1.8", features = ["serde", "v4"] }
 async-trait = "^0.1"
-reqwest = { version = "^0.12", features = ["json", "multipart"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
 mockall = { version = "^0.13", optional = true}
 [features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls-tls"]
 mockall = ["dep:mockall"]

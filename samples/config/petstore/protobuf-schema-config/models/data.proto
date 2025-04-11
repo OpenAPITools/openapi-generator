@@ -60,6 +60,16 @@ message Dog {
 
 }
 
+message Error {
+
+  // Error code.
+  int32 code = 1;
+
+  // Detailed error message.
+  string message = 2;
+
+}
+
 message Order {
 
   int64 id = 1;
