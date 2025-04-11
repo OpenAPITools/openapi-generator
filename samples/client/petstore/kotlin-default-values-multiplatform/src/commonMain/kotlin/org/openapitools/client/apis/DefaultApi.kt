@@ -90,7 +90,7 @@ open class DefaultApi : ApiClient {
                 fn2?.apply { append("fn2", fn2) }
                 fn3?.apply { append("fn3", fn3) }
                 fn4?.onEach {
-                    append("fn4[]", it)
+                    append("fn4", it)
                 }
             }
 
