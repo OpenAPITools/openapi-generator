@@ -68,7 +68,7 @@ public class CSharpClientCodegenTest {
 
         final CodegenProperty property1 = cm1.allVars.get(2);
         Assert.assertEquals(property1.baseName, "unsigned_integer");
-        Assert.assertEquals(property1.dataType, "uint");
+        Assert.assertEquals(property1.dataType, "uint?");
         Assert.assertEquals(property1.vendorExtensions.get("x-unsigned"), Boolean.TRUE);
         Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertTrue(property1.isInteger);
@@ -78,7 +78,7 @@ public class CSharpClientCodegenTest {
 
         final CodegenProperty property2 = cm1.allVars.get(4);
         Assert.assertEquals(property2.baseName, "unsigned_long");
-        Assert.assertEquals(property2.dataType, "ulong");
+        Assert.assertEquals(property2.dataType, "ulong?");
         Assert.assertEquals(property2.vendorExtensions.get("x-unsigned"), Boolean.TRUE);
         Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertTrue(property2.isLong);

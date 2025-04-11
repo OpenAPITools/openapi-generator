@@ -51,19 +51,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        public string? Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin { get; set; }
+        public string? Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets ColorCode
         /// </summary>
         [DataMember(Name = "color_code", EmitDefaultValue = false)]
-        public string ColorCode { get; set; }
+        public string? ColorCode { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (this.Cultivar != null) {
-                // Cultivar (string) pattern
+                // Cultivar (string?) pattern
                 Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
                 if (!regexCultivar.Match(this.Cultivar).Success)
                 {
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (this.Origin != null) {
-                // Origin (string) pattern
+                // Origin (string?) pattern
                 Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
                 if (!regexOrigin.Match(this.Origin).Success)
                 {
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (this.ColorCode != null) {
-                // ColorCode (string) pattern
+                // ColorCode (string?) pattern
                 Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
                 if (!regexColorCode.Match(this.ColorCode).Success)
                 {
