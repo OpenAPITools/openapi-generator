@@ -62,7 +62,7 @@ public class SpecialModelName {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long get$SpecialPropertyName() {
@@ -70,7 +70,7 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set$SpecialPropertyName(@jakarta.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -88,7 +88,7 @@ public class SpecialModelName {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSpecialModelName() {
@@ -96,7 +96,7 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSpecialModelName(@jakarta.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;

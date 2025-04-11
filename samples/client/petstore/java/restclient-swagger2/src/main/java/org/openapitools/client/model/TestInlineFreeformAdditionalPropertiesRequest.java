@@ -55,7 +55,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSomeProperty() {
@@ -63,7 +63,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeProperty(@jakarta.annotation.Nullable String someProperty) {
     this.someProperty = someProperty;
