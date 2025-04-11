@@ -32,7 +32,7 @@ import {
  * 
  * @export
  */
-export type TestResponse = TestA | TestB;
+export type TestResponse = TestA | TestB | string;
 
 export function TestResponseFromJSON(json: any): TestResponse {
     return TestResponseFromJSONTyped(json, false);
@@ -40,6 +40,9 @@ export function TestResponseFromJSON(json: any): TestResponse {
 
 export function TestResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TestResponse {
     if (json == null) {
+        return json;
+    }
+    if (typeof json !== 'object') {
         return json;
     }
     if (instanceOfTestA(json)) {
@@ -60,7 +63,9 @@ export function TestResponseToJSONTyped(value?: TestResponse | null, ignoreDiscr
     if (value == null) {
         return value;
     }
-
+    if (typeof value !== 'object') {
+        return value;
+    }
     if (instanceOfTestA(value)) {
         return TestAToJSON(value as TestA);
     }

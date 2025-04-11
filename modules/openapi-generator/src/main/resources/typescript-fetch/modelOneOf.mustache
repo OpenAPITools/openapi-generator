@@ -1,5 +1,5 @@
 {{#hasImports}}
-{{#oneOf}}
+{{#imports}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     instanceOf{{{.}}},
@@ -7,7 +7,7 @@ import {
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
-{{/oneOf}}
+{{/imports}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
@@ -31,11 +31,30 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOf}}
+    {{#oneOfModels}}
+    {{#-first}}
+    if (typeof json !== 'object') {
+        return json;
+    }
+    {{/-first}}
     if (instanceOf{{{.}}}(json)) {
         return {{{.}}}FromJSONTyped(json, true);
     }
-    {{/oneOf}}
+    {{/oneOfModels}}
+    {{#oneOfArrays}}
+    {{#-first}}
+    if (Array.isArray(json)) {
+        if (json.every(item => typeof item === 'object')) {
+    {{/-first}}
+            if (json.every(item => instanceOf{{{.}}}(item))) {
+                return json.map(value => {{{.}}}FromJSONTyped(value, true));
+            }
+    {{#-last}}
+        }
+        return json;
+    }
+    {{/-last}}
+    {{/oneOfArrays}}
 
     return {} as any;
 {{/discriminator}}
@@ -59,13 +78,31 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
             return json;
     }
 {{/discriminator}}
-
 {{^discriminator}}
-    {{#oneOf}}
+    {{#oneOfModels}}
+    {{#-first}}
+    if (typeof value !== 'object') {
+        return value;
+    }
+    {{/-first}}
     if (instanceOf{{{.}}}(value)) {
         return {{{.}}}ToJSON(value as {{{.}}});
     }
-    {{/oneOf}}
+    {{/oneOfModels}}
+    {{#oneOfArrays}}
+    {{#-first}}
+    if (Array.isArray(value)) {
+        if (value.every(item => typeof item === 'object')) {
+    {{/-first}}
+            if (value.every(item => instanceOf{{{.}}}(item))) {
+                return value.map(value => {{{.}}}ToJSON(value as {{{.}}}));
+            }
+    {{#-last}}
+        }
+        return value;
+    }
+    {{/-last}}
+    {{/oneOfArrays}}
 
     return {};
 {{/discriminator}}
