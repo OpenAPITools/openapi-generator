@@ -262,6 +262,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(CUSTOM_OPTIONS_MODEL)) {
             this.setCustomOptionsModel((String) additionalProperties.get(CUSTOM_OPTIONS_MODEL));
+        }
           
         if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
             this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
