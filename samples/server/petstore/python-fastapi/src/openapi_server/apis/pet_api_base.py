@@ -15,6 +15,8 @@ class BasePetApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BasePetApi.subclasses = BasePetApi.subclasses + (cls,)
+
+    
     async def add_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
@@ -23,6 +25,7 @@ class BasePetApi:
         ...
 
 
+    
     async def delete_pet(
         self,
         petId: Annotated[StrictInt, Field(description="Pet id to delete")],
@@ -32,6 +35,7 @@ class BasePetApi:
         ...
 
 
+    
     async def find_pets_by_status(
         self,
         status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
@@ -40,6 +44,7 @@ class BasePetApi:
         ...
 
 
+    
     async def find_pets_by_tags(
         self,
         tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
@@ -48,6 +53,7 @@ class BasePetApi:
         ...
 
 
+    
     async def get_pet_by_id(
         self,
         petId: Annotated[StrictInt, Field(description="ID of pet to return")],
@@ -56,6 +62,7 @@ class BasePetApi:
         ...
 
 
+    
     async def update_pet(
         self,
         pet: Annotated[Pet, Field(description="Pet object that needs to be added to the store")],
@@ -64,6 +71,7 @@ class BasePetApi:
         ...
 
 
+    
     async def update_pet_with_form(
         self,
         petId: Annotated[StrictInt, Field(description="ID of pet that needs to be updated")],
@@ -74,6 +82,7 @@ class BasePetApi:
         ...
 
 
+    
     async def upload_file(
         self,
         petId: Annotated[StrictInt, Field(description="ID of pet to update")],

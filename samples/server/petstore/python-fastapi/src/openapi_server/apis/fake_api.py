@@ -7,6 +7,7 @@ import pkgutil
 from openapi_server.apis.fake_api_base import BaseFakeApi
 import openapi_server.impl
 
+
 from fastapi import (  # noqa: F401
     APIRouter,
     Body,

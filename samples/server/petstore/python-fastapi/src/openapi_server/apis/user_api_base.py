@@ -14,6 +14,8 @@ class BaseUserApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseUserApi.subclasses = BaseUserApi.subclasses + (cls,)
+
+    
     async def create_user(
         self,
         user: Annotated[User, Field(description="Created user object")],
@@ -22,6 +24,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def create_users_with_array_input(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
@@ -30,6 +33,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def create_users_with_list_input(
         self,
         user: Annotated[List[User], Field(description="List of user object")],
@@ -38,6 +42,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def delete_user(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be deleted")],
@@ -46,6 +51,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def get_user_by_name(
         self,
         username: Annotated[StrictStr, Field(description="The name that needs to be fetched. Use user1 for testing.")],
@@ -54,6 +60,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def login_user(
         self,
         username: Annotated[str, Field(strict=True, description="The user name for login")],
@@ -63,6 +70,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def logout_user(
         self,
     ) -> None:
@@ -70,6 +78,7 @@ class BaseUserApi:
         ...
 
 
+    
     async def update_user(
         self,
         username: Annotated[StrictStr, Field(description="name that need to be deleted")],

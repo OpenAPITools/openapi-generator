@@ -14,6 +14,8 @@ class BaseStoreApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseStoreApi.subclasses = BaseStoreApi.subclasses + (cls,)
+
+    
     async def delete_order(
         self,
         orderId: Annotated[StrictStr, Field(description="ID of the order that needs to be deleted")],
@@ -22,6 +24,7 @@ class BaseStoreApi:
         ...
 
 
+    
     async def get_inventory(
         self,
     ) -> Dict[str, int]:
@@ -29,6 +32,7 @@ class BaseStoreApi:
         ...
 
 
+    
     async def get_order_by_id(
         self,
         orderId: Annotated[int, Field(le=5, strict=True, ge=1, description="ID of pet that needs to be fetched")],
@@ -37,6 +41,7 @@ class BaseStoreApi:
         ...
 
 
+    
     async def place_order(
         self,
         order: Annotated[Order, Field(description="order placed for purchasing the pet")],

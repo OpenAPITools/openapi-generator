@@ -1,2 +1,2 @@
-export * from '../models/SomeObject'
-export * from '../models/WithNullableType'
+export * from '../models/ComplexObject'
+export * from '../models/CompositeObject'
