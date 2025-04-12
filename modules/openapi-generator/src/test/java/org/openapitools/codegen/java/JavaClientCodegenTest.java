@@ -3408,7 +3408,7 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        // check POM includes jakarta-annotation
+        // check POM does not include jakarta-annotation
         assertThat(files).contains(output.resolve("pom.xml").toFile());
         assertThat(output.resolve("pom.xml")).content()
                 .doesNotContain("<jakarta-annotation-version>");
