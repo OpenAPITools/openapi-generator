@@ -18,8 +18,8 @@ class Base{{classname}}{{#isLibrary}}(ABC){{/isLibrary}}:
         Base{{classname}}.subclasses = Base{{classname}}.subclasses + (cls,)
 
 {{#operations}}
-{{#operation}}
-    {{#isLibrary}}@abstractmethod{{/isLibrary}}
+{{#operation}}{{#isLibrary}}
+    @abstractmethod{{/isLibrary}}
     async def {{operationId}}(
         self,
         {{#allParams}}
@@ -30,7 +30,7 @@ class Base{{classname}}{{#isLibrary}}(ABC){{/isLibrary}}:
         ...{{/notes}}{{^notes}}...{{/notes}}
 {{^-last}}
 
-
 {{/-last}}
 {{/operation}}
 {{/operations}}
+

@@ -14,7 +14,7 @@ class BaseFakeApi:
         super().__init_subclass__(**kwargs)
         BaseFakeApi.subclasses = BaseFakeApi.subclasses + (cls,)
 
-    
+
     async def fake_query_param_default(
         self,
         has_default: Annotated[Optional[StrictStr], Field(description="has default value")],
@@ -22,3 +22,4 @@ class BaseFakeApi:
     ) -> None:
         """"""
         ...
+

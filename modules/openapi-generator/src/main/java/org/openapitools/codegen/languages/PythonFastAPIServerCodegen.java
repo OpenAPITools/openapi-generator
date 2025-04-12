@@ -155,7 +155,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         addOption(CodegenConstants.SOURCE_FOLDER,
                 "directory for generated python source code",
-                outputFolder);
+                DEFAULT_SOURCE_FOLDER);
 
         addOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE,
                 "python package name for the implementation code (convention: snake_case).",

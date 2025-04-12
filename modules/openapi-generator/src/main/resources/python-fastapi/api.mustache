@@ -5,11 +5,9 @@ import importlib
 import pkgutil
 
 from {{apiPackage}}.{{classFilename}}_{{baseSuffix}} import Base{{classname}}
-{{^isLibrary}}
-{{#fastapiImplementationPackage}}
+{{^isLibrary}}{{#fastapiImplementationPackage}}
 import {{fastapiImplementationPackage}}
-{{/fastapiImplementationPackage}}
-{{/isLibrary}}
+{{/fastapiImplementationPackage}}{{/isLibrary}}
 
 
 from fastapi import (  # noqa: F401
