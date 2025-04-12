@@ -63,7 +63,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     final Logger LOGGER = LoggerFactory.getLogger(PythonFastAPIServerCodegen.class);
 
+    private String implPackage;
     protected String sourceFolder;
+    protected boolean libraryMode = false;
 
     private static final String BASE_CLASS_SUFFIX = "base";
     private static final String SERVER_PORT = "serverPort";
@@ -72,8 +74,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String DEFAULT_PACKAGE_NAME = "openapi_server";
     private static final String DEFAULT_SOURCE_FOLDER = "src";
     private static final String DEFAULT_PACKAGE_VERSION = "1.0.0";
-
-    private String implPackage;
+    private static final String LIBRARY_MODE = "libraryMode";
+    private static final String DEFAULT_LIBRARY_MODE = "false";
 
     @Override
     public CodegenType getTag() {
@@ -83,6 +85,18 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String getHelp() {
         return "Generates a Python FastAPI server (beta). Models are defined with the pydantic library";
+    }
+
+    public void setLibraryMode(final boolean mode) {
+        this.libraryMode = mode;
+    }
+
+    public void setImplPackage(final String implPackage) {
+        this.implPackage = implPackage;
+    }
+
+    public void setSourceFolder(final String sourceFolder) {
+        this.sourceFolder = sourceFolder;
     }
 
     public PythonFastAPIServerCodegen() {
@@ -110,6 +124,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, DEFAULT_SOURCE_FOLDER);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
         additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_PACKAGE_NAME.concat(".impl"));
+        additionalProperties.put(LIBRARY_MODE, DEFAULT_LIBRARY_MODE);
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
@@ -127,33 +142,41 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         implPackage = "impl";
         apiTestTemplateFiles().put("api_test.mustache", ".py");
 
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
-                .defaultValue(DEFAULT_PACKAGE_NAME));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
-                .defaultValue(DEFAULT_PACKAGE_VERSION));
-        cliOptions.add(new CliOption(SERVER_PORT, "TCP port to listen to in app.run")
-                .defaultValue(String.valueOf(DEFAULT_SERVER_PORT)));
-        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code")
-                .defaultValue(DEFAULT_SOURCE_FOLDER));
-        cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
-                .defaultValue(implPackage));
+        // Adds the following options in the codegen CLI
+        addOption(CodegenConstants.PACKAGE_NAME,
+                "python package name (convention: snake_case).",
+                DEFAULT_PACKAGE_NAME);
+        
+        addOption(CodegenConstants.PACKAGE_VERSION,
+                "python package version.", 
+                DEFAULT_PACKAGE_VERSION);
+
+        addOption(SERVER_PORT,
+                "TCP port to listen to in app.run",
+                String.valueOf(DEFAULT_SERVER_PORT));
+
+        addOption(CodegenConstants.SOURCE_FOLDER,
+                "directory for generated python source code",
+                outputFolder);
+
+        addOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE,
+                "python package name for the implementation code (convention: snake_case).",
+                implPackage);
+
+        addSwitch(LIBRARY_MODE,
+                "whether to generate minimal python code to be published as a separate library",
+                libraryMode);       
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
-            this.sourceFolder = ((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE)) {
-            this.implPackage = ((String) additionalProperties.get(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE));
-        }
+        // converts additional property values into corresponding type and passes them to setter
+        convertPropertyToStringAndWriteBack(CodegenConstants.PACKAGE_NAME, this::setPackageName);
+        convertPropertyToStringAndWriteBack(CodegenConstants.SOURCE_FOLDER, this::setSourceFolder);
+        convertPropertyToStringAndWriteBack(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, this::setImplPackage);
+        convertPropertyToBooleanAndWriteBack(LIBRARY_MODE, this::setLibraryMode);
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
@@ -161,8 +184,12 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", String.join(File.separator, new String[]{sourceFolder, packageName.replace('.', File.separatorChar)}), "main.py"));
-        supportingFiles.add(new SupportingFile("docker-compose.mustache", "", "docker-compose.yaml"));
-        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+
+        if (!this.libraryMode) {
+            supportingFiles.add(new SupportingFile("docker-compose.mustache", "", "docker-compose.yaml"));
+            supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+        }
+
         supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
         supportingFiles.add(new SupportingFile("security_api.mustache", String.join(File.separator, new String[]{sourceFolder, packageName.replace('.', File.separatorChar)}), "security_api.py"));
         supportingFiles.add(new SupportingFile("extra_models.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "extra_models.py"));

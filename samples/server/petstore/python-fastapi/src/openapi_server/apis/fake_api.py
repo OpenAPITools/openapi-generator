@@ -34,7 +34,6 @@ ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
 
-
 @router.get(
     "/fake/query_param_default",
     responses={
