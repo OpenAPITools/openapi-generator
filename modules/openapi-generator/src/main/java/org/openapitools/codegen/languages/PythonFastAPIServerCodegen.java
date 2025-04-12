@@ -65,7 +65,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     private String implPackage;
     protected String sourceFolder;
-    protected boolean libraryMode = false;
+    protected boolean isLibrary = false;
 
     private static final String BASE_CLASS_SUFFIX = "base";
     private static final String SERVER_PORT = "serverPort";
@@ -74,8 +74,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String DEFAULT_PACKAGE_NAME = "openapi_server";
     private static final String DEFAULT_SOURCE_FOLDER = "src";
     private static final String DEFAULT_PACKAGE_VERSION = "1.0.0";
-    private static final String LIBRARY_MODE = "libraryMode";
-    private static final String DEFAULT_LIBRARY_MODE = "false";
+    private static final String IS_LIBRARY = "isLibrary";
 
     @Override
     public CodegenType getTag() {
@@ -87,8 +86,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return "Generates a Python FastAPI server (beta). Models are defined with the pydantic library";
     }
 
-    public void setLibraryMode(final boolean mode) {
-        this.libraryMode = mode;
+    public void setIsLibrary(final boolean isLibrary) {
+        this.isLibrary = isLibrary;
     }
 
     public void setImplPackage(final String implPackage) {
@@ -124,7 +123,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, DEFAULT_SOURCE_FOLDER);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
         additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_PACKAGE_NAME.concat(".impl"));
-        additionalProperties.put(LIBRARY_MODE, DEFAULT_LIBRARY_MODE);
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
@@ -163,9 +161,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 "python package name for the implementation code (convention: snake_case).",
                 implPackage);
 
-        addSwitch(LIBRARY_MODE,
-                "whether to generate minimal python code to be published as a separate library",
-                libraryMode);       
+        addSwitch(IS_LIBRARY,
+                "whether to generate minimal python code to be published as a separate library or not",
+                isLibrary);       
     }
 
     @Override
@@ -176,7 +174,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         convertPropertyToStringAndWriteBack(CodegenConstants.PACKAGE_NAME, this::setPackageName);
         convertPropertyToStringAndWriteBack(CodegenConstants.SOURCE_FOLDER, this::setSourceFolder);
         convertPropertyToStringAndWriteBack(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, this::setImplPackage);
-        convertPropertyToBooleanAndWriteBack(LIBRARY_MODE, this::setLibraryMode);
+        convertPropertyToBooleanAndWriteBack(IS_LIBRARY, this::setIsLibrary);
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
@@ -185,7 +183,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", String.join(File.separator, new String[]{sourceFolder, packageName.replace('.', File.separatorChar)}), "main.py"));
 
-        if (!this.libraryMode) {
+        if (!this.isLibrary) {
             supportingFiles.add(new SupportingFile("docker-compose.mustache", "", "docker-compose.yaml"));
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         }
@@ -200,12 +198,15 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             namespacePackagePath.append(File.separator).append(tmp);
             supportingFiles.add(new SupportingFile("__init__.mustache", namespacePackagePath.toString(), "__init__.py"));
         }
+
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiFileFolder(), outputFolder), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
 
+        if (!this.isLibrary) {
+            supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        }
+        
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage.replace('.', File.separatorChar), "conftest.py"));
-
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("pyproject_toml.mustache", "", "pyproject.toml"));
         supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
