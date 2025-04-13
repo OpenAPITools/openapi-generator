@@ -846,7 +846,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         if (objs != null) {
             OperationMap operationMap = objs.getWebhooks();
-            this.postProcessOperation(operationMap, allModels);
+            this.postProcessOperations(operationMap, allModels);
         }
 
         return objs;
@@ -860,13 +860,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         if (objs != null) {
             OperationMap operations = objs.getOperations();
-            this.postProcessOperation(operations, allModels);
+            this.postProcessOperations(operations, allModels);
         }
 
         return objs;
     }
 
-    private void postProcessOperation(OperationMap operations, List<ModelMap> allModels) {
+    private void postProcessOperations(OperationMap operations, List<ModelMap> allModels) {
         Set<String> httpStatusesWithReturn = additionalProperties.get("x-http-statuses-with-return") instanceof Set<?>
                 ? (Set<String>) additionalProperties.get("x-http-statuses-with-return")
                 : new HashSet<String>();
