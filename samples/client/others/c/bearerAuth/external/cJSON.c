@@ -2138,20 +2138,24 @@ CJSON_PUBLIC(void) cJSON_DeleteItemFromObjectCaseSensitive(cJSON *object, const 
 }
 
 /* Replace array/object items with new ones. */
-CJSON_PUBLIC(void) cJSON_InsertItemInArray(cJSON *array, int which, cJSON *newitem)
+CJSON_PUBLIC(cJSON_bool) cJSON_InsertItemInArray(cJSON *array, int which, cJSON *newitem)
 {
     cJSON *after_inserted = NULL;
 
+    if ((array == NULL) || (newitem == NULL))
+    {
+        return false;
+    }
+
     if (which < 0)
     {
-        return;
+        return false;
     }
 
     after_inserted = get_array_item(array, (size_t)which);
     if (after_inserted == NULL)
     {
-        add_item_to_array(array, newitem);
-        return;
+        return add_item_to_array(array, newitem);
     }
 
     newitem->next = after_inserted;
@@ -2165,6 +2169,7 @@ CJSON_PUBLIC(void) cJSON_InsertItemInArray(cJSON *array, int which, cJSON *newit
     {
         newitem->prev->next = newitem;
     }
+    return true;
 }
 
 CJSON_PUBLIC(cJSON_bool) cJSON_ReplaceItemViaPointer(cJSON * const parent, cJSON * const item, cJSON * replacement)
