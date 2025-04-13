@@ -242,7 +242,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = string.Concat(HttpClient.BaseAddress.AbsolutePath, "/helloWorld");
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/helloWorld"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/helloWorld");
 
                     if (helloWorldPostRequest.IsSet)
                         httpRequestMessageLocalVar.Content = (helloWorldPostRequest.Value as object) is System.IO.Stream stream
