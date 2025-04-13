@@ -382,7 +382,9 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress{{nrt!}}.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = string.Concat(HttpClient.BaseAddress.AbsolutePath, "{{{path}}}");
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "{{{path}}}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "{{{path}}}");
                     {{/servers}}
                     {{#servers}}
                     {{#-first}}
