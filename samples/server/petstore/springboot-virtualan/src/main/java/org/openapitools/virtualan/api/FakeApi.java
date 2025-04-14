@@ -412,19 +412,19 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testEndpointParameters(
-        @Parameter(name = "number", description = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @Parameter(name = "double", description = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
-        @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
-        @Parameter(name = "integer", description = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
-        @Parameter(name = "int32", description = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
+        @NotNull @DecimalMin("32.1") @DecimalMax("543.2") @Parameter(name = "number", description = "None", required = true) @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+        @NotNull @DecimalMin("67.8") @DecimalMax("123.4") @Parameter(name = "double", description = "None", required = true) @Valid @RequestParam(value = "double", required = true) Double _double,
+        @NotNull @Pattern(regexp = "^[A-Z].*") @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @NotNull @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @Min(10) @Max(100) @Parameter(name = "integer", description = "None") @Valid @RequestParam(value = "integer", required = false) Integer integer,
+        @Min(20) @Max(200) @Parameter(name = "int32", description = "None") @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
-        @Parameter(name = "float", description = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
-        @Parameter(name = "string", description = "None") @Valid @RequestParam(value = "string", required = false) String string,
+        @DecimalMax("987.6") @Parameter(name = "float", description = "None") @Valid @RequestParam(value = "float", required = false) Float _float,
+        @Pattern(regexp = "/[a-z]/i") @Parameter(name = "string", description = "None") @Valid @RequestParam(value = "string", required = false) String string,
         @Parameter(name = "binary", description = "None") @RequestPart(value = "binary", required = false) MultipartFile binary,
         @Parameter(name = "date", description = "None") @Valid @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @Parameter(name = "dateTime", description = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-        @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) String password,
+        @Size(min = 10, max = 64) @Parameter(name = "password", description = "None") @Valid @RequestParam(value = "password", required = false) String password,
         @Parameter(name = "callback", description = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -575,8 +575,8 @@ public interface FakeApi {
     )
     
     default ResponseEntity<Void> testJsonFormData(
-        @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        @NotNull @Parameter(name = "param", description = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
+        @NotNull @Parameter(name = "param2", description = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
