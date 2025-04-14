@@ -1,5 +1,6 @@
 {{#hasImports}}
 {{#oneOf}}
+{{#skipPrimitiveImports}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     instanceOf{{{.}}},
@@ -7,9 +8,21 @@ import {
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
+{{/skipPrimitiveImports}}
+{{/oneOf}}
+{{/hasImports}}
+{{#oneOf}}
+{{#importNonPrimitiveArrays}}
+import type { {{{.}}} } from './{{{.}}}{{importFileExtension}}';
+import {
+    instanceOf{{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}FromJSONTyped,
+    {{{.}}}ToJSON,
+} from './{{{.}}}{{importFileExtension}}';
+{{/importNonPrimitiveArrays}}
 {{/oneOf}}
 
-{{/hasImports}}
 {{>modelOneOfInterfaces}}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
@@ -32,8 +45,8 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 {{/discriminator}}
 {{^discriminator}}
     {{#oneOf}}
-    if (instanceOf{{{.}}}(json)) {
-        return {{{.}}}FromJSONTyped(json, true);
+    if (instanceOf{{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}(json)) {
+        return {{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}FromJSONTyped(json, true);
     }
     {{/oneOf}}
 
@@ -62,11 +75,53 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
 
 {{^discriminator}}
     {{#oneOf}}
-    if (instanceOf{{{.}}}(value)) {
-        return {{{.}}}ToJSON(value as {{{.}}});
+    if ({{#addTypeGuardsForPrimitives}}instanceOf{{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}{{/addTypeGuardsForPrimitives}}(value)) {
+        return {{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}ToJSON(value as {{{.}}});
     }
     {{/oneOf}}
 
     return {};
 {{/discriminator}}
 }
+
+{{#oneOf}}
+{{#generatePrimitiveFunctions}}
+function {{{.}}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{{.}}} | null {
+    return typeof json === '{{{.}}}' ? json : null;
+}
+
+function instanceOf{{{.}}}(value: any): boolean {
+    return typeof value === '{{{.}}}';
+}
+
+function {{{.}}}ToJSON(value: {{{.}}}): any {
+    return value;
+}
+
+{{#-last}}
+export function instanceOf{{classname}}(value: any): boolean {
+    return {{#oneOf}}instanceOf{{#transformArrayTypeName}}{{{.}}}{{/transformArrayTypeName}}(value){{^-last}} || {{/-last}}{{#-last}};{{/-last}}{{/oneOf}}
+}
+{{/-last}}
+{{/generatePrimitiveFunctions}}
+{{/oneOf}}
+
+{{#oneOf}}
+{{#generateArrayFunctions}}
+function instanceOf{{#extractArrayInnerType}}{{{.}}}{{/extractArrayInnerType}}Array(value: any): boolean {
+    return Array.isArray(value) && value.every(element => {{#checkArrayInnerType}}{{{.}}}{{/checkArrayInnerType}});
+}
+
+function {{#extractArrayInnerType}}{{{.}}}{{/extractArrayInnerType}}ArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): {{{.}}} | null {
+    if (!instanceOf{{#extractArrayInnerType}}{{{.}}}{{/extractArrayInnerType}}Array(json)) {
+        return null;
+    }
+    return json;
+}
+
+function {{#extractArrayInnerType}}{{{.}}}{{/extractArrayInnerType}}ArrayToJSON(value: {{{.}}}): any {
+    return value;
+}
+
+{{/generateArrayFunctions}}
+{{/oneOf}}

@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -1486,6 +1487,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return isDateTime && "Date".equals(dataType);
         }
 
+        // for oneOf in issues-12256
+        public Mustache.Lambda skipPrimitiveImports;
+        public Mustache.Lambda generatePrimitiveFunctions;
+        public Mustache.Lambda addTypeGuardsForPrimitives;
+        public Mustache.Lambda transformArrayTypeName;
+        public Mustache.Lambda generateArrayFunctions;
+        public Mustache.Lambda extractArrayInnerType;
+        public Mustache.Lambda importNonPrimitiveArrays;
+        public Mustache.Lambda checkArrayInnerType;
+
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
 
@@ -1570,6 +1581,69 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setItems(cm.getItems());
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
+            this.skipPrimitiveImports = (fragment, writer) -> {
+                String content = fragment.execute().trim();
+                if (Arrays.stream(primitiveTypes).anyMatch(type -> content.contains("from './" + type + "'")) || content.contains("Array<")) {
+                    return;
+                }
+                writer.write(content);
+            };
+            this.generatePrimitiveFunctions = (fragment, writer) -> {
+                String content = fragment.execute();
+                if (Arrays.stream(primitiveTypes).anyMatch(s -> content.contains("function " + s + "FromJSONTyped"))) {
+                    writer.write(content);
+                }
+            };
+            this.addTypeGuardsForPrimitives = (fragment, writer) -> {
+                String content = fragment.execute().trim();
+                if (Arrays.stream(primitiveTypes).noneMatch(s -> content.contains("instanceOf" + s))) {
+                    String primitiveGuard = oneOf.stream().filter(s -> Arrays.stream(primitiveTypes).anyMatch(s::equals)).map(s -> "typeof value !== '" + s + "' && ").collect(Collectors.joining());
+                    writer.write(primitiveGuard + content);
+                }else{
+                    writer.write(content);
+                }
+            };
+            this.transformArrayTypeName = (fragment, writer) -> {
+                String content = fragment.execute().trim();
+
+                if (content.startsWith("Array<")) {
+                    String changedName = content.replace("Array<", "").replace(">", "") + "Array";
+                    writer.write(changedName);
+                } else {
+                    writer.write(content);
+                }
+            };
+            this.generateArrayFunctions = (fragment, writer) -> {
+                String content = fragment.execute();
+                if (content.contains("Array<")) {
+                    writer.write(content);
+                }
+            };
+            this.extractArrayInnerType = (fragment, writer) -> {
+                String content = fragment.execute().trim();
+                if (content.startsWith("Array<")) {
+                    String changedName = content.replace("Array<", "").replace(">", "");
+                    writer.write(changedName);
+                }
+            };
+            this.importNonPrimitiveArrays = (fragment, writer) -> {
+                String content = fragment.execute();
+                if (content.contains("Array<") && Arrays.stream(primitiveTypes).noneMatch(s -> content.contains("Array<" + s))) {
+                    String replaced = content.replace("Array<", "").replace(">", "");
+                    writer.write(replaced);
+                }
+            };
+            this.checkArrayInnerType = (fragment, writer) -> {
+                String content = fragment.execute();
+                if (content.contains("Array<")) {
+                    String replaced = content.replace("Array<", "").replace(">", "");
+                    if (Arrays.stream(primitiveTypes).anyMatch(replaced::equals)) {
+                        writer.write("typeof element === '" + replaced + "'");
+                    } else {
+                        writer.write("instanceOf" + replaced + "(element)");
+                    }
+                }
+            };
         }
 
         @Override
@@ -1606,6 +1680,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             sb.append(", hasReturnPassthroughVoid=").append(hasReturnPassthroughVoid);
             return sb.toString();
         }
+
+        private final String[] primitiveTypes = new String[] { "string", "number", "boolean" };
+
     }
 
     @Override
