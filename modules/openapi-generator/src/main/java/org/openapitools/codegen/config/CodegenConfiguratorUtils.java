@@ -18,6 +18,8 @@
 package org.openapitools.codegen.config;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.utils.OptionUtils;
 
 import java.util.*;
@@ -131,6 +133,19 @@ public final class CodegenConfiguratorUtils {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addNameMapping(entry.getKey().trim(), entry.getValue().trim());
         }
+    }
+
+    public static void applyUserDefinedTemplateFilesKvpList(List<String> userDefinedTemplateFiles, CodegenConfigurator configurator) {
+        for (String propString : userDefinedTemplateFiles) {
+            applyUserDefinedTemplateFilesKvp(propString, configurator);
+        }
+    }
+
+    public static void applyUserDefinedTemplateFilesKvp(String userDefinedTemplateFileOption, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(userDefinedTemplateFileOption);
+        TemplateDefinition templateDefinition = new TemplateDefinition(map.getOrDefault("templateFile", ""), map.getOrDefault("destinationFilename", ""));
+        templateDefinition.setTemplateType(TemplateFileType.forTemplateType(map.getOrDefault("templateType", TemplateFileType.SupportingFiles.value())));
+        configurator.addUserDefinedTemplate(templateDefinition);
     }
 
     public static void applyParameterNameMappingsKvpList(List<String> parameterNameMappings, CodegenConfigurator configurator) {
