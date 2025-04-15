@@ -598,6 +598,7 @@ public class ApiClient extends JavaTimeFormatter {
    */
   public ApiClient setDebugging(boolean debugging) {
     this.debugging = debugging;
+    applyDebugSetting(this.clientConfig);
     // Rebuild HTTP Client according to the new "debugging" value.
     this.httpClient = buildHttpClient();
     return this;
@@ -1280,8 +1281,10 @@ public class ApiClient extends JavaTimeFormatter {
    * @return Client
    */
   protected Client buildHttpClient() {
-    // recreate the client config to pickup changes
-    clientConfig = getDefaultClientConfig();
+    // Create ClientConfig if it has not been initialized yet
+    if (clientConfig == null) {
+      clientConfig = getDefaultClientConfig();
+    }
 
     ClientBuilder clientBuilder = ClientBuilder.newBuilder();
     clientBuilder = clientBuilder.withConfig(clientConfig);
@@ -1302,6 +1305,11 @@ public class ApiClient extends JavaTimeFormatter {
     clientConfig.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
     // turn off compliance validation to be able to send payloads with DELETE calls
     clientConfig.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
+    applyDebugSetting(clientConfig);
+    return clientConfig;
+  }
+
+  private void applyDebugSetting(ClientConfig clientConfig) {
     if (debugging) {
       clientConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME), java.util.logging.Level.INFO, LoggingFeature.Verbosity.PAYLOAD_ANY, 1024*50 /* Log payloads up to 50K */));
       clientConfig.property(LoggingFeature.LOGGING_FEATURE_VERBOSITY, LoggingFeature.Verbosity.PAYLOAD_ANY);
@@ -1311,8 +1319,6 @@ public class ApiClient extends JavaTimeFormatter {
       // suppress warnings for payloads with DELETE calls:
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
-
-    return clientConfig;
   }
 
   /**
