@@ -3,6 +3,7 @@
   {{/description}}
   class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
     include JSON::Serializable
+    include YAML::Serializable
 
     {{#hasRequired}}
     # Required properties
@@ -105,7 +106,7 @@
       {{/maxLength}}
       {{#minLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
-        invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
+        invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be greater than or equal to {{{minLength}}}.")
       end
 
       {{/minLength}}
@@ -226,7 +227,7 @@
       {{/maxLength}}
       {{#minLength}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}}.to_s.size < {{{minLength}}}
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be great than or equal to {{{minLength}}}.")
+        raise ArgumentError.new("invalid value for \"{{{name}}}\", the character length must be greater than or equal to {{{minLength}}}.")
       end
 
       {{/minLength}}
@@ -269,16 +270,16 @@
     {{/vars}}
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.same?(o)
-      self.class == o.class{{#vars}} &&
-          {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
+    def ==(other)
+      return true if self.same?(other)
+      self.class == other.class{{#vars}} &&
+          {{name}} == other.{{name}}{{/vars}}{{#parent}} && super(other){{/parent}}
     end
 
     # @see the `==` method
     # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
+    def eql?(other)
+      self == other
     end
 
     # Calculates hash code according to all attributes.

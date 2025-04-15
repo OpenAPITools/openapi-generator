@@ -49,6 +49,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
@@ -231,34 +232,36 @@ class FakeClassnameTags123Api
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Client',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\Client';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Client',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -268,8 +271,10 @@ class FakeClassnameTags123Api
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -494,5 +499,48 @@ class FakeClassnameTags123Api
         }
 
         return $uri;
+    }
+
+    private function handleResponseWithDataType(
+        string $dataType,
+        RequestInterface $request,
+        ResponseInterface $response
+    ): array {
+        if ($dataType === '\SplFileObject') {
+            $content = $response->getBody(); //stream goes to serializer
+        } else {
+            $content = (string) $response->getBody();
+            if ($dataType !== 'string') {
+                try {
+                    $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    throw new ApiException(
+                        sprintf(
+                            'Error JSON decoding server response (%s)',
+                            $request->getUri()
+                        ),
+                        $response->getStatusCode(),
+                        $response->getHeaders(),
+                        $content
+                    );
+                }
+            }
+        }
+
+        return [
+            ObjectSerializer::deserialize($content, $dataType, []),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        ];
+    }
+
+    private function responseWithinRangeCode(
+        string $rangeCode,
+        int $statusCode
+    ): bool {
+        $left = (int) ($rangeCode[0].'00');
+        $right = (int) ($rangeCode[0].'99');
+
+        return $statusCode >= $left && $statusCode <= $right;
     }
 }

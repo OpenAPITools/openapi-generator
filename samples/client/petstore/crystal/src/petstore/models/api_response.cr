@@ -10,12 +10,14 @@
 
 require "big"
 require "json"
+require "yaml"
 require "time"
 
 module Petstore
   # Describes the result of uploading an image resource
   class ApiResponse
     include JSON::Serializable
+    include YAML::Serializable
 
     # Optional properties
     @[JSON::Field(key: "code", type: Int32?, nillable: true, emit_null: false)]
@@ -47,18 +49,18 @@ module Petstore
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.same?(o)
-      self.class == o.class &&
-          code == o.code &&
-          _type == o._type &&
-          message == o.message
+    def ==(other)
+      return true if self.same?(other)
+      self.class == other.class &&
+          code == other.code &&
+          _type == other._type &&
+          message == other.message
     end
 
     # @see the `==` method
     # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
+    def eql?(other)
+      self == other
     end
 
     # Calculates hash code according to all attributes.

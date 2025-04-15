@@ -34,6 +34,8 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\MultipartStream;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\FormDataProcessor;
@@ -248,10 +250,11 @@ class PetApi
 
 
             return [null, $statusCode, $response->getHeaders()];
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -576,10 +579,11 @@ class PetApi
 
 
             return [null, $statusCode, $response->getHeaders()];
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -807,33 +811,14 @@ class PetApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\OpenAPI\Client\Model\Pet[]' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet[]', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet[]',
+                        $request,
+                        $response,
+                    );
             }
+
+            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -848,34 +833,11 @@ class PetApi
                 );
             }
 
-            $returnType = '\OpenAPI\Client\Model\Pet[]';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet[]',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -885,8 +847,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -1122,33 +1086,14 @@ class PetApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\Pet[]' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\OpenAPI\Client\Model\Pet[]' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet[]', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet[]',
+                        $request,
+                        $response,
+                    );
             }
+
+            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1163,34 +1108,11 @@ class PetApi
                 );
             }
 
-            $returnType = '\OpenAPI\Client\Model\Pet[]';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet[]',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -1200,8 +1122,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -1438,33 +1362,14 @@ class PetApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\Pet' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\OpenAPI\Client\Model\Pet' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Pet', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
             }
+
+            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1479,34 +1384,11 @@ class PetApi
                 );
             }
 
-            $returnType = '\OpenAPI\Client\Model\Pet';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -1516,8 +1398,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -1785,10 +1669,11 @@ class PetApi
 
 
             return [null, $statusCode, $response->getHeaders()];
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -2115,10 +2000,11 @@ class PetApi
 
 
             return [null, $statusCode, $response->getHeaders()];
-
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -2360,33 +2246,14 @@ class PetApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\OpenAPI\Client\Model\ApiResponse' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
+                        $response,
+                    );
             }
+
+            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2401,34 +2268,11 @@ class PetApi
                 );
             }
 
-            $returnType = '\OpenAPI\Client\Model\ApiResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\ApiResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -2438,8 +2282,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -2695,33 +2541,14 @@ class PetApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\OpenAPI\Client\Model\ApiResponse' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
+                        $response,
+                    );
             }
+
+            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2736,34 +2563,11 @@ class PetApi
                 );
             }
 
-            $returnType = '\OpenAPI\Client\Model\ApiResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\ApiResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -2773,8 +2577,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -3048,33 +2854,14 @@ class PetApi
 
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                        if ('\OpenAPI\Client\Model\ApiResponse' !== 'string') {
-                            try {
-                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                            } catch (\JsonException $exception) {
-                                throw new ApiException(
-                                    sprintf(
-                                        'Error JSON decoding server response (%s)',
-                                        $request->getUri()
-                                    ),
-                                    $statusCode,
-                                    $response->getHeaders(),
-                                    $content
-                                );
-                            }
-                        }
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
+                        $response,
+                    );
             }
+
+            
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -3089,34 +2876,11 @@ class PetApi
                 );
             }
 
-            $returnType = '\OpenAPI\Client\Model\ApiResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
-                if ($returnType !== 'string') {
-                    try {
-                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $exception) {
-                        throw new ApiException(
-                            sprintf(
-                                'Error JSON decoding server response (%s)',
-                                $request->getUri()
-                            ),
-                            $statusCode,
-                            $response->getHeaders(),
-                            $content
-                        );
-                    }
-                }
-            }
-
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\ApiResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -3126,8 +2890,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -3707,5 +3473,48 @@ class PetApi
         }
 
         return $options;
+    }
+
+    private function handleResponseWithDataType(
+        string $dataType,
+        RequestInterface $request,
+        ResponseInterface $response
+    ): array {
+        if ($dataType === '\SplFileObject') {
+            $content = $response->getBody(); //stream goes to serializer
+        } else {
+            $content = (string) $response->getBody();
+            if ($dataType !== 'string') {
+                try {
+                    $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    throw new ApiException(
+                        sprintf(
+                            'Error JSON decoding server response (%s)',
+                            $request->getUri()
+                        ),
+                        $response->getStatusCode(),
+                        $response->getHeaders(),
+                        $content
+                    );
+                }
+            }
+        }
+
+        return [
+            ObjectSerializer::deserialize($content, $dataType, []),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        ];
+    }
+
+    private function responseWithinRangeCode(
+        string $rangeCode,
+        int $statusCode
+    ): bool {
+        $left = (int) ($rangeCode[0].'00');
+        $right = (int) ($rangeCode[0].'99');
+
+        return $statusCode >= $left && $statusCode <= $right;
     }
 }

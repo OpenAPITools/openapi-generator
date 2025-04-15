@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.User do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :id,
     :username,

@@ -456,7 +456,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/order/{order_id}");
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/store/order/{order_id}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/order/{order_id}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -615,7 +617,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/inventory");
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/store/inventory"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/inventory");
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("api-key", cancellationToken).ConfigureAwait(false);
@@ -827,7 +831,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/order/{order_id}");
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/store/order/{order_id}"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/order/{order_id}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Border_id%7D", Uri.EscapeDataString(orderId.ToString()));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -1057,7 +1063,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/order");
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/store/order"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/store/order");
 
                     httpRequestMessageLocalVar.Content = (order as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)

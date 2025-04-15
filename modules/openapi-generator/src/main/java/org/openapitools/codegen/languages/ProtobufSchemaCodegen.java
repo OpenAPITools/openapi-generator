@@ -68,6 +68,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String AGGREGATE_MODELS_NAME = "aggregateModelsName";
 
+    public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     @Setter protected String packageName = "openapitools";
@@ -81,6 +83,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean addJsonNameAnnotation = false;
 
     private boolean wrapComplexType = true;
+
+    private boolean supportMultipleResponses = true;
 
     @Override
     public CodegenType getTag() {
@@ -192,6 +196,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
         addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
+        addSwitch(SUPPORT_MULTIPLE_RESPONSES, "Support multiple responses", supportMultipleResponses);
         addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
     }
 
@@ -237,6 +242,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(AGGREGATE_MODELS_NAME)) {
             this.setAggregateModelsName((String) additionalProperties.get(AGGREGATE_MODELS_NAME));
+        }
+
+        if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
+            this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
+        } else {
+            additionalProperties.put(this.SUPPORT_MULTIPLE_RESPONSES, this.supportMultipleResponses);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -442,7 +453,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             } else if (ModelUtils.isAnyOf(schema)) {
                 wrapComposedChildren(schema.getAnyOf(), visitedSchema);
             }
-
         }
     }
 
@@ -474,7 +484,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             wrapModels();
         }
     }
-
 
     /**
      * Adds prefix to the enum allowable values
@@ -522,7 +531,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                values.add(0, "UNSPECIFIED");
+                List<String> modifiableValues = new ArrayList<>(values);
+                modifiableValues.add(0, "UNSPECIFIED");
+                allowableValues.put("values", modifiableValues);
             }
         }
     }
@@ -542,24 +553,28 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public List<CodegenProperty> processOneOfAnyOfItems(List<CodegenProperty> composedSchemasProperty) {
         for(CodegenProperty cd: composedSchemasProperty) {
-            if (cd.getTitle() != null) {
-                cd.name = cd.getTitle();
-                cd.baseName = cd.getTitle();
-            } else{
-                cd.name = getNameFromDataType(cd);
-                cd.baseName = getNameFromDataType(cd);
-            }
+            cd.name = resolveVarName(cd);
+            cd.baseName = resolveVarName(cd);
         }
         return composedSchemasProperty;
     }
 
+
+    private String resolveVarName(CodegenProperty property) {
+        if(property.getTitle() != null) {
+            return toVarName(property.getTitle());
+        } else {
+            return getNameFromDataType(property);
+        }
+    }
+
     public String getNameFromDataType(CodegenProperty property) {
         if (Boolean.TRUE.equals(property.getIsArray())){
-            return underscore(property.mostInnerItems.dataType + ARRAY_SUFFIX);
+            return toVarName(property.mostInnerItems.dataType + ARRAY_SUFFIX);
         } else if (Boolean.TRUE.equals(property.getIsMap())) {
-            return underscore(property.mostInnerItems.dataType + MAP_SUFFIX);
+            return toVarName(property.mostInnerItems.dataType + MAP_SUFFIX);
         } else {
-            return underscore(property.dataType);
+            return toVarName(property.dataType);
         }
     }
 
@@ -944,12 +959,41 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
             }
+
+            if(this.supportMultipleResponses) {
+                int responseIdx = 1;
+                op.vendorExtensions.put("x-grpc-response", op.operationId+"Response");
+                for (CodegenResponse r : op.responses) {
+                    if (r.returnProperty == null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", "google.protobuf.Empty");
+                        r.vendorExtensions.put("x-oneOf-response-name", "empty");
+                    } else if (r.isMap && r.additionalProperties != null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.additionalProperties.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.additionalProperties));
+                        LOGGER.warn("Mapping responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                    } else if (r.isArray && r.items != null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.items.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.items));
+                        LOGGER.warn("Array responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                    }
+                    else {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty));
+                    }
+                    r.vendorExtensions.put("x-oneOf-response-index", responseIdx++);
+                }
+            }
         }
 
         if (this.aggregateModelsName != null) {
+            List<Map<String, String>> imports = objs.getImports().stream()
+                    .filter(importMap -> !importMap.get("import").startsWith("models/"))
+                    .collect(Collectors.toList());
+
             List<Map<String, String>> aggregate_imports = Collections.singletonList(Collections
                     .singletonMap(IMPORT, toModelImport(this.aggregateModelsName)));
-            objs.setImports(aggregate_imports);
+            imports.addAll(aggregate_imports);
+            objs.setImports(imports);
         }
         return objs;
     }

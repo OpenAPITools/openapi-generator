@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.EnumTest do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :enum_string,
     :enum_string_required,

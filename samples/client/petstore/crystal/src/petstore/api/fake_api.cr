@@ -63,6 +63,9 @@ module Petstore
       # resource path
       local_var_path = "/fake/parameter-name-mapping"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
       query_params["type"] = _type.to_s unless _type.nil?
@@ -94,6 +97,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: FakeApi#get_parameter_name_mapping\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}

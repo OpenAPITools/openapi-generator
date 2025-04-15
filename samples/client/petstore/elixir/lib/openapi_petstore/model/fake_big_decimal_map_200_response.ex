@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :someId,
     :someMap
