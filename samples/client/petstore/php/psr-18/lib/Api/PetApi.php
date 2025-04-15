@@ -2864,34 +2864,36 @@ class PetApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\ApiResponse' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\ApiResponse', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\ApiResponse',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\ApiResponse';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\ApiResponse',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -2901,8 +2903,10 @@ class PetApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
