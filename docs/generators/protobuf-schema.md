@@ -23,6 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |numberedFieldNumberList|Field numbers in order.| |false|
 |startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
 |supportMultipleResponses|Support multiple responses| |true|
+|useSimplifiedEnumNames|Use a simple name for enums| |false|
 |wrapComplexType|Generate Additional message for complex type| |true|
 
 ## IMPORT MAPPING
