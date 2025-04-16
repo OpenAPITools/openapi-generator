@@ -406,7 +406,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
-            if (ModelUtils.isArraySchema(mapValueSchema) || ModelUtils.isMapSchema(mapValueSchema)) {
+            if (ModelUtils.isArraySchema(mapValueSchema) || (ModelUtils.isMapSchema(mapValueSchema) && !ModelUtils.isModel(mapValueSchema))) {
                 Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
                 schema.setAdditionalProperties(innerSchema);
 
@@ -414,7 +414,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isArraySchema(schema) && ModelUtils.getSchemaItems(schema) != null) {
             Schema arrayItemSchema = ModelUtils.getSchemaItems(schema);
             arrayItemSchema = ModelUtils.getReferencedSchema(openAPI, arrayItemSchema);
-            if (ModelUtils.isMapSchema(arrayItemSchema) || ModelUtils.isArraySchema(arrayItemSchema)) {
+            if ((ModelUtils.isMapSchema(arrayItemSchema) && !ModelUtils.isModel(arrayItemSchema)) || ModelUtils.isArraySchema(arrayItemSchema)) {
                 Schema innerSchema = generateNestedSchema(arrayItemSchema, visitedSchemas);
                 schema.setItems(innerSchema);
             }
@@ -427,7 +427,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
                     newOneOfs.add(innerSchema);
-                } else if (ModelUtils.isMapSchema(oneOfSchema)) {
+                } else if (ModelUtils.isMapSchema(oneOfSchema) && !ModelUtils.isModel(oneOfSchema)) {
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
                     newOneOfs.add(innerSchema);
@@ -1061,4 +1061,38 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return GeneratorLanguage.PROTOBUF;
     }
 
+
+/**
+ * Handles additionalProperties defined in composed schemas (e.g., allOf) by injecting into the model's properties.
+ * Example:
+ *  components:
+ *    schemas:
+ *      Dog:
+ *        allOf:
+ *          - $ref: '#/components/schemas/DogBase'
+ *          - type: object
+ *            additionalProperties:
+ *              title: pet
+ *              $ref: '#/components/schemas/Pet'
+ * In this case, the second allOf that defines a map with string keys and Pet values will be part of model's property.
+ */
+    @Override
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas){
+        super.addProperties(properties, required, schema, visitedSchemas);
+        if(schema.getAdditionalProperties() != null) {
+            String addtionalPropertiesName = "default_map";
+            if(schema.getTitle() != null) {
+                addtionalPropertiesName = schema.getTitle();
+            } else {
+                Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+                if (additionalProperties.getTitle() != null) {
+                    addtionalPropertiesName = additionalProperties.getTitle();
+                } else if (additionalProperties.get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(additionalProperties.get$ref());
+                    addtionalPropertiesName = toVarName(toModelName(ref));
+                }
+            }
+            properties.put(addtionalPropertiesName, schema);
+        }
+    }
 }

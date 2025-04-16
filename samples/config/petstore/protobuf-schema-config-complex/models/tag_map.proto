@@ -12,23 +12,11 @@ syntax = "proto3";
 
 package petstore;
 
-import public "models/pet.proto";
+import public "models/tag.proto";
 
-message Dog {
+message TagMap {
 
-  bool bark = 1;
-
-  enum Breed {
-    BREED_UNSPECIFIED = 0;
-    BREED_DINGO = 1;
-    BREED_HUSKY = 2;
-    BREED_RETRIEVER = 3;
-    BREED_SHEPHERD = 4;
-  }
-
-  Breed breed = 2;
-
-  map<string, Pet> pet = 3;
+  map<string, Tag> tag_map = 1;
 
 }
 
