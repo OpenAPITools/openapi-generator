@@ -24,6 +24,7 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/csharp/generichost/latest/Tags
+          - samples/client/petstore/csharp/generichost/latest/HelloWorld
           - samples/client/petstore/csharp/generichost/net9/AllOf
           - samples/client/petstore/csharp/generichost/net9/AnyOf
           - samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
