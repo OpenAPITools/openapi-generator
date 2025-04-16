@@ -12,13 +12,13 @@ part 'outer_enum.g.dart';
 class OuterEnum extends EnumClass {
 
   @BuiltValueEnumConst(wireName: r'placed')
-  static const OuterEnum placed = _$placed;
+  static const OuterEnum placedAttr = _$placed;
   @BuiltValueEnumConst(wireName: r'approved')
-  static const OuterEnum approved = _$approved;
+  static const OuterEnum approvedAttr = _$approved;
   @BuiltValueEnumConst(wireName: r'delivered')
-  static const OuterEnum delivered = _$delivered;
+  static const OuterEnum deliveredAttr = _$delivered;
   @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const OuterEnum unknownDefaultOpenApi = _$unknownDefaultOpenApi;
+  static const OuterEnum unknownDefaultOpenApiAttr = _$unknownDefaultOpenApi;
 
   static Serializer<OuterEnum> get serializer => _$outerEnumSerializer;
 
