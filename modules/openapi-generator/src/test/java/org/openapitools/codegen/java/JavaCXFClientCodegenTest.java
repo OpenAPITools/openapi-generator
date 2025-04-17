@@ -336,4 +336,59 @@ public class JavaCXFClientCodegenTest {
                 "public FilesUploadPost200Response filesUploadPost(InputStream body);"
         );
     }
+    
+    @Test
+    public void testUseOas3Imports() throws Exception {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.api");
+
+        properties.put(JavaCXFClientCodegen.OAS3, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-cxf-client")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_1/java/issue_19907.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path petApi = Paths.get(output + "/src/gen/java/xyz/abcdef/api/PetApi.java");
+        Path petModel = Paths.get(output + "/src/gen/java/xyz/abcdef/api/Pet.java");
+
+        TestUtils.assertFileContains(petApi,
+                // imports
+                "import io.swagger.v3.oas.annotations.responses.ApiResponses;",
+                "import io.swagger.v3.oas.annotations.responses.ApiResponse;",
+                "import io.swagger.v3.oas.annotations.media.ArraySchema;",
+                "import io.swagger.v3.oas.annotations.media.Content;",
+
+                "@Path(\"/pet/{petId}\")",
+                "@Produces({ \"application/json\" })",
+                "@Operation(summary = \"Find pet by ID\", tags={  })",
+                "@ApiResponse(responseCode = \"200\", description = \"successful operation\", content = @Content(mediaType = \"application/json\", schema = @Schema(implementation = Pet.class))),",
+                "@ApiResponse(responseCode = \"400\", description = \"Invalid ID supplied\", content = @Content(mediaType = \"*/*\", schema = @Schema(implementation = Void.class))),",
+                "@ApiResponse(responseCode = \"404\", description = \"Pet not found\", content = @Content(mediaType = \"*/*\", schema = @Schema(implementation = Void.class))) })",
+                "public Pet getPetById(@PathParam(\"petId\") Long petId);"
+                
+        );
+        
+        TestUtils.assertFileNotContains(petModel,
+                "import io.swagger.annotations.ApiModel;",
+                "@ApiModel(description=\"A pet for sale in the pet store\")"
+        );
+        
+        TestUtils.assertFileContains(petModel,
+                "@Schema(description = \"\")"
+        );
+    }
 }

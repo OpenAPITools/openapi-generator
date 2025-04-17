@@ -1,4 +1,9 @@
+{{#oas3}}
+import io.swagger.v3.oas.annotations.media.Schema;
+{{/oas3}}
+{{^oas3}}
 import io.swagger.annotations.ApiModelProperty;
+{{/oas3}}
 import java.util.Objects;
 {{#withXml}}
 import {{javaxPackage}}.xml.bind.annotation.XmlElement;
@@ -13,9 +18,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 {{#description}}
 /**
-  * {{{description}}}
+  * {{{.}}}
  **/
-@ApiModel(description="{{{description}}}")
+ {{^oas3}}@ApiModel(description="{{{.}}}"){{/oas3}}
 {{/description}}
 {{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
 {{#vendorExtensions.x-class-extra-annotation}}
@@ -28,8 +33,13 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#withXml}}
   @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
 {{/withXml}}
-  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
-  @Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
+{{#oas3}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}")
+{{/oas3}}
+{{^oas3}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+{{/oas3}}
+  {{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}@Valid{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#description}}
  /**
    * {{{.}}}

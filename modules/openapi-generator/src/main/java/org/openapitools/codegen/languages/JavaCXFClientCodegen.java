@@ -47,6 +47,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
+	public static final String OAS3 = "oas3";
+	
     @Getter protected boolean useGenericResponse = false;
 
     @Getter protected boolean useGzipFeatureForTests = false;
@@ -54,6 +56,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     @Getter protected boolean useLoggingFeatureForTests = false;
 
     @Setter protected boolean useAbstractionForFiles = false;
+    
+    @Setter protected boolean oas3 = false;
 
     public JavaCXFClientCodegen() {
         super();
@@ -93,6 +97,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk."));
+        cliOptions.add(CliOption.newBoolean(OAS3, "Generate Swagger annotations in version 3 instead of version 2."));
     }
 
     @Override
@@ -103,6 +108,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS, this::setUseLoggingFeatureForTests);
         convertPropertyToBooleanAndWriteBack(JACKSON, this::setJackson);
         convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES, this::setUseAbstractionForFiles);
+        convertPropertyToBooleanAndWriteBack(OAS3, this::setOas3);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
@@ -132,6 +138,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
+        
+        if (oas3) {
+            apiTemplateFiles.remove("api.mustache");
+            importMapping.remove("ApiModelProperty");
+            importMapping.remove("ApiModel");
+            apiTemplateFiles.put("api_oas3.mustache", ".java");
+        }
 
         if (jackson) {
             //Add jackson imports when model has inner enum
