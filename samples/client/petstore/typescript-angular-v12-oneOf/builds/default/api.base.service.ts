@@ -28,21 +28,30 @@ export class BaseService {
         return consumes.indexOf('multipart/form-data') !== -1;
     }
 
-    protected addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+    protected addToHttpParams(httpParams: HttpParams, value: any, key?: string, isDeep?: boolean): HttpParams {
         // If the value is an object (but not a Date), recursively add its keys.
         if (typeof value === 'object' && !(value instanceof Date)) {
+            if (isDeep) {
+                return this.addToHttpParamsRecursive(httpParams, value, key, isDeep);
+            }
             return this.addToHttpParamsRecursive(httpParams, value);
         }
         return this.addToHttpParamsRecursive(httpParams, value, key);
     }
 
-    protected addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
+    protected addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string, isDeep?: boolean): HttpParams {
         if (value === null || value === undefined) {
             return httpParams;
         }
         if (typeof value === 'object') {
             // If JSON format is preferred, key must be provided.
             if (key != null) {
+                if (isDeep) {
+                    return Object.entries(value as Record<string, any>).reduce(
+                        (hp, [k, v]) => hp.append(`${key}[${k}]`, v),
+                        httpParams,
+                    );
+                }
                 return httpParams.append(key, JSON.stringify(value));
             }
             // Otherwise, if it's an array, add each element.
