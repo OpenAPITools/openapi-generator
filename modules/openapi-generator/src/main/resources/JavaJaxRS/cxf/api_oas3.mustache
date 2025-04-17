@@ -13,6 +13,9 @@ import {{javaxPackage}}.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -62,9 +65,9 @@ public interface {{classname}}  {
 {{/hasProduces}}
     @Operation(summary = "{{{summary}}}", tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-tags}} })
     {{#implicitHeadersParams.0}}
-    @io.swagger.annotations.ApiImplicitParams({
+    @Parameters({
         {{#implicitHeadersParams}}
-        @io.swagger.annotations.ApiImplicitParam(name = "{{{baseName}}}", value = "{{{description}}}", {{#required}}required = true,{{/required}} dataType = "{{{dataType}}}", paramType = "header"){{^-last}},{{/-last}}
+        @Parameter(name = "{{{baseName}}}", description = "{{{description}}}", {{#required}}required = true,{{/required}} in = ParameterIn.HEADER, content = @Content(schema = @Schema(type = "{{{dataType}}}"))){{^-last}},{{/-last}}
         {{/implicitHeadersParams}}
     })
     {{/implicitHeadersParams.0}}
