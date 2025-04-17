@@ -66,26 +66,30 @@ export class Configuration {
      */
     credentials: {[ key: string ]: string | (() => string | undefined)};
 
-    constructor(configurationParameters: ConfigurationParameters = {}) {
-        this.apiKeys = configurationParameters.apiKeys;
-        this.username = configurationParameters.username;
-        this.password = configurationParameters.password;
-        this.accessToken = configurationParameters.accessToken;
-        this.basePath = configurationParameters.basePath;
-        this.withCredentials = configurationParameters.withCredentials;
-        this.encoder = configurationParameters.encoder;
-        if (configurationParameters.encodeParam) {
-            this.encodeParam = configurationParameters.encodeParam;
+constructor({ accessToken, apiKeys, basePath, credentials, encodeParam, encoder, password, username, withCredentials }: ConfigurationParameters = {}) {
+        if (apiKeys) {
+            this.apiKeys = apiKeys;
         }
-        else {
-            this.encodeParam = param => this.defaultEncodeParam(param);
+        if (username !== undefined) {
+            this.username = username;
         }
-        if (configurationParameters.credentials) {
-            this.credentials = configurationParameters.credentials;
+        if (password !== undefined) {
+            this.password = password;
         }
-        else {
-            this.credentials = {};
+        if (accessToken !== undefined) {
+            this.accessToken = accessToken;
         }
+        if (basePath !== undefined) {
+            this.basePath = basePath;
+        }
+        if (withCredentials !== undefined) {
+            this.withCredentials = withCredentials;
+        }
+        if (encoder) {
+            this.encoder = encoder;
+        }
+        this.encodeParam = encodeParam ?? (param => this.defaultEncodeParam(param));
+        this.credentials = credentials ?? {};
     }
 
     /**
