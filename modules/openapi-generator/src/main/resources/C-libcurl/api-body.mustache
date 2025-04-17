@@ -126,7 +126,7 @@ end:
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + sizeof("{ {{baseName}} }") - 1;
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof(*{{paramName}})+3{{/isLong}}{{#isString}}strlen({{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}})+3{{/isString}}{{^-last}} + {{/-last}}{{/pathParams}} + sizeof("{ {{baseName}} }") - 1;
     {{#isNumeric}}
     if({{paramName}} == 0){
         goto end;
@@ -161,7 +161,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", (long){{paramName}});
+    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", (long)*{{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
@@ -174,7 +174,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", {{paramName}});
+    snprintf(localVarBuff_{{paramName}}, sizeof localVarBuff_{{paramName}}, "%ld", *{{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
