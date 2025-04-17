@@ -4,6 +4,8 @@
 #include "PetAPI.h"
 
 #define MAX_NUMBER_LENGTH 16
+#define MAX_NUMBER_LENGTH_FLOAT 32
+#define MAX_NUMBER_LENGTH_LONG 21
 #define MAX_BUFFER_LENGTH 4096
 
 // Functions for enum STATUS for PetAPI_findPetsByStatus
@@ -123,7 +125,7 @@ end:
 // Deletes a pet
 //
 void
-PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key)
+PetAPI_deletePet(apiClient_t *apiClient, long *petId, char *api_key)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = list_createList();
@@ -142,7 +144,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key)
 
 
     // Path Params
-    long sizeOfPathParams_petId = sizeof(petId)+3 + sizeof("{ petId }") - 1;
+    long sizeOfPathParams_petId = sizeof(*petId)+3 + sizeof("{ petId }") - 1;
     if(petId == 0){
         goto end;
     }
@@ -150,7 +152,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key)
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", *petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -457,7 +459,7 @@ end:
 // Returns a single pet
 //
 pet_t*
-PetAPI_getPetById(apiClient_t *apiClient, long petId)
+PetAPI_getPetById(apiClient_t *apiClient, long *petId)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -476,7 +478,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId)
 
 
     // Path Params
-    long sizeOfPathParams_petId = sizeof(petId)+3 + sizeof("{ petId }") - 1;
+    long sizeOfPathParams_petId = sizeof(*petId)+3 + sizeof("{ petId }") - 1;
     if(petId == 0){
         goto end;
     }
@@ -484,7 +486,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId)
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", *petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -610,7 +612,7 @@ end:
 // Is this pet still available?
 //
 openapi_petstore_bit__e
-PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
+PetAPI_isPetAvailable(apiClient_t *apiClient, long *petId)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -629,7 +631,7 @@ PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
 
 
     // Path Params
-    long sizeOfPathParams_petId = sizeof(petId)+3 + sizeof("{ petId }") - 1;
+    long sizeOfPathParams_petId = sizeof(*petId)+3 + sizeof("{ petId }") - 1;
     if(petId == 0){
         goto end;
     }
@@ -637,7 +639,7 @@ PetAPI_isPetAvailable(apiClient_t *apiClient, long petId)
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", *petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -909,7 +911,7 @@ end:
 // Updates a pet in the store with form data
 //
 void
-PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *status)
+PetAPI_updatePetWithForm(apiClient_t *apiClient, long *petId, char *name, char *status)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -928,7 +930,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *s
 
 
     // Path Params
-    long sizeOfPathParams_petId = sizeof(petId)+3 + sizeof("{ petId }") - 1;
+    long sizeOfPathParams_petId = sizeof(*petId)+3 + sizeof("{ petId }") - 1;
     if(petId == 0){
         goto end;
     }
@@ -936,7 +938,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *s
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", *petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 
@@ -1020,7 +1022,7 @@ end:
 // uploads an image
 //
 api_response_t*
-PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, binary_t* file)
+PetAPI_uploadFile(apiClient_t *apiClient, long *petId, char *additionalMetadata, binary_t* file)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -1039,7 +1041,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, 
 
 
     // Path Params
-    long sizeOfPathParams_petId = sizeof(petId)+3 + sizeof("{ petId }") - 1;
+    long sizeOfPathParams_petId = sizeof(*petId)+3 + sizeof("{ petId }") - 1;
     if(petId == 0){
         goto end;
     }
@@ -1047,7 +1049,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, 
     snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "{%s}", "petId");
 
     char localVarBuff_petId[256];
-    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", petId);
+    snprintf(localVarBuff_petId, sizeof localVarBuff_petId, "%ld", *petId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_petId, localVarBuff_petId);
 

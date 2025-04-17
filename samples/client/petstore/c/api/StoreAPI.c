@@ -4,6 +4,8 @@
 #include "StoreAPI.h"
 
 #define MAX_NUMBER_LENGTH 16
+#define MAX_NUMBER_LENGTH_FLOAT 32
+#define MAX_NUMBER_LENGTH_LONG 21
 #define MAX_BUFFER_LENGTH 4096
 
 // Functions for enum RATING for StoreAPI_sendRating
@@ -207,7 +209,7 @@ end:
 // For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 //
 order_t*
-StoreAPI_getOrderById(apiClient_t *apiClient, long orderId)
+StoreAPI_getOrderById(apiClient_t *apiClient, long *orderId)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -226,7 +228,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId)
 
 
     // Path Params
-    long sizeOfPathParams_orderId = sizeof(orderId)+3 + sizeof("{ orderId }") - 1;
+    long sizeOfPathParams_orderId = sizeof(*orderId)+3 + sizeof("{ orderId }") - 1;
     if(orderId == 0){
         goto end;
     }
@@ -234,7 +236,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId)
     snprintf(localVarToReplace_orderId, sizeOfPathParams_orderId, "{%s}", "orderId");
 
     char localVarBuff_orderId[256];
-    snprintf(localVarBuff_orderId, sizeof localVarBuff_orderId, "%ld", orderId);
+    snprintf(localVarBuff_orderId, sizeof localVarBuff_orderId, "%ld", *orderId);
 
     localVarPath = strReplace(localVarPath, localVarToReplace_orderId, localVarBuff_orderId);
 
