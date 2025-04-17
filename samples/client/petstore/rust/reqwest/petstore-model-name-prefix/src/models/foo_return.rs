@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// FooReturn : Test using keywords
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct FooReturn {
     #[serde(rename = "match", skip_serializing_if = "Option::is_none")]
     pub r#match: Option<i32>,
