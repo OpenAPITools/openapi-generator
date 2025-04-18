@@ -169,6 +169,7 @@ public interface PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @param tags Tags to filter by (required)
+     * @param size A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used. (optional)
      * @return successful operation (status code 200)
      *         or Invalid tag value (status code 400)
      * @deprecated
@@ -200,6 +201,7 @@ public interface PetApi {
     
     default ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags,
+        @ApiParam(value = "A test HeaderParam for issue #8315 - must NOT be removed when x-spring-paginated:true is used.") @RequestHeader(value = "size", required = false) String size,
         @ApiIgnore final Pageable pageable
     ) {
         getRequest().ifPresent(request -> {

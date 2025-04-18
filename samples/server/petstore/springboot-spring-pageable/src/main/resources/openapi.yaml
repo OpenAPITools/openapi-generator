@@ -189,6 +189,47 @@ paths:
             type: string
           type: array
         style: form
+      - description: "A test HeaderParam for issue #8315 - must NOT be removed when\
+          \ x-spring-paginated:true is used."
+        explode: false
+        in: header
+        name: size
+        required: false
+        schema:
+          type: string
+        style: simple
+      - description: "The number of items to return per page. Test QueryParam for\
+          \ issue #8315 - must be removed when x-spring-paginated:true is used."
+        explode: true
+        in: query
+        name: size
+        required: true
+        schema:
+          default: 20
+          minimum: 1
+          type: integer
+        style: form
+      - description: "The page to return, starting with page 0. Test QueryParam for\
+          \ issue #8315 - must be removed when x-spring-paginated:true is used."
+        explode: true
+        in: query
+        name: page
+        required: true
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: "The sorting to apply to the Pageable object. Test QueryParam\
+          \ for issue #8315 - must be removed when x-spring-paginated:true is used."
+        explode: true
+        in: query
+        name: sort
+        required: true
+        schema:
+          default: "id,asc"
+          type: string
+        style: form
       responses:
         "200":
           content:
