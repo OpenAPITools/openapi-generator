@@ -4,6 +4,8 @@
 #include "UserAPI.h"
 
 #define MAX_NUMBER_LENGTH 16
+#define MAX_NUMBER_LENGTH_FLOAT 32
+#define MAX_NUMBER_LENGTH_LONG 21
 #define MAX_BUFFER_LENGTH 4096
 
 
