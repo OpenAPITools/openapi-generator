@@ -58,11 +58,11 @@ public class EnumTest implements Parcelable {
    */
   @JsonAdapter(EnumStringEnum.Adapter.class)
   public enum EnumStringEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -117,11 +117,11 @@ public class EnumTest implements Parcelable {
    */
   @JsonAdapter(EnumStringRequiredEnum.Adapter.class)
   public enum EnumStringRequiredEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
