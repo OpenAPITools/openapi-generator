@@ -1,0 +1,4 @@
+[{"id":"4","username":"TheUser","firstName":"My Name","lastName":"My Last Name","email":"user@example.com","password":"pa55word","phone":"0987654321","userStatus":"3"}
+, {"id":"3","username":"TheUser2","firstName":"My Name 2","lastName":"My Last Name 2","email":"user2@example.com","password":"pa55word2","phone":"098222222","userStatus":"22"}
+, {"id":"1","username":"TheUser3","firstName":"My Name 3","lastName":"My Last Name 3","email":"user3@example.com","password":"pa55word3","phone":"098333333","userStatus":"33"}
+]
