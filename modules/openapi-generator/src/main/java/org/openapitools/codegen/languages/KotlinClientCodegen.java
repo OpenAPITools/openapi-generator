@@ -1009,7 +1009,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 if ((JVM_KTOR.equals(getLibrary()) || MULTIPLATFORM.equals(getLibrary())) && operation.allParams != null) {
                     for (CodegenParameter param : operation.allParams) {
                         if (param.dataFormat != null && param.dataFormat.equals("binary")) {
-                            param.baseType = param.dataType = "io.ktor.client.request.forms.InputProvider";
+                            if (param.isContainer) {
+                                param.baseType = param.dataType = typeMapping.get(collectionType) + "<io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>>";
+                            } else {
+                                param.baseType = param.dataType = "io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>";
+                            }
                         }
                     }
                 }
