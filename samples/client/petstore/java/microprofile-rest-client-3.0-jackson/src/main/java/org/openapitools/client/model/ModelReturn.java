@@ -42,7 +42,7 @@ public class ModelReturn  {
    * Get _return
    * @return _return
    **/
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Integer getReturn() {
     return _return;
@@ -51,7 +51,7 @@ public class ModelReturn  {
   /**
    * Set _return
    */
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReturn(Integer _return) {
     this._return = _return;

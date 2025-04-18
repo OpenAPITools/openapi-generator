@@ -58,7 +58,7 @@ public class FakeBigDecimalMap200Response {
    * @return someId
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getSomeId() {
@@ -66,7 +66,7 @@ public class FakeBigDecimalMap200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_ID)
+  @JsonProperty(value = JSON_PROPERTY_SOME_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeId(@javax.annotation.Nullable BigDecimal someId) {
     this.someId = someId;
@@ -91,7 +91,7 @@ public class FakeBigDecimalMap200Response {
    * @return someMap
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, BigDecimal> getSomeMap() {
@@ -99,7 +99,7 @@ public class FakeBigDecimalMap200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_MAP)
+  @JsonProperty(value = JSON_PROPERTY_SOME_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSomeMap(@javax.annotation.Nullable Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
