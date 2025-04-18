@@ -24,14 +24,14 @@ class StoreApi {
   /// * [orderId] - ID of the order that needs to be deleted
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<void>> deleteOrder({ 
+  Future<Response<void>> deleteOrder({
     required String orderId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -70,14 +70,14 @@ class StoreApi {
   /// Parameters:
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Map<String, int>] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Map<String, int>>> getInventory({ 
+  Future<Response<Map<String, int>>> getInventory({
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -147,14 +147,14 @@ _responseData = rawData == null ? null : deserialize<Map<String, int>, int>(rawD
   /// * [orderId] - ID of pet that needs to be fetched
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Order>> getOrderById({ 
+  Future<Response<Order>> getOrderById({
     required int orderId,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -212,20 +212,20 @@ _responseData = rawData == null ? null : deserialize<Order, Order>(rawData, 'Ord
   }
 
   /// Place an order for a pet
-  /// 
+  ///
   ///
   /// Parameters:
   /// * [order] - order placed for purchasing the pet
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
-  /// * [extras] - Can be used to add flags to the request
+  /// * [extra] - Can be used to add flags to the request
   /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
   /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Order] as data
   /// Throws [DioException] if API call or serialization fails
-  Future<Response<Order>> placeOrder({ 
+  Future<Response<Order>> placeOrder({
     required Order order,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
