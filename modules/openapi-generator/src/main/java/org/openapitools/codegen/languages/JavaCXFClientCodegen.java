@@ -47,7 +47,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
-	public static final String OAS3 = "oas3";
+    public static final String OAS3 = "oas3";
 	
     @Getter protected boolean useGenericResponse = false;
 
