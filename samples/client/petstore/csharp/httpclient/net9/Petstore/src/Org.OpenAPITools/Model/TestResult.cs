@@ -33,12 +33,6 @@ namespace Org.OpenAPITools.Model
     [DataContract(Name = "TestResult")]
     public partial class TestResult : IEquatable<TestResult>, IValidatableObject
     {
-
-        /// <summary>
-        /// Gets or Sets Code
-        /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
-        public TestResultCode? Code { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="TestResult" /> class.
         /// </summary>
@@ -54,11 +48,17 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
+        /// Gets or Sets Code
+        /// </summary>
+        [DataMember(Name = "code", EmitDefaultValue = false)]
+        public TestResultCode? Code { get; set; }
+
+        /// <summary>
         /// Result unique identifier
         /// </summary>
         /// <value>Result unique identifier</value>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public string Uuid { get; set; }
+        public string? Uuid { get; set; }
 
         /// <summary>
         /// list of named parameters for current message
@@ -127,7 +127,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                if (this.Code != null)
+                {
+                    hashCode = (hashCode * 59) + this.Code.GetHashCode();
+                }
                 if (this.Uuid != null)
                 {
                     hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
