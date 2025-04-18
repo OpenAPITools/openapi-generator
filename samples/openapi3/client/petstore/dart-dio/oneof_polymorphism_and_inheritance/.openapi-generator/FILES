@@ -52,4 +52,5 @@ lib/src/model/pasta.dart
 lib/src/model/pizza.dart
 lib/src/model/pizza_speziale.dart
 lib/src/serializers.dart
+lib/src/serializers_util.dart
 pubspec.yaml

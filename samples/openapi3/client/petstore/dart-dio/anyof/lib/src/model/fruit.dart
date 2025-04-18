@@ -8,7 +8,7 @@ import 'package:openapi/src/model/banana.dart';
 import 'package:openapi/src/serializers_util.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:one_of/one_of.dart';
+import 'package:one_of/any_of.dart';
 
 part 'fruit.g.dart';
 
@@ -23,8 +23,8 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
   @BuiltValueField(wireName: r'color')
   String? get color;
 
-  /// One Of [Apple], [Banana]
-  OneOf2<Apple, Banana> get oneOf;
+  /// Any Of [Apple], [Banana]
+  AnyOf2<Apple, Banana> get anyOf;
 
   Fruit._();
 
@@ -64,9 +64,10 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
     Fruit object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final oneOf = object.oneOf;
+    final anyOf = object.anyOf;
     final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-    result.addAll(serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
+    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()));
+    result.addAll((serialized is Map ? serialized.entries.map((e) => <dynamic>[e.key, e.value]).expand<dynamic>((e) => e) : serialized) as Iterable<Object?>);
     return result;
   }
 
@@ -104,8 +105,8 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
     FullType specifiedType = FullType.unspecified,
   }) {
     final result = FruitBuilder();
-    Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [FullType(Apple), FullType(Banana), ]);
+    Object? anyOfDataSrc;
+    final targetType = const FullType(AnyOf, [FullType(Apple), FullType(Banana), ]);
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
@@ -116,8 +117,8 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
       unhandled: unhandled,
       result: result,
     );
-    oneOfDataSrc = unhandled;
-    result.oneOf = oneOfFactory(serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOfDynamic)<Apple, Banana>();
+    anyOfDataSrc = unhandled;
+    result.anyOf = anyOfFactory(serializers.deserialize(anyOfDataSrc, specifiedType: targetType) as AnyOfDynamic)<Apple, Banana>();
     return result.build();
   }
 }

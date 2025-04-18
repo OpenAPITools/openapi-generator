@@ -18,4 +18,5 @@ lib/src/model/child.dart
 lib/src/model/date.dart
 lib/src/model/example.dart
 lib/src/serializers.dart
+lib/src/serializers_util.dart
 pubspec.yaml
