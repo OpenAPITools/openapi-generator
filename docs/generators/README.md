@@ -13,6 +13,7 @@ The following generators are available:
 * [cpp-tizen](cpp-tizen.md)  
 * [csharp](csharp.md)  
 * [csharp-functions](csharp-functions.md)  
+* [csharp-restsharp](generators/csharp-restsharp.md)  
 * [dart](dart.md)  
 * [dart-dio](dart-dio.md)  
 * [eiffel](eiffel.md)  

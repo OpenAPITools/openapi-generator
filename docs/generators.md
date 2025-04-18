@@ -19,6 +19,7 @@ The following generators are available:
 * [cpp-ue4 (beta)](generators/cpp-ue4.md)  
 * [crystal (beta)](generators/crystal.md)  
 * [csharp](generators/csharp.md)  
+* [csharp-restsharp](generators/csharp-restsharp.md)  
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
 * [eiffel](generators/eiffel.md)  

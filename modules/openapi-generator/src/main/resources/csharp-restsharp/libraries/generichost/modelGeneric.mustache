@@ -1,0 +1,393 @@
+    /// <summary>
+    /// {{description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    {{>visibility}} partial class {{classname}}{{#lambda.firstDot}}{{#parent}} : .{{/parent}}{{#validatable}} : .{{/validatable}}{{#equatable}}{{#readOnlyVars}}{{#-first}} : .{{/-first}}{{/readOnlyVars}}{{/equatable}}{{/lambda.firstDot}}{{#lambda.joinWithComma}}{{#parent}}{{{.}}}  {{/parent}}{{>ImplementsIEquatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
+    {
+        {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}"></param>
+        {{#composedSchemas.anyOf}}
+        /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}"></param>
+        {{/composedSchemas.anyOf}}
+        {{#allVars}}
+        {{^isDiscriminator}}
+        /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}">{{description}}{{^description}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/isDiscriminator}}
+        {{/allVars}}
+        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{baseType}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{parent}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {
+            {{#composedSchemas.anyOf}}
+            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{/composedSchemas.anyOf}}
+            {{name}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{#allVars}}
+            {{^isDiscriminator}}
+            {{^isInherited}}
+            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{/isInherited}}
+            {{#isInherited}}
+            {{#isNew}}
+            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{/isNew}}
+            {{/isInherited}}
+            {{/isDiscriminator}}
+            {{#vendorExtensions.x-is-base-or-new-discriminator}}
+            {{^model.composedSchemas.anyOf}}
+            {{^model.composedSchemas.oneOf}}
+            {{name}} = {{^isEnum}}this.GetType().Name{{/isEnum}}{{#isEnum}}({{datatypeWithEnum}})Enum.Parse(typeof({{datatypeWithEnum}}), this.GetType().Name){{/isEnum}};
+            {{/model.composedSchemas.oneOf}}
+            {{/model.composedSchemas.anyOf}}
+            {{/vendorExtensions.x-is-base-or-new-discriminator}}
+            {{/allVars}}
+            OnCreated();
+        }
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.oneOf}}
+        {{^composedSchemas.oneOf}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        {{#composedSchemas.anyOf}}
+        /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}"></param>
+        {{/composedSchemas.anyOf}}
+        {{#allVars}}
+        {{^isDiscriminator}}
+        /// <param name="{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}">{{description}}{{^description}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
+        {{/isDiscriminator}}
+        {{/allVars}}
+        {{^composedSchemas.anyOf}}
+        [JsonConstructor]
+        {{/composedSchemas.anyOf}}
+        {{#model.vendorExtensions.x-model-is-mutable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutable}}{{^model.vendorExtensions.x-model-is-mutable}}internal{{/model.vendorExtensions.x-model-is-mutable}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{baseType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
+        {
+            {{#composedSchemas.anyOf}}
+            {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{/composedSchemas.anyOf}}
+            {{#allVars}}
+            {{^isDiscriminator}}
+            {{^isInherited}}
+            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{/isInherited}}
+            {{#isInherited}}
+            {{#isNew}}
+            {{name}}{{^required}}Option{{/required}} = {{#lambda.escape_reserved_word}}{{#lambda.camel_case}}{{name}}{{/lambda.camel_case}}{{/lambda.escape_reserved_word}};
+            {{/isNew}}
+            {{/isInherited}}
+            {{/isDiscriminator}}
+            {{#vendorExtensions.x-is-base-or-new-discriminator}}
+            {{^model.composedSchemas.anyOf}}
+            {{^model.composedSchemas.oneOf}}
+            {{name}} = {{^isEnum}}this.GetType().Name{{/isEnum}}{{#isEnum}}({{datatypeWithEnum}})Enum.Parse(typeof({{datatypeWithEnum}}), this.GetType().Name){{/isEnum}};
+            {{/model.composedSchemas.oneOf}}
+            {{/model.composedSchemas.anyOf}}
+            {{/vendorExtensions.x-is-base-or-new-discriminator}}
+            {{/allVars}}
+            OnCreated();
+        }
+
+        {{/composedSchemas.oneOf}}
+        partial void OnCreated();
+
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/isEnum}}
+        {{^isDiscriminator}}
+        {{#isEnum}}
+        {{^required}}
+        /// <summary>
+        /// Used to track the state of {{{name}}}
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public {{#isNew}}new {{/isNew}}Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+
+        {{/required}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{.}}</value>
+        {{/description}}
+        {{#example}}
+        /* <example>{{.}}</example> */
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{#isNew}}new {{/isNew}}{{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+
+        {{/isEnum}}
+        {{/isDiscriminator}}
+        {{/vars}}
+        {{#composedSchemas.anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        {{^required}}
+        /// <summary>
+        /// Used to track the state of {{{name}}}
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public {{#isNew}}new {{/isNew}}Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+
+        {{/required}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /* <example>{{.}}</example> */
+        {{/example}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option; } {{^isReadOnly}}set { this.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.anyOf}}
+        {{#composedSchemas.oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /* <example>{{.}}</example> */
+        {{/example}}
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{{dataType}}}{{>NullConditionalProperty}} {{#lambda.titlecase}}{{name}}{{/lambda.titlecase}} { get; {{^isReadOnly}}set; {{/isReadOnly}}}
+
+        {{/vendorExtensions.x-duplicated-data-type}}
+        {{/composedSchemas.oneOf}}
+        {{#allVars}}
+        {{#vendorExtensions.x-is-base-or-new-discriminator}}
+        {{^model.composedSchemas.anyOf}}
+        {{^model.composedSchemas.oneOf}}
+        /// <summary>
+        /// The discriminator
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public {{#isNew}}new {{/isNew}}{{datatypeWithEnum}} {{name}} { get; }
+
+        {{/model.composedSchemas.oneOf}}
+        {{/model.composedSchemas.anyOf}}
+        {{/vendorExtensions.x-is-base-or-new-discriminator}}
+        {{^vendorExtensions.x-is-base-or-new-discriminator}}
+        {{^isEnum}}
+        {{#isInherited}}
+        {{#isNew}}
+        {{^required}}
+        /// <summary>
+        /// Used to track the state of {{{name}}}
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+
+        {{/required}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /* <example>{{.}}</example> */
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public new {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+
+        {{/isNew}}
+        {{/isInherited}}
+        {{^isInherited}}
+        {{^required}}
+        /// <summary>
+        /// Used to track the state of {{{name}}}
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}> {{name}}Option { get; {{^isReadOnly}}private set; {{/isReadOnly}}}
+
+        {{/required}}
+        /// <summary>
+        /// {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{.}}</value>{{/description}}
+        {{#example}}
+        /* <example>{{.}}</example> */
+        {{/example}}
+        [JsonPropertyName("{{baseName}}")]
+        {{#deprecated}}
+        [Obsolete]
+        {{/deprecated}}
+        public {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{^isReadOnly}}set; {{/isReadOnly}}}{{/required}}{{^required}}{ get { return this.{{name}}Option; } {{^isReadOnly}}set { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/isReadOnly}}}{{/required}}
+
+        {{/isInherited}}
+        {{/isEnum}}
+        {{/vendorExtensions.x-is-base-or-new-discriminator}}
+        {{/allVars}}
+        {{#isAdditionalPropertiesTrue}}
+        {{^parentModel}}
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
+
+        {{/parentModel}}
+        {{/isAdditionalPropertiesTrue}}
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            {{#parent}}
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
+            {{/parent}}
+            {{#vars}}
+            {{^isDiscriminator}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/isDiscriminator}}
+            {{/vars}}
+            {{#isAdditionalPropertiesTrue}}
+            {{^parentModel}}
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            {{/parentModel}}
+            {{/isAdditionalPropertiesTrue}}
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+        {{#equatable}}
+        {{#readOnlyVars}}
+        {{#-first}}
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object{{nrt?}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="input">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}}{{nrt?}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            if (input == null)
+                return false;
+
+            return {{#parent}}base.Equals(input) && {{/parent}}{{#readOnlyVars}}{{^isInherited}}{{^isContainer}}
+                (
+                    {{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}
+                    ({{name}} != null &&
+                    {{name}}.Equals(input.{{name}}))
+                    {{/vendorExtensions.x-is-value-type}}
+                    {{#vendorExtensions.x-is-value-type}}
+                    {{name}}.Equals(input.{{name}})
+                    {{/vendorExtensions.x-is-value-type}}
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
+                (
+                    {{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    input.{{name}} != null &&
+                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
+                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
+                {{/parentModel}}
+                {{/isAdditionalPropertiesTrue}}
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                {{#parent}}
+                int hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
+                int hashCode = 41;
+                {{/parent}}
+                {{#readOnlyVars}}
+                {{#required}}
+                {{^isNullable}}
+                hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+                {{/isNullable}}
+                {{/required}}
+                {{/readOnlyVars}}
+                {{#readOnlyVars}}
+                {{#lambda.copy}}
+                if ({{name}} != null)
+                    hashCode = (hashCode * 59) + {{name}}.GetHashCode();
+
+                {{/lambda.copy}}
+                {{#isNullable}}
+                {{#lambda.pasteOnce}}
+                {{/lambda.pasteOnce}}
+                {{/isNullable}}
+                {{^required}}
+                {{#lambda.pasteOnce}}
+                {{/lambda.pasteOnce}}
+                {{/required}}
+                {{/readOnlyVars}}
+                {{#isAdditionalPropertiesTrue}}
+                {{^parentModel}}
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+                {{/parentModel}}
+                {{/isAdditionalPropertiesTrue}}
+
+                return hashCode;
+            }
+        }
+        {{/-first}}
+        {{/readOnlyVars}}
+        {{/equatable}}
+{{#validatable}}
+{{^parentModel}}
+
+{{>validatable}}
+{{/parentModel}}
+{{/validatable}}
+    }
