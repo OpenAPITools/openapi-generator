@@ -130,7 +130,7 @@ export class {{classname}} extends BaseService {
         {{/isArray}}
         {{^isArray}}
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>{{paramName}}, '{{baseName}}');
+          <any>{{paramName}}, '{{baseName}}'{{#isDeepObject}}, true{{/isDeepObject}});
         {{/isArray}}
 {{/queryParams}}
 
