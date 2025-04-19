@@ -634,6 +634,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (libRestClient) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             applyJakartaPackage();
+
+            // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+            // In principle, this should be enabled by default for all code generators. However due to limitations
+            // in other code generators, support needs to be enabled on a case-by-case basis.
+            // The flag below should be set for all Java libraries, but the templates need to be ported
+            // one by one for each library.
+            supportsAdditionalPropertiesWithComposedSchema = true;
         } else if (libVertx) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
