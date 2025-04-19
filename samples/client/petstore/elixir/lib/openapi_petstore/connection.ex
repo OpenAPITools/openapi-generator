@@ -46,6 +46,7 @@ defmodule OpenapiPetstore.Connection do
     fetcher function.
   - `username`: A username for basic authentication.
   - `password`: A password for basic authentication.
+  - `bearer_token`: A bearer token for bearer authentication.
   """
   @type options :: [
           {:base_url, String.t()},
@@ -54,6 +55,7 @@ defmodule OpenapiPetstore.Connection do
           {:token_scopes, list(String.t())},
           {:username, String.t() | nil},
           {:password, String.t() | nil},
+          {:bearer_token, String.t() | nil},
         ]
 
   @doc "Forward requests to Tesla."
@@ -174,6 +176,9 @@ defmodule OpenapiPetstore.Connection do
       else
         middleware
       end
+
+    bearer_token = Keyword.get(options, :bearer_token)
+    middleware = [{Tesla.Middleware.BearerAuth, token: bearer_token} | middleware]
 
     middleware =
       if token = Keyword.get(options, :token) do
