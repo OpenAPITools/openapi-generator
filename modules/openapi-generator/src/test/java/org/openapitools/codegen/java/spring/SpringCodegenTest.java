@@ -2272,7 +2272,7 @@ public class SpringCodegenTest {
                         "SchemaA.java", "public final class SchemaA extends RepresentationModel<SchemaA>  implements PostRequest {",
                         "PostRequest.java", "public sealed interface PostRequest permits SchemaA {")},
                 {"oneOf_array.yaml", Map.of(
-                        "MyExampleGet200Response.java", "public interface MyExampleGet200Response")},
+                        "MyExampleGet200Response.java", "public sealed interface MyExampleGet200Response")},
                 {"oneOf_duplicateArray.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_nonPrimitive.yaml", Map.of(
