@@ -91,7 +91,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v18-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v19-provided-in-root && mvn integration-test)
-  (cd samples/client/other/typescript-angular-deep-object && mvn integration-test)
+  (cd samples/client/others/typescript-angular-deep-object && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
