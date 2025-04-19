@@ -41,6 +41,9 @@ module Petstore
       # resource path
       local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode_path(order_id.to_s).gsub("%2F", "/"))
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -67,6 +70,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#delete_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -91,6 +95,9 @@ module Petstore
       end
       # resource path
       local_var_path = "/store/inventory"
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
 
       # query parameters
       query_params = Hash(String, String).new
@@ -120,6 +127,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#get_inventory\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -159,6 +167,9 @@ module Petstore
       # resource path
       local_var_path = "/store/order/{orderId}".sub("{" + "orderId" + "}", URI.encode_path(order_id.to_s).gsub("%2F", "/"))
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -187,6 +198,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#get_order_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -218,6 +230,9 @@ module Petstore
       # resource path
       local_var_path = "/store/order"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -248,6 +263,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#place_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}

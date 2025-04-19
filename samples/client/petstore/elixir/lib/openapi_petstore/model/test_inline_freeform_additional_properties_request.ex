@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :someProperty
   ]

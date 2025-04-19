@@ -28,7 +28,7 @@ public enum OuterEnumDto {
   
   DELIVERED("delivered");
 
-  private String value;
+  private final String value;
 
   OuterEnumDto(String value) {
     this.value = value;

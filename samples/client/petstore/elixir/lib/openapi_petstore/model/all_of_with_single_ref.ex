@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :username,
     :SingleRefType

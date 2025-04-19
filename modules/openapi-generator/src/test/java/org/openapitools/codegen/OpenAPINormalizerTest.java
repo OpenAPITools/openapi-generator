@@ -1022,4 +1022,32 @@ public class OpenAPINormalizerTest {
         assertEquals(scheme.getName(), null);
         assertEquals(scheme.getIn(), null);
     }
+
+    @Test
+    public void testNormalizerClass() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZER_CLASS", RemoveRequiredNormalizer.class.getName()
+        );
+        OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+        Schema requiredProperties = openAPI.getComponents().getSchemas().get("RequiredProperties");
+        assertEquals(requiredProperties.getRequired(), null);
+    }
+
+    public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
+
+        public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
+            super(openAPI, inputRules);
+        }
+
+        @Override
+        public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+            if (skipNormalization(schema, visitedSchemas)) {
+                return schema;
+            }
+            schema.setRequired(null);
+            return super.normalizeSchema(schema, visitedSchemas);
+        }
+    }
 }
