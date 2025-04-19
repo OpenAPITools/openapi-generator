@@ -1,0 +1,11 @@
+generatorName: typescript-angular
+outputDir: samples/client/others/typescript-angular-deep-object/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/3_0/deep-object-query.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  ngVersion: 19.0.1
+  supportsES6: true
+  tsVersion: 5.6.3
+  zonejsVersion: 0.15.0
+  ngPackagrVersion: 19.0.1
+  rxjsVersion: 6.5.3
