@@ -31,6 +31,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.templating.mustache.CopyLambda.CopyContent;
 import org.openapitools.codegen.templating.mustache.CopyLambda.WhiteSpaceStrategy;
@@ -839,13 +840,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
     }
 
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        super.postProcessWebhooksWithModels(objs, allModels);
+
+        if (objs != null) {
+            OperationMap operationMap = objs.getWebhooks();
+            this.postProcessOperations(operationMap, allModels);
+        }
+
+        return objs;
+    }
+
     private HashMap<String, String> duplicateOf = new HashMap<String, String>();
 
     @Override
-    @SuppressWarnings("unchecked")
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
+        if (objs != null) {
+            OperationMap operations = objs.getOperations();
+            this.postProcessOperations(operations, allModels);
+        }
+
+        return objs;
+    }
+
+    private void postProcessOperations(OperationMap operations, List<ModelMap> allModels) {
         Set<String> httpStatusesWithReturn = additionalProperties.get("x-http-statuses-with-return") instanceof Set<?>
                 ? (Set<String>) additionalProperties.get("x-http-statuses-with-return")
                 : new HashSet<String>();
@@ -854,348 +875,343 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
         HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
 
-        if (objs != null) {
-            OperationMap operations = objs.getOperations();
-            if (operations != null) {
-                List<CodegenOperation> ops = operations.getOperation();
-                for (CodegenOperation operation : ops) {
-                    String duplicates = duplicateOf.get(operation.operationId);
-                    if (duplicates != null) {
-                        operation.vendorExtensions.put("x-duplicates", duplicates);
-                    } else {
-                        duplicateOf.put(operation.operationId, operations.getClassname());
-                    }
-                    if (operation.responses != null) {
-                        for (CodegenResponse response : operation.responses) {
-
-                            if (response.returnProperty != null) {
-                                Boolean isValueType = isValueType(response.returnProperty);
-                                response.vendorExtensions.put("x-is-value-type", isValueType);
-                                response.vendorExtensions.put("x-is-reference-type", !isValueType);
-                            }
-
-                            if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
-                                response.vendorExtensions.put("x-set-cookie", true);
-                                operation.vendorExtensions.put("x-set-cookie", true);
-                            }
-
-                            String code = response.code.toLowerCase(Locale.ROOT);
-                            switch (code) {
-                                case "default":
-                                case "0":
-                                    postProcessResponseCode(response, "Default", httpStatusesWithReturn);
-                                    response.vendorExtensions.put("x-http-status-is-default", true);
-                                    if ((long) operation.responses.size() == 1) {
-                                        response.vendorExtensions.put("x-only-default", true);
-                                    }
-                                    break;
-                                case "100":
-                                    postProcessResponseCode(response, "Continue", httpStatusesWithReturn);
-                                    break;
-                                case "101":
-                                    postProcessResponseCode(response, "SwitchingProtocols", httpStatusesWithReturn);
-                                    break;
-                                case "102":
-                                    postProcessResponseCode(response, "Processing", httpStatusesWithReturn);
-                                    break;
-                                case "103":
-                                    postProcessResponseCode(response, "EarlyHints", httpStatusesWithReturn);
-                                    break;
-                                case "200":
-                                    postProcessResponseCode(response, "Ok", httpStatusesWithReturn);
-                                    break;
-                                case "201":
-                                    postProcessResponseCode(response, "Created", httpStatusesWithReturn);
-                                    break;
-                                case "202":
-                                    postProcessResponseCode(response, "Accepted", httpStatusesWithReturn);
-                                    break;
-                                case "203":
-                                    postProcessResponseCode(response, "NonAuthoritativeInformation", httpStatusesWithReturn);
-                                    break;
-                                case "204":
-                                    postProcessResponseCode(response, "NoContent", httpStatusesWithReturn);
-                                    break;
-                                case "205":
-                                    postProcessResponseCode(response, "ResetContent", httpStatusesWithReturn);
-                                    break;
-                                case "206":
-                                    postProcessResponseCode(response, "PartialContent", httpStatusesWithReturn);
-                                    break;
-                                case "207":
-                                    postProcessResponseCode(response, "MultiStatus", httpStatusesWithReturn);
-                                    break;
-                                case "208":
-                                    postProcessResponseCode(response, "AlreadyImported", httpStatusesWithReturn);
-                                    break;
-                                case "226":
-                                    postProcessResponseCode(response, "IMUsed", httpStatusesWithReturn);
-                                    break;
-                                case "300":
-                                    postProcessResponseCode(response, "MultipleChoices", httpStatusesWithReturn);
-                                    break;
-                                case "301":
-                                    postProcessResponseCode(response, "MovedPermanently", httpStatusesWithReturn);
-                                    break;
-                                case "302":
-                                    postProcessResponseCode(response, "Found", httpStatusesWithReturn);
-                                    break;
-                                case "303":
-                                    postProcessResponseCode(response, "SeeOther", httpStatusesWithReturn);
-                                    break;
-                                case "304":
-                                    postProcessResponseCode(response, "NotModified", httpStatusesWithReturn);
-                                    break;
-                                case "307":
-                                    postProcessResponseCode(response, "TemporaryRedirect", httpStatusesWithReturn);
-                                    break;
-                                case "308":
-                                    postProcessResponseCode(response, "PermanentRedirect", httpStatusesWithReturn);
-                                    break;
-                                case "400":
-                                    postProcessResponseCode(response, "BadRequest", httpStatusesWithReturn);
-                                    break;
-                                case "401":
-                                    postProcessResponseCode(response, "Unauthorized", httpStatusesWithReturn);
-                                    break;
-                                case "402":
-                                    postProcessResponseCode(response, "PaymentRequired", httpStatusesWithReturn);
-                                    break;
-                                case "403":
-                                    postProcessResponseCode(response, "Forbidden", httpStatusesWithReturn);
-                                    break;
-                                case "404":
-                                    postProcessResponseCode(response, "NotFound", httpStatusesWithReturn);
-                                    break;
-                                case "405":
-                                    postProcessResponseCode(response, "MethodNotAllowed", httpStatusesWithReturn);
-                                    break;
-                                case "406":
-                                    postProcessResponseCode(response, "NotAcceptable", httpStatusesWithReturn);
-                                    break;
-                                case "407":
-                                    postProcessResponseCode(response, "ProxyAuthenticationRequired", httpStatusesWithReturn);
-                                    break;
-                                case "408":
-                                    postProcessResponseCode(response, "RequestTimeout", httpStatusesWithReturn);
-                                    break;
-                                case "409":
-                                    postProcessResponseCode(response, "Conflict", httpStatusesWithReturn);
-                                    break;
-                                case "410":
-                                    postProcessResponseCode(response, "Gone", httpStatusesWithReturn);
-                                    break;
-                                case "411":
-                                    postProcessResponseCode(response, "LengthRequired", httpStatusesWithReturn);
-                                    break;
-                                case "412":
-                                    postProcessResponseCode(response, "PreconditionFailed", httpStatusesWithReturn);
-                                    break;
-                                case "413":
-                                    postProcessResponseCode(response, "ContentTooLarge", httpStatusesWithReturn);
-                                    break;
-                                case "414":
-                                    postProcessResponseCode(response, "URITooLong", httpStatusesWithReturn);
-                                    break;
-                                case "415":
-                                    postProcessResponseCode(response, "UnsupportedMediaType", httpStatusesWithReturn);
-                                    break;
-                                case "416":
-                                    postProcessResponseCode(response, "RangeNotSatisfiable", httpStatusesWithReturn);
-                                    break;
-                                case "417":
-                                    postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
-                                    break;
-                                case "421":
-                                    postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
-                                    break;
-                                case "422":
-                                    postProcessResponseCode(response, "UnprocessableContent", httpStatusesWithReturn);
-                                    break;
-                                case "423":
-                                    postProcessResponseCode(response, "Locked", httpStatusesWithReturn);
-                                    break;
-                                case "424":
-                                    postProcessResponseCode(response, "FailedDependency", httpStatusesWithReturn);
-                                    break;
-                                case "425":
-                                    postProcessResponseCode(response, "TooEarly", httpStatusesWithReturn);
-                                    break;
-                                case "426":
-                                    postProcessResponseCode(response, "UpgradeRequired", httpStatusesWithReturn);
-                                    break;
-                                case "428":
-                                    postProcessResponseCode(response, "PreconditionRequired", httpStatusesWithReturn);
-                                    break;
-                                case "429":
-                                    postProcessResponseCode(response, "TooManyRequests", httpStatusesWithReturn);
-                                    break;
-                                case "431":
-                                    postProcessResponseCode(response, "RequestHeaderFieldsTooLong", httpStatusesWithReturn);
-                                    break;
-                                case "451":
-                                    postProcessResponseCode(response, "UnavailableForLegalReasons", httpStatusesWithReturn);
-                                    break;
-                                case "500":
-                                    postProcessResponseCode(response, "InternalServerError", httpStatusesWithReturn);
-                                    break;
-                                case "501":
-                                    postProcessResponseCode(response, "NotImplemented", httpStatusesWithReturn);
-                                    break;
-                                case "502":
-                                    postProcessResponseCode(response, "BadGateway", httpStatusesWithReturn);
-                                    break;
-                                case "503":
-                                    postProcessResponseCode(response, "ServiceUnavailable", httpStatusesWithReturn);
-                                    break;
-                                case "504":
-                                    postProcessResponseCode(response, "GatewayTimeout", httpStatusesWithReturn);
-                                    break;
-                                case "505":
-                                    postProcessResponseCode(response, "HttpVersionNotSupported", httpStatusesWithReturn);
-                                    break;
-                                case "506":
-                                    postProcessResponseCode(response, "VariantAlsoNegotiates", httpStatusesWithReturn);
-                                    break;
-                                case "507":
-                                    postProcessResponseCode(response, "InsufficientStorage", httpStatusesWithReturn);
-                                    break;
-                                case "508":
-                                    postProcessResponseCode(response, "LoopDetected", httpStatusesWithReturn);
-                                    break;
-                                case "511":
-                                    postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
-                                    break;
-                                case "1xx":
-                                    response.vendorExtensions.put("x-http-status-range", 1);
-                                    postProcessResponseCode(response, "HttpStatusCode1XX", httpStatusesWithReturn);
-                                    break;
-                                case "2xx":
-                                    response.vendorExtensions.put("x-http-status-range", 2);
-                                    postProcessResponseCode(response, "HttpStatusCode2XX", httpStatusesWithReturn);
-                                    break;
-                                case "3xx":
-                                    response.vendorExtensions.put("x-http-status-range", 3);
-                                    postProcessResponseCode(response, "HttpStatusCode3XX", httpStatusesWithReturn);
-                                    break;
-                                case "4xx":
-                                    response.vendorExtensions.put("x-http-status-range", 4);
-                                    postProcessResponseCode(response, "HttpStatusCode4XX", httpStatusesWithReturn);
-                                    break;
-                                case "5xx":
-                                    response.vendorExtensions.put("x-http-status-range", 5);
-                                    postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
-                                    break;
-                                default:
-                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
-                            }
-                        }
-                    }
-
-                    // Check return types for collection
-                    if (operation.returnType != null) {
-                        int namespaceEnd = operation.returnType.lastIndexOf(".");
-                        String typeMapping = namespaceEnd > 0
-                                ? operation.returnType.substring(namespaceEnd)
-                                : operation.returnType;
-
-                        if (this.collectionTypes.contains(typeMapping)) {
-                            operation.isArray = true;
-                            operation.returnContainer = operation.returnType;
-                            if (this.returnICollection && (
-                                    typeMapping.startsWith("List") ||
-                                            typeMapping.startsWith("Collection"))) {
-                                // NOTE: ICollection works for both List<T> and Collection<T>
-                                int genericStart = typeMapping.indexOf("<");
-                                if (genericStart > 0) {
-                                    operation.returnType = "ICollection" + typeMapping.substring(genericStart);
-                                }
-                            }
-                        } else {
-                            operation.returnContainer = operation.returnType;
-                            operation.isMap = this.mapTypes.stream().anyMatch(typeMapping::startsWith);
-                        }
-                    }
-
-                    if (operation.examples != null) {
-                        for (Map<String, String> example : operation.examples) {
-                            for (Map.Entry<String, String> entry : example.entrySet()) {
-                                // Replace " with \", \r, \n with \\r, \\n
-                                String val = entry.getValue().replace("\"", "\\\"")
-                                        .replace("\r", "\\r")
-                                        .replace("\n", "\\n");
-                                entry.setValue(val);
-                            }
-                        }
-                    }
-
-                    for (CodegenParameter parameter : operation.allParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.bodyParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.cookieParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.formParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.headerParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.optionalParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.pathParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.queryParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.notNullableParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    for (CodegenParameter parameter : operation.requiredParams) {
-                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
-                        patchParameter(model, parameter);
-                    }
-
-                    List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
-                    operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
-                    operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
-                    processOperation(operation);
-
-                    // Remove constant params from allParams list and add to constantParams
-                    handleConstantParams(operation);
+        if (operations != null) {
+            List<CodegenOperation> ops = operations.getOperation();
+            for (CodegenOperation operation : ops) {
+                String duplicates = duplicateOf.get(operation.operationId);
+                if (duplicates != null) {
+                    operation.vendorExtensions.put("x-duplicates", duplicates);
+                } else {
+                    duplicateOf.put(operation.operationId, operations.getClassname());
                 }
+                if (operation.responses != null) {
+                    for (CodegenResponse response : operation.responses) {
+
+                        if (response.returnProperty != null) {
+                            Boolean isValueType = isValueType(response.returnProperty);
+                            response.vendorExtensions.put("x-is-value-type", isValueType);
+                            response.vendorExtensions.put("x-is-reference-type", !isValueType);
+                        }
+
+                        if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
+                            response.vendorExtensions.put("x-set-cookie", true);
+                            operation.vendorExtensions.put("x-set-cookie", true);
+                        }
+
+                        String code = response.code.toLowerCase(Locale.ROOT);
+                        switch (code) {
+                            case "default":
+                            case "0":
+                                postProcessResponseCode(response, "Default", httpStatusesWithReturn);
+                                response.vendorExtensions.put("x-http-status-is-default", true);
+                                if ((long) operation.responses.size() == 1) {
+                                    response.vendorExtensions.put("x-only-default", true);
+                                }
+                                break;
+                            case "100":
+                                postProcessResponseCode(response, "Continue", httpStatusesWithReturn);
+                                break;
+                            case "101":
+                                postProcessResponseCode(response, "SwitchingProtocols", httpStatusesWithReturn);
+                                break;
+                            case "102":
+                                postProcessResponseCode(response, "Processing", httpStatusesWithReturn);
+                                break;
+                            case "103":
+                                postProcessResponseCode(response, "EarlyHints", httpStatusesWithReturn);
+                                break;
+                            case "200":
+                                postProcessResponseCode(response, "Ok", httpStatusesWithReturn);
+                                break;
+                            case "201":
+                                postProcessResponseCode(response, "Created", httpStatusesWithReturn);
+                                break;
+                            case "202":
+                                postProcessResponseCode(response, "Accepted", httpStatusesWithReturn);
+                                break;
+                            case "203":
+                                postProcessResponseCode(response, "NonAuthoritativeInformation", httpStatusesWithReturn);
+                                break;
+                            case "204":
+                                postProcessResponseCode(response, "NoContent", httpStatusesWithReturn);
+                                break;
+                            case "205":
+                                postProcessResponseCode(response, "ResetContent", httpStatusesWithReturn);
+                                break;
+                            case "206":
+                                postProcessResponseCode(response, "PartialContent", httpStatusesWithReturn);
+                                break;
+                            case "207":
+                                postProcessResponseCode(response, "MultiStatus", httpStatusesWithReturn);
+                                break;
+                            case "208":
+                                postProcessResponseCode(response, "AlreadyImported", httpStatusesWithReturn);
+                                break;
+                            case "226":
+                                postProcessResponseCode(response, "IMUsed", httpStatusesWithReturn);
+                                break;
+                            case "300":
+                                postProcessResponseCode(response, "MultipleChoices", httpStatusesWithReturn);
+                                break;
+                            case "301":
+                                postProcessResponseCode(response, "MovedPermanently", httpStatusesWithReturn);
+                                break;
+                            case "302":
+                                postProcessResponseCode(response, "Found", httpStatusesWithReturn);
+                                break;
+                            case "303":
+                                postProcessResponseCode(response, "SeeOther", httpStatusesWithReturn);
+                                break;
+                            case "304":
+                                postProcessResponseCode(response, "NotModified", httpStatusesWithReturn);
+                                break;
+                            case "307":
+                                postProcessResponseCode(response, "TemporaryRedirect", httpStatusesWithReturn);
+                                break;
+                            case "308":
+                                postProcessResponseCode(response, "PermanentRedirect", httpStatusesWithReturn);
+                                break;
+                            case "400":
+                                postProcessResponseCode(response, "BadRequest", httpStatusesWithReturn);
+                                break;
+                            case "401":
+                                postProcessResponseCode(response, "Unauthorized", httpStatusesWithReturn);
+                                break;
+                            case "402":
+                                postProcessResponseCode(response, "PaymentRequired", httpStatusesWithReturn);
+                                break;
+                            case "403":
+                                postProcessResponseCode(response, "Forbidden", httpStatusesWithReturn);
+                                break;
+                            case "404":
+                                postProcessResponseCode(response, "NotFound", httpStatusesWithReturn);
+                                break;
+                            case "405":
+                                postProcessResponseCode(response, "MethodNotAllowed", httpStatusesWithReturn);
+                                break;
+                            case "406":
+                                postProcessResponseCode(response, "NotAcceptable", httpStatusesWithReturn);
+                                break;
+                            case "407":
+                                postProcessResponseCode(response, "ProxyAuthenticationRequired", httpStatusesWithReturn);
+                                break;
+                            case "408":
+                                postProcessResponseCode(response, "RequestTimeout", httpStatusesWithReturn);
+                                break;
+                            case "409":
+                                postProcessResponseCode(response, "Conflict", httpStatusesWithReturn);
+                                break;
+                            case "410":
+                                postProcessResponseCode(response, "Gone", httpStatusesWithReturn);
+                                break;
+                            case "411":
+                                postProcessResponseCode(response, "LengthRequired", httpStatusesWithReturn);
+                                break;
+                            case "412":
+                                postProcessResponseCode(response, "PreconditionFailed", httpStatusesWithReturn);
+                                break;
+                            case "413":
+                                postProcessResponseCode(response, "ContentTooLarge", httpStatusesWithReturn);
+                                break;
+                            case "414":
+                                postProcessResponseCode(response, "URITooLong", httpStatusesWithReturn);
+                                break;
+                            case "415":
+                                postProcessResponseCode(response, "UnsupportedMediaType", httpStatusesWithReturn);
+                                break;
+                            case "416":
+                                postProcessResponseCode(response, "RangeNotSatisfiable", httpStatusesWithReturn);
+                                break;
+                            case "417":
+                                postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
+                                break;
+                            case "421":
+                                postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
+                                break;
+                            case "422":
+                                postProcessResponseCode(response, "UnprocessableContent", httpStatusesWithReturn);
+                                break;
+                            case "423":
+                                postProcessResponseCode(response, "Locked", httpStatusesWithReturn);
+                                break;
+                            case "424":
+                                postProcessResponseCode(response, "FailedDependency", httpStatusesWithReturn);
+                                break;
+                            case "425":
+                                postProcessResponseCode(response, "TooEarly", httpStatusesWithReturn);
+                                break;
+                            case "426":
+                                postProcessResponseCode(response, "UpgradeRequired", httpStatusesWithReturn);
+                                break;
+                            case "428":
+                                postProcessResponseCode(response, "PreconditionRequired", httpStatusesWithReturn);
+                                break;
+                            case "429":
+                                postProcessResponseCode(response, "TooManyRequests", httpStatusesWithReturn);
+                                break;
+                            case "431":
+                                postProcessResponseCode(response, "RequestHeaderFieldsTooLong", httpStatusesWithReturn);
+                                break;
+                            case "451":
+                                postProcessResponseCode(response, "UnavailableForLegalReasons", httpStatusesWithReturn);
+                                break;
+                            case "500":
+                                postProcessResponseCode(response, "InternalServerError", httpStatusesWithReturn);
+                                break;
+                            case "501":
+                                postProcessResponseCode(response, "NotImplemented", httpStatusesWithReturn);
+                                break;
+                            case "502":
+                                postProcessResponseCode(response, "BadGateway", httpStatusesWithReturn);
+                                break;
+                            case "503":
+                                postProcessResponseCode(response, "ServiceUnavailable", httpStatusesWithReturn);
+                                break;
+                            case "504":
+                                postProcessResponseCode(response, "GatewayTimeout", httpStatusesWithReturn);
+                                break;
+                            case "505":
+                                postProcessResponseCode(response, "HttpVersionNotSupported", httpStatusesWithReturn);
+                                break;
+                            case "506":
+                                postProcessResponseCode(response, "VariantAlsoNegotiates", httpStatusesWithReturn);
+                                break;
+                            case "507":
+                                postProcessResponseCode(response, "InsufficientStorage", httpStatusesWithReturn);
+                                break;
+                            case "508":
+                                postProcessResponseCode(response, "LoopDetected", httpStatusesWithReturn);
+                                break;
+                            case "511":
+                                postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
+                                break;
+                            case "1xx":
+                                response.vendorExtensions.put("x-http-status-range", 1);
+                                postProcessResponseCode(response, "HttpStatusCode1XX", httpStatusesWithReturn);
+                                break;
+                            case "2xx":
+                                response.vendorExtensions.put("x-http-status-range", 2);
+                                postProcessResponseCode(response, "HttpStatusCode2XX", httpStatusesWithReturn);
+                                break;
+                            case "3xx":
+                                response.vendorExtensions.put("x-http-status-range", 3);
+                                postProcessResponseCode(response, "HttpStatusCode3XX", httpStatusesWithReturn);
+                                break;
+                            case "4xx":
+                                response.vendorExtensions.put("x-http-status-range", 4);
+                                postProcessResponseCode(response, "HttpStatusCode4XX", httpStatusesWithReturn);
+                                break;
+                            case "5xx":
+                                response.vendorExtensions.put("x-http-status-range", 5);
+                                postProcessResponseCode(response, "HttpStatusCode5XX", httpStatusesWithReturn);
+                                break;
+                            default:
+                                postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
+                        }
+                    }
+                }
+
+                // Check return types for collection
+                if (operation.returnType != null) {
+                    int namespaceEnd = operation.returnType.lastIndexOf(".");
+                    String typeMapping = namespaceEnd > 0
+                            ? operation.returnType.substring(namespaceEnd)
+                            : operation.returnType;
+
+                    if (this.collectionTypes.contains(typeMapping)) {
+                        operation.isArray = true;
+                        operation.returnContainer = operation.returnType;
+                        if (this.returnICollection && (
+                                typeMapping.startsWith("List") ||
+                                        typeMapping.startsWith("Collection"))) {
+                            // NOTE: ICollection works for both List<T> and Collection<T>
+                            int genericStart = typeMapping.indexOf("<");
+                            if (genericStart > 0) {
+                                operation.returnType = "ICollection" + typeMapping.substring(genericStart);
+                            }
+                        }
+                    } else {
+                        operation.returnContainer = operation.returnType;
+                        operation.isMap = this.mapTypes.stream().anyMatch(typeMapping::startsWith);
+                    }
+                }
+
+                if (operation.examples != null) {
+                    for (Map<String, String> example : operation.examples) {
+                        for (Map.Entry<String, String> entry : example.entrySet()) {
+                            // Replace " with \", \r, \n with \\r, \\n
+                            String val = entry.getValue().replace("\"", "\\\"")
+                                    .replace("\r", "\\r")
+                                    .replace("\n", "\\n");
+                            entry.setValue(val);
+                        }
+                    }
+                }
+
+                for (CodegenParameter parameter : operation.allParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.bodyParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.cookieParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.formParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.headerParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.implicitHeadersParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.optionalParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.pathParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.queryParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.notNullableParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                for (CodegenParameter parameter : operation.requiredParams) {
+                    CodegenModel model = getModelFromParameter(modelMaps, parameter);
+                    patchParameter(model, parameter);
+                }
+
+                List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
+                operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
+                operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
+                processOperation(operation);
+
+                // Remove constant params from allParams list and add to constantParams
+                handleConstantParams(operation);
             }
         }
-
-        return objs;
     }
 
     protected void patchVendorExtensionNullableValueType(CodegenParameter parameter) {

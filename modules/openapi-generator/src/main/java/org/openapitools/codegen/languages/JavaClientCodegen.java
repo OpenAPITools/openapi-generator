@@ -78,6 +78,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String ERROR_OBJECT_TYPE = "errorObjectType";
 
     public static final String FEIGN = "feign";
+    public static final String FEIGN_HC5 = "feign-hc5";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
     public static final String JERSEY2 = "jersey2";
     public static final String JERSEY3 = "jersey3";
@@ -100,6 +101,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String WEBCLIENT_BLOCKING_OPERATIONS = "webclientBlockingOperations";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
+    public static final String SUPPORT_VERTX_FUTURE = "supportVertxFuture";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
@@ -242,10 +244,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater."));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 13.2.1. JSON processing: Jackson 2.17.1 or Gson 2.10.1");
+        supportedLibraries.put(FEIGN_HC5, "HTTP client: OpenFeign 13.2.1/HttpClient5 5.4.2. JSON processing: Jackson 2.17.1 or Gson 2.10.1");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1 (Retrofit 2.5.0) or Jackson 2.17.1. Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.1.5 if `useJakartaEe=true`). JSON processing: Jackson 2.17.1");
@@ -325,7 +329,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // determine and cache client library type once
         final boolean libApache = isLibrary(APACHE);
-        final boolean libFeign = isLibrary(FEIGN);
+        final boolean libFeign = isLibrary(FEIGN) || isLibrary(FEIGN_HC5);
         final boolean libGoogleApiClient = isLibrary(GOOGLE_API_CLIENT);
         final boolean libJersey2 = isLibrary(JERSEY2);
         final boolean libJersey3 = isLibrary(JERSEY3);
@@ -745,6 +749,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 break;
         }
+        
+        if (isLibrary(FEIGN)) {
+            additionalProperties.put("feign-okhttp", "true");
+        } else if (isLibrary(FEIGN_HC5)) {
+            additionalProperties.put("feign-hc5", "true");
+            setTemplateDir(FEIGN);
+            setLibrary(FEIGN);
+        }
 
         // authentication related files
         // has OAuth defined
@@ -825,7 +837,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // camelize path variables for Feign client
-        if (isLibrary(FEIGN)) {
+        if (isLibrary(FEIGN) || isLibrary(FEIGN_HC5)) {
             OperationMap operations = objs.getOperations();
             List<CodegenOperation> operationList = operations.getOperation();
             Pattern methodPattern = Pattern.compile("^(.*):([^:]*)$");

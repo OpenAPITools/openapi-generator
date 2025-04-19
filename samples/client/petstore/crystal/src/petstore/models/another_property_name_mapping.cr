@@ -10,11 +10,13 @@
 
 require "big"
 require "json"
+require "yaml"
 require "time"
 
 module Petstore
   class AnotherPropertyNameMapping
     include JSON::Serializable
+    include YAML::Serializable
 
     # Optional properties
     @[JSON::Field(key: "http_debug_operation", type: String?, nillable: true, emit_null: false)]
@@ -49,19 +51,19 @@ module Petstore
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.same?(o)
-      self.class == o.class &&
-          http_debug_operation == o.http_debug_operation &&
-          underscore_type == o.underscore_type &&
-          _type == o._type &&
-          type_with_underscore == o.type_with_underscore
+    def ==(other)
+      return true if self.same?(other)
+      self.class == other.class &&
+          http_debug_operation == other.http_debug_operation &&
+          underscore_type == other.underscore_type &&
+          _type == other._type &&
+          type_with_underscore == other.type_with_underscore
     end
 
     # @see the `==` method
     # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
+    def eql?(other)
+      self == other
     end
 
     # Calculates hash code according to all attributes.

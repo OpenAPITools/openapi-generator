@@ -15,7 +15,20 @@ end
 function create_user_validate(handler)
     function create_user_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "create_user"
         
+        n = "User"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -42,7 +55,20 @@ end
 function create_users_with_array_input_validate(handler)
     function create_users_with_array_input_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "create_users_with_array_input"
         
+        n = "User"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -69,7 +95,20 @@ end
 function create_users_with_list_input_validate(handler)
     function create_users_with_list_input_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "create_users_with_list_input"
         
+        n = "User"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -97,7 +136,20 @@ end
 function delete_user_validate(handler)
     function delete_user_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "delete_user"
         
+        n = "username"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -125,7 +177,20 @@ end
 function get_user_by_name_validate(handler)
     function get_user_by_name_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "get_user_by_name"
         
+        n = "username"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -154,9 +219,27 @@ end
 function login_user_validate(handler)
     function login_user_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "login_user"
         
-        OpenAPI.validate_param("username", "login_user", :pattern, openapi_params["username"], r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
+        n = "username"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            OpenAPI.validate_param(n, op, :pattern, v, r"^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$")
+        end
         
+        n = "password"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
@@ -182,7 +265,8 @@ end
 function logout_user_validate(handler)
     function logout_user_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
-        
+        op = "logout_user"
+
         return handler(req)
     end
 end
@@ -211,7 +295,32 @@ end
 function update_user_validate(handler)
     function update_user_validate_handler(req::HTTP.Request)
         openapi_params = req.context[:openapi_params]
+        op = "update_user"
         
+        n = "username"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+        
+        n = "User"
+        v = get(openapi_params, n, nothing)
+        isnothing(v) && throw(OpenAPI.ValidationException(;reason="missing parameter $n", operation_or_model=op))
+        if !isnothing(v)
+            if isa(v, OpenAPI.APIModel)
+                OpenAPI.validate_properties(v)
+                if !OpenAPI.check_required(v)
+                    throw(OpenAPI.ValidationException(;reason="$n is missing required properties", operation_or_model=op))
+                end
+            end
+        end
+
         return handler(req)
     end
 end
