@@ -10,6 +10,8 @@ import org.springframework.http.client.MultipartBodyBuilder
 import org.springframework.util.LinkedMultiValueMap
 import reactor.core.publisher.Mono
 
+private val URI_TEMPLATE_ATTRIBUTE = WebClient::class.java.name + ".uriTemplate";
+
 open class ApiClient(protected val client: WebClient) {
 
     protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): Mono<ResponseEntity<T>> {
@@ -39,6 +41,7 @@ open class ApiClient(protected val client: WebClient) {
 
     private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
         uri { builder ->
+            attribute(URI_TEMPLATE_ATTRIBUTE, requestConfig.path)
             builder
                 .path(requestConfig.path)
                 .queryParams(LinkedMultiValueMap(requestConfig.query))

@@ -66,13 +66,27 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String WRAP_COMPLEX_TYPE = "wrapComplexType";
 
+    public static final String USE_SIMPLIFIED_ENUM_NAMES = "useSimplifiedEnumNames";
+
     public static final String AGGREGATE_MODELS_NAME = "aggregateModelsName";
+
+    public static final String CUSTOM_OPTIONS_API = "customOptionsApi";
+
+    public static final String CUSTOM_OPTIONS_MODEL = "customOptionsModel";
+
+    public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     @Setter protected String packageName = "openapitools";
 
     @Setter protected String aggregateModelsName = null;
+
+    @SuppressWarnings("unused")
+    @Setter protected String customOptionsApi = null;
+
+    @SuppressWarnings("unused")
+    @Setter protected String customOptionsModel = null;
 
     private boolean numberedFieldNumberList = false;
 
@@ -81,6 +95,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean addJsonNameAnnotation = false;
 
     private boolean wrapComplexType = true;
+
+    private boolean useSimplifiedEnumNames = false;
+
+    private boolean supportMultipleResponses = true;
 
     @Override
     public CodegenType getTag() {
@@ -192,7 +210,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(START_ENUMS_WITH_UNSPECIFIED, "Introduces \"UNSPECIFIED\" as the first element of enumerations.", startEnumsWithUnspecified);
         addSwitch(ADD_JSON_NAME_ANNOTATION, "Append \"json_name\" annotation to message field when the specification name differs from the protobuf field name", addJsonNameAnnotation);
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
+        addSwitch(USE_SIMPLIFIED_ENUM_NAMES, "Use a simple name for enums", useSimplifiedEnumNames);
+        addSwitch(SUPPORT_MULTIPLE_RESPONSES, "Support multiple responses", supportMultipleResponses);
         addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
+        addOption(CUSTOM_OPTIONS_API, "Custom options for the api files.", null);
+        addOption(CUSTOM_OPTIONS_MODEL, "Custom options for the model files.", null);
     }
 
     @Override
@@ -219,24 +241,42 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        if (additionalProperties.containsKey(this.NUMBERED_FIELD_NUMBER_LIST)) {
+        if (additionalProperties.containsKey(NUMBERED_FIELD_NUMBER_LIST)) {
             this.numberedFieldNumberList = convertPropertyToBooleanAndWriteBack(NUMBERED_FIELD_NUMBER_LIST);
         }
 
-        if (additionalProperties.containsKey(this.START_ENUMS_WITH_UNSPECIFIED)) {
+        if (additionalProperties.containsKey(START_ENUMS_WITH_UNSPECIFIED)) {
             this.startEnumsWithUnspecified = convertPropertyToBooleanAndWriteBack(START_ENUMS_WITH_UNSPECIFIED);
         }
 
-        if (additionalProperties.containsKey(this.ADD_JSON_NAME_ANNOTATION)) {
+        if (additionalProperties.containsKey(ADD_JSON_NAME_ANNOTATION)) {
             this.addJsonNameAnnotation = convertPropertyToBooleanAndWriteBack(ADD_JSON_NAME_ANNOTATION);
         }
 
-        if (additionalProperties.containsKey(this.WRAP_COMPLEX_TYPE)) {
+        if (additionalProperties.containsKey(WRAP_COMPLEX_TYPE)) {
             this.wrapComplexType = convertPropertyToBooleanAndWriteBack(WRAP_COMPLEX_TYPE);
+        }
+
+        if (additionalProperties.containsKey(USE_SIMPLIFIED_ENUM_NAMES)) {
+            this.useSimplifiedEnumNames = convertPropertyToBooleanAndWriteBack(USE_SIMPLIFIED_ENUM_NAMES);
         }
 
         if (additionalProperties.containsKey(AGGREGATE_MODELS_NAME)) {
             this.setAggregateModelsName((String) additionalProperties.get(AGGREGATE_MODELS_NAME));
+        }
+
+        if (additionalProperties.containsKey(CUSTOM_OPTIONS_API)) {
+            this.setCustomOptionsApi((String) additionalProperties.get(CUSTOM_OPTIONS_API));
+        }
+
+        if (additionalProperties.containsKey(CUSTOM_OPTIONS_MODEL)) {
+            this.setCustomOptionsModel((String) additionalProperties.get(CUSTOM_OPTIONS_MODEL));
+        }
+          
+        if (additionalProperties.containsKey(this.SUPPORT_MULTIPLE_RESPONSES)) {
+            this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
+        } else {
+            additionalProperties.put(this.SUPPORT_MULTIPLE_RESPONSES, this.supportMultipleResponses);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -386,7 +426,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if (ModelUtils.isMapSchema(schema) && ModelUtils.getAdditionalProperties(schema) != null) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
-            if (ModelUtils.isArraySchema(mapValueSchema) || ModelUtils.isMapSchema(mapValueSchema)) {
+            if (ModelUtils.isArraySchema(mapValueSchema) || (ModelUtils.isMapSchema(mapValueSchema) && !ModelUtils.isModel(mapValueSchema))) {
                 Schema innerSchema = generateNestedSchema(mapValueSchema, visitedSchemas);
                 schema.setAdditionalProperties(innerSchema);
 
@@ -394,7 +434,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         } else if (ModelUtils.isArraySchema(schema) && ModelUtils.getSchemaItems(schema) != null) {
             Schema arrayItemSchema = ModelUtils.getSchemaItems(schema);
             arrayItemSchema = ModelUtils.getReferencedSchema(openAPI, arrayItemSchema);
-            if (ModelUtils.isMapSchema(arrayItemSchema) || ModelUtils.isArraySchema(arrayItemSchema)) {
+            if ((ModelUtils.isMapSchema(arrayItemSchema) && !ModelUtils.isModel(arrayItemSchema)) || ModelUtils.isArraySchema(arrayItemSchema)) {
                 Schema innerSchema = generateNestedSchema(arrayItemSchema, visitedSchemas);
                 schema.setItems(innerSchema);
             }
@@ -407,7 +447,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
                     newOneOfs.add(innerSchema);
-                } else if (ModelUtils.isMapSchema(oneOfSchema)) {
+                } else if (ModelUtils.isMapSchema(oneOfSchema) && !ModelUtils.isModel(oneOfSchema)) {
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
                     newOneOfs.add(innerSchema);
@@ -442,7 +482,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             } else if (ModelUtils.isAnyOf(schema)) {
                 wrapComposedChildren(schema.getAnyOf(), visitedSchema);
             }
-
         }
     }
 
@@ -475,7 +514,6 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
-
     /**
      * Adds prefix to the enum allowable values
      * NOTE: Enum values use C++ scoping rules, meaning that enum values are siblings of their type, not children of it. Therefore, enum value must be unique
@@ -489,16 +527,15 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, prefix);
             for (Map<String, Object> value : enumVars) {
                 String name = (String) value.get("name");
-                value.put("name", prefix + "_" + name);
-                value.put("value", "\"" + prefix + "_" + name + "\"");
-
+                value.put("name", useSimplifiedEnumNames ? name : prefix + "_" + name);
+                value.put("value", useSimplifiedEnumNames ? name : "\"" + prefix + "_" + name + "\"");
             }
         }
 
         if (allowableValues.containsKey("values")) {
             List<Object> values = (List<Object>) allowableValues.get("values");
             for (Object value : values) {
-                value = prefix + "_" + String.valueOf(value);
+                value = useSimplifiedEnumNames ? value : prefix + "_" + value;
             }
         }
     }
@@ -522,7 +559,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
             if (allowableValues.containsKey("values")) {
                 List<String> values = (List<String>) allowableValues.get("values");
-                values.add(0, "UNSPECIFIED");
+                List<String> modifiableValues = new ArrayList<>(values);
+                modifiableValues.add(0, "UNSPECIFIED");
+                allowableValues.put("values", modifiableValues);
             }
         }
     }
@@ -542,24 +581,28 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public List<CodegenProperty> processOneOfAnyOfItems(List<CodegenProperty> composedSchemasProperty) {
         for(CodegenProperty cd: composedSchemasProperty) {
-            if (cd.getTitle() != null) {
-                cd.name = cd.getTitle();
-                cd.baseName = cd.getTitle();
-            } else{
-                cd.name = getNameFromDataType(cd);
-                cd.baseName = getNameFromDataType(cd);
-            }
+            cd.name = resolveVarName(cd);
+            cd.baseName = resolveVarName(cd);
         }
         return composedSchemasProperty;
     }
 
+
+    private String resolveVarName(CodegenProperty property) {
+        if(property.getTitle() != null) {
+            return toVarName(property.getTitle());
+        } else {
+            return getNameFromDataType(property);
+        }
+    }
+
     public String getNameFromDataType(CodegenProperty property) {
         if (Boolean.TRUE.equals(property.getIsArray())){
-            return underscore(property.mostInnerItems.dataType + ARRAY_SUFFIX);
+            return toVarName(property.mostInnerItems.dataType + ARRAY_SUFFIX);
         } else if (Boolean.TRUE.equals(property.getIsMap())) {
-            return underscore(property.mostInnerItems.dataType + MAP_SUFFIX);
+            return toVarName(property.mostInnerItems.dataType + MAP_SUFFIX);
         } else {
-            return underscore(property.dataType);
+            return toVarName(property.dataType);
         }
     }
 
@@ -944,12 +987,41 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
             }
+
+            if(this.supportMultipleResponses) {
+                int responseIdx = 1;
+                op.vendorExtensions.put("x-grpc-response", op.operationId+"Response");
+                for (CodegenResponse r : op.responses) {
+                    if (r.returnProperty == null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", "google.protobuf.Empty");
+                        r.vendorExtensions.put("x-oneOf-response-name", "empty");
+                    } else if (r.isMap && r.additionalProperties != null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.additionalProperties.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.additionalProperties));
+                        LOGGER.warn("Mapping responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                    } else if (r.isArray && r.items != null) {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.items.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty.items));
+                        LOGGER.warn("Array responses for operations with supportMultipleResponses flag (operation ID: {}) is not currently supported.", op.operationId);
+                    }
+                    else {
+                        r.vendorExtensions.put("x-oneOf-response-type", r.returnProperty.dataType);
+                        r.vendorExtensions.put("x-oneOf-response-name", resolveVarName(r.returnProperty));
+                    }
+                    r.vendorExtensions.put("x-oneOf-response-index", responseIdx++);
+                }
+            }
         }
 
         if (this.aggregateModelsName != null) {
+            List<Map<String, String>> imports = objs.getImports().stream()
+                    .filter(importMap -> !importMap.get("import").startsWith("models/"))
+                    .collect(Collectors.toList());
+
             List<Map<String, String>> aggregate_imports = Collections.singletonList(Collections
                     .singletonMap(IMPORT, toModelImport(this.aggregateModelsName)));
-            objs.setImports(aggregate_imports);
+            imports.addAll(aggregate_imports);
+            objs.setImports(imports);
         }
         return objs;
     }
@@ -1009,4 +1081,38 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return GeneratorLanguage.PROTOBUF;
     }
 
+
+/**
+ * Handles additionalProperties defined in composed schemas (e.g., allOf) by injecting into the model's properties.
+ * Example:
+ *  components:
+ *    schemas:
+ *      Dog:
+ *        allOf:
+ *          - $ref: '#/components/schemas/DogBase'
+ *          - type: object
+ *            additionalProperties:
+ *              title: pet
+ *              $ref: '#/components/schemas/Pet'
+ * In this case, the second allOf that defines a map with string keys and Pet values will be part of model's property.
+ */
+    @Override
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Set<Schema> visitedSchemas){
+        super.addProperties(properties, required, schema, visitedSchemas);
+        if(schema.getAdditionalProperties() != null) {
+            String addtionalPropertiesName = "default_map";
+            if(schema.getTitle() != null) {
+                addtionalPropertiesName = schema.getTitle();
+            } else {
+                Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+                if (additionalProperties.getTitle() != null) {
+                    addtionalPropertiesName = additionalProperties.getTitle();
+                } else if (additionalProperties.get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(additionalProperties.get$ref());
+                    addtionalPropertiesName = toVarName(toModelName(ref));
+                }
+            }
+            properties.put(addtionalPropertiesName, schema);
+        }
+    }
 }

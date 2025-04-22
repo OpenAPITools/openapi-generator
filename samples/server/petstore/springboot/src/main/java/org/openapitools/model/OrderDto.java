@@ -47,7 +47,7 @@ public class OrderDto {
     
     DELIVERED("delivered");
 
-    private String value;
+    private final String value;
 
     StatusEnum(String value) {
       this.value = value;

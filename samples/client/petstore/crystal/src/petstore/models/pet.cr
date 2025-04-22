@@ -10,12 +10,14 @@
 
 require "big"
 require "json"
+require "yaml"
 require "time"
 
 module Petstore
   # A pet for sale in the pet store
   class Pet
     include JSON::Serializable
+    include YAML::Serializable
 
     # Required properties
     @[JSON::Field(key: "name", type: String, nillable: false, emit_null: false)]
@@ -93,21 +95,21 @@ module Petstore
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.same?(o)
-      self.class == o.class &&
-          id == o.id &&
-          category == o.category &&
-          name == o.name &&
-          photo_urls == o.photo_urls &&
-          tags == o.tags &&
-          status == o.status
+    def ==(other)
+      return true if self.same?(other)
+      self.class == other.class &&
+          id == other.id &&
+          category == other.category &&
+          name == other.name &&
+          photo_urls == other.photo_urls &&
+          tags == other.tags &&
+          status == other.status
     end
 
     # @see the `==` method
     # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
+    def eql?(other)
+      self == other
     end
 
     # Calculates hash code according to all attributes.

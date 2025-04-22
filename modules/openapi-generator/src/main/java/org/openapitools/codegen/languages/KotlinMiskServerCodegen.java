@@ -57,8 +57,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
 
-    @Setter
-    protected String moduleClassName = "OpenApiModule";
+    @Setter protected String moduleClassName = "OpenApiModule";
 
     @Override
     public CodegenType getTag() {
@@ -122,7 +121,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         supportingFiles.clear();
 
         apiTemplateFiles.clear();
-        apiTemplateFiles.put("apiController.mustache", "Controller.kt");
+        apiTemplateFiles.put("apiAction.mustache", "Action.kt");
         apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
         apiTemplateFiles.put("apiInterface.mustache", ".kt");
         modelTemplateFiles.put("model.mustache", ".kt");
@@ -199,30 +198,38 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
     }
 
     private String mapMediaType(String mediaType) {
-        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* unknown -> " + mediaType + " */ ");
+        return MEDIA_MAPPING.getOrDefault(mediaType, "MediaTypes.APPLICATION_OCTETSTREAM /* @todo(unknown) -> " + mediaType + " */ ");
     }
 
     private final static Map<String, String> MEDIA_MAPPING = getMappings();
 
     private static Map<String, String> getMappings() {
+        // add new values in order
         Map<String, String> result = new HashMap<>();
-        result.put("application/json", "MediaTypes.APPLICATION_JSON");
-        result.put("application/xml", "MediaTypes.APPLICATION_XML");
-        result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
         result.put("*/*", "MediaTypes.ALL");
-        result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
+
+        result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
+        result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
+        result.put("application/json", "MediaTypes.APPLICATION_JSON");
         result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/pdf", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");
-        result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
+        result.put("application/x-www-form-urlencoded", "MediaTypes.APPLICATION_FORM_URLENCODED");
+        result.put("application/xml", "MediaTypes.APPLICATION_XML");
+        result.put("application/zip", "MediaTypes.APPLICATION_ZIP");
+
+        result.put("image/gif", "MediaTypes.IMAGE_GIF");
+        result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
+        result.put("image/png", "MediaTypes.IMAGE_PNG");
+        result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
+        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
+
+        result.put("multipart/form-data", "MediaTypes.FORM_DATA");
+
         result.put("text/css", "MediaTypes.TEXT_CSS");
         result.put("text/html", "MediaTypes.TEXT_HTML");
         result.put("text/plain", "MediaTypes.TEXT_PLAIN_UTF8");
-        result.put("image/png", "MediaTypes.IMAGE_PNG");
-        result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
-        result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
-        result.put("image/gif", "MediaTypes.IMAGE_GIF");
-        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
+
         return result;
     }
 }

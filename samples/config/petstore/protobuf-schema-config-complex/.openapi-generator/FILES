@@ -6,5 +6,6 @@ models/pet.proto
 models/string_array.proto
 models/string_map.proto
 models/tag.proto
+models/tag_map.proto
 models/tag_name.proto
 services/default_service.proto

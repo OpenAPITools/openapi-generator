@@ -70,6 +70,7 @@ class FakeClassnameTags123Controller extends Controller
             $apiResult = $this->api->testClassname($client);
         } catch (\Exception $exception) {
             // This shouldn't happen
+            report($exception);
             return response()->json(['error' => $exception->getMessage()], 500);
         }
 

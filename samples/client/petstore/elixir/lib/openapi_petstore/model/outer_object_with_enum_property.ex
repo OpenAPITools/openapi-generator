@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterObjectWithEnumProperty do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :value
   ]

@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :ArrayArrayNumber
   ]
