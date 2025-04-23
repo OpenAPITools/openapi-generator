@@ -15,7 +15,8 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@swagger/typescript-angular-petstore": ["builds/default"]
+      "@swagger/typescript-angular-petstore": ["builds/default"],
+      "@swagger/typescript-angular-deepobject": ["./builds/deep-object"]
     },
     "lib": [
       "es2022",
