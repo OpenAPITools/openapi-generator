@@ -61,6 +61,8 @@ jobs:
           - samples/client/petstore/java/webclient-swagger2
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/petstore/java/vertx
+          - samples/client/petstore/java/vertx-no-nullable
+          - samples/client/petstore/java/vertx-supportVertxFuture
           - samples/client/petstore/java/jersey2-java8-localdatetime
           - samples/client/petstore/java/google-api-client
           - samples/client/petstore/java/rest-assured

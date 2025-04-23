@@ -73,6 +73,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final int DEFAULT_SERVER_PORT = 8080;
     private static final String DEFAULT_PACKAGE_NAME = "openapi_server";
     private static final String DEFAULT_SOURCE_FOLDER = "src";
+    private static final String DEFAULT_IMPL_FOLDER = "impl";
     private static final String DEFAULT_PACKAGE_VERSION = "1.0.0";
     private static final String IS_LIBRARY = "isLibrary";
 
@@ -122,7 +123,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         additionalProperties.put("baseSuffix", BASE_CLASS_SUFFIX);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, DEFAULT_SOURCE_FOLDER);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
-        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_PACKAGE_NAME.concat(".impl"));
+        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_IMPL_FOLDER);
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
@@ -137,7 +138,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         apiPackage = "apis";
         modelPackage = "models";
         testPackage = "tests";
-        implPackage = "impl";
+        implPackage = DEFAULT_IMPL_FOLDER;
         apiTestTemplateFiles().put("api_test.mustache", ".py");
 
         // Adds the following options in the codegen CLI
@@ -178,6 +179,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
+        implPackage = packageName + "." + implPackage;
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));

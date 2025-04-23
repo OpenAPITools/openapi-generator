@@ -958,8 +958,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "str");
-                        // update `name`, e.g.
-                        enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                        // Do not overwrite the variable name if already set through x-enum-varnames
+                        if (model.vendorExtensions.get("x-enum-varnames") == null) {
+                            enumVars.put("name", toEnumVariableName((String) enumVars.get("value"), "str"));
+                        }
                     } else {
                         model.vendorExtensions.putIfAbsent("x-py-enum-type", "int");
                         // Do not overwrite the variable name if already set through x-enum-varnames

@@ -87,6 +87,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/main/java|
 |supportStreaming|Support streaming endpoint (beta)| |false|
 |supportUrlQuery|Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries.| |false|
+|supportVertxFuture|Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.| |false|
 |testOutput|Set output folder for models and APIs tests| |${project.build.directory}/generated-test-sources/openapi|
 |useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
