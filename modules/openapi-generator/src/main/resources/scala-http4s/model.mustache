@@ -56,7 +56,7 @@ object {{classname}} {
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
     for {
       {{#vars}}
-      {{name}} <- c.downField("{{baseName}}").as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]
+      {{name}} <- {{#isEnumOrRef}}{{^required}}mapEmptyStringToNull(c.downField("{{baseName}}")){{/required}}{{#required}}c.downField("{{baseName}}"){{/required}}{{/isEnumOrRef}}{{^isEnumOrRef}}c.downField("{{baseName}}"){{/isEnumOrRef}}.as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]
       {{/vars}}
     } yield {{classname}}(
       {{#vars}}
