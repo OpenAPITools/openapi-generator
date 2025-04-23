@@ -204,9 +204,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
 
             if (phpReturnTypeOptions.isEmpty()) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type-is-void", true);
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
                 operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", "void");
             } else {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type-is-void", false);
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", String.join("|", phpReturnTypeOptions));
                 operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", String.join("|", docReturnTypeOptions));
             }

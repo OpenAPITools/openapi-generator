@@ -72,8 +72,10 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**error**](docs/Api/DefaultApi.md#error) | **GET** /error | Will always generate an error
 *DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeBigDecimalMap**](docs/Api/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeDeletePet**](docs/Api/FakeApi.md#fakedeletepet) | **DELETE** /fake/pet/{pet_id} | 
 *FakeApi* | [**fakeEnumEndpoint**](docs/Api/FakeApi.md#fakeenumendpoint) | **GET** /fake/enum/endpoint | test endpoint with enum parameter
 *FakeApi* | [**fakeHealthGet**](docs/Api/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](docs/Api/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
@@ -145,6 +147,7 @@ Class | Method | HTTP request | Description
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
 - [EnumWithNameAndDescription](docs/Model/EnumWithNameAndDescription.md)
+- [Error](docs/Model/Error.md)
 - [ErrorResponse](docs/Model/ErrorResponse.md)
 - [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)

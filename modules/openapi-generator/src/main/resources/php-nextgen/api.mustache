@@ -190,8 +190,8 @@ use {{invokerPackage}}\ObjectSerializer;
     {{/vendorExtensions.x-group-parameters}}
     ): {{{vendorExtensions.x-php-return-type}}}
     {
-        {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}, {{/allParams}}{{#servers}}{{#-first}}$hostIndex, $variables, {{/-first}}{{/servers}}$contentType{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
-        return $response;{{/returnType}}
+        {{^vendorExtensions.x-php-return-type-is-void}}list($response) = {{/vendorExtensions.x-php-return-type-is-void}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}, {{/allParams}}{{#servers}}{{#-first}}$hostIndex, $variables, {{/-first}}{{/servers}}$contentType{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{^vendorExtensions.x-php-return-type-is-void}}
+        return $response;{{/vendorExtensions.x-php-return-type-is-void}}
     }
 
     /**
