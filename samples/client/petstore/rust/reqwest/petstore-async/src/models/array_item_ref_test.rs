@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// ArrayItemRefTest : Test handling of object reference in arrays
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct ArrayItemRefTest {
     #[serde(rename = "list_with_array_ref")]
     pub list_with_array_ref: Vec<Vec<String>>,

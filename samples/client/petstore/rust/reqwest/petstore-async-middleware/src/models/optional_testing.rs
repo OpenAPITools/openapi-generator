@@ -12,7 +12,7 @@ use crate::models;
 use serde::{Deserialize, Serialize};
 
 /// OptionalTesting : Test handling of optional and nullable fields
-#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, Eq, PartialEq, Hash, Serialize, Deserialize)]
 pub struct OptionalTesting {
     #[serde(rename = "optional_nonnull", skip_serializing_if = "Option::is_none")]
     pub optional_nonnull: Option<String>,
