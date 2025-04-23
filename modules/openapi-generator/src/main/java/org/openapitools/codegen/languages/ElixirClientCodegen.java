@@ -57,11 +57,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
 
-    String supportedElixirVersion = "1.10";
+    String supportedElixirVersion = "1.18";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 1.7\"}",
-            "{:jason, \"~> 1.4\"}",
             "{:ex_doc, \"~> 0.30\", only: :dev, runtime: false}",
             "{:dialyxir, \"~> 1.3\", only: [:dev, :test], runtime: false}");
 
@@ -571,7 +570,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
+            return "any()";
+        } else if(ModelUtils.isFreeFormObject(p, null)) {
+            return "%{optional(String.t) => any()}";
+        } else if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
@@ -694,7 +697,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
-            // Let Jason decode the entire response into a generic blob
+            // Decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
             }
@@ -857,6 +860,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
+            } else if (param.isAnyType) {
+                sb.append("any()");
+            } else if(param.isFreeFormObject) {
+                sb.append("%{optional(String.t) => any()}");
             } else if (param.isArray) {
                 // list(<subtype>)
                 sb.append("list(");
@@ -876,6 +883,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
             if (property == null) {
                 LOGGER.error(
                         "CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
+            } else if (property.isAnyType) {
+                sb.append("any()");
+            } else if(property.isFreeFormObject) {
+                sb.append("%{optional(String.t) => any()}");
             } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);

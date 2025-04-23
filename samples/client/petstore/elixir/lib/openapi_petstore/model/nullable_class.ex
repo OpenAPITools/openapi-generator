@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.NullableClass do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :integer_prop,
     :number_prop,
@@ -29,12 +29,12 @@ defmodule OpenapiPetstore.Model.NullableClass do
     :string_prop => String.t | nil,
     :date_prop => Date.t | nil,
     :datetime_prop => DateTime.t | nil,
-    :array_nullable_prop => [map()] | nil,
-    :array_and_items_nullable_prop => [map()] | nil,
-    :array_items_nullable => [map()] | nil,
-    :object_nullable_prop => %{optional(String.t) => map()} | nil,
-    :object_and_items_nullable_prop => %{optional(String.t) => map()} | nil,
-    :object_items_nullable => %{optional(String.t) => map()} | nil
+    :array_nullable_prop => [%{optional(String.t) => any()}] | nil,
+    :array_and_items_nullable_prop => [%{optional(String.t) => any()}] | nil,
+    :array_items_nullable => [%{optional(String.t) => any()}] | nil,
+    :object_nullable_prop => %{optional(String.t) => any()} | nil,
+    :object_and_items_nullable_prop => %{optional(String.t) => any()} | nil,
+    :object_items_nullable => %{optional(String.t) => any()} | nil
   }
 
   alias OpenapiPetstore.Deserializer

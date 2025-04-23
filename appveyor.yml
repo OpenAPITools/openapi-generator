@@ -43,6 +43,9 @@ build_script:
   #- dotnet build samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
 
 test_script:
+  - dotnet test samples\client\petstore\csharp\generichost\latest\Tags\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\latest\HelloWorld\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+
   - dotnet test samples\client\petstore\csharp\generichost\net9\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net9\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net9\AnyOfNoCompare\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj

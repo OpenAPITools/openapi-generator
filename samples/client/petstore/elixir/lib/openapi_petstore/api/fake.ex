@@ -305,6 +305,37 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+  test any type object
+  
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `body` (any()): request body
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, nil}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec test_any_type_object(Tesla.Env.client, any(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_any_type_object(connection, body, _opts \\ []) do
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/anyTypeObject")
+      |> add_param(:body, :body, body)
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, false}
+    ])
+  end
+
+  @doc """
   For this test, the body has to be a binary file.
 
   ### Parameters
@@ -582,6 +613,37 @@ defmodule OpenapiPetstore.Api.Fake do
     |> Connection.request(request)
     |> evaluate_response([
       {400, false}
+    ])
+  end
+
+  @doc """
+  test free form object with implicit additionalProperties
+  
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `body` (%{optional(String.t) => any()}): request body
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, nil}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec test_implicit_free_form_object(Tesla.Env.client, %{optional(String.t) => any()}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_implicit_free_form_object(connection, body, _opts \\ []) do
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/implicitFreeFormObject")
+      |> add_param(:body, :body, body)
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, false}
     ])
   end
 

@@ -12,6 +12,10 @@ syntax = "proto3";
 
 package petstore;
 
+option java_multiple_files = false;
+option java_package = "com.example.tutorial.protos.model";
+option java_outer_classname = "ExampleProtos";
+
 import public "google/protobuf/struct.proto";
 
 message ApiResponse {
@@ -45,11 +49,11 @@ message Dog {
   bool bark = 1;
 
   enum Breed {
-    BREED_UNSPECIFIED = 0;
-    BREED_DINGO = 1;
-    BREED_HUSKY = 2;
-    BREED_RETRIEVER = 3;
-    BREED_SHEPHERD = 4;
+    UNSPECIFIED = 0;
+    DINGO = 1;
+    HUSKY = 2;
+    RETRIEVER = 3;
+    SHEPHERD = 4;
   }
 
   Breed breed = 2;
@@ -78,10 +82,10 @@ message Order {
 
   // Order Status
   enum Status {
-    STATUS_UNSPECIFIED = 0;
-    STATUS_PLACED = 1;
-    STATUS_APPROVED = 2;
-    STATUS_DELIVERED = 3;
+    UNSPECIFIED = 0;
+    PLACED = 1;
+    APPROVED = 2;
+    DELIVERED = 3;
   }
 
   Status status = 5;
@@ -112,10 +116,10 @@ message Pet {
 
   // pet status in the store
   enum Status {
-    STATUS_UNSPECIFIED = 0;
-    STATUS_AVAILABLE = 1;
-    STATUS_PENDING = 2;
-    STATUS_SOLD = 3;
+    UNSPECIFIED = 0;
+    AVAILABLE = 1;
+    PENDING = 2;
+    SOLD = 3;
   }
 
   Status status = 6;

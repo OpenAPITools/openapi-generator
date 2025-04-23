@@ -5432,4 +5432,17 @@ public class SpringCodegenTest {
                 .assertTypeAnnotations()
                 .containsWithName("Validated");
     }
+
+    @Test
+    public void testEnumFieldShouldBeFinal_issue21018() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_21018.yaml");
+
+        JavaFileAssert.assertThat(files.get("SomeEnum.java"))
+                .fileContains("private final String value;");
+
+        JavaFileAssert.assertThat(files.get("SomeObject.java"))
+                .fileContains("private final String value");
+    }
 }

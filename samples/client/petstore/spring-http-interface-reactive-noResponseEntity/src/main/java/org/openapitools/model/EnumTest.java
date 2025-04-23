@@ -34,7 +34,7 @@ public class EnumTest {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringEnum(String value) {
       this.value = value;
@@ -73,7 +73,7 @@ public class EnumTest {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringRequiredEnum(String value) {
       this.value = value;
@@ -110,7 +110,7 @@ public class EnumTest {
     
     NUMBER_MINUS_1(-1);
 
-    private Integer value;
+    private final Integer value;
 
     EnumIntegerEnum(Integer value) {
       this.value = value;
@@ -147,7 +147,7 @@ public class EnumTest {
     
     NUMBER_MINUS_1_DOT_2(-1.2);
 
-    private Double value;
+    private final Double value;
 
     EnumNumberEnum(Double value) {
       this.value = value;

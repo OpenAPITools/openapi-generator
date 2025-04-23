@@ -9,9 +9,10 @@ Spectator.describe Petstore::ApiClient do
 
         header_params = {} of String => String
         query_params = {} of String => String
+        cookie_params = {} of String => String
 
         api_client = Petstore::ApiClient.new(config)
-        api_client.update_params_for_auth!(header_params, query_params, ["petstore_auth"])
+        api_client.update_params_for_auth!(header_params, query_params, cookie_params, ["petstore_auth"])
 
         expect(header_params["Authorization"]).to eq "Bearer xxx"
         expect(query_params.size).to eq 0
@@ -26,9 +27,10 @@ Spectator.describe Petstore::ApiClient do
 
           header_params = {} of String => String
           query_params = {} of String => String
+          cookie_params = {} of String => String
 
           api_client = Petstore::ApiClient.new(config)
-          api_client.update_params_for_auth!(header_params, query_params, ["api_key"])
+          api_client.update_params_for_auth!(header_params, query_params, cookie_params, ["api_key"])
 
           expect(header_params["api_key"]).to eq "xxx"
           expect(query_params.empty?).to be_true
@@ -43,9 +45,10 @@ Spectator.describe Petstore::ApiClient do
 
           header_params = {} of String => String
           query_params = {} of String => String
+          cookie_params = {} of String => String
 
           api_client = Petstore::ApiClient.new(config)
-          api_client.update_params_for_auth!(header_params, query_params, ["api_key"])
+          api_client.update_params_for_auth!(header_params, query_params, cookie_params, ["api_key"])
 
           expect(header_params["api_key"]).to eq "Token xxx"
           expect(query_params.empty?).to be_true

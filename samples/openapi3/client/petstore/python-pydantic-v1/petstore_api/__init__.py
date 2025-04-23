@@ -74,8 +74,10 @@ from petstore_api.models.dog import Dog
 from petstore_api.models.dummy_model import DummyModel
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
+from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
+from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.field import Field

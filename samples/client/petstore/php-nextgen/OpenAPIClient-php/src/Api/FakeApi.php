@@ -40,6 +40,7 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -74,6 +75,9 @@ class FakeApi
     /** @var string[] $contentTypes **/
     public const contentTypes = [
         'fakeBigDecimalMap' => [
+            'application/json',
+        ],
+        'fakeDeletePet' => [
             'application/json',
         ],
         'fakeEnumEndpoint' => [
@@ -452,6 +456,263 @@ class FakeApi
         $query = ObjectSerializer::buildQuery($queryParams);
         return new Request(
             'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation fakeDeletePet
+     *
+     * @param  string $pet_id The id of the pet to retrieve (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeDeletePet'] to see the possible values for this operation
+     *
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Error
+     */
+    public function fakeDeletePet(
+        string $pet_id,
+        string $contentType = self::contentTypes['fakeDeletePet'][0]
+    ): \OpenAPI\Client\Model\Error
+    {
+        list($response) = $this->fakeDeletePetWithHttpInfo($pet_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation fakeDeletePetWithHttpInfo
+     *
+     * @param  string $pet_id The id of the pet to retrieve (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeDeletePet'] to see the possible values for this operation
+     *
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeDeletePetWithHttpInfo(
+        string $pet_id,
+        string $contentType = self::contentTypes['fakeDeletePet'][0]
+    ): array
+    {
+        $request = $this->fakeDeletePetRequest($pet_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            return [null, $statusCode, $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Error',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeDeletePetAsync
+     *
+     * @param  string $pet_id The id of the pet to retrieve (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeDeletePet'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
+     */
+    public function fakeDeletePetAsync(
+        string $pet_id,
+        string $contentType = self::contentTypes['fakeDeletePet'][0]
+    ): PromiseInterface
+    {
+        return $this->fakeDeletePetAsyncWithHttpInfo($pet_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeDeletePetAsyncWithHttpInfo
+     *
+     * @param  string $pet_id The id of the pet to retrieve (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeDeletePet'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
+     */
+    public function fakeDeletePetAsyncWithHttpInfo(
+        string $pet_id,
+        string $contentType = self::contentTypes['fakeDeletePet'][0]
+    ): PromiseInterface
+    {
+        $returnType = '';
+        $request = $this->fakeDeletePetRequest($pet_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeDeletePet'
+     *
+     * @param  string $pet_id The id of the pet to retrieve (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeDeletePet'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function fakeDeletePetRequest(
+        string $pet_id,
+        string $contentType = self::contentTypes['fakeDeletePet'][0]
+    ): Request
+    {
+
+        // verify the required parameter 'pet_id' is set
+        if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
+            throw new InvalidArgumentException(
+                'Missing the required parameter $pet_id when calling fakeDeletePet'
+            );
+        }
+
+
+        $resourcePath = '/fake/pet/{pet_id}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+        // path params
+        if ($pet_id !== null) {
+            $resourcePath = str_replace(
+                '{' . 'pet_id' . '}',
+                ObjectSerializer::toPathValue($pet_id),
+                $resourcePath
+            );
+        }
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'DELETE',
             $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
@@ -5678,71 +5939,27 @@ class FakeApi
 
 
         // form params
-        if ($integer !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('integer', $integer));
-        }
-        // form params
-        if ($int32 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int32', $int32));
-        }
-        // form params
-        if ($int64 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int64', $int64));
-        }
-        // form params
-        if ($number !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('number', $number));
-        }
-        // form params
-        if ($float !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('float', $float));
-        }
-        // form params
-        if ($double !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('double', $double));
-        }
-        // form params
-        if ($string !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('string', $string));
-        }
-        // form params
-        if ($pattern_without_delimiter !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('pattern_without_delimiter', $pattern_without_delimiter));
-        }
-        // form params
-        if ($byte !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('byte', $byte));
-        }
-        // form params
-        if ($binary !== null) {
-            $multipart = true;
-            $formParams['binary'] = [];
-            $paramFiles = is_array($binary) ? $binary : [$binary];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['binary'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
-                    ? $paramFile
-                    : \GuzzleHttp\Psr7\Utils::tryFopen(
-                        ObjectSerializer::toFormValue('binary', $paramFile)['binary'],
-                        'rb'
-                    );
-            }
-        }
-        // form params
-        if ($date !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('date', $date));
-        }
-        // form params
-        if ($date_time !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('dateTime', $date_time));
-        }
-        // form params
-        if ($password !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('password', $password));
-        }
-        // form params
-        if ($callback !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('callback', $callback));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'integer' => $integer,
+            'int32' => $int32,
+            'int64' => $int64,
+            'number' => $number,
+            'float' => $float,
+            'double' => $double,
+            'string' => $string,
+            'pattern_without_delimiter' => $pattern_without_delimiter,
+            'byte' => $byte,
+            'binary' => $binary,
+            'date' => $date,
+            'date_time' => $date_time,
+            'password' => $password,
+            'callback' => $callback,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -6110,13 +6327,15 @@ class FakeApi
 
 
         // form params
-        if ($enum_form_string_array !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string_array', $enum_form_string_array));
-        }
-        // form params
-        if ($enum_form_string !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string', $enum_form_string));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'enum_form_string_array' => $enum_form_string_array,
+            'enum_form_string' => $enum_form_string,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -7148,13 +7367,15 @@ class FakeApi
 
 
         // form params
-        if ($param !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param', $param));
-        }
-        // form params
-        if ($param2 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param2', $param2));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'param' => $param,
+            'param2' => $param2,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],

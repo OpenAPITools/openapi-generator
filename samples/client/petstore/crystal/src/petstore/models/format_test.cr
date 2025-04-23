@@ -10,11 +10,13 @@
 
 require "big"
 require "json"
+require "yaml"
 require "time"
 
 module Petstore
   class FormatTest
     include JSON::Serializable
+    include YAML::Serializable
 
     # Required properties
     @[JSON::Field(key: "number", type: Float64, nillable: false, emit_null: false)]
@@ -283,31 +285,31 @@ module Petstore
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.same?(o)
-      self.class == o.class &&
-          integer == o.integer &&
-          int32 == o.int32 &&
-          int64 == o.int64 &&
-          number == o.number &&
-          float == o.float &&
-          double == o.double &&
-          decimal == o.decimal &&
-          string == o.string &&
-          byte == o.byte &&
-          binary == o.binary &&
-          date == o.date &&
-          date_time == o.date_time &&
-          uuid == o.uuid &&
-          password == o.password &&
-          pattern_with_digits == o.pattern_with_digits &&
-          pattern_with_digits_and_delimiter == o.pattern_with_digits_and_delimiter
+    def ==(other)
+      return true if self.same?(other)
+      self.class == other.class &&
+          integer == other.integer &&
+          int32 == other.int32 &&
+          int64 == other.int64 &&
+          number == other.number &&
+          float == other.float &&
+          double == other.double &&
+          decimal == other.decimal &&
+          string == other.string &&
+          byte == other.byte &&
+          binary == other.binary &&
+          date == other.date &&
+          date_time == other.date_time &&
+          uuid == other.uuid &&
+          password == other.password &&
+          pattern_with_digits == other.pattern_with_digits &&
+          pattern_with_digits_and_delimiter == other.pattern_with_digits_and_delimiter
     end
 
     # @see the `==` method
     # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
+    def eql?(other)
+      self == other
     end
 
     # Calculates hash code according to all attributes.

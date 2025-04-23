@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.File do
   Must be named `File` for test.
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :sourceURI
   ]
