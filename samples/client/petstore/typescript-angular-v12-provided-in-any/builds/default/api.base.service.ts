@@ -53,8 +53,8 @@ export class BaseService {
             // If JSON format is preferred, key must be provided.
             if (key != null) {
                 return isDeep
-                    ? Object.entries(value as Record<string, any>).reduce(
-                        (hp, [k, v]) => hp.append(`${key}[${k}]`, v),
+                    ? Object.keys(value as Record<string, any>).reduce(
+                        (hp, k) => hp.append(`${key}[${k}]`, value[k]),
                         httpParams,
                     )
                     : httpParams.append(key, JSON.stringify(value));
