@@ -15,7 +15,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('should create the app', async () => {
+  it('should query the deepObject query with the correct parameters', async () => {
     const httpTesting = TestBed.inject(HttpTestingController);
 
     const fixture = TestBed.createComponent(AppComponent);
