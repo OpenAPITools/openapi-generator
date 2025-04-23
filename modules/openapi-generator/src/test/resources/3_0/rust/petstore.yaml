@@ -1078,4 +1078,13 @@ components:
       required:
        - type
        - speed
-
+    DuplicateTest:
+      type: object
+      properties:
+        name:
+          type: string
+    Duplicatetest: # explicitly testing the same name with different casing
+      type: object
+      properties:
+        name:
+          type: string
