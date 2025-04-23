@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/v2/fake/nullable_example_test")]
         [ValidateModelState]
-        [ProducesResponseType(statusCode: 200, type: typeof(TestNullable))]
+        [ProducesResponseType(statusCode: 200, type: typeof(NullableClass))]
         public abstract IActionResult FakeNullableExampleTest();
 
         /// <summary>
