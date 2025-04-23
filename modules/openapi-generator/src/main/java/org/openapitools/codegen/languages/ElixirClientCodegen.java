@@ -570,7 +570,11 @@ public class ElixirClientCodegen extends DefaultCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+        if (ModelUtils.isAnyType(p)) {
+            return "any()";
+        } else if(ModelUtils.isFreeFormObject(p, null)) {
+            return "%{optional(String.t) => any()}";
+        } else if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
@@ -856,6 +860,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
         private void buildTypespec(CodegenParameter param, StringBuilder sb) {
             if (param.dataType == null) {
                 sb.append("nil");
+            } else if (param.isAnyType) {
+                sb.append("any()");
+            } else if(param.isFreeFormObject) {
+                sb.append("%{optional(String.t) => any()}");
             } else if (param.isArray) {
                 // list(<subtype>)
                 sb.append("list(");
@@ -875,6 +883,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
             if (property == null) {
                 LOGGER.error(
                         "CodegenProperty cannot be null. Please report the issue to https://github.com/openapitools/openapi-generator with the spec");
+            } else if (property.isAnyType) {
+                sb.append("any()");
+            } else if(property.isFreeFormObject) {
+                sb.append("%{optional(String.t) => any()}");
             } else if (property.isArray) {
                 sb.append("list(");
                 buildTypespec(property.items, sb);
