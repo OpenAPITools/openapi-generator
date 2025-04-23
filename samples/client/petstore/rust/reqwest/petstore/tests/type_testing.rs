@@ -14,6 +14,7 @@ fn test_types() {
         boolean: true,
         uuid: Uuid::new_v4(),
         bytes: vec![1, 2, 3, 4],
+        nullable_bytes: Some(Some(vec![1, 2, 3, 4])),
         decimal: String::from("foo"),
     };
     assert_eq!(type_of(tt.int32), "i32");

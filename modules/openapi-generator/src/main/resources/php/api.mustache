@@ -29,6 +29,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
+use {{invokerPackage}}\FormDataProcessor;
 use {{invokerPackage}}\HeaderSelector;
 use {{invokerPackage}}\ObjectSerializer;
 
@@ -646,23 +647,19 @@ use {{invokerPackage}}\ObjectSerializer;
         {{/pathParams}}
 
         {{#formParams}}
+        {{#-first}}
         // form params
-        if (${{paramName}} !== null) {
-            {{#isFile}}
-            $multipart = true;
-            $formParams['{{baseName}}'] = [];
-            $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                    ObjectSerializer::toFormValue('{{baseName}}', $paramFile)['{{baseName}}'],
-                    'rb'
-                );
-            }
-            {{/isFile}}
-            {{^isFile}}
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('{{baseName}}', ${{paramName}}));
-            {{/isFile}}
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+        {{/-first}}
+            '{{paramName}}' => ${{paramName}},
+        {{#-last}}
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
+        {{/-last}}
         {{/formParams}}
 
         {{#isMultipart}}

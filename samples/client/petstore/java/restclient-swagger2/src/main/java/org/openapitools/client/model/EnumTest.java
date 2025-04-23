@@ -443,6 +443,7 @@ public class EnumTest {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

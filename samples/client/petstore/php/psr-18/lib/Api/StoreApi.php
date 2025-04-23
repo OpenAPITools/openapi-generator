@@ -43,6 +43,7 @@ use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;

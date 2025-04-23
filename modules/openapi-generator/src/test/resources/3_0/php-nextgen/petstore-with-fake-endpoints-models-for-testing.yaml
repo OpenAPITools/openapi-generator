@@ -1444,6 +1444,51 @@ paths:
           description: Range of HTTP code 400-499
       requestBody:
         $ref: '#/components/requestBodies/Pet'
+  "/error":
+    get:
+      summary: Will always generate an error
+      operationId: error
+      responses: &commonErrors
+        "400":
+          description: The supplied request was not valid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Requested item was not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: The input to the operation was not valid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  "/fake/pet/{pet_id}":
+    delete:
+      operationId: fakeDeletePet
+      tags:
+        - fake
+      parameters:
+        - name: pet_id
+          in: path
+          required: true
+          description: The id of the pet to retrieve
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "Returns 204 No Content on success."
+        <<: *commonErrors
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2230,3 +2275,18 @@ components:
           type: integer
         error:
           type: string
+
+    Error:
+      title: Error
+      description: "Returned when the server encounters an error, either in client input or internally"
+      properties:
+        error:
+          type: string
+          description: "A human readable error message"
+        errors:
+          type: array
+          items:
+            type: string
+          description: "Optional array of multiple errors encountered during processing"
+      required:
+        - error

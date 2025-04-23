@@ -9,12 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 {{#jackson}}
-{{#feign-okhttp}}
-import feign.okhttp.OkHttpClient;
-{{/feign-okhttp}}
-{{#feign-hc5}}
-import feign.hc5.ApacheHttp5Client;
-{{/feign-hc5}}
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -76,12 +70,6 @@ public class ApiClient {
     {{#jackson}}
     objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
-                {{#feign-okhttp}}
-                .client(new OkHttpClient())
-                {{/feign-okhttp}}
-                {{#feign-hc5}}
-                .client(new ApacheHttp5Client())
-                {{/feign-hc5}}
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new ApiResponseDecoder(objectMapper))
                 {{#hasOAuthMethods}}
