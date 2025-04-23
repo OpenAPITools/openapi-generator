@@ -74,6 +74,7 @@ src/Api/StoreApi.php
 src/Api/UserApi.php
 src/ApiException.php
 src/Configuration.php
+src/FormDataProcessor.php
 src/HeaderSelector.php
 src/Model/AdditionalPropertiesClass.php
 src/Model/AllOfWithSingleRef.php
