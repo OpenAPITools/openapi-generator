@@ -575,10 +575,12 @@ public class HaskellYesodServerCodegen extends DefaultCodegen implements Codegen
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            this.executePostProcessor(new String[] {haskellPostProcessFile, file.toString()});
+            this.executePostProcessor(new String[]{haskellPostProcessFile, file.toString()});
         }
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.HASKELL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.HASKELL;
+    }
 }

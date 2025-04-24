@@ -3,21 +3,26 @@ lazy val root = (project in file(".")).
     organization := "{{groupId}}",
     name := "{{artifactId}}",
     version := "{{artifactVersion}}",
-    scalaVersion := "2.11.4",
+    scalaVersion := "2.11.12",
     scalacOptions ++= Seq("-feature"),
-    javacOptions in compile ++= Seq("-Xlint:deprecation"),
-    publishArtifact in (Compile, packageDoc) := false,
+    compile / javacOptions ++= Seq("-Xlint:deprecation"),
+    Compile / packageDoc / publishArtifact := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.6.11" % "compile",
       "com.google.code.findbugs" % "jsr305" % "3.0.2" % "compile",
-      "io.github.openfeign" % "feign-core" % "10.12" % "compile",
+      "io.github.openfeign" % "feign-core" % "13.5" % "compile",
 {{#jackson}}
-      "io.github.openfeign" % "feign-jackson" % "10.12" % "compile",
+      "io.github.openfeign" % "feign-jackson" % "13.5" % "compile",
 {{/jackson}}
-      "io.github.openfeign" % "feign-slf4j" % "10.12" % "compile",
+      "io.github.openfeign" % "feign-slf4j" % "13.5" % "compile",
       "io.github.openfeign.form" % "feign-form" % "3.8.0" % "compile",
-      "io.github.openfeign" % "feign-okhttp" % "10.12" % "compile",
+{{#feign-okhttp}}      
+      "io.github.openfeign" % "feign-okhttp" % "13.5" % "compile",
+{{/feign-okhttp}}
+{{#feign-hc5}}
+         "io.github.openfeign" % "feign-hc5" % "13.5" % "compile",
+{{/feign-hc5}}
 {{#jackson}}
       "com.fasterxml.jackson.core" % "jackson-core" % "2.17.1" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.17.1" % "compile",

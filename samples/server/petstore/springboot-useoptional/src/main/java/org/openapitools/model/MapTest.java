@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * MapTest
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class MapTest {
 
   @Valid
@@ -37,7 +37,7 @@ public class MapTest {
     
     LOWER("lower");
 
-    private String value;
+    private final String value;
 
     InnerEnum(String value) {
       this.value = value;

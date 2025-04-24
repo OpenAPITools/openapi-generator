@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host};
 use bytes::Bytes;
 use http::Method;
 use serde::{Deserialize, Serialize};
@@ -51,6 +51,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+        claims: &Self::Claims,
         path_params: &models::GetPaymentMethodByIdPathParams,
     ) -> Result<GetPaymentMethodByIdResponse, E>;
 
@@ -62,6 +63,7 @@ pub trait Payments<E: std::fmt::Debug + Send + Sync + 'static = ()>:
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+        claims: &Self::Claims,
     ) -> Result<GetPaymentMethodsResponse, E>;
 
     /// Make a payment.

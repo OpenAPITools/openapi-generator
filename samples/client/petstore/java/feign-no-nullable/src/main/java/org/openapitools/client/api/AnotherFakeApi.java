@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface AnotherFakeApi extends ApiClient.Api {
 
 
@@ -30,7 +30,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Accept: application/json",
     "uuid_test: {uuidTest}"
   })
-  Client call123testSpecialTags(@Param("uuidTest") UUID uuidTest, Client body);
+  Client call123testSpecialTags(@Param("uuidTest") @javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body);
 
   /**
    * To test special tags
@@ -46,7 +46,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Accept: application/json",
     "uuid_test: {uuidTest}"
   })
-  ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@Param("uuidTest") UUID uuidTest, Client body);
+  ApiResponse<Client> call123testSpecialTagsWithHttpInfo(@Param("uuidTest") @javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body);
 
 
 }

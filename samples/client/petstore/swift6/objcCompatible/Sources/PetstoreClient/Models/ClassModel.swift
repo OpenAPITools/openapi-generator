@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-@objcMembers public class ClassModel: NSObject, Codable, JSONEncodable {
+@objcMembers public class ClassModel: NSObject, Codable, QueryStringEncodable {
 
     public var _class: String?
 

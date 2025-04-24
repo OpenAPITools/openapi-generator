@@ -175,6 +175,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Boolean getStringEnums() {
         return this.stringEnums;
     }
+
     public void setStringEnums(Boolean stringEnums) {
         this.stringEnums = stringEnums;
     }
@@ -686,13 +687,14 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
 
         this.addOperationModelImportInformation(operations);
+        this.escapeOperationIds(operations);
         this.updateOperationParameterForEnum(operations);
         if (this.getSagasAndRecords()) {
             this.updateOperationParameterForSagaAndRecords(operations);
         }
         this.addOperationObjectResponseInformation(operations);
         this.addOperationPrefixParameterInterfacesInformation(operations);
-        this.escapeOperationIds(operations);
+
         return operations;
     }
 
@@ -780,16 +782,30 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
+
+        List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
+                .map(CodegenComposedSchemas::getOneOf)
+                .orElse(Collections.emptyList());
+
+        cm.oneOfModels = oneOfsList.stream()
+                .filter(CodegenProperty::getIsModel)
+                .map(CodegenProperty::getBaseType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        cm.oneOfArrays = oneOfsList.stream()
+                .filter(CodegenProperty::getIsArray)
+                .map(CodegenProperty::getComplexType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(TreeSet::new));
+
         if (!cm.oneOf.isEmpty()) {
             // For oneOfs only import $refs within the oneOf
-            TreeSet<String> oneOfRefs = new TreeSet<>();
-            for (String im : cm.imports) {
-                if (cm.oneOf.contains(im)) {
-                    oneOfRefs.add(im);
-                }
-            }
-            cm.imports = oneOfRefs;
+            cm.imports = cm.imports.stream()
+                    .filter(im -> cm.oneOfModels.contains(im) || cm.oneOfArrays.contains(im))
+                    .collect(Collectors.toCollection(TreeSet::new));
         }
+
         return cm;
     }
 
@@ -1472,6 +1488,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public class ExtendedCodegenModel extends CodegenModel {
         @Getter @Setter
         public Set<String> modelImports = new TreeSet<String>();
+
+        @Getter @Setter
+        public Set<String> oneOfModels = new TreeSet<>();
+        @Getter @Setter
+        public Set<String> oneOfArrays = new TreeSet<>();
+
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
@@ -1568,6 +1590,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setItems(cm.getItems());
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
+            this.setComposedSchemas(cm.getComposedSchemas());
         }
 
         @Override

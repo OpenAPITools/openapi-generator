@@ -340,7 +340,7 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withOutputDir(String outputDir) {
-            if (outputDir != null ) {
+            if (outputDir != null) {
                 this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();
             } else {
                 this.outputDir = DEFAULT_OUTPUT_DIR;
@@ -473,7 +473,7 @@ public class WorkflowSettings {
                 // check to see if the folder exists
                 if (f.exists() && f.isDirectory()) {
                     uri = f.toURI();
-                    this.templateDir =  Paths.get(uri).toAbsolutePath().normalize().toString();
+                    this.templateDir = Paths.get(uri).toAbsolutePath().normalize().toString();
                 } else {
                     String cpDir;
                     // HACK: this duplicates TemplateManager.getCPResourcePath a bit. We should probably move that function to core.
@@ -543,7 +543,7 @@ public class WorkflowSettings {
         /**
          * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param key The key of a system (global) property to set
+         * @param key   The key of a system (global) property to set
          * @param value The value of a system (global) property to set
          * @return a reference to this Builder
          */

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -40,7 +40,7 @@ public class StoreApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder(String orderId) throws ApiException {
+  public void deleteOrder(@javax.annotation.Nonnull String orderId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -121,7 +121,7 @@ public class StoreApi {
    * @return a {@code Order}
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById(Long orderId) throws ApiException {
+  public Order getOrderById(@javax.annotation.Nonnull Long orderId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
@@ -165,7 +165,7 @@ public class StoreApi {
    * @return a {@code Order}
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order order) throws ApiException {
+  public Order placeOrder(@javax.annotation.Nonnull Order order) throws ApiException {
     Object localVarPostBody = order;
     
     // verify the required parameter 'order' is set

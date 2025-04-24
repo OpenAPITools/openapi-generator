@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface PathApi extends ApiClient.Api {
 
 
@@ -29,7 +29,7 @@ public interface PathApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("enumNonrefStringPath") String enumNonrefStringPath, @Param("enumRefStringPath") StringEnumRef enumRefStringPath);
+  String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@Param("pathString") @javax.annotation.Nonnull String pathString, @Param("pathInteger") @javax.annotation.Nonnull Integer pathInteger, @Param("enumNonrefStringPath") @javax.annotation.Nonnull String enumNonrefStringPath, @Param("enumRefStringPath") @javax.annotation.Nonnull StringEnumRef enumRefStringPath);
 
   /**
    * Test path parameter(s)
@@ -45,7 +45,7 @@ public interface PathApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("enumNonrefStringPath") String enumNonrefStringPath, @Param("enumRefStringPath") StringEnumRef enumRefStringPath);
+  ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@Param("pathString") @javax.annotation.Nonnull String pathString, @Param("pathInteger") @javax.annotation.Nonnull Integer pathInteger, @Param("enumNonrefStringPath") @javax.annotation.Nonnull String enumNonrefStringPath, @Param("enumRefStringPath") @javax.annotation.Nonnull StringEnumRef enumRefStringPath);
 
 
 }

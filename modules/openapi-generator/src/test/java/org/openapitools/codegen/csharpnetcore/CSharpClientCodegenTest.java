@@ -16,11 +16,12 @@
 
 package org.openapitools.codegen.csharpnetcore;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,21 +31,15 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 public class CSharpClientCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("restsharp");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.toEnumVarName("FooBar", "string"), "FooBar");
@@ -63,6 +58,7 @@ public class CSharpClientCodegenTest {
         // test unsigned integer/long
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unsigned-test.yaml");
         CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("restsharp");
 
         Schema test1 = openAPI.getComponents().getSchemas().get("format_test");
         codegen.setOpenAPI(openAPI);
@@ -100,6 +96,7 @@ public class CSharpClientCodegenTest {
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
         CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
         cSharpClientCodegen.setAutosetConstants(true);
@@ -126,6 +123,7 @@ public class CSharpClientCodegenTest {
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
         CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.setAutosetConstants(true);
         clientOptInput.config(cSharpClientCodegen);
@@ -151,6 +149,7 @@ public class CSharpClientCodegenTest {
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
         CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.setAutosetConstants(true);
         clientOptInput.config(cSharpClientCodegen);

@@ -25,7 +25,9 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -146,10 +148,10 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
                 if (operation.allParams.stream().anyMatch(p -> p.isFormParam && p.isFile)) {
                     // If there is a file upload, exclude other form params since it's not clear how the user should access to these
                     operation.allParams = operation
-                        .allParams
-                        .stream()
-                        .filter(p -> !p.isFormParam || p.isFile)
-                        .collect(Collectors.toList());
+                            .allParams
+                            .stream()
+                            .filter(p -> !p.isFormParam || p.isFile)
+                            .collect(Collectors.toList());
                 } else if (operation.allParams.stream().anyMatch(p -> p.isFormParam)) {
                     // In Vert.x 4 Web OpenAPI the forms are handled as single json object
                     // We create a dummy param here and remove the other ones
@@ -159,8 +161,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
                     dummyParam.dataType = "JsonObject";
                     dummyParam.paramName = "formBody";
                     operation.allParams = Stream.concat(
-                        operation.allParams.stream().filter(p -> !p.isFormParam),
-                        Stream.of(dummyParam)
+                            operation.allParams.stream().filter(p -> !p.isFormParam),
+                            Stream.of(dummyParam)
                     ).collect(Collectors.toList());
                 }
             }

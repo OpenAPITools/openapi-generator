@@ -53,7 +53,7 @@ object Pet {
       name <- c.downField("name").as[String]
       photoUrls <- c.downField("photoUrls").as[Seq[String]]
       tags <- c.downField("tags").as[Option[Seq[Tag]]]
-      status <- c.downField("status").as[Option[PetStatus]]
+      status <- mapEmptyStringToNull(c.downField("status")).as[Option[PetStatus]]
     } yield Pet(
       id = id,
       category = category,

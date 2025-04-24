@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -33,33 +33,27 @@ where
             post(add_pet::<I, A, E, C>).put(update_pet::<I, A, E, C>),
         )
         .route(
-            "/v2/pet/:pet_id",
+            "/v2/pet/findByStatus",
+            get(find_pets_by_status::<I, A, E, C>),
+        )
+        .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
+        .route(
+            "/v2/pet/{pet_id}",
             delete(delete_pet::<I, A, E, C>)
                 .get(get_pet_by_id::<I, A, E, C>)
                 .post(update_pet_with_form::<I, A, E, C>),
         )
         .route(
-            "/v2/pet/:pet_id/uploadImage",
+            "/v2/pet/{pet_id}/uploadImage",
             post(upload_file::<I, A, E, C>),
         )
-        .route(
-            "/v2/pet/findByStatus",
-            get(find_pets_by_status::<I, A, E, C>),
-        )
-        .route("/v2/pet/findByTags", get(find_pets_by_tags::<I, A, E, C>))
         .route("/v2/store/inventory", get(get_inventory::<I, A, E, C>))
         .route("/v2/store/order", post(place_order::<I, A, E, C>))
         .route(
-            "/v2/store/order/:order_id",
+            "/v2/store/order/{order_id}",
             delete(delete_order::<I, A, E, C>).get(get_order_by_id::<I, A, E, C>),
         )
         .route("/v2/user", post(create_user::<I, A, E, C>))
-        .route(
-            "/v2/user/:username",
-            delete(delete_user::<I, A, E, C>)
-                .get(get_user_by_name::<I, A, E, C>)
-                .put(update_user::<I, A, E, C>),
-        )
         .route(
             "/v2/user/createWithArray",
             post(create_users_with_array_input::<I, A, E, C>),
@@ -70,6 +64,12 @@ where
         )
         .route("/v2/user/login", get(login_user::<I, A, E, C>))
         .route("/v2/user/logout", get(logout_user::<I, A, E, C>))
+        .route(
+            "/v2/user/{username}",
+            delete(delete_user::<I, A, E, C>)
+                .get(get_user_by_name::<I, A, E, C>)
+                .put(update_user::<I, A, E, C>),
+        )
         .with_state(api_impl)
 }
 
@@ -146,7 +146,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -243,7 +242,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -271,7 +269,7 @@ async fn find_pets_by_status<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::FindPetsByStatusQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::FindPetsByStatusQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -325,7 +323,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -353,7 +350,7 @@ async fn find_pets_by_tags<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::FindPetsByTagsQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::FindPetsByTagsQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -407,7 +404,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -506,7 +502,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -603,7 +598,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -688,7 +682,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -773,7 +766,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -842,7 +834,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -935,7 +926,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1020,7 +1010,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1109,7 +1098,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1196,7 +1184,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1284,7 +1271,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1372,7 +1358,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1455,7 +1440,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1540,7 +1524,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1568,7 +1551,7 @@ async fn login_user<I, A, E, C>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::LoginUserQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::LoginUserQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1674,7 +1657,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1748,7 +1730,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1842,7 +1823,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)

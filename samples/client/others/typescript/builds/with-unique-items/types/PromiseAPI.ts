@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { Response } from '../models/Response';
 import { ObservableDefaultApi } from './ObservableAPI';
@@ -18,15 +19,17 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public uniqueItemsWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Response>> {
-        const result = this.api.uniqueItemsWithHttpInfo(_options);
+    public uniqueItemsWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uniqueItemsWithHttpInfo(observableOptions);
         return result.toPromise();
     }
 
     /**
      */
-    public uniqueItems(_options?: Configuration): Promise<Response> {
-        const result = this.api.uniqueItems(_options);
+    public uniqueItems(_options?: PromiseConfigurationOptions): Promise<Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.uniqueItems(observableOptions);
         return result.toPromise();
     }
 

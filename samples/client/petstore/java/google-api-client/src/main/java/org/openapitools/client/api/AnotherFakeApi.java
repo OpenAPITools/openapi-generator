@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class AnotherFakeApi {
     private ApiClient apiClient;
 
@@ -51,7 +51,7 @@ public class AnotherFakeApi {
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client call123testSpecialTags(UUID uuidTest, Client body) throws IOException {
+    public Client call123testSpecialTags(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body) throws IOException {
         HttpResponse response = call123testSpecialTagsForHttpResponse(uuidTest, body);
         TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -67,13 +67,13 @@ public class AnotherFakeApi {
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client call123testSpecialTags(UUID uuidTest, Client body, Map<String, Object> params) throws IOException {
+    public Client call123testSpecialTags(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body, Map<String, Object> params) throws IOException {
         HttpResponse response = call123testSpecialTagsForHttpResponse(uuidTest, body, params);
         TypeReference<Client> typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse call123testSpecialTagsForHttpResponse(UUID uuidTest, Client body) throws IOException {
+    public HttpResponse call123testSpecialTagsForHttpResponse(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body) throws IOException {
         // verify the required parameter 'uuidTest' is set
         if (uuidTest == null) {
             throw new IllegalArgumentException("Missing the required parameter 'uuidTest' when calling call123testSpecialTags");
@@ -90,7 +90,7 @@ public class AnotherFakeApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
-      public HttpResponse call123testSpecialTagsForHttpResponse(UUID uuidTest, java.io.InputStream body, String mediaType) throws IOException {
+      public HttpResponse call123testSpecialTagsForHttpResponse(@javax.annotation.Nonnull UUID uuidTest, java.io.InputStream body, String mediaType) throws IOException {
           // verify the required parameter 'uuidTest' is set
               if (uuidTest == null) {
               throw new IllegalArgumentException("Missing the required parameter 'uuidTest' when calling call123testSpecialTags");
@@ -109,7 +109,7 @@ public class AnotherFakeApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
       }
 
-    public HttpResponse call123testSpecialTagsForHttpResponse(UUID uuidTest, Client body, Map<String, Object> params) throws IOException {
+    public HttpResponse call123testSpecialTagsForHttpResponse(@javax.annotation.Nonnull UUID uuidTest, @javax.annotation.Nonnull Client body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'uuidTest' is set
         if (uuidTest == null) {
             throw new IllegalArgumentException("Missing the required parameter 'uuidTest' when calling call123testSpecialTags");

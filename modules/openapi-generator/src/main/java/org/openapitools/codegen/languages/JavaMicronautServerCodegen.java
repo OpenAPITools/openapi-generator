@@ -7,6 +7,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.StringUtils;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.stream.Collectors;
 
 /**
  * @deprecated WARNING! This generator is outdated. Please use the official generator for Micronaut:
- *      <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
- *      <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
- *      <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
+ * <a href="https://github.com/micronaut-projects/micronaut-openapi">micronaut-openapi</a> with the help of the plugin for
+ * <a href="https://github.com/micronaut-projects/micronaut-gradle-plugin">Gradle</a> and
+ * <a href="https://github.com/micronaut-projects/micronaut-maven-plugin">Maven</a>.
  */
 @SuppressWarnings("removal")
 @Deprecated(forRemoval = true)
@@ -66,8 +67,8 @@ public class JavaMicronautServerCodegen extends JavaMicronautAbstractCodegen {
                 generateControllerFromExamples));
         cliOptions.add(CliOption.newBoolean(OPT_GENERATE_CONTROLLER_AS_ABSTRACT,
                 "Generate an abstract class for controller to be extended. (" + CodegenConstants.API_PACKAGE +
-                " is then used for the abstract class, and " + OPT_CONTROLLER_PACKAGE +
-                " is used for implementation that extends it.)",
+                        " is then used for the abstract class, and " + OPT_CONTROLLER_PACKAGE +
+                        " is used for implementation that extends it.)",
                 generateControllerAsAbstract));
         cliOptions.add(CliOption.newBoolean(OPT_GENERATE_OPERATIONS_TO_RETURN_NOT_IMPLEMENTED,
                 "Return HTTP 501 Not Implemented instead of an empty response in the generated controller methods.",

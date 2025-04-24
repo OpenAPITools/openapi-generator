@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class UserApi {
   private ApiClient apiClient;
 
@@ -59,7 +59,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUser(User user) throws ApiException {
+  public void createUser(@javax.annotation.Nonnull User user) throws ApiException {
     createUserWithHttpInfo(user);
   }
 
@@ -76,7 +76,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
+  public ApiResponse<Void> createUserWithHttpInfo(@javax.annotation.Nonnull User user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
@@ -100,7 +100,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithArrayInput(List<User> user) throws ApiException {
+  public void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
     createUsersWithArrayInputWithHttpInfo(user);
   }
 
@@ -117,7 +117,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
@@ -141,7 +141,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithListInput(List<User> user) throws ApiException {
+  public void createUsersWithListInput(@javax.annotation.Nonnull List<User> user) throws ApiException {
     createUsersWithListInputWithHttpInfo(user);
   }
 
@@ -158,7 +158,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(@javax.annotation.Nonnull List<User> user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
@@ -183,7 +183,7 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public void deleteUser(String username) throws ApiException {
+  public void deleteUser(@javax.annotation.Nonnull String username) throws ApiException {
     deleteUserWithHttpInfo(username);
   }
 
@@ -201,7 +201,7 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
+  public ApiResponse<Void> deleteUserWithHttpInfo(@javax.annotation.Nonnull String username) throws ApiException {
     // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
@@ -232,7 +232,7 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public User getUserByName(String username) throws ApiException {
+  public User getUserByName(@javax.annotation.Nonnull String username) throws ApiException {
     return getUserByNameWithHttpInfo(username).getData();
   }
 
@@ -251,7 +251,7 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
+  public ApiResponse<User> getUserByNameWithHttpInfo(@javax.annotation.Nonnull String username) throws ApiException {
     // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
@@ -283,7 +283,7 @@ public class UserApi {
        <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
    */
-  public String loginUser(String username, String password) throws ApiException {
+  public String loginUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
     return loginUserWithHttpInfo(username, password).getData();
   }
 
@@ -302,7 +302,7 @@ public class UserApi {
        <tr><td> 400 </td><td> Invalid username/password supplied </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
+  public ApiResponse<String> loginUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password) throws ApiException {
     // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser");
@@ -372,7 +372,7 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public void updateUser(String username, User user) throws ApiException {
+  public void updateUser(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
     updateUserWithHttpInfo(username, user);
   }
 
@@ -391,7 +391,7 @@ public class UserApi {
        <tr><td> 404 </td><td> User not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
+  public ApiResponse<Void> updateUserWithHttpInfo(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User user) throws ApiException {
     // Check required parameters
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");

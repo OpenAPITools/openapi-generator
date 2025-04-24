@@ -123,6 +123,20 @@ func (obj *IncidentData) GetActualInstance() (interface{}) {
 	return nil
 }
 
+// Get the actual instance value
+func (obj IncidentData) GetActualInstanceValue() (interface{}) {
+	if obj.ArrayOfMapmapOfStringAny != nil {
+		return *obj.ArrayOfMapmapOfStringAny
+	}
+
+	if obj.MapmapOfStringAny != nil {
+		return *obj.MapmapOfStringAny
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableIncidentData struct {
 	value *IncidentData
 	isSet bool

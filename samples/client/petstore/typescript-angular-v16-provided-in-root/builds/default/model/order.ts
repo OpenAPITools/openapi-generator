@@ -24,12 +24,12 @@ export interface Order {
     complete?: boolean;
 }
 export namespace Order {
-    export type StatusEnum = 'placed' | 'approved' | 'delivered';
     export const StatusEnum = {
-        Placed: 'placed' as StatusEnum,
-        Approved: 'approved' as StatusEnum,
-        SHIPPED: 'delivered' as StatusEnum
-    };
+        Placed: 'placed',
+        Approved: 'approved',
+        SHIPPED: 'delivered'
+    } as const;
+    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
 }
 
 

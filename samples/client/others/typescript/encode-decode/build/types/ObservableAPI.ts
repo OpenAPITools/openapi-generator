@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, ConfigurationOptions, mergeConfiguration } from '../configuration'
+import type { Middleware } from '../middleware';
 import { Observable, of, from } from '../rxjsStub';
 import {mergeMap, map} from  '../rxjsStub';
 import { ComplexObject } from '../models/ComplexObject';
@@ -23,19 +24,20 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfArraysGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<Array<string>>>> {
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfArraysGet(_options);
+    public testDecodeArrayOfArraysGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<Array<string>>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfArraysGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeArrayOfArraysGetWithHttpInfo(rsp)));
@@ -44,25 +46,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfArraysGet(_options?: Configuration): Observable<Array<Array<string>>> {
+    public testDecodeArrayOfArraysGet(_options?: ConfigurationOptions): Observable<Array<Array<string>>> {
         return this.testDecodeArrayOfArraysGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<Array<string>>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<string>>> {
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfGet(_options);
+    public testDecodeArrayOfGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<string>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeArrayOfGetWithHttpInfo(rsp)));
@@ -71,25 +74,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfGet(_options?: Configuration): Observable<Array<string>> {
+    public testDecodeArrayOfGet(_options?: ConfigurationOptions): Observable<Array<string>> {
         return this.testDecodeArrayOfGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<string>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfMapsOfObjectsGet(_options);
+    public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfMapsOfObjectsGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(rsp)));
@@ -98,25 +102,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfMapsOfObjectsGet(_options?: Configuration): Observable<Array<{ [key: string]: ComplexObject; }>> {
+    public testDecodeArrayOfMapsOfObjectsGet(_options?: ConfigurationOptions): Observable<Array<{ [key: string]: ComplexObject; }>> {
         return this.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<{ [key: string]: ComplexObject; }>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfNullableGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<string | null>>> {
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableGet(_options);
+    public testDecodeArrayOfNullableGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<string | null>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeArrayOfNullableGetWithHttpInfo(rsp)));
@@ -125,25 +130,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableGet(_options?: Configuration): Observable<Array<string | null>> {
+    public testDecodeArrayOfNullableGet(_options?: ConfigurationOptions): Observable<Array<string | null>> {
         return this.testDecodeArrayOfNullableGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<string | null>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<ComplexObject>>> {
-        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableObjectsGet(_options);
+    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<ComplexObject>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableObjectsGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeArrayOfNullableObjectsGetWithHttpInfo(rsp)));
@@ -152,25 +158,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGet(_options?: Configuration): Observable<Array<ComplexObject>> {
+    public testDecodeArrayOfNullableObjectsGet(_options?: ConfigurationOptions): Observable<Array<ComplexObject>> {
         return this.testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<ComplexObject>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeCompositeObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<CompositeObject>> {
-        const requestContextPromise = this.requestFactory.testDecodeCompositeObjectsGet(_options);
+    public testDecodeCompositeObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<CompositeObject>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeCompositeObjectsGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeCompositeObjectsGetWithHttpInfo(rsp)));
@@ -179,25 +186,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeCompositeObjectsGet(_options?: Configuration): Observable<CompositeObject> {
+    public testDecodeCompositeObjectsGet(_options?: ConfigurationOptions): Observable<CompositeObject> {
         return this.testDecodeCompositeObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<CompositeObject>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
-        const requestContextPromise = this.requestFactory.testDecodeMapOfMapsOfObjectsGet(_options);
+    public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeMapOfMapsOfObjectsGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(rsp)));
@@ -206,25 +214,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfMapsOfObjectsGet(_options?: Configuration): Observable<{ [key: string]: { [key: string]: ComplexObject; }; }> {
+    public testDecodeMapOfMapsOfObjectsGet(_options?: ConfigurationOptions): Observable<{ [key: string]: { [key: string]: ComplexObject; }; }> {
         return this.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
-        const requestContextPromise = this.requestFactory.testDecodeMapOfObjectsGet(_options);
+    public testDecodeMapOfObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeMapOfObjectsGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeMapOfObjectsGetWithHttpInfo(rsp)));
@@ -233,25 +242,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfObjectsGet(_options?: Configuration): Observable<{ [key: string]: ComplexObject | null; }> {
+    public testDecodeMapOfObjectsGet(_options?: ConfigurationOptions): Observable<{ [key: string]: ComplexObject | null; }> {
         return this.testDecodeMapOfObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: ComplexObject | null; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<{ [key: string]: string; }>> {
-        const requestContextPromise = this.requestFactory.testDecodeMapOfPrimitiveGet(_options);
+    public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<{ [key: string]: string; }>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeMapOfPrimitiveGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeMapOfPrimitiveGetWithHttpInfo(rsp)));
@@ -260,25 +270,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeMapOfPrimitiveGet(_options?: Configuration): Observable<{ [key: string]: string; }> {
+    public testDecodeMapOfPrimitiveGet(_options?: ConfigurationOptions): Observable<{ [key: string]: string; }> {
         return this.testDecodeMapOfPrimitiveGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<{ [key: string]: string; }>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeNullableArrayGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<string>>> {
-        const requestContextPromise = this.requestFactory.testDecodeNullableArrayGet(_options);
+    public testDecodeNullableArrayGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<string>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeNullableArrayGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeNullableArrayGetWithHttpInfo(rsp)));
@@ -287,25 +298,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeNullableArrayGet(_options?: Configuration): Observable<Array<string>> {
+    public testDecodeNullableArrayGet(_options?: ConfigurationOptions): Observable<Array<string>> {
         return this.testDecodeNullableArrayGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<string>>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeNullableGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<string>> {
-        const requestContextPromise = this.requestFactory.testDecodeNullableGet(_options);
+    public testDecodeNullableGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeNullableGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeNullableGetWithHttpInfo(rsp)));
@@ -314,25 +326,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeNullableGet(_options?: Configuration): Observable<string> {
+    public testDecodeNullableGet(_options?: ConfigurationOptions): Observable<string> {
         return this.testDecodeNullableGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodeObjectGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<ComplexObject>> {
-        const requestContextPromise = this.requestFactory.testDecodeObjectGet(_options);
+    public testDecodeObjectGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<ComplexObject>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodeObjectGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodeObjectGetWithHttpInfo(rsp)));
@@ -341,25 +354,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeObjectGet(_options?: Configuration): Observable<ComplexObject> {
+    public testDecodeObjectGet(_options?: ConfigurationOptions): Observable<ComplexObject> {
         return this.testDecodeObjectGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<ComplexObject>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<boolean>> {
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveBooleanGet(_options);
+    public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<boolean>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveBooleanGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodePrimitiveBooleanGetWithHttpInfo(rsp)));
@@ -368,25 +382,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveBooleanGet(_options?: Configuration): Observable<boolean> {
+    public testDecodePrimitiveBooleanGet(_options?: ConfigurationOptions): Observable<boolean> {
         return this.testDecodePrimitiveBooleanGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<boolean>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<number>> {
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveIntegerGet(_options);
+    public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<number>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveIntegerGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodePrimitiveIntegerGetWithHttpInfo(rsp)));
@@ -395,25 +410,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveIntegerGet(_options?: Configuration): Observable<number> {
+    public testDecodePrimitiveIntegerGet(_options?: ConfigurationOptions): Observable<number> {
         return this.testDecodePrimitiveIntegerGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<number>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveNumberGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<number>> {
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveNumberGet(_options);
+    public testDecodePrimitiveNumberGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<number>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveNumberGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodePrimitiveNumberGetWithHttpInfo(rsp)));
@@ -422,25 +438,26 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveNumberGet(_options?: Configuration): Observable<number> {
+    public testDecodePrimitiveNumberGet(_options?: ConfigurationOptions): Observable<number> {
         return this.testDecodePrimitiveNumberGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<number>) => apiResponse.data));
     }
 
     /**
      */
-    public testDecodePrimitiveStringGetWithHttpInfo(_options?: Configuration): Observable<HttpInfo<string>> {
-        const requestContextPromise = this.requestFactory.testDecodePrimitiveStringGet(_options);
+    public testDecodePrimitiveStringGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testDecodePrimitiveStringGet(_config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testDecodePrimitiveStringGetWithHttpInfo(rsp)));
@@ -449,26 +466,27 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodePrimitiveStringGet(_options?: Configuration): Observable<string> {
+    public testDecodePrimitiveStringGet(_options?: ConfigurationOptions): Observable<string> {
         return this.testDecodePrimitiveStringGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfArraysPost(requestBody, _options);
+    public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfArraysPost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeArrayOfArraysPostWithHttpInfo(rsp)));
@@ -478,26 +496,27 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: Configuration): Observable<void> {
+    public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfMapsOfObjectsPost(complexObject, _options);
+    public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfMapsOfObjectsPost(complexObject, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(rsp)));
@@ -507,26 +526,27 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: Configuration): Observable<void> {
+    public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullableObjectsPost(complexObject, _options);
+    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullableObjectsPost(complexObject, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeArrayOfNullableObjectsPostWithHttpInfo(rsp)));
@@ -536,26 +556,27 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: Configuration): Observable<void> {
+    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullablePost(requestBody, _options);
+    public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfNullablePost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeArrayOfNullablePostWithHttpInfo(rsp)));
@@ -565,26 +586,27 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: Configuration): Observable<void> {
+    public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeArrayOfPost(requestBody, _options);
+    public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeArrayOfPost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeArrayOfPostWithHttpInfo(rsp)));
@@ -594,26 +616,27 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeArrayOfPost(requestBody: Array<string>, _options?: Configuration): Observable<void> {
+    public testEncodeArrayOfPost(requestBody: Array<string>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param compositeObject
      */
-    public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeCompositeObjectsPost(compositeObject, _options);
+    public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeCompositeObjectsPost(compositeObject, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeCompositeObjectsPostWithHttpInfo(rsp)));
@@ -623,26 +646,27 @@ export class ObservableDefaultApi {
     /**
      * @param compositeObject
      */
-    public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: Configuration): Observable<void> {
+    public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeMapOfMapsOfObjectsPost(requestBody, _options);
+    public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeMapOfMapsOfObjectsPost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(rsp)));
@@ -652,26 +676,27 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: Configuration): Observable<void> {
+    public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeMapOfObjectsPost(requestBody, _options);
+    public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeMapOfObjectsPost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeMapOfObjectsPostWithHttpInfo(rsp)));
@@ -681,26 +706,27 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: Configuration): Observable<void> {
+    public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeMapOfPrimitivePost(requestBody, _options);
+    public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeMapOfPrimitivePost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeMapOfPrimitivePostWithHttpInfo(rsp)));
@@ -710,26 +736,27 @@ export class ObservableDefaultApi {
     /**
      * @param requestBody
      */
-    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: Configuration): Observable<void> {
+    public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param [requestBody]
      */
-    public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeNullableArrayPost(requestBody, _options);
+    public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeNullableArrayPost(requestBody, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeNullableArrayPostWithHttpInfo(rsp)));
@@ -739,26 +766,27 @@ export class ObservableDefaultApi {
     /**
      * @param [requestBody]
      */
-    public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: Configuration): Observable<void> {
+    public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeNullableArrayPostWithHttpInfo(requestBody, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param [body]
      */
-    public testEncodeNullablePostWithHttpInfo(body?: string, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeNullablePost(body, _options);
+    public testEncodeNullablePostWithHttpInfo(body?: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeNullablePost(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeNullablePostWithHttpInfo(rsp)));
@@ -768,26 +796,27 @@ export class ObservableDefaultApi {
     /**
      * @param [body]
      */
-    public testEncodeNullablePost(body?: string, _options?: Configuration): Observable<void> {
+    public testEncodeNullablePost(body?: string, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeNullablePostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param complexObject
      */
-    public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodeObjectPost(complexObject, _options);
+    public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodeObjectPost(complexObject, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodeObjectPostWithHttpInfo(rsp)));
@@ -797,26 +826,27 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeObjectPost(complexObject: ComplexObject, _options?: Configuration): Observable<void> {
+    public testEncodeObjectPost(complexObject: ComplexObject, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeObjectPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveBooleanPost(body, _options);
+    public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveBooleanPost(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodePrimitiveBooleanPostWithHttpInfo(rsp)));
@@ -826,26 +856,27 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveBooleanPost(body: boolean, _options?: Configuration): Observable<void> {
+    public testEncodePrimitiveBooleanPost(body: boolean, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveBooleanPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveIntegerPost(body, _options);
+    public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveIntegerPost(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodePrimitiveIntegerPostWithHttpInfo(rsp)));
@@ -855,26 +886,27 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveIntegerPost(body: number, _options?: Configuration): Observable<void> {
+    public testEncodePrimitiveIntegerPost(body: number, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveIntegerPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveNumberPost(body, _options);
+    public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveNumberPost(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodePrimitiveNumberPostWithHttpInfo(rsp)));
@@ -884,26 +916,27 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveNumberPost(body: number, _options?: Configuration): Observable<void> {
+    public testEncodePrimitiveNumberPost(body: number, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveNumberPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 
     /**
      * @param body
      */
-    public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: Configuration): Observable<HttpInfo<void>> {
-        const requestContextPromise = this.requestFactory.testEncodePrimitiveStringPost(body, _options);
+    public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
 
+        const requestContextPromise = this.requestFactory.testEncodePrimitiveStringPost(body, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of this.configuration.middleware) {
+        for (const middleware of _config.middleware) {
             middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
         }
 
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
             pipe(mergeMap((response: ResponseContext) => {
                 let middlewarePostObservable = of(response);
-                for (const middleware of this.configuration.middleware) {
+                for (const middleware of _config.middleware.reverse()) {
                     middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
                 }
                 return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.testEncodePrimitiveStringPostWithHttpInfo(rsp)));
@@ -913,7 +946,7 @@ export class ObservableDefaultApi {
     /**
      * @param body
      */
-    public testEncodePrimitiveStringPost(body: string, _options?: Configuration): Observable<void> {
+    public testEncodePrimitiveStringPost(body: string, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodePrimitiveStringPostWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 

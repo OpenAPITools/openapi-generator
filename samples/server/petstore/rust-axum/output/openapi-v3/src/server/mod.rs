@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
 use bytes::Bytes;
 use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
 use tracing::error;
@@ -35,7 +35,7 @@ where
         .route("/complex-query-param",
             get(complex_query_param_get::<I, A, E>)
         )
-        .route("/enum_in_path/:path_param",
+        .route("/enum_in_path/{path_param}",
             get(enum_in_path_path_param_get::<I, A, E>)
         )
         .route("/form-test",
@@ -56,7 +56,7 @@ where
         .route("/multiget",
             get(multiget_get::<I, A, E>)
         )
-        .route("/multiple-path-params-with-very-long-path-to-test-formatting/:path_param_a/:path_param_b",
+        .route("/multiple-path-params-with-very-long-path-to-test-formatting/{path_param_a}/{path_param_b}",
             get(multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get::<I, A, E>)
         )
         .route("/multiple_auth_scheme",
@@ -83,7 +83,7 @@ where
         .route("/repos",
             post(create_repo::<I, A, E>)
         )
-        .route("/repos/:repo_id",
+        .route("/repos/{repo_id}",
             get(get_repo_info::<I, A, E>).get(get_repo_info::<I, A, E>)
         )
         .route("/required_octet_stream",
@@ -127,7 +127,7 @@ async fn any_of_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::AnyOfGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::AnyOfGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -226,7 +226,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -254,7 +253,7 @@ async fn callback_with_header_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::CallbackWithHeaderPostQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::CallbackWithHeaderPostQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -288,7 +287,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -316,7 +314,7 @@ async fn complex_query_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::ComplexQueryParamGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::ComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -350,7 +348,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -412,7 +409,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -482,7 +478,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -510,7 +505,7 @@ async fn get_with_boolean_parameter<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::GetWithBooleanParameterQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::GetWithBooleanParameterQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -544,7 +539,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -572,7 +566,7 @@ async fn json_complex_query_param_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::JsonComplexQueryParamGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::JsonComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -606,7 +600,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -701,7 +694,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -777,7 +769,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -970,7 +961,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1028,7 +1018,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -1106,7 +1095,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -1176,7 +1164,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1233,7 +1220,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1261,7 +1247,7 @@ async fn paramget_get<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::ParamgetGetQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::ParamgetGetQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1314,7 +1300,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1372,7 +1357,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -1397,7 +1381,7 @@ async fn register_callback_post<I, A, E>(
     method: Method,
     host: Host,
     cookies: CookieJar,
-    Query(query_params): Query<models::RegisterCallbackPostQueryParams>,
+    QueryExtra(query_params): QueryExtra<models::RegisterCallbackPostQueryParams>,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
 where
@@ -1431,7 +1415,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1497,7 +1480,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1662,7 +1644,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1777,7 +1758,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1882,7 +1862,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -1955,7 +1934,6 @@ where
                                             Err(why) => {
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
-
                                                 return api_impl.as_ref().handle_error(&method, &host, &cookies, why).await;
                                             },
                                         };
@@ -2025,7 +2003,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2093,7 +2070,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2173,7 +2149,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2241,7 +2216,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2309,7 +2283,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2377,7 +2350,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2458,7 +2430,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)
@@ -2528,7 +2499,6 @@ where
         Err(why) => {
             // Application code returned an error. This should not happen, as the implementation should
             // return a valid response.
-
             return api_impl
                 .as_ref()
                 .handle_error(&method, &host, &cookies, why)

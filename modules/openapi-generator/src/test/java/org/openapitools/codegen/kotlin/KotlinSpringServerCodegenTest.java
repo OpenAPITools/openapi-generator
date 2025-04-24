@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertTrue;
 
 public class KotlinSpringServerCodegenTest {
 

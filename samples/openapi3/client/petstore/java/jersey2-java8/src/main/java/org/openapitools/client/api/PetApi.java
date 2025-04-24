@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -60,7 +60,7 @@ public class PetApi {
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public void addPet(Pet pet) throws ApiException {
+  public void addPet(@javax.annotation.Nonnull Pet pet) throws ApiException {
     addPetWithHttpInfo(pet);
   }
 
@@ -77,7 +77,7 @@ public class PetApi {
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
+  public ApiResponse<Void> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
     // Check required parameters
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
@@ -103,7 +103,7 @@ public class PetApi {
        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
    */
-  public void deletePet(Long petId, String apiKey) throws ApiException {
+  public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
     deletePetWithHttpInfo(petId, apiKey);
   }
 
@@ -121,7 +121,7 @@ public class PetApi {
        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+  public ApiResponse<Void> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
     // Check required parameters
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling deletePet");
@@ -158,7 +158,7 @@ public class PetApi {
        <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
    */
-  public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
+  public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws ApiException {
     return findPetsByStatusWithHttpInfo(status).getData();
   }
 
@@ -176,7 +176,7 @@ public class PetApi {
        <tr><td> 400 </td><td> Invalid status value </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(@javax.annotation.Nonnull List<String> status) throws ApiException {
     // Check required parameters
     if (status == null) {
       throw new ApiException(400, "Missing the required parameter 'status' when calling findPetsByStatus");
@@ -211,7 +211,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
+  public List<Pet> findPetsByTags(@javax.annotation.Nonnull List<String> tags) throws ApiException {
     return findPetsByTagsWithHttpInfo(tags).getData();
   }
 
@@ -231,7 +231,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(@javax.annotation.Nonnull List<String> tags) throws ApiException {
     // Check required parameters
     if (tags == null) {
       throw new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags");
@@ -265,7 +265,7 @@ public class PetApi {
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
    */
-  public Pet getPetById(Long petId) throws ApiException {
+  public Pet getPetById(@javax.annotation.Nonnull Long petId) throws ApiException {
     return getPetByIdWithHttpInfo(petId).getData();
   }
 
@@ -284,7 +284,7 @@ public class PetApi {
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+  public ApiResponse<Pet> getPetByIdWithHttpInfo(@javax.annotation.Nonnull Long petId) throws ApiException {
     // Check required parameters
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling getPetById");
@@ -316,7 +316,7 @@ public class PetApi {
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
    */
-  public void updatePet(Pet pet) throws ApiException {
+  public void updatePet(@javax.annotation.Nonnull Pet pet) throws ApiException {
     updatePetWithHttpInfo(pet);
   }
 
@@ -335,7 +335,7 @@ public class PetApi {
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
+  public ApiResponse<Void> updatePetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws ApiException {
     // Check required parameters
     if (pet == null) {
       throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
@@ -362,7 +362,7 @@ public class PetApi {
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
+  public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
     updatePetWithFormWithHttpInfo(petId, name, status);
   }
 
@@ -381,7 +381,7 @@ public class PetApi {
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+  public ApiResponse<Void> updatePetWithFormWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
     // Check required parameters
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling updatePetWithForm");
@@ -422,7 +422,7 @@ public class PetApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+  public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
     return uploadFileWithHttpInfo(petId, additionalMetadata, _file).getData();
   }
 
@@ -441,7 +441,7 @@ public class PetApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
     // Check required parameters
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFile");
@@ -483,7 +483,7 @@ public class PetApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
     return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getData();
   }
 
@@ -502,7 +502,7 @@ public class PetApi {
        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
     // Check required parameters
     if (petId == null) {
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");

@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Gets or Sets EnumClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public enum EnumClass {
   
   _ABC("_abc"),
@@ -29,7 +29,7 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
-  private String value;
+  private final String value;
 
   EnumClass(String value) {
     this.value = value;

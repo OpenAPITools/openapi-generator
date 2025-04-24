@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class User: NSObject, Codable, JSONEncodable {
+@objcMembers public class User: NSObject, Codable, QueryStringEncodable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {

@@ -34,11 +34,16 @@ pub struct FooTypeTesting {
     #[serde_as(as = "serde_with::base64::Base64")]
     #[serde(rename = "bytes")]
     pub bytes: Vec<u8>,
+    #[serde_as(as = "super::DoubleOption<serde_with::base64::Base64>")]
+    #[serde(rename = "nullableBytes", default, skip_serializing_if = "Option::is_none")]
+    pub nullable_bytes: Option<Option<Vec<u8>>>,
+    #[serde(rename = "decimal")]
+    pub decimal: String,
 }
 
 impl FooTypeTesting {
     /// Test handling of different field data types
-    pub fn new(int32: i32, int64: i64, float: f32, double: f64, string: String, boolean: bool, uuid: uuid::Uuid, bytes: Vec<u8>) -> FooTypeTesting {
+    pub fn new(int32: i32, int64: i64, float: f32, double: f64, string: String, boolean: bool, uuid: uuid::Uuid, bytes: Vec<u8>, decimal: String) -> FooTypeTesting {
         FooTypeTesting {
             int32,
             int64,
@@ -48,6 +53,8 @@ impl FooTypeTesting {
             boolean,
             uuid,
             bytes,
+            nullable_bytes: None,
+            decimal,
         }
     }
 }

@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class PetApi {
   private ApiClient apiClient;
 
@@ -43,7 +43,7 @@ public class PetApi {
    * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void addPet(Pet pet) throws ApiException {
+  public void addPet(@javax.annotation.Nonnull Pet pet) throws ApiException {
     Object localVarPostBody = pet;
     
     // verify the required parameter 'pet' is set
@@ -86,7 +86,7 @@ public class PetApi {
    * @param apiKey  (optional)
    * @throws ApiException if fails to make API call
    */
-  public void deletePet(Long petId, String apiKey) throws ApiException {
+  public void deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -132,7 +132,7 @@ public class PetApi {
    * @return a {@code List<Pet>}
    * @throws ApiException if fails to make API call
    */
-  public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
+  public List<Pet> findPetsByStatus(@javax.annotation.Nonnull List<String> status) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'status' is set
@@ -178,7 +178,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
+  public Set<Pet> findPetsByTags(@javax.annotation.Nonnull Set<String> tags) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'tags' is set
@@ -222,7 +222,7 @@ public class PetApi {
    * @return a {@code Pet}
    * @throws ApiException if fails to make API call
    */
-  public Pet getPetById(Long petId) throws ApiException {
+  public Pet getPetById(@javax.annotation.Nonnull Long petId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -265,7 +265,7 @@ public class PetApi {
    * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(Pet pet) throws ApiException {
+  public void updatePet(@javax.annotation.Nonnull Pet pet) throws ApiException {
     Object localVarPostBody = pet;
     
     // verify the required parameter 'pet' is set
@@ -309,7 +309,7 @@ public class PetApi {
    * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
    */
-  public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
+  public void updatePetWithForm(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -359,7 +359,7 @@ if (status != null)
    * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File _file) throws ApiException {
+  public ModelApiResponse uploadFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable File _file) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
@@ -409,7 +409,7 @@ if (_file != null)
    * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, @javax.annotation.Nullable String additionalMetadata) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'petId' is set

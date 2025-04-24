@@ -1,4 +1,5 @@
 generatorName: csharp
+library: restsharp
 outputDir: samples/client/echo_api/csharp/restsharp/net8/EchoApi
 inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp

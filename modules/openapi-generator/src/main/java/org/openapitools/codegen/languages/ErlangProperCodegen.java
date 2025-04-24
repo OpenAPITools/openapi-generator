@@ -144,7 +144,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        if(ModelUtils.isArraySchema(model)) {
+        if (ModelUtils.isArraySchema(model)) {
             return new CodegenArrayModel(cm, model);
         } else {
             return cm;
@@ -159,7 +159,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getTypeDeclaration(Schema schema) {
         String typeDeclaration = super.getSchemaType(schema);
-        if(ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             String complexType = getSchemaType(ModelUtils.getSchemaItems(schema));
             StringBuilder sb = new StringBuilder("list(");
             sb.append(complexType);
@@ -174,7 +174,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String getSchemaType(Schema schema) {
         String schemaType = super.getSchemaType(schema);
-        if(ModelUtils.isArraySchema(schema)) {
+        if (ModelUtils.isArraySchema(schema)) {
             String complexType = getSchemaType(ModelUtils.getSchemaItems(schema));
 
             StringBuilder sb = new StringBuilder("list(");
@@ -182,27 +182,27 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
             Integer minItems = schema.getMinItems();
             Integer maxItems = schema.getMaxItems();
-            if(minItems != null) sb.append(", ").append(minItems);
-            if(minItems != null && maxItems != null) sb.append(", ").append(maxItems);
+            if (minItems != null) sb.append(", ").append(minItems);
+            if (minItems != null && maxItems != null) sb.append(", ").append(maxItems);
 
             return sb.append(")").toString();
-        } else if(ModelUtils.isIntegerSchema(schema)) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
             StringBuilder sb = new StringBuilder("integer(");
 
             BigDecimal min = schema.getMinimum();
             BigDecimal max = schema.getMaximum();
-            if(min != null) sb.append(min);
-            if(min != null && max != null) sb.append(", ").append(max);
+            if (min != null) sb.append(min);
+            if (min != null && max != null) sb.append(", ").append(max);
 
             return sb.append(")").toString();
-        } else if(ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
+        } else if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
             return typeMapping.get(schemaType);
-        } else if(ModelUtils.isStringSchema(schema)) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             StringBuilder sb = new StringBuilder("binary(");
             Integer min = schema.getMinLength();
             Integer max = schema.getMaxLength();
-            if(min != null) sb.append(min);
-            if(min != null && max != null) sb.append(", ").append(max);
+            if (min != null) sb.append(min);
+            if (min != null && max != null) sb.append(", ").append(max);
 
             return sb.append(")").toString();
         } else if (typeMapping.containsKey(schemaType)) {
@@ -250,17 +250,17 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
 
         supportingFiles.add(new SupportingFile("rebar.config.mustache", "", "rebar.config"));
         supportingFiles.add(new SupportingFile("app.src.mustache", "", "src" + File.separator +
-            this.packageName + ".app.src"));
+                this.packageName + ".app.src"));
         supportingFiles.add(new SupportingFile("utils.mustache", "", "src" + File.separator +
-            this.packageName + "_utils.erl"));
+                this.packageName + "_utils.erl"));
         supportingFiles.add(new SupportingFile("gen.mustache", "", "src" + File.separator + this
-            .packageName + "_gen.erl"));
+                .packageName + "_gen.erl"));
         supportingFiles.add(new SupportingFile("include.mustache", "", "src" + File.separator +
-            this.packageName + ".hrl"));
+                this.packageName + ".hrl"));
         supportingFiles.add(new SupportingFile("statem.hrl.mustache", "", "src" + File.separator +
-            this.packageName + "_statem.hrl"));
+                this.packageName + "_statem.hrl"));
         supportingFiles.add(new SupportingFile("test.mustache", "", "test" + File.separator +
-            "prop_" + this.packageName + ".erl"));
+                "prop_" + this.packageName + ".erl"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
 
@@ -304,8 +304,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator
-            + sourceFolder + File.separator
-            + modelFolder + File.separator;
+                + sourceFolder + File.separator
+                + modelFolder + File.separator;
     }
 
     @Override
@@ -565,5 +565,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.ERLANG; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.ERLANG;
+    }
 }

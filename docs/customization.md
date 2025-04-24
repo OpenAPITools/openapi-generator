@@ -504,7 +504,7 @@ Another useful option is `inlineSchemaOptions`, which allows you to customize ho
 - `MAP_ITEM_SUFFIX` set the map item suffix
 - `SKIP_SCHEMA_REUSE=true` is a special value to skip reusing inline schemas during refactoring
 - `REFACTOR_ALLOF_INLINE_SCHEMAS=true` will restore the 6.x (or below) behaviour to refactor allOf inline schemas into $ref. (v7.0.0 will skip the refactoring of these allOf inline schemas by default)
-- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref
+- `RESOLVE_INLINE_ENUMS=true` will refactor inline enum definitions into $ref. This must be activated to allow the renaming of inline enum definitions using `inlineSchemaMappings`.
 
 ## OpenAPI Normalizer
 
@@ -573,6 +573,13 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_TO_OPERATIONID=true
 ```
 
+- `SET_TAGS_TO_VENDOR_EXTENSION`:  when set to a string value, tags will be set to the value of the provided vendor extension
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableSetTagsToVendorExtension_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_TO_VENDOR_EXTENSION=x-tags
+```
+
 - `ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE`: when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1) by adding x-unsigned to the schema
 
 Example:
@@ -594,11 +601,36 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
 ```
 
-- `FILTER`: When set to `operationId:addPet|getPetById` for example, it will add `x-internal:true` to operations with operationId not equal to addPet/getPetById (which will have x-internal set to false) so that these operations marked as internal won't be generated.
+- `NORMALIZER_CLASS`: Set to full classname of a class extending the default org.openapitools.codegen.OpenAPINormalizer. It allows customization of the default normalizer. 
 
 Example:
 ```
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FILTER="operationId:addPet|getPetById"
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer NORMALIZER_CLASS=org.openapitools.codegen.OpenAPINormalizerTest$RemoveRequiredNormalizer
+```
+
+- `FILTER`
+
+The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated.
+
+### Available Filters
+
+- **`operationId`**  
+  When set to `operationId:addPet|getPetById`, operations **not** matching `addPet` or `getPetById` will be marked as internal (`x-internal: true`), and excluded from generation. Matching operations will have `x-internal: false`.
+
+- **`method`**  
+  When set to `method:get|post`, operations **not** using `GET` or `POST` methods will be marked as internal (`x-internal: true`), preventing their generation.
+
+- **`tag`**  
+  When set to `tag:person|basic`, operations **not** tagged with `person` or `basic` will be marked as internal (`x-internal: true`), and will not be generated.
+
+### Example Usage
+
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+  -g java \
+  -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
+  -o /tmp/java-okhttp/ \
+  --openapi-normalizer FILTER="operationId:addPet|getPetById"
 ```
 
 - `SET_CONTAINER_TO_NULLABLE`: When set to `array|set|map` (or just `array`) for example, it will set `nullable` in array, set and map to true.
@@ -620,4 +652,28 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FIX_DUPLICATED_OPERATIONID=true
+```
+
+- `SET_BEARER_AUTH_FOR_NAME`: When set to the name of an openapi 2.0 securityDefinition, that securityDefinition will be converted to the openapi 3.0 bearerAuth securityScheme.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/2_0/globalSecurity.json -o /tmp/java-okhttp/ --openapi-normalizer SET_BEARER_AUTH_FOR_NAME=api_key
+```
+Transforms this securityDefinition:
+```
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    },
+  },
+```
+Into this securityScheme:
+```
+  securitySchemes:
+    api_key:
+      scheme: bearer
+      type: http
 ```

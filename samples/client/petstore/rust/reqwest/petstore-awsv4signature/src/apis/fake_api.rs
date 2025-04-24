@@ -10,9 +10,9 @@
 
 
 use reqwest;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
-use super::{Error, configuration};
+use super::{Error, configuration, ContentType};
 
 
 /// struct for typed errors of method [`test_nullable_required_param`]
@@ -26,10 +26,11 @@ pub enum TestNullableRequiredParamError {
 
 
 /// 
-pub fn test_nullable_required_param(configuration: &configuration::Configuration, user_name: &str, dummy_required_nullable_param: Option<&str>, uppercase: Option<&str>, content: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+pub fn test_nullable_required_param(configuration: &configuration::Configuration, user_name: &str, dummy_required_nullable_param: Option<&str>, any_type: &str, uppercase: Option<&str>, content: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_user_name = user_name;
     let p_dummy_required_nullable_param = dummy_required_nullable_param;
+    let p_any_type = any_type;
     let p_uppercase = uppercase;
     let p_content = content;
 
@@ -39,6 +40,7 @@ pub fn test_nullable_required_param(configuration: &configuration::Configuration
     if let Some(ref param_value) = p_content {
         req_builder = req_builder.query(&[("content", &param_value.to_string())]);
     }
+    req_builder = req_builder.query(&[("anyType", &p_any_type.to_string())]);
     if let Some(ref user_agent) = configuration.user_agent {
         req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
     }

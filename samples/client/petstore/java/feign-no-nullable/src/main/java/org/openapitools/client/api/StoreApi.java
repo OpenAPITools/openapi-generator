@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface StoreApi extends ApiClient.Api {
 
 
@@ -25,7 +25,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  void deleteOrder(@Param("orderId") String orderId);
+  void deleteOrder(@Param("orderId") @javax.annotation.Nonnull String orderId);
 
   /**
    * Delete purchase order by ID
@@ -37,7 +37,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  ApiResponse<Void> deleteOrderWithHttpInfo(@Param("orderId") String orderId);
+  ApiResponse<Void> deleteOrderWithHttpInfo(@Param("orderId") @javax.annotation.Nonnull String orderId);
 
 
 
@@ -76,7 +76,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  Order getOrderById(@Param("orderId") Long orderId);
+  Order getOrderById(@Param("orderId") @javax.annotation.Nonnull Long orderId);
 
   /**
    * Find purchase order by ID
@@ -89,7 +89,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  ApiResponse<Order> getOrderByIdWithHttpInfo(@Param("orderId") Long orderId);
+  ApiResponse<Order> getOrderByIdWithHttpInfo(@Param("orderId") @javax.annotation.Nonnull Long orderId);
 
 
 
@@ -104,7 +104,7 @@ public interface StoreApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json,application/xml",
   })
-  Order placeOrder(Order body);
+  Order placeOrder(@javax.annotation.Nonnull Order body);
 
   /**
    * Place an order for a pet
@@ -118,7 +118,7 @@ public interface StoreApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json,application/xml",
   })
-  ApiResponse<Order> placeOrderWithHttpInfo(Order body);
+  ApiResponse<Order> placeOrderWithHttpInfo(@javax.annotation.Nonnull Order body);
 
 
 }

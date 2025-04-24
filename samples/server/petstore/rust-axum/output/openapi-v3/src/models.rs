@@ -13,8 +13,8 @@ pub struct AnyOfGetQueryParams {
     /// list of any of objects
     #[serde(rename = "any-of")]
     #[validate(length(min = 1))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub any_of: Option<Vec<models::AnyOfObject>>,
+    #[serde(default)]
+    pub any_of: Vec<models::AnyOfObject>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -28,8 +28,8 @@ pub struct CallbackWithHeaderPostQueryParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ComplexQueryParamGetQueryParams {
     #[serde(rename = "list-of-strings")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub list_of_strings: Option<Vec<models::StringObject>>,
+    #[serde(default)]
+    pub list_of_strings: Vec<models::StringObject>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -50,8 +50,8 @@ pub struct GetWithBooleanParameterQueryParams {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct JsonComplexQueryParamGetQueryParams {
     #[serde(rename = "list-of-strings")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub list_of_strings: Option<Vec<models::StringObject>>,
+    #[serde(default)]
+    pub list_of_strings: Vec<models::StringObject>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -80,8 +80,8 @@ pub struct ParamgetGetQueryParams {
     pub some_object: Option<crate::types::Object>,
     /// Some list to pass as query parameter
     #[serde(rename = "someList")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub some_list: Option<Vec<models::MyId>>,
+    #[serde(default)]
+    pub some_list: Vec<models::MyId>,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]

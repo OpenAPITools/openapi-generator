@@ -2,8 +2,8 @@ version := "1.0.0"
 name := "openapi-client"
 organization := "org.openapitools"
 
-scalaVersion := "2.13.10"
-crossScalaVersions := Seq(scalaVersion.value, "2.12.17")
+scalaVersion := "2.13.16"
+crossScalaVersions := Seq(scalaVersion.value, "2.12.20")
 
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client4" %% "core" % "4.0.0-M1",

@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Multipart};
+use axum_extra::extract::{CookieJar, Host};
 use bytes::Bytes;
 use http::Method;
 use serde::{Deserialize, Serialize};
@@ -119,6 +119,8 @@ pub enum TestJsonFormDataResponse {
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHandler<E> {
+    type Claims;
+
     /// Call123example - GET /v2/fake/operation-with-numeric-id
     async fn call123example(
         &self,
@@ -209,6 +211,7 @@ pub trait Fake<E: std::fmt::Debug + Send + Sync + 'static = ()>: super::ErrorHan
         method: &Method,
         host: &Host,
         cookies: &CookieJar,
+        claims: &Self::Claims,
         body: &models::TestEndpointParametersRequest,
     ) -> Result<TestEndpointParametersResponse, E>;
 

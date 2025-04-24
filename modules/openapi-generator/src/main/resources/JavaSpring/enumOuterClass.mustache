@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 {{>additionalEnumTypeAnnotations}}
 {{>generatedAnnotation}}
-public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
+public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#gson}}
   {{#allowableValues}}{{#enumVars}}
   {{#enumDescription}}
@@ -31,7 +31,7 @@ public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatyp
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
   {{/gson}}
 
-  private {{{dataType}}} value;
+  private final {{{dataType}}} value;
 
   {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}({{{dataType}}} value) {
     this.value = value;

@@ -26,12 +26,12 @@ import java.io.Writer;
 
 /**
  * Converts text in a fragment from camelCase or PascalCase to a space separated string
- *
+ * <p>
  * Register:
  * <pre>
  * additionalProperties.put("uncamelize", new UncamelizeLambda());
  * </pre>
- *
+ * <p>
  * Use:
  * <pre>
  * {{#uncamelize}}{{name}}{{/uncamelize}}
@@ -39,7 +39,9 @@ import java.io.Writer;
  */
 public class UncamelizeLambda implements Mustache.Lambda {
 
-    public UncamelizeLambda() {}
+    public UncamelizeLambda() {
+    }
+
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String input = fragment.execute();

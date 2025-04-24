@@ -18,7 +18,8 @@ package org.openapitools.codegen.validation;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class ValidationRuleTest {
     static class Sample {
@@ -39,11 +40,11 @@ public class ValidationRuleTest {
 
     private static ValidationRule.Result checkPattern(Sample input) {
         String pattern = "^[A-Z][a-z]*$";
-        return (input.getName() != null && input.getName().matches(pattern))  ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
+        return (input.getName() != null && input.getName().matches(pattern)) ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
     @Test
-    public void createMethodUsingMethodReference(){
+    public void createMethodUsingMethodReference() {
         Sample nil = new Sample(null);
         Sample six = new Sample("123456");
         Sample seven = new Sample("1234567");
@@ -56,11 +57,11 @@ public class ValidationRuleTest {
     }
 
     @Test
-    public void createMethodUsingLambda(){
+    public void createMethodUsingLambda() {
         Sample nil = new Sample(null);
         Sample lowercase = new Sample("jim");
         Sample titlecase = new Sample("Jim");
-        ValidationRule result = ValidationRule.error("test", i -> checkPattern((Sample)i));
+        ValidationRule result = ValidationRule.error("test", i -> checkPattern((Sample) i));
         assertFalse(result.evaluate(nil).passed());
         assertFalse(result.evaluate(lowercase).passed());
         assertTrue(result.evaluate(titlecase).passed());

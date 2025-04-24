@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class FormApi extends BaseApi {
 
   public FormApi() {
@@ -50,7 +50,7 @@ public class FormApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
     return this.testFormIntegerBooleanString(integerForm, booleanForm, stringForm, Collections.emptyMap());
   }
 
@@ -65,7 +65,7 @@ public class FormApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm, Map<String, String> additionalHeaders) throws ApiException {
+  public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -127,7 +127,7 @@ if (stringForm != null)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
     return this.testFormObjectMultipart(marker, Collections.emptyMap());
   }
 
@@ -140,7 +140,7 @@ if (stringForm != null)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker, Map<String, String> additionalHeaders) throws ApiException {
+  public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'marker' is set
@@ -208,7 +208,7 @@ if (stringForm != null)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
     return this.testFormOneof(form1, form2, form3, form4, id, name, Collections.emptyMap());
   }
 
@@ -226,7 +226,7 @@ if (stringForm != null)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name, Map<String, String> additionalHeaders) throws ApiException {
+  public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables

@@ -35,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   @javax.annotation.Nullable
@@ -142,7 +142,7 @@ public class ModelReturn {
 
     // add `return` to the URL query string
     if (getReturn() != null) {
-      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getReturn()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sreturn%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getReturn()))));
     }
 
     return joiner.toString();

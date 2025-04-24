@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import feign.*;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public interface UserApi extends ApiClient.Api {
 
 
@@ -27,7 +27,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  void createUser(User body);
+  void createUser(@javax.annotation.Nonnull User body);
 
   /**
    * Create user
@@ -40,7 +40,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  ApiResponse<Void> createUserWithHttpInfo(User body);
+  ApiResponse<Void> createUserWithHttpInfo(@javax.annotation.Nonnull User body);
 
 
 
@@ -54,7 +54,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  void createUsersWithArrayInput(List<User> body);
+  void createUsersWithArrayInput(@javax.annotation.Nonnull List<User> body);
 
   /**
    * Creates list of users with given input array
@@ -67,7 +67,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body);
+  ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(@javax.annotation.Nonnull List<User> body);
 
 
 
@@ -81,7 +81,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  void createUsersWithListInput(List<User> body);
+  void createUsersWithListInput(@javax.annotation.Nonnull List<User> body);
 
   /**
    * Creates list of users with given input array
@@ -94,7 +94,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body);
+  ApiResponse<Void> createUsersWithListInputWithHttpInfo(@javax.annotation.Nonnull List<User> body);
 
 
 
@@ -107,7 +107,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  void deleteUser(@Param("username") String username);
+  void deleteUser(@Param("username") @javax.annotation.Nonnull String username);
 
   /**
    * Delete user
@@ -119,7 +119,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  ApiResponse<Void> deleteUserWithHttpInfo(@Param("username") String username);
+  ApiResponse<Void> deleteUserWithHttpInfo(@Param("username") @javax.annotation.Nonnull String username);
 
 
 
@@ -133,7 +133,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  User getUserByName(@Param("username") String username);
+  User getUserByName(@Param("username") @javax.annotation.Nonnull String username);
 
   /**
    * Get user by user name
@@ -146,7 +146,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  ApiResponse<User> getUserByNameWithHttpInfo(@Param("username") String username);
+  ApiResponse<User> getUserByNameWithHttpInfo(@Param("username") @javax.annotation.Nonnull String username);
 
 
 
@@ -161,7 +161,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  String loginUser(@Param("username") String username, @Param("password") String password);
+  String loginUser(@Param("username") @javax.annotation.Nonnull String username, @Param("password") @javax.annotation.Nonnull String password);
 
   /**
    * Logs user into the system
@@ -175,7 +175,7 @@ public interface UserApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json,application/xml",
   })
-  ApiResponse<String> loginUserWithHttpInfo(@Param("username") String username, @Param("password") String password);
+  ApiResponse<String> loginUserWithHttpInfo(@Param("username") @javax.annotation.Nonnull String username, @Param("password") @javax.annotation.Nonnull String password);
 
 
   /**
@@ -225,11 +225,11 @@ public interface UserApi extends ApiClient.Api {
    * <code>loginUser</code> method in a fluent style.
    */
   public static class LoginUserQueryParams extends HashMap<String, Object> {
-    public LoginUserQueryParams username(final String value) {
+    public LoginUserQueryParams username(@javax.annotation.Nonnull final String value) {
       put("username", EncodingUtils.encode(value));
       return this;
     }
-    public LoginUserQueryParams password(final String value) {
+    public LoginUserQueryParams password(@javax.annotation.Nonnull final String value) {
       put("password", EncodingUtils.encode(value));
       return this;
     }
@@ -269,7 +269,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  void updateUser(@Param("username") String username, User body);
+  void updateUser(@Param("username") @javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body);
 
   /**
    * Updated user
@@ -283,7 +283,7 @@ public interface UserApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  ApiResponse<Void> updateUserWithHttpInfo(@Param("username") String username, User body);
+  ApiResponse<Void> updateUserWithHttpInfo(@Param("username") @javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body);
 
 
 }

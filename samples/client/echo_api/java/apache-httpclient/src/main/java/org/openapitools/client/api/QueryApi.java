@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class QueryApi extends BaseApi {
 
   public QueryApi() {
@@ -55,7 +55,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+  public String testEnumRefString(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery) throws ApiException {
     return this.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery, Collections.emptyMap());
   }
 
@@ -69,7 +69,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
+  public String testEnumRefString(@javax.annotation.Nullable String enumNonrefStringQuery, @javax.annotation.Nullable StringEnumRef enumRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -129,7 +129,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery) throws ApiException {
+  public String testQueryDatetimeDateString(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
     return this.testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery, Collections.emptyMap());
   }
 
@@ -144,7 +144,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryDatetimeDateString(OffsetDateTime datetimeQuery, LocalDate dateQuery, String stringQuery, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryDatetimeDateString(@javax.annotation.Nullable OffsetDateTime datetimeQuery, @javax.annotation.Nullable LocalDate dateQuery, @javax.annotation.Nullable String stringQuery, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -205,7 +205,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery) throws ApiException {
+  public String testQueryIntegerBooleanString(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery) throws ApiException {
     return this.testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery, Collections.emptyMap());
   }
 
@@ -220,7 +220,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryIntegerBooleanString(Integer integerQuery, Boolean booleanQuery, String stringQuery, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryIntegerBooleanString(@javax.annotation.Nullable Integer integerQuery, @javax.annotation.Nullable Boolean booleanQuery, @javax.annotation.Nullable String stringQuery, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -279,7 +279,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws ApiException {
     return this.testQueryStyleDeepObjectExplodeTrueObject(queryObject, Collections.emptyMap());
   }
 
@@ -292,7 +292,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObject(Pet queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObject(@javax.annotation.Nullable Pet queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -350,7 +350,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject) throws ApiException {
     return this.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject, Collections.emptyMap());
   }
 
@@ -363,7 +363,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleDeepObjectExplodeTrueObjectAllOf(@javax.annotation.Nullable TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -421,7 +421,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeFalseArrayInteger(@javax.annotation.Nullable List<Integer> queryObject) throws ApiException {
     return this.testQueryStyleFormExplodeFalseArrayInteger(queryObject, Collections.emptyMap());
   }
 
@@ -434,7 +434,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleFormExplodeFalseArrayInteger(@javax.annotation.Nullable List<Integer> queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -491,7 +491,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeFalseArrayString(@javax.annotation.Nullable List<String> queryObject) throws ApiException {
     return this.testQueryStyleFormExplodeFalseArrayString(queryObject, Collections.emptyMap());
   }
 
@@ -504,7 +504,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleFormExplodeFalseArrayString(@javax.annotation.Nullable List<String> queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -561,7 +561,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeTrueArrayString(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws ApiException {
     return this.testQueryStyleFormExplodeTrueArrayString(queryObject, Collections.emptyMap());
   }
 
@@ -574,7 +574,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleFormExplodeTrueArrayString(@javax.annotation.Nullable TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -631,7 +631,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueObject(Pet queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeTrueObject(@javax.annotation.Nullable Pet queryObject) throws ApiException {
     return this.testQueryStyleFormExplodeTrueObject(queryObject, Collections.emptyMap());
   }
 
@@ -644,7 +644,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueObject(Pet queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleFormExplodeTrueObject(@javax.annotation.Nullable Pet queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -706,7 +706,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject) throws ApiException {
+  public String testQueryStyleFormExplodeTrueObjectAllOf(@javax.annotation.Nullable DataQuery queryObject) throws ApiException {
     return this.testQueryStyleFormExplodeTrueObjectAllOf(queryObject, Collections.emptyMap());
   }
 
@@ -719,7 +719,7 @@ public class QueryApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testQueryStyleFormExplodeTrueObjectAllOf(DataQuery queryObject, Map<String, String> additionalHeaders) throws ApiException {
+  public String testQueryStyleFormExplodeTrueObjectAllOf(@javax.annotation.Nullable DataQuery queryObject, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables

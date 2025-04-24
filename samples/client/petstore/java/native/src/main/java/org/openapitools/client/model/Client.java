@@ -37,7 +37,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   @javax.annotation.Nullable
@@ -137,7 +137,7 @@ public class Client {
 
     // add `client` to the URL query string
     if (getClient() != null) {
-      joiner.add(String.format("%sclient%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getClient()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+      joiner.add(String.format("%sclient%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClient()))));
     }
 
     return joiner.toString();

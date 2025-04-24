@@ -17,23 +17,28 @@ Base.@kwdef mutable struct {{classname}} <: OpenAPI.APIModel
 {{/allVars}}
 
     function {{classname}}({{#allVars}}{{{name}}}, {{/allVars}})
-        {{#allVars}}
-        OpenAPI.validate_property({{classname}}, Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"), {{{name}}})
-        {{/allVars}}
-        return new({{#allVars}}{{{name}}}, {{/allVars}})
+        o = new({{#allVars}}{{{name}}}, {{/allVars}})
+        OpenAPI.validate_properties(o)
+        return o
     end
 end # type {{classname}}
 
 const _property_types_{{classname}} = Dict{Symbol,String}({{#allVars}}Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")=>"{{datatype}}", {{/allVars}})
 OpenAPI.property_type(::Type{ {{classname}} }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_{{classname}}[name]))}
 
-function check_required(o::{{classname}})
+function OpenAPI.check_required(o::{{classname}})
 {{#allVars}}
 {{#required}}
     o.{{{name}}} === nothing && (return false)
 {{/required}}
 {{/allVars}}
     true
+end
+
+function OpenAPI.validate_properties(o::{{classname}})
+    {{#allVars}}
+    OpenAPI.validate_property({{classname}}, Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"), o.{{{name}}})
+    {{/allVars}}
 end
 
 function OpenAPI.validate_property(::Type{ {{classname}} }, name::Symbol, val)

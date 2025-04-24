@@ -1,7 +1,7 @@
 package org.openapitools.codegen.validations.oas;
 
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import lombok.Getter;
 
 /**
@@ -11,7 +11,7 @@ public class ParameterWrapper {
     OpenAPI specification;
     /**
      * -- GETTER --
-     *  Return the OAS parameter
+     * Return the OAS parameter
      *
      * @return the OAS parameter
      */
@@ -21,7 +21,7 @@ public class ParameterWrapper {
      * Constructs a new instance of {@link ParameterWrapper}
      *
      * @param specification The OAS specification
-     * @param parameter The OAS parameter
+     * @param parameter     The OAS parameter
      */
     ParameterWrapper(OpenAPI specification, Parameter parameter) {
         this.specification = specification;

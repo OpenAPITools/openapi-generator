@@ -1,5 +1,6 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration} from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
+import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
@@ -25,48 +26,54 @@ export class PromiseDefaultApi {
     /**
      * @param [filePostRequest]
      */
-    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.filePostWithHttpInfo(filePostRequest, _options);
+    public filePostWithHttpInfo(filePostRequest?: FilePostRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.filePostWithHttpInfo(filePostRequest, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [filePostRequest]
      */
-    public filePost(filePostRequest?: FilePostRequest, _options?: Configuration): Promise<void> {
-        const result = this.api.filePost(filePostRequest, _options);
+    public filePost(filePostRequest?: FilePostRequest, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.filePost(filePostRequest, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, _options);
+    public petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsFilteredPatchWithHttpInfo(petsFilteredPatchRequest, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [petsFilteredPatchRequest]
      */
-    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: Configuration): Promise<void> {
-        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, _options);
+    public petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsFilteredPatch(petsFilteredPatchRequest, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<HttpInfo<void>> {
-        const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, _options);
+    public petsPatchWithHttpInfo(petsPatchRequest?: PetsPatchRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsPatchWithHttpInfo(petsPatchRequest, observableOptions);
         return result.toPromise();
     }
 
     /**
      * @param [petsPatchRequest]
      */
-    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: Configuration): Promise<void> {
-        const result = this.api.petsPatch(petsPatchRequest, _options);
+    public petsPatch(petsPatchRequest?: PetsPatchRequest, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.petsPatch(petsPatchRequest, observableOptions);
         return result.toPromise();
     }
 

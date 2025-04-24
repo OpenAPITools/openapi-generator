@@ -670,7 +670,7 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(servers.get(1).url, "http://trailingshlash.io:80/v1");
         Assert.assertEquals(servers.get(2).url, "http://notrailingslash.io:80/v2");
     }
-    
+
     @Test
     public void testHandlesRelativeUrlsInServers() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10056.yaml");
@@ -714,8 +714,8 @@ public class DefaultGeneratorTest {
                     .setInputSpec("src/test/resources/3_0/petstore.yaml")
                     .setPackageName("io.something")
                     .setTemplateDir(templates.toAbsolutePath().toString())
-                    .addAdditionalProperty("files", "src/test/resources/sampleConfig.json:\n\t folder: supportingjson "+
-                    "\n\t destinationFilename: supportingconfig.json \n\t templateType: SupportingFiles")
+                    .addAdditionalProperty("files", "src/test/resources/sampleConfig.json:\n\t folder: supportingjson " +
+                            "\n\t destinationFilename: supportingconfig.json \n\t templateType: SupportingFiles")
                     .setSkipOverwrite(false)
                     .setOutputDir(target.toAbsolutePath().toString());
 
@@ -747,7 +747,7 @@ public class DefaultGeneratorTest {
             // Generated file should contain our custom packageName
             TestUtils.assertFileContains(apiClient.toPath(),
                     "from io.something import rest"
-              );
+            );
         } finally {
             output.deleteOnExit();
             templates.toFile().deleteOnExit();
@@ -775,7 +775,7 @@ public class DefaultGeneratorTest {
         // all fine, we have passed
     }
 
-    
+
     private DefaultGenerator generatorGenerateRecursiveDependentModelsBackwardCompatibility(String recursively) throws IOException {
         DefaultGenerator generator = new DefaultGenerator(false);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
@@ -800,7 +800,7 @@ public class DefaultGeneratorTest {
     private ClientOptInput createOptInputIssue(String issueNumber, Path target) {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("spring")
-                .setInputSpec("src/test/resources/bugs/issue_"+issueNumber+".json")
+                .setInputSpec("src/test/resources/bugs/issue_" + issueNumber + ".json")
                 .setOutputDir(target.toAbsolutePath().toString());
         return configurator.toClientOptInput();
     }
@@ -815,12 +815,12 @@ public class DefaultGeneratorTest {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("false");
             GlobalSettings.setProperty("models", "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
-            List<File> files = generator.opts(clientOptInput ).generate();
+            List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 17);
 
             // Check expected generated files
             // api sanity check
-            String apiJavaFileName = "src/main/java/org/openapitools/api/ApiApi.java"; 
+            String apiJavaFileName = "src/main/java/org/openapitools/api/ApiApi.java";
             TestUtils.ensureContainsFile(files, output, apiJavaFileName);
             Assert.assertTrue(new File(output, apiJavaFileName).exists());
 
@@ -830,7 +830,7 @@ public class DefaultGeneratorTest {
             Assert.assertTrue(new File(output, rq1FileName).exists());
 
             String rs1FileName = "src/main/java/org/openapitools/model/RS1.java";
-            TestUtils.ensureContainsFile(files, output, rs1FileName );
+            TestUtils.ensureContainsFile(files, output, rs1FileName);
             Assert.assertTrue(new File(output, rs1FileName).exists());
 
             // Check not generated cause backwards compatibility files
@@ -870,12 +870,12 @@ public class DefaultGeneratorTest {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("true");
             GlobalSettings.setProperty("models", "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue18444(target);
-            List<File> files = generator.opts(clientOptInput ).generate();
+            List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 21);
 
             // Check expected generated files
             // api sanity check
-            String apiJavaFileName = "src/main/java/org/openapitools/api/ApiApi.java"; 
+            String apiJavaFileName = "src/main/java/org/openapitools/api/ApiApi.java";
             TestUtils.ensureContainsFile(files, output, apiJavaFileName);
             Assert.assertTrue(new File(output, apiJavaFileName).exists());
 
@@ -885,7 +885,7 @@ public class DefaultGeneratorTest {
             Assert.assertTrue(new File(output, rq1FileName).exists());
 
             String rs1FileName = "src/main/java/org/openapitools/model/RS1.java";
-            TestUtils.ensureContainsFile(files, output, rs1FileName );
+            TestUtils.ensureContainsFile(files, output, rs1FileName);
             Assert.assertTrue(new File(output, rs1FileName).exists());
 
             // Check generated cause RQ1 and RS1 dependents of FT1,FT2,FT3 files
@@ -925,7 +925,7 @@ public class DefaultGeneratorTest {
             DefaultGenerator generator = generatorGenerateRecursiveDependentModelsBackwardCompatibility("true");
             GlobalSettings.setProperty("models", "RQ1,RS1");
             ClientOptInput clientOptInput = createOptInputIssue19220(target);
-            List<File> files = generator.opts(clientOptInput ).generate();
+            List<File> files = generator.opts(clientOptInput).generate();
             Assert.assertEquals(files.size(), 21);
 
             // Check expected generated files
@@ -940,7 +940,7 @@ public class DefaultGeneratorTest {
             Assert.assertTrue(new File(output, rq1FileName).exists());
 
             String rs1FileName = "src/main/java/org/openapitools/model/RS1.java";
-            TestUtils.ensureContainsFile(files, output, rs1FileName );
+            TestUtils.ensureContainsFile(files, output, rs1FileName);
             Assert.assertTrue(new File(output, rs1FileName).exists());
 
             // Check generated cause RQ1 and RS1 dependents of FT1,FT2,FT3 files

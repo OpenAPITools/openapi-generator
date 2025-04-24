@@ -37,7 +37,7 @@ import jakarta.validation.Valid;
 
 
 @Tag(description = "the pet API", name = "")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class PetApi  {
 
    private final PetApiService delegate;
@@ -173,7 +173,7 @@ public class PetApi  {
             },security = {
             @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
         }, tags={ "pet", }) 
-    public Response updatePetWithForm(@Schema(description= "ID of pet that needs to be updated", required = true) @PathParam("petId") @NotNull  Long petId,@Schema(description = "Updated name of the pet") @QueryParam("name") String name,@Schema(description = "Updated status of the pet") @QueryParam("status") String status,@Context SecurityContext securityContext)
+    public Response updatePetWithForm(@Schema(description= "ID of pet that needs to be updated", required = true) @PathParam("petId") @NotNull  Long petId,@Schema(description = "Updated name of the pet") @FormParam("name") String name,@Schema(description = "Updated status of the pet") @FormParam("status") String status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePetWithForm(petId, name, status, securityContext);
     }

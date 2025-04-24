@@ -73,8 +73,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         super();
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-            .stability(Stability.EXPERIMENTAL)
-            .build();
+                .stability(Stability.EXPERIMENTAL)
+                .build();
 
         this.outputFolder = "generated-code/typescript-nestjs";
 
@@ -98,7 +98,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0","Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0","Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
+        this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").addEnum("8.0.0", "Use new HttpModule and HttpService from @nestjs/axios.").addEnum("6.0.0", "Use old HttpModule and HttpService from @nestjs/common.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));

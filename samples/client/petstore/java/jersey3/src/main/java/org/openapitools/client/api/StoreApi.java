@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -62,7 +62,7 @@ public class StoreApi {
        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
-  public void deleteOrder(String orderId) throws ApiException {
+  public void deleteOrder(@jakarta.annotation.Nonnull String orderId) throws ApiException {
     deleteOrderWithHttpInfo(orderId);
   }
 
@@ -80,7 +80,7 @@ public class StoreApi {
        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+  public ApiResponse<Void> deleteOrderWithHttpInfo(@jakarta.annotation.Nonnull String orderId) throws ApiException {
     // Check required parameters
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
@@ -148,7 +148,7 @@ public class StoreApi {
        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
-  public Order getOrderById(Long orderId) throws ApiException {
+  public Order getOrderById(@jakarta.annotation.Nonnull Long orderId) throws ApiException {
     return getOrderByIdWithHttpInfo(orderId).getData();
   }
 
@@ -167,7 +167,7 @@ public class StoreApi {
        <tr><td> 404 </td><td> Order not found </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(@jakarta.annotation.Nonnull Long orderId) throws ApiException {
     // Check required parameters
     if (orderId == null) {
       throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
@@ -198,7 +198,7 @@ public class StoreApi {
        <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
    */
-  public Order placeOrder(Order order) throws ApiException {
+  public Order placeOrder(@jakarta.annotation.Nonnull Order order) throws ApiException {
     return placeOrderWithHttpInfo(order).getData();
   }
 
@@ -216,7 +216,7 @@ public class StoreApi {
        <tr><td> 400 </td><td> Invalid Order </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
+  public ApiResponse<Order> placeOrderWithHttpInfo(@jakarta.annotation.Nonnull Order order) throws ApiException {
     // Check required parameters
     if (order == null) {
       throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");

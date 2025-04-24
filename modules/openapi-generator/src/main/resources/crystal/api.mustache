@@ -23,7 +23,7 @@ module {{moduleName}}
     {{/required}}
     {{/allParams}}
     # @return [{{{returnType}}}{{^returnType}}nil{{/returnType}}]
-    def {{operationId}}({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    def {{operationId}}({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^required}} = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data, _status_code, _headers = {{/returnType}}{{operationId}}_with_http_info({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
       {{#returnType}}data{{/returnType}}{{^returnType}}nil{{/returnType}}
     end
@@ -40,7 +40,7 @@ module {{moduleName}}
     {{/required}}
     {{/allParams}}
     # @return [Array<({{{returnType}}}{{^returnType}}nil{{/returnType}}, Integer, Hash)>] {{#returnType}}{{{.}}} data{{/returnType}}{{^returnType}}nil{{/returnType}}, response status code and response headers
-    def {{operationId}}_with_http_info({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    def {{operationId}}_with_http_info({{#allParams}}{{paramName}} : {{{dataType}}}{{^required}}?{{/required}}{{^required}} = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
       if @api_client.config.debugging
         Log.debug {"Calling API: {{classname}}.{{operationId}} ..."}
       end
@@ -87,7 +87,7 @@ module {{moduleName}}
       {{/maxLength}}
       {{#minLength}}
       if @api_client.config.client_side_validation && {{^required}}!{{{paramName}}}.nil? && {{/required}}{{{paramName}}}.to_s.size < {{{minLength}}}
-        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be great than or equal to {{{minLength}}}.")
+        raise ArgumentError.new("invalid value for \"{{{paramName}}}\" when calling {{classname}}.{{operationId}}, the character length must be greater than or equal to {{{minLength}}}.")
       end
 
       {{/minLength}}
@@ -127,10 +127,13 @@ module {{moduleName}}
       # resource path
       local_var_path = "{{{path}}}"{{#pathParams}}.sub("{" + "{{baseName}}" + "}", URI.encode_path({{paramName}}.to_s){{^strictSpecBehavior}}.gsub("%2F", "/"){{/strictSpecBehavior}}){{/pathParams}}
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
       {{#queryParams}}
-      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s unless {{{paramName}}}.nil?{{/collectionFormat}}
+      query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s unless {{{paramName}}}.nil?{{/collectionFormat}}
       {{/queryParams}}
 
       # header parameters
@@ -170,6 +173,7 @@ module {{moduleName}}
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}

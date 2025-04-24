@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.12.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -37,7 +37,7 @@ public class EnumTest {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringEnum(String value) {
       this.value = value;
@@ -76,7 +76,7 @@ public class EnumTest {
     
     EMPTY("");
 
-    private String value;
+    private final String value;
 
     EnumStringRequiredEnum(String value) {
       this.value = value;
@@ -113,7 +113,7 @@ public class EnumTest {
     
     NUMBER_MINUS_1(-1);
 
-    private Integer value;
+    private final Integer value;
 
     EnumIntegerEnum(Integer value) {
       this.value = value;
@@ -150,7 +150,7 @@ public class EnumTest {
     
     NUMBER_MINUS_1_DOT_2(-1.2);
 
-    private Double value;
+    private final Double value;
 
     EnumNumberEnum(Double value) {
       this.value = value;
@@ -193,7 +193,7 @@ public class EnumTest {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    this.enumString = Optional.of(enumString);
+    this.enumString = Optional.ofNullable(enumString);
     return this;
   }
 
@@ -233,7 +233,7 @@ public class EnumTest {
   }
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    this.enumInteger = Optional.of(enumInteger);
+    this.enumInteger = Optional.ofNullable(enumInteger);
     return this;
   }
 
@@ -253,7 +253,7 @@ public class EnumTest {
   }
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    this.enumNumber = Optional.of(enumNumber);
+    this.enumNumber = Optional.ofNullable(enumNumber);
     return this;
   }
 
@@ -273,7 +273,7 @@ public class EnumTest {
   }
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    this.outerEnum = Optional.of(outerEnum);
+    this.outerEnum = Optional.ofNullable(outerEnum);
     return this;
   }
 
