@@ -10,7 +10,7 @@ import FoundationNetworking
 #endif
 
 protocol QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String
+    func encodeToQueryString(codableHelper: CodableHelper) -> any Sendable
 }
 
 /// An enum where the last case value can be used as a default catch-all.
