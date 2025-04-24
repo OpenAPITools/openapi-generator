@@ -273,8 +273,8 @@ import Foundation
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "username": (wrappedValue: username.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "password": (wrappedValue: password.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "username": (wrappedValue: username, isExplode: false),
+            "password": (wrappedValue: password, isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [

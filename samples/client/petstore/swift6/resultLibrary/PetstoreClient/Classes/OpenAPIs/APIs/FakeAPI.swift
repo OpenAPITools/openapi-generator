@@ -257,7 +257,7 @@ internal class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "query": (wrappedValue: query, isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -376,23 +376,23 @@ internal class FakeAPI {
         let localVariablePath = "/fake"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "integer": integer?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "int32": int32?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "int64": int64?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "number": number.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "float": float?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "double": double.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "string": string?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "pattern_without_delimiter": patternWithoutDelimiter.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "byte": byte.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "binary": binary?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "date": date?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "dateTime": dateTime?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "password": password?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "callback": callback?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "integer": integer,
+            "int32": int32,
+            "int64": int64,
+            "number": number,
+            "float": float,
+            "double": double,
+            "string": string,
+            "pattern_without_delimiter": patternWithoutDelimiter,
+            "byte": byte,
+            "binary": binary,
+            "date": date,
+            "dateTime": dateTime,
+            "password": password,
+            "callback": callback,
         ]
 
-        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -519,24 +519,24 @@ internal class FakeAPI {
         let localVariablePath = "/fake"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "enum_form_string_array": enumFormStringArray?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "enum_form_string": enumFormString?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "enum_form_string_array": enumFormStringArray,
+            "enum_form_string": enumFormString,
         ]
 
-        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "enum_query_string_array": (wrappedValue: enumQueryStringArray?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_string": (wrappedValue: enumQueryString?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_integer": (wrappedValue: enumQueryInteger?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "enum_query_double": (wrappedValue: enumQueryDouble?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "enum_query_string_array": (wrappedValue: enumQueryStringArray, isExplode: false),
+            "enum_query_string": (wrappedValue: enumQueryString, isExplode: false),
+            "enum_query_integer": (wrappedValue: enumQueryInteger, isExplode: false),
+            "enum_query_double": (wrappedValue: enumQueryDouble, isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/x-www-form-urlencoded",
-            "enum_header_string_array": enumHeaderStringArray?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "enum_header_string": enumHeaderString?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "enum_header_string_array": enumHeaderStringArray,
+            "enum_header_string": enumHeaderString,
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -590,15 +590,15 @@ internal class FakeAPI {
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "required_string_group": (wrappedValue: requiredStringGroup.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "required_int64_group": (wrappedValue: requiredInt64Group.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "string_group": (wrappedValue: stringGroup?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-            "int64_group": (wrappedValue: int64Group?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "required_string_group": (wrappedValue: requiredStringGroup, isExplode: false),
+            "required_int64_group": (wrappedValue: requiredInt64Group, isExplode: false),
+            "string_group": (wrappedValue: stringGroup, isExplode: false),
+            "int64_group": (wrappedValue: int64Group, isExplode: false),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "required_boolean_group": requiredBooleanGroup.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "boolean_group": booleanGroup?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "required_boolean_group": requiredBooleanGroup,
+            "boolean_group": booleanGroup,
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -684,11 +684,11 @@ internal class FakeAPI {
         let localVariablePath = "/fake/jsonFormData"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
-            "param": param.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
-            "param2": param2.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "param": param,
+            "param2": param2,
         ]
 
-        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 

@@ -301,7 +301,7 @@ extension {{projectName}}API {
                 {{/formParams}}
         ]
 
-        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)
+        let localVariableParameters = APIHelper.rejectNil(localVariableFormParams)?.encodeToQueryString(codableHelper: apiConfiguration.codableHelper)
             {{/hasFormParams}}
             {{^hasFormParams}}
         let localVariableParameters: [String: any Sendable]? = nil
