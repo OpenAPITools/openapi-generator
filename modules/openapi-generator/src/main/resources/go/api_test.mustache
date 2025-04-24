@@ -36,7 +36,7 @@ func Test_{{packageName}}_{{classname}}Service(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		{{/-first}}
-        {{#isPrimitiveType}}
+		{{#isPrimitiveType}}
 		var {{paramName}} {{{dataType}}}
 		{{/isPrimitiveType}}
 		{{^isPrimitiveType}}
