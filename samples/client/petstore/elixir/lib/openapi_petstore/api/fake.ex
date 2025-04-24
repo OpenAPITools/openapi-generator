@@ -10,6 +10,60 @@ defmodule OpenapiPetstore.Api.Fake do
   import OpenapiPetstore.RequestBuilder
 
   @doc """
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, OpenapiPetstore.Model.Foo.t}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec fake_all_of_with_local_single_ref_get(Tesla.Env.client, keyword()) :: {:ok, any()} | {:error, Tesla.Env.t}
+  def fake_all_of_with_local_single_ref_get(connection, _opts \\ []) do
+    request =
+      %{}
+      |> method(:get)
+      |> url("/fake/all-of-with-local-single-ref")
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, OpenapiPetstore.Model.Foo}
+    ])
+  end
+
+  @doc """
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, OpenapiPetstore.Model.AllOfWithSingleRef.t}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec fake_all_of_with_remote_single_ref_get(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.AllOfWithSingleRef.t} | {:error, Tesla.Env.t}
+  def fake_all_of_with_remote_single_ref_get(connection, _opts \\ []) do
+    request =
+      %{}
+      |> method(:get)
+      |> url("/fake/all-of-with-remote-single-ref")
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, OpenapiPetstore.Model.AllOfWithSingleRef}
+    ])
+  end
+
+  @doc """
   for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
 
   ### Parameters
@@ -180,14 +234,14 @@ defmodule OpenapiPetstore.Api.Fake do
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
   - `opts` (keyword): Optional parameters
-    - `:body` (float()): Input number as post body
+    - `:body` (number()): Input number as post body
 
   ### Returns
 
-  - `{:ok, float()}` on success
+  - `{:ok, number()}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, float()} | {:error, Tesla.Env.t}
+  @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, number()} | {:error, Tesla.Env.t}
   def fake_outer_number_serialize(connection, opts \\ []) do
     optional_params = %{
       :body => :body
@@ -464,7 +518,7 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - `number` (float()): None
+  - `number` (number()): None
   - `double` (float()): None
   - `pattern_without_delimiter` (String.t): None
   - `byte` (binary()): None
@@ -485,7 +539,7 @@ defmodule OpenapiPetstore.Api.Fake do
   - `{:ok, nil}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec test_endpoint_parameters(Tesla.Env.client, float(), float(), String.t, binary(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  @spec test_endpoint_parameters(Tesla.Env.client, number(), float(), String.t, binary(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
   def test_endpoint_parameters(connection, number, double, pattern_without_delimiter, byte, opts \\ []) do
     optional_params = %{
       :integer => :form,
@@ -623,7 +677,7 @@ defmodule OpenapiPetstore.Api.Fake do
   ### Parameters
 
   - `connection` (OpenapiPetstore.Connection): Connection to server
-  - `body` (%{optional(String.t) => any()}): request body
+  - `body` (map()): request body
   - `opts` (keyword): Optional parameters
 
   ### Returns
