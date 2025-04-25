@@ -40,7 +40,7 @@ open class AnotherFakeAPI {
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
-            "uuid_test": uuidTest.encodeToQueryString(codableHelper: apiConfiguration.codableHelper),
+            "uuid_test": uuidTest.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)

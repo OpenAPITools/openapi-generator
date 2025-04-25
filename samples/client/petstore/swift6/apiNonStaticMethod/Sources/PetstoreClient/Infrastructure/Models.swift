@@ -10,8 +10,8 @@ import FoundationNetworking
 #endif
 import Alamofire
 
-protocol QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> any Sendable
+protocol ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable
 }
 
 /// An enum where the last case value can be used as a default catch-all.
