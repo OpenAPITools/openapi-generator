@@ -136,7 +136,7 @@ public class CSharpClientCodegenTest {
                 .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Response.cs").toString());
         assertNotNull(modelFile);
         assertFileContains(modelFile.toPath(),
-                " Dictionary<string, ResponseResultsValue> results = default(Dictionary<string, ResponseResultsValue>");
+                " Dictionary<string, ResponseResultsValue> results = default");
     }
 
     @Test
