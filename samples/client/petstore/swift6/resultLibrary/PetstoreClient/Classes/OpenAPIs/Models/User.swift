@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct User: Sendable, Codable, ParameterConvertible {
+internal struct User: Sendable, Codable {
 
     internal private(set) var id: Int64?
     internal private(set) var username: String?

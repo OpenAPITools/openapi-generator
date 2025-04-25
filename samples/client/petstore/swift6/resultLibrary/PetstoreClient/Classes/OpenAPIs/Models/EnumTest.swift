@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct EnumTest: Sendable, Codable, ParameterConvertible {
+internal struct EnumTest: Sendable, Codable {
 
     internal enum EnumString: String, Sendable, Codable, CaseIterable, CaseIterableDefaultsLast {
         case upper = "UPPER"

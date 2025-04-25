@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Fruit: Sendable, Codable, ParameterConvertible, Hashable {
+public enum Fruit: Sendable, Codable, Hashable {
     case typeApple(Apple)
     case typeBanana(Banana)
 

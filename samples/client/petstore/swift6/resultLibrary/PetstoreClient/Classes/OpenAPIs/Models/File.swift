@@ -8,7 +8,7 @@
 import Foundation
 
 /** Must be named &#x60;File&#x60; for test. */
-internal struct File: Sendable, Codable, ParameterConvertible {
+internal struct File: Sendable, Codable {
 
     /** Test capitalization */
     internal private(set) var sourceURI: String?

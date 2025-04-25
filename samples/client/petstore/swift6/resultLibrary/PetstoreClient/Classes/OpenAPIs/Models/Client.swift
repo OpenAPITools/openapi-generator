@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Client: Sendable, Codable, ParameterConvertible {
+internal struct Client: Sendable, Codable {
 
     internal private(set) var client: String?
 

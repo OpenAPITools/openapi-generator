@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct User: Sendable, Codable, ParameterConvertible, Hashable {
+public struct User: Sendable, Codable, Hashable {
 
     public var id: Int64?
     public var username: String?
