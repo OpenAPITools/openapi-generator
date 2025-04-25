@@ -71,7 +71,8 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.BasicAuth))
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
