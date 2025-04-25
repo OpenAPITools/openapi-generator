@@ -3,56 +3,47 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/apple.dart';
-import 'package:openapi/src/model/banana.dart';
-import 'package:openapi/src/serializers_util.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:one_of/one_of.dart';
 
-part 'fruit.g.dart';
+part 'apple.g.dart';
 
-/// Fruit
+/// Apple
 ///
 /// Properties:
-/// * [color] 
 /// * [kind] 
-/// * [count] 
 @BuiltValue()
-abstract class Fruit implements Built<Fruit, FruitBuilder> {
-  @BuiltValueField(wireName: r'color')
-  String? get color;
+abstract class Apple implements Built<Apple, AppleBuilder> {
+  @BuiltValueField(wireName: r'kind')
+  String? get kind;
 
-  /// One Of [Apple], [Banana]
-  OneOf2<Apple, Banana> get oneOf;
+  Apple._();
 
-  Fruit._();
-
-  factory Fruit([void updates(FruitBuilder b)]) = _$Fruit;
+  factory Apple([void updates(AppleBuilder b)]) = _$Apple;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(FruitBuilder b) => b;
+  static void _defaults(AppleBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<Fruit> get serializer => _$FruitSerializer();
+  static Serializer<Apple> get serializer => _$AppleSerializer();
 }
 
-class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
+class _$AppleSerializer implements PrimitiveSerializer<Apple> {
   @override
-  final Iterable<Type> types = const [Fruit, _$Fruit];
+  final Iterable<Type> types = const [Apple, _$Apple];
 
   @override
-  final String wireName = r'Fruit';
+  final String wireName = r'Apple';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    Fruit object, {
+    Apple object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    if (object.color != null) {
-      yield r'color';
+    if (object.kind != null) {
+      yield r'kind';
       yield serializers.serialize(
-        object.color,
+        object.kind,
         specifiedType: const FullType(String),
       );
     }
@@ -61,13 +52,10 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   @override
   Object serialize(
     Serializers serializers,
-    Fruit object, {
+    Apple object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final oneOf = object.oneOf;
-    final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
-    result.addAll(serializers.serialize(oneOf.value, specifiedType: FullType(oneOf.valueType)) as Iterable<Object?>);
-    return result;
+    return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
   void _deserializeProperties(
@@ -75,19 +63,19 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required FruitBuilder result,
+    required AppleBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'color':
+        case r'kind':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.color = valueDes;
+          result.kind = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -98,14 +86,12 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   }
 
   @override
-  Fruit deserialize(
+  Apple deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = FruitBuilder();
-    Object? oneOfDataSrc;
-    final targetType = const FullType(OneOf, [FullType(Apple), FullType(Banana), ]);
+    final result = AppleBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(
@@ -116,8 +102,6 @@ class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
       unhandled: unhandled,
       result: result,
     );
-    oneOfDataSrc = unhandled;
-    result.oneOf = oneOfFactory(serializers.deserialize(oneOfDataSrc, specifiedType: targetType) as OneOfDynamic)<Apple, Banana>();
     return result.build();
   }
 }
