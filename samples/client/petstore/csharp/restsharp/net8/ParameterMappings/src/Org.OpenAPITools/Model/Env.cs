@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Env" /> class.
         /// </summary>
         /// <param name="dummy">dummy.</param>
-        public Env(string dummy = default(string))
+        public Env(string dummy = default)
         {
             this.Dummy = dummy;
         }
