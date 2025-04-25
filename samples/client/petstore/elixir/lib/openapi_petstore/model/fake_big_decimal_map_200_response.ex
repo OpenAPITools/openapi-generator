@@ -13,8 +13,8 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   ]
 
   @type t :: %__MODULE__{
-    :someId => float() | nil,
-    :someMap => %{optional(String.t) => float()} | nil
+    :someId => number() | nil,
+    :someMap => %{optional(String.t) => number()} | nil
   }
 
   def decode(value) do

@@ -30,10 +30,10 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :integer => integer() | nil,
     :int32 => integer() | nil,
     :int64 => integer() | nil,
-    :number => float(),
+    :number => number(),
     :float => float() | nil,
     :double => float() | nil,
-    :decimal => String.t | nil,
+    :decimal => float() | nil,
     :string => String.t | nil,
     :byte => binary(),
     :binary => String.t | nil,
@@ -45,12 +45,8 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :pattern_with_digits_and_delimiter => String.t | nil
   }
 
-  alias OpenapiPetstore.Deserializer
-
   def decode(value) do
     value
-     |> Deserializer.deserialize(:date, :date, nil)
-     |> Deserializer.deserialize(:dateTime, :datetime, nil)
   end
 end
 
