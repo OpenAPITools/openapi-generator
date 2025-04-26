@@ -10,8 +10,6 @@ import org.springframework.http.client.MultipartBodyBuilder
 import org.springframework.util.LinkedMultiValueMap
 import reactor.core.publisher.Mono
 
-private val URI_TEMPLATE_ATTRIBUTE = WebClient::class.java.name + ".uriTemplate";
-
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient(protected val client: WebClient) {
 
     protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): Mono<ResponseEntity<T>> {
@@ -40,10 +38,8 @@ private val URI_TEMPLATE_ATTRIBUTE = WebClient::class.java.name + ".uriTemplate"
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
-        uri { builder ->
-            attribute(URI_TEMPLATE_ATTRIBUTE, requestConfig.path)
+        uri(requestConfig.path) { builder ->
             builder
-                .path(requestConfig.path)
                 .queryParams(LinkedMultiValueMap(requestConfig.query))
                 .build(requestConfig.params)
         }
@@ -55,6 +51,7 @@ private val URI_TEMPLATE_ATTRIBUTE = WebClient::class.java.name + ".uriTemplate"
         when {
             requestConfig.headers[HttpHeaders.CONTENT_TYPE] == MediaType.MULTIPART_FORM_DATA_VALUE -> {
                 val builder = MultipartBodyBuilder()
+                @Suppress("UNCHECKED_CAST")
                 (requestConfig.body as Map<String, PartConfig<*>>).forEach { (name, part) ->
                     if (part.body != null) {
                         val partBuilder = builder.part(name, part.body)
