@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :my_number,
     :my_string,
@@ -14,7 +14,7 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   ]
 
   @type t :: %__MODULE__{
-    :my_number => float() | nil,
+    :my_number => number() | nil,
     :my_string => String.t | nil,
     :my_boolean => boolean() | nil
   }

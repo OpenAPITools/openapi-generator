@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Date** | **DateTime** |  | 
 **Number** | **decimal** |  | 
 **Password** | **string** |  | 
+**StringFormattedAsDecimalRequired** | **decimal** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 
 **DateTime** | **DateTime** |  | [optional] 
 **Decimal** | **decimal** |  | [optional] 
@@ -25,6 +26,7 @@ Name | Type | Description | Notes
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
 **String** | **string** |  | [optional] 
+**StringFormattedAsDecimal** | **decimal** |  | [optional] 
 **UnsignedInteger** | **uint** |  | [optional] 
 **UnsignedLong** | **ulong** |  | [optional] 
 **Uuid** | **Guid** |  | [optional] 

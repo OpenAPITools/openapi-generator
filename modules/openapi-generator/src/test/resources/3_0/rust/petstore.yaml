@@ -935,6 +935,10 @@ components:
         bytes:
           type: string
           format: byte
+        nullableBytes: # Regression test for bug report in #20500
+          type: string
+          format: byte
+          nullable: true
         decimal:
           type: string
           format: number
@@ -1074,4 +1078,32 @@ components:
       required:
        - type
        - speed
-
+    DuplicateTest:
+      type: object
+      properties:
+        name:
+          type: string
+    Duplicatetest: # explicitly testing the same name with different casing
+      type: object
+      properties:
+        name:
+          type: string
+    existing_tags_array:
+      type: array
+      items:
+        type: string
+      nullable: true
+      description: 'existing_tags_array'
+      example:
+        - base-image
+        - prod
+    TestAllOfWithMultiMetadataOnly:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        foo:
+          allOf:
+            - $ref: '#/components/schemas/existing_tags_array'
+            - description: This is a test for allOf with metadata only fields

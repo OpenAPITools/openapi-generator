@@ -63,7 +63,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         formData {
                     {{#formParams}}
                         {{#isFile}}
-                        {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { append({{{paramName}}}) }
                         {{/isFile}}
                         {{^isFile}}
                         {{^isArray}}
@@ -81,7 +81,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         {{/isArray}}
                         {{#isArray}}
                         for (x in {{paramName}} ?: listOf()) {
-                            append("{{{baseName}}}", x.toString())
+                            {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", x.toString()){{/isFile}}
                         }
                         {{/isArray}}
                         {{/isFile}}

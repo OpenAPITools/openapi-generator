@@ -12,6 +12,7 @@ syntax = "proto3";
 
 package petstore;
 
+import public "google/protobuf/struct.proto";
 
 message Order {
 
@@ -34,4 +35,7 @@ message Order {
 
   bool complete = 62574280;
 
+  google.protobuf.Struct meta = 3347973;
+
 }
+

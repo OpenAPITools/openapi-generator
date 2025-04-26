@@ -6,13 +6,13 @@ defmodule OpenapiPetstore.Model.NumberOnly do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :JustNumber
   ]
 
   @type t :: %__MODULE__{
-    :JustNumber => float() | nil
+    :JustNumber => number() | nil
   }
 
   def decode(value) do

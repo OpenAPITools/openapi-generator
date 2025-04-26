@@ -2272,7 +2272,7 @@ public class SpringCodegenTest {
                         "SchemaA.java", "public final class SchemaA extends RepresentationModel<SchemaA>  implements PostRequest {",
                         "PostRequest.java", "public sealed interface PostRequest permits SchemaA {")},
                 {"oneOf_array.yaml", Map.of(
-                        "MyExampleGet200Response.java", "public interface MyExampleGet200Response")},
+                        "MyExampleGet200Response.java", "public sealed interface MyExampleGet200Response")},
                 {"oneOf_duplicateArray.yaml", Map.of(
                         "Example.java", "public interface Example  {")},
                 {"oneOf_nonPrimitive.yaml", Map.of(
@@ -5434,6 +5434,7 @@ public class SpringCodegenTest {
                 .containsWithName("Validated");
     }
 
+    @Test
     public void testExampleAnnotationGeneration_issue17610() throws IOException {
         final Map<String, File> generatedCodeFiles = generateFromContract("src/test/resources/3_0/spring/api-response-examples_issue17610.yaml", SPRING_BOOT);
 
@@ -5455,5 +5456,18 @@ public class SpringCodegenTest {
                 .assertMethod("findPetsByStatus")
                 .assertMethodAnnotations()
                 .recursivelyContainsWithName("ExampleObject");
+    }
+
+    @Test
+    public void testEnumFieldShouldBeFinal_issue21018() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_21018.yaml");
+
+        JavaFileAssert.assertThat(files.get("SomeEnum.java"))
+                .fileContains("private final String value;");
+
+        JavaFileAssert.assertThat(files.get("SomeObject.java"))
+                .fileContains("private final String value");
     }
 }

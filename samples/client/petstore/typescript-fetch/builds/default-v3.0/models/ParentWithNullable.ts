@@ -85,7 +85,7 @@ export function ParentWithNullableToJSONTyped(value?: ParentWithNullable | null,
             case 'ChildWithNullable':
                 return ChildWithNullableToJSONTyped(value as ChildWithNullable, ignoreDiscriminator);
             default:
-                throw new Error(`No variant of ParentWithNullable exists with 'type=${value['type']}'`);
+                return value;
         }
     }
 

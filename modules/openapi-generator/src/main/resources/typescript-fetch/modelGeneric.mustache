@@ -126,7 +126,7 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
                 return {{modelName}}ToJSONTyped(value as {{modelName}}, ignoreDiscriminator);
         {{/discriminator.mappedModels}}
             default:
-                throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
+                return value;
         }
     }
     {{/discriminator}}

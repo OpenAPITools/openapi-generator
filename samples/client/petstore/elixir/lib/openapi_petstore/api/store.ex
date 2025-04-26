@@ -54,7 +54,7 @@ defmodule OpenapiPetstore.Api.Store do
   - `{:ok, %{}}` on success
   - `{:error, Tesla.Env.t}` on failure
   """
-  @spec get_inventory(Tesla.Env.client, keyword()) :: {:ok, map()} | {:error, Tesla.Env.t}
+  @spec get_inventory(Tesla.Env.client, keyword()) :: {:ok, %{optional(String.t) => integer()}} | {:error, Tesla.Env.t}
   def get_inventory(connection, _opts \\ []) do
     request =
       %{}

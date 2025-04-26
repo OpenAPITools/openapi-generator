@@ -87,7 +87,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testFormIntegerBooleanStringCall(Integer integerForm, Boolean booleanForm, String stringForm, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testFormIntegerBooleanStringCall(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -145,7 +145,7 @@ public class FormApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testFormIntegerBooleanStringValidateBeforeCall(Integer integerForm, Boolean booleanForm, String stringForm, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testFormIntegerBooleanStringValidateBeforeCall(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, final ApiCallback _callback) throws ApiException {
         return testFormIntegerBooleanStringCall(integerForm, booleanForm, stringForm, _callback);
 
     }
@@ -165,7 +165,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testFormIntegerBooleanString(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+    public String testFormIntegerBooleanString(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
         ApiResponse<String> localVarResp = testFormIntegerBooleanStringWithHttpInfo(integerForm, booleanForm, stringForm);
         return localVarResp.getData();
     }
@@ -185,7 +185,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(Integer integerForm, Boolean booleanForm, String stringForm) throws ApiException {
+    public ApiResponse<String> testFormIntegerBooleanStringWithHttpInfo(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm) throws ApiException {
         okhttp3.Call localVarCall = testFormIntegerBooleanStringValidateBeforeCall(integerForm, booleanForm, stringForm, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -207,7 +207,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testFormIntegerBooleanStringAsync(Integer integerForm, Boolean booleanForm, String stringForm, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testFormIntegerBooleanStringAsync(@javax.annotation.Nullable Integer integerForm, @javax.annotation.Nullable Boolean booleanForm, @javax.annotation.Nullable String stringForm, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testFormIntegerBooleanStringValidateBeforeCall(integerForm, booleanForm, stringForm, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -227,7 +227,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testFormObjectMultipartCall(TestFormObjectMultipartRequestMarker marker, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testFormObjectMultipartCall(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -277,7 +277,7 @@ public class FormApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testFormObjectMultipartValidateBeforeCall(TestFormObjectMultipartRequestMarker marker, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testFormObjectMultipartValidateBeforeCall(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'marker' is set
         if (marker == null) {
             throw new ApiException("Missing the required parameter 'marker' when calling testFormObjectMultipart(Async)");
@@ -300,7 +300,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+    public String testFormObjectMultipart(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
         ApiResponse<String> localVarResp = testFormObjectMultipartWithHttpInfo(marker);
         return localVarResp.getData();
     }
@@ -318,7 +318,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testFormObjectMultipartWithHttpInfo(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+    public ApiResponse<String> testFormObjectMultipartWithHttpInfo(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker) throws ApiException {
         okhttp3.Call localVarCall = testFormObjectMultipartValidateBeforeCall(marker, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -338,7 +338,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testFormObjectMultipartAsync(TestFormObjectMultipartRequestMarker marker, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testFormObjectMultipartAsync(@javax.annotation.Nonnull TestFormObjectMultipartRequestMarker marker, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testFormObjectMultipartValidateBeforeCall(marker, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
@@ -363,7 +363,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testFormOneofCall(String form1, Integer form2, String form3, Boolean form4, Long id, String name, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testFormOneofCall(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -433,7 +433,7 @@ public class FormApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testFormOneofValidateBeforeCall(String form1, Integer form2, String form3, Boolean form4, Long id, String name, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testFormOneofValidateBeforeCall(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, final ApiCallback _callback) throws ApiException {
         return testFormOneofCall(form1, form2, form3, form4, id, name, _callback);
 
     }
@@ -456,7 +456,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+    public String testFormOneof(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
         ApiResponse<String> localVarResp = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name);
         return localVarResp.getData();
     }
@@ -479,7 +479,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testFormOneofWithHttpInfo(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+    public ApiResponse<String> testFormOneofWithHttpInfo(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name) throws ApiException {
         okhttp3.Call localVarCall = testFormOneofValidateBeforeCall(form1, form2, form3, form4, id, name, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -504,7 +504,7 @@ public class FormApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testFormOneofAsync(String form1, Integer form2, String form3, Boolean form4, Long id, String name, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testFormOneofAsync(@javax.annotation.Nullable String form1, @javax.annotation.Nullable Integer form2, @javax.annotation.Nullable String form3, @javax.annotation.Nullable Boolean form4, @javax.annotation.Nullable Long id, @javax.annotation.Nullable String name, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testFormOneofValidateBeforeCall(form1, form2, form3, form4, id, name, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();

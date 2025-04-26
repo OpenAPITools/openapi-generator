@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="varReturn">varReturn.</param>
-        public Return(int varReturn = default(int))
+        public Return(int varReturn = default)
         {
             this.VarReturn = varReturn;
             this.AdditionalProperties = new Dictionary<string, object>();

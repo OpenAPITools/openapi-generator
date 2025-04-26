@@ -9,49 +9,73 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension Bool: QueryStringEncodable {}
-extension Float: QueryStringEncodable {}
-extension Int: QueryStringEncodable {}
-extension Int32: QueryStringEncodable {}
-extension Int64: QueryStringEncodable {}
-extension Double: QueryStringEncodable {}
-extension Decimal: QueryStringEncodable {}
-extension String: QueryStringEncodable {}
-extension URL: QueryStringEncodable {}
-extension UUID: QueryStringEncodable {}
-
-extension QueryStringEncodable {
-    @_disfavoredOverload
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: self) }
+extension Bool: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension RawRepresentable where RawValue: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String { String(describing: rawValue) }
+extension Float: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-private func encodeIfPossible<T>(_ object: T, codableHelper: CodableHelper) -> String {
-    if let encodableObject = object as? QueryStringEncodable {
-        return encodableObject.encodeToQueryString(codableHelper: codableHelper)
+extension Int: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension Int32: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension Int64: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension Double: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension Decimal: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension String: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension URL: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension UUID: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
+}
+
+extension RawRepresentable where RawValue: ParameterConvertible, RawValue: Sendable {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable { return self.rawValue }
+}
+
+private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
+    if let encodableObject = object as? ParameterConvertible {
+        return encodableObject.asParameter(codableHelper: codableHelper)
     } else {
-        return String(describing: object)
+        return object
     }
 }
 
-extension Array {
-    func encodeToQueryString(codableHelper: CodableHelper) -> [String] {
+extension Array where Element: Sendable {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return self.map { encodeIfPossible($0, codableHelper: codableHelper) }
     }
 }
 
-extension Set {
-    func encodeToQueryString(codableHelper: CodableHelper) -> [String] {
-        return Array(self).encodeToQueryString(codableHelper: codableHelper)
+extension Set where Element: Sendable {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
+        return Array(self).asParameter(codableHelper: codableHelper)
     }
 }
 
-extension Dictionary {
-    func encodeToQueryString(codableHelper: CodableHelper) -> [Key: String] {
-        var dictionary = [Key: String]()
+extension Dictionary where Key: Sendable, Value: Sendable {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
+        var dictionary = [Key: any Sendable]()
         for (key, value) in self {
             dictionary[key] = encodeIfPossible(value, codableHelper: codableHelper)
         }
@@ -59,24 +83,24 @@ extension Dictionary {
     }
 }
 
-extension Data: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String {
+extension Data: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return self.base64EncodedString(options: Data.Base64EncodingOptions())
     }
 }
 
-extension Date: QueryStringEncodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String {
+extension Date: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return codableHelper.dateFormatter.string(from: self)
     }
 }
 
-extension QueryStringEncodable where Self: Encodable {
-    func encodeToQueryString(codableHelper: CodableHelper) -> String {
+extension ParameterConvertible where Self: Encodable {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
         guard let data = try? codableHelper.jsonEncoder.encode(self) else {
             fatalError("Could not encode to json: \(self)")
         }
-        return data.encodeToQueryString(codableHelper: codableHelper)
+        return data.asParameter(codableHelper: codableHelper)
     }
 }
 

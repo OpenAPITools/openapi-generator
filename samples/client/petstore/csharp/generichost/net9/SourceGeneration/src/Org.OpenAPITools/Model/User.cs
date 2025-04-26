@@ -321,12 +321,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "anyTypeProp":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anyTypeProp = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            anyTypeProp = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "anyTypePropNullable":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anyTypePropNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            anyTypePropNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "email":
                             email = new Option<string?>(utf8JsonReader.GetString()!);
@@ -335,19 +333,16 @@ namespace Org.OpenAPITools.Model
                             firstName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "id":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                            id = new Option<long?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (long?)null : utf8JsonReader.GetInt64());
                             break;
                         case "lastName":
                             lastName = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "objectWithNoDeclaredProps":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectWithNoDeclaredProps = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            objectWithNoDeclaredProps = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "objectWithNoDeclaredPropsNullable":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectWithNoDeclaredPropsNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            objectWithNoDeclaredPropsNullable = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "password":
                             password = new Option<string?>(utf8JsonReader.GetString()!);
@@ -356,8 +351,7 @@ namespace Org.OpenAPITools.Model
                             phone = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "userStatus":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                userStatus = new Option<int?>(utf8JsonReader.GetInt32());
+                            userStatus = new Option<int?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (int?)null : utf8JsonReader.GetInt32());
                             break;
                         case "username":
                             username = new Option<string?>(utf8JsonReader.GetString()!);

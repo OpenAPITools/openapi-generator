@@ -96,7 +96,7 @@ public class FakeClassnameTags123Api {
    * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Client> testClassname(Client client) throws ApiException {
+  public CompletableFuture<Client> testClassname(@javax.annotation.Nonnull Client client) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client);
       return memberVarHttpClient.sendAsync(
@@ -127,7 +127,7 @@ public class FakeClassnameTags123Api {
    * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<Client>> testClassnameWithHttpInfo(Client client) throws ApiException {
+  public CompletableFuture<ApiResponse<Client>> testClassnameWithHttpInfo(@javax.annotation.Nonnull Client client) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client);
       return memberVarHttpClient.sendAsync(
@@ -158,7 +158,7 @@ public class FakeClassnameTags123Api {
     }
   }
 
-  private HttpRequest.Builder testClassnameRequestBuilder(Client client) throws ApiException {
+  private HttpRequest.Builder testClassnameRequestBuilder(@javax.annotation.Nonnull Client client) throws ApiException {
     // verify the required parameter 'client' is set
     if (client == null) {
       throw new ApiException(400, "Missing the required parameter 'client' when calling testClassname");

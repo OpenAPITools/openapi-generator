@@ -43,11 +43,13 @@ use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
+use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
@@ -224,34 +226,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\FakeBigDecimalMap200Response' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\FakeBigDecimalMap200Response', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\FakeBigDecimalMap200Response',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\FakeBigDecimalMap200Response';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\FakeBigDecimalMap200Response',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -261,8 +265,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -461,34 +467,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\EnumClass' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\EnumClass', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\EnumClass',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\EnumClass';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\EnumClass',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -498,8 +506,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -756,34 +766,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\HealthCheckResult' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\HealthCheckResult', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\HealthCheckResult',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\HealthCheckResult';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\HealthCheckResult',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -793,8 +805,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -996,11 +1010,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -1221,34 +1237,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('bool' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, 'bool', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        'bool',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = 'bool';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                'bool',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -1258,8 +1276,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -1459,34 +1479,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\OuterComposite' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\OuterComposite', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\OuterComposite',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\OuterComposite';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\OuterComposite',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -1496,8 +1518,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -1697,34 +1721,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('float' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, 'float', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        'float',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = 'float';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                'float',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -1734,8 +1760,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -1935,34 +1963,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('string' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, 'string', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        'string',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = 'string';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                'string',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -1972,8 +2002,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -2173,34 +2205,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\OuterObjectWithEnumProperty' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\OuterObjectWithEnumProperty', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\OuterObjectWithEnumProperty',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\OuterObjectWithEnumProperty';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\OuterObjectWithEnumProperty',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -2210,8 +2244,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -2364,6 +2400,1348 @@ class FakeApi
     }
 
     /**
+     * Operation fakeWith400And4xxRangeResponseEndpoint
+     *
+     * test endpoint with 400 and 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse|\OpenAPI\Client\Model\ErrorResponse
+     */
+    public function fakeWith400And4xxRangeResponseEndpoint($pet)
+    {
+        list($response) = $this->fakeWith400And4xxRangeResponseEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseEndpointWithHttpInfo
+     *
+     * test endpoint with 400 and 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse|\OpenAPI\Client\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith400And4xxRangeResponseEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith400And4xxRangeResponseEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+                
+            }
+
+            if ($this->responseWithinRangeCode('4xx', $statusCode)) {
+                return $this->handleResponseWithDataType(
+                    '\OpenAPI\Client\Model\ErrorResponse',
+                    $request,
+                    $response,
+                );
+            }
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                
+            }
+        
+            if ($this->responseWithinRangeCode('4xx', $e->getCode())) {
+                $data = ObjectSerializer::deserialize(
+                    $e->getResponseBody(),
+                    '\OpenAPI\Client\Model\ErrorResponse',
+                    $e->getResponseHeaders()
+                );
+                $e->setResponseObject($data);
+                throw $e;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseEndpointAsync
+     *
+     * test endpoint with 400 and 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400And4xxRangeResponseEndpointAsync($pet)
+    {
+        return $this->fakeWith400And4xxRangeResponseEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400 and 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400And4xxRangeResponseEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith400And4xxRangeResponseEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith400And4xxRangeResponseEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith400And4xxRangeResponseEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith400And4xxRangeResponseEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_400_and_4xx_range_response/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint($pet)
+    {
+        list($response) = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsync
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsync($pet)
+    {
+        return $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400 and 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_400_and_4xx_range_response_no_4xx_datatype/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
+     * Operation fakeWith400ResponseEndpoint
+     *
+     * test endpoint with 400 response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse
+     */
+    public function fakeWith400ResponseEndpoint($pet)
+    {
+        list($response) = $this->fakeWith400ResponseEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith400ResponseEndpointWithHttpInfo
+     *
+     * test endpoint with 400 response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith400ResponseEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith400ResponseEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\ErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\ErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith400ResponseEndpointAsync
+     *
+     * test endpoint with 400 response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400ResponseEndpointAsync($pet)
+    {
+        return $this->fakeWith400ResponseEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith400ResponseEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400 response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith400ResponseEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith400ResponseEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith400ResponseEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith400ResponseEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith400ResponseEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_400_response/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseEndpoint
+     *
+     * test endpoint with 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse
+     */
+    public function fakeWith4xxRangeResponseEndpoint($pet)
+    {
+        list($response) = $this->fakeWith4xxRangeResponseEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseEndpointWithHttpInfo
+     *
+     * test endpoint with 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet|\OpenAPI\Client\Model\ErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith4xxRangeResponseEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith4xxRangeResponseEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+                
+            }
+
+            if ($this->responseWithinRangeCode('4xx', $statusCode)) {
+                return $this->handleResponseWithDataType(
+                    '\OpenAPI\Client\Model\ErrorResponse',
+                    $request,
+                    $response,
+                );
+            }
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                
+            }
+        
+            if ($this->responseWithinRangeCode('4xx', $e->getCode())) {
+                $data = ObjectSerializer::deserialize(
+                    $e->getResponseBody(),
+                    '\OpenAPI\Client\Model\ErrorResponse',
+                    $e->getResponseHeaders()
+                );
+                $e->setResponseObject($data);
+                throw $e;
+            }
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseEndpointAsync
+     *
+     * test endpoint with 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith4xxRangeResponseEndpointAsync($pet)
+    {
+        return $this->fakeWith4xxRangeResponseEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400-499 range response http code with dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith4xxRangeResponseEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith4xxRangeResponseEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith4xxRangeResponseEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith4xxRangeResponseEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith4xxRangeResponseEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_4xx_range_response/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpoint
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\Pet
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpoint($pet)
+    {
+        list($response) = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet);
+        return $response;
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\Pet, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet)
+    {
+        $request = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        try {
+            try {
+                $response = $this->httpClient->sendRequest($request);
+            } catch (HttpException $e) {
+                $response = $e->getResponse();
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $response->getStatusCode(),
+                        (string) $request->getUri()
+                    ),
+                    $request,
+                    $response,
+                    $e
+                );
+            } catch (ClientExceptionInterface $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $request,
+                    null,
+                    $e
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Pet',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Pet',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\Pet',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsync
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsync($pet)
+    {
+        return $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo
+     *
+     * test endpoint with 400-499 range response http code without dataType
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return Promise
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointAsyncWithHttpInfo($pet)
+    {
+        $returnType = '\OpenAPI\Client\Model\Pet';
+        $request = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointRequest($pet);
+
+        return $this->httpAsyncClient->sendAsyncRequest($request)
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function (HttpException $exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $exception->getRequest(),
+                        $exception->getResponse(),
+                        $exception
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return RequestInterface
+     */
+    public function fakeWith4xxRangeResponseNo4xxDatatypeEndpointRequest($pet)
+    {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $pet when calling fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'
+            );
+        }
+
+        $resourcePath = '/fake/with_4xx_range_response_no_4xx_datatype/endpoint';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = null;
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json'],
+            'application/jsonapplication/xml',
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($pet)) {
+            if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($pet));
+            } else {
+                $httpBody = $pet;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
+                $httpBody = json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+
+        $uri = $this->createUri($operationHost, $resourcePath, $queryParams);
+
+        return $this->createRequest('POST', $uri, $headers, $httpBody);
+    }
+
+    /**
      * Operation getParameterNameMapping
      *
      * parameter name mapping test
@@ -2428,11 +3806,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -2699,11 +4079,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -2902,11 +4284,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -3101,11 +4485,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -3302,11 +4688,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -3526,34 +4914,36 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
+
             switch($statusCode) {
                 case 200:
-                    if ('\OpenAPI\Client\Model\Client' === '\SplFileObject') {
-                        $content = $response->getBody(); //stream goes to serializer
-                    } else {
-                        $content = (string) $response->getBody();
-                    }
-
-                    return [
-                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\Client', []),
-                        $response->getStatusCode(),
-                        $response->getHeaders()
-                    ];
+                    return $this->handleResponseWithDataType(
+                        '\OpenAPI\Client\Model\Client',
+                        $request,
+                        $response,
+                    );
             }
 
-            $returnType = '\OpenAPI\Client\Model\Client';
-            if ($returnType === '\SplFileObject') {
-                $content = $response->getBody(); //stream goes to serializer
-            } else {
-                $content = (string) $response->getBody();
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
             }
 
-            return [
-                ObjectSerializer::deserialize($content, $returnType, []),
-                $response->getStatusCode(),
-                $response->getHeaders()
-            ];
-
+            return $this->handleResponseWithDataType(
+                '\OpenAPI\Client\Model\Client',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 200:
@@ -3563,8 +4953,10 @@ class FakeApi
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
-                    break;
+                    throw $e;
             }
+        
+
             throw $e;
         }
     }
@@ -3803,11 +5195,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -4001,69 +5395,27 @@ class FakeApi
 
 
         // form params
-        if ($integer !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('integer', $integer));
-        }
-        // form params
-        if ($int32 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int32', $int32));
-        }
-        // form params
-        if ($int64 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int64', $int64));
-        }
-        // form params
-        if ($number !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('number', $number));
-        }
-        // form params
-        if ($float !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('float', $float));
-        }
-        // form params
-        if ($double !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('double', $double));
-        }
-        // form params
-        if ($string !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('string', $string));
-        }
-        // form params
-        if ($pattern_without_delimiter !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('pattern_without_delimiter', $pattern_without_delimiter));
-        }
-        // form params
-        if ($byte !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('byte', $byte));
-        }
-        // form params
-        if ($binary !== null) {
-            $multipart = true;
-            $formParams['binary'] = [];
-            $paramFiles = is_array($binary) ? $binary : [$binary];
-            foreach ($paramFiles as $paramFile) {
-                $formParams['binary'][] = \GuzzleHttp\Psr7\try_fopen(
-                    ObjectSerializer::toFormValue('binary', $paramFile)['binary'],
-                    'rb'
-                );
-            }
-        }
-        // form params
-        if ($date !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('date', $date));
-        }
-        // form params
-        if ($date_time !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('dateTime', $date_time));
-        }
-        // form params
-        if ($password !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('password', $password));
-        }
-        // form params
-        if ($callback !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('callback', $callback));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'integer' => $integer,
+            'int32' => $int32,
+            'int64' => $int64,
+            'number' => $number,
+            'float' => $float,
+            'double' => $double,
+            'string' => $string,
+            'pattern_without_delimiter' => $pattern_without_delimiter,
+            'byte' => $byte,
+            'binary' => $binary,
+            'date' => $date,
+            'date_time' => $date_time,
+            'password' => $password,
+            'callback' => $callback,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -4192,11 +5544,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -4370,13 +5724,15 @@ class FakeApi
 
 
         // form params
-        if ($enum_form_string_array !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string_array', $enum_form_string_array));
-        }
-        // form params
-        if ($enum_form_string !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string', $enum_form_string));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'enum_form_string_array' => $enum_form_string_array,
+            'enum_form_string' => $enum_form_string,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -4499,11 +5855,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -4797,11 +6155,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -5004,11 +6364,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -5213,11 +6575,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -5316,13 +6680,15 @@ class FakeApi
 
 
         // form params
-        if ($param !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param', $param));
-        }
-        // form params
-        if ($param2 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param2', $param2));
-        }
+        $formDataProcessor = new FormDataProcessor();
+
+        $formData = $formDataProcessor->prepare([
+            'param' => $param,
+            'param2' => $param2,
+        ]);
+
+        $formParams = $formDataProcessor->flatten($formData);
+        $multipart = $formDataProcessor->has_file;
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -5439,11 +6805,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -5745,11 +7113,13 @@ class FakeApi
 
             $statusCode = $response->getStatusCode();
 
-            return [null, $statusCode, $response->getHeaders()];
 
+            return [null, $statusCode, $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
+        
+
             throw $e;
         }
     }
@@ -5959,5 +7329,48 @@ class FakeApi
         }
 
         return $uri;
+    }
+
+    private function handleResponseWithDataType(
+        string $dataType,
+        RequestInterface $request,
+        ResponseInterface $response
+    ): array {
+        if ($dataType === '\SplFileObject') {
+            $content = $response->getBody(); //stream goes to serializer
+        } else {
+            $content = (string) $response->getBody();
+            if ($dataType !== 'string') {
+                try {
+                    $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $exception) {
+                    throw new ApiException(
+                        sprintf(
+                            'Error JSON decoding server response (%s)',
+                            $request->getUri()
+                        ),
+                        $response->getStatusCode(),
+                        $response->getHeaders(),
+                        $content
+                    );
+                }
+            }
+        }
+
+        return [
+            ObjectSerializer::deserialize($content, $dataType, []),
+            $response->getStatusCode(),
+            $response->getHeaders()
+        ];
+    }
+
+    private function responseWithinRangeCode(
+        string $rangeCode,
+        int $statusCode
+    ): bool {
+        $left = (int) ($rangeCode[0].'00');
+        $right = (int) ($rangeCode[0].'99');
+
+        return $statusCode >= $left && $statusCode <= $right;
     }
 }

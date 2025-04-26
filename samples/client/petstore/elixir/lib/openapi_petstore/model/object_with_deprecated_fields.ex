@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :uuid,
     :id,
@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
 
   @type t :: %__MODULE__{
     :uuid => String.t | nil,
-    :id => float() | nil,
+    :id => number() | nil,
     :deprecatedRef => OpenapiPetstore.Model.DeprecatedModel.t | nil,
     :bars => [String.t] | nil
   }
