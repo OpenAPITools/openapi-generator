@@ -13,7 +13,6 @@
 
 package org.openapitools.client.model;
 
-import java.util.List;
 import org.openapitools.client.model.Scalar;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
