@@ -2336,6 +2336,32 @@ public class ModelUtils {
         return false;
     }
 
+    /**
+     * Returns true if a schema is only metadata and not an actual type.
+     * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
+     *
+     * @param schema the schema
+     * @return       if the schema is only metadata and not an actual type
+     */
+    public static boolean isMetadataOnlySchema(Schema schema) {
+        return schema.get$ref() != null ||
+                schema.getProperties() != null ||
+                schema.getType() != null ||
+                schema.getAdditionalProperties() != null ||
+                schema.getAllOf() != null ||
+                schema.getAnyOf() != null ||
+                schema.getOneOf() != null ||
+                schema.getPrefixItems() != null ||
+                schema.getItems() != null ||
+                schema.getTypes() != null ||
+                schema.getPatternProperties() != null ||
+                schema.getContains() != null ||
+                schema.get$dynamicAnchor() != null ||
+                schema.get$anchor() != null ||
+                schema.getContentSchema() != null;
+    }
+
+
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {
 

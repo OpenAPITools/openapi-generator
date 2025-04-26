@@ -36,6 +36,8 @@ pub mod model_return;
 pub use self::model_return::Return;
 pub mod tag;
 pub use self::tag::Tag;
+pub mod test_all_of_with_multi_metadata_only;
+pub use self::test_all_of_with_multi_metadata_only::TestAllOfWithMultiMetadataOnly;
 pub mod _tests_discriminator_duplicate_enums_get_200_response;
 pub use self::_tests_discriminator_duplicate_enums_get_200_response::TestsDiscriminatorDuplicateEnumsGet200Response;
 pub mod type_testing;

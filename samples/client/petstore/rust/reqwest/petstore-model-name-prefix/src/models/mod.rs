@@ -36,6 +36,8 @@ pub mod foo_return;
 pub use self::foo_return::FooReturn;
 pub mod foo_tag;
 pub use self::foo_tag::FooTag;
+pub mod foo_test_all_of_with_multi_metadata_only;
+pub use self::foo_test_all_of_with_multi_metadata_only::FooTestAllOfWithMultiMetadataOnly;
 pub mod foo__tests_discriminator_duplicate_enums_get_200_response;
 pub use self::foo__tests_discriminator_duplicate_enums_get_200_response::FooTestsDiscriminatorDuplicateEnumsGet200Response;
 pub mod foo_type_testing;

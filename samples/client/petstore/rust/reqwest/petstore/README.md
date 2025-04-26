@@ -74,6 +74,7 @@ Class | Method | HTTP request | Description
  - [Ref](docs/Ref.md)
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
+ - [TestAllOfWithMultiMetadataOnly](docs/TestAllOfWithMultiMetadataOnly.md)
  - [TestsDiscriminatorDuplicateEnumsGet200Response](docs/TestsDiscriminatorDuplicateEnumsGet200Response.md)
  - [TypeTesting](docs/TypeTesting.md)
  - [UniqueItemArrayTesting](docs/UniqueItemArrayTesting.md)

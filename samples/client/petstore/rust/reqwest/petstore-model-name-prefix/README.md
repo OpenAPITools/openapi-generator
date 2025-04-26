@@ -74,6 +74,7 @@ Class | Method | HTTP request | Description
  - [FooRef](docs/FooRef.md)
  - [FooReturn](docs/FooReturn.md)
  - [FooTag](docs/FooTag.md)
+ - [FooTestAllOfWithMultiMetadataOnly](docs/FooTestAllOfWithMultiMetadataOnly.md)
  - [FooTestsDiscriminatorDuplicateEnumsGet200Response](docs/FooTestsDiscriminatorDuplicateEnumsGet200Response.md)
  - [FooTypeTesting](docs/FooTypeTesting.md)
  - [FooUniqueItemArrayTesting](docs/FooUniqueItemArrayTesting.md)
