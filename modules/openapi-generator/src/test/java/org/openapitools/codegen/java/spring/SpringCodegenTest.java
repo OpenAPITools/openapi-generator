@@ -5434,6 +5434,104 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldUseApiComposedAnnotationWhenSetToTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(USE_API_COMPOSED_ANNOTATION, true);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("getUserByName")
+                .assertMethodAnnotations()
+                .containsWithName("GetMapping")
+                .doesNotContainWithName("RequestMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("createUser")
+                .assertMethodAnnotations()
+                .containsWithName("PostMapping")
+                .doesNotContainWithName("RequestMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("updateUser")
+                .assertMethodAnnotations()
+                .containsWithName("PutMapping")
+                .doesNotContainWithName("RequestMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("deleteUser")
+                .assertMethodAnnotations()
+                .containsWithName("DeleteMapping")
+                .doesNotContainWithName("RequestMapping");
+    }
+
+    @Test
+    public void shouldNotUseApiComposedAnnotationWhenSetToFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(USE_API_COMPOSED_ANNOTATION, false);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("getUserByName")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("GetMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("createUser")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("PostMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("updateUser")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("PutMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("deleteUser")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("DeleteMapping");
+    }
+
+    @Test
+    public void shouldNotUseApiComposedAnnotationByDefault() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        var file = files.get("UserApi.java");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("getUserByName")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("GetMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("createUser")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("PostMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("updateUser")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("PutMapping");
+
+        JavaFileAssert.assertThat(file)
+                .assertMethod("deleteUser")
+                .assertMethodAnnotations()
+                .containsWithName("RequestMapping")
+                .doesNotContainWithName("DeleteMapping");
+    }
+
+    @Test
     public void testEnumFieldShouldBeFinal_issue21018() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
