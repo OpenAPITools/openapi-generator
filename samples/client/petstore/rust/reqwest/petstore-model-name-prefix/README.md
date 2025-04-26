@@ -61,6 +61,8 @@ Class | Method | HTTP request | Description
  - [FooArrayItemRefTest](docs/FooArrayItemRefTest.md)
  - [FooBaz](docs/FooBaz.md)
  - [FooCategory](docs/FooCategory.md)
+ - [FooDuplicateTest](docs/FooDuplicateTest.md)
+ - [FooDuplicatetest](docs/FooDuplicatetest.md)
  - [FooEnumArrayTesting](docs/FooEnumArrayTesting.md)
  - [FooNullableArray](docs/FooNullableArray.md)
  - [FooNumericEnumTesting](docs/FooNumericEnumTesting.md)
