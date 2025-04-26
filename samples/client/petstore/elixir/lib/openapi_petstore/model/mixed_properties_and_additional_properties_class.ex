@@ -23,7 +23,6 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
 
   def decode(value) do
     value
-     |> Deserializer.deserialize(:dateTime, :datetime, nil)
      |> Deserializer.deserialize(:map, :map, OpenapiPetstore.Model.Animal)
   end
 end

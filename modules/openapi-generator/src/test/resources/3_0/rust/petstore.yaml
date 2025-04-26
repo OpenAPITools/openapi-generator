@@ -935,6 +935,10 @@ components:
         bytes:
           type: string
           format: byte
+        nullableBytes: # Regression test for bug report in #20500
+          type: string
+          format: byte
+          nullable: true
         decimal:
           type: string
           format: number
@@ -1074,4 +1078,13 @@ components:
       required:
        - type
        - speed
-
+    DuplicateTest:
+      type: object
+      properties:
+        name:
+          type: string
+    Duplicatetest: # explicitly testing the same name with different casing
+      type: object
+      properties:
+        name:
+          type: string

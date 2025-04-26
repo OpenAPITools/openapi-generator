@@ -12,7 +12,7 @@ defmodule OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
   ]
 
   @type t :: %__MODULE__{
-    :ArrayArrayNumber => [[float()]] | nil
+    :ArrayArrayNumber => [[number()]] | nil
   }
 
   def decode(value) do
