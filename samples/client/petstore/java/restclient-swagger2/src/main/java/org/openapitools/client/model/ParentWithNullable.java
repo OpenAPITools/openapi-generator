@@ -83,6 +83,7 @@ public class ParentWithNullable {
   }
 
   public static final String JSON_PROPERTY_TYPE = "type";
+  @jakarta.annotation.Nullable
   protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
