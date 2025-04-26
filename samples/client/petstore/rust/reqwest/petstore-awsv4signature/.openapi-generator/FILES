@@ -8,6 +8,8 @@ docs/ApiResponse.md
 docs/ArrayItemRefTest.md
 docs/Baz.md
 docs/Category.md
+docs/DuplicateTest.md
+docs/Duplicatetest.md
 docs/EnumArrayTesting.md
 docs/FakeApi.md
 docs/NullableArray.md
@@ -46,6 +48,8 @@ src/models/api_response.rs
 src/models/array_item_ref_test.rs
 src/models/baz.rs
 src/models/category.rs
+src/models/duplicate_test.rs
+src/models/duplicatetest.rs
 src/models/enum_array_testing.rs
 src/models/mod.rs
 src/models/model_ref.rs

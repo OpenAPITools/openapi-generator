@@ -1,5 +1,5 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
-import { Configuration, ConfigurationOptions, PromiseConfigurationOptions } from '../configuration'
+import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware';
 
 import { ComplexObject } from '../models/ComplexObject';
@@ -21,18 +21,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfArraysGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<Array<string>>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfArraysGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -40,18 +29,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfArraysGet(_options?: PromiseConfigurationOptions): Promise<Array<Array<string>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfArraysGet(observableOptions);
         return result.toPromise();
     }
@@ -59,18 +37,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<string>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -78,18 +45,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfGet(_options?: PromiseConfigurationOptions): Promise<Array<string>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfGet(observableOptions);
         return result.toPromise();
     }
@@ -97,18 +53,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<{ [key: string]: ComplexObject; }>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfMapsOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -116,18 +61,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfMapsOfObjectsGet(_options?: PromiseConfigurationOptions): Promise<Array<{ [key: string]: ComplexObject; }>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfMapsOfObjectsGet(observableOptions);
         return result.toPromise();
     }
@@ -135,18 +69,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfNullableGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<string | null>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfNullableGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -154,18 +77,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfNullableGet(_options?: PromiseConfigurationOptions): Promise<Array<string | null>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfNullableGet(observableOptions);
         return result.toPromise();
     }
@@ -173,18 +85,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<ComplexObject>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfNullableObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -192,18 +93,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeArrayOfNullableObjectsGet(_options?: PromiseConfigurationOptions): Promise<Array<ComplexObject>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfNullableObjectsGet(observableOptions);
         return result.toPromise();
     }
@@ -211,18 +101,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeCompositeObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<CompositeObject>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeCompositeObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -230,18 +109,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeCompositeObjectsGet(_options?: PromiseConfigurationOptions): Promise<CompositeObject> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeCompositeObjectsGet(observableOptions);
         return result.toPromise();
     }
@@ -249,18 +117,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeMapOfMapsOfObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: { [key: string]: ComplexObject; }; }>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfMapsOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -268,18 +125,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeMapOfMapsOfObjectsGet(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: { [key: string]: ComplexObject; }; }> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfMapsOfObjectsGet(observableOptions);
         return result.toPromise();
     }
@@ -287,18 +133,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeMapOfObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: ComplexObject | null; }>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -306,18 +141,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeMapOfObjectsGet(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: ComplexObject | null; }> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfObjectsGet(observableOptions);
         return result.toPromise();
     }
@@ -325,18 +149,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeMapOfPrimitiveGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<{ [key: string]: string; }>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfPrimitiveGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -344,18 +157,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeMapOfPrimitiveGet(_options?: PromiseConfigurationOptions): Promise<{ [key: string]: string; }> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeMapOfPrimitiveGet(observableOptions);
         return result.toPromise();
     }
@@ -363,18 +165,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeNullableArrayGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<string>>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeNullableArrayGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -382,18 +173,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeNullableArrayGet(_options?: PromiseConfigurationOptions): Promise<Array<string>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeNullableArrayGet(observableOptions);
         return result.toPromise();
     }
@@ -401,18 +181,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeNullableGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeNullableGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -420,18 +189,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeNullableGet(_options?: PromiseConfigurationOptions): Promise<string> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeNullableGet(observableOptions);
         return result.toPromise();
     }
@@ -439,18 +197,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeObjectGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<ComplexObject>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeObjectGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -458,18 +205,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodeObjectGet(_options?: PromiseConfigurationOptions): Promise<ComplexObject> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeObjectGet(observableOptions);
         return result.toPromise();
     }
@@ -477,18 +213,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveBooleanGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<boolean>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveBooleanGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -496,18 +221,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveBooleanGet(_options?: PromiseConfigurationOptions): Promise<boolean> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveBooleanGet(observableOptions);
         return result.toPromise();
     }
@@ -515,18 +229,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveIntegerGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<number>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveIntegerGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -534,18 +237,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveIntegerGet(_options?: PromiseConfigurationOptions): Promise<number> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveIntegerGet(observableOptions);
         return result.toPromise();
     }
@@ -553,18 +245,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveNumberGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<number>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveNumberGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -572,18 +253,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveNumberGet(_options?: PromiseConfigurationOptions): Promise<number> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveNumberGet(observableOptions);
         return result.toPromise();
     }
@@ -591,18 +261,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveStringGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveStringGetWithHttpInfo(observableOptions);
         return result.toPromise();
     }
@@ -610,18 +269,7 @@ export class PromiseDefaultApi {
     /**
      */
     public testDecodePrimitiveStringGet(_options?: PromiseConfigurationOptions): Promise<string> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodePrimitiveStringGet(observableOptions);
         return result.toPromise();
     }
@@ -630,18 +278,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeArrayOfArraysPostWithHttpInfo(requestBody: Array<Array<string>>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfArraysPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -650,18 +287,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeArrayOfArraysPost(requestBody: Array<Array<string>>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfArraysPost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -670,18 +296,7 @@ export class PromiseDefaultApi {
      * @param complexObject
      */
     public testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfMapsOfObjectsPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
     }
@@ -690,18 +305,7 @@ export class PromiseDefaultApi {
      * @param complexObject
      */
     public testEncodeArrayOfMapsOfObjectsPost(complexObject: Array<{ [key: string]: ComplexObject; }>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfMapsOfObjectsPost(complexObject, observableOptions);
         return result.toPromise();
     }
@@ -710,18 +314,7 @@ export class PromiseDefaultApi {
      * @param complexObject
      */
     public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
     }
@@ -730,18 +323,7 @@ export class PromiseDefaultApi {
      * @param complexObject
      */
     public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfNullableObjectsPost(complexObject, observableOptions);
         return result.toPromise();
     }
@@ -750,18 +332,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeArrayOfNullablePostWithHttpInfo(requestBody: Array<string | null>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfNullablePostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -770,18 +341,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeArrayOfNullablePost(requestBody: Array<string | null>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfNullablePost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -790,18 +350,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeArrayOfPostWithHttpInfo(requestBody: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -810,18 +359,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeArrayOfPost(requestBody: Array<string>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfPost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -830,18 +368,7 @@ export class PromiseDefaultApi {
      * @param compositeObject
      */
     public testEncodeCompositeObjectsPostWithHttpInfo(compositeObject: CompositeObject, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeCompositeObjectsPostWithHttpInfo(compositeObject, observableOptions);
         return result.toPromise();
     }
@@ -850,18 +377,7 @@ export class PromiseDefaultApi {
      * @param compositeObject
      */
     public testEncodeCompositeObjectsPost(compositeObject: CompositeObject, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeCompositeObjectsPost(compositeObject, observableOptions);
         return result.toPromise();
     }
@@ -870,18 +386,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfMapsOfObjectsPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -890,18 +395,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeMapOfMapsOfObjectsPost(requestBody: { [key: string]: { [key: string]: ComplexObject; }; }, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfMapsOfObjectsPost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -910,18 +404,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeMapOfObjectsPostWithHttpInfo(requestBody: { [key: string]: ComplexObject | null; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfObjectsPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -930,18 +413,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeMapOfObjectsPost(requestBody: { [key: string]: ComplexObject | null; }, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfObjectsPost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -950,18 +422,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeMapOfPrimitivePostWithHttpInfo(requestBody: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfPrimitivePostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -970,18 +431,7 @@ export class PromiseDefaultApi {
      * @param requestBody
      */
     public testEncodeMapOfPrimitivePost(requestBody: { [key: string]: string; }, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeMapOfPrimitivePost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -990,18 +440,7 @@ export class PromiseDefaultApi {
      * @param [requestBody]
      */
     public testEncodeNullableArrayPostWithHttpInfo(requestBody?: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeNullableArrayPostWithHttpInfo(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -1010,18 +449,7 @@ export class PromiseDefaultApi {
      * @param [requestBody]
      */
     public testEncodeNullableArrayPost(requestBody?: Array<string>, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeNullableArrayPost(requestBody, observableOptions);
         return result.toPromise();
     }
@@ -1030,18 +458,7 @@ export class PromiseDefaultApi {
      * @param [body]
      */
     public testEncodeNullablePostWithHttpInfo(body?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeNullablePostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
@@ -1050,18 +467,7 @@ export class PromiseDefaultApi {
      * @param [body]
      */
     public testEncodeNullablePost(body?: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeNullablePost(body, observableOptions);
         return result.toPromise();
     }
@@ -1070,18 +476,7 @@ export class PromiseDefaultApi {
      * @param complexObject
      */
     public testEncodeObjectPostWithHttpInfo(complexObject: ComplexObject, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeObjectPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
     }
@@ -1090,18 +485,7 @@ export class PromiseDefaultApi {
      * @param complexObject
      */
     public testEncodeObjectPost(complexObject: ComplexObject, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeObjectPost(complexObject, observableOptions);
         return result.toPromise();
     }
@@ -1110,18 +494,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveBooleanPostWithHttpInfo(body: boolean, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveBooleanPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
@@ -1130,18 +503,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveBooleanPost(body: boolean, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveBooleanPost(body, observableOptions);
         return result.toPromise();
     }
@@ -1150,18 +512,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveIntegerPostWithHttpInfo(body: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveIntegerPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
@@ -1170,18 +521,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveIntegerPost(body: number, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveIntegerPost(body, observableOptions);
         return result.toPromise();
     }
@@ -1190,18 +530,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveNumberPostWithHttpInfo(body: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveNumberPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
@@ -1210,18 +539,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveNumberPost(body: number, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveNumberPost(body, observableOptions);
         return result.toPromise();
     }
@@ -1230,18 +548,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveStringPostWithHttpInfo(body: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveStringPostWithHttpInfo(body, observableOptions);
         return result.toPromise();
     }
@@ -1250,18 +557,7 @@ export class PromiseDefaultApi {
      * @param body
      */
     public testEncodePrimitiveStringPost(body: string, _options?: PromiseConfigurationOptions): Promise<void> {
-        let observableOptions: undefined | ConfigurationOptions
-        if (_options){
-	    observableOptions = {
-                baseServer: _options.baseServer,
-                httpApi: _options.httpApi,
-                middleware: _options.middleware?.map(
-                    m => new PromiseMiddlewareWrapper(m)
-		),
-		middlewareMergeStrategy: _options.middlewareMergeStrategy,
-                authMethods: _options.authMethods
-	    }
-	}
+        const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodePrimitiveStringPost(body, observableOptions);
         return result.toPromise();
     }

@@ -12,9 +12,12 @@ syntax = "proto3";
 
 package petstore.services.petservice;
 
+option java_multiple_files = true;
+option java_package = "com.example.tutorial.protos.api";
+option java_outer_classname = "ExampleProtos";
+
 import "google/protobuf/empty.proto";
-import public "models/api_response.proto";
-import public "models/pet.proto";
+import public "models/data.proto";
 
 service PetService {
   rpc AddPet (AddPetRequest) returns (Pet);

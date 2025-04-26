@@ -25,6 +25,7 @@ jobs:
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
+          - samples/server/petstore/kotlin-misk
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4

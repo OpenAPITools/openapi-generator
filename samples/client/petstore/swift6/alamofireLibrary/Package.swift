@@ -19,8 +19,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        // TODO: Alamofire versions 5.10.0 and above are not currently supported. If you need a newer version, please consider submitting a Pull Request with the required changes.
-        .package(url: "https://github.com/Alamofire/Alamofire", exact: "5.9.1"),
+        .package(url: "https://github.com/Alamofire/Alamofire", .upToNextMajor(from: "5.10.2")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

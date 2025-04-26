@@ -6,15 +6,15 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :someId,
     :someMap
   ]
 
   @type t :: %__MODULE__{
-    :someId => float() | nil,
-    :someMap => %{optional(String.t) => float()} | nil
+    :someId => number() | nil,
+    :someMap => %{optional(String.t) => number()} | nil
   }
 
   def decode(value) do

@@ -1080,17 +1080,8 @@ public class ApiClient {
             return (T) downloadFileFromResponse(response);
         }
 
-        String respBody;
-        try {
-            if (response.body() != null)
-                respBody = response.body().string();
-            else
-                respBody = null;
-        } catch (IOException e) {
-            throw new ApiException(e);
-        }
-
-        if (respBody == null || "".equals(respBody)) {
+        ResponseBody respBody = response.body();
+        if (respBody == null) {
             return null;
         }
 
@@ -1099,17 +1090,25 @@ public class ApiClient {
             // ensuring a default content type
             contentType = "application/json";
         }
-        if (isJsonMime(contentType)) {
-            return JSON.deserialize(respBody, returnType);
-        } else if (returnType.equals(String.class)) {
-            // Expecting string, return the raw response body.
-            return (T) respBody;
-        } else {
-            throw new ApiException(
+        try {
+            if (isJsonMime(contentType)) {
+                return JSON.deserialize(respBody.byteStream(), returnType);
+            } else if (returnType.equals(String.class)) {
+                String respBodyString = respBody.string();
+                if (respBodyString.isEmpty()) {
+                    return null;
+                }
+                // Expecting string, return the raw response body.
+                return (T) respBodyString;
+            } else {
+                throw new ApiException(
                     "Content type \"" + contentType + "\" is not supported for type: " + returnType,
                     response.code(),
                     response.headers().toMultimap(),
-                    respBody);
+                    response.body().string());
+            }
+        } catch (IOException e) {
+            throw new ApiException(e);
         }
     }
 

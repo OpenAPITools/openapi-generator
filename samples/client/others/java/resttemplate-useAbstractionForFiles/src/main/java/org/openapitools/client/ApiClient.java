@@ -615,7 +615,7 @@ public class ApiClient extends JavaTimeFormatter {
             finalUri += "?" + queryUri;
         }
         String expandedPath = this.expandPath(finalUri, uriParams);
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath);
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(basePath).path(expandedPath);
 
         URI uri;
         try {
@@ -624,7 +624,7 @@ public class ApiClient extends JavaTimeFormatter {
             throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
         }
 
-        final BodyBuilder requestBuilder = RequestEntity.method(method, UriComponentsBuilder.fromHttpUrl(basePath).toUriString() + finalUri, uriParams);
+        final BodyBuilder requestBuilder = RequestEntity.method(method, UriComponentsBuilder.fromUriString(basePath).toUriString() + finalUri, uriParams);
         if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }

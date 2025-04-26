@@ -61,6 +61,8 @@ Class | Method | HTTP request | Description
  - [ArrayItemRefTest](docs/ArrayItemRefTest.md)
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
+ - [DuplicateTest](docs/DuplicateTest.md)
+ - [Duplicatetest](docs/Duplicatetest.md)
  - [EnumArrayTesting](docs/EnumArrayTesting.md)
  - [NullableArray](docs/NullableArray.md)
  - [NumericEnumTesting](docs/NumericEnumTesting.md)

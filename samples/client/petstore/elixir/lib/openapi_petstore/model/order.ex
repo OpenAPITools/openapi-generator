@@ -6,7 +6,7 @@ defmodule OpenapiPetstore.Model.Order do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :id,
     :petId,
@@ -25,11 +25,8 @@ defmodule OpenapiPetstore.Model.Order do
     :complete => boolean() | nil
   }
 
-  alias OpenapiPetstore.Deserializer
-
   def decode(value) do
     value
-     |> Deserializer.deserialize(:shipDate, :datetime, nil)
   end
 end
 

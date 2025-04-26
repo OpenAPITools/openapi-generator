@@ -1,0 +1,10 @@
+generatorName: typescript
+outputDir: samples/client/echo_api/typescript/build
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript
+additionalProperties:
+  artifactId: echo-api-typescript
+  hideGenerationTimestamp: "true"
+  platform: node
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-echo-api'

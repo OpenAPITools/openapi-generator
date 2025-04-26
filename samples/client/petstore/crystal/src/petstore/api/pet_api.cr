@@ -41,6 +41,9 @@ module Petstore
       # resource path
       local_var_path = "/pet"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -71,6 +74,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#add_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -82,7 +86,7 @@ module Petstore
     # 
     # @param pet_id [Int64] Pet id to delete
     # @return [nil]
-    def delete_pet(pet_id : Int64, api_key : String?)
+    def delete_pet(pet_id : Int64, api_key : String? = nil)
       delete_pet_with_http_info(pet_id, api_key)
       nil
     end
@@ -91,7 +95,7 @@ module Petstore
     # 
     # @param pet_id [Int64] Pet id to delete
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def delete_pet_with_http_info(pet_id : Int64, api_key : String?)
+    def delete_pet_with_http_info(pet_id : Int64, api_key : String? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.delete_pet ..."}
       end
@@ -101,6 +105,9 @@ module Petstore
       end
       # resource path
       local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
 
       # query parameters
       query_params = Hash(String, String).new
@@ -129,6 +136,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#delete_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -160,9 +168,12 @@ module Petstore
       # resource path
       local_var_path = "/pet/findByStatus"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
-      query_params["status"] = @api_client.build_collection_param(status, :csv)
+      query_params["status"] = @api_client.build_collection_param(status, :csv) unless status.nil?
 
       # header parameters
       header_params = Hash(String, String).new
@@ -189,6 +200,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#find_pets_by_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -220,9 +232,12 @@ module Petstore
       # resource path
       local_var_path = "/pet/findByTags"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
-      query_params["tags"] = @api_client.build_collection_param(tags, :csv)
+      query_params["tags"] = @api_client.build_collection_param(tags, :csv) unless tags.nil?
 
       # header parameters
       header_params = Hash(String, String).new
@@ -249,6 +264,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#find_pets_by_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -280,6 +296,9 @@ module Petstore
       # resource path
       local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -308,6 +327,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#get_pet_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -339,6 +359,9 @@ module Petstore
       # resource path
       local_var_path = "/pet"
 
+      # cookie parameters
+      cookie_params = Hash(String, String).new
+
       # query parameters
       query_params = Hash(String, String).new
 
@@ -369,6 +392,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#update_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -380,7 +404,7 @@ module Petstore
     # 
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [nil]
-    def update_pet_with_form(pet_id : Int64, name : String?, status : String?)
+    def update_pet_with_form(pet_id : Int64, name : String? = nil, status : String? = nil)
       update_pet_with_form_with_http_info(pet_id, name, status)
       nil
     end
@@ -389,7 +413,7 @@ module Petstore
     # 
     # @param pet_id [Int64] ID of pet that needs to be updated
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def update_pet_with_form_with_http_info(pet_id : Int64, name : String?, status : String?)
+    def update_pet_with_form_with_http_info(pet_id : Int64, name : String? = nil, status : String? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.update_pet_with_form ..."}
       end
@@ -399,6 +423,9 @@ module Petstore
       end
       # resource path
       local_var_path = "/pet/{petId}".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
 
       # query parameters
       query_params = Hash(String, String).new
@@ -430,6 +457,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#update_pet_with_form\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
@@ -441,7 +469,7 @@ module Petstore
     # 
     # @param pet_id [Int64] ID of pet to update
     # @return [ApiResponse]
-    def upload_file(pet_id : Int64, additional_metadata : String?, file : ::File?)
+    def upload_file(pet_id : Int64, additional_metadata : String? = nil, file : ::File? = nil)
       data, _status_code, _headers = upload_file_with_http_info(pet_id, additional_metadata, file)
       data
     end
@@ -450,7 +478,7 @@ module Petstore
     # 
     # @param pet_id [Int64] ID of pet to update
     # @return [Array<(ApiResponse, Integer, Hash)>] ApiResponse data, response status code and response headers
-    def upload_file_with_http_info(pet_id : Int64, additional_metadata : String?, file : ::File?)
+    def upload_file_with_http_info(pet_id : Int64, additional_metadata : String? = nil, file : ::File? = nil)
       if @api_client.config.debugging
         Log.debug {"Calling API: PetApi.upload_file ..."}
       end
@@ -460,6 +488,9 @@ module Petstore
       end
       # resource path
       local_var_path = "/pet/{petId}/uploadImage".sub("{" + "petId" + "}", URI.encode_path(pet_id.to_s).gsub("%2F", "/"))
+
+      # cookie parameters
+      cookie_params = Hash(String, String).new
 
       # query parameters
       query_params = Hash(String, String).new
@@ -493,6 +524,7 @@ module Petstore
                                                         auth_names,
                                                         header_params,
                                                         query_params,
+                                                        cookie_params,
                                                         form_params)
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#upload_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}

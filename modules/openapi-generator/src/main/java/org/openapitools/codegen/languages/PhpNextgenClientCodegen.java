@@ -121,6 +121,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
 
         supportingFiles.add(new SupportingFile("ApiException.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiException.php"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", toSrcPath(invokerPackage, srcBasePath), "Configuration.php"));
+        supportingFiles.add(new SupportingFile("FormDataProcessor.mustache", toSrcPath(invokerPackage, srcBasePath), "FormDataProcessor.php"));
         supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
         supportingFiles.add(new SupportingFile("ModelInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ModelInterface.php"));
         supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toSrcPath(invokerPackage, srcBasePath), "HeaderSelector.php"));
@@ -203,9 +204,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
 
             if (phpReturnTypeOptions.isEmpty()) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type-is-void", true);
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
                 operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", "void");
             } else {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type-is-void", false);
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", String.join("|", phpReturnTypeOptions));
                 operation.vendorExtensions.putIfAbsent("x-php-doc-return-type", String.join("|", docReturnTypeOptions));
             }

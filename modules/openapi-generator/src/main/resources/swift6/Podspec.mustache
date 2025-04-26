@@ -27,8 +27,7 @@ Pod::Spec.new do |s|
   {{/podDocumentationURL}}
   s.source_files = '{{swiftPackagePath}}{{^swiftPackagePath}}{{#useSPMFileStructure}}Sources/{{projectName}}{{/useSPMFileStructure}}{{^useSPMFileStructure}}{{projectName}}/Classes{{/useSPMFileStructure}}{{/swiftPackagePath}}/**/*.swift'
   {{#useAlamofire}}
-  # TODO: Alamofire versions 5.10.0 and above are not currently supported. If you need a newer version, please consider submitting a Pull Request with the required changes.
-  s.dependency 'Alamofire', '5.9.1'
+  s.dependency 'Alamofire', '~> 5.10'
   {{/useAlamofire}}
   {{#usePromiseKit}}
   s.dependency 'PromiseKit/CorePromise', '~> 8.1'

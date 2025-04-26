@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class List: NSObject, Codable, JSONEncodable {
+@objcMembers public class List: NSObject, Codable, ParameterConvertible {
 
     public var _123list: String?
 

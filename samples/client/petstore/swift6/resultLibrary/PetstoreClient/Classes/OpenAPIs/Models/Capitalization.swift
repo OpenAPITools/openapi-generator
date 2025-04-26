@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Capitalization: Sendable, Codable, JSONEncodable {
+internal struct Capitalization: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var smallCamel: String?
     internal private(set) var capitalCamel: String?

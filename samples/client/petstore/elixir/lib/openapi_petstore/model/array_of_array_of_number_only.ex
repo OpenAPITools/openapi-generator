@@ -6,13 +6,13 @@ defmodule OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
   
   """
 
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct [
     :ArrayArrayNumber
   ]
 
   @type t :: %__MODULE__{
-    :ArrayArrayNumber => [[float()]] | nil
+    :ArrayArrayNumber => [[number()]] | nil
   }
 
   def decode(value) do

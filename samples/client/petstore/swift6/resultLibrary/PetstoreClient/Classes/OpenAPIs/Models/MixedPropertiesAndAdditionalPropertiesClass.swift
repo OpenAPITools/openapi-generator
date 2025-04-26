@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct MixedPropertiesAndAdditionalPropertiesClass: Sendable, Codable, JSONEncodable {
+internal struct MixedPropertiesAndAdditionalPropertiesClass: Sendable, Codable, ParameterConvertible {
 
     internal private(set) var uuid: UUID?
     internal private(set) var dateTime: Date?

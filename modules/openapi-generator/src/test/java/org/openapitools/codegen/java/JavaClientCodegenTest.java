@@ -1304,7 +1304,7 @@ public class JavaClientCodegenTest {
                 .contains(
                         "@RequestLine(\"POST /events/{eventId}:undelete\")",
                         // baseName is kept for form parameters
-                        "@Param(\"some_file\") File someFile"
+                        "@Param(\"some_file\") @javax.annotation.Nullable File someFile"
                 );
     }
 
@@ -2609,16 +2609,16 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/MultipartApi.java"),
                 // multiple files
-                "multipartArray(List<File> files)",
+                "multipartArray(@jakarta.annotation.Nullable List<File> files)",
                 "formParams.addAll(\"files\","
                         + " files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(MultipartMixedStatus status, File _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, @jakarta.annotation.Nonnull File _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", new FileSystemResource(_file));",
 
                 // single file
-                "multipartSingle(File _file)",
+                "multipartSingle(@jakarta.annotation.Nullable File _file)",
                 "formParams.add(\"file\", new FileSystemResource(_file));"
         );
     }
@@ -2644,7 +2644,7 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 // mixed
-                "multipartMixed(MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, MultipartMixedRequestMarker marker, List<MultipartMixedStatus> statusArray)",
+                "multipartMixed(@jakarta.annotation.Nonnull MultipartMixedStatus status, org.springframework.core.io.AbstractResource _file, @jakarta.annotation.Nullable MultipartMixedRequestMarker marker, @jakarta.annotation.Nullable List<MultipartMixedStatus> statusArray)",
                 "formParams.add(\"file\", _file);",
 
                 // single file
@@ -3197,13 +3197,13 @@ public class JavaClientCodegenTest {
 
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
-                "public record DeletePetRequest(Long petId, String apiKey){}",
+                "public record DeletePetRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey){}",
                 "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
                 "public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {",
-                "public void deletePet(Long petId, String apiKey) throws RestClientResponseException {",
-                "public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {"
+                "public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {",
+                "public ResponseEntity<Void> deletePetWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {"
         );
     }
 
@@ -3225,17 +3225,17 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static class DeletePetRequest {",
-                "DeletePetRequest(Long petId, String apiKey)",
+                "DeletePetRequest(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey)",
                 "Long petId()",
-                "DeletePetRequest petId(Long petId) {",
+                "DeletePetRequest petId(@jakarta.annotation.Nonnull Long petId) {",
                 "String apiKey()",
-                "DeletePetRequest apiKey(String apiKey) {",
+                "DeletePetRequest apiKey(@jakarta.annotation.Nullable String apiKey) {",
                 "public void deletePet(DeletePetRequest requestParameters) throws RestClientResponseException {",
                 "public ResponseEntity<Void> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws RestClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws RestClientResponseException {",
-                "public void deletePet(Long petId, String apiKey) throws RestClientResponseException {",
-                "public ResponseEntity<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws RestClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws RestClientResponseException {"
+                "public void deletePet(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {",
+                "public ResponseEntity<Void> deletePetWithHttpInfo(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(@jakarta.annotation.Nonnull Long petId, @jakarta.annotation.Nullable String apiKey) throws RestClientResponseException {"
         );
         TestUtils.assertFileNotContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public record DeletePetRequest(Long petId, String apiKey){}");
@@ -3296,15 +3296,15 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public class DeletePetRequest {",
-                "DeletePetRequest(Long petId, String apiKey)",
+                "DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey)",
                 "Long petId()",
                 "String apiKey()",
                 "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
-                "public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {",
-                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {"
+                "public Mono<Void> deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {"
         );
     }
 
@@ -3326,15 +3326,15 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static class DeletePetRequest {",
-                "DeletePetRequest(Long petId, String apiKey)",
+                "DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey)",
                 "Long petId()",
                 "String apiKey()",
                 "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
-                "public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {",
-                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {"
+                "public Mono<Void> deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {"
         );
     }
 
@@ -3356,17 +3356,17 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"),
                 "public static class DeletePetRequest {",
-                "DeletePetRequest(Long petId, String apiKey)",
+                "DeletePetRequest(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey)",
                 "Long petId()",
-                "DeletePetRequest petId(Long petId) {",
+                "DeletePetRequest petId(@javax.annotation.Nonnull Long petId) {",
                 "String apiKey()",
-                "DeletePetRequest apiKey(String apiKey) {",
+                "DeletePetRequest apiKey(@javax.annotation.Nullable String apiKey) {",
                 "public Mono<Void> deletePet(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(DeletePetRequest requestParameters) throws WebClientResponseException {",
                 "public ResponseSpec deletePetWithResponseSpec(DeletePetRequest requestParameters) throws WebClientResponseException {",
-                "public Mono<Void> deletePet(Long petId, String apiKey) throws WebClientResponseException {",
-                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws WebClientResponseException {",
-                "public ResponseSpec deletePetWithResponseSpec(Long petId, String apiKey) throws WebClientResponseException {"
+                "public Mono<Void> deletePet(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {",
+                "public Mono<ResponseEntity<Void>> deletePetWithHttpInfo(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {",
+                "public ResponseSpec deletePetWithResponseSpec(@javax.annotation.Nonnull Long petId, @javax.annotation.Nullable String apiKey) throws WebClientResponseException {"
         );
     }
 
@@ -3386,7 +3386,7 @@ public class JavaClientCodegenTest {
 
         TestUtils.assertFileContains(
                 output.resolve("src/main/java/xyz/abcdef/api/ATagApi.java"),
-                " getCall(String pathParameter, Integer queryParameter, final ApiCallback _callback)"
+                " getCall(@javax.annotation.Nonnull String pathParameter, @javax.annotation.Nullable Integer queryParameter, final ApiCallback _callback)"
         );
 
         TestUtils.assertFileNotContains(
@@ -3475,5 +3475,121 @@ public class JavaClientCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
+    }
+
+    /**
+     * This checks bug issue-20718
+     * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
+     * contains a package definition
+     * The dataType needs to be sanitized to generate compileable code
+     */
+    @Test
+    public void testClassesAreValidJavaJersey2() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY2)
+                .setSchemaMappings(Map.of(
+                        "A", "some.pkg.A",
+                        "B", "some.pkg.B"))
+                .setInputSpec("src/test/resources/bugs/issue_20718-dataType_with_schema_mapping.yml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File oneOfFile = files.get("ResultObjectOneOf.java");
+        assertNotNull(oneOfFile);
+
+        JavaFileAssert.assertThat(oneOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+        File anyOfFile = files.get("ResultObjectAnyOf.java");
+        assertNotNull(anyOfFile);
+
+        JavaFileAssert.assertThat(anyOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+    }
+
+    /**
+     * This checks bug issue-20718
+     * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
+     * contains a package definition
+     * The dataType needs to be sanitized to generate compileable code
+     */
+    @Test
+    public void testClassesAreValidJavaJersey3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JERSEY3)
+                .setSchemaMappings(Map.of(
+                        "A", "some.pkg.A",
+                        "B", "some.pkg.B"))
+                .setInputSpec("src/test/resources/bugs/issue_20718-dataType_with_schema_mapping.yml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File oneOfFile = files.get("ResultObjectOneOf.java");
+        assertNotNull(oneOfFile);
+
+        JavaFileAssert.assertThat(oneOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+        File anyOfFile = files.get("ResultObjectAnyOf.java");
+        assertNotNull(anyOfFile);
+
+        JavaFileAssert.assertThat(anyOfFile).fileContains(
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+    }
+
+    /**
+     * This checks bug issue-20718
+     * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
+     * contains a package definition
+     * The dataType needs to be sanitized to generate compileable code
+     */
+    @Test
+    public void testClassesAreValidJavaOkHttpGson() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(OKHTTP_GSON)
+                .setSchemaMappings(Map.of(
+                        "A", "some.pkg.A",
+                        "B", "some.pkg.B"))
+                .setInputSpec("src/test/resources/bugs/issue_20718-dataType_with_schema_mapping.yml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File oneOfFile = files.get("ResultObjectOneOf.java");
+        assertNotNull(oneOfFile);
+
+        JavaFileAssert.assertThat(oneOfFile).fileContains(
+                "final TypeAdapter<some.pkg.A> adaptersomepkgA = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.A.class));",
+                        "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
+
+        File anyOfFile = files.get("ResultObjectAnyOf.java");
+        assertNotNull(anyOfFile);
+
+        JavaFileAssert.assertThat(anyOfFile).fileContains(
+                "final TypeAdapter<some.pkg.A> adaptersomepkgA = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.A.class));",
+                "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
+                "public some.pkg.A getsomepkgA() throws ClassCastException {",
+                "public some.pkg.B getsomepkgB() throws ClassCastException {"
+        );
     }
 }

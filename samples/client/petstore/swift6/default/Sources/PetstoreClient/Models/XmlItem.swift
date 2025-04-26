@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct XmlItem: Sendable, Codable, JSONEncodable, Hashable {
+public struct XmlItem: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var attributeString: String?
     public var attributeNumber: Double?

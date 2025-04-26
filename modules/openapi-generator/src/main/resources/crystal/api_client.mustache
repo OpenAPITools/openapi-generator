@@ -50,14 +50,15 @@ module {{moduleName}}
     # @param [Hash] header_params Header parameters
     # @param [Hash] query_params Query parameters
     # @param [String] auth_names Authentication scheme name
-    def update_params_for_auth!(header_params, query_params, auth_names)
+    def update_params_for_auth!(header_params, query_params, cookie_params, auth_names)
       auth_names.each do |auth_name|
         auth_setting = @config.auth_settings[auth_name]
         next unless auth_setting
         case auth_setting[:in]
         when "header" then header_params[auth_setting[:key]] = auth_setting[:value]
         when "query"  then query_params[auth_setting[:key]] = auth_setting[:value]
-        else raise ArgumentError.new("Authentication token must be in `query` of `header`")
+        when "cookie" then cookie_params[auth_setting[:key]] = auth_setting[:value]
+        else raise ArgumentError.new("Authentication token must be in `cookie`, `query` or `header`")
         end
       end
     end
@@ -119,7 +120,7 @@ module {{moduleName}}
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
-    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, form_params = {} of Symbol => (String | ::File))
+    def call_api(http_method : Symbol, path : String, operation : Symbol, return_type : String?, post_body : String?, auth_names = [] of String, header_params = {} of String => String, query_params = {} of String => String, cookie_params = {} of String => String, form_params = {} of Symbol => (String | ::File))
       #ssl_options = {
       #  :ca_file => @config.ssl_ca_file,
       #  :verify => @config.ssl_verify,
@@ -128,7 +129,7 @@ module {{moduleName}}
       #  :client_key => @config.ssl_client_key
       #}
 
-      update_params_for_auth! header_params, query_params, auth_names
+      update_params_for_auth! header_params, query_params, cookie_params, auth_names
 
       if !post_body.nil? && !post_body.empty?
         # use JSON string in the payload
@@ -143,7 +144,7 @@ module {{moduleName}}
         build_request_url(path, operation),
         params: query_params,
         headers: header_params,
-        #cookies: cookie_params, # TODO add cookies support
+        cookies: cookie_params,
         form: form_or_body,
         logging: @config.debugging,
         handle_errors: false

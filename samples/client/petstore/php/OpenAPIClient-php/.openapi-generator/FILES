@@ -28,6 +28,7 @@ docs/Model/EnumArrays.md
 docs/Model/EnumClass.md
 docs/Model/EnumTest.md
 docs/Model/EnumWithNameAndDescription.md
+docs/Model/ErrorResponse.md
 docs/Model/FakeBigDecimalMap200Response.md
 docs/Model/File.md
 docs/Model/FileSchemaTestClass.md
@@ -53,6 +54,7 @@ docs/Model/OuterEnumInteger.md
 docs/Model/OuterEnumIntegerDefaultValue.md
 docs/Model/OuterObjectWithEnumProperty.md
 docs/Model/Pet.md
+docs/Model/PetWithFile.md
 docs/Model/PropertyNameMapping.md
 docs/Model/ReadOnlyFirst.md
 docs/Model/SingleRefType.md
@@ -70,6 +72,7 @@ lib/Api/StoreApi.php
 lib/Api/UserApi.php
 lib/ApiException.php
 lib/Configuration.php
+lib/FormDataProcessor.php
 lib/HeaderSelector.php
 lib/Model/AdditionalPropertiesClass.php
 lib/Model/AllOfWithSingleRef.php
@@ -89,6 +92,7 @@ lib/Model/EnumArrays.php
 lib/Model/EnumClass.php
 lib/Model/EnumTest.php
 lib/Model/EnumWithNameAndDescription.php
+lib/Model/ErrorResponse.php
 lib/Model/FakeBigDecimalMap200Response.php
 lib/Model/File.php
 lib/Model/FileSchemaTestClass.php
@@ -115,6 +119,7 @@ lib/Model/OuterEnumInteger.php
 lib/Model/OuterEnumIntegerDefaultValue.php
 lib/Model/OuterObjectWithEnumProperty.php
 lib/Model/Pet.php
+lib/Model/PetWithFile.php
 lib/Model/PropertyNameMapping.php
 lib/Model/ReadOnlyFirst.php
 lib/Model/SingleRefType.php

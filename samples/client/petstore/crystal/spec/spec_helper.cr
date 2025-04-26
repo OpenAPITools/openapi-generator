@@ -9,8 +9,9 @@
 #
 
 # load modules
-require "spec"
+require "spectator"
 require "json"
+require "time"
 require "../src/petstore"
 
 def assert_compilation_error(path : String, message : String) : Nil

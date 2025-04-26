@@ -52,7 +52,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testClassnameRequestCreation(Client client) throws RestClientResponseException {
+    private ResponseSpec testClassnameRequestCreation(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         Object postBody = client;
         // verify the required parameter 'client' is set
         if (client == null) {
@@ -89,7 +89,7 @@ public class FakeClassnameTags123Api {
      * @return Client
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Client testClassname(Client client) throws RestClientResponseException {
+    public Client testClassname(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testClassnameRequestCreation(client).body(localVarReturnType);
     }
@@ -102,7 +102,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseEntity&lt;Client&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Client> testClassnameWithHttpInfo(Client client) throws RestClientResponseException {
+    public ResponseEntity<Client> testClassnameWithHttpInfo(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         ParameterizedTypeReference<Client> localVarReturnType = new ParameterizedTypeReference<>() {};
         return testClassnameRequestCreation(client).toEntity(localVarReturnType);
     }
@@ -115,7 +115,7 @@ public class FakeClassnameTags123Api {
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testClassnameWithResponseSpec(Client client) throws RestClientResponseException {
+    public ResponseSpec testClassnameWithResponseSpec(@jakarta.annotation.Nonnull Client client) throws RestClientResponseException {
         return testClassnameRequestCreation(client);
     }
 }

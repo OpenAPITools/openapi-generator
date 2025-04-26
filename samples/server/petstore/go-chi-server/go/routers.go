@@ -30,10 +30,6 @@ type Router interface {
 	Routes() Routes
 }
 
-const errMsgRequiredMissing = "required parameter is missing"
-const errMsgMinValueConstraint = "provided parameter is not respecting minimum value constraint"
-const errMsgMaxValueConstraint = "provided parameter is not respecting maximum value constraint"
-
 // NewRouter creates a new router for any number of api routers
 func NewRouter(routers ...Router) chi.Router {
 	router := chi.NewRouter()

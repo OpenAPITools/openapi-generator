@@ -77,6 +77,7 @@ public class ChildWithNullable extends ParentWithNullable {
     this.otherProperty = otherProperty;
   }
 
+
   @Override
   public ChildWithNullable type(@jakarta.annotation.Nullable TypeEnum type) {
     this.setType(type);
