@@ -5,18 +5,20 @@ defmodule OpenapiPetstore.Model.Return do
   @moduledoc """
   Model for testing reserved words
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :return
-  ]
+  @derive {JSON.Encoder, only: [:return]}
+  @primary_key false
+  typed_embedded_schema do
+    field :return, :integer
+  end
 
-  @type t :: %__MODULE__{
-    :return => integer() | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:return])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

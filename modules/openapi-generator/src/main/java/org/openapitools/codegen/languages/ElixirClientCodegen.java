@@ -302,6 +302,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 writer.write(text.toUpperCase(Locale.ROOT));
             }
         });
+        additionalProperties.put("toEctoType", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                writer.write(toEctoType(fragment.execute()));
+            }
+        });
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -336,10 +342,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("request_builder.ex.mustache",
                 sourceFolder(),
                 "request_builder.ex"));
-
-        supportingFiles.add(new SupportingFile("deserializer.ex.mustache",
-                sourceFolder(),
-                "deserializer.ex"));
     }
 
     @Override
@@ -437,6 +439,35 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         return atom.toString();
+    }
+
+    private String toEctoType(String baseType) {
+        switch (baseType) {
+            case "integer()":
+                return ":integer";
+            case "float()":
+                return ":float";
+            case "number()":
+                return ":float";
+            case "boolean()":
+                return ":boolean";
+            case "String.t":
+                return ":string";
+            case "Date.t":
+                return ":date";
+            case "DateTime.t":
+                return ":utc_datetime";
+            case "binary()":
+                return ":binary";
+            case "list()":
+                return "{:array, :any}";
+            case "map()":
+                return ":map";
+            case "nil":
+                return ":any, virtual: true";
+            default:
+                return ":any, virtual: true";
+        }
     }
 
     /**

@@ -5,20 +5,21 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :just_symbol,
-    :array_enum
-  ]
+  @derive {JSON.Encoder, only: [:just_symbol, :array_enum]}
+  @primary_key false
+  typed_embedded_schema do
+    field :just_symbol, :string
+    field :array_enum, {:array, :any}
+  end
 
-  @type t :: %__MODULE__{
-    :just_symbol => String.t | nil,
-    :array_enum => [String.t] | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:just_symbol, :array_enum])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

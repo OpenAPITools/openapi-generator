@@ -5,23 +5,23 @@ defmodule OpenapiPetstore.Model.AllOfWithSingleRef do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :username,
-    :SingleRefType
-  ]
+  @derive {JSON.Encoder, only: [:username, :SingleRefType]}
+  @primary_key false
+  typed_embedded_schema do
+    field :username, :string
+    embeds_one :SingleRefType, OpenapiPetstore.Model.SingleRefType
+  end
 
-  @type t :: %__MODULE__{
-    :username => String.t | nil,
-    :SingleRefType => OpenapiPetstore.Model.SingleRefType.t | nil
-  }
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:username, ])
+    |> Ecto.Changeset.validate_required([])
 
-  alias OpenapiPetstore.Deserializer
-
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:SingleRefType, :struct, OpenapiPetstore.Model.SingleRefType)
+    |> Ecto.Changeset.cast_embed(:SingleRefType)
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

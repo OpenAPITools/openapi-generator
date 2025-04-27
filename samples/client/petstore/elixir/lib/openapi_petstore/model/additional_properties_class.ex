@@ -5,20 +5,21 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :map_property,
-    :map_of_map_property
-  ]
+  @derive {JSON.Encoder, only: [:map_property, :map_of_map_property]}
+  @primary_key false
+  typed_embedded_schema do
+    field :map_property, :map
+    field :map_of_map_property, :map
+  end
 
-  @type t :: %__MODULE__{
-    :map_property => %{optional(String.t) => String.t} | nil,
-    :map_of_map_property => %{optional(String.t) => %{optional(String.t) => String.t}} | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:map_property, :map_of_map_property])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

@@ -5,18 +5,20 @@ defmodule OpenapiPetstore.Model.NumberOnly do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :JustNumber
-  ]
+  @derive {JSON.Encoder, only: [:JustNumber]}
+  @primary_key false
+  typed_embedded_schema do
+    field :JustNumber, :float
+  end
 
-  @type t :: %__MODULE__{
-    :JustNumber => number() | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:JustNumber])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

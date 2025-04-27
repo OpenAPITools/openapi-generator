@@ -5,18 +5,20 @@ defmodule OpenapiPetstore.Model.DeprecatedModel do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :name
-  ]
+  @derive {JSON.Encoder, only: [:name]}
+  @primary_key false
+  typed_embedded_schema do
+    field :name, :string
+  end
 
-  @type t :: %__MODULE__{
-    :name => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:name])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

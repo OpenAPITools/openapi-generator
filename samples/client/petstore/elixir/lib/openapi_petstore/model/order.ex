@@ -5,28 +5,25 @@ defmodule OpenapiPetstore.Model.Order do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :id,
-    :petId,
-    :quantity,
-    :shipDate,
-    :status,
-    :complete
-  ]
+  @derive {JSON.Encoder, only: [:id, :petId, :quantity, :shipDate, :status, :complete]}
+  @primary_key false
+  typed_embedded_schema do
+    field :id, :integer
+    field :petId, :integer
+    field :quantity, :integer
+    field :shipDate, :utc_datetime
+    field :status, :string
+    field :complete, :boolean
+  end
 
-  @type t :: %__MODULE__{
-    :id => integer() | nil,
-    :petId => integer() | nil,
-    :quantity => integer() | nil,
-    :shipDate => DateTime.t | nil,
-    :status => String.t | nil,
-    :complete => boolean() | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:id, :petId, :quantity, :shipDate, :status, :complete])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

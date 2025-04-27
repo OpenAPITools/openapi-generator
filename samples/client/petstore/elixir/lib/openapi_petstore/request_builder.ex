@@ -189,10 +189,12 @@ defmodule OpenapiPetstore.RequestBuilder do
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
   defp decode(%Tesla.Env{body: body}, %{}) do
-    OpenapiPetstore.Deserializer.json_decode(body)
+    JSON.decode!(body)
   end
 
   defp decode(%Tesla.Env{body: body}, module) do
-    OpenapiPetstore.Deserializer.json_decode(body, module)
+    body
+    |> JSON.decode!
+    |> module.new
   end
 end

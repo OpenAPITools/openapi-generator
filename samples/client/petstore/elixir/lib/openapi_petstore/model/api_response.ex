@@ -5,22 +5,22 @@ defmodule OpenapiPetstore.Model.ApiResponse do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :code,
-    :type,
-    :message
-  ]
+  @derive {JSON.Encoder, only: [:code, :type, :message]}
+  @primary_key false
+  typed_embedded_schema do
+    field :code, :integer
+    field :type, :string
+    field :message, :string
+  end
 
-  @type t :: %__MODULE__{
-    :code => integer() | nil,
-    :type => String.t | nil,
-    :message => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:code, :type, :message])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

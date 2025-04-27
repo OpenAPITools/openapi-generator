@@ -5,40 +5,31 @@ defmodule OpenapiPetstore.Model.NullableClass do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :integer_prop,
-    :number_prop,
-    :boolean_prop,
-    :string_prop,
-    :date_prop,
-    :datetime_prop,
-    :array_nullable_prop,
-    :array_and_items_nullable_prop,
-    :array_items_nullable,
-    :object_nullable_prop,
-    :object_and_items_nullable_prop,
-    :object_items_nullable
-  ]
+  @derive {JSON.Encoder, only: [:integer_prop, :number_prop, :boolean_prop, :string_prop, :date_prop, :datetime_prop, :array_nullable_prop, :array_and_items_nullable_prop, :array_items_nullable, :object_nullable_prop, :object_and_items_nullable_prop, :object_items_nullable]}
+  @primary_key false
+  typed_embedded_schema do
+    field :integer_prop, :integer
+    field :number_prop, :float
+    field :boolean_prop, :boolean
+    field :string_prop, :string
+    field :date_prop, :date
+    field :datetime_prop, :utc_datetime
+    field :array_nullable_prop, {:array, :any}
+    field :array_and_items_nullable_prop, {:array, :any}
+    field :array_items_nullable, {:array, :any}
+    field :object_nullable_prop, :map
+    field :object_and_items_nullable_prop, :map
+    field :object_items_nullable, :map
+  end
 
-  @type t :: %__MODULE__{
-    :integer_prop => integer() | nil,
-    :number_prop => number() | nil,
-    :boolean_prop => boolean() | nil,
-    :string_prop => String.t | nil,
-    :date_prop => Date.t | nil,
-    :datetime_prop => DateTime.t | nil,
-    :array_nullable_prop => [map()] | nil,
-    :array_and_items_nullable_prop => [map()] | nil,
-    :array_items_nullable => [map()] | nil,
-    :object_nullable_prop => %{optional(String.t) => map()} | nil,
-    :object_and_items_nullable_prop => %{optional(String.t) => map()} | nil,
-    :object_items_nullable => %{optional(String.t) => map()} | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:integer_prop, :number_prop, :boolean_prop, :string_prop, :date_prop, :datetime_prop, :array_nullable_prop, :array_and_items_nullable_prop, :array_items_nullable, :object_nullable_prop, :object_and_items_nullable_prop, :object_items_nullable])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

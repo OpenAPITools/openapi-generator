@@ -5,24 +5,23 @@ defmodule OpenapiPetstore.Model.MapTest do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :map_map_of_string,
-    :map_of_enum_string,
-    :direct_map,
-    :indirect_map
-  ]
+  @derive {JSON.Encoder, only: [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map]}
+  @primary_key false
+  typed_embedded_schema do
+    field :map_map_of_string, :map
+    field :map_of_enum_string, :map
+    field :direct_map, :map
+    field :indirect_map, :map
+  end
 
-  @type t :: %__MODULE__{
-    :map_map_of_string => %{optional(String.t) => %{optional(String.t) => String.t}} | nil,
-    :map_of_enum_string => %{optional(String.t) => String.t} | nil,
-    :direct_map => %{optional(String.t) => boolean()} | nil,
-    :indirect_map => %{optional(String.t) => boolean()} | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

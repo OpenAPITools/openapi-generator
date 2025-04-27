@@ -5,20 +5,21 @@ defmodule OpenapiPetstore.Model.Tag do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :id,
-    :name
-  ]
+  @derive {JSON.Encoder, only: [:id, :name]}
+  @primary_key false
+  typed_embedded_schema do
+    field :id, :integer
+    field :name, :string
+  end
 
-  @type t :: %__MODULE__{
-    :id => integer() | nil,
-    :name => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:id, :name])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

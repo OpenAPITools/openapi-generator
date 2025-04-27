@@ -5,18 +5,19 @@ defmodule OpenapiPetstore.Model.EnumClass do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    
-  ]
+  @derive {JSON.Encoder, only: []}
+  @primary_key false
+  typed_embedded_schema do
+  end
 
-  @type t :: %__MODULE__{
-    
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

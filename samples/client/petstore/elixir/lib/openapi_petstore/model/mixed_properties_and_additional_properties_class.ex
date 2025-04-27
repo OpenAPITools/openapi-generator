@@ -5,25 +5,24 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :uuid,
-    :dateTime,
-    :map
-  ]
+  @derive {JSON.Encoder, only: [:uuid, :dateTime, :map]}
+  @primary_key false
+  typed_embedded_schema do
+    field :uuid, :string
+    field :dateTime, :utc_datetime
+    embeds_one :map, OpenapiPetstore.Model.map()
+  end
 
-  @type t :: %__MODULE__{
-    :uuid => String.t | nil,
-    :dateTime => DateTime.t | nil,
-    :map => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil
-  }
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:uuid, :dateTime, ])
+    |> Ecto.Changeset.validate_required([])
 
-  alias OpenapiPetstore.Deserializer
-
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:map, :map, OpenapiPetstore.Model.Animal)
+    |> Ecto.Changeset.cast_embed(:map)
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

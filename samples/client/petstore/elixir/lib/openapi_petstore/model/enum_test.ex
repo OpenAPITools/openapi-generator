@@ -5,38 +5,35 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :enum_string,
-    :enum_string_required,
-    :enum_integer,
-    :enum_number,
-    :outerEnum,
-    :outerEnumInteger,
-    :outerEnumDefaultValue,
-    :outerEnumIntegerDefaultValue
-  ]
+  @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
+  @primary_key false
+  typed_embedded_schema do
+    field :enum_string, :string
+    field :enum_string_required, :string, null: false
+    field :enum_integer, :integer
+    field :enum_number, :float
+    embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum, null: true
+    embeds_one :outerEnumInteger, OpenapiPetstore.Model.OuterEnumInteger
+    embeds_one :outerEnumDefaultValue, OpenapiPetstore.Model.OuterEnumDefaultValue
+    embeds_one :outerEnumIntegerDefaultValue, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue
+  end
 
-  @type t :: %__MODULE__{
-    :enum_string => String.t | nil,
-    :enum_string_required => String.t,
-    :enum_integer => integer() | nil,
-    :enum_number => float() | nil,
-    :outerEnum => OpenapiPetstore.Model.OuterEnum.t | nil,
-    :outerEnumInteger => OpenapiPetstore.Model.OuterEnumInteger.t | nil,
-    :outerEnumDefaultValue => OpenapiPetstore.Model.OuterEnumDefaultValue.t | nil,
-    :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
-  }
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, ])
+    |> Ecto.Changeset.validate_required([:enum_string_required, ])
 
-  alias OpenapiPetstore.Deserializer
+    |> Ecto.Changeset.cast_embed(:outerEnum)
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:outerEnum, :struct, OpenapiPetstore.Model.OuterEnum)
-     |> Deserializer.deserialize(:outerEnumInteger, :struct, OpenapiPetstore.Model.OuterEnumInteger)
-     |> Deserializer.deserialize(:outerEnumDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumDefaultValue)
-     |> Deserializer.deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue)
+    |> Ecto.Changeset.cast_embed(:outerEnumInteger)
+
+    |> Ecto.Changeset.cast_embed(:outerEnumDefaultValue)
+
+    |> Ecto.Changeset.cast_embed(:outerEnumIntegerDefaultValue)
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

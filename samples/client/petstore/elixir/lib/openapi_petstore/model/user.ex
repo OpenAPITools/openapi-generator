@@ -5,32 +5,27 @@ defmodule OpenapiPetstore.Model.User do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :id,
-    :username,
-    :firstName,
-    :lastName,
-    :email,
-    :password,
-    :phone,
-    :userStatus
-  ]
+  @derive {JSON.Encoder, only: [:id, :username, :firstName, :lastName, :email, :password, :phone, :userStatus]}
+  @primary_key false
+  typed_embedded_schema do
+    field :id, :integer
+    field :username, :string
+    field :firstName, :string
+    field :lastName, :string
+    field :email, :string
+    field :password, :string
+    field :phone, :string
+    field :userStatus, :integer
+  end
 
-  @type t :: %__MODULE__{
-    :id => integer() | nil,
-    :username => String.t | nil,
-    :firstName => String.t | nil,
-    :lastName => String.t | nil,
-    :email => String.t | nil,
-    :password => String.t | nil,
-    :phone => String.t | nil,
-    :userStatus => integer() | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:id, :username, :firstName, :lastName, :email, :password, :phone, :userStatus])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

@@ -5,20 +5,21 @@ defmodule OpenapiPetstore.Model.FakeBigDecimalMap200Response do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :someId,
-    :someMap
-  ]
+  @derive {JSON.Encoder, only: [:someId, :someMap]}
+  @primary_key false
+  typed_embedded_schema do
+    field :someId, :float
+    field :someMap, :map
+  end
 
-  @type t :: %__MODULE__{
-    :someId => number() | nil,
-    :someMap => %{optional(String.t) => number()} | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:someId, :someMap])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

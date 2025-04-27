@@ -5,18 +5,20 @@ defmodule OpenapiPetstore.Model.TestInlineFreeformAdditionalPropertiesRequest do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :someProperty
-  ]
+  @derive {JSON.Encoder, only: [:someProperty]}
+  @primary_key false
+  typed_embedded_schema do
+    field :someProperty, :string
+  end
 
-  @type t :: %__MODULE__{
-    :someProperty => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:someProperty])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

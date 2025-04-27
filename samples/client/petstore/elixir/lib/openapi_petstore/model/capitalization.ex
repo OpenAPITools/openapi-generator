@@ -5,28 +5,25 @@ defmodule OpenapiPetstore.Model.Capitalization do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :smallCamel,
-    :CapitalCamel,
-    :small_Snake,
-    :Capital_Snake,
-    :SCA_ETH_Flow_Points,
-    :ATT_NAME
-  ]
+  @derive {JSON.Encoder, only: [:smallCamel, :CapitalCamel, :small_Snake, :Capital_Snake, :SCA_ETH_Flow_Points, :ATT_NAME]}
+  @primary_key false
+  typed_embedded_schema do
+    field :smallCamel, :string
+    field :CapitalCamel, :string
+    field :small_Snake, :string
+    field :Capital_Snake, :string
+    field :SCA_ETH_Flow_Points, :string
+    field :ATT_NAME, :string
+  end
 
-  @type t :: %__MODULE__{
-    :smallCamel => String.t | nil,
-    :CapitalCamel => String.t | nil,
-    :small_Snake => String.t | nil,
-    :Capital_Snake => String.t | nil,
-    :SCA_ETH_Flow_Points => String.t | nil,
-    :ATT_NAME => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:smallCamel, :CapitalCamel, :small_Snake, :Capital_Snake, :SCA_ETH_Flow_Points, :ATT_NAME])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

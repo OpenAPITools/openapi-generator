@@ -5,22 +5,22 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :array_of_string,
-    :array_array_of_integer,
-    :array_array_of_model
-  ]
+  @derive {JSON.Encoder, only: [:array_of_string, :array_array_of_integer, :array_array_of_model]}
+  @primary_key false
+  typed_embedded_schema do
+    field :array_of_string, {:array, :any}
+    field :array_array_of_integer, {:array, :any}
+    field :array_array_of_model, {:array, :any}
+  end
 
-  @type t :: %__MODULE__{
-    :array_of_string => [String.t] | nil,
-    :array_array_of_integer => [[integer()]] | nil,
-    :array_array_of_model => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:array_of_string, :array_array_of_integer, :array_array_of_model])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

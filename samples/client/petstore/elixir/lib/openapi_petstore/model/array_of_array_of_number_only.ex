@@ -5,18 +5,20 @@ defmodule OpenapiPetstore.Model.ArrayOfArrayOfNumberOnly do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :ArrayArrayNumber
-  ]
+  @derive {JSON.Encoder, only: [:ArrayArrayNumber]}
+  @primary_key false
+  typed_embedded_schema do
+    field :ArrayArrayNumber, {:array, :any}
+  end
 
-  @type t :: %__MODULE__{
-    :ArrayArrayNumber => [[number()]] | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:ArrayArrayNumber])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

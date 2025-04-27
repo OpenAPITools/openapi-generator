@@ -5,24 +5,23 @@ defmodule OpenapiPetstore.Model.Name do
   @moduledoc """
   Model for testing model name same as property name
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :name,
-    :snake_case,
-    :property,
-    :"123Number"
-  ]
+  @derive {JSON.Encoder, only: [:name, :snake_case, :property, :"123Number"]}
+  @primary_key false
+  typed_embedded_schema do
+    field :name, :integer, null: false
+    field :snake_case, :integer
+    field :property, :string
+    field :"123Number", :integer
+  end
 
-  @type t :: %__MODULE__{
-    :name => integer(),
-    :snake_case => integer() | nil,
-    :property => String.t | nil,
-    :"123Number" => integer() | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:name, :snake_case, :property, :"123Number"])
+    |> Ecto.Changeset.validate_required([:name, ])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

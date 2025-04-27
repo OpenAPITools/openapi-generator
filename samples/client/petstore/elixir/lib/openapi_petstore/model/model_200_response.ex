@@ -5,20 +5,21 @@ defmodule OpenapiPetstore.Model.Model200Response do
   @moduledoc """
   Model for testing model name starting with number
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :name,
-    :class
-  ]
+  @derive {JSON.Encoder, only: [:name, :class]}
+  @primary_key false
+  typed_embedded_schema do
+    field :name, :integer
+    field :class, :string
+  end
 
-  @type t :: %__MODULE__{
-    :name => integer() | nil,
-    :class => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:name, :class])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

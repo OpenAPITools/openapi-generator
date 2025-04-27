@@ -5,18 +5,20 @@ defmodule OpenapiPetstore.Model.Client do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :client
-  ]
+  @derive {JSON.Encoder, only: [:client]}
+  @primary_key false
+  typed_embedded_schema do
+    field :client, :string
+  end
 
-  @type t :: %__MODULE__{
-    :client => String.t | nil
-  }
-
-  def decode(value) do
-    value
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [:client])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 

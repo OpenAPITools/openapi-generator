@@ -3,34 +3,29 @@
   @moduledoc """
   {{&description}}
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    {{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}},
-    {{/-last}}{{/vars}}
-  ]
-
-  @type t :: %__MODULE__{
-    {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
-    {{/-last}}{{/vars}}
-  }
-
-{{#hasComplexVars}}
-  alias {{&moduleName}}.Deserializer
-
-  def decode(value) do
-    value
-    {{#vars}}
-    {{^isPrimitiveType}}
-    {{#baseType}} |> Deserializer.deserialize({{#atom}}{{&baseName}}{{/atom}}, {{#isArray}}:list, {{&moduleName}}.Model.{{{items.baseType}}}{{/isArray}}{{#isMap}}:map, {{&moduleName}}.Model.{{{items.baseType}}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:datetime, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{baseType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}})
-    {{/baseType}}
+  @derive {JSON.Encoder, only: [{{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/vars}}]}
+  @primary_key false
+  typed_embedded_schema do
+  {{#vars}}
+    {{#isPrimitiveType}}
+    field {{#atom}}{{&baseName}}{{/atom}}, {{#toEctoType}}{{{baseType}}}{{/toEctoType}}{{#required}}, null: false{{/required}}
     {{/isPrimitiveType}}
-    {{/vars}}
-{{/hasComplexVars}}
-{{^hasComplexVars}}
-  def decode(value) do
-    value
-{{/hasComplexVars}}
+    {{^isPrimitiveType}}
+    {{^isArray}}embeds_one{{/isArray}}{{#isArray}}embeds_many{{/isArray}} {{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{^isArray}}{{{baseType}}}{{/isArray}}{{#isArray}}{{{items.baseType}}}{{/isArray}}{{#isNullable}}, null: true{{/isNullable}}
+    {{/isPrimitiveType}}
+  {{/vars}}
+  end
+
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [{{#vars}}{{#isPrimitiveType}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/isPrimitiveType}}{{/vars}}])
+    |> Ecto.Changeset.validate_required([{{#vars}}{{#isPrimitiveType}}{{#required}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/required}}{{/isPrimitiveType}}{{/vars}}])
+{{#vars}}{{^isPrimitiveType}}
+    |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
+{{/isPrimitiveType}}{{/vars}}    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 {{/model}}{{/models}}

@@ -5,21 +5,22 @@ defmodule OpenapiPetstore.Model.FooGetDefaultResponse do
   @moduledoc """
   
   """
+  use TypedEctoSchema
 
-  @derive JSON.Encoder
-  defstruct [
-    :string
-  ]
+  @derive {JSON.Encoder, only: [:string]}
+  @primary_key false
+  typed_embedded_schema do
+    embeds_one :string, OpenapiPetstore.Model.Foo
+  end
 
-  @type t :: %__MODULE__{
-    :string => OpenapiPetstore.Model.Foo.t | nil
-  }
+  @spec new(map()) :: t()
+  def new(params) do
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(params, [])
+    |> Ecto.Changeset.validate_required([])
 
-  alias OpenapiPetstore.Deserializer
-
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:string, :struct, OpenapiPetstore.Model.Foo)
+    |> Ecto.Changeset.cast_embed(:string)
+    |> Ecto.Changeset.apply_action!(:insert)
   end
 end
 
