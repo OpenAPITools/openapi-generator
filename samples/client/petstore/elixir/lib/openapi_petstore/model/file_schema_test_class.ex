@@ -5,24 +5,27 @@ defmodule OpenapiPetstore.Model.FileSchemaTestClass do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :file,
-    :files
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :file => OpenapiPetstore.Model.File.t | nil,
     :files => [OpenapiPetstore.Model.File.t] | nil
   }
 
-  alias OpenapiPetstore.Deserializer
+  @derive {JSON.Encoder, only: [:file, :files]}
+  @primary_key false
+  embedded_schema do
+    embeds_one :file, OpenapiPetstore.Model.File
+    embeds_many :files, OpenapiPetstore.Model.File
+  end
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:file, :struct, OpenapiPetstore.Model.File)
-     |> Deserializer.deserialize(:files, :list, OpenapiPetstore.Model.File)
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.cast_embed(:file)
+    |> Ecto.Changeset.cast_embed(:files)
   end
 end
 

@@ -5,20 +5,25 @@ defmodule OpenapiPetstore.Model.Any do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :"@type",
-    :any_type_property
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :"@type" => String.t | nil,
     :any_type_property => any() | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:"@type", :any_type_property]}
+  @primary_key false
+  embedded_schema do
+    field :"@type", :string
+    field :any_type_property, :any, virtual: true
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:"@type", :any_type_property])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

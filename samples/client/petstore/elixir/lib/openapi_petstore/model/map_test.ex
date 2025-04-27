@@ -5,14 +5,7 @@ defmodule OpenapiPetstore.Model.MapTest do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :map_map_of_string,
-    :map_of_enum_string,
-    :direct_map,
-    :indirect_map
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :map_map_of_string => %{optional(String.t) => %{optional(String.t) => String.t}} | nil,
@@ -21,8 +14,20 @@ defmodule OpenapiPetstore.Model.MapTest do
     :indirect_map => %{optional(String.t) => boolean()} | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map]}
+  @primary_key false
+  embedded_schema do
+    field :map_map_of_string, :map
+    field :map_of_enum_string, :map
+    field :direct_map, :map
+    field :indirect_map, :map
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:map_map_of_string, :map_of_enum_string, :direct_map, :indirect_map])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

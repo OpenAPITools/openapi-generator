@@ -5,22 +5,7 @@ defmodule OpenapiPetstore.Model.NullableClass do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :integer_prop,
-    :number_prop,
-    :boolean_prop,
-    :string_prop,
-    :date_prop,
-    :datetime_prop,
-    :array_nullable_prop,
-    :array_and_items_nullable_prop,
-    :array_items_nullable,
-    :object_nullable_prop,
-    :object_and_items_nullable_prop,
-    :object_items_nullable
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :integer_prop => integer() | nil,
@@ -37,8 +22,28 @@ defmodule OpenapiPetstore.Model.NullableClass do
     :object_items_nullable => %{optional(String.t) => map()} | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:integer_prop, :number_prop, :boolean_prop, :string_prop, :date_prop, :datetime_prop, :array_nullable_prop, :array_and_items_nullable_prop, :array_items_nullable, :object_nullable_prop, :object_and_items_nullable_prop, :object_items_nullable]}
+  @primary_key false
+  embedded_schema do
+    field :integer_prop, :integer
+    field :number_prop, :float
+    field :boolean_prop, :boolean
+    field :string_prop, :string
+    field :date_prop, :date
+    field :datetime_prop, :utc_datetime
+    field :array_nullable_prop, {:array, :map}
+    field :array_and_items_nullable_prop, {:array, :map}
+    field :array_items_nullable, {:array, :map}
+    field :object_nullable_prop, :map
+    field :object_and_items_nullable_prop, :map
+    field :object_items_nullable, :map
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:integer_prop, :number_prop, :boolean_prop, :string_prop, :date_prop, :datetime_prop, :array_nullable_prop, :array_and_items_nullable_prop, :array_items_nullable, :object_nullable_prop, :object_and_items_nullable_prop, :object_items_nullable])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

@@ -5,14 +5,7 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :uuid,
-    :id,
-    :deprecatedRef,
-    :bars
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :uuid => String.t | nil,
@@ -21,11 +14,21 @@ defmodule OpenapiPetstore.Model.ObjectWithDeprecatedFields do
     :bars => [String.t] | nil
   }
 
-  alias OpenapiPetstore.Deserializer
+  @derive {JSON.Encoder, only: [:uuid, :id, :deprecatedRef, :bars]}
+  @primary_key false
+  embedded_schema do
+    field :uuid, :string
+    field :id, :float
+    field :bars, {:array, :string}
+    embeds_one :deprecatedRef, OpenapiPetstore.Model.DeprecatedModel
+  end
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:deprecatedRef, :struct, OpenapiPetstore.Model.DeprecatedModel)
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:uuid, :id, :bars])
+    |> Ecto.Changeset.validate_required([])
+    |> Ecto.Changeset.cast_embed(:deprecatedRef)
   end
 end
 

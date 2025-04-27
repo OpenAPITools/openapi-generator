@@ -5,18 +5,7 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :enum_string,
-    :enum_string_required,
-    :enum_integer,
-    :enum_number,
-    :outerEnum,
-    :outerEnumInteger,
-    :outerEnumDefaultValue,
-    :outerEnumIntegerDefaultValue
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :enum_string => String.t | nil,
@@ -29,14 +18,28 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :outerEnumIntegerDefaultValue => OpenapiPetstore.Model.OuterEnumIntegerDefaultValue.t | nil
   }
 
-  alias OpenapiPetstore.Deserializer
+  @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
+  @primary_key false
+  embedded_schema do
+    field :enum_string, :string
+    field :enum_string_required, :string
+    field :enum_integer, :integer
+    field :enum_number, :float
+    embeds_one :outerEnum, OpenapiPetstore.Model.OuterEnum
+    embeds_one :outerEnumInteger, OpenapiPetstore.Model.OuterEnumInteger
+    embeds_one :outerEnumDefaultValue, OpenapiPetstore.Model.OuterEnumDefaultValue
+    embeds_one :outerEnumIntegerDefaultValue, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue
+  end
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:outerEnum, :struct, OpenapiPetstore.Model.OuterEnum)
-     |> Deserializer.deserialize(:outerEnumInteger, :struct, OpenapiPetstore.Model.OuterEnumInteger)
-     |> Deserializer.deserialize(:outerEnumDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumDefaultValue)
-     |> Deserializer.deserialize(:outerEnumIntegerDefaultValue, :struct, OpenapiPetstore.Model.OuterEnumIntegerDefaultValue)
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number])
+    |> Ecto.Changeset.validate_required([:enum_string_required])
+    |> Ecto.Changeset.cast_embed(:outerEnum)
+    |> Ecto.Changeset.cast_embed(:outerEnumInteger)
+    |> Ecto.Changeset.cast_embed(:outerEnumDefaultValue)
+    |> Ecto.Changeset.cast_embed(:outerEnumIntegerDefaultValue)
   end
 end
 

@@ -5,13 +5,7 @@ defmodule OpenapiPetstore.Model.ApiResponse do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :code,
-    :type,
-    :message
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :code => integer() | nil,
@@ -19,8 +13,19 @@ defmodule OpenapiPetstore.Model.ApiResponse do
     :message => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:code, :type, :message]}
+  @primary_key false
+  embedded_schema do
+    field :code, :integer
+    field :type, :string
+    field :message, :string
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:code, :type, :message])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 
