@@ -26,7 +26,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AspNetServerCodegen;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.CSharpRestSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -73,7 +73,7 @@ public class CSharpModelEnumTest {
                 .child(subModel)
                 .interfaces(new ArrayList<RefModel>());
                 */
-        final DefaultCodegen codegen = new CSharpClientCodegen();
+        final DefaultCodegen codegen = new CSharpRestSharpClientCodegen();
         final Map<String, Schema> allModels = new HashMap<>();
         allModels.put("ParentModel", parentModel);
         allModels.put("SubModel", subModel);

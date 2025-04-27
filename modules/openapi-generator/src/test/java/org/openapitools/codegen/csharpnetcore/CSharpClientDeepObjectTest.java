@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.CSharpRestSharpClientCodegen;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -46,7 +46,7 @@ public class CSharpClientDeepObjectTest {
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/deepobject.yaml", null, new ParseOptions()).getOpenAPI();
 
-        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        CSharpRestSharpClientCodegen codegen = new CSharpRestSharpClientCodegen();
         codegen.setLibrary("restsharp");
         codegen.setOutputDir(output.getAbsolutePath());
 

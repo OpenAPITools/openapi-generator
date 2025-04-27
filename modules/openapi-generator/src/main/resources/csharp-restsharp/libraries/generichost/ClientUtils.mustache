@@ -1,0 +1,404 @@
+{{>partial_header}}
+{{#nrt}}
+#nullable enable
+
+{{/nrt}}
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
+using System.Text.RegularExpressions;{{#useCompareNetObjects}}
+using KellermanSoftware.CompareNetObjects;{{/useCompareNetObjects}}
+{{#models}}
+{{#-first}}
+using {{packageName}}.{{modelPackage}};
+{{/-first}}
+{{/models}}
+using System.Runtime.CompilerServices;
+
+{{>Assembly}}namespace {{packageName}}.{{clientPackage}}
+{
+    /// <summary>
+    /// Utility functions providing some benefit to API client consumers.
+    /// </summary>
+    {{>visibility}} static {{#net70OrLater}}partial {{/net70OrLater}}class ClientUtils
+    {
+        {{#useCompareNetObjects}}
+        /// <summary>
+        /// An instance of CompareLogic.
+        /// </summary>
+        public static CompareLogic compareLogic;
+
+        /// <summary>
+        /// Static constructor to initialise compareLogic.
+        /// </summary>
+        static ClientUtils()
+        {
+            {{#equatable}}
+            ComparisonConfig comparisonConfig = new{{^net70OrLater}} ComparisonConfig{{/net70OrLater}}();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            {{/equatable}}
+            compareLogic = new{{^net70OrLater}} CompareLogic{{/net70OrLater}}({{#equatable}}comparisonConfig{{/equatable}});
+        }
+        {{/useCompareNetObjects}}
+
+        /// <summary>
+        /// A delegate for events.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
+
+        {{#hasApiKeyMethods}}
+        /// <summary>
+        /// An enum of headers
+        /// </summary>
+        public enum ApiKeyHeader
+        {
+            {{#apiKeyMethods}}
+            /// <summary>
+            /// The {{keyParamName}} header
+            /// </summary>
+            {{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}{{^-last}},{{/-last}}
+            {{/apiKeyMethods}}
+        }
+
+        /// <summary>
+        /// Converte an ApiKeyHeader to a string
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException"></exception>
+        {{>visibility}} static string ApiKeyHeaderToString(ApiKeyHeader value)
+        {
+            {{#net80OrLater}}
+            return value switch
+            {
+                {{#apiKeyMethods}}
+                ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}} => "{{keyParamName}}",
+                {{/apiKeyMethods}}
+                _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
+            };
+            {{/net80OrLater}}
+            {{^net80OrLater}}
+            switch(value)
+            {
+                {{#apiKeyMethods}}
+                case ApiKeyHeader.{{#lambda.titlecase}}{{#lambda.alphabet_or_underscore}}{{keyParamName}}{{/lambda.alphabet_or_underscore}}{{/lambda.titlecase}}:
+                    return "{{keyParamName}}";
+                {{/apiKeyMethods}}
+                default:
+                    throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader));
+            }
+            {{/net80OrLater}}
+        }
+
+        {{/hasApiKeyMethods}}
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(string json, JsonSerializerOptions options, {{#net60OrLater}}[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
+        {
+            try
+            {
+                result = JsonSerializer.Deserialize<T>(json, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true when deserialization succeeds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reader"></param>
+        /// <param name="options"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static bool TryDeserialize<T>(ref Utf8JsonReader reader, JsonSerializerOptions options, {{#net60OrLater}}[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)] {{/net60OrLater}}out T{{#nrt}}{{#net60OrLater}}?{{/net60OrLater}}{{/nrt}} result)
+        {
+            try
+            {
+                result = JsonSerializer.Deserialize<T>(ref reader, options);
+                return result != null;
+            }
+            catch (Exception)
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
+        /// If parameter is a list, join the list with ",".
+        /// Otherwise just return the string.
+        /// </summary>
+        /// <param name="obj">The parameter (header, path, query, form).</param>
+        /// <param name="format">The DateTime serialization format.</param>
+        /// <returns>Formatted string.</returns>
+        public static string{{nrt?}} ParameterToString(object{{nrt?}} obj, string{{nrt?}} format = ISO8601_DATETIME_FORMAT)
+        {
+            if (obj is DateTime dateTime)
+                // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                // For example: 2009-06-15T13:45:30.0000000
+                return dateTime.ToString(format);
+            if (obj is DateTimeOffset dateTimeOffset)
+                // Return a formatted date string - Can be customized with Configuration.DateTimeFormat
+                // Defaults to an ISO 8601, using the known as a Round-trip date/time pattern ("o")
+                // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
+                // For example: 2009-06-15T13:45:30.0000000
+                return dateTimeOffset.ToString(format);
+            {{#net60OrLater}}
+            if (obj is DateOnly dateOnly)
+                return dateOnly.ToString(format);
+            {{/net60OrLater}}
+            if (obj is bool boolean)
+                return boolean
+                    ? "true"
+                    : "false";
+            {{#models}}
+            {{#model}}
+            {{#isEnum}}
+            if (obj is {{classname}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}})
+                {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
+                return {{classname}}ValueConverter.{{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+            {{/isEnum}}
+            {{^isEnum}}
+            {{#vars}}
+            {{#items.isEnum}}
+            {{#items}}
+            {{^complexType}}
+            if (obj is {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}})
+                {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
+                return {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+            {{/complexType}}
+            {{/items}}
+            {{/items.isEnum}}
+            {{#isEnum}}
+            {{^complexType}}
+            if (obj is {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}})
+                {{! below has #isNumeric as a work around but should probably have ^isString instead https://github.com/OpenAPITools/openapi-generator/issues/15038}}
+                return {{#isInnerEnum}}{{classname}}.{{/isInnerEnum}}{{{datatypeWithEnum}}}ToJsonValue({{#lambda.camelcase_sanitize_param}}{{classname}}{{{datatypeWithEnum}}}{{/lambda.camelcase_sanitize_param}}){{#isNumeric}}.ToString(){{/isNumeric}};
+            {{/complexType}}
+            {{/isEnum}}
+            {{/vars}}
+            {{/isEnum}}
+            {{/model}}
+            {{/models}}
+            if (obj is ICollection collection)
+            {
+                List<string{{nrt?}}> entries = new{{^net70OrLater}} List<string{{nrt?}}>{{/net70OrLater}}();
+                foreach (var entry in collection)
+                    entries.Add(ParameterToString(entry));
+                return string.Join(",", entries);
+            }
+
+            return Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// URL encode a string
+        /// Credit/Ref: https://github.com/restsharp/RestSharp/blob/master/RestSharp/Extensions/StringExtensions.cs#L50
+        /// </summary>
+        /// <param name="input">string to be URL encoded</param>
+        /// <returns>Byte array</returns>
+        public static string UrlEncode(string input)
+        {
+            const int maxLength = 32766;
+
+            if (input == null)
+            {
+                throw new ArgumentNullException("input");
+            }
+
+            if (input.Length <= maxLength)
+            {
+                return Uri.EscapeDataString(input);
+            }
+
+            StringBuilder sb = new StringBuilder(input.Length * 2);
+            int index = 0;
+
+            while (index < input.Length)
+            {
+                int length = Math.Min(input.Length - index, maxLength);
+                string subString = input.Substring(index, length);
+
+                sb.Append(Uri.EscapeDataString(subString));
+                index += subString.Length;
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Encode string in base64 format.
+        /// </summary>
+        /// <param name="text">string to be encoded.</param>
+        /// <returns>Encoded string.</returns>
+        public static string Base64Encode(string text)
+        {
+            return Convert.ToBase64String(global::System.Text.Encoding.UTF8.GetBytes(text));
+        }
+
+        /// <summary>
+        /// Convert stream to byte array
+        /// </summary>
+        /// <param name="inputStream">Input stream to be converted</param>
+        /// <returns>Byte array</returns>
+        public static byte[] ReadAsBytes(Stream inputStream)
+        {
+            using (var ms = new MemoryStream())
+            {
+                inputStream.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Select the Content-Type header's value from the given content-type array:
+        /// if JSON type exists in the given array, use it;
+        /// otherwise use the first one defined in 'consumes'
+        /// </summary>
+        /// <param name="contentTypes">The Content-Type array to select from.</param>
+        /// <returns>The Content-Type header to use.</returns>
+        public static string{{nrt?}} SelectHeaderContentType(string[] contentTypes)
+        {
+            if (contentTypes.Length == 0)
+                return null;
+
+            foreach (var contentType in contentTypes)
+            {
+                if (IsJsonMime(contentType))
+                    return contentType;
+            }
+
+            return contentTypes[0]; // use the first content type specified in 'consumes'
+        }
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them (joining into a string)
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header to use.</returns>
+        public static string{{nrt?}} SelectHeaderAccept(string[] accepts)
+        {
+            if (accepts.Length == 0)
+                return null;
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                return "application/json";
+
+            return string.Join(",", accepts);
+        }
+
+        /// <summary>
+        /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
+        /// </summary>
+    {{#net70OrLater}}
+        [GeneratedRegex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$")]
+        private static partial Regex JsonRegex();
+    {{/net70OrLater}}
+    {{^net70OrLater}}
+        private static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+    {{/net70OrLater}}
+
+        /// <summary>
+        /// Check if the given MIME is a JSON MIME.
+        /// JSON MIME examples:
+        ///    application/json
+        ///    application/json; charset=UTF8
+        ///    APPLICATION/JSON
+        ///    application/vnd.company+json
+        /// </summary>
+        /// <param name="mime">MIME</param>
+        /// <returns>Returns True if MIME type is json.</returns>
+        public static bool IsJsonMime(string mime)
+        {
+            if (string.IsNullOrWhiteSpace(mime)) return false;
+
+            return {{#net70OrLater}}JsonRegex(){{/net70OrLater}}{{^net70OrLater}}JsonRegex{{/net70OrLater}}.IsMatch(mime) || mime.Equals("application/json-patch+json");
+        }
+
+        /// <summary>
+        /// Get the discriminator
+        /// </summary>
+        /// <param name="utf8JsonReader"></param>
+        /// <param name="discriminator"></param>
+        /// <returns></returns>
+        /// <exception cref="JsonException"></exception>
+        public static string{{nrt?}} GetDiscriminator(Utf8JsonReader utf8JsonReader, string discriminator)
+        {
+            int currentDepth = utf8JsonReader.CurrentDepth;
+
+            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException();
+
+            JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+
+            while (utf8JsonReader.Read())
+            {
+                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReader.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReader.CurrentDepth)
+                    break;
+
+                if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
+                {
+                    string{{nrt?}} localVarJsonPropertyName = utf8JsonReader.GetString();
+                    utf8JsonReader.Read();
+
+                    if (localVarJsonPropertyName != null && localVarJsonPropertyName.Equals(discriminator))
+                        return utf8JsonReader.GetString();
+                }
+            }
+
+            throw new JsonException("The specified discriminator was not found.");
+        }
+
+        /// <summary>
+        /// The base path of the API
+        /// </summary>
+        public const string BASE_ADDRESS = "{{{basePath}}}";
+
+        /// <summary>
+        /// The scheme of the API
+        /// </summary>
+        public const string SCHEME = "{{{scheme}}}";
+
+        /// <summary>
+        /// The context path of the API
+        /// </summary>
+        public const string CONTEXT_PATH = "{{contextPath}}";
+
+        /// <summary>
+        /// The host of the API
+        /// </summary>
+        public const string HOST = "{{{host}}}";
+
+        /// <summary>
+        /// The format to use for DateTime serialization
+        /// </summary>
+        public const string ISO8601_DATETIME_FORMAT = "o";
+    }
+}

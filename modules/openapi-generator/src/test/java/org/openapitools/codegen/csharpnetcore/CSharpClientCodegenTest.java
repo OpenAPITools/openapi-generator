@@ -19,7 +19,7 @@ package org.openapitools.codegen.csharpnetcore;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.CSharpRestSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,7 +39,7 @@ public class CSharpClientCodegenTest {
 
     @Test
     public void testToEnumVarName() throws Exception {
-        final CSharpClientCodegen codegen = new CSharpClientCodegen();
+        final CSharpRestSharpClientCodegen codegen = new CSharpRestSharpClientCodegen();
         codegen.setLibrary("restsharp");
         codegen.processOpts();
 
@@ -58,7 +58,7 @@ public class CSharpClientCodegenTest {
     public void testUnsigned() {
         // test unsigned integer/long
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unsigned-test.yaml");
-        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        CSharpRestSharpClientCodegen codegen = new CSharpRestSharpClientCodegen();
         codegen.setLibrary("restsharp");
 
         Schema test1 = openAPI.getComponents().getSchemas().get("format_test");
@@ -96,7 +96,7 @@ public class CSharpClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
-        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        CSharpRestSharpClientCodegen cSharpClientCodegen = new CSharpRestSharpClientCodegen();
         cSharpClientCodegen.setLibrary("restsharp");
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
@@ -123,7 +123,7 @@ public class CSharpClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
-        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        CSharpRestSharpClientCodegen cSharpClientCodegen = new CSharpRestSharpClientCodegen();
         cSharpClientCodegen.setLibrary("restsharp");
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.setAutosetConstants(true);
@@ -149,7 +149,7 @@ public class CSharpClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
-        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        CSharpRestSharpClientCodegen cSharpClientCodegen = new CSharpRestSharpClientCodegen();
         cSharpClientCodegen.setLibrary("restsharp");
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.setAutosetConstants(true);

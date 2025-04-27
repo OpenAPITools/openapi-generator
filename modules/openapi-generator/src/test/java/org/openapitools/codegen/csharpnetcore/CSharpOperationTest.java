@@ -23,7 +23,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import org.openapitools.codegen.languages.AspNetServerCodegen;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.CSharpRestSharpClientCodegen;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -37,8 +37,7 @@ public class CSharpOperationTest {
         assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, false), "System.IO.Stream");
         assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, true), "System.IO.Stream?");
 
-        CSharpClientCodegen codegen = new CSharpClientCodegen();
-        codegen.setLibrary("restsharp");
+        CSharpRestSharpClientCodegen codegen = new CSharpRestSharpClientCodegen();
         assertEquals(getOperationOptionalParameterDataType(codegen, 2, false), "System.IO.Stream");
         assertEquals(getOperationOptionalParameterDataType(codegen, 2, true), "System.IO.Stream?");
         assertEquals(getOperationOptionalParameterDataType(codegen, 3, false), "System.IO.Stream");
