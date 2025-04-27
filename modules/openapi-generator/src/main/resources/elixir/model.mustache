@@ -3,34 +3,32 @@
   @moduledoc """
   {{&description}}
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    {{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}},
-    {{/-last}}{{/vars}}
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     {{#vars}}{{#atom}}{{&baseName}}{{/atom}} => {{{datatype}}}{{#isNullable}} | nil{{/isNullable}}{{^isNullable}}{{^required}} | nil{{/required}}{{/isNullable}}{{^-last}},
     {{/-last}}{{/vars}}
   }
 
-{{#hasComplexVars}}
-  alias {{&moduleName}}.Deserializer
+  @derive {JSON.Encoder, only: [{{#vars}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/vars}}]}
+  @primary_key false
+  embedded_schema do
+  {{#ectoFields}}
+    field {{#atom}}{{&baseName}}{{/atom}}, {{{ectoType}}}
+  {{/ectoFields}}
+  {{#ectoEmbeds}}
+    {{^isArray}}embeds_one{{/isArray}}{{#isArray}}embeds_many{{/isArray}} {{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{^isArray}}{{{baseType}}}{{/isArray}}{{#isArray}}{{{items.baseType}}}{{/isArray}}
+  {{/ectoEmbeds}}
+  end
 
-  def decode(value) do
-    value
-    {{#vars}}
-    {{^isPrimitiveType}}
-    {{#baseType}} |> Deserializer.deserialize({{#atom}}{{&baseName}}{{/atom}}, {{#isArray}}:list, {{&moduleName}}.Model.{{{items.baseType}}}{{/isArray}}{{#isMap}}:map, {{&moduleName}}.Model.{{{items.baseType}}}{{/isMap}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:datetime, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMap}}{{^isArray}}:struct, {{moduleName}}.Model.{{baseType}}{{/isArray}}{{/isMap}}{{/isDateTime}}{{/isDate}})
-    {{/baseType}}
-    {{/isPrimitiveType}}
-    {{/vars}}
-{{/hasComplexVars}}
-{{^hasComplexVars}}
-  def decode(value) do
-    value
-{{/hasComplexVars}}
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [{{#ectoFields}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/ectoFields}}])
+    |> Ecto.Changeset.validate_required([{{#requiredEctoFields}}{{#atom}}{{&baseName}}{{/atom}}{{^-last}}, {{/-last}}{{/requiredEctoFields}}])
+    {{#ectoEmbeds}}
+    |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
+    {{/ectoEmbeds}}
   end
 end
 {{/model}}{{/models}}

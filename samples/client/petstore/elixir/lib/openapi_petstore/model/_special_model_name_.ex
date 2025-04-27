@@ -5,18 +5,23 @@ defmodule OpenapiPetstore.Model.SpecialModelName do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :"$special[property.name]"
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :"$special[property.name]" => integer() | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:"$special[property.name]"]}
+  @primary_key false
+  embedded_schema do
+    field :"$special[property.name]", :integer
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:"$special[property.name]"])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

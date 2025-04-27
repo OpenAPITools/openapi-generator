@@ -5,16 +5,7 @@ defmodule OpenapiPetstore.Model.Pet do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :id,
-    :category,
-    :name,
-    :photoUrls,
-    :tags,
-    :status
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :id => integer() | nil,
@@ -25,12 +16,25 @@ defmodule OpenapiPetstore.Model.Pet do
     :status => String.t | nil
   }
 
-  alias OpenapiPetstore.Deserializer
+  @derive {JSON.Encoder, only: [:id, :category, :name, :photoUrls, :tags, :status]}
+  @primary_key false
+  embedded_schema do
+    field :id, :integer
+    field :name, :string
+    field :photoUrls, :any, virtual: true
+    embeds_many :tags, OpenapiPetstore.Model.Tag
+    field :status, :string
+    embeds_one :category, OpenapiPetstore.Model.Category
+    embeds_many :tags, OpenapiPetstore.Model.Tag
+  end
 
-  def decode(value) do
-    value
-     |> Deserializer.deserialize(:category, :struct, OpenapiPetstore.Model.Category)
-     |> Deserializer.deserialize(:tags, :list, OpenapiPetstore.Model.Tag)
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:id, :name, :photoUrls, :status])
+    |> Ecto.Changeset.validate_required([:name, :photoUrls])
+    |> Ecto.Changeset.cast_embed(:category)
+    |> Ecto.Changeset.cast_embed(:tags)
   end
 end
 

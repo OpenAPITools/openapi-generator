@@ -5,18 +5,23 @@ defmodule OpenapiPetstore.Model.ClassModel do
   @moduledoc """
   Model for testing model with \"_class\" property
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :_class
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :_class => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:_class]}
+  @primary_key false
+  embedded_schema do
+    field :_class, :string
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:_class])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

@@ -5,26 +5,7 @@ defmodule OpenapiPetstore.Model.FormatTest do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :integer,
-    :int32,
-    :int64,
-    :number,
-    :float,
-    :double,
-    :decimal,
-    :string,
-    :byte,
-    :binary,
-    :date,
-    :dateTime,
-    :uuid,
-    :password,
-    :pattern_with_digits,
-    :pattern_with_digits_and_delimiter
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :integer => integer() | nil,
@@ -45,8 +26,32 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :pattern_with_digits_and_delimiter => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:integer, :int32, :int64, :number, :float, :double, :decimal, :string, :byte, :binary, :date, :dateTime, :uuid, :password, :pattern_with_digits, :pattern_with_digits_and_delimiter]}
+  @primary_key false
+  embedded_schema do
+    field :integer, :integer
+    field :int32, :integer
+    field :int64, :integer
+    field :number, :float
+    field :float, :float
+    field :double, :float
+    field :decimal, :float
+    field :string, :string
+    field :byte, :binary
+    field :binary, :string
+    field :date, :date
+    field :dateTime, :utc_datetime
+    field :uuid, :string
+    field :password, :string
+    field :pattern_with_digits, :string
+    field :pattern_with_digits_and_delimiter, :string
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:integer, :int32, :int64, :number, :float, :double, :decimal, :string, :byte, :binary, :date, :dateTime, :uuid, :password, :pattern_with_digits, :pattern_with_digits_and_delimiter])
+    |> Ecto.Changeset.validate_required([:number, :byte, :date, :password])
   end
 end
 

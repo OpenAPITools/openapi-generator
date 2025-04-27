@@ -189,10 +189,26 @@ defmodule OpenapiPetstore.RequestBuilder do
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
   defp decode(%Tesla.Env{body: body}, %{}) do
-    OpenapiPetstore.Deserializer.json_decode(body)
+    JSON.decode(body)
   end
 
   defp decode(%Tesla.Env{body: body}, module) do
-    OpenapiPetstore.Deserializer.json_decode(body, module)
+    case JSON.decode(body) do
+      {:ok, objects} when is_list(objects) ->
+        models = Enum.map(objects, fn object ->
+          {:ok, model} = to_model(module, object)
+          model
+        end)
+        {:ok, models}
+      {:ok, params} -> to_model(module, params)
+      {:error, error} -> {:error, error}
+    end
+  end
+
+  defp to_model(module, params) do
+    module
+    |> struct
+    |> module.changeset(params)
+    |> Ecto.Changeset.apply_action(:insert)
   end
 end

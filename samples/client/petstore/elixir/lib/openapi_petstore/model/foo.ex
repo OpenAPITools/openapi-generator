@@ -5,18 +5,23 @@ defmodule OpenapiPetstore.Model.Foo do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :bar
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :bar => String.t | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:bar]}
+  @primary_key false
+  embedded_schema do
+    field :bar, :string
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:bar])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 

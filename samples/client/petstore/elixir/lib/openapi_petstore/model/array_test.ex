@@ -5,13 +5,7 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   @moduledoc """
   
   """
-
-  @derive JSON.Encoder
-  defstruct [
-    :array_of_string,
-    :array_array_of_integer,
-    :array_array_of_model
-  ]
+  use Ecto.Schema
 
   @type t :: %__MODULE__{
     :array_of_string => [String.t] | nil,
@@ -19,8 +13,19 @@ defmodule OpenapiPetstore.Model.ArrayTest do
     :array_array_of_model => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
   }
 
-  def decode(value) do
-    value
+  @derive {JSON.Encoder, only: [:array_of_string, :array_array_of_integer, :array_array_of_model]}
+  @primary_key false
+  embedded_schema do
+    field :array_of_string, {:array, :string}
+    field :array_array_of_integer, {:array, {:array, :integer}}
+    field :array_array_of_model, {:array, {:array, :any}}
+  end
+
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
+  def changeset(%__MODULE__{} = struct, params) do
+    struct
+    |> Ecto.Changeset.cast(params, [:array_of_string, :array_array_of_integer, :array_array_of_model])
+    |> Ecto.Changeset.validate_required([])
   end
 end
 
