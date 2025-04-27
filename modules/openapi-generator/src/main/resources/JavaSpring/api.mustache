@@ -78,6 +78,9 @@ import java.util.Optional;
 {{#async}}
 import java.util.concurrent.CompletableFuture;
 {{/async}}
+{{#returnSuccessCode}}
+import java.util.concurrent.atomic.AtomicInteger;
+{{/returnSuccessCode}}
 import {{javaxPackage}}.annotation.Generated;
 
 {{>generatedAnnotation}}
