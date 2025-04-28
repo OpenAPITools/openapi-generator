@@ -16,21 +16,21 @@ import "google/protobuf/empty.proto";
 import public "models/user.proto";
 
 service UserService {
-  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty);
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
 
-  rpc CreateUsersWithArrayInput (CreateUsersWithArrayInputRequest) returns (google.protobuf.Empty);
+  rpc CreateUsersWithArrayInput (CreateUsersWithArrayInputRequest) returns (CreateUsersWithArrayInputResponse);
 
-  rpc CreateUsersWithListInput (CreateUsersWithListInputRequest) returns (google.protobuf.Empty);
+  rpc CreateUsersWithListInput (CreateUsersWithListInputRequest) returns (CreateUsersWithListInputResponse);
 
-  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty);
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
 
-  rpc GetUserByName (GetUserByNameRequest) returns (User);
+  rpc GetUserByName (GetUserByNameRequest) returns (GetUserByNameResponse);
 
   rpc LoginUser (LoginUserRequest) returns (LoginUserResponse);
 
-  rpc LogoutUser (google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc LogoutUser (google.protobuf.Empty) returns (LogoutUserResponse);
 
-  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty);
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
 
 }
 
@@ -40,30 +40,58 @@ message CreateUserRequest {
 
 }
 
+message CreateUserResponse {
+    oneof response {
+        google.protobuf.Empty empty_0 = 1;
+    }
+}
 message CreateUsersWithArrayInputRequest {
   // List of user object
   repeated User user = 1;
 
 }
 
+message CreateUsersWithArrayInputResponse {
+    oneof response {
+        google.protobuf.Empty empty_0 = 1;
+    }
+}
 message CreateUsersWithListInputRequest {
   // List of user object
   repeated User user = 1;
 
 }
 
+message CreateUsersWithListInputResponse {
+    oneof response {
+        google.protobuf.Empty empty_0 = 1;
+    }
+}
 message DeleteUserRequest {
   // The name that needs to be deleted
   string username = 1;
 
 }
 
+message DeleteUserResponse {
+    oneof response {
+        google.protobuf.Empty empty_400 = 1;
+        google.protobuf.Empty empty_404 = 2;
+    }
+}
 message GetUserByNameRequest {
   // The name that needs to be fetched. Use user1 for testing.
   string username = 1;
 
 }
 
+message GetUserByNameResponse {
+    oneof response {
+        User user_200 = 1;
+        google.protobuf.Empty empty_400 = 2;
+        google.protobuf.Empty empty_404 = 3;
+    }
+}
 message LoginUserRequest {
   // The user name for login
   string username = 1;
@@ -73,9 +101,16 @@ message LoginUserRequest {
 }
 
 message LoginUserResponse {
-  string data = 1;
+    oneof response {
+        string string_200 = 1;
+        google.protobuf.Empty empty_400 = 2;
+    }
 }
-
+message LogoutUserResponse {
+    oneof response {
+        google.protobuf.Empty empty_0 = 1;
+    }
+}
 message UpdateUserRequest {
   // name that need to be deleted
   string username = 1;
@@ -84,3 +119,9 @@ message UpdateUserRequest {
 
 }
 
+message UpdateUserResponse {
+    oneof response {
+        google.protobuf.Empty empty_400 = 1;
+        google.protobuf.Empty empty_404 = 2;
+    }
+}

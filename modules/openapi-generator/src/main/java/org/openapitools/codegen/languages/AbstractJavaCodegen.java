@@ -53,6 +53,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.lang.model.SourceVersion;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -147,9 +148,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter @Setter
     protected String testFolder = projectTestFolder + "/java";
 
-    protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy}
+    protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy, original}
 
-    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE' and 'legacy'";
+    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'";
     @Getter protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.MACRO_CASE;
 
     /**
@@ -666,6 +667,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         });
         additionalProperties.put("removeAnnotations", (Mustache.Lambda) (fragment, writer) -> {
             writer.write(removeAnnotations(fragment.execute()));
+        });
+        additionalProperties.put("sanitizeDataType", (Mustache.Lambda) (fragment, writer) -> {
+            writer.write(sanitizeDataType(fragment.execute()));
         });
     }
 
@@ -1843,6 +1847,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return dataType;
     }
 
+    /**
+     * Sanitize the datatype.
+     * This will remove all characters except alphanumeric ones.
+     * It will also first use {{@link #removeAnnotations(String)}} to remove the annotations added to the datatype
+     * @param dataType the data type string
+     * @return the data type string without annotations and any characters except alphanumeric ones
+     */
+    public String sanitizeDataType(String dataType) {
+        String content = removeAnnotations(dataType);
+        if (content != null && content.matches(".*\\P{Alnum}.*")) {
+            content = content.replaceAll("\\P{Alnum}", "");
+        }
+        return content;
+    }
+
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // recursively add import for mapping one type to multiple imports
@@ -2015,6 +2035,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return sanitizeName(camelize(property.name)) + "Enum";
     }
 
+    private boolean isValidVariableNameInVersion(CharSequence name, SourceVersion version) {
+        return SourceVersion.isIdentifier(name) && !SourceVersion.isKeyword(name, version);
+    }
+
     @Override
     public String toEnumVarName(String value, String datatype) {
         if (enumNameMapping.containsKey(value)) {
@@ -2050,6 +2074,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             case legacy:
                 // legacy ,e.g. WITHNUMBER1
                 var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
+                break;
+            case original:
+                // keep value as it is, if meets language naming convention
+                if (isValidVariableNameInVersion(value, SourceVersion.RELEASE_11)) {
+                    return value;
+                } else {
+                    LOGGER.warn("Enum value '{}' is not a valid variable name in Java 11. Enum value will be renamed.", value);
+                    var = value;
+                }
                 break;
             default:
                 // default to MACRO_CASE, e.g. WITH_NUMBER1

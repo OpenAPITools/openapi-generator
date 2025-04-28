@@ -244,10 +244,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         result.put("application/zip", "MediaTypes.APPLICATION_ZIP");
 
         result.put("image/gif", "MediaTypes.IMAGE_GIF");
+        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
         result.put("image/jpeg", "MediaTypes.IMAGE_JPEG");
         result.put("image/png", "MediaTypes.IMAGE_PNG");
         result.put("image/svg+xml", "MediaTypes.IMAGE_SVG");
-        result.put("image/x-icon", "MediaTypes.IMAGE_ICO");
+        result.put("image/tiff", "MediaTypes.IMAGE_TIFF");
 
         result.put("multipart/form-data", "MediaTypes.FORM_DATA");
 

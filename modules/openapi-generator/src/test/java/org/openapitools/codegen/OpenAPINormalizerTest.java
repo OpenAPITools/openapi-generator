@@ -24,10 +24,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.testng.Assert.*;
 
@@ -171,6 +168,12 @@ public class OpenAPINormalizerTest {
         Schema schema15 = openAPI.getComponents().getSchemas().get("AnyOfAnyTypeWithRef");
         assertEquals(schema15.getAnyOf().size(), 6);
 
+        Schema schema17 = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) schema17.getProperties().get("number")).getOneOf().size(), 1);
+
+        Schema schema19 = openAPI.getComponents().getSchemas().get("SingleAnyOfTest");
+        assertEquals(schema19.getAnyOf().size(), 1);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -212,6 +215,30 @@ public class OpenAPINormalizerTest {
         Schema schema16 = openAPI.getComponents().getSchemas().get("AnyOfAnyTypeWithRef");
         assertEquals(schema16.getAnyOf(), null);
         assertEquals(schema16.getType(), null);
+
+        Schema schema18 = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) schema18.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
+
+        Schema schema20 = openAPI.getComponents().getSchemas().get("SingleAnyOfTest");
+        assertEquals(schema20.getAnyOf(), null);
+        assertEquals(schema20.getType(), "string");
+        assertEquals(schema20.getEnum().size(), 2);
+    }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfWithSingleRef() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+
+        Schema oneOfWithSingleRef = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).getOneOf().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        oneOfWithSingleRef = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
     }
 
     @Test
@@ -833,6 +860,12 @@ public class OpenAPINormalizerTest {
         Schema schema17 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         assertEquals(schema17.getOneOf().size(), 2);
 
+        Schema schema19 = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) schema19.getProperties().get("number")).getOneOf().size(), 1);
+
+        Schema schema21 = openAPI.getComponents().getSchemas().get("SingleAnyOfTest");
+        assertEquals(schema21.getAnyOf().size(), 1);
+
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
@@ -879,6 +912,30 @@ public class OpenAPINormalizerTest {
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
         assertEquals(schema18.getOneOf(), null);
         assertEquals(schema18.get$ref(), "#/components/schemas/Parent");
+
+        Schema schema20 = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) schema20.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
+
+        Schema schema22 = openAPI.getComponents().getSchemas().get("SingleAnyOfTest");
+        assertEquals(schema22.getAnyOf(), null);
+        assertEquals(schema22.getTypes(), Set.of("string"));
+        assertEquals(schema22.getEnum().size(), 2);
+    }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfWithSingleRef31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/simplifyOneOfAnyOf_test.yaml");
+
+        Schema oneOfWithSingleRef = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).getOneOf().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ONEOF_ANYOF", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        oneOfWithSingleRef = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
+        assertEquals(((Schema) oneOfWithSingleRef.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
     }
 
     @Test
@@ -964,5 +1021,33 @@ public class OpenAPINormalizerTest {
         assertEquals(scheme.getScheme(), "bearer");
         assertEquals(scheme.getName(), null);
         assertEquals(scheme.getIn(), null);
+    }
+
+    @Test
+    public void testNormalizerClass() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/required-properties.yaml");
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZER_CLASS", RemoveRequiredNormalizer.class.getName()
+        );
+        OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+        Schema requiredProperties = openAPI.getComponents().getSchemas().get("RequiredProperties");
+        assertEquals(requiredProperties.getRequired(), null);
+    }
+
+    public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
+
+        public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
+            super(openAPI, inputRules);
+        }
+
+        @Override
+        public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+            if (skipNormalization(schema, visitedSchemas)) {
+                return schema;
+            }
+            schema.setRequired(null);
+            return super.normalizeSchema(schema, visitedSchemas);
+        }
     }
 }

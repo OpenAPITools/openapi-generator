@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.13.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.14.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
   @jakarta.annotation.Nullable
@@ -125,6 +125,7 @@ public class NumberPropertiesOnly {
   public void setDouble(@jakarta.annotation.Nullable Double _double) {
     this._double = _double;
   }
+
 
   @Override
   public boolean equals(Object o) {

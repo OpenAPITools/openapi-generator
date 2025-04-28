@@ -2220,6 +2220,30 @@ public class ModelUtils {
     }
 
     /**
+     * Simplifies the schema by removing the oneOfAnyOf if the oneOfAnyOf only contains a single non-null sub-schema
+     *
+     * @param openAPI OpenAPI
+     * @param schema Schema
+     * @param subSchemas The oneOf or AnyOf schemas
+     * @return The simplified schema
+     */
+    public static Schema simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
+        if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
+            schema.setNullable(true);
+        }
+
+        // if only one element left, simplify to just the element (schema)
+        if (subSchemas.size() == 1) {
+            if (Boolean.TRUE.equals(schema.getNullable())) { // retain nullable setting
+                subSchemas.get(0).setNullable(true);
+            }
+            return subSchemas.get(0);
+        }
+
+        return schema;
+    }
+
+    /**
      * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
      * Return true if the schema's type is 'null' or not specified
@@ -2311,6 +2335,32 @@ public class ModelUtils {
 
         return false;
     }
+
+    /**
+     * Returns true if a schema is only metadata and not an actual type.
+     * For example, a schema that only has a `description` without any `properties` or `$ref` defined.
+     *
+     * @param schema the schema
+     * @return       if the schema is only metadata and not an actual type
+     */
+    public static boolean isMetadataOnlySchema(Schema schema) {
+        return schema.get$ref() != null ||
+                schema.getProperties() != null ||
+                schema.getType() != null ||
+                schema.getAdditionalProperties() != null ||
+                schema.getAllOf() != null ||
+                schema.getAnyOf() != null ||
+                schema.getOneOf() != null ||
+                schema.getPrefixItems() != null ||
+                schema.getItems() != null ||
+                schema.getTypes() != null ||
+                schema.getPatternProperties() != null ||
+                schema.getContains() != null ||
+                schema.get$dynamicAnchor() != null ||
+                schema.get$anchor() != null ||
+                schema.getContentSchema() != null;
+    }
+
 
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {
