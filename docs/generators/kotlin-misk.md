@@ -275,7 +275,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Wire Format Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|JSON|✗|OAS2,OAS3
+|JSON|✓|OAS2,OAS3
 |XML|✗|OAS2,OAS3
 |PROTOBUF|✓|ToolingExtension
 |Custom|✗|OAS2,OAS3
