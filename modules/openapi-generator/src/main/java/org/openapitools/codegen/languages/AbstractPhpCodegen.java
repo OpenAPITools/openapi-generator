@@ -573,6 +573,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toAbstractName(final String name) {
         return camelize(abstractNamePrefix + name + abstractNameSuffix);
     }
+    
+@Override
+public String getHelp() {
+    return "Generates a PHP client library." + "\n" +
+           "Options:\n" +
+           "  - declareStrictTypes: boolean, set to true to add declare(strict_types=1); in generated PHP files.";
+}
+
 
     /**
      * Output the proper trait name (capitalized).
