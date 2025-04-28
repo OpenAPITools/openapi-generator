@@ -7,3 +7,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   moduleClassName: "PetStoreModule"
   generateStubImplClasses: true
+  addModelMoshiJsonAnnotation: true

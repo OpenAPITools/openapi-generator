@@ -10,7 +10,7 @@ version = "1.0.0-SNAPSHOT"
 dependencies {
     implementation("jakarta.validation:jakarta.validation-api:3.1.1")
     implementation("com.squareup.misk:misk:2025.04.02.195630-a61d550")
-    //implementation("com.squareup.wire:wire-runtime:5.2.1")
+    implementation("com.squareup.moshi:moshi:1.15.2")
 
     testImplementation("com.squareup.misk:misk-testing:2025.02.11.123913-8a41324")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
