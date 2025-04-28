@@ -42,7 +42,7 @@ class PetApiAction @Inject constructor(
     @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun addPet(
+    fun addPet(
         @Valid @RequestBody pet: Pet): Pet {
         TODO()
     }
@@ -50,7 +50,7 @@ class PetApiAction @Inject constructor(
     @Delete("/pet/{petId}")
     @Description("Deletes a pet")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun deletePet(
+    fun deletePet(
         @PathParam("petId") petId: kotlin.Long, 
         @RequestHeader(value = "api_key") apiKey: kotlin.String?) {
         TODO()
@@ -60,7 +60,7 @@ class PetApiAction @Inject constructor(
     @Description("Finds Pets by status")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun findPetsByStatus(
+    fun findPetsByStatus(
          @QueryParam(value = "status") status: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
         TODO()
     }
@@ -69,7 +69,7 @@ class PetApiAction @Inject constructor(
     @Description("Finds Pets by tags")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun findPetsByTags(
+    fun findPetsByTags(
          @QueryParam(value = "tags") tags: kotlin.Array<kotlin.String>): kotlin.Array<Pet> {
         TODO()
     }
@@ -78,7 +78,7 @@ class PetApiAction @Inject constructor(
     @Description("Find pet by ID")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun getPetById(
+    fun getPetById(
         @PathParam("petId") petId: kotlin.Long): Pet {
         TODO()
     }
@@ -88,7 +88,7 @@ class PetApiAction @Inject constructor(
     @RequestContentType(MediaTypes.APPLICATION_JSON, MediaTypes.APPLICATION_XML)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun updatePet(
+    fun updatePet(
         @Valid @RequestBody pet: Pet): Pet {
         TODO()
     }
@@ -97,7 +97,7 @@ class PetApiAction @Inject constructor(
     @Description("Updates a pet in the store with form data")
     @RequestContentType(MediaTypes.APPLICATION_FORM_URLENCODED)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun updatePetWithForm(
+    fun updatePetWithForm(
         @PathParam("petId") petId: kotlin.Long, 
         @QueryParam(value = "name") name: kotlin.String? , 
         @QueryParam(value = "status") status: kotlin.String? ) {
@@ -109,7 +109,7 @@ class PetApiAction @Inject constructor(
     @RequestContentType(MediaTypes.FORM_DATA)
     @ResponseContentType(MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun uploadFile(
+    fun uploadFile(
         @PathParam("petId") petId: kotlin.Long, 
         @QueryParam(value = "additionalMetadata") additionalMetadata: kotlin.String? , 
         @Valid file: HttpCall): ModelApiResponse {
