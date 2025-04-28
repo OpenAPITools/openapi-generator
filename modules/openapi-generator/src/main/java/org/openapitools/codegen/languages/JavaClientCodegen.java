@@ -587,6 +587,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // The flag below should be set for all Java libraries, but the templates need to be ported
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
+            if (useJakartaEe) {
+                LOGGER.warn("Jersey 2 is not compatible with Jakarta EE. Please use Jersey 3 or set {} to false.", USE_JAKARTA_EE);
+            }
         } else if (libJersey3) {
             additionalProperties.put("jersey3", true);
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -603,6 +606,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // The flag below should be set for all Java libraries, but the templates need to be ported
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
+            applyJakartaPackage();
         } else if (libNative) {
             supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));

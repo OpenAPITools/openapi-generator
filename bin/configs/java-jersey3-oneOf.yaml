@@ -5,4 +5,3 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_additionalProp
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   hideGenerationTimestamp: true
-  useJakartaEe: true
