@@ -34,8 +34,7 @@ import org.openapitools.server.api.model.Order
 */
 @Singleton
 class StoreApiAction @Inject constructor(
-    private val storeApi: StoreApi
-) : WebAction, StoreApi {
+) : WebAction {
 
     @Delete("/store/order/{orderId}")
     @Description("Delete purchase order by ID")

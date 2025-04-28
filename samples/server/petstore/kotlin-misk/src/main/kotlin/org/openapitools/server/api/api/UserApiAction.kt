@@ -34,8 +34,7 @@ import org.openapitools.server.api.model.User
 */
 @Singleton
 class UserApiAction @Inject constructor(
-    private val userApi: UserApi
-) : WebAction, UserApi {
+) : WebAction {
 
     @Post("/user")
     @Description("Create user")

@@ -38,8 +38,7 @@ import misk.web.mediatype.MediaTypes
 {{#operations}}
 @Singleton
 class {{classname}}Action @Inject constructor(
-    private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}
-) : WebAction, {{classname}} {
+) : WebAction {
 {{#operation}}
 
     @{{httpMethod}}("{{path}}")

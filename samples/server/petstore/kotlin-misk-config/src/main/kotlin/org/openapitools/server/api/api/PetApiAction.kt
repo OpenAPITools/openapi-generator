@@ -35,8 +35,7 @@ import org.openapitools.server.api.model.Pet
 */
 @Singleton
 class PetApiAction @Inject constructor(
-    private val petApi: PetApi
-) : WebAction, PetApi {
+) : WebAction {
 
     @Post("/pet")
     @Description("Add a new pet to the store")
