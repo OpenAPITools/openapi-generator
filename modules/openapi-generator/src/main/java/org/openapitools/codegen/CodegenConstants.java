@@ -408,8 +408,8 @@ public class CodegenConstants {
 
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
-            "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
-                    "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+            "If false (default), the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
+                    "If true, keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
 
     public static final String UNSUPPORTED_V310_SPEC_MSG =
             "OpenAPI 3.1 support is still in beta. To report an issue related to 3.1 spec, please kindly open an issue in the Github repo: https://github.com/openAPITools/openapi-generator.";
