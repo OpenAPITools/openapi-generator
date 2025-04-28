@@ -32,7 +32,7 @@ StoreAPI_getInventory(apiClient_t *apiClient);
 // For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
 //
 order_t*
-StoreAPI_getOrderById(apiClient_t *apiClient, long *orderId);
+StoreAPI_getOrderById(apiClient_t *apiClient, long orderId);
 
 
 // Place an order for a pet

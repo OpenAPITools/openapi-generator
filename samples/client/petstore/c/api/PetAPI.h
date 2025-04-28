@@ -23,7 +23,7 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t *body);
 // Deletes a pet
 //
 void
-PetAPI_deletePet(apiClient_t *apiClient, long *petId, char *api_key);
+PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key);
 
 
 // Finds Pets by status
@@ -53,7 +53,7 @@ PetAPI_getDaysWithoutIncident(apiClient_t *apiClient);
 // Returns a single pet
 //
 pet_t*
-PetAPI_getPetById(apiClient_t *apiClient, long *petId);
+PetAPI_getPetById(apiClient_t *apiClient, long petId);
 
 
 // Get a random picture of someone else's pet
@@ -65,7 +65,7 @@ PetAPI_getPicture(apiClient_t *apiClient);
 // Is this pet still available?
 //
 openapi_petstore_bit__e
-PetAPI_isPetAvailable(apiClient_t *apiClient, long *petId);
+PetAPI_isPetAvailable(apiClient_t *apiClient, long petId);
 
 
 // Send a picture of your happy pet
@@ -91,12 +91,12 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t *body);
 // Updates a pet in the store with form data
 //
 void
-PetAPI_updatePetWithForm(apiClient_t *apiClient, long *petId, char *name, char *status);
+PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *status);
 
 
 // uploads an image
 //
 api_response_t*
-PetAPI_uploadFile(apiClient_t *apiClient, long *petId, char *additionalMetadata, binary_t* file);
+PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, binary_t* file);
 
 
