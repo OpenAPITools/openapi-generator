@@ -295,7 +295,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getTypeAllowableValues();
+        $allowedValues = self::getTypeAllowableValues();
         if (!is_null($this->container['type']) && !in_array($this->container['type'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'type', must be one of '%s'",
@@ -341,7 +341,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
         if (is_null($type)) {
             throw new InvalidArgumentException('non-nullable type cannot be null');
         }
-        $allowedValues = $this->getTypeAllowableValues();
+        $allowedValues = self::getTypeAllowableValues();
         if (!in_array($type, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(

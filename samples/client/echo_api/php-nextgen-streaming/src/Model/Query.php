@@ -361,7 +361,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($outcomes)) {
             throw new InvalidArgumentException('non-nullable outcomes cannot be null');
         }
-        $allowedValues = $this->getOutcomesAllowableValues();
+        $allowedValues = self::getOutcomesAllowableValues();
         if (array_diff($outcomes, $allowedValues)) {
             throw new InvalidArgumentException(
                 sprintf(

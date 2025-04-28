@@ -331,7 +331,7 @@ class Pet implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['photo_urls'] === null) {
             $invalidProperties[] = "'photo_urls' can't be null";
         }
-        $allowedValues = $this->getStatusAllowableValues();
+        $allowedValues = self::getStatusAllowableValues();
         if (!is_null($this->container['status']) && !in_array($this->container['status'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'status', must be one of '%s'",
@@ -512,7 +512,7 @@ class Pet implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($status)) {
             throw new InvalidArgumentException('non-nullable status cannot be null');
         }
-        $allowedValues = $this->getStatusAllowableValues();
+        $allowedValues = self::getStatusAllowableValues();
         if (!in_array($status, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(

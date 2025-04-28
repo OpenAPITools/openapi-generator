@@ -301,7 +301,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         {{/required}}
         {{#isEnum}}
         {{^isContainer}}
-        $allowedValues = $this->{{getter}}AllowableValues();
+        $allowedValues = self::{{getter}}AllowableValues();
         if (!is_null($this->container['{{name}}']) && !in_array($this->container['{{name}}'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for '{{name}}', must be one of '%s'",
@@ -416,7 +416,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
         }
         {{/isNullable}}
         {{#isEnum}}
-        $allowedValues = $this->{{getter}}AllowableValues();
+        $allowedValues = self::{{getter}}AllowableValues();
         {{^isContainer}}
         if ({{#isNullable}}!is_null(${{name}}) && {{/isNullable}}!in_array(${{{name}}}, $allowedValues, true)) {
         {{#enumUnknownDefaultCase}}
