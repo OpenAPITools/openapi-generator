@@ -593,14 +593,14 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
-        System.out.println("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
-        System.out.println("################################################################################");
+        LOGGER.warn("################################################################################");
+        LOGGER.warn("# Thanks for using OpenAPI Generator.                                          #");
+        LOGGER.warn("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
+        LOGGER.warn("# https://opencollective.com/openapi_generator/donate                          #");
+        LOGGER.warn("#                                                                              #");
+        LOGGER.warn("# This generator is contributed by daurnimator (https://github.com/daurnimator)#");
+        LOGGER.warn("# Pls support his work directly via https://github.com/sponsors/daurnimator \uD83D\uDE4F #");
+        LOGGER.warn("################################################################################");
     }
 
     @Override
