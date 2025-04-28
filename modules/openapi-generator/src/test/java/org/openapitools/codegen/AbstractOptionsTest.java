@@ -62,7 +62,7 @@ public abstract class AbstractOptionsTest {
             Assert.fail(String.format(Locale.ROOT, "These options weren't checked: %s.", StringUtils.join(skipped, ", ")));
         }
         final Set<String> undocumented = new HashSet<String>(testOptions);
-        undocumented.removeAll(cliOptions);
+        cliOptions.forEach(undocumented::remove);
         if (!undocumented.isEmpty()) {
             Assert.fail(String.format(Locale.ROOT, "These options weren't documented: %s. Are you expecting base options and calling cliOptions.clear()?", StringUtils.join(undocumented, ", ")));
         }

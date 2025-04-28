@@ -47,12 +47,17 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
+
     public static final String MODULE_CLASS_NAME = "moduleClassName";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(KotlinMiskServerCodegen.class);
     private static final String ROOT_PACKAGE = "rootPackage";
+    public static final String GENERATE_STUB_IMPL_CLASSES = "generateStubImplClasses";
 
     private boolean useBeanValidation = true;
+
+    @Setter
+    private boolean generateStubImplClasses = false;
 
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
@@ -78,10 +83,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         super();
 
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch(GENERATE_STUB_IMPL_CLASSES, "Generate Stub Impl Classes", generateStubImplClasses);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.PROTOBUF))
                 .securityFeatures(EnumSet.noneOf(
                         SecurityFeature.class
                 ))
@@ -122,8 +128,12 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("apiAction.mustache", "Action.kt");
-        apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
-        apiTemplateFiles.put("apiInterface.mustache", ".kt");
+
+        if (generateStubImplClasses) {
+            apiTemplateFiles.put("apiImpl.mustache", "Impl.kt");
+            apiTemplateFiles.put("apiInterface.mustache", ".kt");
+        }
+
         modelTemplateFiles.put("model.mustache", ".kt");
 
         apiPackage = rootPackage + ".api";
@@ -154,6 +164,11 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(GENERATE_STUB_IMPL_CLASSES)) {
+            setGenerateStubImplClasses(convertPropertyToBoolean(GENERATE_STUB_IMPL_CLASSES));
+        }
+        writePropertyBack(GENERATE_STUB_IMPL_CLASSES, generateStubImplClasses);
 
         applyJakartaPackage();
 
@@ -211,6 +226,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         result.put("application/grpc", "MediaTypes.APPLICATION_GRPC");
         result.put("application/javascript", "MediaTypes.APPLICATION_JAVASCRIPT");
         result.put("application/json", "MediaTypes.APPLICATION_JSON");
+        result.put("application/jwt", "MediaTypes.APPLICATION_JWT");
         result.put("application/octetstream", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/pdf", "MediaTypes.APPLICATION_OCTETSTREAM");
         result.put("application/x-protobuf", "MediaTypes.APPLICATION_PROTOBUF");

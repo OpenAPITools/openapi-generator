@@ -33,9 +33,6 @@ import misk.web.mediatype.MediaTypes
 {{/imports}}
 
 {{#operations}}
-/**
- * Generated file, please change {{classname}}Impl.
- */
 @Singleton
 class {{classname}}Action @Inject constructor(
     private val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}: {{classname}}

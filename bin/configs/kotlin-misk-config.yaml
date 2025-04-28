@@ -1,7 +1,9 @@
 generatorName: kotlin-misk
-outputDir: samples/server/petstore/kotlin-misk
+outputDir: samples/server/petstore/kotlin-misk-config
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-misk
+validateSpec: false
 additionalProperties:
   hideGenerationTimestamp: "true"
   moduleClassName: "PetStoreModule"
+  generateStubImplClasses: true
