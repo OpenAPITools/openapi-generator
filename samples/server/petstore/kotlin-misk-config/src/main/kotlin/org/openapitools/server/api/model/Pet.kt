@@ -2,7 +2,9 @@ package org.openapitools.server.api.model
 
 import org.openapitools.server.api.model.Category
 import org.openapitools.server.api.model.Tag
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class Pet(
     val name: kotlin.String,
     val photoUrls: kotlin.Array<kotlin.String>,

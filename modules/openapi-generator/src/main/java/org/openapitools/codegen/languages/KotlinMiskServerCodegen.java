@@ -53,11 +53,15 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
     private static final String ROOT_PACKAGE = "rootPackage";
     public static final String GENERATE_STUB_IMPL_CLASSES = "generateStubImplClasses";
+    public static final String ADD_MODEL_MOSHI_JSON_ANNOTATION = "addModelMoshiJsonAnnotation";
 
     private boolean useBeanValidation = true;
 
     @Setter
     private boolean generateStubImplClasses = false;
+
+    @Setter
+    private boolean addModelMoshiJsonAnnotation = true;
 
     protected String rootPackage = "org.openapitools.server.api";
     protected String apiVersion = "1.0.0-SNAPSHOT";
@@ -84,6 +88,7 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
 
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(GENERATE_STUB_IMPL_CLASSES, "Generate Stub Impl Classes", generateStubImplClasses);
+        addSwitch(ADD_MODEL_MOSHI_JSON_ANNOTATION, "Add a Moshi JSON adapter annotation to all model classes", addModelMoshiJsonAnnotation);
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -170,6 +175,10 @@ public class KotlinMiskServerCodegen extends AbstractKotlinCodegen implements Be
         }
         writePropertyBack(GENERATE_STUB_IMPL_CLASSES, generateStubImplClasses);
 
+        if (additionalProperties.containsKey(ADD_MODEL_MOSHI_JSON_ANNOTATION)) {
+            setAddModelMoshiJsonAnnotation(convertPropertyToBoolean(ADD_MODEL_MOSHI_JSON_ANNOTATION));
+        }
+        writePropertyBack(ADD_MODEL_MOSHI_JSON_ANNOTATION, addModelMoshiJsonAnnotation);
         applyJakartaPackage();
 
         String apiModuleFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);

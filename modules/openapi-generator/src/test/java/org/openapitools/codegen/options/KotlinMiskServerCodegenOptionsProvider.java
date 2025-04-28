@@ -24,6 +24,7 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS_VALUE = "";
     public static final String USE_BEAN_VALIDATION = "false";
     public static final String GENERATE_STUB_IMPL_CLASSES = "false";
+    public static final String ADD_MODEL_MOSHI_JSON_ANNOTATION = "true";
     public static final String MODULE_CLASS_NAME = "OpenApiModule";
 
     @Override
@@ -53,6 +54,7 @@ public class KotlinMiskServerCodegenOptionsProvider implements OptionsProvider {
             .put(KotlinMiskServerCodegen.MODULE_CLASS_NAME, MODULE_CLASS_NAME)
             .put(BeanValidationFeatures.USE_BEANVALIDATION, USE_BEAN_VALIDATION)
             .put(KotlinMiskServerCodegen.GENERATE_STUB_IMPL_CLASSES, GENERATE_STUB_IMPL_CLASSES)
+            .put(KotlinMiskServerCodegen.ADD_MODEL_MOSHI_JSON_ANNOTATION, ADD_MODEL_MOSHI_JSON_ANNOTATION)
             .build();
     }
 

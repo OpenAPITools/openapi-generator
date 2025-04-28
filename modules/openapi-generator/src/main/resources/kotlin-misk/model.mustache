@@ -3,7 +3,7 @@ package {{modelPackage}}
 {{#imports}}
 import {{import}}
 {{/imports}}
-
+import com.squareup.moshi.JsonClass
 {{#models}}
 {{#model}}
 {{#isEnum}}
@@ -16,6 +16,8 @@ enum class {{classname}} {
 }
 {{/isEnum}}
 {{^isEnum}}
+
+@JsonClass(generateAdapter = true)
 data class {{classname}}(
     {{#vars}}
     {{#description}}

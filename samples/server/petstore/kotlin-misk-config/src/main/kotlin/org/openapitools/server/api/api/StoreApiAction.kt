@@ -29,6 +29,9 @@ import misk.web.interceptors.LogRequestResponse
 import misk.web.mediatype.MediaTypes
 import org.openapitools.server.api.model.Order
 
+/**
+* @TODO("Fill out implementation")
+*/
 @Singleton
 class StoreApiAction @Inject constructor(
     private val storeApi: StoreApi
@@ -37,7 +40,8 @@ class StoreApiAction @Inject constructor(
     @Delete("/store/order/{orderId}")
     @Description("Delete purchase order by ID")
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun deleteOrder(@PathParam("orderId") orderId: kotlin.String) {
+    override fun deleteOrder(
+        @PathParam("orderId") orderId: kotlin.String) {
         TODO()
     }
 
@@ -53,7 +57,8 @@ class StoreApiAction @Inject constructor(
     @Description("Find purchase order by ID")
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun getOrderById(@Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
+    override fun getOrderById(
+        @Min(1L) @Max(5L) @PathParam("orderId") orderId: kotlin.Long): Order {
         TODO()
     }
 
@@ -62,7 +67,8 @@ class StoreApiAction @Inject constructor(
     @RequestContentType(MediaTypes.APPLICATION_JSON)
     @ResponseContentType(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON)
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun placeOrder(@Valid @RequestBody order: Order): Order {
+    override fun placeOrder(
+        @Valid @RequestBody order: Order): Order {
         TODO()
     }
 }

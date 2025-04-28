@@ -32,6 +32,9 @@ import misk.web.mediatype.MediaTypes
 {{#imports}}import {{import}}
 {{/imports}}
 
+/**
+* @TODO("Fill out implementation")
+*/
 {{#operations}}
 @Singleton
 class {{classname}}Action @Inject constructor(
@@ -44,7 +47,8 @@ class {{classname}}Action @Inject constructor(
     @RequestContentType({{#consumes}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
     @ResponseContentType({{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
     @LogRequestResponse(bodySampling = 1.0, errorBodySampling = 1.0)
-    override fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
+    override fun {{operationId}}({{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}}, {{/-last}}{{/allParams}}){{#returnType}}: {{{returnType}}}{{/returnType}} {
         TODO()
     }
 {{/operation}}
