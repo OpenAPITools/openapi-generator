@@ -61,7 +61,7 @@ In your Angular project:
 
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi } from 'sample-angular-19-0-0';
+import { provideApi } from '{{npmName}}';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -72,12 +72,18 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
+**NOTE**
+If you're still using `AppModule` and haven't [migrated](https://angular.dev/reference/migrations/standalone) yet, you can still import an Angular module:
+```typescript
+import { {{apiModuleClassName}} } from '{{npmName}}';
+```
+
 If different from the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```typescript
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi } from 'sample-angular-19-0-0';
+import { provideApi } from '{{npmName}}';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -92,7 +98,7 @@ export const appConfig: ApplicationConfig = {
 // with a custom configuration
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi } from 'sample-angular-19-0-0';
+import { provideApi } from '{{npmName}}';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -111,7 +117,7 @@ export const appConfig: ApplicationConfig = {
 // with factory building a custom configuration
 import { ApplicationConfig } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideApi, {{configurationClassName}} } from 'sample-angular-19-0-0';
+import { provideApi, {{configurationClassName}} } from '{{npmName}}';
 
 export const appConfig: ApplicationConfig = {
     providers: [
