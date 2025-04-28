@@ -286,6 +286,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // all PHP codegens requires Composer, it means that we need to exclude from SVN at least vendor folder
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        // Add declareStrictTypes property to the additionalProperties
+    if (additionalProperties.containsKey("declareStrictTypes")) {
+        this.declareStrictTypes = Boolean.parseBoolean(additionalProperties.get("declareStrictTypes").toString());
+    }
+    additionalProperties.put("declareStrictTypes", declareStrictTypes);
     }
 
     public String toSrcPath(final String packageName, final String basePath) {
