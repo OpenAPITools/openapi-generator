@@ -69,6 +69,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
+    protected boolean declareStrictTypes = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
