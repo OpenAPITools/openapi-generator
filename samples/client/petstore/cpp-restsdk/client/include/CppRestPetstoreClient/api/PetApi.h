@@ -23,6 +23,7 @@
 #include "CppRestPetstoreClient/ApiClient.h"
 
 #include "CppRestPetstoreClient/model/ApiResponse.h"
+#include "CppRestPetstoreClient/model/Color.h"
 #include "CppRestPetstoreClient/HttpContent.h"
 #include "CppRestPetstoreClient/model/Pet.h"
 #include <vector>
@@ -67,6 +68,16 @@ public:
     pplx::task<void> deletePet(
         int64_t petId,
         boost::optional<utility::string_t> apiKey
+    ) const;
+    /// <summary>
+    /// Finds Pets by color
+    /// </summary>
+    /// <remarks>
+    /// Returns pets filtered by color.
+    /// </remarks>
+    /// <param name="color">Color of the pet to filter by (optional, default to new Color())</param>
+    pplx::task<std::vector<std::shared_ptr<Pet>>> findPetsByColor(
+        boost::optional<std::shared_ptr<Color>> color
     ) const;
     /// <summary>
     /// Finds Pets by status
