@@ -17,6 +17,38 @@
 
 __version__ = "1.0.0"
 
+# Define package exports
+__all__ = [
+    "AuthApi",
+    "BodyApi",
+    "FormApi",
+    "HeaderApi",
+    "PathApi",
+    "QueryApi",
+    "ApiResponse",
+    "ApiClient",
+    "Configuration",
+    "OpenApiException",
+    "ApiTypeError",
+    "ApiValueError",
+    "ApiKeyError",
+    "ApiAttributeError",
+    "ApiException",
+    "Bird",
+    "Category",
+    "DataQuery",
+    "DefaultValue",
+    "NumberPropertiesOnly",
+    "Pet",
+    "Query",
+    "StringEnumRef",
+    "Tag",
+    "TestFormObjectMultipartRequestMarker",
+    "TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter",
+    "TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter",
+    
+]
+
 # import apis into sdk package
 from openapi_client.api.auth_api import AuthApi
 from openapi_client.api.body_api import BodyApi
