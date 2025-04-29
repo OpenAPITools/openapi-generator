@@ -385,7 +385,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getEnumStringAllowableValues();
+        $allowedValues = self::getEnumStringAllowableValues();
         if (!is_null($this->container['enum_string']) && !in_array($this->container['enum_string'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'enum_string', must be one of '%s'",
@@ -397,7 +397,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
         if ($this->container['enum_string_required'] === null) {
             $invalidProperties[] = "'enum_string_required' can't be null";
         }
-        $allowedValues = $this->getEnumStringRequiredAllowableValues();
+        $allowedValues = self::getEnumStringRequiredAllowableValues();
         if (!is_null($this->container['enum_string_required']) && !in_array($this->container['enum_string_required'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'enum_string_required', must be one of '%s'",
@@ -406,7 +406,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
-        $allowedValues = $this->getEnumIntegerAllowableValues();
+        $allowedValues = self::getEnumIntegerAllowableValues();
         if (!is_null($this->container['enum_integer']) && !in_array($this->container['enum_integer'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'enum_integer', must be one of '%s'",
@@ -415,7 +415,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
             );
         }
 
-        $allowedValues = $this->getEnumNumberAllowableValues();
+        $allowedValues = self::getEnumNumberAllowableValues();
         if (!is_null($this->container['enum_number']) && !in_array($this->container['enum_number'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'enum_number', must be one of '%s'",
@@ -461,7 +461,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($enum_string)) {
             throw new InvalidArgumentException('non-nullable enum_string cannot be null');
         }
-        $allowedValues = $this->getEnumStringAllowableValues();
+        $allowedValues = self::getEnumStringAllowableValues();
         if (!in_array($enum_string, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -498,7 +498,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($enum_string_required)) {
             throw new InvalidArgumentException('non-nullable enum_string_required cannot be null');
         }
-        $allowedValues = $this->getEnumStringRequiredAllowableValues();
+        $allowedValues = self::getEnumStringRequiredAllowableValues();
         if (!in_array($enum_string_required, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -535,7 +535,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($enum_integer)) {
             throw new InvalidArgumentException('non-nullable enum_integer cannot be null');
         }
-        $allowedValues = $this->getEnumIntegerAllowableValues();
+        $allowedValues = self::getEnumIntegerAllowableValues();
         if (!in_array($enum_integer, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -572,7 +572,7 @@ class EnumTest implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($enum_number)) {
             throw new InvalidArgumentException('non-nullable enum_number cannot be null');
         }
-        $allowedValues = $this->getEnumNumberAllowableValues();
+        $allowedValues = self::getEnumNumberAllowableValues();
         if (!in_array($enum_number, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(

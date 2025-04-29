@@ -404,7 +404,7 @@ class DefaultValue implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($array_string_enum_default)) {
             throw new InvalidArgumentException('non-nullable array_string_enum_default cannot be null');
         }
-        $allowedValues = $this->getArrayStringEnumDefaultAllowableValues();
+        $allowedValues = self::getArrayStringEnumDefaultAllowableValues();
         if (array_diff($array_string_enum_default, $allowedValues)) {
             throw new InvalidArgumentException(
                 sprintf(

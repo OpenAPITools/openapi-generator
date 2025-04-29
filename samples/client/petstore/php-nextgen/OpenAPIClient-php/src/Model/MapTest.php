@@ -372,7 +372,7 @@ class MapTest implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($map_of_enum_string)) {
             throw new InvalidArgumentException('non-nullable map_of_enum_string cannot be null');
         }
-        $allowedValues = $this->getMapOfEnumStringAllowableValues();
+        $allowedValues = self::getMapOfEnumStringAllowableValues();
         if (array_diff($map_of_enum_string, $allowedValues)) {
             throw new InvalidArgumentException(
                 sprintf(

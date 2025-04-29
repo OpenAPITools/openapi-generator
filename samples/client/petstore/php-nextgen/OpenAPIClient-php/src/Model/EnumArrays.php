@@ -309,7 +309,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, JsonSerializable
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getJustSymbolAllowableValues();
+        $allowedValues = self::getJustSymbolAllowableValues();
         if (!is_null($this->container['just_symbol']) && !in_array($this->container['just_symbol'], $allowedValues, true)) {
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'just_symbol', must be one of '%s'",
@@ -355,7 +355,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($just_symbol)) {
             throw new InvalidArgumentException('non-nullable just_symbol cannot be null');
         }
-        $allowedValues = $this->getJustSymbolAllowableValues();
+        $allowedValues = self::getJustSymbolAllowableValues();
         if (!in_array($just_symbol, $allowedValues, true)) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -392,7 +392,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, JsonSerializable
         if (is_null($array_enum)) {
             throw new InvalidArgumentException('non-nullable array_enum cannot be null');
         }
-        $allowedValues = $this->getArrayEnumAllowableValues();
+        $allowedValues = self::getArrayEnumAllowableValues();
         if (array_diff($array_enum, $allowedValues)) {
             throw new InvalidArgumentException(
                 sprintf(
